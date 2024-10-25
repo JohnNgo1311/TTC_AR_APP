@@ -1733,6 +1733,7 @@ GameObject:
   - component: {fileID: 878477616}
   - component: {fileID: 878477617}
   - component: {fileID: 878477618}
+  - component: {fileID: 878477619}
   m_Layer: 0
   m_Name: Scripts
   m_TagString: Untagged
@@ -1816,6 +1817,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   grapper_Name: A
   devices: []
+--- !u!114 &878477619
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 878477614}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0adda47918cbb443bd287c106f4171a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  firebaseUrl: gs://ttc-project-81b04.appspot.com/
+  imageFolderPath: JB_Outdoor_Location
+  imageName: JB101_Location.jpg
+  filenameInputField: {fileID: 0}
+  image: {fileID: 0}
 --- !u!1 &923202467
 GameObject:
   m_ObjectHideFlags: 0
@@ -2041,6 +2059,18 @@ MonoBehaviour:
       - m_Target: {fileID: 878477618}
         m_TargetAssemblyTypeName: Get_All_Device_By_Grapper, Assembly-CSharp
         m_MethodName: On_Click_Get_List_Device_By_Grapper
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 878477619}
+        m_TargetAssemblyTypeName: FirebaseManager, Assembly-CSharp
+        m_MethodName: LoadFilesFromDatabase
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

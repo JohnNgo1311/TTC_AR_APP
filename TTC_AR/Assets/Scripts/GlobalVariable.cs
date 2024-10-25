@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Data;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GlobalVariable : MonoBehaviour
 {
@@ -22,13 +23,15 @@ public class GlobalVariable : MonoBehaviour
     public static bool loginSuccess = false;
     public static bool isOpenCanvas = false;
     public static bool ready_To_Nav_New_Scene = true;
+    public static List<Texture2D> list_Image_JB_Location = new List<Texture2D>();
+    public static List<Texture2D> list_Image_JB_TSD_Wiring = new List<Texture2D>();
     public static AccountModel accountModel = new AccountModel()
     {
         userName = "",
         password = ""
     };
 
-    public static List<string> pLCBoxScene = new List<string>(){
+        public static List<string> pLCBoxScene = new List<string>(){
      "PLCBoxGrapA",
      "PLCBoxGrapB",
      "PLCBoxGrapC",
