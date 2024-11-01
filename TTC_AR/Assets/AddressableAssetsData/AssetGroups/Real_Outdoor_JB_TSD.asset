@@ -1,0 +1,120 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Real_Outdoor_JB_TSD
+  m_EditorClassIdentifier: 
+  m_GroupName: Real_Outdoor_JB_TSD
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 11df362a22c716b4485fc866387baeaa
+  m_SerializeEntries:
+  - m_GUID: ca40d669506323846bcfbf99d0ef0615
+    m_Address: JB1_Location
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Real_Outdoor_JB_TSD
+  - m_GUID: a91ff6b53677f0f4e98a21042b992af9
+    m_Address: JB111_Location
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Real_Outdoor_JB_TSD
+  - m_GUID: a475af24de2bed2418442f7d72bf18c5
+    m_Address: JB14_Location
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Real_Outdoor_JB_TSD
+  - m_GUID: 0c36ae3f64586d546acfba0fa769406c
+    m_Address: JB3_Location
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Real_Outdoor_JB_TSD
+  - m_GUID: 4571ed0e9b9ca3e49ba6851324125cbb
+    m_Address: JB6_Location
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Real_Outdoor_JB_TSD
+  - m_GUID: 3d81409f90a72ce4faf55569d4a13fbf
+    m_Address: JB8_Location_Bis
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Real_Outdoor_JB_TSD
+  - m_GUID: cde158604259e5a4fa8ad3230835ea47
+    m_Address: JB7_Location
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Real_Outdoor_JB_TSD
+  - m_GUID: c8fda0804c1d71149af774bf81c12059
+    m_Address: JB102_Location
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Real_Outdoor_JB_TSD
+  - m_GUID: c858a92d89c007042a635e3fd2fe4a04
+    m_Address: JB4_Location
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Real_Outdoor_JB_TSD
+  - m_GUID: 22a2b1a0e74b4ec4ea56adbc340d80c0
+    m_Address: JB2_Location
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Real_Outdoor_JB_TSD
+  - m_GUID: 6d9d03f523205524383c9ceeb52b17e7
+    m_Address: TSD_Location_none
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Real_Outdoor_JB_TSD
+  - m_GUID: 13a28cee479b19042b5039fcf0082ee2
+    m_Address: JB114_Location
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Real_Outdoor_JB_TSD
+  - m_GUID: 8fc73c3d472890d4cadcc6f61567e9af
+    m_Address: JB112_Location
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Real_Outdoor_JB_TSD
+  - m_GUID: 151629db62d829f468babb7a9aeb75b3
+    m_Address: JB8_Location
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Real_Outdoor_JB_TSD
+  - m_GUID: d5b7fd39f8078f3449bb7f824c2d4afc
+    m_Address: JB_Location_none
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Real_Outdoor_JB_TSD
+  - m_GUID: dd60f330913336745a94cd57e42ae8c5
+    m_Address: JB101_Location
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Real_Outdoor_JB_TSD
+  - m_GUID: 3847c0c2641d6e148911d44aeb0e2713
+    m_Address: JB5_Location
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Real_Outdoor_JB_TSD
+  - m_GUID: d0fd35b3572bea6478cced6c987e4924
+    m_Address: JB11_Location_Bis
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Real_Outdoor_JB_TSD
+  - m_GUID: 83acc67cb54c92a4a9f9890cf987f8c6
+    m_Address: JB_TSD_Location_Note
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Real_Outdoor_JB_TSD
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 46b79bca31d16424fb55ac66baa3c8d5, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: ec9cfc8c58fd2734ea8d3462bd2e00c4, type: 2}
+    - {fileID: 11400000, guid: 0acbbb1a904319f439e3d1db089d61b0, type: 2}
