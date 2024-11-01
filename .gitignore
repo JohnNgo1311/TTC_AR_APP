@@ -12,8 +12,8 @@ TTC_AR/recordings/
 TTC_AR/Library/ArtifactDB
 TTC_AR/Library/PackageCache/
 /[Aa]ssets/Plugins/Editor/JetBrains*
-TTC_AR/Assets/Firebase/Plugins/x86_64/FirebaseCppApp-12_2_0.bundle
-TTC_AR/Assets/Firebase/Plugins/x86_64/FirebaseCppApp-12_2_0.so
+/TTC_AR/Assets/Firebase/Plugins/x86_64/FirebaseCppApp-12_2_0.bundle
+/TTC_AR/Assets/Firebase/Plugins/x86_64/FirebaseCppApp-12_2_0.so
 # Visual Studio cache directory
 .vs/
 
