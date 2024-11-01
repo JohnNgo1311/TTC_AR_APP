@@ -15,15 +15,13 @@ public class FirebaseManager : MonoBehaviour
     [SerializeField] private string imageFolderPath = "JB_Outdoor_Location";
     [SerializeField] private string imageName = "JB1_Location.jpg";
 
-    public DatabaseReference dbReference { get; private set; }
-    public FirebaseStorage storage { get; private set; }
-    public StorageReference storageReference { get; private set; }
+    private DatabaseReference dbReference;
+    private FirebaseStorage storage;
+    private StorageReference storageReference;
     public FirebaseDownloader FirebaseDownloader { get; private set; } = new FirebaseDownloader();
     public FirebaseUploader FirebaseUploader { get; private set; } = new FirebaseUploader();
-    //public SavePhoto SavePhoto;
     public Image Image;
     public bool LoadImage = false;
-
     public bool LoadDataFromFirebase = false;
 
     private void Awake()
@@ -32,10 +30,6 @@ public class FirebaseManager : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
-            if (LoadImage)
-            {
-                //    SavePhoto = SavePhoto.gameObject.GetComponent<SavePhoto>();
-            }
             InitializeFirebase();
         }
         else
@@ -76,12 +70,14 @@ public class FirebaseManager : MonoBehaviour
     public void LoadFilesFromDatabase()
     {
         if (LoadDataFromFirebase)
-        { FirebaseDownloader.LoadFilesFromDatabase(imageFolderPath); }
+        {
+            FirebaseDownloader.LoadFilesFromDatabase(imageFolderPath);
+        }
     }
 
     public void UploadFile()
     {
-        //    FirebaseUploader.UploadFile(SavePhoto, Image, imageFolderPath, imageName);
+        // FirebaseUploader.UploadFile(SavePhoto, Image, imageFolderPath, imageName);
     }
 
     public void GetImage()

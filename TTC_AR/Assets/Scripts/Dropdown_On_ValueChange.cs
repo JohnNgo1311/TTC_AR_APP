@@ -190,7 +190,7 @@ public class Dropdown_On_ValueChange : MonoBehaviour
         {
             foreach (var key in addressableKeys)
             {
-                Debug.Log($"Test: {addressableKeys.Count}");
+            //  Debug.Log($"Test: {addressableKeys.Count}");
                 PreloadSprites(key);
             }
 

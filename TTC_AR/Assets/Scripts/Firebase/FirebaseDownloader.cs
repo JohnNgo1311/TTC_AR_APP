@@ -4,14 +4,32 @@ using UnityEngine;
 using Firebase.Database;
 using Firebase.Extensions;
 using UnityEngine.Networking;
+using Firebase;
 
-public class FirebaseDownloader
+public class FirebaseDownloader : MonoBehaviour
 {
     public DatabaseReference dbReference { get; set; }
 
     void Start()
     {
         // Initialize Firebase or other startup tasks
+        //InitializeFirebase();
+    }
+
+    private void InitializeFirebase()
+    {
+
+        // FirebaseApp.CheckAndFixDependenciesAsync().ContinueWithOnMainThread(task =>
+        // {
+        //     if (task.Result == DependencyStatus.Available)
+        //     {
+        //         dbReference = FirebaseDatabase.DefaultInstance.RootReference;
+        //     }
+        //     else
+        //     {
+        //         Debug.LogError("Could not resolve all Firebase dependencies: " + task.Result);
+        //     }
+        // });
     }
 
     // Download JSON from Firebase database and convert to Texture2D

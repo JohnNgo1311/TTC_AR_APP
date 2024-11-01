@@ -3,8 +3,9 @@ using Firebase.Database;
 using Firebase.Extensions;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Threading.Tasks;
 
-public class FirebaseUploader
+public class FirebaseUploader : MonoBehaviour
 {
     public StorageReference storageReference;
     public DatabaseReference dbReference;
@@ -14,7 +15,7 @@ public class FirebaseUploader
     {
     }
 
-    public async void UploadFile(SavePhoto savePhoto, Image imageForUpload, string imagesFolderPath, string fileName)
+    public void UploadFile(SavePhoto savePhoto, Image imageForUpload, string imagesFolderPath, string fileName)
     {
         savePhoto.image = imageForUpload;
         savePhoto.PickPhotoCameraRoll(imageForUpload);
@@ -24,23 +25,26 @@ public class FirebaseUploader
         var metadata = new MetadataChange { ContentType = "image/jpeg" };
         storageReference = storageReference.Child(fileName);
 
-        try
+        Task.Run(async () =>
         {
-            var uploadTask = await storageReference.PutFileAsync(savePhoto.imagePath, metadata);
-            Debug.Log("Upload success: " + uploadTask);
+            try
+            {
+                var uploadTask = await storageReference.PutFileAsync(savePhoto.imagePath, metadata);
+                Debug.Log("Upload success: " + uploadTask);
 
-            var downloadUrl = await storageReference.GetDownloadUrlAsync();
-            Debug.Log("Download URL: " + downloadUrl);
+                var downloadUrl = await storageReference.GetDownloadUrlAsync();
+                Debug.Log("Download URL: " + downloadUrl);
 
-            SaveFileUrlToDatabase(imagesFolderPath, fileName, downloadUrl.ToString());
-        }
-        catch (System.Exception ex)
-        {
-            Debug.LogError("Upload failed: " + ex.Message);
-        }
+                await SaveFileUrlToDatabase(imagesFolderPath, fileName, downloadUrl.ToString());
+            }
+            catch (System.Exception ex)
+            {
+                Debug.LogError("Upload failed: " + ex.Message);
+            }
+        });
     }
 
-    private async void SaveFileUrlToDatabase(string imagesFolderPath, string fileName, string url)
+    private async Task SaveFileUrlToDatabase(string imagesFolderPath, string fileName, string url)
     {
         string keyItem = fileName.Split('.')[0];
 
