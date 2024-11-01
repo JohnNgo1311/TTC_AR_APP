@@ -5,7 +5,6 @@ using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.UI;
 using System.Linq;
-using Unity.VisualScripting;
 using System.Threading.Tasks;
 
 public class Dropdown_On_ValueChange : MonoBehaviour
@@ -21,22 +20,16 @@ public class Dropdown_On_ValueChange : MonoBehaviour
     [SerializeField]
     private TMP_Text code_Value_Text;
     [SerializeField]
-
     private TMP_Text function_Value_Text;
     [SerializeField]
-
     private TMP_Text range_Value_Text;
     [SerializeField]
-
     private TMP_Text io_Value_Text;
     [SerializeField]
-
     private TMP_Text jb_Connection_Value_Text;
     [SerializeField]
-
     private TMP_Text jb_Connection_Location_Text;
     [SerializeField]
-
     private Image module_Image;
     [SerializeField]
     private Image JB_Location_Image_Prefab;
@@ -46,9 +39,10 @@ public class Dropdown_On_ValueChange : MonoBehaviour
     private GameObject JB_Connection_Group;
 
     private Dictionary<string, Sprite> spriteCache = new Dictionary<string, Sprite>();
-    private int pendingSpriteLoads = 0;
     private List<Image> instantiatedImages = new List<Image>();
+    private int pendingSpriteLoads = 0;
     private int add_InstantiatedImages_Count = 0;
+
     private void Awake()
     {
         if (inputField == null)
@@ -58,35 +52,24 @@ public class Dropdown_On_ValueChange : MonoBehaviour
         }
         CacheUIElements();
     }
+
     private async Task WaitForDataAndContinueAsync()
     {
-        // Vòng lặp kiểm tra nếu dữ liệu đã sẵn sàng
         while (GlobalVariable_Search_Devices.devices_Model_By_Grapper == null || GlobalVariable_Search_Devices.devices_Model_By_Grapper.Count <= 0)
         {
-            Debug.Log("Data đang tải...");
-            // Chờ đợi một khoảng thời gian ngắn trước khi kiểm tra lại, để tránh khóa thread chính
             await Task.Yield();
         }
 
-        // Khi dữ liệu đã sẵn sàng
-        Debug.Log($"Check: {GlobalVariable_Search_Devices.devices_Model_By_Grapper[0].code}");
-
-        // Thực hiện các hành động tiếp theo
         inputField.onValueChanged.AddListener(OnInputValueChanged);
         OnInputValueChanged(GlobalVariable_Search_Devices.devices_Model_By_Grapper[0].code);
     }
+
     private void Start()
     {
         if (UnityEngine.Rendering.DebugManager.instance.enableRuntimeUI)
             UnityEngine.Rendering.DebugManager.instance.enableRuntimeUI = false;
+
         Show_Dialog.Instance.ShowToast("loading", "Đang tải dữ liệu...", 3);
-        Debug.Log($"Chạy Start");
-        // inputField.text = GlobalVariable_Search_Devices.devices_Model_By_Grapper[0].code;
-        //  inputField.onValueChanged.Invoke(GlobalVariable_Search_Devices.devices_Model_By_Grapper[0].code); // Gọi sự kiện onValueChanged thủ công
-        /* if (GlobalVariable_Search_Devices.devices_Model_By_Grapper.Count > 0)
-         {
-             UpdateDeviceInformation(GlobalVariable_Search_Devices.devices_Model_By_Grapper[0]);
-         }*/
     }
 
     private async void CacheUIElements()
@@ -96,29 +79,19 @@ public class Dropdown_On_ValueChange : MonoBehaviour
             Debug.LogError("Prefab_Device không được gán!");
             return;
         }
-        if (scrollRect == null) scrollRect = prefab_Device.GetComponent<ScrollRect>();
-        if (contentTransform == null) contentTransform = prefab_Device.transform.Find("Content").GetComponent<RectTransform>();
-        if (code_Value_Text == null) code_Value_Text = contentTransform.Find("Device_information/Code_group/Code_value").GetComponent<TMP_Text>();
-        if (function_Value_Text == null) function_Value_Text = contentTransform.Find("Device_information/Function_group/Function_value").GetComponent<TMP_Text>();
-        if (range_Value_Text == null) range_Value_Text = contentTransform.Find("Device_information/Range_group/Range_value").GetComponent<TMP_Text>();
-        if (io_Value_Text == null) io_Value_Text = contentTransform.Find("Device_information/IO_group/IO_value").GetComponent<TMP_Text>();
-        if (jb_Connection_Value_Text == null) jb_Connection_Value_Text = contentTransform.Find("JB_Connection_group/JB_Connection_text_group/JB_Connection_value").GetComponent<TMP_Text>();
-        if (jb_Connection_Location_Text == null) jb_Connection_Location_Text = contentTransform.Find("JB_Connection_group/JB_Connection_text_group/JB_Connection_location").GetComponent<TMP_Text>();
-        if (module_Image == null) module_Image = contentTransform.Find("Module_group/Real_Module_Image").GetComponent<Image>();
-        if (JB_Connection_Group == null) JB_Connection_Group = contentTransform.Find("JB_Connection_group").gameObject;
-        if (JB_Location_Image_Prefab == null) JB_Location_Image_Prefab = JB_Connection_Group.transform.Find("JB_Location_Image").GetComponent<Image>();
-        if (JB_Connection_Wiring_Image_Prefab == null) JB_Connection_Wiring_Image_Prefab = JB_Connection_Group.transform.Find("JB_Connection_Wiring").GetComponent<Image>();
 
-        // code_Value_Text = contentTransform.Find("Device_information/Code_group/Code_value").GetComponent<TMP_Text>();
-        // function_Value_Text = contentTransform.Find("Device_information/Function_group/Function_value").GetComponent<TMP_Text>();
-        // range_Value_Text = contentTransform.Find("Device_information/Range_group/Range_value").GetComponent<TMP_Text>();
-        // io_Value_Text = contentTransform.Find("Device_information/IO_group/IO_value").GetComponent<TMP_Text>();
-        // jb_Connection_Value_Text = contentTransform.Find("JB_Connection_group/JB_Connection_text_group/JB_Connection_value").GetComponent<TMP_Text>();
-        // jb_Connection_Location_Text = contentTransform.Find("JB_Connection_group/JB_Connection_text_group/JB_Connection_location").GetComponent<TMP_Text>();
-        // module_Image = contentTransform.Find("Module_group/Real_Module_Image").GetComponent<Image>();
-        // JB_Connection_Group = contentTransform.Find("JB_Connection_group").gameObject;
-        // JB_Location_Image_Prefab = JB_Connection_Group.transform.Find("JB_Location_Image").GetComponent<Image>();
-        // JB_Connection_Wiring_Image_Prefab = JB_Connection_Group.transform.Find("JB_Connection_Wiring").GetComponent<Image>();
+        scrollRect = scrollRect ?? prefab_Device.GetComponent<ScrollRect>();
+        contentTransform = contentTransform ?? prefab_Device.transform.Find("Content").GetComponent<RectTransform>();
+        code_Value_Text = code_Value_Text ?? contentTransform.Find("Device_information/Code_group/Code_value").GetComponent<TMP_Text>();
+        function_Value_Text = function_Value_Text ?? contentTransform.Find("Device_information/Function_group/Function_value").GetComponent<TMP_Text>();
+        range_Value_Text = range_Value_Text ?? contentTransform.Find("Device_information/Range_group/Range_value").GetComponent<TMP_Text>();
+        io_Value_Text = io_Value_Text ?? contentTransform.Find("Device_information/IO_group/IO_value").GetComponent<TMP_Text>();
+        jb_Connection_Value_Text = jb_Connection_Value_Text ?? contentTransform.Find("JB_Connection_group/JB_Connection_text_group/JB_Connection_value").GetComponent<TMP_Text>();
+        jb_Connection_Location_Text = jb_Connection_Location_Text ?? contentTransform.Find("JB_Connection_group/JB_Connection_text_group/JB_Connection_location").GetComponent<TMP_Text>();
+        module_Image = module_Image ?? contentTransform.Find("Module_group/Real_Module_Image").GetComponent<Image>();
+        JB_Connection_Group = JB_Connection_Group ?? contentTransform.Find("JB_Connection_group").gameObject;
+        JB_Location_Image_Prefab = JB_Location_Image_Prefab ?? JB_Connection_Group.transform.Find("JB_Location_Image").GetComponent<Image>();
+        JB_Connection_Wiring_Image_Prefab = JB_Connection_Wiring_Image_Prefab ?? JB_Connection_Group.transform.Find("JB_Connection_Wiring").GetComponent<Image>();
 
         await WaitForDataAndContinueAsync();
     }
@@ -183,17 +156,13 @@ public class Dropdown_On_ValueChange : MonoBehaviour
             }
         }
         pendingSpriteLoads = addressableKeys.Count;
-        Debug.Log($"addressableyKey.Count: {addressableKeys.Count}");
 
-        Debug.Log($"Pending sprite loads: {pendingSpriteLoads}");
         if (pendingSpriteLoads > 0)
         {
             foreach (var key in addressableKeys)
             {
-            //  Debug.Log($"Test: {addressableKeys.Count}");
                 PreloadSprites(key);
             }
-
         }
         else
         {
@@ -212,7 +181,6 @@ public class Dropdown_On_ValueChange : MonoBehaviour
             if (handle.Status == AsyncOperationStatus.Succeeded)
             {
                 pendingSpriteLoads--;
-                Debug.Log($"Pending sprite loads: {pendingSpriteLoads}");
                 if (pendingSpriteLoads == 0)
                 {
                     var filteredList = spriteCache.Keys

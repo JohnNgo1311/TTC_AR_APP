@@ -75,7 +75,7 @@ public class Delete_Device_By_Grapper : MonoBehaviour
 
     private async Task Delete_device_Data(string url, DeviceModel device)
     {
-        using (UnityWebRequest www = new UnityWebRequest($"{url}/{device.id}", "DELETE"))
+        using (UnityWebRequest www = UnityWebRequest.Delete($"{url}/{device.id}"))
         {
             var operation = www.SendWebRequest();
 

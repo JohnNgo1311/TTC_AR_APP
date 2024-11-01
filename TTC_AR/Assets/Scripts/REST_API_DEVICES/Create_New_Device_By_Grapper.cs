@@ -6,8 +6,8 @@ using System;
 using UnityEngine.UI;
 using UnityEngine.Networking;
 using System.Text;
-using System.Threading.Tasks;
 using UnityEngine.SceneManagement;
+using System.Collections;
 
 public class Create_New_Device_By_Grapper : MonoBehaviour
 {
@@ -43,7 +43,7 @@ public class Create_New_Device_By_Grapper : MonoBehaviour
     {
         SetInteractable(false);
         ShowQuestionDialog(
-            confirmAction: async () => await CreateDevicesByGrapper(),
+            confirmAction: () => StartCoroutine(CreateDevicesByGrapper()),
             cancelAction: ClearInputFieldsAndListeners
         );
     }
@@ -60,14 +60,14 @@ public class Create_New_Device_By_Grapper : MonoBehaviour
         panelDialog.SetActive(false);
         confirmButton.onClick.RemoveAllListeners();
         cancelButton.onClick.RemoveAllListeners();
-        foreach (var inputField in inputFields)
+        for (int i = 0; i < inputFields.Count; i++)
         {
-            inputField.text = "";
+            inputFields[i].text = "";
         }
         SetInteractable(true);
     }
 
-    private async Task CreateDevicesByGrapper()
+    private IEnumerator CreateDevicesByGrapper()
     {
         device.location = $"Grapper{grapperName}";
         device.code = inputFields[0].text;
@@ -76,16 +76,17 @@ public class Create_New_Device_By_Grapper : MonoBehaviour
         device.ioAddress = inputFields[3].text;
         device.jbConnection = $"{inputFields[4].text}_{inputFields[5].text}";
         device.listImageConnection = new List<string>();
-        foreach (var inputField in inputFields)
+
+        for (int i = 0; i < inputFields.Count; i++)
         {
-            if (string.IsNullOrEmpty(inputField.text))
+            if (string.IsNullOrEmpty(inputFields[i].text))
             {
                 Debug.LogError("Input fields cannot be empty.");
-                return;
+                yield break;
             }
         }
 
-        await APIManager.Instance.CreateNewDevice($"{GlobalVariable.baseUrl}{grapperName}", device, SceneManager.GetActiveScene().name);
+        yield return APIManager.Instance.CreateNewDevice($"{GlobalVariable.baseUrl}{grapperName}", device, SceneManager.GetActiveScene().name);
 
         SetInteractable(true);
     }

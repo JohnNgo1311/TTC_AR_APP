@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -22,7 +23,7 @@ public class UILogin : MonoBehaviour
     private void Awake()
     {
         Screen.orientation = ScreenOrientation.Portrait;
-        if (GlobalVariable.loginSuccess == true && !string.IsNullOrWhiteSpace(GlobalVariable.accountModel.userName))
+        if (GlobalVariable.loginSuccess && !string.IsNullOrWhiteSpace(GlobalVariable.accountModel.userName))
         {
             userNameField.text = GlobalVariable.accountModel.userName;
             passwordField.text = GlobalVariable.accountModel.password;
@@ -52,11 +53,9 @@ public class UILogin : MonoBehaviour
 
             StartCoroutine(LoadSceneAsync(targetSceneName));
             GlobalVariable.loginSuccess = true;
-
         }
         else
         {
-            Debug.Log("Invalid username or password");
             Show_Dialog.Instance.ShowToast("failure", "Sai tên đăng nhập hoặc mật khẩu", 1);
         }
     }

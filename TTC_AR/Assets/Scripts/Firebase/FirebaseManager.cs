@@ -7,6 +7,7 @@ using Firebase.Extensions;
 using UnityEngine.Networking;
 using Firebase.Database;
 using Firebase.Storage;
+using UnityEngine.SceneManagement;
 
 public class FirebaseManager : MonoBehaviour
 {
@@ -15,12 +16,12 @@ public class FirebaseManager : MonoBehaviour
     [SerializeField] private string imageFolderPath = "JB_Outdoor_Location";
     [SerializeField] private string imageName = "JB1_Location.jpg";
 
-    private DatabaseReference dbReference;
-    private FirebaseStorage storage;
-    private StorageReference storageReference;
+    public DatabaseReference dbReference;
+    public FirebaseStorage storage;
+    public StorageReference storageReference;
     public FirebaseDownloader FirebaseDownloader { get; private set; } = new FirebaseDownloader();
     public FirebaseUploader FirebaseUploader { get; private set; } = new FirebaseUploader();
-    public Image Image;
+    //public Image Image;
     public bool LoadImage = false;
     public bool LoadDataFromFirebase = false;
 
@@ -35,6 +36,17 @@ public class FirebaseManager : MonoBehaviour
         else
         {
             Destroy(gameObject);
+            Debug.LogWarning("FirebaseManager already exists. Deleting duplicate.");
+        }
+        if (SceneManager.GetActiveScene().name.Contains("PLCBox"))
+        {
+            LoadImage = true;
+            LoadDataFromFirebase = true;
+        }
+        else
+        {
+            LoadImage = false;
+            LoadDataFromFirebase = false;
         }
     }
 
@@ -77,9 +89,11 @@ public class FirebaseManager : MonoBehaviour
 
     public void UploadFile()
     {
-        // FirebaseUploader.UploadFile(SavePhoto, Image, imageFolderPath, imageName);
+        //   FirebaseUploader.UploadFile(SavePhoto, Image, imageFolderPath, imageName);
     }
 
+
+    //? Get Specific Image
     public void GetImage()
     {
         if (storageReference != null)
@@ -127,7 +141,11 @@ public class FirebaseManager : MonoBehaviour
             else
             {
                 Texture2D texture = DownloadHandlerTexture.GetContent(request);
-                Image.sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector2.zero);
+                //   if (Image != null)
+                //  {
+                //      Image.sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector2.zero);
+                //  }
+                Resources.UnloadUnusedAssets(); // Free up unused resources
             }
         }
     }

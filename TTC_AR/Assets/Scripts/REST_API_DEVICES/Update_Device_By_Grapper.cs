@@ -6,6 +6,7 @@ using TMPro;
 using UnityEngine.UI;
 using System.Collections.Generic;
 using System;
+using System.Text;
 
 public class Update_Device_By_Grapper : MonoBehaviour
 {
@@ -21,7 +22,6 @@ public class Update_Device_By_Grapper : MonoBehaviour
     public Button confirmButton;
     public GameObject panelDialog;
     public List<TMP_InputField> inputFields = new List<TMP_InputField>();
-    // public Show_Dialog showDialog;
     private string id_Of_Device_in_Globals;
 
     [Header("Set Interactive false To these objects")]
@@ -36,18 +36,10 @@ public class Update_Device_By_Grapper : MonoBehaviour
     private Button backButton;
     [SerializeField]
     private TMP_InputField inputField_Search;
+
     private void Start()
     {
-        //    if (showDialog == null)
-        //  {
-        //      showDialog = Show_Dialog.Instance;
-        //  }
         panelDialog.SetActive(false);
-    }
-
-    private void OnDestroy()
-    {
-        //   Destroy(showDialog);
     }
 
     public void OpenPanelUpdateDevice()
@@ -66,14 +58,8 @@ public class Update_Device_By_Grapper : MonoBehaviour
                 return;
             }
         }
-        backButton.interactable = false;
-        scrollRect.vertical = false;
-        editButton.interactable = false;
-        inputField_Search.interactable = false;
-        ShowQuestionDialog(
-            confirmAction: UpdateDeviceData,
-            cancelAction: ClearInputFieldsAndListeners
-        );
+        SetInteractable(false);
+        ShowQuestionDialog(UpdateDeviceData, ClearInputFieldsAndListeners);
     }
 
     private void PopulateInputFields(DeviceModel device)
@@ -98,8 +84,8 @@ public class Update_Device_By_Grapper : MonoBehaviour
     private void ShowQuestionDialog(Action confirmAction, Action cancelAction)
     {
         panelDialog.SetActive(true);
-        cancelButton.onClick.AddListener(new UnityEngine.Events.UnityAction(cancelAction));
-        confirmButton.onClick.AddListener(new UnityEngine.Events.UnityAction(confirmAction));
+        cancelButton.onClick.AddListener(() => cancelAction());
+        confirmButton.onClick.AddListener(() => confirmAction());
     }
 
     private void UpdateDeviceData()
@@ -117,10 +103,7 @@ public class Update_Device_By_Grapper : MonoBehaviour
 
         UpdateDevice(tempDevice);
         ClearInputFieldsAndListeners();
-        backButton.interactable = true;
-        scrollRect.vertical = true;
-        editButton.interactable = true;
-        inputField_Search.interactable = true;
+        SetInteractable(true);
     }
 
     private void ClearInputFieldsAndListeners()
@@ -132,10 +115,15 @@ public class Update_Device_By_Grapper : MonoBehaviour
         {
             inputField.text = string.Empty;
         }
-        backButton.interactable = true;
-        scrollRect.vertical = true;
-        editButton.interactable = true;
-        inputField_Search.interactable = true;
+        SetInteractable(true);
+    }
+
+    private void SetInteractable(bool state)
+    {
+        backButton.interactable = state;
+        scrollRect.vertical = state;
+        editButton.interactable = state;
+        inputField_Search.interactable = state;
     }
 
     public async void UpdateDevice(DeviceModel tempDevice)
@@ -146,18 +134,16 @@ public class Update_Device_By_Grapper : MonoBehaviour
             if (string.IsNullOrEmpty(inputField.text))
             {
                 Debug.LogError("Input fields cannot be empty.");
-                //       showDialog.ShowToast("failure", "Hãy điền đầy đủ thông tin.");
                 return;
             }
         }
-        //  showDialog.ShowToast("loading", "Đang cập nhật dữ liệu ", 1);
         await UpdateDeviceData($"{GlobalVariable.baseUrl}{grapperName}", tempDevice).ConfigureAwait(false);
     }
 
     private async Task UpdateDeviceData(string url, DeviceModel device)
     {
         string jsonData = JsonConvert.SerializeObject(device);
-        byte[] dataToByte = System.Text.Encoding.UTF8.GetBytes(jsonData);
+        byte[] dataToByte = Encoding.UTF8.GetBytes(jsonData);
 
         using (UnityWebRequest webRequest = new UnityWebRequest($"{url}/{device.id}", "PUT"))
         {
@@ -173,7 +159,6 @@ public class Update_Device_By_Grapper : MonoBehaviour
             }
             if (webRequest.result == UnityWebRequest.Result.ConnectionError || webRequest.result == UnityWebRequest.Result.ProtocolError)
             {
-                //   showDialog.ShowToast("failure", $"Request error: {webRequest.error}");
                 Debug.LogError($"Request error: {webRequest.error}");
             }
             else
@@ -181,7 +166,6 @@ public class Update_Device_By_Grapper : MonoBehaviour
                 try
                 {
                     Debug.Log("Post data successfully.");
-                    //    showDialog.ShowToast("success", "Cập nhật thiết bị thành công: " + device.code);
                     GlobalVariable_Search_Devices.all_Device_GrapperA[int.Parse(id_Of_Device_in_Globals) - 1] = device;
                     ClearInputFieldsAndListeners();
                     Canvas.ForceUpdateCanvases();
@@ -195,7 +179,6 @@ public class Update_Device_By_Grapper : MonoBehaviour
                     Debug.LogError($"Unexpected error: {ex.Message}");
                 }
             }
-
         }
     }
 }

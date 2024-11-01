@@ -1,5 +1,5 @@
+using System.Collections;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -17,32 +17,31 @@ public class NavScene : MonoBehaviour
             UnityEngine.Rendering.DebugManager.instance.enableRuntimeUI = false;
         for (int i = 0; i < listButton.Count; i++)
         {
-            int localIndex = i; // Tạo bản sao cục bộ của i
+            int localIndex = i; // Create a local copy of i
             listButton[i].onClick.AddListener(() => NavigateNewScene(localIndex));
         }
     }
 
-    public async void NavigateNewScene(int buttonIndex)
+    public void NavigateNewScene(int buttonIndex)
     {
-        // Đợi cho đến khi ready_To_Nav_New_Scene == true
+        StartCoroutine(WaitForReadyAndNavigate(buttonIndex));
+    }
+
+    private IEnumerator WaitForReadyAndNavigate(int buttonIndex)
+    {
+        // Wait until ready_To_Nav_New_Scene is true
         while (!GlobalVariable.ready_To_Nav_New_Scene)
         {
-            Debug.Log("Waiting for ready_To_Nav_New_Scene == true +  " + GlobalVariable.ready_To_Nav_New_Scene.ToString());
-            await Task.Yield();  // Chờ đợi một chút trước khi kiểm tra lại
+            yield return null;  // Wait for the next frame
         }
 
-        // Khi ready_To_Nav_New_Scene == true, tiếp tục thực hiện điều hướng
+        // When ready_To_Nav_New_Scene is true, proceed with navigation
         if (GlobalVariable.recentScene != recentSceneName[buttonIndex])
         {
             GlobalVariable.recentScene = recentSceneName[buttonIndex];
             GlobalVariable.previousScene = previousSceneName;
-            AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(recentSceneName[buttonIndex]); // Sử dụng bất đồng bộ để tải scene mới
-            while (!asyncLoad.isDone)
-            {
-                await Task.Yield();
-            }
+            SceneManager.LoadScene(recentSceneName[buttonIndex]); // Use synchronous loading
             PlayerPrefs.SetString(recentSceneName[buttonIndex], SceneManager.GetActiveScene().name);
         }
     }
-
 }

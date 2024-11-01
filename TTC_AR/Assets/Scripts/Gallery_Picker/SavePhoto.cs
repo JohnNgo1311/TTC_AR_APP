@@ -38,7 +38,7 @@ public class SavePhoto : MonoBehaviour
         }
     }
 
-    private void HandlePickedPhoto(string path, Image imageForUpload)
+    private async void HandlePickedPhoto(string path, Image imageForUpload)
     {
         if (string.IsNullOrEmpty(path))
         {
@@ -50,22 +50,23 @@ public class SavePhoto : MonoBehaviour
         {
             Debug.Log("Pick Photo: Success");
             imagePath = path;
-            imageForUpload.sprite = LoadSpriteFromPath(path);
+            Sprite sprite = await LoadSpriteFromPathAsync(path);
+            imageForUpload.sprite = sprite;
             // Function_onPicked_Return.Invoke(); // Triggered [On Unity Event] in Visual Scripting
         }
     }
 
-    private Sprite LoadSpriteFromPath(string path)
+    private async Task<Sprite> LoadSpriteFromPathAsync(string path)
     {
-        byte[] imageData = File.ReadAllBytes(path);
-        Texture2D texture = new Texture2D(2, 2);
+        byte[] imageData = await Task.Run(() => File.ReadAllBytes(path));
+        Texture2D texture = new Texture2D(2, 2, TextureFormat.RGBA32, false);
         texture.LoadImage(imageData);
         return Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
     }
 
     private Texture2D SpriteToTexture2D(Sprite sprite)
     {
-        Texture2D texture = new Texture2D((int)sprite.rect.width, (int)sprite.rect.height);
+        Texture2D texture = new Texture2D((int)sprite.rect.width, (int)sprite.rect.height, TextureFormat.RGBA32, false);
         Color[] pixels = sprite.texture.GetPixels((int)sprite.textureRect.x,
                                                   (int)sprite.textureRect.y,
                                                   (int)sprite.textureRect.width,
