@@ -1,0 +1,22 @@
+pluginManagement {
+    repositories {
+        // Add your repository URL here or remove this line if not needed
+        // maven { url 'https://your.artifactory.repo' }
+        gradlePluginPortal()
+        google()
+        mavenCentral()
+    }
+}
+include ':launcher', ':unityLibrary'
+include 'unityLibrary:FirebaseApp.androidlib'
+include 'unityLibrary:xrmanifest.androidlib'
+
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.PREFER_SETTINGS)
+    repositories {
+        // Add your repository URL here or remove this line if not needed
+        // maven { url 'https://your.artifactory.repo' }
+        google()
+        mavenCentral()
+    }
+}
