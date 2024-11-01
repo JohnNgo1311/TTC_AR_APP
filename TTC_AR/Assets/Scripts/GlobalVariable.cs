@@ -20,8 +20,10 @@ public class GlobalVariable : MonoBehaviour
     public static bool loginSuccess = false;
     public static bool isOpenCanvas = false;
     public static bool ready_To_Nav_New_Scene = true;
-    public static List<Texture2D> list_Image_JB_Location = new List<Texture2D>();
-    public static List<Texture2D> list_Image_JB_TSD_Wiring = new List<Texture2D>();
+    public static Dictionary<string, Texture2D> list_Image_JB_Location = new Dictionary<string, Texture2D>();
+
+    //public static List<Texture2D> list_Image_JB_Location = new List<Texture2D>();
+    //    public static List<Texture2D> list_Image_JB_TSD_Wiring = new List<Texture2D>();
     public static AccountModel accountModel = new AccountModel()
     {
         userName = "",

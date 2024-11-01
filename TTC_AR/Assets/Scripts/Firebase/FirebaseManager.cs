@@ -8,6 +8,7 @@ using UnityEngine.Networking;
 using Firebase.Database;
 using Firebase.Storage;
 using UnityEngine.SceneManagement;
+using System.Collections.Generic;
 
 public class FirebaseManager : MonoBehaviour
 {
@@ -19,8 +20,8 @@ public class FirebaseManager : MonoBehaviour
     public DatabaseReference dbReference;
     public FirebaseStorage storage;
     public StorageReference storageReference;
-    public FirebaseDownloader FirebaseDownloader { get; private set; } = new FirebaseDownloader();
-    public FirebaseUploader FirebaseUploader { get; private set; } = new FirebaseUploader();
+    public FirebaseDownloader FirebaseDownloader = new FirebaseDownloader();
+    public FirebaseUploader FirebaseUploader = new FirebaseUploader();
     //public Image Image;
     public bool LoadImage = false;
     public bool LoadDataFromFirebase = false;
@@ -46,37 +47,60 @@ public class FirebaseManager : MonoBehaviour
         else
         {
             LoadImage = false;
-            LoadDataFromFirebase = false;
+            LoadDataFromFirebase = true;
         }
     }
+    private void Start()
+    {
 
+    }
     private void OnDestroy()
     {
-        FirebaseDownloader = null;
-        FirebaseUploader = null;
     }
 
     private void InitializeFirebase()
     {
         FirebaseApp.CheckAndFixDependenciesAsync().ContinueWithOnMainThread(task =>
-        {
-            if (task.Result == DependencyStatus.Available)
-            {
-                dbReference = FirebaseDatabase.DefaultInstance.RootReference;
-                storage = FirebaseStorage.DefaultInstance;
-                storageReference = storage.GetReferenceFromUrl(firebaseUrl).Child(imageFolderPath);
+             {
+                 if (task.Result == DependencyStatus.Available)
+                 {
+                     Debug.Log("Firebase dependencies are available.");
 
-                FirebaseDownloader.dbReference = dbReference;
-                FirebaseUploader.dbReference = dbReference.Child(imageFolderPath);
-                FirebaseUploader.storageReference = storageReference;
+                     // Khởi tạo Database và Storage
+                     dbReference = FirebaseDatabase.DefaultInstance.RootReference;
+                     if (dbReference == null)
+                     {
+                         Debug.LogError("dbReference is null after initializing FirebaseDatabase.");
+                     }
+                     else
+                     {
+                         Debug.Log("Database reference initialized successfully.");
+                         // Gán dbReference cho các class khác
+                         FirebaseDownloader.dbReference = dbReference;
+                         FirebaseUploader.dbReference = dbReference.Child(imageFolderPath);
+                         LoadFilesFromDatabase();
+                     }
 
-                Debug.Log("Firebase initialized successfully.");
-            }
-            else
-            {
-                Debug.LogError($"Could not resolve all Firebase dependencies: {task.Result}");
-            }
-        });
+                     storage = FirebaseStorage.DefaultInstance;
+                     if (storage == null)
+                     {
+                         Debug.LogError("Firebase storage is null.");
+                     }
+                     else
+                     {
+                         Debug.Log("Storage initialized successfully.");
+                         storageReference = storage.GetReferenceFromUrl(firebaseUrl).Child(imageFolderPath);
+                         FirebaseUploader.storageReference = storageReference;
+                     }
+
+
+                     Debug.Log("Firebase initialized successfully.");
+                 }
+                 else
+                 {
+                     Debug.LogError($"Could not resolve all Firebase dependencies: {task.Result}");
+                 }
+             });
     }
 
     public void LoadFilesFromDatabase()
