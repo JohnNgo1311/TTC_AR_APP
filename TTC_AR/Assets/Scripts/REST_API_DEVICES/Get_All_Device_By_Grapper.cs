@@ -15,7 +15,7 @@ public class Get_All_Device_By_Grapper : MonoBehaviour
     void Start()
     {
     }
-    public void On_Click_Get_List_Device_By_Grapper()
+    public async void On_Click_Get_List_Device_By_Grapper()
     {
 
         GlobalVariable.ready_To_Nav_New_Scene = false;
@@ -23,7 +23,8 @@ public class Get_All_Device_By_Grapper : MonoBehaviour
             && (GlobalVariable_Search_Devices.devices_Model_By_Grapper == null || GlobalVariable_Search_Devices.devices_Model_By_Grapper.Count <= 0)
             && (GlobalVariable_Search_Devices.devices_Model_For_Filter == null || GlobalVariable_Search_Devices.devices_Model_For_Filter.Count <= 0))
         {
-            StartCoroutine(Get_Devices_By_Grapper($"{GlobalVariable.baseUrl}{grapper_Name}"));
+            await APIManager.Instance.Get_Devices_By_Grapper($"{GlobalVariable.baseUrl}{grapper_Name}", grapper_Name);
+            // StartCoroutine(Get_Devices_By_Grapper($"{GlobalVariable.baseUrl}{grapper_Name}"));
         }
         else
         {
@@ -31,7 +32,7 @@ public class Get_All_Device_By_Grapper : MonoBehaviour
         }
     }
     //GET Request
-    private IEnumerator Get_Devices_By_Grapper(string url)
+    /*private IEnumerator Get_Devices_By_Grapper(string url)
     {
         using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
         {
@@ -138,5 +139,5 @@ public class Get_All_Device_By_Grapper : MonoBehaviour
         {
             Debug.Log("Deleted");
         }
-    }
+    }*/
 }

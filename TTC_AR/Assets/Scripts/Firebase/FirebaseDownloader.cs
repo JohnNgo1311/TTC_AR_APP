@@ -1,56 +1,60 @@
-using System.Collections;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 using Firebase.Database;
 using Firebase.Extensions;
 using UnityEngine.Networking;
-using System.Threading.Tasks;
-using UnityEngine.UI;
 
 public class FirebaseDownloader
 {
-    public DatabaseReference dbReference;
+    public DatabaseReference dbReference { get; set; }
+
     void Start()
     {
+        // Initialize Firebase or other startup tasks
     }
 
-    //? Download json from firebase database and convert to Texture2D
+    // Download JSON from Firebase database and convert to Texture2D
     public void LoadFilesFromDatabase(string imagesFolderPath)
     {
         if (dbReference != null)
         {
             dbReference.Child(imagesFolderPath).GetValueAsync().ContinueWithOnMainThread(async task =>
-         {
-             if (task.IsFaulted)
-             {
-                 Debug.LogError("Lỗi khi tải dữ liệu từ Firebase Database: " + task.Exception);
-             }
-             else if (task.IsCompleted)
-             {
-                 DataSnapshot snapshot = task.Result;
-                 foreach (var childSnapshot in snapshot.Children)
-                 {
-                     string fileUrl = childSnapshot.Value.ToString();
-                     Debug.Log("File URL: " + fileUrl);
+            {
+                if (task.IsFaulted)
+                {
+                    Debug.LogError("Error loading data from Firebase Database: " + task.Exception);
+                }
+                else if (task.IsCompleted)
+                {
+                    DataSnapshot snapshot = task.Result;
+                    List<Task> downloadTasks = new List<Task>();
 
-                     // Tải file từ URL
-                     await DownloadFileFromUrl(fileUrl);
-                 }
-             }
-         });
+                    foreach (var childSnapshot in snapshot.Children)
+                    {
+                        string fileUrl = childSnapshot.Value.ToString();
+                        Debug.Log("File URL: " + fileUrl);
+
+                        // Download file from URL
+                        downloadTasks.Add(DownloadFileFromUrl(fileUrl));
+                    }
+
+                    await Task.WhenAll(downloadTasks);
+                }
+            });
         }
-
     }
 
     private async Task DownloadFileFromUrl(string url)
     {
         using (UnityWebRequest request = UnityWebRequestTexture.GetTexture(url))
         {
-            request.timeout = 15; // Thiết lập thời gian timeout để tránh đợi quá lâu
+            request.timeout = 30; // Set timeout to avoid waiting too long
             var asyncOperation = request.SendWebRequest();
 
             while (!asyncOperation.isDone)
             {
-                await Task.Yield(); // Không chặn luồng chính của Unity trong khi tải ảnh
+                await Task.Yield(); // Do not block the main thread while downloading the image
             }
 
             if (request.result == UnityWebRequest.Result.ConnectionError || request.result == UnityWebRequest.Result.ProtocolError)

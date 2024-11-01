@@ -2,38 +2,40 @@ using UnityEngine;
 using UnityEngine.UI;
 using Firebase;
 using System;
-using System.Collections;
-using Firebase.Extensions;
-using Firebase.Storage;
-using UnityEngine.Networking;
 using System.Threading.Tasks;
-using System.IO;
-using TMPro;
+using Firebase.Extensions;
+using UnityEngine.Networking;
 using Firebase.Database;
+using Firebase.Storage;
 
 public class FirebaseManager : MonoBehaviour
 {
-    public static FirebaseManager instance;
-    [SerializeField] private string firebaseUrl = "gs://ttc-project-81b04.appspot.com/";
-    [SerializeField] private string imageFolderPath = "";
-    [SerializeField] private string imageName = "";
+    public static FirebaseManager Instance { get; private set; }
+    [SerializeField] private string firebaseUrl = "gs://ttc-project-81b04.appspot.com";
+    [SerializeField] private string imageFolderPath = "JB_Outdoor_Location";
+    [SerializeField] private string imageName = "JB1_Location.jpg";
 
-    [Header("Firebase")]
-    public DatabaseReference dbReference;
-    public FirebaseStorage storage;
-    public StorageReference storageReference;
-    public FirebaseDownloader firebaseDownloader = new FirebaseDownloader();
-    public FirebaseUploader firebaseUploader = new FirebaseUploader();
+    public DatabaseReference dbReference { get; private set; }
+    public FirebaseStorage storage { get; private set; }
+    public StorageReference storageReference { get; private set; }
+    public FirebaseDownloader FirebaseDownloader { get; private set; } = new FirebaseDownloader();
+    public FirebaseUploader FirebaseUploader { get; private set; } = new FirebaseUploader();
+    //public SavePhoto SavePhoto;
+    public Image Image;
+    public bool LoadImage = false;
 
-    public InputField filenameInputField;
-    public Image image;
+    public bool LoadDataFromFirebase = false;
 
     private void Awake()
     {
-        if (instance == null)
+        if (Instance == null)
         {
-            instance = this;
+            Instance = this;
             DontDestroyOnLoad(gameObject);
+            if (LoadImage)
+            {
+                //    SavePhoto = SavePhoto.gameObject.GetComponent<SavePhoto>();
+            }
             InitializeFirebase();
         }
         else
@@ -44,8 +46,8 @@ public class FirebaseManager : MonoBehaviour
 
     private void OnDestroy()
     {
-        firebaseDownloader = null;
-        firebaseUploader = null;
+        FirebaseDownloader = null;
+        FirebaseUploader = null;
     }
 
     private void InitializeFirebase()
@@ -56,30 +58,30 @@ public class FirebaseManager : MonoBehaviour
             {
                 dbReference = FirebaseDatabase.DefaultInstance.RootReference;
                 storage = FirebaseStorage.DefaultInstance;
-                storageReference = storage.GetReferenceFromUrl(firebaseUrl);
+                storageReference = storage.GetReferenceFromUrl(firebaseUrl).Child(imageFolderPath);
 
-                firebaseDownloader.dbReference = dbReference;
-                
-                firebaseUploader.dbReference = dbReference;
-                firebaseUploader.storageReference = storageReference;
+                FirebaseDownloader.dbReference = dbReference;
+                FirebaseUploader.dbReference = dbReference.Child(imageFolderPath);
+                FirebaseUploader.storageReference = storageReference;
 
                 Debug.Log("Firebase initialized successfully.");
             }
             else
             {
-                Debug.LogError("Could not resolve all Firebase dependencies: " + task.Result);
+                Debug.LogError($"Could not resolve all Firebase dependencies: {task.Result}");
             }
         });
     }
 
     public void LoadFilesFromDatabase()
     {
-        firebaseDownloader.LoadFilesFromDatabase(imageFolderPath);
+        if (LoadDataFromFirebase)
+        { FirebaseDownloader.LoadFilesFromDatabase(imageFolderPath); }
     }
 
     public void UploadFile()
     {
-        firebaseUploader.UploadFile(imageFolderPath, imageName);
+        //    FirebaseUploader.UploadFile(SavePhoto, Image, imageFolderPath, imageName);
     }
 
     public void GetImage()
@@ -90,7 +92,7 @@ public class FirebaseManager : MonoBehaviour
             {
                 if (task.IsFaulted || task.IsCanceled)
                 {
-                    Debug.LogError("Failed to load image from Firebase: " + task.Exception);
+                    Debug.LogError($"Failed to load image from Firebase: {task.Exception}");
                 }
             });
         }
@@ -106,7 +108,7 @@ public class FirebaseManager : MonoBehaviour
         }
         catch (Exception ex)
         {
-            Debug.LogError("Error fetching image from Firebase: " + ex.Message);
+            Debug.LogError($"Error fetching image from Firebase: {ex.Message}");
         }
     }
 
@@ -124,12 +126,12 @@ public class FirebaseManager : MonoBehaviour
 
             if (request.result == UnityWebRequest.Result.ConnectionError || request.result == UnityWebRequest.Result.ProtocolError)
             {
-                Debug.LogError("Failed to load image: " + request.error);
+                Debug.LogError($"Failed to load image: {request.error}");
             }
             else
             {
                 Texture2D texture = DownloadHandlerTexture.GetContent(request);
-                image.sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector2.zero);
+                Image.sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector2.zero);
             }
         }
     }
