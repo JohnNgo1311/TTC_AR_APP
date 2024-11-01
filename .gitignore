@@ -14,6 +14,11 @@ TTC_AR/Library/PackageCache/
 /[Aa]ssets/Plugins/Editor/JetBrains*
 /TTC_AR/Assets/Firebase/Plugins/x86_64/FirebaseCppApp-12_2_0.bundle
 /TTC_AR/Assets/Firebase/Plugins/x86_64/FirebaseCppApp-12_2_0.so
+/TTC_AR/Assets/Firebase/Plugins/x86_64/FirebaseCppApp-12_2_0.dll
+/TTC_AR/Assets/Firebase/Plugins/x86_64
+/TTC_AR/Assets/Firebase/Plugins/x86_64/FirebaseCppApp-12_2_0.bundle.meta
+/TTC_AR/Packages/com.ptc.vuforia.engine-10.24.4.tgz
+
 # Visual Studio cache directory
 .vs/
 
