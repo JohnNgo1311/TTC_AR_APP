@@ -14,6 +14,7 @@ public class Get_All_Device_By_Grapper : MonoBehaviour
 
     void Start()
     {
+        On_Click_Get_List_Device_By_Grapper();
     }
     public async void On_Click_Get_List_Device_By_Grapper()
     {

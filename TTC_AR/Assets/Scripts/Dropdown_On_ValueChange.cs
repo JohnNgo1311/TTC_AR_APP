@@ -45,6 +45,8 @@ public class Dropdown_On_ValueChange : MonoBehaviour
 
     private void Awake()
     {
+        if (UnityEngine.Rendering.DebugManager.instance.enableRuntimeUI)
+            UnityEngine.Rendering.DebugManager.instance.enableRuntimeUI = false;
         if (inputField == null)
         {
             Debug.LogError("InputField không được gán!");
@@ -55,6 +57,10 @@ public class Dropdown_On_ValueChange : MonoBehaviour
 
     private async Task WaitForDataAndContinueAsync()
     {
+
+        // Vô hiệu hóa các thành phần UI
+        SetUIInteraction(false);
+
         while (GlobalVariable_Search_Devices.devices_Model_By_Grapper == null || GlobalVariable_Search_Devices.devices_Model_By_Grapper.Count <= 0)
         {
             await Task.Yield();
@@ -62,14 +68,16 @@ public class Dropdown_On_ValueChange : MonoBehaviour
 
         inputField.onValueChanged.AddListener(OnInputValueChanged);
         OnInputValueChanged(GlobalVariable_Search_Devices.devices_Model_By_Grapper[0].code);
+       Debug.Log("Dữ liệu đã tải xong và gán GameObject thành công!");
+        // Kích hoạt lại các thành phần UI khi dữ liệu đã tải xong
+        SetUIInteraction(true);
+
     }
 
     private void Start()
     {
-        if (UnityEngine.Rendering.DebugManager.instance.enableRuntimeUI)
-            UnityEngine.Rendering.DebugManager.instance.enableRuntimeUI = false;
 
-        Show_Dialog.Instance.ShowToast("loading", "Đang tải dữ liệu...", 3);
+
     }
 
     private async void CacheUIElements()
@@ -93,7 +101,28 @@ public class Dropdown_On_ValueChange : MonoBehaviour
         JB_Location_Image_Prefab = JB_Location_Image_Prefab ?? JB_Connection_Group.transform.Find("JB_Location_Image").GetComponent<Image>();
         JB_Connection_Wiring_Image_Prefab = JB_Connection_Wiring_Image_Prefab ?? JB_Connection_Group.transform.Find("JB_Connection_Wiring").GetComponent<Image>();
 
-        await WaitForDataAndContinueAsync();
+        await WaitForDataAndContinueAsync(); //! Các logic ở trên chạy xong rồi mới chạy hàm này
+    }
+
+    private void SetUIInteraction(bool isEnabled = false)
+    {
+        if (isEnabled == false)
+        {
+            Show_Dialog.Instance.ShowToast("loading", "Đang tải dữ liệu...", 3);
+            Debug.Log("Đang tải dữ liệu...");
+        }
+        else if (isEnabled == true)
+        {
+            Show_Dialog.Instance.ShowToast("success", "Dữ liệu đã tải xong!", 2);
+            Debug.Log("Dữ liệu đã tải xong!");
+        }
+        inputField.interactable = isEnabled;
+        scrollRect.enabled = isEnabled;
+        foreach (Button button in GetComponentsInChildren<Button>())
+        {
+            button.interactable = isEnabled;
+        }
+
     }
 
     private void OnInputValueChanged(string input)

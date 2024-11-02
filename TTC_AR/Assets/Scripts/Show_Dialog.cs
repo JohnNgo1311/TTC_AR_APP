@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class Show_Dialog : MonoBehaviour
 {
     // Singleton Instance
-    public static Show_Dialog Instance { get; private set; }
+    public static Show_Dialog Instance { get; set; }
 
     [SerializeField] private GameObject toastPrefab;
     [SerializeField] private Transform toastParent;
