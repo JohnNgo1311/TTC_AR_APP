@@ -14,7 +14,12 @@ public class FirebaseManager : MonoBehaviour
 {
     public static FirebaseManager Instance { get; private set; }
     [SerializeField] private string firebaseUrl = "gs://ttc-project-81b04.appspot.com";
-    [SerializeField] private string imageFolderPath = "JB_Outdoor_Location";
+    
+    [SerializeField]
+    private List<string> imageFolderPaths = new List<string>(){
+"JB_Outdoor_Location",
+"JB_TSD_Wiring",
+    };
     [SerializeField] private string imageName = "JB1_Location.jpg";
 
     public DatabaseReference dbReference;
@@ -65,7 +70,6 @@ public class FirebaseManager : MonoBehaviour
                  if (task.Result == DependencyStatus.Available)
                  {
                      Debug.Log("Firebase dependencies are available.");
-
                      // Khởi tạo Database và Storage
                      dbReference = FirebaseDatabase.DefaultInstance.RootReference;
                      if (dbReference == null)
@@ -75,9 +79,9 @@ public class FirebaseManager : MonoBehaviour
                      else
                      {
                          Debug.Log("Database reference initialized successfully.");
-                         // Gán dbReference cho các class khác
+                         // Gán dbReference 
                          FirebaseDownloader.dbReference = dbReference;
-                         FirebaseUploader.dbReference = dbReference.Child(imageFolderPath);
+                         FirebaseUploader.dbReference = dbReference.Child(imageFolderPaths[0]);
                          LoadFilesFromDatabase();
                      }
 
@@ -89,7 +93,7 @@ public class FirebaseManager : MonoBehaviour
                      else
                      {
                          Debug.Log("Storage initialized successfully.");
-                         storageReference = storage.GetReferenceFromUrl(firebaseUrl).Child(imageFolderPath);
+                         storageReference = storage.GetReferenceFromUrl(firebaseUrl).Child(imageFolderPaths[0]);
                          FirebaseUploader.storageReference = storageReference;
                      }
 
@@ -107,7 +111,8 @@ public class FirebaseManager : MonoBehaviour
     {
         if (LoadDataFromFirebase)
         {
-            FirebaseDownloader.LoadFilesFromDatabase(imageFolderPath);
+            foreach (var imageFolderPath in imageFolderPaths)
+            { FirebaseDownloader.LoadFilesFromDatabase(imageFolderPath); }
         }
     }
 
@@ -122,7 +127,7 @@ public class FirebaseManager : MonoBehaviour
     {
         if (storageReference != null)
         {
-            LoadImageFromFirebase(imageFolderPath, imageName).ContinueWithOnMainThread(task =>
+            LoadImageFromFirebase(imageFolderPaths[0], imageName).ContinueWithOnMainThread(task =>
             {
                 if (task.IsFaulted || task.IsCanceled)
                 {

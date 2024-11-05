@@ -12,7 +12,5 @@ public class Image_Model
   public string url;
   public string image_Name;
   public Texture2D image;
-
-
 }
 

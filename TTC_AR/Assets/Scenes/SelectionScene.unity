@@ -328,6 +328,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45ce4c9685856254b9c664f4433baf71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  image1: {fileID: 720286218}
+  image2: {fileID: 981588577}
 --- !u!1 &449487356
 GameObject:
   m_ObjectHideFlags: 0
@@ -835,6 +837,7 @@ GameObject:
   - component: {fileID: 878477616}
   - component: {fileID: 878477617}
   - component: {fileID: 878477618}
+  - component: {fileID: 878477619}
   m_Layer: 0
   m_Name: Scripts
   m_TagString: Untagged
@@ -910,6 +913,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   grapper_Name: A
   devices: []
+--- !u!114 &878477619
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 878477614}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76cbe01617c40484cb8218af3917b487, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &923202467
 GameObject:
   m_ObjectHideFlags: 0
@@ -1430,7 +1445,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   firebaseUrl: gs://ttc-project-81b04.appspot.com/
-  imageFolderPath: JB_Outdoor_Location
+  imageFolderPaths:
+  - JB_Outdoor_Location
+  - JB_TSD_Wiring
   imageName: JB101_Location.jpg
   FirebaseDownloader: {fileID: 0}
   FirebaseUploader: {fileID: 0}

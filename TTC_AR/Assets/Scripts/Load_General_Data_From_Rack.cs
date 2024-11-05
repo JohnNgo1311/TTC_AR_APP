@@ -131,7 +131,7 @@ public class Load_General_Data_From_Rack : MonoBehaviour
 
         // Retrieve and validate the saved list
         List<string> savedList = Save_Data_To_Local.GetStringList($"List_Device_For_Filter_{grapper}");
-        GlobalVariable_Search_Devices.devices_Model_For_Filter = savedList;
+        GlobalVariable_Search_Devices.devices_Model_For_FilterA = savedList;
         if (savedList != null && savedList.Count > 0)
         {
             Debug.Log($"Lượng data đã lưu: {savedList.Count} + {savedList[1]}");

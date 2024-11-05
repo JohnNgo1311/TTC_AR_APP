@@ -11,10 +11,25 @@ public class Get_All_Device_By_Grapper : MonoBehaviour
     private string grapper_Name = "A";
     [SerializeField]
     private List<DeviceModel> devices = new List<DeviceModel>();
-
+    private List<string> filter_Device_Data = new List<string>();
     void Start()
     {
         On_Click_Get_List_Device_By_Grapper();
+        switch (grapper_Name)
+        {
+            case "A":
+                filter_Device_Data = GlobalVariable_Search_Devices.devices_Model_For_FilterA;
+                break;
+            case "B":
+                filter_Device_Data = GlobalVariable_Search_Devices.devices_Model_For_FilterB;
+                break;
+            case "C":
+                filter_Device_Data = GlobalVariable_Search_Devices.devices_Model_For_FilterC;
+                break;
+            case "D":
+                filter_Device_Data = GlobalVariable_Search_Devices.devices_Model_For_FilterD;
+                break;
+        }
     }
     public async void On_Click_Get_List_Device_By_Grapper()
     {
@@ -22,7 +37,7 @@ public class Get_All_Device_By_Grapper : MonoBehaviour
         GlobalVariable.ready_To_Nav_New_Scene = false;
         if ((GlobalVariable_Search_Devices.all_Device_GrapperA == null || GlobalVariable_Search_Devices.all_Device_GrapperA.Count <= 0)
             && (GlobalVariable_Search_Devices.devices_Model_By_Grapper == null || GlobalVariable_Search_Devices.devices_Model_By_Grapper.Count <= 0)
-            && (GlobalVariable_Search_Devices.devices_Model_For_Filter == null || GlobalVariable_Search_Devices.devices_Model_For_Filter.Count <= 0))
+            && (filter_Device_Data == null || filter_Device_Data.Count <= 0))
         {
             await APIManager.Instance.Get_Devices_By_Grapper($"{GlobalVariable.baseUrl}{grapper_Name}", grapper_Name);
             // StartCoroutine(Get_Devices_By_Grapper($"{GlobalVariable.baseUrl}{grapper_Name}"));

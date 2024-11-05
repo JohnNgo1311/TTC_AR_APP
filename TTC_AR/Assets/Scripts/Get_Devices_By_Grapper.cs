@@ -110,7 +110,7 @@ public class Get_Devices_By_Grapper : MonoBehaviour
         Save_Data_To_Local.SaveStringList($"List_Device_For_Filter_{grapper}", filteredDevices);
 
         List<string> savedList = Save_Data_To_Local.GetStringList($"List_Device_For_Filter_{grapper}");
-        GlobalVariable_Search_Devices.devices_Model_For_Filter = savedList;
+        GlobalVariable_Search_Devices.devices_Model_For_FilterA = savedList;
 
         if (savedList != null && savedList.Count > 0)
         {

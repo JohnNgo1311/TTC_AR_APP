@@ -8,8 +8,8 @@ pluginManagement {
     }
 }
 include ':launcher', ':unityLibrary'
-include 'unityLibrary:FirebaseApp.androidlib'
-include 'unityLibrary:xrmanifest.androidlib'
+include ':unityLibrary:FirebaseApp.androidlib'
+include ':unityLibrary:xrmanifest.androidlib'
 
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.PREFER_SETTINGS)
@@ -18,5 +18,12 @@ dependencyResolutionManagement {
         // maven { url 'https://your.artifactory.repo' }
         google()
         mavenCentral()
+    }
+    resolutionStrategy {
+        eachDependency { DependencyResolveDetails details ->
+            if (details.requested.group == 'com.google.firebase' && details.requested.name == 'firebase-common') {
+                details.useVersion '19.3.0'
+            }
+        }
     }
 }

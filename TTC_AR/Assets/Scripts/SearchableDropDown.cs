@@ -24,7 +24,7 @@ public class SearchableDropDown : MonoBehaviour
 
     private void Awake()
     {
-        availableOptions = GlobalVariable_Search_Devices.devices_Model_For_Filter;
+        availableOptions = GlobalVariable_Search_Devices.devices_Model_For_FilterA;
         contentRect = content.GetComponent<RectTransform>();
         scrollRectInitialSize = scrollRect.gameObject.GetComponent<RectTransform>().sizeDelta;
         Initialize();
@@ -69,7 +69,7 @@ public class SearchableDropDown : MonoBehaviour
     {
         if (availableOptions == null || availableOptions.Count == 0)
         {
-            availableOptions = GlobalVariable_Search_Devices.devices_Model_For_Filter;
+            availableOptions = GlobalVariable_Search_Devices.devices_Model_For_FilterA;
         }
         for (int i = 0; i < itemGameObjects.Count; i++)
         {

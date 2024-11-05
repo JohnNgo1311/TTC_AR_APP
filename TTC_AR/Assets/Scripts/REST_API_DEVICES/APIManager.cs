@@ -4,12 +4,16 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.Networking;
 
 public class APIManager : MonoBehaviour
 {
     public static APIManager Instance { get; private set; }
-
+    [SerializeField]
+    private Image image1;
+    [SerializeField]
+    private Image image2;
     private void Awake()
     {
         if (Instance == null)
@@ -28,38 +32,32 @@ public class APIManager : MonoBehaviour
         try
         {
             PrepareDeviceData(device);
-
             string jsonData = JsonConvert.SerializeObject(device);
+
             if (string.IsNullOrEmpty(jsonData))
             {
                 Debug.LogError("Error serializing data.");
                 return;
             }
 
-            Debug.Log(jsonData);
-
             using (UnityWebRequest webRequest = new UnityWebRequest(url, "POST"))
             {
-                byte[] jsonToSend = Encoding.UTF8.GetBytes(jsonData);
-                webRequest.uploadHandler = new UploadHandlerRaw(jsonToSend);
+                webRequest.uploadHandler = new UploadHandlerRaw(Encoding.UTF8.GetBytes(jsonData));
                 webRequest.downloadHandler = new DownloadHandlerBuffer();
                 webRequest.SetRequestHeader("Content-Type", "application/json");
 
-                await SendWebRequestAsync(webRequest);
+                if (!await SendWebRequestAsync(webRequest))
+                {
+                    HandleRequestError(webRequest.error);
+                    return;
+                }
 
-                if (webRequest.result == UnityWebRequest.Result.ConnectionError || webRequest.result == UnityWebRequest.Result.ProtocolError)
-                {
-                    HandleRequestError(webRequest);
-                }
-                else
-                {
-                    await HandleSuccessfulPost(device, sceneName);
-                }
+                await HandleSuccessfulPost(device, sceneName);
             }
         }
         catch (Exception ex)
         {
-            Debug.LogError($"Unexpected error: {ex.Message} + {ex.Data} + {ex.StackTrace}");
+            Debug.LogError($"Unexpected error: {ex}");
         }
     }
 
@@ -72,31 +70,37 @@ public class APIManager : MonoBehaviour
 
         if (device.listImageConnection == null || device.listImageConnection.Count == 0)
         {
-            device.listImageConnection = GlobalVariable_Search_Devices.all_Device_GrapperA[0].listImageConnection;
+            device.listImageConnection = GlobalVariable_Search_Devices.all_Device_GrapperA[1].listImageConnection;
         }
     }
 
-    private async Task SendWebRequestAsync(UnityWebRequest webRequest)
+    private async Task<bool> SendWebRequestAsync(UnityWebRequest webRequest)
     {
         var operation = webRequest.SendWebRequest();
+        // Await until the request completes
         while (!operation.isDone)
         {
             await Task.Yield();
         }
+        // Return true if there is no error; otherwise, return false
+        return webRequest.result != UnityWebRequest.Result.ConnectionError && webRequest.result != UnityWebRequest.Result.ProtocolError;
     }
 
-    private void HandleRequestError(UnityWebRequest webRequest)
+
+    private void HandleRequestError(string error)
     {
-        Show_Dialog.Instance.ShowToast("failure", $"Request error: {webRequest.error}");
-        Debug.LogError($"Request error: {webRequest.error}");
+        Show_Dialog.Instance.ShowToast("failure", $"Request error: {error}");
+        Debug.LogError($"Request error: {error}");
     }
 
     private async Task HandleSuccessfulPost(DeviceModel device, string sceneName)
     {
         Debug.Log("Post data successfully.");
-        Show_Dialog.Instance.ShowToast("success", "Thêm thiết bị mới thành công: " + device.code);
+        Show_Dialog.Instance.ShowToast("success", $"Thêm thiết bị mới thành công: {device.code}");
+
         GlobalVariable_Search_Devices.all_Device_GrapperA.Add(device);
-        await Get_Devices_By_Grapper($"{GlobalVariable.baseUrl}{device.location.Substring(device.location.Length - 1)}", sceneName);
+
+        await Get_Devices_By_Grapper($"{GlobalVariable.baseUrl}{device.location[^1]}", sceneName);
         Sence_Behaviour.Reload_Scene(sceneName);
     }
 
@@ -104,9 +108,7 @@ public class APIManager : MonoBehaviour
     {
         using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
         {
-            await SendWebRequestAsync(webRequest);
-
-            if (webRequest.result == UnityWebRequest.Result.ConnectionError || webRequest.result == UnityWebRequest.Result.ProtocolError)
+            if (!await SendWebRequestAsync(webRequest))
             {
                 Debug.LogError($"Request error: {webRequest.error}");
                 return;
@@ -114,11 +116,8 @@ public class APIManager : MonoBehaviour
 
             try
             {
-                string jsonData = webRequest.downloadHandler.text;
-                var devices = JsonConvert.DeserializeObject<List<DeviceModel>>(jsonData);
-                Debug.Log("Received data successfully.");
-
-                if (devices.Count > 0)
+                var devices = JsonConvert.DeserializeObject<List<DeviceModel>>(webRequest.downloadHandler.text);
+                if (devices != null && devices.Count > 0)
                 {
                     GlobalVariable_Search_Devices.all_Device_GrapperA = devices;
                     GlobalVariable_Search_Devices.devices_Model_By_Grapper = devices;
@@ -132,7 +131,7 @@ public class APIManager : MonoBehaviour
             }
             catch (Exception ex)
             {
-                Debug.LogError($"Unexpected error: {ex.Message}");
+                Debug.LogError($"Unexpected error: {ex}");
             }
         }
     }
@@ -140,37 +139,186 @@ public class APIManager : MonoBehaviour
     private void ProcessAndSaveDevices(List<DeviceModel> devices, string grapperName)
     {
         List<string> filteredDevices = GetDeviceForFilter(devices);
-        Save_Data_To_Local.SaveStringList($"List_Device_For_Filter_{grapperName}", filteredDevices);
 
-        List<string> savedList = Save_Data_To_Local.GetStringList($"List_Device_For_Filter_{grapperName}");
-        GlobalVariable_Search_Devices.devices_Model_For_Filter = savedList;
+        switch (grapperName)
+        {
+            case "A":
+                GlobalVariable_Search_Devices.devices_Model_For_FilterA = filteredDevices;
+                break;
+            case "B":
+                GlobalVariable_Search_Devices.devices_Model_For_FilterB = filteredDevices;
+                break;
+            case "C":
+                GlobalVariable_Search_Devices.devices_Model_For_FilterC = filteredDevices;
+                break;
+            case "D":
+                GlobalVariable_Search_Devices.devices_Model_For_FilterD = filteredDevices;
+                break;
+        }
 
-        if (savedList != null && savedList.Count > 0)
-        {
-            Debug.Log($"Lượng data đã lưu: {savedList.Count} + {savedList[0]}");
-        }
-        else
-        {
-            Debug.LogError("Danh sách đã lưu có ít hơn 6 phần tử hoặc null");
-        }
+        Debug.Log(filteredDevices.Count > 0 ? $"Data saved: {filteredDevices.Count} entries." : "No data saved.");
     }
 
     private List<string> GetDeviceForFilter(List<DeviceModel> deviceModels)
     {
-        List<string> devicesForFilter = new List<string>();
+        var devicesForFilter = new HashSet<string>();
 
         foreach (var device in deviceModels)
         {
-            if (!string.IsNullOrWhiteSpace(device.code))
-            {
-                devicesForFilter.Add(device.code);
-            }
-            if (!string.IsNullOrWhiteSpace(device.function))
-            {
-                devicesForFilter.Add(device.function);
-            }
+            if (!string.IsNullOrWhiteSpace(device.code)) devicesForFilter.Add(device.code);
+            if (!string.IsNullOrWhiteSpace(device.function)) devicesForFilter.Add(device.function);
         }
 
-        return devicesForFilter;
+        return new List<string>(devicesForFilter);
+    }
+    public async Task Get_JB_TSD_Information(string url, string grapperName)
+    {
+        string jsonData = await FetchJsonData(url, grapperName);
+        if (jsonData == null) return;
+
+        try
+        {
+            // Phân tích cú pháp JSON
+            var jbDataList = JsonConvert.DeserializeObject<List<JB_TSD_Data>>(jsonData);
+
+            GlobalVariable.list_Name_and_Url_JB_Location_A = jbDataList[0].JB_TSD_Location;
+            GlobalVariable.list_Name_and_Url_JB_Connection_A = jbDataList[0].JB_TSD_Wiring;
+
+            // Tải hình ảnh cho JB Location
+            await LoadImagesAsync(GlobalVariable.list_Name_and_Url_JB_Location_A, "get_JB_Location");
+
+            // Tải hình ảnh cho JB Connection
+            await LoadImagesAsync(GlobalVariable.list_Name_and_Url_JB_Connection_A, "get_JB_Connection");
+            Debug.Log(GlobalVariable.list_Name_and_Url_JB_Location_A.Count);
+            Debug.Log(GlobalVariable.list_Name_and_Url_JB_Connection_A.Count);
+
+            if (GlobalVariable.list_Name_And_Image_JB_Location_A.TryGetValue(GlobalVariable.list_Key_JB_Location_A[5], out var sprite1))
+            {
+                image1.sprite = sprite1; // Gán sprite nếu khóa tồn tại
+            }
+            else
+            {
+                Debug.Log("không có ảnh gán cho image1");
+            }
+            if (GlobalVariable.list_Name_And_Image_JB_Connection_A.TryGetValue(GlobalVariable.list_Key_JB_Connection_A[5], out var sprite2))
+            {
+                image2.sprite = sprite2; // Gán sprite nếu khóa tồn tại
+            }
+            else
+            {
+                Debug.Log("không có ảnh gán cho image2");
+            }
+
+        }
+
+        catch (JsonException jsonEx)
+        {
+            Debug.LogError($"Error parsing JSON: {jsonEx.Message}");
+        }
+    }
+
+    private async Task LoadImagesAsync(Dictionary<string, List<string>> urlDictionary, string action)
+    {
+        List<Task> loadTasks = new List<Task>();
+
+        foreach (var kvp in urlDictionary)
+        {
+            var key = kvp.Key;          //?=> key là "JB1", "JB2",...
+            var List_url = kvp.Value;   //?=> List đường dẫn hình ảnh tương ứng mỗi key JB
+
+            // Chỉ tải ảnh nếu chưa có
+            if (action == "get_JB_Location")
+            {
+                if (!GlobalVariable.list_Name_And_Image_JB_Location_A.ContainsKey(key))
+                {
+                    GlobalVariable.list_Key_JB_Location_A.Add(key);
+                    foreach (string link in List_url)
+                    {
+                        loadTasks.Add(LoadImageFromUrlAsync(link, key, action));
+                    }
+                }
+                // Chỉ tải ảnh nếu chưa có
+            }
+            if (action == "get_JB_Connection")
+            {
+
+                if (!GlobalVariable.list_Name_And_Image_JB_Connection_A.ContainsKey(key))
+                {
+                    GlobalVariable.list_Key_JB_Connection_A.Add(key);
+
+                    foreach (string link in List_url)
+                    {
+                        loadTasks.Add(LoadImageFromUrlAsync(link, key, action));
+                    }
+                }
+
+            }
+
+            await Task.WhenAll(loadTasks); // Chờ tất cả các tác vụ tải hình ảnh hoàn thành
+        }
+    }
+    private async Task LoadImageFromUrlAsync(string url, string key, string action)
+    {
+        using (UnityWebRequest webRequest = UnityWebRequestTexture.GetTexture(url))
+        {
+            // Gửi yêu cầu và chờ phản hồi
+            var asyncOperation = webRequest.SendWebRequest();
+            while (!asyncOperation.isDone)
+            {
+                await Task.Yield(); // Trả lại điều khiển cho Unity trong khi tải
+            }
+
+            // Kiểm tra lỗi
+            if (webRequest.result != UnityWebRequest.Result.Success)
+            {
+                Debug.LogError($"Error loading image: {webRequest.error}");
+            }
+            else
+            {
+                // Lấy texture từ phản hồi
+                Texture2D texture = DownloadHandlerTexture.GetContent(webRequest);
+                Sprite sprite = Texture_To_Sprite.ConvertTextureToSprite(texture); // Chuyển đổi thành Sprite
+                switch (action)
+                {
+                    case "get_JB_Location":
+                        GlobalVariable.list_Name_And_Image_JB_Location_A[key] = sprite;
+                        break;
+                    case "get_JB_Connection":
+                        GlobalVariable.list_Name_And_Image_JB_Connection_A[key] = sprite;
+                        break;
+                }
+            }
+        }
+    }
+
+    private async Task<string> FetchJsonData(string url, string grapperName)
+    {
+        using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
+        {
+            if (!await SendWebRequestAsync(webRequest))
+            {
+                Debug.LogError($"Request error: {webRequest.error}");
+                return null;
+            }
+
+            return webRequest.downloadHandler.text;
+        }
+    }
+
+    private void LogJbTsdData(JB_TSD_Data jbData)
+    {
+        Debug.Log("JB_TSD_Wiring:");
+        foreach (var (key, urls) in jbData.JB_TSD_Wiring)
+        {
+            Debug.Log($"{key}:");
+            foreach (var url in urls) Debug.Log($" - {url}");
+        }
+
+        Debug.Log("JB_TSD_Location:");
+        foreach (var (key, urls) in jbData.JB_TSD_Location)
+        {
+            Debug.Log($"{key}:");
+            foreach (var url in urls) Debug.Log($" - {url}");
+        }
     }
 }

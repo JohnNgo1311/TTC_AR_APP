@@ -87,9 +87,9 @@ public class FirebaseDownloader : MonoBehaviour
             {
                 fileName = System.IO.Path.GetFileNameWithoutExtension(url);
                 fileName = fileName.Split(imagesFolderPath + "%2F")[1];
-                GlobalVariable.list_Image_JB_Location.Add(fileName, DownloadHandlerTexture.GetContent(request));
+                GlobalVariable.list_Name_And_Image_JB_Location_A.Add(fileName, Texture_To_Sprite.ConvertTextureToSprite(DownloadHandlerTexture.GetContent(request)));
                 Debug.Log("Image downloaded successfully");
-                Debug.Log("Image count: " + GlobalVariable.list_Image_JB_Location.Count);
+                Debug.Log("Image count: " + GlobalVariable.list_Name_And_Image_JB_Location_A.Count);
                 Debug.Log("Image name: " + fileName);
             }
         }

@@ -20,7 +20,42 @@ public class GlobalVariable : MonoBehaviour
     public static bool loginSuccess = false;
     public static bool isOpenCanvas = false;
     public static bool ready_To_Nav_New_Scene = true;
-    public static Dictionary<string, Texture2D> list_Image_JB_Location = new Dictionary<string, Texture2D>();
+
+
+    //! lưu trữ tên JB và hình ảnh JB (ẢNH JB THỰC TẾ)
+    public static Dictionary<string, Sprite> list_Name_And_Image_JB_Location_A = new Dictionary<string, Sprite>();
+    public static Dictionary<string, Sprite> list_Name_And_Image_JB_Location_B = new Dictionary<string, Sprite>();
+    public static Dictionary<string, Sprite> list_Name_And_Image_JB_Location_C = new Dictionary<string, Sprite>();
+    public static Dictionary<string, Sprite> list_Name_And_Image_JB_Location_D = new Dictionary<string, Sprite>();
+
+    //! lưu trữ tên JB và đường dẫn ảnh JB (ẢNH JB THỰC TẾ)
+    public static Dictionary<string, List<string>> list_Name_and_Url_JB_Location_A = new Dictionary<string, List<string>>();
+    public static Dictionary<string, List<string>> list_Name_and_Url_JB_Location_B = new Dictionary<string, List<string>>();
+    public static Dictionary<string, List<string>> list_Name_and_Url_JB_Location_C = new Dictionary<string, List<string>>();
+    public static Dictionary<string, List<string>> list_Name_and_Url_JB_Location_D = new Dictionary<string, List<string>>();
+
+    //! lưu trữ tên JB và hình ảnh JB (Sơ đồ kết nối)
+    public static Dictionary<string, Sprite> list_Name_And_Image_JB_Connection_A = new Dictionary<string, Sprite>();
+    public static Dictionary<string, Sprite> list_Name_And_Image_JB_Connection_B = new Dictionary<string, Sprite>();
+    public static Dictionary<string, Sprite> list_Name_And_Image_JB_Connection_C = new Dictionary<string, Sprite>();
+    public static Dictionary<string, Sprite> list_Name_And_Image_JB_Connection_D = new Dictionary<string, Sprite>();
+
+    //! lưu trữ tên JB và đường dẫn ảnh JB (Sơ đồ kết nối)
+    public static Dictionary<string, List<string>> list_Name_and_Url_JB_Connection_A = new Dictionary<string, List<string>>();
+    public static Dictionary<string, List<string>> list_Name_and_Url_JB_Connection_B = new Dictionary<string, List<string>>();
+    public static Dictionary<string, List<string>> list_Name_and_Url_JB_Connection_C = new Dictionary<string, List<string>>();
+    public static Dictionary<string, List<string>> list_Name_and_Url_JB_Connection_D = new Dictionary<string, List<string>>();
+
+    //! Lưu trữ key (Sơ đồ kết nối)
+    public static List<string> list_Key_JB_Connection_A = new List<string>();
+    public static List<string> list_Key_JB_Connection_B = new List<string>();
+    public static List<string> list_Key_JB_Connection_C = new List<string>();
+    public static List<string> list_Key_JB_Connection_D = new List<string>();
+    //! Lưu trữ key (Hình ảnh thực tế)
+    public static List<string> list_Key_JB_Location_A = new List<string>();
+    public static List<string> list_Key_JB_Location_B = new List<string>();
+    public static List<string> list_Key_JB_Location_C = new List<string>();
+    public static List<string> list_Key_JB_Location_D = new List<string>();
 
     //public static List<Texture2D> list_Image_JB_Location = new List<Texture2D>();
     //    public static List<Texture2D> list_Image_JB_TSD_Wiring = new List<Texture2D>();

@@ -10,7 +10,7 @@ public class Gain_List_Devices_For_Search : MonoBehaviour
 
     private List<GameObject> deviceObjectsPool = new List<GameObject>();
     private int activeDeviceCount = 0;
-   private void Start()
+    private void Start()
     {
         if (UnityEngine.Rendering.DebugManager.instance.enableRuntimeUI)
             UnityEngine.Rendering.DebugManager.instance.enableRuntimeUI = false;
@@ -18,7 +18,7 @@ public class Gain_List_Devices_For_Search : MonoBehaviour
     private void Awake()
     {
         Debug.Log("Awake_Gain_List_Devices_For_Search");
-        if (GlobalVariable_Search_Devices.devices_Model_For_Filter != null && GlobalVariable_Search_Devices.devices_Model_For_Filter.Count > 0)
+        if (GlobalVariable_Search_Devices.devices_Model_For_FilterA != null && GlobalVariable_Search_Devices.devices_Model_For_FilterA.Count > 0)
         {
             // Chuẩn bị object pooling dựa trên số lượng thiết bị
             /*  PrepareObjectPooling(GlobalVariable_Search_Devices.devices_Model_For_Filter.Count);
