@@ -14,6 +14,7 @@ public class APIManager : MonoBehaviour
     private Image image1;
     [SerializeField]
     private Image image2;
+
     private void Awake()
     {
         if (Instance == null)
@@ -48,6 +49,7 @@ public class APIManager : MonoBehaviour
 
                 if (!await SendWebRequestAsync(webRequest))
                 {
+
                     HandleRequestError(webRequest.error);
                     return;
                 }
@@ -82,10 +84,8 @@ public class APIManager : MonoBehaviour
         {
             await Task.Yield();
         }
-        // Return true if there is no error; otherwise, return false
         return webRequest.result != UnityWebRequest.Result.ConnectionError && webRequest.result != UnityWebRequest.Result.ProtocolError;
     }
-
 
     private void HandleRequestError(string error)
     {
@@ -171,6 +171,7 @@ public class APIManager : MonoBehaviour
 
         return new List<string>(devicesForFilter);
     }
+
     public async Task Get_JB_TSD_Information(string url, string grapperName)
     {
         string jsonData = await FetchJsonData(url, grapperName);
@@ -178,23 +179,22 @@ public class APIManager : MonoBehaviour
 
         try
         {
-            // Phân tích cú pháp JSON
             var jbDataList = JsonConvert.DeserializeObject<List<JB_TSD_Data>>(jsonData);
 
             GlobalVariable.list_Name_and_Url_JB_Location_A = jbDataList[0].JB_TSD_Location;
             GlobalVariable.list_Name_and_Url_JB_Connection_A = jbDataList[0].JB_TSD_Wiring;
 
-            // Tải hình ảnh cho JB Location
-            await LoadImagesAsync(GlobalVariable.list_Name_and_Url_JB_Location_A, "get_JB_Location");
+            await Task.WhenAll(
+                LoadImagesAsync(GlobalVariable.list_Name_and_Url_JB_Location_A, "get_JB_Location"),
+                LoadImagesAsync(GlobalVariable.list_Name_and_Url_JB_Connection_A, "get_JB_Connection")
+            );
 
-            // Tải hình ảnh cho JB Connection
-            await LoadImagesAsync(GlobalVariable.list_Name_and_Url_JB_Connection_A, "get_JB_Connection");
             Debug.Log(GlobalVariable.list_Name_and_Url_JB_Location_A.Count);
             Debug.Log(GlobalVariable.list_Name_and_Url_JB_Connection_A.Count);
 
             if (GlobalVariable.list_Name_And_Image_JB_Location_A.TryGetValue(GlobalVariable.list_Key_JB_Location_A[5], out var sprite1))
             {
-                image1.sprite = sprite1; // Gán sprite nếu khóa tồn tại
+                image1.sprite = sprite1;
             }
             else
             {
@@ -202,15 +202,13 @@ public class APIManager : MonoBehaviour
             }
             if (GlobalVariable.list_Name_And_Image_JB_Connection_A.TryGetValue(GlobalVariable.list_Key_JB_Connection_A[5], out var sprite2))
             {
-                image2.sprite = sprite2; // Gán sprite nếu khóa tồn tại
+                image2.sprite = sprite2;
             }
             else
             {
                 Debug.Log("không có ảnh gán cho image2");
             }
-
         }
-
         catch (JsonException jsonEx)
         {
             Debug.LogError($"Error parsing JSON: {jsonEx.Message}");
@@ -223,12 +221,20 @@ public class APIManager : MonoBehaviour
 
         foreach (var kvp in urlDictionary)
         {
-            var key = kvp.Key;          //?=> key là "JB1", "JB2",...
-            var List_url = kvp.Value;   //?=> List đường dẫn hình ảnh tương ứng mỗi key JB
+            var key = kvp.Key;
+            var List_url = kvp.Value;
 
-            // Chỉ tải ảnh nếu chưa có
-            if (action == "get_JB_Location")
+            if (action == "get_JB_Location" && !GlobalVariable.list_Name_And_Image_JB_Location_A.ContainsKey(key))
             {
+                GlobalVariable.list_Key_JB_Location_A.Add(key);
+                foreach (string link in List_url)
+                {
+                    loadTasks.Add(LoadImageFromUrlAsync(link, key, action));
+                }
+            }
+            else if (action == "get_JB_Connection" && !GlobalVariable.list_Name_And_Image_JB_Connection_A.ContainsKey(key))
+            {
+                GlobalVariable.list_Key_JB_Connection_A.Add(key);
                 if (!GlobalVariable.list_Name_And_Image_JB_Location_A.ContainsKey(key))
                 {
                     GlobalVariable.list_Key_JB_Location_A.Add(key);

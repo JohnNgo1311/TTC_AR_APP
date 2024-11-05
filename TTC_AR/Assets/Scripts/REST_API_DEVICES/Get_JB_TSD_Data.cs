@@ -1,10 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
-using UnityEngine.Networking;
-using Newtonsoft.Json;
-using TMPro;
-using System;
 using System.Threading.Tasks;
 public class Get_JB_TSD_Data : MonoBehaviour
 {
