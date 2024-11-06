@@ -168,7 +168,34 @@ public class Dropdown_On_ValueChange : MonoBehaviour
 
         if (!string.IsNullOrEmpty(GlobalVariable_Search_Devices.jbName))
         {
-            LoadDeviceSprites();
+            ClearInstantiatedImages();
+            JB_Location_Image_Prefab.gameObject.SetActive(true);
+
+            if (GlobalVariable_Search_Devices.jbName.Contains("-"))
+            {
+                JB_Location_Image_Prefab.gameObject.SetActive(false);
+                foreach (string jb in GlobalVariable_Search_Devices.jbName.Split('-'))
+                {
+                    CreateAndSetSprite($"{jb.Trim()}_Location");
+                }
+            }
+            else
+            {
+                SetSprite(JB_Location_Image_Prefab, GlobalVariable_Search_Devices.jbName);
+            }
+
+            /*  foreach (var spriteName in filteredList)
+              {
+                  if (spriteCache.TryGetValue(spriteName, out var jbConnectionSprite))
+                  {
+                      var newImage = Instantiate(JB_Connection_Wiring_Image_Prefab, JB_Connection_Group.transform);
+                      newImage.sprite = jbConnectionSprite;
+                      newImage.gameObject.SetActive(true);
+                      Resize_Gameobject_Function.Set_NativeSize_For_GameObject(newImage);
+                  }
+              }
+
+              JB_Connection_Wiring_Image_Prefab.gameObject.SetActive(false);*/
         }
     }
 
@@ -275,11 +302,14 @@ public class Dropdown_On_ValueChange : MonoBehaviour
 
     private void SetSprite(Image imageComponent, string jb_name)
     {
-        if (!spriteCache.TryGetValue(jb_name, out var jbSprite))
+        /* if (!spriteCache.TryGetValue(jb_name, out var jbSprite))
+         {
+             spriteCache.TryGetValue("JB_TSD_Location_Note", out jbSprite);
+         }*/
+        if (!GlobalVariable.list_Name_And_Image_JB_Location_A.TryGetValue(jb_name, out var jbSprite))
         {
-            spriteCache.TryGetValue("JB_TSD_Location_Note", out jbSprite);
+            GlobalVariable.list_Name_And_Image_JB_Location_A.TryGetValue("JB_TSD_Location_Note", out jbSprite);
         }
-
         imageComponent.sprite = jbSprite;
         Resize_Gameobject_Function.Set_NativeSize_For_GameObject(imageComponent);
     }

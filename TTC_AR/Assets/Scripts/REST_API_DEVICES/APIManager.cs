@@ -213,6 +213,7 @@ public class APIManager : MonoBehaviour
             if (action == "get_JB_Location" && !GlobalVariable.list_Name_And_Image_JB_Location_A.ContainsKey(key))
             {
                 GlobalVariable.list_Key_JB_Location_A.Add(key);
+
             }
             if (action == "get_JB_Connection" && !GlobalVariable.list_Name_And_Image_JB_Connection_A.ContainsKey(key))
             {
@@ -243,10 +244,20 @@ public class APIManager : MonoBehaviour
                 switch (action)
                 {
                     case "get_JB_Location":
-                        GlobalVariable.list_Name_And_Image_JB_Location_A[key] = sprite;
+                        if (GlobalVariable.list_Name_And_Image_JB_Location_A.ContainsKey(key))
+                        {
+                            GlobalVariable.list_Name_And_Image_JB_Location_A[key] = sprite;
+                        }
+                        else
+                            GlobalVariable.list_Name_And_Image_JB_Location_A.Add(key, sprite);
                         break;
                     case "get_JB_Connection":
-                        GlobalVariable.list_Name_And_Image_JB_Connection_A[key] = sprite;
+                        if (GlobalVariable.list_Name_And_Image_JB_Connection_A.ContainsKey(key))
+                        {
+                            GlobalVariable.list_Name_And_Image_JB_Connection_A[key] = sprite;
+                        }
+                        else
+                            GlobalVariable.list_Name_And_Image_JB_Connection_A.Add(key, sprite);
                         break;
                 }
             }
