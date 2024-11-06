@@ -22,6 +22,8 @@ public class UILogin : MonoBehaviour
 
     private void Awake()
     {
+        if (UnityEngine.Rendering.DebugManager.instance.enableRuntimeUI)
+            UnityEngine.Rendering.DebugManager.instance.enableRuntimeUI = false;
         Screen.orientation = ScreenOrientation.Portrait;
         if (GlobalVariable.loginSuccess && !string.IsNullOrWhiteSpace(GlobalVariable.accountModel.userName))
         {
@@ -32,8 +34,7 @@ public class UILogin : MonoBehaviour
 
     private void Start()
     {
-        if (UnityEngine.Rendering.DebugManager.instance.enableRuntimeUI)
-            UnityEngine.Rendering.DebugManager.instance.enableRuntimeUI = false;
+
         loginButton.onClick.AddListener(HandleLogin);
     }
 
@@ -56,14 +57,16 @@ public class UILogin : MonoBehaviour
         }
         else
         {
-            Show_Dialog.Instance.ShowToast("failure", "Sai tên đăng nhập hoặc mật khẩu", 1);
+            Show_Dialog.Instance.ShowToast("failure", "Sai tên đăng nhập hoặc mật khẩu");
+            StartCoroutine(Show_Dialog.Instance.Set_Instance_Status(false));
         }
     }
 
     private IEnumerator LoadSceneAsync(string sceneName)
     {
-        Show_Dialog.Instance.ShowToast("loading", "Đang đăng nhập...", 1);
-
+        StartCoroutine(Show_Dialog.Instance.Set_Instance_Status(true));
+        Show_Dialog.Instance.ShowToast("loading", "Đang đăng nhập...");
+        StartCoroutine(Show_Dialog.Instance.Set_Instance_Status(false));
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
 
         while (!asyncLoad.isDone)

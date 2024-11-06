@@ -8,7 +8,11 @@ public class Get_JB_TSD_Data : MonoBehaviour
     string grapper_Name = "A";
     async void Start()
     {
-        await Get_JB_TSD_Infor();
+        if (GlobalVariable.Load_Initial_Data_From_Selection_Scene)
+        {
+            await Get_JB_TSD_Infor();
+            GlobalVariable.Load_Initial_Data_From_Selection_Scene = false;
+        }
     }
     public async Task Get_JB_TSD_Infor()
     {

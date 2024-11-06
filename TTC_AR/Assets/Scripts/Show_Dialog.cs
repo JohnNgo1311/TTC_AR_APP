@@ -1,6 +1,8 @@
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using Unity.VisualScripting;
+using System.Collections;
 
 public class Show_Dialog : MonoBehaviour
 {
@@ -24,18 +26,27 @@ public class Show_Dialog : MonoBehaviour
         if (Instance != null && Instance != this)
         {
             Destroy(this);
+            Debug.LogWarning("Multiple instances of Show_Dialog found. Destroying duplicate.");
         }
         else
         {
+            Debug.Log("Show_Dialog");
             Instance = this;
             PreloadSprites();
         }
-
-        // Show initial toast if enabled
         if (showToastInitial)
         {
             ShowToast(toastStatus, toastMessageInitial);
+            StartCoroutine(Set_Instance_Status(false));
+            showToastInitial = false;
         }
+    }
+    void Start()
+    {
+        if (UnityEngine.Rendering.DebugManager.instance.enableRuntimeUI)
+            UnityEngine.Rendering.DebugManager.instance.enableRuntimeUI = false;
+        // Show initial toast if enabled
+
     }
 
     private void PreloadSprites()
@@ -45,12 +56,25 @@ public class Show_Dialog : MonoBehaviour
         failureSprite = Resources.Load<Sprite>("images/UIimages/error_notification");
     }
 
-    public void ShowToast(string toastStatus, string message, float duration = 2f)
+    public void ShowToast(string toastStatus, string message)
     {
-        // Instantiate toast from prefab
-        GameObject toastInstance = Instantiate(toastPrefab, toastParent);
-        TMP_Text toastText = toastInstance.GetComponentInChildren<TMP_Text>();
-        Image toastBackground = toastInstance.GetComponentInChildren<Image>();
+        Transform existingToast = toastParent.Find("Toast_Prefab_Group(Clone)");
+        TMP_Text toastText;
+        Image toastBackground;
+
+        if (existingToast != null)
+        {
+            existingToast.gameObject.SetActive(true);
+            toastText = existingToast.GetComponentInChildren<TMP_Text>();
+            toastBackground = existingToast.GetComponentInChildren<Image>();
+        }
+        else
+        {
+            GameObject toastInstance = Instantiate(toastPrefab, toastParent);
+            toastInstance.gameObject.SetActive(true);
+            toastText = toastInstance.GetComponentInChildren<TMP_Text>();
+            toastBackground = toastInstance.GetComponentInChildren<Image>();
+        }
 
         if (toastText != null && toastBackground != null)
         {
@@ -76,13 +100,13 @@ public class Show_Dialog : MonoBehaviour
                     break;
             }
         }
-
-        // Destroy the toast instance after the specified duration
-        Destroy(toastInstance, duration);
+        // StartCoroutine(SetInstanceDisable(toastParent.Find("Toast_Prefab_Group(Clone)")));
     }
-    void Start()
+    public IEnumerator Set_Instance_Status(bool status)
     {
-        if (UnityEngine.Rendering.DebugManager.instance.enableRuntimeUI)
-            UnityEngine.Rendering.DebugManager.instance.enableRuntimeUI = false;
+        yield return new WaitForSeconds(0.75f);
+        if (toastParent.Find("Toast_Prefab_Group(Clone)") != null)
+            toastParent.Find("Toast_Prefab_Group(Clone)").gameObject.SetActive(status);
     }
+
 }

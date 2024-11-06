@@ -21,6 +21,7 @@ public class GlobalVariable : MonoBehaviour
     public static bool isOpenCanvas = false;
     public static bool ready_To_Nav_New_Scene = true;
 
+    public static bool Load_Initial_Data_From_Selection_Scene = true;
 
     //! lưu trữ tên JB và hình ảnh JB (ẢNH JB THỰC TẾ)
     public static Dictionary<string, Sprite> list_Name_And_Image_JB_Location_A = new Dictionary<string, Sprite>();

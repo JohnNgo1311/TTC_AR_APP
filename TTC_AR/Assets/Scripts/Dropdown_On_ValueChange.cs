@@ -68,7 +68,7 @@ public class Dropdown_On_ValueChange : MonoBehaviour
 
         inputField.onValueChanged.AddListener(OnInputValueChanged);
         OnInputValueChanged(GlobalVariable_Search_Devices.devices_Model_By_Grapper[0].code);
-       Debug.Log("Dữ liệu đã tải xong và gán GameObject thành công!");
+        Debug.Log("Dữ liệu đã tải xong và gán GameObject thành công!");
         // Kích hoạt lại các thành phần UI khi dữ liệu đã tải xong
         SetUIInteraction(true);
 
@@ -108,12 +108,12 @@ public class Dropdown_On_ValueChange : MonoBehaviour
     {
         if (isEnabled == false)
         {
-            Show_Dialog.Instance.ShowToast("loading", "Đang tải dữ liệu...", 3);
+            Show_Dialog.Instance.ShowToast("loading", "Đang tải dữ liệu...");
             Debug.Log("Đang tải dữ liệu...");
         }
         else if (isEnabled == true)
         {
-            Show_Dialog.Instance.ShowToast("success", "Dữ liệu đã tải xong!", 2);
+            Show_Dialog.Instance.ShowToast("success", "Dữ liệu đã tải xong!");
             Debug.Log("Dữ liệu đã tải xong!");
         }
         inputField.interactable = isEnabled;
@@ -176,7 +176,9 @@ public class Dropdown_On_ValueChange : MonoBehaviour
     {
         ClearWiringGroupAndCache();
 
-        var addressableKeys = new List<string> { "Real_Outdoor_JB_TSD", $"{GlobalVariable_Search_Devices.devices_Model_By_Grapper[0].location}_Connection_Wiring" };
+        var addressableKeys = new List<string> {
+            "Real_Outdoor_JB_TSD", $"{GlobalVariable_Search_Devices.devices_Model_By_Grapper[0].location}_Connection_Wiring"
+             };
         if (GlobalVariable_Search_Devices.devices_Model_By_Grapper[0].location == "GrapperA")
         {
             for (int i = 1; i <= 6; i++)
