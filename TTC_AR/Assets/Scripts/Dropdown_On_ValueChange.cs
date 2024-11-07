@@ -58,7 +58,7 @@ public class Dropdown_On_ValueChange : MonoBehaviour
     {
 
         // Vô hiệu hóa các thành phần UI
-        SetUIInteraction(false);
+        // SetUIInteraction(false);
 
         while (GlobalVariable_Search_Devices.devices_Model_By_Grapper == null || GlobalVariable_Search_Devices.devices_Model_By_Grapper.Count <= 0)
         {
@@ -69,7 +69,7 @@ public class Dropdown_On_ValueChange : MonoBehaviour
         OnInputValueChanged(GlobalVariable_Search_Devices.devices_Model_By_Grapper[0].code);
         Debug.Log("Dữ liệu đã tải xong và gán GameObject thành công!");
         // Kích hoạt lại các thành phần UI khi dữ liệu đã tải xong
-        SetUIInteraction(true);
+        //   SetUIInteraction(true);
 
     }
 
@@ -291,6 +291,7 @@ public class Dropdown_On_ValueChange : MonoBehaviour
                         Destroy(img.gameObject);
                     }
                 }
+                Instantiated_Images_Location_Count = 0;
                 instantiatedImages_Location.Clear();
                 break;
             case "Connection":
@@ -301,6 +302,7 @@ public class Dropdown_On_ValueChange : MonoBehaviour
                         Destroy(img.gameObject);
                     }
                 }
+                Instantiated_Images_Connection_Count = 0;
                 instantiatedImages_Connection.Clear();
                 break;
         }

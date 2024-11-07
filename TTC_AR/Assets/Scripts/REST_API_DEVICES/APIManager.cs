@@ -11,6 +11,14 @@ public class APIManager : MonoBehaviour
 {
     public static APIManager Instance { get; private set; }
 
+
+    [SerializeField] private GameObject uiOverlay; // Gán GameObject của overlay từ Unity Editor
+
+    private void ShowOverlay(bool isActive)
+    {
+        uiOverlay.SetActive(isActive);
+    }
+
     private void Awake()
     {
         if (Instance == null)
@@ -172,6 +180,7 @@ public class APIManager : MonoBehaviour
 
     public async Task Get_JB_TSD_Information(string url, string grapperName)
     {
+        ShowOverlay(true);
         await Task.Delay(1500);
         Show_Dialog.Instance.StartCoroutine(Show_Dialog.Instance.Set_Instance_Status(true));
         Show_Dialog.Instance.ShowToast("loading", $"Đang tải dữ liệu...");
@@ -193,6 +202,7 @@ public class APIManager : MonoBehaviour
             Debug.Log(GlobalVariable.list_Name_and_Url_JB_Connection_A.Count);
             await Task.Delay(1500);
             Show_Dialog.Instance.StartCoroutine(Show_Dialog.Instance.Set_Instance_Status(false));
+            ShowOverlay(false);
         }
         catch (JsonException jsonEx)
         {
