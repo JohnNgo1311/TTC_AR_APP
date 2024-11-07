@@ -24,10 +24,10 @@ public class GlobalVariable : MonoBehaviour
     public static bool Load_Initial_Data_From_Selection_Scene = true;
 
     //! lưu trữ tên JB và hình ảnh JB (ẢNH JB THỰC TẾ)
-    public static Dictionary<string, Sprite> list_Name_And_Image_JB_Location_A = new Dictionary<string, Sprite>();
-    public static Dictionary<string, Sprite> list_Name_And_Image_JB_Location_B = new Dictionary<string, Sprite>();
-    public static Dictionary<string, Sprite> list_Name_And_Image_JB_Location_C = new Dictionary<string, Sprite>();
-    public static Dictionary<string, Sprite> list_Name_And_Image_JB_Location_D = new Dictionary<string, Sprite>();
+    public static Dictionary<string, List<Sprite>> list_Name_And_Image_JB_Location_A = new Dictionary<string, List<Sprite>>();
+    public static Dictionary<string, List<Sprite>> list_Name_And_Image_JB_Location_B = new Dictionary<string, List<Sprite>>();
+    public static Dictionary<string, List<Sprite>> list_Name_And_Image_JB_Location_C = new Dictionary<string, List<Sprite>>();
+    public static Dictionary<string, List<Sprite>> list_Name_And_Image_JB_Location_D = new Dictionary<string, List<Sprite>>();
 
     //! lưu trữ tên JB và đường dẫn ảnh JB (ẢNH JB THỰC TẾ)
     public static Dictionary<string, List<string>> list_Name_and_Url_JB_Location_A = new Dictionary<string, List<string>>();
@@ -36,10 +36,10 @@ public class GlobalVariable : MonoBehaviour
     public static Dictionary<string, List<string>> list_Name_and_Url_JB_Location_D = new Dictionary<string, List<string>>();
 
     //! lưu trữ tên JB và hình ảnh JB (Sơ đồ kết nối)
-    public static Dictionary<string, Sprite> list_Name_And_Image_JB_Connection_A = new Dictionary<string, Sprite>();
-    public static Dictionary<string, Sprite> list_Name_And_Image_JB_Connection_B = new Dictionary<string, Sprite>();
-    public static Dictionary<string, Sprite> list_Name_And_Image_JB_Connection_C = new Dictionary<string, Sprite>();
-    public static Dictionary<string, Sprite> list_Name_And_Image_JB_Connection_D = new Dictionary<string, Sprite>();
+    public static Dictionary<string, List<Sprite>> list_Name_And_Image_JB_Connection_A = new Dictionary<string, List<Sprite>>();
+    public static Dictionary<string, List<Sprite>> list_Name_And_Image_JB_Connection_B = new Dictionary<string, List<Sprite>>();
+    public static Dictionary<string, List<Sprite>> list_Name_And_Image_JB_Connection_C = new Dictionary<string, List<Sprite>>();
+    public static Dictionary<string, List<Sprite>> list_Name_And_Image_JB_Connection_D = new Dictionary<string, List<Sprite>>();
 
     //! lưu trữ tên JB và đường dẫn ảnh JB (Sơ đồ kết nối)
     public static Dictionary<string, List<string>> list_Name_and_Url_JB_Connection_A = new Dictionary<string, List<string>>();

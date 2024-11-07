@@ -5919,7 +5919,7 @@ MonoBehaviour:
   jb_Connection_Location_Text: {fileID: 997710077}
   module_Image: {fileID: 997710076}
   JB_Location_Image_Prefab: {fileID: 997710075}
-  JB_Connection_Wiring_Image_Prefab: {fileID: 997710074}
+  JB_Connection_Image_Prefab: {fileID: 997710074}
   JB_Connection_Group: {fileID: 997710073}
 --- !u!114 &878477619
 MonoBehaviour:

@@ -163,11 +163,10 @@ public class APIManager : MonoBehaviour
         foreach (var device in deviceModels)
         {
             if (!string.IsNullOrWhiteSpace(device.code)) devicesForFilter.Add(device.code);
-        }
-        foreach (var device in deviceModels)
-        {
             if (!string.IsNullOrWhiteSpace(device.function)) devicesForFilter.Add(device.function);
+
         }
+
         return new List<string>(devicesForFilter);
     }
 
@@ -246,18 +245,29 @@ public class APIManager : MonoBehaviour
                     case "get_JB_Location":
                         if (GlobalVariable.list_Name_And_Image_JB_Location_A.ContainsKey(key))
                         {
-                            GlobalVariable.list_Name_And_Image_JB_Location_A[key] = sprite;
+                            if (!GlobalVariable.list_Name_And_Image_JB_Location_A[key].Contains(sprite))
+                            {
+                                GlobalVariable.list_Name_And_Image_JB_Location_A[key].Add(sprite);
+                            }
                         }
                         else
-                            GlobalVariable.list_Name_And_Image_JB_Location_A.Add(key, sprite);
+                        {
+                            GlobalVariable.list_Name_And_Image_JB_Location_A.Add(key, new List<Sprite> { sprite });
+                        }
+                        Debug.Log(GlobalVariable.list_Name_And_Image_JB_Location_A.Count);
                         break;
                     case "get_JB_Connection":
                         if (GlobalVariable.list_Name_And_Image_JB_Connection_A.ContainsKey(key))
                         {
-                            GlobalVariable.list_Name_And_Image_JB_Connection_A[key] = sprite;
+                            if (!GlobalVariable.list_Name_And_Image_JB_Connection_A[key].Contains(sprite))
+                            {
+                                GlobalVariable.list_Name_And_Image_JB_Connection_A[key].Add(sprite);
+                            }
                         }
                         else
-                            GlobalVariable.list_Name_And_Image_JB_Connection_A.Add(key, sprite);
+                        {
+                            GlobalVariable.list_Name_And_Image_JB_Connection_A.Add(key, new List<Sprite> { sprite });
+                        }
                         break;
                 }
             }
