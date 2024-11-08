@@ -58,6 +58,12 @@ public class GlobalVariable : MonoBehaviour
     public static List<string> list_Key_JB_Location_C = new List<string>();
     public static List<string> list_Key_JB_Location_D = new List<string>();
 
+
+    //! Lưu trữ tạm để không cần phải lọc lại
+    public static List<Sprite> list_Temp_JB_Location_Image = new List<Sprite>();
+    public static List<Sprite> list_Temp_JB_Connection_Image = new List<Sprite>();
+
+
     //public static List<Texture2D> list_Image_JB_Location = new List<Texture2D>();
     //    public static List<Texture2D> list_Image_JB_TSD_Wiring = new List<Texture2D>();
     public static AccountModel accountModel = new AccountModel()

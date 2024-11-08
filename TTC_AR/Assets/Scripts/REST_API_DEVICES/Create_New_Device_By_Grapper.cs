@@ -8,9 +8,12 @@ using UnityEngine.Networking;
 using System.Text;
 using UnityEngine.SceneManagement;
 using System.Collections;
+using System.Threading.Tasks;
 
 public class Create_New_Device_By_Grapper : MonoBehaviour
 {
+    public GameObject Location_Image_Create_Group;
+    public GameObject Connection_Image_Create_Group;
     [SerializeField]
     private string grapperName = "A";
 
@@ -98,4 +101,68 @@ public class Create_New_Device_By_Grapper : MonoBehaviour
         editButton.interactable = state;
         inputField_Search.interactable = state;
     }
+    private async Task Set_Up_JB_Location_Group_Image(DeviceModel device)
+    {
+        await Task.Yield();
+
+        /* if (Location_Image_Create_Group.transform.childCount < GlobalVariable.list_Temp_JB_Location_Image.Count)
+         {
+             Instantiate(Location_Image_Create_Group.transform.GetChild(0).gameObject, Location_Image_Create_Group.transform);
+         }
+         else */
+        if (Location_Image_Create_Group.transform.childCount > GlobalVariable.list_Temp_JB_Location_Image.Count)
+        {
+            int compare_Count = Location_Image_Create_Group.transform.childCount - GlobalVariable.list_Temp_JB_Location_Image.Count;
+            for (int i = 1; i <= compare_Count; i++)
+            {
+                Location_Image_Create_Group.transform.GetChild(Location_Image_Create_Group.transform.childCount - i).gameObject.SetActive(false);
+            }
+        }
+
+        var jbConnectionParts = device.jbConnection?.Split('_');
+        if (jbConnectionParts != null && jbConnectionParts.Length == 2)
+        {
+            for (int i = 1; i <= GlobalVariable.list_Temp_JB_Location_Image.Count; i++)
+            {
+                Location_Image_Create_Group.transform.GetChild(i - 1).GetChild(0).GetComponent<Image>().sprite = GlobalVariable.list_Temp_JB_Location_Image[i - 1];
+            }
+        }
+        else
+        {
+            Debug.LogWarning("Invalid jbConnection format.");
+        }
+    }
+
+    private async Task Set_Up_JB_Connection_Group_Image(DeviceModel device)
+    {
+        await Task.Yield();
+
+        /*   if (Connection_Image_Create_Group.transform.childCount < GlobalVariable.list_Temp_JB_Connection_Image.Count)
+           {
+               Instantiate(Connection_Image_Create_Group.transform.GetChild(0).gameObject, Connection_Image_Create_Group.transform);
+           }
+           else */
+        if (Connection_Image_Create_Group.transform.childCount > GlobalVariable.list_Temp_JB_Connection_Image.Count)
+        {
+            int compare_Count = Connection_Image_Create_Group.transform.childCount - GlobalVariable.list_Temp_JB_Connection_Image.Count;
+            for (int i = 1; i <= compare_Count; i++)
+            {
+                Connection_Image_Create_Group.transform.GetChild(Connection_Image_Create_Group.transform.childCount - i).gameObject.SetActive(false);
+            }
+        }
+
+        var jbConnectionParts = device.jbConnection?.Split('_');
+        if (jbConnectionParts != null && jbConnectionParts.Length == 2)
+        {
+            for (int i = 1; i <= GlobalVariable.list_Temp_JB_Connection_Image.Count; i++)
+            {
+                Connection_Image_Create_Group.transform.GetChild(i - 1).GetChild(0).GetComponent<Image>().sprite = GlobalVariable.list_Temp_JB_Connection_Image[i - 1];
+            }
+        }
+        else
+        {
+            Debug.LogWarning("Invalid jbConnection format.");
+        }
+    }
+
 }

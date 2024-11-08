@@ -2,41 +2,96 @@ using UnityEngine;
 using System.Collections;
 using System.IO;
 using UnityEngine.UI;
-using TMPro;
+using UnityEditor.Experimental.GraphView;
+
 public class WebCamPhotoCamera : MonoBehaviour
 {
-    WebCamTexture webCamTexture;
-    //public TMP_InputField photoNameInputField;
-    public Image preview_Image;
+    private WebCamTexture webCamTexture;
+    public GameObject Take_Photo_Module;
+    public RawImage Camera_Screen_For_Take_Photo;
+    public RawImage preview_Image;
+    public Button take_Photo_Button;
+    public Button save_Photo_Button;
+    public Button retake_Photo_Button;
+    public Button cancel_Take_Photo_Button;
+
+
     void Start()
     {
+        SetActiveUIElements(false);
     }
 
-    public void StartCamera()
+    private void SetActiveUIElements(bool isActive)
     {
-        WebCamDevice webCamDevice = new WebCamDevice();
-        /*WebCamDevice[] devices = WebCamTexture.devices;
-        for (int i = 0; i < devices.Length; i++)
+        Camera_Screen_For_Take_Photo.gameObject.SetActive(isActive);
+        preview_Image.gameObject.SetActive(isActive);
+        take_Photo_Button.gameObject.SetActive(isActive);
+        save_Photo_Button.gameObject.SetActive(isActive);
+        retake_Photo_Button.gameObject.SetActive(isActive);
+        cancel_Take_Photo_Button.gameObject.SetActive(isActive);
+        Take_Photo_Module.SetActive(isActive);
+
+    }
+    void Update()
+    {
+        if (Screen.orientation == ScreenOrientation.LandscapeLeft)
         {
-            Debug.Log(devices[i].name);
-            webCamDevice = devices[i];
-        }*/
-        webCamTexture = new WebCamTexture(webCamDevice.name);
-        GetComponent<Renderer>().material.mainTexture = webCamTexture; // Add Mesh Renderer to the GameObject to which this script is attached
-        webCamTexture.Play();
+
+        }
+        else
+        {
+        };
+    }
+    public void Start_Camera_To_Take_Photo()
+    {
+        Take_Photo_Module.SetActive(true);
+        cancel_Take_Photo_Button.gameObject.SetActive(true);
+        Camera_Screen_For_Take_Photo.gameObject.SetActive(true);
+        take_Photo_Button.gameObject.SetActive(true);
+
+        if (WebCamTexture.devices.Length > 0)
+        {
+            WebCamDevice cameraDevice = WebCamTexture.devices[0];
+            webCamTexture = new WebCamTexture(cameraDevice.name);
+            Camera_Screen_For_Take_Photo.texture = webCamTexture;
+            //Camera_Screen_For_Take_Photo.material.mainTexture = webCamTexture;
+            webCamTexture.Play();
+            Debug.Log("Camera detected: " + cameraDevice.name);
+        }
+        else
+        {
+            Debug.LogError("No camera detected!");
+        }
     }
 
-    public void StopCamera()
+    public void Stop_Camera_To_Take_Photo()
     {
-        webCamTexture.Stop();
+        SetActiveUIElements(false);
+        if (webCamTexture != null)
+        {
+            webCamTexture.Stop();
+        }
+    }
+
+    public void ReTakePhoto()
+    {
+        preview_Image.gameObject.SetActive(false);
+        Camera_Screen_For_Take_Photo.gameObject.SetActive(true);
+        take_Photo_Button.gameObject.SetActive(true);
+        retake_Photo_Button.gameObject.SetActive(false);
+        save_Photo_Button.gameObject.SetActive(false);
+        webCamTexture.Play();
     }
 
     public void Take_Photo_Button_OnClick()
     {
         StartCoroutine(TakePhoto());
+        Camera_Screen_For_Take_Photo.gameObject.SetActive(false);
+        take_Photo_Button.gameObject.SetActive(false);
+        cancel_Take_Photo_Button.gameObject.SetActive(false);
     }
 
-    IEnumerator TakePhoto()  // Start this Coroutine on some button click
+    private IEnumerator TakePhoto()
     {
         yield return new WaitForEndOfFrame();
         Texture2D photo = new Texture2D(webCamTexture.width, webCamTexture.height);
@@ -44,19 +99,27 @@ public class WebCamPhotoCamera : MonoBehaviour
         photo.Apply();
         StartCoroutine(PreviewPhotoCoroutine(photo, preview_Image));
     }
-    public void savePhoto(Texture2D photo)
+
+    public void SavePhoto()
     {
-        // Encode to a PNG
-        byte[] bytes = photo.EncodeToPNG();
-        // Save the photo with a specific name
-        //  string filePath = Path.Combine(Application.persistentDataPath, photoNameInputField.text + ".png");
-        //   File.WriteAllBytes(filePath, bytes);
         Debug.Log("Photo saved");
-    }
-    IEnumerator PreviewPhotoCoroutine(Texture2D photo_after_taken, Image previewImage)
-    {
-        yield return new WaitForEndOfFrame();
-        previewImage.sprite = Sprite.Create(photo_after_taken, new Rect(0, 0, photo_after_taken.width, photo_after_taken.height), new Vector2(0.5f, 0.5f));
+        preview_Image.gameObject.SetActive(false);
+        Camera_Screen_For_Take_Photo.gameObject.SetActive(false);
+        retake_Photo_Button.gameObject.SetActive(false);
+        save_Photo_Button.gameObject.SetActive(false);
+        Take_Photo_Module.SetActive(false);
+        if (webCamTexture != null)
+        {
+            webCamTexture.Stop();
+        }
     }
 
+    private IEnumerator PreviewPhotoCoroutine(Texture2D photo, RawImage previewImage)
+    {
+        yield return new WaitForEndOfFrame();
+        previewImage.texture = photo;
+        preview_Image.gameObject.SetActive(true);
+        save_Photo_Button.gameObject.SetActive(true);
+        retake_Photo_Button.gameObject.SetActive(true);
+    }
 }

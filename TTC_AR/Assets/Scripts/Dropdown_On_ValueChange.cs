@@ -125,6 +125,7 @@ public class Dropdown_On_ValueChange : MonoBehaviour
 
     private void OnInputValueChanged(string input)
     {
+
         var device = GlobalVariable_Search_Devices.devices_Model_By_Grapper.FirstOrDefault(d => d.code == input || d.function == input);
 
         if (device == null)
@@ -133,6 +134,8 @@ public class Dropdown_On_ValueChange : MonoBehaviour
         }
         else
         {
+            GlobalVariable.list_Temp_JB_Location_Image.Clear();
+            GlobalVariable.list_Temp_JB_Connection_Image.Clear();
             UpdateDeviceInformation(device);
         }
     }
@@ -240,6 +243,7 @@ public class Dropdown_On_ValueChange : MonoBehaviour
                 }
                 imageComponent.sprite = locationSprite[Instantiated_Images_Location_Count > 1 ? instantiatedImages_Location.Count - 1 : 0];
                 Resize_Gameobject_Function.Set_NativeSize_For_GameObject(imageComponent);
+                GlobalVariable.list_Temp_JB_Location_Image.Add(imageComponent.sprite);
                 await Task.Yield();
                 break;
             case "Connection":
@@ -249,6 +253,7 @@ public class Dropdown_On_ValueChange : MonoBehaviour
                 }
                 imageComponent.sprite = connectionSprite[Instantiated_Images_Connection_Count > 1 ? instantiatedImages_Connection.Count - 1 : 0];
                 Resize_Gameobject_Function.Set_NativeSize_For_GameObject(imageComponent);
+                GlobalVariable.list_Temp_JB_Connection_Image.Add(imageComponent.sprite);
                 await Task.Yield();
                 break;
         }
