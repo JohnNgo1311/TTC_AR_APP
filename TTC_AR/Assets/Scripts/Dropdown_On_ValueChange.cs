@@ -137,6 +137,7 @@ public class Dropdown_On_ValueChange : MonoBehaviour
             GlobalVariable.list_Temp_JB_Location_Image.Clear();
             GlobalVariable.list_Temp_JB_Connection_Image.Clear();
             UpdateDeviceInformation(device);
+            Canvas.ForceUpdateCanvases();
         }
     }
 

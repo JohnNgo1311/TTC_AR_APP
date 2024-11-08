@@ -1,11 +1,12 @@
 using UnityEngine;
 using System.Collections;
-using System.IO;
+using System;
 using UnityEngine.UI;
-using UnityEditor.Experimental.GraphView;
 
 public class WebCamPhotoCamera : MonoBehaviour
 {
+    public static WebCamPhotoCamera Instance { get; private set; }
+
     private WebCamTexture webCamTexture;
     public GameObject Take_Photo_Module;
     public RawImage Camera_Screen_For_Take_Photo;
@@ -15,10 +16,34 @@ public class WebCamPhotoCamera : MonoBehaviour
     public Button retake_Photo_Button;
     public Button cancel_Take_Photo_Button;
 
+    private Update_Photo_JB currentUpdatePhotoJB; // Đối tượng nhận ảnh hiện tại
+
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
 
     void Start()
     {
         SetActiveUIElements(false);
+        if (take_Photo_Button != null && save_Photo_Button != null && retake_Photo_Button != null && cancel_Take_Photo_Button != null)
+        {
+            take_Photo_Button.onClick.AddListener(Take_Photo_Button_OnClick);
+            save_Photo_Button.onClick.AddListener(SavePhoto);
+            retake_Photo_Button.onClick.AddListener(ReTakePhoto);
+            cancel_Take_Photo_Button.onClick.AddListener(Stop_Camera_To_Take_Photo);
+        }
+        else
+        {
+            Debug.LogError("Some buttons are missing!");
+        }
     }
 
     private void SetActiveUIElements(bool isActive)
@@ -30,31 +55,22 @@ public class WebCamPhotoCamera : MonoBehaviour
         retake_Photo_Button.gameObject.SetActive(isActive);
         cancel_Take_Photo_Button.gameObject.SetActive(isActive);
         Take_Photo_Module.SetActive(isActive);
-
     }
-    void Update()
-    {
-        if (Screen.orientation == ScreenOrientation.LandscapeLeft)
-        {
 
-        }
-        else
-        {
-        };
-    }
-    public void Start_Camera_To_Take_Photo()
+    public void Start_Camera_To_Take_Photo(Update_Photo_JB updatePhotoJB)
     {
         Take_Photo_Module.SetActive(true);
         cancel_Take_Photo_Button.gameObject.SetActive(true);
         Camera_Screen_For_Take_Photo.gameObject.SetActive(true);
         take_Photo_Button.gameObject.SetActive(true);
 
+        currentUpdatePhotoJB = updatePhotoJB; // Lưu đối tượng nhận ảnh hiện tại
+
         if (WebCamTexture.devices.Length > 0)
         {
             WebCamDevice cameraDevice = WebCamTexture.devices[0];
             webCamTexture = new WebCamTexture(cameraDevice.name);
             Camera_Screen_For_Take_Photo.texture = webCamTexture;
-            //Camera_Screen_For_Take_Photo.material.mainTexture = webCamTexture;
             webCamTexture.Play();
             Debug.Log("Camera detected: " + cameraDevice.name);
         }
@@ -71,6 +87,7 @@ public class WebCamPhotoCamera : MonoBehaviour
         {
             webCamTexture.Stop();
         }
+        currentUpdatePhotoJB = null; // Xóa đối tượng nhận ảnh hiện tại
     }
 
     public void ReTakePhoto()
@@ -103,11 +120,18 @@ public class WebCamPhotoCamera : MonoBehaviour
     public void SavePhoto()
     {
         Debug.Log("Photo saved");
+
+        Texture2D savedPhoto = preview_Image.texture as Texture2D;
+
+        // Kiểm tra xem đối tượng hiện tại có tồn tại không và cập nhật ảnh
+        currentUpdatePhotoJB?.UpdateImage(savedPhoto);
+
         preview_Image.gameObject.SetActive(false);
         Camera_Screen_For_Take_Photo.gameObject.SetActive(false);
         retake_Photo_Button.gameObject.SetActive(false);
         save_Photo_Button.gameObject.SetActive(false);
         Take_Photo_Module.SetActive(false);
+
         if (webCamTexture != null)
         {
             webCamTexture.Stop();

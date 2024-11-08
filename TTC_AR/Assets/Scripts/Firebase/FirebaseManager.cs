@@ -14,7 +14,7 @@ public class FirebaseManager : MonoBehaviour
 {
     public static FirebaseManager Instance { get; private set; }
     [SerializeField] private string firebaseUrl = "gs://ttc-project-81b04.appspot.com";
-    
+
     [SerializeField]
     private List<string> imageFolderPaths = new List<string>(){
 "JB_Outdoor_Location",
@@ -25,8 +25,8 @@ public class FirebaseManager : MonoBehaviour
     public DatabaseReference dbReference;
     public FirebaseStorage storage;
     public StorageReference storageReference;
-    public FirebaseDownloader FirebaseDownloader = new FirebaseDownloader();
-    public FirebaseUploader FirebaseUploader = new FirebaseUploader();
+    public FirebaseDownloader FirebaseDownloader;
+    public FirebaseUploader FirebaseUploader;
     //public Image Image;
     public bool LoadImage = false;
     public bool LoadDataFromFirebase = false;

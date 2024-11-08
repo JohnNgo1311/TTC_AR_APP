@@ -59,6 +59,7 @@ public class Update_Device_By_Grapper : MonoBehaviour
                 await Task.WhenAll(
                 Set_Up_JB_Location_Group_Image(device),
                 Set_Up_JB_Connection_Group_Image(device));
+                Canvas.ForceUpdateCanvases();
             }
             else
             {
