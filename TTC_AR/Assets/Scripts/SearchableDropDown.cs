@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
+using Unity.XR.CoreUtils;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -20,6 +21,7 @@ public class SearchableDropDown : MonoBehaviour
     private List<GameObject> itemGameObjects = new List<GameObject>();
     private bool contentActive = false;
     private Vector2 scrollRectInitialSize;
+
 
     public event Action<string> OnValueChangedEvt;
 
@@ -73,6 +75,7 @@ public class SearchableDropDown : MonoBehaviour
         }
         ResizeContent();
         scrollRect.gameObject.SetActive(false);
+
     }
 
     private void UpdateUI()
@@ -108,10 +111,10 @@ public class SearchableDropDown : MonoBehaviour
 
     private void SetContentActive(bool isActive)
     {
-        ResizeContent();
         scrollRect.gameObject.SetActive(isActive);
         arrowButtonDown.SetActive(isActive);
         arrowButtonUp.SetActive(!isActive);
+        ResizeContent();
     }
 
     private void OnInputValueChange(string input)
@@ -139,20 +142,24 @@ public class SearchableDropDown : MonoBehaviour
     {
         scrollRect.gameObject.GetComponent<RectTransform>().sizeDelta = scrollRectInitialSize;
         int activeItemCount = itemGameObjects.Count(item => item.activeSelf);
-        RectTransform itemRect = itemGameObjects.FirstOrDefault()?.GetComponent<RectTransform>();
-        if (itemRect != null)
+        if (activeItemCount > 0)
         {
+            RectTransform itemRect = itemGameObjects.First(item => item.activeSelf).GetComponent<RectTransform>();
             float newHeight = itemRect.sizeDelta.y * activeItemCount * 1.05f;
+
             contentRect.sizeDelta = new Vector2(contentRect.sizeDelta.x, newHeight);
-            if (activeItemCount == 1)
-            {
-                scrollRect.gameObject.GetComponent<RectTransform>().sizeDelta = new Vector2(scrollRectInitialSize.x, (float)newHeight * 1.05f);
-            }
-            if (activeItemCount == 0)
-            {
-                scrollRect.gameObject.GetComponent<RectTransform>().sizeDelta = new Vector2(0, 0);
-            }
+            scrollRect.gameObject.GetComponent<RectTransform>().sizeDelta = activeItemCount == 1
+                ? new Vector2(scrollRectInitialSize.x, newHeight * 1.05f)
+                : scrollRectInitialSize;
+            Debug.Log($"newHeight: {newHeight}");
+
         }
+        else
+        {
+            contentRect.sizeDelta = new Vector2(contentRect.sizeDelta.x, 0);
+            scrollRect.gameObject.GetComponent<RectTransform>().sizeDelta = Vector2.zero;
+        }
+        Canvas.ForceUpdateCanvases();
     }
 
     private void OnItemSelected(string selectedItem)
@@ -169,11 +176,13 @@ public class SearchableDropDown : MonoBehaviour
     public void ResetDropDown()
     {
         inputField.text = string.Empty;
+        ResizeContent();
     }
     private void OnDestroy()
     {
         inputField.onValueChanged.RemoveListener(OnInputValueChange);
         arrowButtonDown.GetComponent<Button>().onClick.RemoveListener(ToggleDropdown);
         arrowButtonUp.GetComponent<Button>().onClick.RemoveListener(ToggleDropdown);
+
     }
 }

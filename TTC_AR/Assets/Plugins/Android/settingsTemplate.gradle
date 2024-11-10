@@ -1,29 +1,30 @@
 pluginManagement {
     repositories {
-        // Add your repository URL here or remove this line if not needed
-        // maven { url 'https://your.artifactory.repo' }
+        **ARTIFACTORYREPOSITORY**
         gradlePluginPortal()
         google()
         mavenCentral()
     }
 }
+
 include ':launcher', ':unityLibrary'
-include ':unityLibrary:FirebaseApp.androidlib'
-include ':unityLibrary:xrmanifest.androidlib'
+**INCLUDES**
 
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.PREFER_SETTINGS)
     repositories {
-        // Add your repository URL here or remove this line if not needed
-        // maven { url 'https://your.artifactory.repo' }
+        **ARTIFACTORYREPOSITORY**
         google()
         mavenCentral()
-    }
-    resolutionStrategy {
-        eachDependency { DependencyResolveDetails details ->
-            if (details.requested.group == 'com.google.firebase' && details.requested.name == 'firebase-common') {
-                details.useVersion '19.3.0'
-            }
+// Android Resolver Repos Start
+        def unityProjectPath = $/file:///**DIR_UNITYPROJECT**/$.replace("\\", "/")
+        maven {
+            url (unityProjectPath + "/Assets/GeneratedLocalRepo/Firebase/m2repository") // Assets/Firebase/Editor/AppDependencies.xml:22, Assets/Firebase/Editor/AuthDependencies.xml:20, Assets/Firebase/Editor/DatabaseDependencies.xml:22, Assets/Firebase/Editor/StorageDependencies.xml:20
+        }
+        mavenLocal()
+// Android Resolver Repos End
+        flatDir {
+            dirs "${project(':unityLibrary').projectDir}/libs"
         }
     }
 }

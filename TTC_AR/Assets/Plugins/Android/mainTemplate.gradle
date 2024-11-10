@@ -1,10 +1,7 @@
 apply plugin: 'com.android.library'
 **APPLY_PLUGINS**
 
-dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    // Remove flatDir repository usage
-    // flatDir { dirs 'libs' }
+es {
 // Android Resolver Dependencies Start
     implementation 'com.google.android.gms:play-services-base:18.5.0' // Assets/Firebase/Editor/DatabaseDependencies.xml:17
     implementation 'com.google.android.play:asset-delivery:2.2.1' // Assets/com.google.play.assetdelivery-1.9.1/package/Editor/Dependencies.xml:3
@@ -23,17 +20,14 @@ dependencies {
 
 
 // Android Resolver Exclusions End
-android {
-      packagingOptions {
+android {namespace "com.unity3d.player"
+	ndkPath "**NDKPATH**"
+  packagingOptions {
       exclude ('/lib/armeabi/*' + '*')
       exclude ('/lib/armeabi-v7a/*' + '*')
       exclude ('/lib/mips/*' + '*')
-      exclude ('/lib/mips64/*' + '*')
-      exclude ('/lib/x86/*' + '*')
-      exclude ('/lib/x86_64/*' + '*')
+    
   }
-    namespace "com.unity3d.player"
-    ndkPath "**NDKPATH**"
     compileSdkVersion **APIVERSION**
     buildToolsVersion '**BUILDTOOLS**'
 
@@ -61,7 +55,7 @@ android {
         noCompress = **BUILTIN_NOCOMPRESS** + unityStreamingAssets.tokenize(', ')
         ignoreAssetsPattern = "!.svn:!.git:!.ds_store:!*.scc:.*:!CVS:!thumbs.db:!picasa.ini:!*~"
     }**PACKAGING_OPTIONS**
-}
+}**REPOSITORIES**
 **IL_CPP_BUILD_SETUP**
 **SOURCE_BUILD_SETUP**
 **EXTERNAL_SOURCES**

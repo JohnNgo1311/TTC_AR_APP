@@ -1,130 +1,71 @@
 using System.Collections.Generic;
-using UnityEngine;
-using TMPro;
-using UnityEngine.UI;
 using System.Linq;
 using System.Threading.Tasks;
+using UnityEngine;
+using TMPro;
+using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
+using UnityEngine.UI;
 
 public class Dropdown_On_ValueChange : MonoBehaviour
 {
     public GameObject prefab_Device;
     public TMP_InputField inputField;
     private RectTransform contentTransform;
-
-    [Header("UI Elements")]
-    [SerializeField]
-    private ScrollRect scrollRect;
-
-    [SerializeField]
-    private TMP_Text code_Value_Text;
-    [SerializeField]
-    private TMP_Text function_Value_Text;
-    [SerializeField]
-    private TMP_Text range_Value_Text;
-    [SerializeField]
-    private TMP_Text io_Value_Text;
-    [SerializeField]
-    private TMP_Text jb_Connection_Value_Text;
-    [SerializeField]
-    private TMP_Text jb_Connection_Location_Text;
-    [SerializeField]
-    private Image module_Image;
-    [SerializeField]
-    private Image JB_Location_Image_Prefab;
-    [SerializeField]
-    private Image JB_Connection_Image_Prefab;
-    [SerializeField]
+    private TMP_Text code_Value_Text, function_Value_Text, range_Value_Text, io_Value_Text, jb_Connection_Value_Text, jb_Connection_Location_Text;
+    private Image module_Image, JB_Location_Image_Prefab, JB_Connection_Wiring_Image_Prefab;
     private GameObject JB_Connection_Group;
-    private readonly Dictionary<string, Sprite> spriteCache = new();
-    private readonly List<Image> instantiatedImages_Location = new();
-    private readonly List<Image> instantiatedImages_Connection = new();
-
-    private int Instantiated_Images_Location_Count = 0;
-    private int Instantiated_Images_Connection_Count = 0;
+    private ScrollRect scrollRect;
+    private Dictionary<string, Sprite> spriteCache = new Dictionary<string, Sprite>();
+    private List<Image> instantiatedImages = new List<Image>();
+    private string currentLoadedDeviceCode;
 
     private void Awake()
     {
-        if (UnityEngine.Rendering.DebugManager.instance.enableRuntimeUI)
-            UnityEngine.Rendering.DebugManager.instance.enableRuntimeUI = false;
         if (inputField == null)
         {
             Debug.LogError("InputField không được gán!");
             return;
         }
         CacheUIElements();
-    }
-
-    private async Task WaitForDataAndContinueAsync()
-    {
-
-        // Vô hiệu hóa các thành phần UI
-        // SetUIInteraction(false);
-
-        while (GlobalVariable_Search_Devices.devices_Model_By_Grapper == null || GlobalVariable_Search_Devices.devices_Model_By_Grapper.Count <= 0)
-        {
-            await Task.Yield();
-        }
-
+        Debug.Log($"Check: +{GlobalVariable_Search_Devices.devices_Model_By_Grapper[0].code}");
+        StartCoroutine(Show_Dialog.Instance.Set_Instance_Status(true));
         inputField.onValueChanged.AddListener(OnInputValueChanged);
+        Show_Dialog.Instance.ShowToast("loading", "Đang tải dữ liệu...");
         OnInputValueChanged(GlobalVariable_Search_Devices.devices_Model_By_Grapper[0].code);
-        Debug.Log("Dữ liệu đã tải xong và gán GameObject thành công!");
-        // Kích hoạt lại các thành phần UI khi dữ liệu đã tải xong
-        //   SetUIInteraction(true);
-
+        Show_Dialog.Instance.ShowToast("success", "Tải dữ liệu thành công");
+        StartCoroutine(Show_Dialog.Instance.Set_Instance_Status(false));
     }
 
-    private async void CacheUIElements()
+    private void Start()
     {
-        if (prefab_Device == null)
-        {
-            Debug.LogError("Prefab_Device không được gán!");
-            return;
-        }
-
-        if (scrollRect == null) scrollRect = prefab_Device.GetComponent<ScrollRect>();
-        if (contentTransform == null) contentTransform = prefab_Device.transform.Find("Content").GetComponent<RectTransform>();
-        if (code_Value_Text == null) code_Value_Text = contentTransform.Find("Device_information/Code_group/Code_value").GetComponent<TMP_Text>();
-        if (function_Value_Text == null) function_Value_Text = contentTransform.Find("Device_information/Function_group/Function_value").GetComponent<TMP_Text>();
-        if (range_Value_Text == null) range_Value_Text = contentTransform.Find("Device_information/Range_group/Range_value").GetComponent<TMP_Text>();
-        if (io_Value_Text == null) io_Value_Text = contentTransform.Find("Device_information/IO_group/IO_value").GetComponent<TMP_Text>();
-        if (jb_Connection_Value_Text == null) jb_Connection_Value_Text = contentTransform.Find("JB_Connection_group/JB_Connection_text_group/JB_Connection_value").GetComponent<TMP_Text>();
-        if (jb_Connection_Location_Text == null) jb_Connection_Location_Text = contentTransform.Find("JB_Connection_group/JB_Connection_text_group/JB_Connection_location").GetComponent<TMP_Text>();
-        if (module_Image == null) module_Image = contentTransform.Find("Module_group/Real_Module_Image").GetComponent<Image>();
-        if (JB_Connection_Group == null)
-        {
-            JB_Connection_Group = contentTransform.Find("JB_Connection_group").gameObject;
-
-        }
-        if (JB_Location_Image_Prefab == null) JB_Location_Image_Prefab = JB_Connection_Group.transform.Find("JB_Location_Image").GetComponent<Image>();
-        if (JB_Connection_Image_Prefab == null) JB_Connection_Image_Prefab = JB_Connection_Group.transform.Find("JB_Connection_Wiring").GetComponent<Image>();
-
-        await WaitForDataAndContinueAsync().ConfigureAwait(false);
+        if (UnityEngine.Rendering.DebugManager.instance.enableRuntimeUI)
+            UnityEngine.Rendering.DebugManager.instance.enableRuntimeUI = false;
+        Debug.Log($"Chạy Start");
     }
 
-    private void SetUIInteraction(bool isEnabled = false)
+    private void CacheUIElements()
     {
-        if (!isEnabled)
-        {
-            Show_Dialog.Instance.ShowToast("loading", "Đang tải dữ liệu...");
-            Debug.Log("Đang tải dữ liệu...");
-        }
-        else
-        {
-            Show_Dialog.Instance.ShowToast("success", "Dữ liệu đã tải xong!");
-            Debug.Log("Dữ liệu đã tải xong!");
-        }
-
-        inputField.interactable = isEnabled;
-        scrollRect.enabled = isEnabled;
-
-        foreach (Button button in GetComponentsInChildren<Button>())
-        {
-            button.interactable = isEnabled;
-        }
+        scrollRect = prefab_Device.GetComponent<ScrollRect>();
+        contentTransform = prefab_Device.transform.Find("Content").GetComponent<RectTransform>();
+        code_Value_Text = contentTransform.Find("Device_information/Code_group/Code_value").GetComponent<TMP_Text>();
+        function_Value_Text = contentTransform.Find("Device_information/Function_group/Function_value").GetComponent<TMP_Text>();
+        range_Value_Text = contentTransform.Find("Device_information/Range_group/Range_value").GetComponent<TMP_Text>();
+        io_Value_Text = contentTransform.Find("Device_information/IO_group/IO_value").GetComponent<TMP_Text>();
+        jb_Connection_Value_Text = contentTransform.Find("JB_Connection_group/JB_Connection_text_group/JB_Connection_value").GetComponent<TMP_Text>();
+        jb_Connection_Location_Text = contentTransform.Find("JB_Connection_group/JB_Connection_text_group/JB_Connection_location").GetComponent<TMP_Text>();
+        module_Image = contentTransform.Find("Module_group/Real_Module_Image").GetComponent<Image>();
+        JB_Connection_Group = contentTransform.Find("JB_Connection_group").gameObject;
+        JB_Location_Image_Prefab = JB_Connection_Group.transform.Find("JB_Location_Image").GetComponent<Image>();
+        JB_Connection_Wiring_Image_Prefab = JB_Connection_Group.transform.Find("JB_Connection_Wiring").GetComponent<Image>();
     }
 
     private void OnInputValueChanged(string input)
     {
+        if (input == currentLoadedDeviceCode)
+        {
+            return; // Device information is already loaded, no need to load again
+        }
 
         var device = GlobalVariable_Search_Devices.devices_Model_By_Grapper.FirstOrDefault(d => d.code == input || d.function == input);
 
@@ -134,10 +75,8 @@ public class Dropdown_On_ValueChange : MonoBehaviour
         }
         else
         {
-            GlobalVariable.list_Temp_JB_Location_Image.Clear();
-            GlobalVariable.list_Temp_JB_Connection_Image.Clear();
             UpdateDeviceInformation(device);
-            Canvas.ForceUpdateCanvases();
+            currentLoadedDeviceCode = input; // Update the currently loaded device code
         }
     }
 
@@ -153,7 +92,7 @@ public class Dropdown_On_ValueChange : MonoBehaviour
         spriteCache.Clear();
     }
 
-    private async void UpdateDeviceInformation(DeviceModel device)
+    private void UpdateDeviceInformation(DeviceModel device)
     {
         prefab_Device.name = $"Scroll_Area_{device.code}";
         code_Value_Text.text = device.code;
@@ -166,152 +105,129 @@ public class Dropdown_On_ValueChange : MonoBehaviour
         jb_Connection_Location_Text.text = parts.Length > 1 ? parts[1] : string.Empty;
 
         GlobalVariable_Search_Devices.jbName = parts[0];
-        GlobalVariable_Search_Devices.moduleName = device.ioAddress[..device.ioAddress.LastIndexOf('.')];
+        GlobalVariable_Search_Devices.moduleName = device.ioAddress.Substring(0, device.ioAddress.LastIndexOf('.'));
 
         if (!string.IsNullOrEmpty(GlobalVariable_Search_Devices.jbName))
         {
-            await Task.WhenAll(
-                ApplySpritesToImages("Location"),
-                ApplySpritesToImages("Connection")
-            );
+            LoadDeviceSprites();
         }
     }
 
-    // Removed unused method ApplyModuleLocationSprite
-
-    private async Task ApplySpritesToImages(string action)
+    private async void LoadDeviceSprites()
     {
-        string jb_Name = GlobalVariable_Search_Devices.jbName;
-        switch (action)
+        ClearWiringGroupAndCache();
+
+        var addressableKeys = new List<string> { "Real_Outdoor_JB_TSD", $"{GlobalVariable_Search_Devices.devices_Model_By_Grapper[0].location}_Connection_Wiring" };
+        if (GlobalVariable_Search_Devices.devices_Model_By_Grapper[0].location == "GrapperA")
         {
-            case "Location":
-                ClearInstantiatedImages(action);
-                JB_Location_Image_Prefab.gameObject.SetActive(true);
-                if (GlobalVariable.list_Name_And_Image_JB_Location_A.TryGetValue(jb_Name, out var LocationSprite))
-                {
-                    Debug.Log("LocationSprite.Count: " + LocationSprite.Count);
-                    if (LocationSprite.Count > 1)
-                    {
-                        Debug.Log("LocationSprite.Count > 1: " + LocationSprite.Count);
-                        JB_Location_Image_Prefab.gameObject.SetActive(false);
-                        for (int i = 1; i <= LocationSprite.Count; i++)
-                        {
-                            Debug.Log("LocationSprite.Count: " + LocationSprite.Count);
-                            CreateAndSetSprite(jb_Name, action);
-                        }
-                    }
-                    else
-                    {
-                        Debug.Log("LocationSprite.Count <= 1: " + LocationSprite.Count);
-                        await Set_Sprite(JB_Location_Image_Prefab, $"{jb_Name}", action);
-                    }
-                }
-                break;
-            case "Connection":
-                ClearInstantiatedImages(action);
-                JB_Connection_Image_Prefab.gameObject.SetActive(true);
-                if (GlobalVariable.list_Name_And_Image_JB_Connection_A.TryGetValue(jb_Name, out var connectionSprite))
-                {
-                    Debug.Log("connectionSprite.Count: " + connectionSprite.Count);
-                    if (connectionSprite.Count > 1)
-                    {
-                        Debug.Log("connectionSprite.Count > 1: " + connectionSprite.Count);
-                        JB_Connection_Image_Prefab.gameObject.SetActive(false);
-                        for (int i = 1; i <= connectionSprite.Count; i++)
-                        {
-                            Debug.Log("connectionSprite.Count: " + connectionSprite.Count);
-                            CreateAndSetSprite(jb_Name, action);
-                        }
-                    }
-                    else
-                    {
-                        Debug.Log("connectionSprite.Count <= 1: " + connectionSprite.Count);
-                        await Set_Sprite(JB_Connection_Image_Prefab, $"{jb_Name}", action);
-                    }
-                }
-                break;
+            for (int i = 1; i <= 6; i++)
+            {
+                addressableKeys.Add($"GrapperA_Module_Location_Rack{i}");
+            }
+        }
+
+        var tasks = addressableKeys.Select(key => PreloadSpritesAsync(key)).ToList();
+        await Task.WhenAll(tasks);
+
+        var filteredList = spriteCache.Keys
+            .Where(key => key.StartsWith($"{GlobalVariable_Search_Devices.jbName}_") && key.Split('_').Length > 1 && int.TryParse(key.Split('_')[1][0].ToString(), out _))
+            .OrderBy(key => int.Parse(key.Split('_')[1][0].ToString()))
+            .ToList();
+
+        ApplyModuleLocationSprite();
+        if (filteredList.Count > 0)
+        {
+            ApplySpritesToImages(filteredList);
+        }
+
+        scrollRect.verticalNormalizedPosition = 1f;
+    }
+
+    private async Task PreloadSpritesAsync(string addressableKey)
+    {
+        var handle = Addressables.LoadAssetsAsync<Sprite>(addressableKey, sprite =>
+        {
+            spriteCache[sprite.name] = sprite;
+        });
+
+        await handle.Task;
+
+        if (handle.Status != AsyncOperationStatus.Succeeded)
+        {
+            Debug.LogError($"Failed to load sprites: {handle.OperationException}");
         }
     }
 
-    private async Task Set_Sprite(Image imageComponent, string jb_name, string action)
+    private void ApplyModuleLocationSprite()
     {
-        switch (action)
+        if (spriteCache.TryGetValue(GlobalVariable_Search_Devices.moduleName, out var moduleSprite))
         {
-            case "Location":
-                if (!GlobalVariable.list_Name_And_Image_JB_Location_A.TryGetValue(jb_name, out var locationSprite))
-                {
-                    GlobalVariable.list_Name_And_Image_JB_Location_A.TryGetValue("JB_TSD_Location_Note", out locationSprite);
-                }
-                imageComponent.sprite = locationSprite[Instantiated_Images_Location_Count > 1 ? instantiatedImages_Location.Count - 1 : 0];
-                Resize_Gameobject_Function.Set_NativeSize_For_GameObject(imageComponent);
-                GlobalVariable.list_Temp_JB_Location_Image.Add(imageComponent.sprite);
-                await Task.Yield();
-                break;
-            case "Connection":
-                if (!GlobalVariable.list_Name_And_Image_JB_Connection_A.TryGetValue(jb_name, out var connectionSprite))
-                {
-                    GlobalVariable.list_Name_And_Image_JB_Connection_A.TryGetValue("JB_TSD_Connection_Note", out connectionSprite);
-                }
-                imageComponent.sprite = connectionSprite[Instantiated_Images_Connection_Count > 1 ? instantiatedImages_Connection.Count - 1 : 0];
-                Resize_Gameobject_Function.Set_NativeSize_For_GameObject(imageComponent);
-                GlobalVariable.list_Temp_JB_Connection_Image.Add(imageComponent.sprite);
-                await Task.Yield();
-                break;
+            module_Image.sprite = moduleSprite;
         }
     }
 
-    private async void CreateAndSetSprite(string jb_name, string action)
+    private void ApplySpritesToImages(List<string> filteredList)
     {
-        switch (action)
-        {
-            case "Location":
-                Image jbLocationImage = Instantiate(JB_Location_Image_Prefab, JB_Connection_Group.transform);
-                jbLocationImage.transform.SetSiblingIndex(JB_Location_Image_Prefab.transform.GetSiblingIndex() + 1);
-                jbLocationImage.gameObject.SetActive(true);
-                instantiatedImages_Location.Add(jbLocationImage);
-                Instantiated_Images_Location_Count++;
-                await Set_Sprite(jbLocationImage, jb_name, action);
+        ClearInstantiatedImages();
+        JB_Location_Image_Prefab.gameObject.SetActive(true);
 
-                break;
-            case "Connection":
-                Image jbConnectionImage = Instantiate(JB_Connection_Image_Prefab, JB_Connection_Group.transform);
-                jbConnectionImage.transform.SetSiblingIndex(JB_Connection_Image_Prefab.transform.GetSiblingIndex() + 1);
-                jbConnectionImage.gameObject.SetActive(true);
-                instantiatedImages_Connection.Add(jbConnectionImage);
-                Instantiated_Images_Connection_Count++;
-                await Set_Sprite(jbConnectionImage, jb_name, action);
-                break;
+        if (GlobalVariable_Search_Devices.jbName.Contains("-"))
+        {
+            JB_Location_Image_Prefab.gameObject.SetActive(false);
+            foreach (string jb in GlobalVariable_Search_Devices.jbName.Split('-'))
+            {
+                CreateAndSetSprite($"{jb.Trim()}_Location");
+            }
+        }
+        else
+        {
+            SetSprite(JB_Location_Image_Prefab, $"{GlobalVariable_Search_Devices.jbName}_Location");
         }
 
+        foreach (var spriteName in filteredList)
+        {
+            if (spriteCache.TryGetValue(spriteName, out var jbConnectionSprite))
+            {
+                var newImage = Instantiate(JB_Connection_Wiring_Image_Prefab, JB_Connection_Group.transform);
+                newImage.sprite = jbConnectionSprite;
+                newImage.gameObject.SetActive(true);
+                Resize_Gameobject_Function.Set_NativeSize_For_GameObject(newImage);
+            }
+        }
+
+        JB_Connection_Wiring_Image_Prefab.gameObject.SetActive(false);
     }
 
-    private void ClearInstantiatedImages(string action)
+    private void SetSprite(Image imageComponent, string jb_name)
     {
-        switch (action)
+        if (!spriteCache.TryGetValue(jb_name, out var jbSprite))
         {
-            case "Location":
-                foreach (var img in instantiatedImages_Location)
-                {
-                    if (img != null && Instantiated_Images_Location_Count > 0)
-                    {
-                        Destroy(img.gameObject);
-                    }
-                }
-                Instantiated_Images_Location_Count = 0;
-                instantiatedImages_Location.Clear();
-                break;
-            case "Connection":
-                foreach (var img in instantiatedImages_Connection)
-                {
-                    if (img != null && Instantiated_Images_Connection_Count > 0)
-                    {
-                        Destroy(img.gameObject);
-                    }
-                }
-                Instantiated_Images_Connection_Count = 0;
-                instantiatedImages_Connection.Clear();
-                break;
+            spriteCache.TryGetValue("JB_TSD_Location_Note", out jbSprite);
         }
+
+        imageComponent.sprite = jbSprite;
+        Resize_Gameobject_Function.Set_NativeSize_For_GameObject(imageComponent);
+    }
+
+    private void CreateAndSetSprite(string jb_name)
+    {
+        var jbLocationImage = Instantiate(JB_Location_Image_Prefab, JB_Connection_Group.transform);
+        jbLocationImage.transform.SetSiblingIndex(JB_Location_Image_Prefab.transform.GetSiblingIndex() + 1);
+        jbLocationImage.gameObject.SetActive(true);
+        SetSprite(jbLocationImage, jb_name);
+        instantiatedImages.Add(jbLocationImage);
+    }
+
+    private void ClearInstantiatedImages()
+    {
+        foreach (var img in instantiatedImages)
+        {
+            if (img != null)
+            {
+                Destroy(img.gameObject);
+            }
+        }
+        instantiatedImages.Clear();
     }
 
     private void OnDisable() => ResetResources();
@@ -322,5 +238,6 @@ public class Dropdown_On_ValueChange : MonoBehaviour
     {
         inputField.onValueChanged.RemoveListener(OnInputValueChanged);
         spriteCache.Clear();
+        currentLoadedDeviceCode = null;
     }
 }

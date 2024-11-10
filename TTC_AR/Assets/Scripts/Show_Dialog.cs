@@ -106,7 +106,12 @@ public class Show_Dialog : MonoBehaviour
     {
         yield return new WaitForSeconds(0.75f);
         if (toastParent.Find("Toast_Prefab_Group(Clone)") != null)
+        {
+            Debug.Log($"Set_Instance_Status: {status}");
+
             toastParent.Find("Toast_Prefab_Group(Clone)").gameObject.SetActive(status);
+
+        }
     }
 
 }
