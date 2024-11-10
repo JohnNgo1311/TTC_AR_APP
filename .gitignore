@@ -3,6 +3,7 @@
 /TTC_AR/Library/
 /TTC_AR/Temp/
 /TTC_AR/obj/
+/TTC_AR/Build/
 TTC_AR/logs/
 TTC_AR/usersettings/
 TTC_AR/memoryCaptures/
@@ -45,6 +46,7 @@ ExportedObj/
 sysinfo.txt
 
 # Builds
+*.apk
 *.aab
 *.unitypackage
 *.app
