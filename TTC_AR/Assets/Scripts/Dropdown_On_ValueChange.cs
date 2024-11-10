@@ -11,6 +11,7 @@ public class Dropdown_On_ValueChange : MonoBehaviour
 {
     public GameObject prefab_Device;
     public TMP_InputField inputField;
+    public GameObject overlay_Loading_Image;
     private RectTransform contentTransform;
     private TMP_Text code_Value_Text, function_Value_Text, range_Value_Text, io_Value_Text, jb_Connection_Value_Text, jb_Connection_Location_Text;
     private Image module_Image, JB_Location_Image_Prefab, JB_Connection_Wiring_Image_Prefab;
@@ -19,29 +20,35 @@ public class Dropdown_On_ValueChange : MonoBehaviour
     private Dictionary<string, Sprite> spriteCache = new Dictionary<string, Sprite>();
     private List<Image> instantiatedImages = new List<Image>();
     private string currentLoadedDeviceCode;
+    private bool loadDataSuccess = false;
+    private Dictionary<string, DeviceModel> deviceDictionary;
 
     private void Awake()
     {
+        overlay_Loading_Image.SetActive(true);
+        StartCoroutine(Show_Dialog.Instance.Set_Instance_Status(true));
+        Show_Dialog.Instance.ShowToast("loading", "Đang tải dữ liệu...");
+
         if (inputField == null)
         {
-            Debug.LogError("InputField không được gán!");
             return;
         }
         CacheUIElements();
-        Debug.Log($"Check: +{GlobalVariable_Search_Devices.devices_Model_By_Grapper[0].code}");
-        StartCoroutine(Show_Dialog.Instance.Set_Instance_Status(true));
+        CacheDevices();
         inputField.onValueChanged.AddListener(OnInputValueChanged);
-        Show_Dialog.Instance.ShowToast("loading", "Đang tải dữ liệu...");
         OnInputValueChanged(GlobalVariable_Search_Devices.devices_Model_By_Grapper[0].code);
-        Show_Dialog.Instance.ShowToast("success", "Tải dữ liệu thành công");
-        StartCoroutine(Show_Dialog.Instance.Set_Instance_Status(false));
+        if (loadDataSuccess)
+        {
+            Show_Dialog.Instance.ShowToast("success", "Tải dữ liệu thành công");
+            StartCoroutine(Show_Dialog.Instance.Set_Instance_Status(false));
+            overlay_Loading_Image.SetActive(false);
+        }
     }
 
     private void Start()
     {
         if (UnityEngine.Rendering.DebugManager.instance.enableRuntimeUI)
             UnityEngine.Rendering.DebugManager.instance.enableRuntimeUI = false;
-        Debug.Log($"Chạy Start");
     }
 
     private void CacheUIElements()
@@ -60,23 +67,28 @@ public class Dropdown_On_ValueChange : MonoBehaviour
         JB_Connection_Wiring_Image_Prefab = JB_Connection_Group.transform.Find("JB_Connection_Wiring").GetComponent<Image>();
     }
 
+    private void CacheDevices()
+    {
+        deviceDictionary = GlobalVariable_Search_Devices.devices_Model_By_Grapper.ToDictionary(d => d.code);
+    }
+
     private void OnInputValueChanged(string input)
     {
+        loadDataSuccess = false;
         if (input == currentLoadedDeviceCode)
         {
-            return; // Device information is already loaded, no need to load again
+            return;
         }
 
-        var device = GlobalVariable_Search_Devices.devices_Model_By_Grapper.FirstOrDefault(d => d.code == input || d.function == input);
-
-        if (device == null)
+        if (!deviceDictionary.TryGetValue(input, out var device))
         {
             ClearWiringGroupAndCache();
         }
         else
         {
             UpdateDeviceInformation(device);
-            currentLoadedDeviceCode = input; // Update the currently loaded device code
+            currentLoadedDeviceCode = input;
+            loadDataSuccess = true;
         }
     }
 
@@ -154,7 +166,7 @@ public class Dropdown_On_ValueChange : MonoBehaviour
 
         if (handle.Status != AsyncOperationStatus.Succeeded)
         {
-            Debug.LogError($"Failed to load sprites: {handle.OperationException}");
+            // Log error if needed
         }
     }
 

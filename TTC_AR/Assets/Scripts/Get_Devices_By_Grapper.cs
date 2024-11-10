@@ -11,6 +11,8 @@ public class Get_Devices_By_Grapper : MonoBehaviour
 {
     public string grapper;
     private string filePath;
+    [SerializeField]
+    private GameObject overlay_Loading_Image;
     void Start()
     {
         if (UnityEngine.Rendering.DebugManager.instance.enableRuntimeUI)
@@ -18,6 +20,9 @@ public class Get_Devices_By_Grapper : MonoBehaviour
     }
     public void Get_List_Device_By_Grapper()
     {
+        if (overlay_Loading_Image != null) overlay_Loading_Image.SetActive(true);
+        StartCoroutine(Show_Dialog.Instance.Set_Instance_Status(true));
+        Show_Dialog.Instance.ShowToast("loading", "Đang chuyển trang...");
         filePath = Path.Combine(Application.streamingAssetsPath, $"Device_Grapper{grapper}.json");
         if (Application.platform == RuntimePlatform.Android)
         {
@@ -27,6 +32,9 @@ public class Get_Devices_By_Grapper : MonoBehaviour
         {
             LoadJsonFromFile(filePath);
         }
+
+        if (overlay_Loading_Image != null) overlay_Loading_Image.SetActive(false);
+        StartCoroutine(Show_Dialog.Instance.Set_Instance_Status(false));
     }
 
     private void LoadJsonFromFile(string file)
@@ -40,12 +48,12 @@ public class Get_Devices_By_Grapper : MonoBehaviour
             }
             catch (Exception e)
             {
-                Debug.LogError($"Failed to read JSON file: {e.Message}");
+                //Debug.LogError($"Failed to read JSON file: {e.Message}");
             }
         }
         else
         {
-            Debug.LogError($"File not found: {filePath}");
+            //Debug.LogError($"File not found: {filePath}");
         }
     }
 
@@ -59,19 +67,19 @@ public class Get_Devices_By_Grapper : MonoBehaviour
 
             if (www.result != UnityWebRequest.Result.Success)
             {
-                Debug.LogError($"Failed to load JSON file on Android: {www.error}");
+                //Debug.LogError($"Failed to load JSON file on Android: {www.error}");
             }
             else
             {
                 try
                 {
                     string jsonData = www.downloadHandler.text;
-                    Debug.Log($"Loaded JSON data: {jsonData.Length} characters");
+                    //Debug.Log($"Loaded JSON data: {jsonData.Length} characters");
                     ProcessJsonData(jsonData);
                 }
                 catch (Exception e)
                 {
-                    Debug.LogError($"Error processing JSON: {e.Message}");
+                    //Debug.LogError($"Error processing JSON: {e.Message}");
                 }
             }
         }
@@ -91,16 +99,16 @@ public class Get_Devices_By_Grapper : MonoBehaviour
             }
             else
             {
-                Debug.LogError("List thiết bị null hoặc không có đủ dữ liệu hợp lệ.");
+                //Debug.LogError("List thiết bị null hoặc không có đủ dữ liệu hợp lệ.");
             }
         }
         catch (JsonException je)
         {
-            Debug.LogError($"Failed to deserialize JSON data: {je.Message}");
+            //Debug.LogError($"Failed to deserialize JSON data: {je.Message}");
         }
         catch (Exception e)
         {
-            Debug.LogError($"Unexpected error during JSON processing: {e.Message}");
+            //Debug.LogError($"Unexpected error during JSON processing: {e.Message}");
         }
     }
 
@@ -114,11 +122,11 @@ public class Get_Devices_By_Grapper : MonoBehaviour
 
         if (savedList != null && savedList.Count > 0)
         {
-            Debug.Log($"Lượng data đã lưu: {savedList.Count} + {savedList[0]}");
+            //Debug.Log($"Lượng data đã lưu: {savedList.Count} + {savedList[0]}");
         }
         else
         {
-            Debug.LogError("Danh sách đã lưu có ít hơn 6 phần tử hoặc null");
+            //Debug.LogError("Danh sách đã lưu có ít hơn 6 phần tử hoặc null");
         }
     }
 

@@ -55,7 +55,7 @@ public class SearchableDropDown : MonoBehaviour
     {
         if (combobox == null || scrollRect == null || inputField == null || content == null || itemPrefab == null)
         {
-            Debug.LogError("Không thể tìm thấy các thành phần cần thiết trong combobox!");
+            // Debug.LogError("Không thể tìm thấy các thành phần cần thiết trong combobox!");
             return;
         }
     }
@@ -151,7 +151,7 @@ public class SearchableDropDown : MonoBehaviour
             scrollRect.gameObject.GetComponent<RectTransform>().sizeDelta = activeItemCount == 1
                 ? new Vector2(scrollRectInitialSize.x, newHeight * 1.05f)
                 : scrollRectInitialSize;
-            Debug.Log($"newHeight: {newHeight}");
+            // Debug.Log($"newHeight: {newHeight}");
 
         }
         else
