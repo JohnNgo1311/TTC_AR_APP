@@ -31,7 +31,7 @@ public class Delete_Device_By_Grapper : MonoBehaviour
         device = GlobalVariable_Search_Devices.all_Device_GrapperA.Find(d => d.code == code_text.text);
         if (device != null)
         {
-            Debug.Log("Device found!");
+            //Debug"Device found!");
         }
         else
         {
@@ -90,7 +90,7 @@ public class Delete_Device_By_Grapper : MonoBehaviour
             }
             else
             {
-                Debug.Log("Delete complete!");
+                //Debug"Delete complete!");
             }
         }
     }

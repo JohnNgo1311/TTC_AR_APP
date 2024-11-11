@@ -236,7 +236,7 @@ public class Update_Device_By_Grapper : MonoBehaviour
             {
                 try
                 {
-                    Debug.Log("Post data successfully.");
+                    //Debug"Post data successfully.");
                     GlobalVariable_Search_Devices.all_Device_GrapperA[int.Parse(id_Of_Device_in_Globals) - 1] = device;
                     ClearInputFieldsAndListeners();
                     Canvas.ForceUpdateCanvases();

@@ -18,7 +18,7 @@ public class SavePhoto : MonoBehaviour
         }
         else
         {
-            Debug.Log("Photo is saved to Camera Roll on phone device.");
+            //Debug"Photo is saved to Camera Roll on phone device.");
             // Function_onSaved_Return.Invoke(); // Triggered [On Unity Event] in Visual Scripting
         }
     }
@@ -27,7 +27,7 @@ public class SavePhoto : MonoBehaviour
     {
         if (permission == NativeGallery.Permission.Granted)
         {
-            Debug.Log("Permission Granted");
+            //Debug"Permission Granted");
             NativeGallery.GetImageFromGallery((path) => HandlePickedPhoto(path, imageForUpload), "Select an image", "image/*");
         }
         else
@@ -42,13 +42,13 @@ public class SavePhoto : MonoBehaviour
     {
         if (string.IsNullOrEmpty(path))
         {
-            Debug.Log("Pick Photo: Canceled");
+            //Debug"Pick Photo: Canceled");
             imagePath = null;
             imageForUpload.sprite = null;
         }
         else
         {
-            Debug.Log("Pick Photo: Success");
+            //Debug"Pick Photo: Success");
             imagePath = path;
             Sprite sprite = await LoadSpriteFromPathAsync(path);
             imageForUpload.sprite = sprite;

@@ -53,7 +53,7 @@
 //                     foreach (var childSnapshot in snapshot.Children)
 //                     {
 //                         string fileUrl = childSnapshot.Value.ToString();
-//                         Debug.Log("File URL: " + fileUrl);
+//                         //Debug"File URL: " + fileUrl);
 //                         downloadTasks.Add(DownloadFileFromUrl(fileUrl, imagesFolderPath));
 //                     }
 
@@ -88,9 +88,9 @@
 //                 fileName = System.IO.Path.GetFileNameWithoutExtension(url);
 //                 fileName = fileName.Split(imagesFolderPath + "%2F")[1];
 //                 // GlobalVariable.list_Name_And_Image_JB_Location_A.Add(fileName, Texture_To_Sprite.ConvertTextureToSprite(DownloadHandlerTexture.GetContent(request)));
-//                 Debug.Log("Image downloaded successfully");
-//                 // Debug.Log("Image count: " + GlobalVariable.list_Name_And_Image_JB_Location_A.Count);
-//                 Debug.Log("Image name: " + fileName);
+//                 //Debug"Image downloaded successfully");
+//                 // //Debug"Image count: " + GlobalVariable.list_Name_And_Image_JB_Location_A.Count);
+//                 //Debug"Image name: " + fileName);
 //             }
 //         }
 //     }

@@ -17,7 +17,7 @@ public class Gain_List_Devices_For_Search : MonoBehaviour
     }
     private void Awake()
     {
-        Debug.Log("Awake_Gain_List_Devices_For_Search");
+        //Debug"Awake_Gain_List_Devices_For_Search");
         if (GlobalVariable_Search_Devices.devices_Model_For_FilterA != null && GlobalVariable_Search_Devices.devices_Model_For_FilterA.Count > 0)
         {
             // Chuẩn bị object pooling dựa trên số lượng thiết bị

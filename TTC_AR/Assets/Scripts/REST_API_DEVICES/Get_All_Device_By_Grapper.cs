@@ -63,7 +63,7 @@ public class Get_All_Device_By_Grapper : MonoBehaviour
             {
                 string jsonData = webRequest.downloadHandler.text;
                 devices = JsonConvert.DeserializeObject<List<DeviceModel>>(jsonData);
-                Debug.Log("Received data successfully.");
+                //Debug"Received data successfully.");
                 if (devices.Count > 0)
                 {
                     GlobalVariable_Search_Devices.all_Device_GrapperA = devices;
@@ -95,7 +95,7 @@ public class Get_All_Device_By_Grapper : MonoBehaviour
 
         if (savedList != null && savedList.Count > 0)
         {
-            Debug.Log($"Lượng data đã lưu: {savedList.Count} + {savedList[0]}");
+            //Debug$"Lượng data đã lưu: {savedList.Count} + {savedList[0]}");
         }
         else
         {
@@ -135,11 +135,11 @@ public class Get_All_Device_By_Grapper : MonoBehaviour
         if (webRequest.result == UnityWebRequest.Result.ConnectionError)
 
         {
-            Debug.Log("Error While Sending: " + webRequest.error);
+            //Debug"Error While Sending: " + webRequest.error);
         }
         else
         {
-            Debug.Log("Received: " + webRequest.downloadHandler.text);
+            //Debug"Received: " + webRequest.downloadHandler.text);
         }
     }
     IEnumerator deleteRequest(string url)
@@ -149,11 +149,11 @@ public class Get_All_Device_By_Grapper : MonoBehaviour
 
         if (webRequest.result == UnityWebRequest.Result.ConnectionError)
         {
-            Debug.Log("Error While Sending: " + webRequest.error);
+            //Debug"Error While Sending: " + webRequest.error);
         }
         else
         {
-            Debug.Log("Deleted");
+            //Debug"Deleted");
         }
     }*/
 }

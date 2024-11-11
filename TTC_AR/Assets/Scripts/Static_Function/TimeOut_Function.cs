@@ -1,83 +1,103 @@
 using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class TimeOut_Function : MonoBehaviour
 {
-  public float timeoutDuration = 60f;  // Thời gian timeout (tính bằng giây)
-  private float timeSinceLastInteraction; // Thời gian kể từ lần tương tác cuối cùng
+  public float timeoutDuration = 60f;  // Timeout duration in seconds
+  private float timeSinceLastInteraction; // Time since last interaction
   private Coroutine timerCoroutine;
   [SerializeField]
   private float timeShowToast = 5;
   private bool activeLogOut = false;
+
   void Start()
   {
+#if UNITY_EDITOR
+    //Debug"Running in Unity Editor");
+#else
     if (UnityEngine.Rendering.DebugManager.instance.enableRuntimeUI)
       UnityEngine.Rendering.DebugManager.instance.enableRuntimeUI = false;
-    // Khởi tạo bộ đếm thời gian
+#endif
+
+    // Initialize the timeout timer
     ResetTimeout();
   }
 
   void Update()
   {
-    // Kiểm tra nếu có tác động vào màn hình (như chạm hoặc di chuyển chuột)
+    // Check for any user interaction (key press or touch)
     if (Input.anyKey || Input.touchCount > 0)
     {
       activeLogOut = false;
-      ResetTimeout();  // Reset thời gian đếm nếu có tương tác
+      ResetTimeout();  // Reset the timer if there is interaction
     }
-
   }
 
-  // Hàm reset thời gian khi có tương tác
+  // Method to reset the timeout timer
   public void ResetTimeout()
   {
-    // Reset thời gian về 0
+    // Reset the interaction time
     timeSinceLastInteraction = 0f;
 
-    // Nếu timer đang chạy thì dừng lại
+    // Stop the existing timer coroutine if it's running
     if (timerCoroutine != null)
     {
       StopCoroutine(timerCoroutine);
     }
 
-    // Khởi động lại timer
+    // Start a new timer coroutine
     timerCoroutine = StartCoroutine(TimerRoutine());
   }
 
-  // Hàm thoát ứng dụng
+  // Method to exit the application
   public void ExitApplication()
   {
-    Debug.Log("Ứng dụng sẽ thoát do không có tương tác...");
-    Application.Quit();  // Thoát ứng dụng trên Android
+#if UNITY_EDITOR
+    //Debug"Application would quit due to inactivity...");
+#else
+    //Debug"Ứng dụng sẽ thoát do không có tương tác...");
+    Application.Quit();  // Exit the application on Android
+#endif
   }
 
-  // Coroutine đếm thời gian
+  // Coroutine to handle the timeout timer
   IEnumerator TimerRoutine()
   {
     while (true)
     {
-      // Chờ 1 giây trước khi tăng thời gian
+      // Wait for 1 second before incrementing the timer
       yield return new WaitForSeconds(1);
 
-      // Tăng thời gian đếm
+      // Increment the interaction time
       timeSinceLastInteraction += 1f;
-      Debug.Log(timeSinceLastInteraction);
-      // Kiểm tra nếu thời gian vượt quá giới hạn timeout
+      //DebugtimeSinceLastInteraction);
+
+      // Check if the interaction time exceeds the timeout duration
       if (timeSinceLastInteraction >= timeoutDuration)
       {
         activeLogOut = true;
+        Show_Dialog.Instance.Set_Instance_Status_True();
         Show_Dialog.Instance.ShowToast("failure", "Phát hiện treo máy lâu! Hãy chạm vào màn hình hoặc ứng dụng sẽ tự thoát");
         StartCoroutine(WaitShowToast());
+        StartCoroutine(Show_Dialog.Instance.Set_Instance_Status_False());
         break;
       }
     }
   }
 
+  // Coroutine to wait for the toast message to be displayed
   IEnumerator WaitShowToast()
   {
     yield return new WaitForSeconds(timeShowToast);
-    if (activeLogOut) ExitApplication();  // Thoát ứng dụng                       
-                                          // Debug.Log("Timeout! Application will exit...");
+    if (activeLogOut) ExitApplication();  // Exit the application if no interaction
+    //Debug"Timeout! Application will exit...");
+  }
+
+  private void OnDestroy()
+  {
+    if (timerCoroutine != null)
+    {
+      StopCoroutine(timerCoroutine);
+    }
   }
 }

@@ -6,12 +6,13 @@ using TMPro;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.UI;
+using System.Collections;
 
 public class Dropdown_On_ValueChange : MonoBehaviour
 {
     public GameObject prefab_Device;
     public TMP_InputField inputField;
-    public GameObject overlay_Loading_Image;
+    //  public GameObject overlay_Loading_Image;
     private RectTransform contentTransform;
     private TMP_Text code_Value_Text, function_Value_Text, range_Value_Text, io_Value_Text, jb_Connection_Value_Text, jb_Connection_Location_Text;
     private Image module_Image, JB_Location_Image_Prefab, JB_Connection_Wiring_Image_Prefab;
@@ -23,27 +24,45 @@ public class Dropdown_On_ValueChange : MonoBehaviour
     private bool loadDataSuccess = false;
     private Dictionary<string, DeviceModel> deviceDictionary;
 
+
     private void Awake()
     {
-        overlay_Loading_Image.SetActive(true);
-        StartCoroutine(Show_Dialog.Instance.Set_Instance_Status(true));
+        //  overlay_Loading_Image.SetActive(true);
+
+        // Đặt Instance_Status thành true và chờ hoàn thành
+        Show_Dialog.Instance.Set_Instance_Status_True();
+
+        // Hiển thị thông báo "Đang tải dữ liệu..."
         Show_Dialog.Instance.ShowToast("loading", "Đang tải dữ liệu...");
 
+        // Kiểm tra inputField
         if (inputField == null)
         {
             return;
         }
+
+        // Cache các phần tử UI và dữ liệu thiết bị
         CacheUIElements();
         CacheDevices();
+
+        // Thêm sự kiện cho inputField và gọi OnInputValueChanged
         inputField.onValueChanged.AddListener(OnInputValueChanged);
         OnInputValueChanged(GlobalVariable_Search_Devices.devices_Model_By_Grapper[0].code);
+        loadDataSuccess = true;
+        // Kiểm tra nếu load dữ liệu thành công
         if (loadDataSuccess)
         {
+            // Hiển thị thông báo "Tải dữ liệu thành công"
             Show_Dialog.Instance.ShowToast("success", "Tải dữ liệu thành công");
-            StartCoroutine(Show_Dialog.Instance.Set_Instance_Status(false));
-            overlay_Loading_Image.SetActive(false);
+            // Tắt overlay_Loading_Image
+            //   overlay_Loading_Image.SetActive(false);
+            // Đặt Instance_Status thành false và chờ hoàn thành
+            StartCoroutine(Show_Dialog.Instance.Set_Instance_Status_False());
         }
+
     }
+
+
 
     private void Start()
     {
@@ -70,6 +89,19 @@ public class Dropdown_On_ValueChange : MonoBehaviour
     private void CacheDevices()
     {
         deviceDictionary = GlobalVariable_Search_Devices.devices_Model_By_Grapper.ToDictionary(d => d.code);
+        var functionDictionary = GlobalVariable_Search_Devices.devices_Model_By_Grapper.ToDictionary(d => d.function);
+        foreach (var kvp in functionDictionary)
+        {
+            if (deviceDictionary.ContainsKey(kvp.Key))
+            {
+                deviceDictionary[kvp.Key] = kvp.Value;
+
+            }
+            else
+            {
+                deviceDictionary.Add(kvp.Key, kvp.Value);
+            }
+        }
     }
 
     private void OnInputValueChanged(string input)
@@ -88,7 +120,6 @@ public class Dropdown_On_ValueChange : MonoBehaviour
         {
             UpdateDeviceInformation(device);
             currentLoadedDeviceCode = input;
-            loadDataSuccess = true;
         }
     }
 

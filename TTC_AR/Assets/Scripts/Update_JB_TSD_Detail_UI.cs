@@ -63,9 +63,9 @@ public class Update_JB_TSD_Detail_UI : MonoBehaviour
       {
           var jobDetails = GlobalVariable.jb_TSD_Title.Split('_'); // EX: JB100_Hầm Cáp MCC
           jb_name = jobDetails[0]; // jb_name: JB100
-          // Debug.Log("jb_name: " + jb_name);
+          // //Debug"jb_name: " + jb_name);
           jb_location = jobDetails.Length > 1 ? jobDetails[1] : string.Empty; // jb_location: Hầm Cáp MCC
-          // Debug.Log("jb_location: " + jb_location);
+          // //Debug"jb_location: " + jb_location);
       }*/
 
     private void InitializeReferences()
@@ -99,15 +99,15 @@ public class Update_JB_TSD_Detail_UI : MonoBehaviour
         {
             locationSprites[sprite.name] = sprite;
             jb_Location_bis_and_non_bis.Add(sprite.name);
-            Debug.Log("Location sprite loaded: " + sprite.name);
+            //Debug"Location sprite loaded: " + sprite.name);
         }).Completed += handle =>
         {
             //! Sự kiện này chạy khi đã tải xong toàn bộ Sprite có cùng key là "Real_Outdoor_JB_TSD"
-            Debug.Log("pendingSpriteLoads: " + pendingSpriteLoad1);
+            //Debug"pendingSpriteLoads: " + pendingSpriteLoad1);
             pendingSpriteLoad1--;
             if (handle.Status == AsyncOperationStatus.Succeeded && pendingSpriteLoad1 == 0)
             {
-                Debug.Log("All location sprites loaded successfully.");
+                //Debug"All location sprites loaded successfully.");
                 ApplyLocationSprite();
             }
             else
@@ -158,9 +158,9 @@ public class Update_JB_TSD_Detail_UI : MonoBehaviour
         }
         else if (jb_location_bis_and_non_bis_filtered.Count >= 2)
         {
-            Debug.Log($"pt1: {jb_location_bis_and_non_bis_filtered[0]}");
-            Debug.Log($"pt2: {jb_location_bis_and_non_bis_filtered[1]}");
-            Debug.Log($"Count {jb_location_bis_and_non_bis_filtered.Count}");
+            //Debug$"pt1: {jb_location_bis_and_non_bis_filtered[0]}");
+            //Debug$"pt2: {jb_location_bis_and_non_bis_filtered[1]}");
+            //Debug$"Count {jb_location_bis_and_non_bis_filtered.Count}");
             jb_Infor_Item_Prefab.gameObject.SetActive(false);
             for (int i = 0; i < jb_location_bis_and_non_bis_filtered.Count; i++)
             {
@@ -182,7 +182,7 @@ public class Update_JB_TSD_Detail_UI : MonoBehaviour
             new_Location_Image.gameObject.name = spriteName;
             instantiatedImages.Add(imageObject);
             SetSpriteLocation(new_Location_Image, spriteName, locationSprites);
-            Debug.Log($"Đã gain xong phần tử 1 {spriteName}");
+            //Debug$"Đã gain xong phần tử 1 {spriteName}");
         }
     }
     private void LoadConnectionSprites()
@@ -194,13 +194,13 @@ public class Update_JB_TSD_Detail_UI : MonoBehaviour
         Addressables.LoadAssetsAsync<Sprite>($"Grapper{grapper}_Connection_Wiring", sprite =>
         {
             connectionSprites[sprite.name] = sprite;
-            Debug.Log("sprite.name: " + sprite.name);
+            //Debug"sprite.name: " + sprite.name);
         }).Completed += handle =>
         {
             pendingSpriteLoad2--;
             if (handle.Status == AsyncOperationStatus.Succeeded && pendingSpriteLoad2 == 0)
             {
-                Debug.Log("All location Load Connection Sprites successfully.");
+                //Debug"All location Load Connection Sprites successfully.");
                 ApplyConnectionSprites();
             }
             else
@@ -266,7 +266,7 @@ public class Update_JB_TSD_Detail_UI : MonoBehaviour
                 if (instantiatedImages.Count > 1)
                 {
                     spriteDictionary.TryGetValue(spriteName, out var _sprite);
-                    Debug.Log("spriteName khi gain: " + spriteName);
+                    //Debug"spriteName khi gain: " + spriteName);
                     imageComponent.sprite = _sprite;
                     GameObject gameObject = imageComponent.gameObject.transform.parent.gameObject;
                     if (gameObject != jb_Infor_Item_Prefab)
@@ -282,7 +282,7 @@ public class Update_JB_TSD_Detail_UI : MonoBehaviour
                 if (jb_location_bis_and_non_bis_filtered.Count >= 2)
                 {
                     spriteDictionary.TryGetValue(spriteName, out var _sprite);
-                    Debug.Log("spriteName khi gain: " + spriteName);
+                    //Debug"spriteName khi gain: " + spriteName);
                     imageComponent.sprite = _sprite;
                     GameObject gameObject = imageComponent.gameObject.transform.parent.gameObject;
                     if (gameObject != jb_Infor_Item_Prefab)

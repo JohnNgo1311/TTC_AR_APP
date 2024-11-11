@@ -100,7 +100,7 @@ public class APIManager : MonoBehaviour
 
     private async Task HandleSuccessfulPost(DeviceModel device, string sceneName)
     {
-        Debug.Log("Post data successfully.");
+        //Debug"Post data successfully.");
         Show_Dialog.Instance.ShowToast("success", $"Thêm thiết bị mới thành công: {device.code}");
 
         GlobalVariable_Search_Devices.all_Device_GrapperA.Add(device);
@@ -161,7 +161,7 @@ public class APIManager : MonoBehaviour
                 break;
         }
 
-        Debug.Log(filteredDevices.Count > 0 ? $"Data saved: {filteredDevices.Count} entries." : "No data saved.");
+        //DebugfilteredDevices.Count > 0 ? $"Data saved: {filteredDevices.Count} entries." : "No data saved.");
     }
 
     private List<string> GetDeviceForFilter(List<DeviceModel> deviceModels)
@@ -182,7 +182,7 @@ public class APIManager : MonoBehaviour
     {
         ShowOverlay(true);
         await Task.Delay(1500);
-        Show_Dialog.Instance.StartCoroutine(Show_Dialog.Instance.Set_Instance_Status(true));
+        Show_Dialog.Instance.Set_Instance_Status_True();
         Show_Dialog.Instance.ShowToast("loading", $"Đang tải dữ liệu...");
         string jsonData = await FetchJsonData(url, grapperName);
         if (jsonData == null) return;
@@ -198,10 +198,10 @@ public class APIManager : MonoBehaviour
                 LoadImagesAsync(GlobalVariable.list_Name_and_Url_JB_Connection_A, "get_JB_Connection")
             );
             Show_Dialog.Instance.ShowToast("success", $"Tải dữ liệu thành công");
-            Debug.Log(GlobalVariable.list_Name_and_Url_JB_Location_A.Count);
-            Debug.Log(GlobalVariable.list_Name_and_Url_JB_Connection_A.Count);
+            //DebugGlobalVariable.list_Name_and_Url_JB_Location_A.Count);
+            //DebugGlobalVariable.list_Name_and_Url_JB_Connection_A.Count);
             await Task.Delay(1500);
-            Show_Dialog.Instance.StartCoroutine(Show_Dialog.Instance.Set_Instance_Status(false));
+            StartCoroutine(Show_Dialog.Instance.Set_Instance_Status_False());
             ShowOverlay(false);
         }
         catch (JsonException jsonEx)
@@ -234,7 +234,7 @@ public class APIManager : MonoBehaviour
             }
         }
         await Task.WhenAll(loadTasks);
-        Debug.Log("Lưu các Sprite thành công vào Dictionary");
+        //Debug"Lưu các Sprite thành công vào Dictionary");
     }
 
     private async Task LoadImageFromUrlAsync(string url, string key, string action)
@@ -264,7 +264,7 @@ public class APIManager : MonoBehaviour
                         {
                             GlobalVariable.list_Name_And_Image_JB_Location_A.Add(key, new List<Sprite> { sprite });
                         }
-                        Debug.Log(GlobalVariable.list_Name_And_Image_JB_Location_A.Count);
+                        //DebugGlobalVariable.list_Name_And_Image_JB_Location_A.Count);
                         break;
                     case "get_JB_Connection":
                         if (GlobalVariable.list_Name_And_Image_JB_Connection_A.ContainsKey(key))
@@ -302,18 +302,18 @@ public class APIManager : MonoBehaviour
 
     private void LogJbTsdData(JB_TSD_Data jbData)
     {
-        Debug.Log("JB_TSD_Wiring:");
+        //Debug"JB_TSD_Wiring:");
         foreach (var (key, urls) in jbData.JB_TSD_Wiring)
         {
-            Debug.Log($"{key}:");
-            foreach (var url in urls) Debug.Log($" - {url}");
+            //Debug$"{key}:");
+            foreach (var url in urls) ; //Debug$" - {url}");
         }
 
-        Debug.Log("JB_TSD_Location:");
+        //Debug"JB_TSD_Location:");
         foreach (var (key, urls) in jbData.JB_TSD_Location)
         {
-            Debug.Log($"{key}:");
-            foreach (var url in urls) Debug.Log($" - {url}");
+            //Debugkey}:");
+            foreach (var url in urls) ; //Debug$" - {url}");
         }
     }
 }

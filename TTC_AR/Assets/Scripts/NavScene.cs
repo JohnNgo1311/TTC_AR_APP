@@ -43,5 +43,6 @@ public class NavScene : MonoBehaviour
             SceneManager.LoadScene(recentSceneName[buttonIndex]); // Use synchronous loading
             PlayerPrefs.SetString(recentSceneName[buttonIndex], SceneManager.GetActiveScene().name);
         }
+        yield return new WaitForSeconds(1f);
     }
 }

@@ -72,7 +72,7 @@ public class WebCamPhotoCamera : MonoBehaviour
             webCamTexture = new WebCamTexture(cameraDevice.name);
             Camera_Screen_For_Take_Photo.texture = webCamTexture;
             webCamTexture.Play();
-            Debug.Log("Camera detected: " + cameraDevice.name);
+            //Debug"Camera detected: " + cameraDevice.name);
         }
         else
         {
@@ -119,7 +119,7 @@ public class WebCamPhotoCamera : MonoBehaviour
 
     public void SavePhoto()
     {
-        Debug.Log("Photo saved");
+        //Debug"Photo saved");
 
         Texture2D savedPhoto = preview_Image.texture as Texture2D;
 

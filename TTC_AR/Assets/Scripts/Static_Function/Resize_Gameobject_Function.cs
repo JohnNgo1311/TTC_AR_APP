@@ -47,8 +47,8 @@ public class Resize_Gameobject_Function : MonoBehaviour
     float scale_width = rectTransform.sizeDelta.x / spriteRect.width;
     float scale_height = rectTransform.sizeDelta.y / spriteRect.height;
 
-    Debug.Log($"scale_width: {scale_width}");
-    Debug.Log($"scale_height: {scale_height}");
+    //Debug$"scale_width: {scale_width}");
+    //Debug$"scale_height: {scale_height}");
 
     rectTransform.sizeDelta = new Vector2(rectTransform.sizeDelta.x, spriteRect.height * scale_width);
   }

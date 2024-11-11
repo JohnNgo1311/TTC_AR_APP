@@ -66,7 +66,7 @@ public class SettingsMenu : MonoBehaviour
     private void ToggleMenu()
     {
         isExpanded = !isExpanded;
-        Debug.Log($"ToggleMenu: {isExpanded}");
+        //Debug$"ToggleMenu: {isExpanded}");
         menuItems.ForEach(item => item.gameObject.SetActive(isExpanded));
         content.SetActive(isExpanded);
         // Resize_Gameobject_Function.Resize_Parent_GameObject(content.GetComponent<RectTransform>());

@@ -29,7 +29,7 @@ public class SearchableDropDown : MonoBehaviour
     private void Awake()
     {
         availableOptions = GlobalVariable_Search_Devices.devices_Model_For_FilterA;
-        // Debug.Log(availableOptions[5].ToString());
+        // //DebugavailableOptions[5].ToString());
         contentRect = content.GetComponent<RectTransform>();
         scrollRectInitialSize = scrollRect.gameObject.GetComponent<RectTransform>().sizeDelta;
         Initialize();
@@ -49,8 +49,12 @@ public class SearchableDropDown : MonoBehaviour
         }
         arrowButtonDown.GetComponent<Button>().onClick.AddListener(ToggleDropdown);
         arrowButtonUp.GetComponent<Button>().onClick.AddListener(ToggleDropdown);
+        Invoke(nameof(Set_Initial_Text_Field_Value), 2f);
     }
-
+    void Set_Initial_Text_Field_Value()
+    {
+        inputField.text = GlobalVariable_Search_Devices.devices_Model_By_Grapper[0].code;
+    }
     private void Initialize()
     {
         if (combobox == null || scrollRect == null || inputField == null || content == null || itemPrefab == null)
@@ -151,7 +155,7 @@ public class SearchableDropDown : MonoBehaviour
             scrollRect.gameObject.GetComponent<RectTransform>().sizeDelta = activeItemCount == 1
                 ? new Vector2(scrollRectInitialSize.x, newHeight * 1.05f)
                 : scrollRectInitialSize;
-            // Debug.Log($"newHeight: {newHeight}");
+            // //Debug$"newHeight: {newHeight}");
 
         }
         else

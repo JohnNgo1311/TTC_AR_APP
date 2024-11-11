@@ -30,14 +30,15 @@ public class Show_Dialog : MonoBehaviour
         }
         else
         {
-            Debug.Log("Show_Dialog");
+            //Debug"Show_Dialog");
             Instance = this;
             PreloadSprites();
         }
         if (showToastInitial)
         {
+            Set_Instance_Status_True();
             ShowToast(toastStatus, toastMessageInitial);
-            StartCoroutine(Set_Instance_Status(false));
+            StartCoroutine(Set_Instance_Status_False());
             showToastInitial = false;
         }
     }
@@ -58,13 +59,13 @@ public class Show_Dialog : MonoBehaviour
 
     public void ShowToast(string toastStatus, string message)
     {
-        Transform existingToast = toastParent.Find("Toast_Prefab_Group(Clone)");
+        Transform existingToast = toastParent.Find("Toast_Prefab_Group(Clone)/Background");
         TMP_Text toastText;
         Image toastBackground;
 
         if (existingToast != null)
         {
-            existingToast.gameObject.SetActive(true);
+            existingToast.gameObject.transform.parent.gameObject.SetActive(true);
             toastText = existingToast.GetComponentInChildren<TMP_Text>();
             toastBackground = existingToast.GetComponentInChildren<Image>();
         }
@@ -72,8 +73,9 @@ public class Show_Dialog : MonoBehaviour
         {
             GameObject toastInstance = Instantiate(toastPrefab, toastParent);
             toastInstance.gameObject.SetActive(true);
-            toastText = toastInstance.GetComponentInChildren<TMP_Text>();
-            toastBackground = toastInstance.GetComponentInChildren<Image>();
+            toastInstance.transform.GetChild(0).gameObject.SetActive(true);
+            toastText = toastInstance.transform.GetChild(0).GetComponentInChildren<TMP_Text>();
+            toastBackground = toastInstance.transform.GetChild(0).GetComponentInChildren<Image>();
         }
 
         if (toastText != null && toastBackground != null)
@@ -102,16 +104,26 @@ public class Show_Dialog : MonoBehaviour
         }
         // StartCoroutine(SetInstanceDisable(toastParent.Find("Toast_Prefab_Group(Clone)")));
     }
-    public IEnumerator Set_Instance_Status(bool status)
+    public void Set_Instance_Status_True()
     {
-        yield return new WaitForSeconds(0.75f);
+        // yield return new WaitForSeconds(0.5f);
         if (toastParent.Find("Toast_Prefab_Group(Clone)") != null)
         {
-            Debug.Log($"Set_Instance_Status: {status}");
+            //Debug$"Set_Instance_Status: {status}");
 
-            toastParent.Find("Toast_Prefab_Group(Clone)").gameObject.SetActive(status);
+            toastParent.Find("Toast_Prefab_Group(Clone)").gameObject.SetActive(true);
 
         }
     }
+    public IEnumerator Set_Instance_Status_False()
+    {
+        yield return new WaitForSeconds(1f);
+        if (toastParent.Find("Toast_Prefab_Group(Clone)") != null)
+        {
+            //Debug$"Set_Instance_Status: {status}");
 
+            toastParent.Find("Toast_Prefab_Group(Clone)").gameObject.SetActive(false);
+
+        }
+    }
 }

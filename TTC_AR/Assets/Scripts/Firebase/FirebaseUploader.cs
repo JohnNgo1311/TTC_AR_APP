@@ -20,7 +20,7 @@
 //         savePhoto.image = imageForUpload;
 //         savePhoto.PickPhotoCameraRoll(imageForUpload);
 
-//         Debug.Log("Uploading file: " + savePhoto.imagePath);
+//         //Debug"Uploading file: " + savePhoto.imagePath);
 
 //         var metadata = new MetadataChange { ContentType = "image/jpeg" };
 //         storageReference = storageReference.Child(fileName);
@@ -30,10 +30,10 @@
 //             try
 //             {
 //                 var uploadTask = await storageReference.PutFileAsync(savePhoto.imagePath, metadata);
-//                 Debug.Log("Upload success: " + uploadTask);
+//                 //Debug"Upload success: " + uploadTask);
 
 //                 var downloadUrl = await storageReference.GetDownloadUrlAsync();
-//                 Debug.Log("Download URL: " + downloadUrl);
+//                 //Debug"Download URL: " + downloadUrl);
 
 //                 await SaveFileUrlToDatabase(imagesFolderPath, fileName, downloadUrl.ToString());
 //             }
@@ -51,7 +51,7 @@
 //         try
 //         {
 //             await dbReference.Child(keyItem).SetValueAsync(url);
-//             Debug.Log("File URL saved successfully: " + url);
+//             //Debug"File URL saved successfully: " + url);
 //         }
 //         catch (System.Exception ex)
 //         {

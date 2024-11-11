@@ -52,7 +52,7 @@ public class Load_General_Data_From_Rack : MonoBehaviour
             string jsonData = www.downloadHandler.text;
             try
             {
-                if (jsonData != null) Debug.Log($"Loaded JSON data: {jsonData}");
+                if (jsonData != null) //Debug$"Loaded JSON data: {jsonData}");
                 // Deserialize JSON data
                 switch (grapper)
                 {
@@ -63,7 +63,7 @@ public class Load_General_Data_From_Rack : MonoBehaviour
                 }
                 /* RackData_GrapperA rackData_Grapper_General = JsonConvert.DeserializeObject<RackData_GrapperA>(jsonData);
                  GlobalVariable.rackData_GrapperA = rackData_Grapper_General; //! Lưu danh sách các thiết bị trong 1 Grapper
-                 Debug.Log($"Loaded JSON data 1 : {rackData_Grapper_General.Rack4[0].Module + rackData_Grapper_General.Rack4[0].JbConnection[0] + rackData_Grapper_General.Rack4[0].DeviceConnection[0]}");*/
+                 //Debug$"Loaded JSON data 1 : {rackData_Grapper_General.Rack4[0].Module + rackData_Grapper_General.Rack4[0].JbConnection[0] + rackData_Grapper_General.Rack4[0].DeviceConnection[0]}");*/
             }
             catch (JsonException je)
             {
@@ -73,7 +73,7 @@ public class Load_General_Data_From_Rack : MonoBehaviour
             {
                 Debug.LogError($"Unexpected error during JSON processing: {e.Message}");
             }
-            Debug.Log($"Loaded JSON data lần 2: {jsonData}");
+            //Debug$"Loaded JSON data lần 2: {jsonData}");
         }
 
     }
@@ -98,7 +98,7 @@ public class Load_General_Data_From_Rack : MonoBehaviour
     }
     private void ProcessJsonData(string jsonData)
     {
-        Debug.Log($"Loaded JSON data:{jsonData.Length} + {jsonData}"); //! 8255 ký tự
+        //Debug$"Loaded JSON data:{jsonData.Length} + {jsonData}"); //! 8255 ký tự
 
         try
         {
@@ -107,7 +107,7 @@ public class Load_General_Data_From_Rack : MonoBehaviour
                 case "A":
                     RackData_GrapperA rackData_Grapper_General = JsonConvert.DeserializeObject<RackData_GrapperA>(jsonData);
                     GlobalVariable.rackData_GrapperA = rackData_Grapper_General; //! Lưu danh sách các thiết bị trong 1 Grapper
-                    Debug.Log($"Loaded JSON data 1 : {GlobalVariable.rackData_GrapperA.Rack_4[0].Module + GlobalVariable.rackData_GrapperA.Rack_4[0].JbConnection[0] + GlobalVariable.rackData_GrapperA.Rack_4[0].Type}");
+                    //Debug$"Loaded JSON data 1 : {GlobalVariable.rackData_GrapperA.Rack_4[0].Module + GlobalVariable.rackData_GrapperA.Rack_4[0].JbConnection[0] + GlobalVariable.rackData_GrapperA.Rack_4[0].Type}");
                     break;
             }
         }
@@ -134,7 +134,7 @@ public class Load_General_Data_From_Rack : MonoBehaviour
         GlobalVariable_Search_Devices.devices_Model_For_FilterA = savedList;
         if (savedList != null && savedList.Count > 0)
         {
-            Debug.Log($"Lượng data đã lưu: {savedList.Count} + {savedList[1]}");
+            //Debug$"Lượng data đã lưu: {savedList.Count} + {savedList[1]}");
         }
         else
         {

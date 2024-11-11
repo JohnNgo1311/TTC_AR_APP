@@ -69,7 +69,7 @@
 //              {
 //                  if (task.Result == DependencyStatus.Available)
 //                  {
-//                      Debug.Log("Firebase dependencies are available.");
+//                      //Debug"Firebase dependencies are available.");
 //                      // Khởi tạo Database và Storage
 //                      dbReference = FirebaseDatabase.DefaultInstance.RootReference;
 //                      if (dbReference == null)
@@ -78,7 +78,7 @@
 //                      }
 //                      else
 //                      {
-//                          Debug.Log("Database reference initialized successfully.");
+//                          //Debug"Database reference initialized successfully.");
 //                          // Gán dbReference 
 //                          FirebaseDownloader.dbReference = dbReference;
 //                          FirebaseUploader.dbReference = dbReference.Child(imageFolderPaths[0]);
@@ -92,13 +92,13 @@
 //                      }
 //                      else
 //                      {
-//                          Debug.Log("Storage initialized successfully.");
+//                          //Debug"Storage initialized successfully.");
 //                          storageReference = storage.GetReferenceFromUrl(firebaseUrl).Child(imageFolderPaths[0]);
 //                          FirebaseUploader.storageReference = storageReference;
 //                      }
 
 
-//                      Debug.Log("Firebase initialized successfully.");
+//                      //Debug"Firebase initialized successfully.");
 //                  }
 //                  else
 //                  {

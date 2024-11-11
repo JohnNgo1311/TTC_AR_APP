@@ -58,15 +58,15 @@ public class UILogin : MonoBehaviour
         else
         {
             Show_Dialog.Instance.ShowToast("failure", "Sai tên đăng nhập hoặc mật khẩu");
-            StartCoroutine(Show_Dialog.Instance.Set_Instance_Status(false));
+            StartCoroutine(Show_Dialog.Instance.Set_Instance_Status_False());
         }
     }
 
     private IEnumerator LoadSceneAsync(string sceneName)
     {
-        StartCoroutine(Show_Dialog.Instance.Set_Instance_Status(true));
+        Show_Dialog.Instance.Set_Instance_Status_True();
         Show_Dialog.Instance.ShowToast("loading", "Đang đăng nhập...");
-        StartCoroutine(Show_Dialog.Instance.Set_Instance_Status(false));
+        StartCoroutine(Show_Dialog.Instance.Set_Instance_Status_False());
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
 
         while (!asyncLoad.isDone)

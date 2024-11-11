@@ -92,7 +92,7 @@ public class Update_Module_Screen : MonoBehaviour
         if (spriteCache.TryGetValue(spriteName, out var sprite))
         {
             targetImage.sprite = sprite;
-            Debug.Log($"{logName} Sprite: {sprite.name}");
+            //Debug$"{logName} Sprite: {sprite.name}");
         }
         else
         {

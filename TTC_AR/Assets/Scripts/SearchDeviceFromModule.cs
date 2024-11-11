@@ -156,7 +156,7 @@ public class SearchDeviceFromModule : MonoBehaviour
     /* 
     private void NavigateJBDetailScreen(string jB_TSD_Name)
     {
-        Debug.Log("Navigate to JB Detail Screen + " + jB_TSD_Name);
+        //Debug"Navigate to JB Detail Screen + " + jB_TSD_Name);
     }
     */
 
@@ -165,9 +165,9 @@ public class SearchDeviceFromModule : MonoBehaviour
         GlobalVariable.jb_TSD_Title = jB_TSD_Connection; // Name_Location of JB
         var jobDetails = GlobalVariable.jb_TSD_Title.Split('_'); // EX: JB100_Hầm Cáp MCC
         GlobalVariable.jb_TSD_Name = jobDetails[0]; // jb_name: JB100
-                                                    // Debug.Log("jb_name: " + jb_name);
+                                                    // //Debug"jb_name: " + jb_name);
         GlobalVariable.jb_TSD_Location = jobDetails.Length > 1 ? jobDetails[1] : string.Empty; // jb_location: Hầm Cáp MCC
-                                                                                               // Debug.Log("jb_location: " + jb_location);
+                                                                                               // //Debug"jb_location: " + jb_location);
         if (GlobalVariable.navigate_from_JB_TSD_General)
         {
             jb_TSD_General_Transform.gameObject.SetActive(false);
