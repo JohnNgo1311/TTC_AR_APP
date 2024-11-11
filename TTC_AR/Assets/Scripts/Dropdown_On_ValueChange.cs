@@ -44,22 +44,12 @@ public class Dropdown_On_ValueChange : MonoBehaviour
         // Cache các phần tử UI và dữ liệu thiết bị
         CacheUIElements();
         CacheDevices();
-
         // Thêm sự kiện cho inputField và gọi OnInputValueChanged
         inputField.onValueChanged.AddListener(OnInputValueChanged);
         OnInputValueChanged(GlobalVariable_Search_Devices.devices_Model_By_Grapper[0].code);
-        loadDataSuccess = true;
         // Kiểm tra nếu load dữ liệu thành công
-        if (loadDataSuccess)
-        {
-            // Hiển thị thông báo "Tải dữ liệu thành công"
-            Show_Dialog.Instance.ShowToast("success", "Tải dữ liệu thành công");
-            // Tắt overlay_Loading_Image
-            //   overlay_Loading_Image.SetActive(false);
-            // Đặt Instance_Status thành false và chờ hoàn thành
-            StartCoroutine(Show_Dialog.Instance.Set_Instance_Status_False());
-        }
 
+        loadDataSuccess = true;
     }
 
 
@@ -184,6 +174,7 @@ public class Dropdown_On_ValueChange : MonoBehaviour
         }
 
         scrollRect.verticalNormalizedPosition = 1f;
+
     }
 
     private async Task PreloadSpritesAsync(string addressableKey)
@@ -239,7 +230,17 @@ public class Dropdown_On_ValueChange : MonoBehaviour
         }
 
         JB_Connection_Wiring_Image_Prefab.gameObject.SetActive(false);
+
+        if (loadDataSuccess)
+        {
+            Show_Dialog.Instance.ShowToast("success", "Tải dữ liệu thành công");
+            StartCoroutine(Show_Dialog.Instance.Set_Instance_Status_False());
+            loadDataSuccess = false;
+        }
     }
+
+
+
 
     private void SetSprite(Image imageComponent, string jb_name)
     {
