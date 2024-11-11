@@ -46,10 +46,11 @@ public class Dropdown_On_ValueChange : MonoBehaviour
         CacheDevices();
         // Thêm sự kiện cho inputField và gọi OnInputValueChanged
         inputField.onValueChanged.AddListener(OnInputValueChanged);
+        loadDataSuccess = true;
+
         OnInputValueChanged(GlobalVariable_Search_Devices.devices_Model_By_Grapper[0].code);
         // Kiểm tra nếu load dữ liệu thành công
 
-        loadDataSuccess = true;
     }
 
 
@@ -96,7 +97,6 @@ public class Dropdown_On_ValueChange : MonoBehaviour
 
     private void OnInputValueChanged(string input)
     {
-        loadDataSuccess = false;
         if (input == currentLoadedDeviceCode)
         {
             return;
@@ -174,6 +174,12 @@ public class Dropdown_On_ValueChange : MonoBehaviour
         }
 
         scrollRect.verticalNormalizedPosition = 1f;
+        if (loadDataSuccess)
+        {
+            Show_Dialog.Instance.ShowToast("success", "Tải dữ liệu thành công");
+            StartCoroutine(Show_Dialog.Instance.Set_Instance_Status_False());
+        }
+        loadDataSuccess = false;
 
     }
 
@@ -231,12 +237,7 @@ public class Dropdown_On_ValueChange : MonoBehaviour
 
         JB_Connection_Wiring_Image_Prefab.gameObject.SetActive(false);
 
-        if (loadDataSuccess)
-        {
-            Show_Dialog.Instance.ShowToast("success", "Tải dữ liệu thành công");
-            StartCoroutine(Show_Dialog.Instance.Set_Instance_Status_False());
-            loadDataSuccess = false;
-        }
+
     }
 
 
