@@ -17,7 +17,7 @@ public class SettingsMenu : MonoBehaviour
     public Button mainButton;
     private List<SettingsMenuItem> menuItems;
 
-    private bool isExpanded = false;
+    private bool isExpanded = true;
     // private Vector2 mainButtonPosition;
 
     void Start()

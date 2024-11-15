@@ -36,10 +36,17 @@ public class Show_Dialog : MonoBehaviour
         }
         if (showToastInitial)
         {
-            Set_Instance_Status_True();
-            ShowToast(toastStatus, toastMessageInitial);
-            StartCoroutine(Set_Instance_Status_False());
-            showToastInitial = false;
+            if (GlobalVariable.recentScene == "SelectionScene" && GlobalVariable.previousScene != "LoginScene")
+            {
+                return;
+            }
+            else
+            {
+                Set_Instance_Status_True();
+                ShowToast(toastStatus, toastMessageInitial);
+                StartCoroutine(Set_Instance_Status_False());
+                showToastInitial = false;
+            }
         }
     }
     void Start()

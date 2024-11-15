@@ -52,7 +52,7 @@ public class Get_Devices_By_Grapper : MonoBehaviour
             }
             catch (Exception e)
             {
-                //Debug.LogError($"Failed to read JSON file: {e.Message}");
+                Debug.LogError($"Failed to read JSON file: {e.Message}");
             }
         }
         else
@@ -83,7 +83,7 @@ public class Get_Devices_By_Grapper : MonoBehaviour
                 }
                 catch (Exception e)
                 {
-                    //Debug.LogError($"Error processing JSON: {e.Message}");
+                    Debug.LogError($"Error processing JSON: {e.Message}");
                 }
             }
         }
@@ -108,11 +108,11 @@ public class Get_Devices_By_Grapper : MonoBehaviour
         }
         catch (JsonException je)
         {
-            //Debug.LogError($"Failed to deserialize JSON data: {je.Message}");
+            Debug.LogError($"Failed to deserialize JSON data: {je.Message}");
         }
         catch (Exception e)
         {
-            //Debug.LogError($"Unexpected error during JSON processing: {e.Message}");
+            Debug.LogError($"Unexpected error during JSON processing: {e.Message}");
         }
     }
 

@@ -151,6 +151,7 @@ public class Dropdown_On_ValueChange : MonoBehaviour
         ClearWiringGroupAndCache();
 
         var addressableKeys = new List<string> { "Real_Outdoor_JB_TSD", $"{GlobalVariable_Search_Devices.devices_Model_By_Grapper[0].location}_Connection_Wiring" };
+
         if (GlobalVariable_Search_Devices.devices_Model_By_Grapper[0].location == "GrapperA")
         {
             for (int i = 1; i <= 6; i++)
@@ -159,7 +160,8 @@ public class Dropdown_On_ValueChange : MonoBehaviour
             }
         }
 
-        var tasks = addressableKeys.Select(key => PreloadSpritesAsync(key)).ToList();
+        var tasks = addressableKeys.Select(key => PreloadSpritesAsync(key)).ToList(); // dòng này chạy bất đồng bộ
+
         await Task.WhenAll(tasks);
 
         var filteredList = spriteCache.Keys
@@ -167,17 +169,19 @@ public class Dropdown_On_ValueChange : MonoBehaviour
             .OrderBy(key => int.Parse(key.Split('_')[1][0].ToString()))
             .ToList();
 
-        ApplyModuleLocationSprite();
         if (filteredList.Count > 0)
         {
-            ApplySpritesToImages(filteredList);
+            await Task.WhenAll(
+            ApplyModuleLocationSprite(),
+            ApplySpritesToImages(filteredList)
+        );
         }
 
         scrollRect.verticalNormalizedPosition = 1f;
         if (loadDataSuccess)
         {
             Show_Dialog.Instance.ShowToast("success", "Tải dữ liệu thành công");
-            StartCoroutine(Show_Dialog.Instance.Set_Instance_Status_False());
+            StartCoroutine(Show_Dialog.Instance.Set_Instance_Status_False()); // đợi 1 giây rồi đặt Instance_Status thành false
         }
         loadDataSuccess = false;
 
@@ -190,7 +194,7 @@ public class Dropdown_On_ValueChange : MonoBehaviour
             spriteCache[sprite.name] = sprite;
         });
 
-        await handle.Task;
+        await handle.Task;  //!Await này chỉ dừng chạy các logic code sau dòng này, tuy nhiên các tác vụ trên Main Thread vẫn tiếp tục chạy
 
         if (handle.Status != AsyncOperationStatus.Succeeded)
         {
@@ -198,15 +202,16 @@ public class Dropdown_On_ValueChange : MonoBehaviour
         }
     }
 
-    private void ApplyModuleLocationSprite()
+    private async Task ApplyModuleLocationSprite()
     {
         if (spriteCache.TryGetValue(GlobalVariable_Search_Devices.moduleName, out var moduleSprite))
         {
             module_Image.sprite = moduleSprite;
         }
+        await Task.Yield();
     }
 
-    private void ApplySpritesToImages(List<string> filteredList)
+    private async Task ApplySpritesToImages(List<string> filteredList)
     {
         ClearInstantiatedImages();
         JB_Location_Image_Prefab.gameObject.SetActive(true);
@@ -237,7 +242,7 @@ public class Dropdown_On_ValueChange : MonoBehaviour
 
         JB_Connection_Wiring_Image_Prefab.gameObject.SetActive(false);
 
-
+        await Task.Yield();
     }
 
 
