@@ -28,16 +28,10 @@ public class Resize_Image_After_Orientation : MonoBehaviour
     if (Screen.orientation != lastOrientation)
     {
       // Orientation đã thay đổi
-      //Debug"Orientation changed from " + lastOrientation + " to " + Screen.orientation);
-      // Khôi phục vị trí và kích thước ban đầu khi màn hình xoay
-      //   gameObject.GetComponent<RectTransform>().sizeDelta = new Vector2(originalRectTransform.sizeDelta.x, originalRectTransform.sizeDelta.y);
-
       Resize_Gameobject_Function.Set_NativeSize_For_GameObject(imageComponent);
       // Cập nhật orientation hiện tại
       lastOrientation = Screen.orientation;
-      // Gọi hàm xử lý theo yêu cầu*/
     }
-
   }
   void Start()
   {

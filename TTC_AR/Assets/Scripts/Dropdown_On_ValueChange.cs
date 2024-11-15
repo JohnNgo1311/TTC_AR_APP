@@ -161,7 +161,7 @@ public class Dropdown_On_ValueChange : MonoBehaviour
         }
 
         var tasks = addressableKeys.Select(key => PreloadSpritesAsync(key)).ToList(); // dòng này chạy bất đồng bộ
-        
+
         await Task.WhenAll(tasks);
 
         var filteredList = spriteCache.Keys

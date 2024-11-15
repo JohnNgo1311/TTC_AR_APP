@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using Vuforia;
 public class OpenCanvas : MonoBehaviour
 {
@@ -31,7 +31,8 @@ public class OpenCanvas : MonoBehaviour
 
     public UnityEngine.UI.Image image;
 
-    private VuforiaBehaviour vuforiaBehaviour; public void PauseARCamera()
+    private VuforiaBehaviour vuforiaBehaviour;
+    public void PauseARCamera()
     {
         // Chạy chụp ảnh màn hình trong một Coroutine để tránh lag
         StartCoroutine(TakeScreenshotCoroutine());
@@ -137,7 +138,15 @@ public class OpenCanvas : MonoBehaviour
 
     public static string ConvertString(string input)
     {
-        return input.Insert(2, ".").Insert(4, ".");
+        if (SceneManager.GetActiveScene().name == "GrapperAScanScene")
+        {
+            return input.Insert(2, ".").Insert(4, "."); // Chèn dấu chấm vào vị trí 2 và 4
+        }
+        else
+        {
+
+            return input.Replace("_", " "); ;
+        }
     }
 
     private void OnDestroy()
@@ -172,11 +181,18 @@ public class OpenCanvas : MonoBehaviour
 
     void Update()
     {
-        activated_imageTargets = GlobalVariable.activated_iamgeTargets;
-
-        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
+        if (SceneManager.GetActiveScene().name == "GrapperAScanScene")
         {
-            HandleInput(Input.GetTouch(0).position);
+            activated_imageTargets = GlobalVariable.activated_iamgeTargets;
+        }
+
+        if (Input.GetMouseButtonDown(0) || (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began))
+        {
+            Vector3 inputPosition = Input.mousePosition;
+#if !UNITY_EDITOR
+            inputPosition = Input.GetTouch(0).position;
+#endif
+            HandleInput(inputPosition);
         }
     }
 
