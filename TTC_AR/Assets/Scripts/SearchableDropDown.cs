@@ -187,6 +187,7 @@ public class SearchableDropDown : MonoBehaviour
         inputField.onValueChanged.RemoveListener(OnInputValueChange);
         arrowButtonDown.GetComponent<Button>().onClick.RemoveListener(ToggleDropdown);
         arrowButtonUp.GetComponent<Button>().onClick.RemoveListener(ToggleDropdown);
+        
 
     }
 }

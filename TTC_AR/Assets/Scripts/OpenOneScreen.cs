@@ -12,9 +12,6 @@ public class OpenOneScreen : MonoBehaviour
             UnityEngine.Rendering.DebugManager.instance.enableRuntimeUI = false;
         screen.SetActive(false);
     }
-    void Update()
-    {
-    }
     public void OpenScreen()
     {
         screen.SetActive(true);
