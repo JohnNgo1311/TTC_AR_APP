@@ -29,6 +29,8 @@ public class NavScene : MonoBehaviour
 
     private IEnumerator WaitForReadyAndNavigate(int buttonIndex)
     {
+        Show_Dialog.Instance.Set_Instance_Status_True();
+        Show_Dialog.Instance.ShowToast("loading", "Đang chuyển trang...");
         // Wait until ready_To_Nav_New_Scene is true
         while (!GlobalVariable.ready_To_Nav_New_Scene)
         {
