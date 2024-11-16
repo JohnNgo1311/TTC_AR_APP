@@ -29,12 +29,13 @@ public class NavScene : MonoBehaviour
 
     private IEnumerator WaitForReadyAndNavigate(int buttonIndex)
     {
+        Show_Dialog.Instance.Set_Instance_Status_True();
+        Show_Dialog.Instance.ShowToast("loading", "Đang chuyển trang...");
         // Wait until ready_To_Nav_New_Scene is true
         while (!GlobalVariable.ready_To_Nav_New_Scene)
         {
             yield return null;  // Wait for the next frame
         }
-
         // When ready_To_Nav_New_Scene is true, proceed with navigation
         if (GlobalVariable.recentScene != recentSceneName[buttonIndex])
         {
@@ -43,6 +44,6 @@ public class NavScene : MonoBehaviour
             SceneManager.LoadScene(recentSceneName[buttonIndex]); // Use synchronous loading
             PlayerPrefs.SetString(recentSceneName[buttonIndex], SceneManager.GetActiveScene().name);
         }
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.5f);
     }
 }
