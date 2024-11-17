@@ -680,7 +680,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6bb2f42bf178d54f824b95d81a22503, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  combobox: {fileID: 322040067}
   arrowButtonUp: {fileID: 1017141142}
   arrowButtonDown: {fileID: 397911804}
   itemPrefab: {fileID: 6073718245346258994, guid: 892645ba41bc548458c7674ce7b06768,
@@ -1878,7 +1877,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefab_Device: {fileID: 997710072}
-  inputField: {fileID: 56064248}
+  searchableDropDown: {fileID: 322040069}
+  bottom_App_Bar: {fileID: 1521707566}
 --- !u!1 &981588575
 GameObject:
   m_ObjectHideFlags: 0

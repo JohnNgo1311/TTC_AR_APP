@@ -2,16 +2,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
-using UnityEngine.UI;
-using System.Collections;
 
 public class Dropdown_On_ValueChange : MonoBehaviour
 {
     public GameObject prefab_Device;
-    public TMP_InputField inputField;
+    //public TMP_InputField inputField;
     //  public GameObject overlay_Loading_Image;
     private RectTransform contentTransform;
     private TMP_Text code_Value_Text, function_Value_Text, range_Value_Text, io_Value_Text, jb_Connection_Value_Text, jb_Connection_Location_Text;
@@ -24,41 +23,48 @@ public class Dropdown_On_ValueChange : MonoBehaviour
     private bool loadDataSuccess = false;
     private Dictionary<string, DeviceModel> deviceDictionary;
 
+    public SearchableDropDown searchableDropDown;
 
+    [SerializeField] GameObject bottom_App_Bar;
     private void Awake()
     {
-        //  overlay_Loading_Image.SetActive(true);
-
-        // Đặt Instance_Status thành true và chờ hoàn thành
+        Debug.Log("Dropdown_On_ValueChange Awake");
+        searchableDropDown = searchableDropDown.GetComponent<SearchableDropDown>();
         Show_Dialog.Instance.Set_Instance_Status_True();
-
-        // Hiển thị thông báo "Đang tải dữ liệu..."
         Show_Dialog.Instance.ShowToast("loading", "Đang tải dữ liệu...");
-
-        // Kiểm tra inputField
-        if (inputField == null)
-        {
-            return;
-        }
-
-        // Cache các phần tử UI và dữ liệu thiết bị
         CacheUIElements();
         CacheDevices();
-        // Thêm sự kiện cho inputField và gọi OnInputValueChanged
-        inputField.onValueChanged.AddListener(OnInputValueChanged);
-        loadDataSuccess = true;
-
-        OnInputValueChanged(GlobalVariable_Search_Devices.devices_Model_By_Grapper[0].code);
-        // Kiểm tra nếu load dữ liệu thành công
-
     }
-
-
-
+    void Update()
+    {
+        if (bottom_App_Bar.activeSelf && Screen.orientation == ScreenOrientation.LandscapeLeft)
+        {
+            bottom_App_Bar.SetActive(false);
+        }
+        else if (!bottom_App_Bar.activeSelf && Screen.orientation != ScreenOrientation.LandscapeLeft)
+        {
+            bottom_App_Bar.SetActive(true);
+        }
+    }
     private void Start()
     {
-        if (UnityEngine.Rendering.DebugManager.instance.enableRuntimeUI)
-            UnityEngine.Rendering.DebugManager.instance.enableRuntimeUI = false;
+        Debug.Log("Dropdown_On_ValueChange Start");
+        searchableDropDown.Initialize();
+        searchableDropDown.inputField.onValueChanged.AddListener(OnInputValueChanged);
+
+        if (string.IsNullOrEmpty(searchableDropDown.inputField.text))
+        {
+            searchableDropDown.Set_Initial_Text_Field_Value();
+        }
+
+        loadDataSuccess = true;
+
+        /* if (!string.IsNullOrEmpty(GlobalVariable_Search_Devices.devices_Model_By_Grapper[0].code))
+         {
+             OnInputValueChanged(GlobalVariable_Search_Devices.devices_Model_By_Grapper[0].code);
+         }*/
+
+
     }
 
     private void CacheUIElements()
@@ -175,11 +181,14 @@ public class Dropdown_On_ValueChange : MonoBehaviour
             ApplyModuleLocationSprite(),
             ApplySpritesToImages(filteredList)
         );
+            Debug.Log("ApplyModuleLocationSprite and ApplySpritesToImages");
         }
 
         scrollRect.verticalNormalizedPosition = 1f;
+        Debug.Log("scrollRect.verticalNormalizedPosition = 1f");
         if (loadDataSuccess)
         {
+            Debug.Log("loadDataSuccess: " + loadDataSuccess);
             Show_Dialog.Instance.ShowToast("success", "Tải dữ liệu thành công");
             StartCoroutine(Show_Dialog.Instance.Set_Instance_Status_False()); // đợi 1 giây rồi đặt Instance_Status thành false
         }
@@ -286,7 +295,7 @@ public class Dropdown_On_ValueChange : MonoBehaviour
 
     private void ResetResources()
     {
-        inputField.onValueChanged.RemoveListener(OnInputValueChanged);
+        searchableDropDown.inputField.onValueChanged.RemoveListener(OnInputValueChanged);
         spriteCache.Clear();
         currentLoadedDeviceCode = null;
     }
