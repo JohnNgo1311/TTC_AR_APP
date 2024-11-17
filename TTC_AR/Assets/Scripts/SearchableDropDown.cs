@@ -9,7 +9,6 @@ using UnityEngine.UI;
 //! Searchable cho trang PLC Box
 public class SearchableDropDown : MonoBehaviour
 {
-    public GameObject combobox;
     public GameObject arrowButtonUp;
     public GameObject arrowButtonDown;
     public GameObject itemPrefab;
@@ -28,39 +27,46 @@ public class SearchableDropDown : MonoBehaviour
     //! Script này sử dụng cho trang search nhanh 
     private void Awake()
     {
-        availableOptions = GlobalVariable_Search_Devices.devices_Model_For_FilterA;
+        Debug.Log("SearchableDropDown awake");
+        if (GlobalVariable_Search_Devices.devices_Model_For_FilterA != null) availableOptions = GlobalVariable_Search_Devices.devices_Model_For_FilterA;
         // //DebugavailableOptions[5].ToString());
         contentRect = content.GetComponent<RectTransform>();
         scrollRectInitialSize = scrollRect.gameObject.GetComponent<RectTransform>().sizeDelta;
-        Initialize();
+        // Initialize();
     }
 
     private void Start()
     {
-        if (UnityEngine.Rendering.DebugManager.instance.enableRuntimeUI)
-            UnityEngine.Rendering.DebugManager.instance.enableRuntimeUI = false;
-        PopulateDropdown(availableOptions);
 
-        UpdateUI();
-        int onValueChangedListenerCount = inputField.onValueChanged.GetPersistentEventCount();
-        if (onValueChangedListenerCount > 0)
-        {
-            inputField.onValueChanged.AddListener(OnInputValueChange);
-        }
-        arrowButtonDown.GetComponent<Button>().onClick.AddListener(ToggleDropdown);
-        arrowButtonUp.GetComponent<Button>().onClick.AddListener(ToggleDropdown);
-        Invoke(nameof(Set_Initial_Text_Field_Value), 2f);
+        //Invoke(nameof(Set_Initial_Text_Field_Value), 2f);
     }
-    void Set_Initial_Text_Field_Value()
+    public void Set_Initial_Text_Field_Value()
     {
-        inputField.text = GlobalVariable_Search_Devices.devices_Model_By_Grapper[0].code;
+        if (!string.IsNullOrEmpty(GlobalVariable_Search_Devices.devices_Model_By_Grapper[0].code))
+        { inputField.text = GlobalVariable_Search_Devices.devices_Model_By_Grapper[0].code; };
     }
-    private void Initialize()
+    public void Initialize()
     {
-        if (combobox == null || scrollRect == null || inputField == null || content == null || itemPrefab == null)
+        if (scrollRect == null || inputField == null || content == null || itemPrefab == null)
         {
-            // Debug.LogError("Không thể tìm thấy các thành phần cần thiết trong combobox!");
+            Debug.LogError("Không thể tìm thấy các thành phần cần thiết cho SearchableDropDown");
             return;
+        }
+        else
+        {
+            if (UnityEngine.Rendering.DebugManager.instance.enableRuntimeUI)
+                UnityEngine.Rendering.DebugManager.instance.enableRuntimeUI = false;
+            PopulateDropdown(availableOptions);
+            UpdateUI();
+
+            //Đếm số lượng sự kiện được gán cố định cho inputField
+            int onValueChangedListenerCount = inputField.onValueChanged.GetPersistentEventCount();
+            if (onValueChangedListenerCount > 0)
+            {
+                inputField.onValueChanged.AddListener(OnInputValueChange);
+            }
+            arrowButtonDown.GetComponent<Button>().onClick.AddListener(ToggleDropdown);
+            arrowButtonUp.GetComponent<Button>().onClick.AddListener(ToggleDropdown);
         }
     }
 
@@ -79,7 +85,6 @@ public class SearchableDropDown : MonoBehaviour
         }
         ResizeContent();
         scrollRect.gameObject.SetActive(false);
-
     }
 
     private void UpdateUI()
@@ -187,7 +192,5 @@ public class SearchableDropDown : MonoBehaviour
         inputField.onValueChanged.RemoveListener(OnInputValueChange);
         arrowButtonDown.GetComponent<Button>().onClick.RemoveListener(ToggleDropdown);
         arrowButtonUp.GetComponent<Button>().onClick.RemoveListener(ToggleDropdown);
-        
-
     }
 }

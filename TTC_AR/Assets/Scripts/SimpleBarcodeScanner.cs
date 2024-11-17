@@ -18,11 +18,11 @@ public class SimpleBarcodeScanner : MonoBehaviour
     {
         if (mBarcodeBehaviour != null && mBarcodeBehaviour.InstanceData != null)
         {
-            Debug.Log("Barcode: " + mBarcodeBehaviour.InstanceData.Text);
+        //    Debug.Log("Barcode: " + mBarcodeBehaviour.InstanceData.Text);
 
             if (canvasButton.name == mBarcodeBehaviour.InstanceData.Text)
             {
-                Debug.Log(canvasButton.name);
+             //   Debug.Log(canvasButton.name);
                 canvasButton.SetActive(true);
             }
         }

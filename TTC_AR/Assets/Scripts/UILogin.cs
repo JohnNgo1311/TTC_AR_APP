@@ -57,7 +57,7 @@ public class UILogin : MonoBehaviour
         }
         else
         {
-            Show_Dialog.Instance.ShowToast("failure", "Sai tên đăng nhập hoặc mật khẩu");
+            Show_Dialog.Instance.ShowToast("failure", "Sai thông tin đăng nhập");
             StartCoroutine(Show_Dialog.Instance.Set_Instance_Status_False());
         }
     }

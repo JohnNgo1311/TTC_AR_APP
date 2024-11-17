@@ -29,8 +29,7 @@ public class NavScene : MonoBehaviour
 
     private IEnumerator WaitForReadyAndNavigate(int buttonIndex)
     {
-        Show_Dialog.Instance.Set_Instance_Status_True();
-        Show_Dialog.Instance.ShowToast("loading", "Đang chuyển trang...");
+
         // Wait until ready_To_Nav_New_Scene is true
         while (!GlobalVariable.ready_To_Nav_New_Scene)
         {
@@ -39,6 +38,8 @@ public class NavScene : MonoBehaviour
         // When ready_To_Nav_New_Scene is true, proceed with navigation
         if (GlobalVariable.recentScene != recentSceneName[buttonIndex])
         {
+            Show_Dialog.Instance.Set_Instance_Status_True();
+            Show_Dialog.Instance.ShowToast("loading", "Đang chuyển trang...");
             GlobalVariable.recentScene = recentSceneName[buttonIndex];
             GlobalVariable.previousScene = previousSceneName;
             SceneManager.LoadScene(recentSceneName[buttonIndex]); // Use synchronous loading

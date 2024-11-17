@@ -45,7 +45,7 @@ public class Load_General_Data_From_Rack : MonoBehaviour
 
         if (www.result != UnityWebRequest.Result.Success)
         {
-            Debug.LogError($"Failed to load JSON file on Android: {www.error}");
+            //  Debug.LogError($"Failed to load JSON file on Android: {www.error}");
         }
         else
         {
@@ -53,14 +53,14 @@ public class Load_General_Data_From_Rack : MonoBehaviour
             try
             {
                 if (jsonData != null) //Debug$"Loaded JSON data: {jsonData}");
-                // Deserialize JSON data
-                switch (grapper)
-                {
-                    case "A":
-                        RackData_GrapperA rackData_Grapper_General = JsonConvert.DeserializeObject<RackData_GrapperA>(jsonData);
-                        GlobalVariable.rackData_GrapperA = rackData_Grapper_General; //! Lưu danh sách các thiết bị trong 1 Grapper
-                        break;
-                }
+                                      // Deserialize JSON data
+                    switch (grapper)
+                    {
+                        case "A":
+                            RackData_GrapperA rackData_Grapper_General = JsonConvert.DeserializeObject<RackData_GrapperA>(jsonData);
+                            GlobalVariable.rackData_GrapperA = rackData_Grapper_General; //! Lưu danh sách các thiết bị trong 1 Grapper
+                            break;
+                    }
                 /* RackData_GrapperA rackData_Grapper_General = JsonConvert.DeserializeObject<RackData_GrapperA>(jsonData);
                  GlobalVariable.rackData_GrapperA = rackData_Grapper_General; //! Lưu danh sách các thiết bị trong 1 Grapper
                  //Debug$"Loaded JSON data 1 : {rackData_Grapper_General.Rack4[0].Module + rackData_Grapper_General.Rack4[0].JbConnection[0] + rackData_Grapper_General.Rack4[0].DeviceConnection[0]}");*/
@@ -88,7 +88,7 @@ public class Load_General_Data_From_Rack : MonoBehaviour
             }
             else
             {
-                Debug.LogError($"File not found: {filePath}");
+                //  Debug.LogError($"File not found: {filePath}");
             }
         }
         catch (Exception e)
@@ -138,7 +138,7 @@ public class Load_General_Data_From_Rack : MonoBehaviour
         }
         else
         {
-            Debug.LogError("Danh sách đã lưu có ít hơn 6 phần tử hoặc null");
+            //  Debug.LogError("Danh sách đã lưu có ít hơn 6 phần tử hoặc null");
         }
     }
 

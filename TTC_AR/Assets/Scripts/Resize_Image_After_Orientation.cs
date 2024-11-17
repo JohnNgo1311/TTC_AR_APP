@@ -12,7 +12,6 @@ public class Resize_Image_After_Orientation : MonoBehaviour
 
   private Image imageComponent;
   // private RectTransform originalRectTransform; // Biến lưu RectTransform ban đầu
-
   private ScreenOrientation lastOrientation;
   void Awake()
   {
@@ -20,7 +19,7 @@ public class Resize_Image_After_Orientation : MonoBehaviour
     // originalRectTransform = GetComponent<RectTransform>();
     lastOrientation = Screen.orientation;
     imageComponent = gameObject.GetComponent<Image>();
-
+  
   }
   void Update()
   {

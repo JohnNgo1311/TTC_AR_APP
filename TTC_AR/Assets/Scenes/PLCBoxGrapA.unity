@@ -1878,7 +1878,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefab_Device: {fileID: 997710072}
-  inputField: {fileID: 56064248}
+  searchableDropDown: {fileID: 322040069}
+  bottom_App_Bar: {fileID: 1521707566}
 --- !u!1 &981588575
 GameObject:
   m_ObjectHideFlags: 0
