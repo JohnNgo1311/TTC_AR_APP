@@ -226,13 +226,13 @@ public class Update_JB_TSD_Detail_UI : MonoBehaviour
                 var imageObject = Instantiate(jb_connection_imagePrefab, scroll_Area_Content.transform);
                 SetSprite(imageObject.GetComponent<Image>(), imageName, connectionSprites);
                 imageObject.gameObject.SetActive(true);
-                Resize_Gameobject_Function.Set_NativeSize_For_GameObject(imageObject.GetComponent<Image>());
+                StartCoroutine( Resize_Gameobject_Function.Set_NativeSize_For_GameObject(imageObject.GetComponent<Image>()));
 
             }
         }
         jb_connection_imagePrefab.gameObject.SetActive(false);
-        //  Resize_Gameobject_Function.Resize_Parent_GameObject(jb_connection_imagePrefab_group.GetComponent<RectTransform>());
-        //  Resize_Gameobject_Function.Resize_Parent_GameObject(scroll_Area_Content.GetComponent<RectTransform>());
+        //  StartCoroutine( Resize_Gameobject_Function.Resize_Parent_GameObject(jb_connection_imagePrefab_group.GetComponent<RectTransform>());
+        //  StartCoroutine( Resize_Gameobject_Function.Resize_Parent_GameObject(scroll_Area_Content.GetComponent<RectTransform>());
     }
 
     private void SetSpriteLocation(Image imageComponent, string spriteName, Dictionary<string, Sprite> spriteDictionary)

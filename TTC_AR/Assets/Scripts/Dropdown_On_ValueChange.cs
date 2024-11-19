@@ -26,6 +26,7 @@ public class Dropdown_On_ValueChange : MonoBehaviour
     public SearchableDropDown searchableDropDown;
 
     [SerializeField] GameObject bottom_App_Bar;
+    public Open_Detail_Image open_Detail_Image;
     private void Awake()
     {
         Debug.Log("Dropdown_On_ValueChange Awake");
@@ -216,6 +217,8 @@ public class Dropdown_On_ValueChange : MonoBehaviour
         if (spriteCache.TryGetValue(GlobalVariable_Search_Devices.moduleName, out var moduleSprite))
         {
             module_Image.sprite = moduleSprite;
+            module_Image.gameObject.GetComponent<Button>().onClick.AddListener(() => open_Detail_Image.Open_Detail_Canvas(module_Image));
+            Debug.Log("Đã add sự kiện click vào module_Image");
         }
         await Task.Yield();
     }
@@ -244,8 +247,10 @@ public class Dropdown_On_ValueChange : MonoBehaviour
             {
                 var newImage = Instantiate(JB_Connection_Wiring_Image_Prefab, JB_Connection_Group.transform);
                 newImage.sprite = jbConnectionSprite;
+                newImage.gameObject.GetComponent<Button>().onClick.AddListener(() => open_Detail_Image.Open_Detail_Canvas(newImage));
+                Debug.Log("Đã add sự kiện click vào newImage");
                 newImage.gameObject.SetActive(true);
-                Resize_Gameobject_Function.Set_NativeSize_For_GameObject(newImage);
+                StartCoroutine(Resize_Gameobject_Function.Set_NativeSize_For_GameObject(newImage));
             }
         }
 
@@ -265,7 +270,9 @@ public class Dropdown_On_ValueChange : MonoBehaviour
         }
 
         imageComponent.sprite = jbSprite;
-        Resize_Gameobject_Function.Set_NativeSize_For_GameObject(imageComponent);
+        imageComponent.gameObject.GetComponent<Button>().onClick.AddListener(() => open_Detail_Image.Open_Detail_Canvas(imageComponent));
+        Debug.Log("Đã add sự kiện click vào imageComponent");
+        StartCoroutine(Resize_Gameobject_Function.Set_NativeSize_For_GameObject(imageComponent));
     }
 
     private void CreateAndSetSprite(string jb_name)
@@ -298,5 +305,6 @@ public class Dropdown_On_ValueChange : MonoBehaviour
         searchableDropDown.inputField.onValueChanged.RemoveListener(OnInputValueChanged);
         spriteCache.Clear();
         currentLoadedDeviceCode = null;
+
     }
 }

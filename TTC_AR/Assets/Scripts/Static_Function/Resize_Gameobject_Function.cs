@@ -1,9 +1,4 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Data;
-using Newtonsoft.Json;
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,25 +7,24 @@ public class Resize_Gameobject_Function : MonoBehaviour
 {
   void Start()
   {
-    if (UnityEngine.Rendering.DebugManager.instance.enableRuntimeUI)
-      UnityEngine.Rendering.DebugManager.instance.enableRuntimeUI = false;
   }
+
   public static void Resize_Parent_GameObject(RectTransform contentTransform)
   {
     LayoutRebuilder.ForceRebuildLayoutImmediate(contentTransform);
     Canvas.ForceUpdateCanvases();
     float totalHeight = 0f;
-    foreach (Transform child in contentTransform.gameObject.transform)
+    foreach (RectTransform childRect in contentTransform)
     {
-      RectTransform childRect = child.gameObject.GetComponent<RectTransform>();
-      if (childRect != null && childRect.gameObject.activeSelf)
+      if (childRect.gameObject.activeSelf)
       {
         totalHeight += childRect.rect.height;
       }
     }
-    contentTransform.sizeDelta = new Vector2(contentTransform.sizeDelta.x, (float)(totalHeight * 1.00005));
+    contentTransform.sizeDelta = new Vector2(contentTransform.sizeDelta.x, totalHeight * 1.00005f);
   }
-  public static void Set_NativeSize_For_GameObject(Image imageComponent)
+
+  public static IEnumerator Set_NativeSize_For_GameObject(Image imageComponent)
   {
     LayoutRebuilder.ForceRebuildLayoutImmediate(imageComponent.rectTransform);
     Canvas.ForceUpdateCanvases();
@@ -38,19 +32,18 @@ public class Resize_Gameobject_Function : MonoBehaviour
     if (imageComponent.sprite == null)
     {
       Debug.LogWarning("Sprite is null on Image component.");
-      return;
+      yield break;
     }
+    // imageComponent.gameObject.SetActive(false);
+    yield return new WaitForSeconds(0.3f);
 
     Rect spriteRect = imageComponent.sprite.rect;
-    RectTransform rectTransform = imageComponent.gameObject.GetComponent<RectTransform>();
+    RectTransform rectTransform = imageComponent.rectTransform;
+    float scaleWidth = rectTransform.sizeDelta.x / spriteRect.width;
 
-    float scale_width = rectTransform.sizeDelta.x / spriteRect.width;
-    float scale_height = rectTransform.sizeDelta.y / spriteRect.height;
+    rectTransform.sizeDelta = new Vector2(rectTransform.sizeDelta.x, spriteRect.height * scaleWidth);
+    //imageComponent.gameObject.SetActive(true);
 
-    //Debug$"scale_width: {scale_width}");
-    //Debug$"scale_height: {scale_height}");
-
-    rectTransform.sizeDelta = new Vector2(rectTransform.sizeDelta.x, spriteRect.height * scale_width);
+    yield return null;
   }
-
 }

@@ -1,0 +1,56 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class Open_Detail_Image : MonoBehaviour
+{
+    [SerializeField]
+    private Canvas canvas;
+    [SerializeField]
+    private GameObject detail_Image;
+    [SerializeField]
+    private Button close_Button;
+    //    private RectTransform originalRectTransform_Detail_Image;
+    void Awake()
+    {
+        canvas = GameObject.Find("Overlay_Canvas_To_Watch_Image").GetComponent<Canvas>();
+        detail_Image = canvas.gameObject.transform.Find("Detail_Image_To_Watch").gameObject;
+        close_Button = canvas.gameObject.transform.Find("Back_Button_From_Detail_Panel").GetComponent<Button>();
+        if (canvas.gameObject.activeSelf)
+        {
+            if (!detail_Image.activeSelf)
+            {
+                detail_Image.SetActive(true);
+            }
+            canvas.gameObject.SetActive(false);
+        }
+        //  originalRectTransform_Detail_Image = detail_Image.GetComponent<RectTransform>();
+    }
+    void Start()
+    {
+        close_Button.onClick.AddListener(Close_Detail_Canvas);
+
+    }
+    public void Open_Detail_Canvas(Image image_To_Watch_Detail)
+    {
+        if (!canvas.gameObject.activeSelf)
+        {
+            canvas.gameObject.SetActive(true);
+        }
+        detail_Image.GetComponent<Image>().sprite = image_To_Watch_Detail.sprite;
+        StartCoroutine(Resize_Gameobject_Function.Set_NativeSize_For_GameObject(detail_Image.GetComponent<Image>()));
+    }
+
+    public void Close_Detail_Canvas()
+    {
+        if (canvas.gameObject.activeSelf)
+        {
+            canvas.gameObject.SetActive(false);
+        }
+    }
+    private void OnDestroy()
+    {
+        close_Button.onClick.RemoveListener(Close_Detail_Canvas);
+    }
+}

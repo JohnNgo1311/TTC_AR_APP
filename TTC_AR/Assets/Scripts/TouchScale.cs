@@ -9,7 +9,7 @@ public class TouchScale : MonoBehaviour
     private bool isScaling = false;
     [SerializeField] private ScrollRect parentScrollRect;
     [SerializeField] private ScrollRect objectScrollRect;
-    [SerializeField] private bool keepScaleFunc = false;
+    // [SerializeField] private bool keepScaleFunc = false;
 
     private GraphicRaycaster raycaster;
     private PointerEventData pointerEventData;
@@ -35,7 +35,7 @@ public class TouchScale : MonoBehaviour
         initialScale = transform.localScale;
 
         // Cache components
-        parentScrollRect = parentScrollRect ?? GetComponentInParent<ScrollRect>();
+        //if(parentScrollRect!=null) parentScrollRect = parentScrollRect ?? GetComponentInParent<ScrollRect>();
         raycaster = raycaster ?? GetComponentInParent<GraphicRaycaster>();
         eventSystem = EventSystem.current;
         originalCanvas = originalCanvas ?? GetComponentInParent<Canvas>();
@@ -43,21 +43,7 @@ public class TouchScale : MonoBehaviour
 
     private void HandleScreenOrientation()
     {
-        if (Screen.orientation == ScreenOrientation.LandscapeLeft)
-        {
-            if (!keepScaleFunc)
-            {
-                DisableObjectScrollRect(); // Không cho phép kéo ngang
-            }
-            else
-            {
-                EnableScalingMode();
-            }
-        }
-        else if (Screen.orientation == ScreenOrientation.Portrait)
-        {
-            EnableScalingMode();
-        }
+        EnableScalingMode();
     }
 
     private void EnableScalingMode()
