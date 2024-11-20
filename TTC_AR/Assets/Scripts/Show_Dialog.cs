@@ -1,7 +1,6 @@
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
-using Unity.VisualScripting;
 using System.Collections;
 
 public class Show_Dialog : MonoBehaviour
@@ -22,6 +21,8 @@ public class Show_Dialog : MonoBehaviour
 
     private void Awake()
     {
+        toastParent = GetComponent<Canvas>().transform;
+        Debug.Log(toastParent.name);
         // Singleton setup
         if (Instance != null && Instance != this)
         {
@@ -30,8 +31,8 @@ public class Show_Dialog : MonoBehaviour
         }
         else
         {
-            //Debug"Show_Dialog");
             Instance = this;
+            Debug.Log("Show_Dialog");
             PreloadSprites();
         }
         if (showToastInitial)

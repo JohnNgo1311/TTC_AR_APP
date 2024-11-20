@@ -22,8 +22,8 @@ public class Get_Devices_By_Grapper : MonoBehaviour
     public void Get_List_Device_By_Grapper()
     {
         //  if (overlay_Loading_Image != null) overlay_Loading_Image.SetActive(true);
-        Show_Dialog.Instance.Set_Instance_Status_True();
-        Show_Dialog.Instance.ShowToast("loading", "Đang chuyển trang...");
+        //Show_Dialog.Instance.Set_Instance_Status_True();
+        // Show_Dialog.Instance.ShowToast("loading", "Đang chuyển trang...");
         filePath = Path.Combine(Application.streamingAssetsPath, $"Device_Grapper{grapper}.json");
         if (Application.platform == RuntimePlatform.Android)
         {

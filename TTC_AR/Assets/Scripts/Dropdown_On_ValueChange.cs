@@ -29,11 +29,16 @@ public class Dropdown_On_ValueChange : MonoBehaviour
     {
         Debug.Log("Dropdown_On_ValueChange Awake");
         searchableDropDown = searchableDropDown.GetComponent<SearchableDropDown>();
+
+    }
+
+    private void SetInstanceStatusTrue()
+    {
         Show_Dialog.Instance.Set_Instance_Status_True();
         Show_Dialog.Instance.ShowToast("loading", "Đang tải dữ liệu...");
-        CacheUIElements();
-        CacheDevices();
+
     }
+
     void Update()
     {
         if (bottom_App_Bar.activeSelf && Screen.orientation == ScreenOrientation.LandscapeLeft)
@@ -47,6 +52,12 @@ public class Dropdown_On_ValueChange : MonoBehaviour
     }
     private void Start()
     {
+        if (Show_Dialog.Instance != null)
+        {
+            Invoke(nameof(SetInstanceStatusTrue), 1f);
+        }
+        CacheUIElements();
+        CacheDevices();
         Debug.Log("Dropdown_On_ValueChange Start");
         searchableDropDown.Initialize();
         searchableDropDown.inputField.onValueChanged.AddListener(OnInputValueChanged);
