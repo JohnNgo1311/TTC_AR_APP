@@ -72,7 +72,7 @@ public class NavigationToPanels : MonoBehaviour
     {
         if (isFieldDevice)
         {
-            return generalModuleTitle.text; 
+            return generalModuleTitle.text;
         }
         else
         {

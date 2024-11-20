@@ -1,40 +1,40 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Data;
-using Newtonsoft.Json;
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class Resize_Image_After_Orientation : MonoBehaviour
 {
-
   private Image imageComponent;
-  // private RectTransform originalRectTransform; // Biến lưu RectTransform ban đầu
   private ScreenOrientation lastOrientation;
+
   void Awake()
   {
-    // Lưu orientation khi bắt đầu ứng dụng
-    // originalRectTransform = GetComponent<RectTransform>();
     lastOrientation = Screen.orientation;
-    imageComponent = gameObject.GetComponent<Image>();
-  
+    imageComponent = GetComponent<Image>();
+  }
+
+  void Start()
+  {
   }
   void Update()
   {
-    // Kiểm tra nếu orientation đã thay đổi
+    StartCoroutine(CheckOrientationChange());
+  }
+  IEnumerator CheckOrientationChange()
+  {
+    yield return new WaitForSeconds(0.5f);
     if (Screen.orientation != lastOrientation)
     {
-      // Orientation đã thay đổi
-      Resize_Gameobject_Function.Set_NativeSize_For_GameObject(imageComponent);
-      // Cập nhật orientation hiện tại
+      StartCoroutine(Resize_Gameobject_Function.Set_NativeSize_For_GameObject(imageComponent));
+      Debug.Log("Resize Image");
+      yield return new WaitForSeconds(1.5f);
       lastOrientation = Screen.orientation;
+      Debug.Log("Orientation Changed");
     }
   }
-  void Start()
+
+  private void OnDestroy()
   {
-    if (UnityEngine.Rendering.DebugManager.instance.enableRuntimeUI)
-      UnityEngine.Rendering.DebugManager.instance.enableRuntimeUI = false;
+    StopAllCoroutines();
   }
 }
