@@ -680,7 +680,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6bb2f42bf178d54f824b95d81a22503, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  combobox: {fileID: 322040067}
   arrowButtonUp: {fileID: 1017141142}
   arrowButtonDown: {fileID: 397911804}
   itemPrefab: {fileID: 6073718245346258994, guid: 892645ba41bc548458c7674ce7b06768,
@@ -872,7 +871,7 @@ MonoBehaviour:
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
-  m_enableWordWrapping: 1
+  m_enableWordWrapping: 0
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
   m_linkedTextComponent: {fileID: 0}
@@ -2051,17 +2050,22 @@ PrefabInstance:
     - target: {fileID: 4079182606975719040, guid: adecf6ceef6bb3a41a9dab5412dbdcc0,
         type: 3}
       propertyPath: m_fontSize
-      value: 76.95
+      value: 85
       objectReference: {fileID: 0}
     - target: {fileID: 4079182606975719040, guid: adecf6ceef6bb3a41a9dab5412dbdcc0,
         type: 3}
       propertyPath: m_fontSizeMax
-      value: 80
+      value: 85
       objectReference: {fileID: 0}
     - target: {fileID: 4079182606975719040, guid: adecf6ceef6bb3a41a9dab5412dbdcc0,
         type: 3}
       propertyPath: m_enableAutoSizing
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4079182606975719040, guid: adecf6ceef6bb3a41a9dab5412dbdcc0,
+        type: 3}
+      propertyPath: m_enableWordWrapping
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5258710891560164358, guid: adecf6ceef6bb3a41a9dab5412dbdcc0,
         type: 3}
