@@ -226,7 +226,7 @@ public class Update_JB_TSD_Detail_UI : MonoBehaviour
                 var imageObject = Instantiate(jb_connection_imagePrefab, scroll_Area_Content.transform);
                 SetSprite(imageObject.GetComponent<Image>(), imageName, connectionSprites);
                 imageObject.gameObject.SetActive(true);
-                StartCoroutine(Resize_Gameobject_Function.Set_NativeSize_For_GameObject(imageObject.GetComponent<Image>()));
+                StartCoroutine( Resize_Gameobject_Function.Set_NativeSize_For_GameObject(imageObject.GetComponent<Image>()));
 
             }
         }

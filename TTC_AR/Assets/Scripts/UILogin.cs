@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Text;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -57,7 +56,7 @@ public class UILogin : MonoBehaviour
         }
         else
         {
-            Show_Dialog.Instance.ShowToast("failure", "Sai thông tin đăng nhập");
+            Show_Dialog.Instance.ShowToast("failure", "Sai tên đăng nhập hoặc mật khẩu");
             StartCoroutine(Show_Dialog.Instance.Set_Instance_Status_False());
         }
     }

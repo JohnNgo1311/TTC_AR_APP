@@ -10,14 +10,14 @@ public class SettingsMenu : MonoBehaviour
     public List<GameObject> imageTargets;
     public GameObject content;
     private GameObject scroll_Area;
-    // [Header("space between menu items")]
+    [Header("space between menu items")]
     //  [SerializeField] private Vector2 spacing;
 
     [Header("Main button rotation")]
     public Button mainButton;
     private List<SettingsMenuItem> menuItems;
 
-    private bool isExpanded = false;
+    private bool isExpanded = true;
     // private Vector2 mainButtonPosition;
 
     void Start()
@@ -42,6 +42,8 @@ public class SettingsMenu : MonoBehaviour
                 newObject.GetComponentInChildren<TMP_Text>().text = $"Rack {i + 1}";
                 newObject.gameObject.SetActive(false);
             }
+            content.gameObject.SetActive(false);
+            scroll_Area.SetActive(false);
 
         }
 
@@ -53,8 +55,6 @@ public class SettingsMenu : MonoBehaviour
             menuItems.Add(content.transform.GetChild(i).GetComponent<SettingsMenuItem>());
         }
         OnItemClick("Rack_1");
-        content?.gameObject.SetActive(false);
-        scroll_Area?.SetActive(false);
     }
 
     private void SetupMainButton()
