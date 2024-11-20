@@ -14,6 +14,9 @@ public class Nav_Scene_Back : MonoBehaviour
         if (UnityEngine.Rendering.DebugManager.instance.enableRuntimeUI)
             UnityEngine.Rendering.DebugManager.instance.enableRuntimeUI = false;
     }
+    void Update()
+    {
+    }
 
     private void Awake()
     {

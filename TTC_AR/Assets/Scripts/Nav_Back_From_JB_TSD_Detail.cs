@@ -24,6 +24,9 @@ public class Nav_Back_From_JB_TSD_Detail : MonoBehaviour
         jb_TSD_Detail_Transform = module_Canvas.gameObject.transform.Find("Detail_JB_TSD").GetComponent<RectTransform>();
     }
 
+    void Update()
+    {
+    }
 
     public void NavigatePop()
     {

@@ -10,8 +10,6 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 public class Dropdown_On_ValueChange : MonoBehaviour
 {
     public GameObject prefab_Device;
-    //public TMP_InputField inputField;
-    //  public GameObject overlay_Loading_Image;
     private RectTransform contentTransform;
     private TMP_Text code_Value_Text, function_Value_Text, range_Value_Text, io_Value_Text, jb_Connection_Value_Text, jb_Connection_Location_Text;
     private Image module_Image, JB_Location_Image_Prefab, JB_Connection_Wiring_Image_Prefab;
@@ -26,6 +24,7 @@ public class Dropdown_On_ValueChange : MonoBehaviour
     public SearchableDropDown searchableDropDown;
 
     [SerializeField] GameObject bottom_App_Bar;
+    public Open_Detail_Image open_Detail_Image;
     private void Awake()
     {
         Debug.Log("Dropdown_On_ValueChange Awake");
@@ -54,19 +53,14 @@ public class Dropdown_On_ValueChange : MonoBehaviour
 
         if (string.IsNullOrEmpty(searchableDropDown.inputField.text))
         {
+            loadDataSuccess = true;
             searchableDropDown.Set_Initial_Text_Field_Value();
         }
-
-        loadDataSuccess = true;
-
         /* if (!string.IsNullOrEmpty(GlobalVariable_Search_Devices.devices_Model_By_Grapper[0].code))
          {
              OnInputValueChanged(GlobalVariable_Search_Devices.devices_Model_By_Grapper[0].code);
          }*/
-
-
     }
-
     private void CacheUIElements()
     {
         scrollRect = prefab_Device.GetComponent<ScrollRect>();
@@ -82,7 +76,6 @@ public class Dropdown_On_ValueChange : MonoBehaviour
         JB_Location_Image_Prefab = JB_Connection_Group.transform.Find("JB_Location_Image").GetComponent<Image>();
         JB_Connection_Wiring_Image_Prefab = JB_Connection_Group.transform.Find("JB_Connection_Wiring").GetComponent<Image>();
     }
-
     private void CacheDevices()
     {
         deviceDictionary = GlobalVariable_Search_Devices.devices_Model_By_Grapper.ToDictionary(d => d.code);
@@ -216,6 +209,8 @@ public class Dropdown_On_ValueChange : MonoBehaviour
         if (spriteCache.TryGetValue(GlobalVariable_Search_Devices.moduleName, out var moduleSprite))
         {
             module_Image.sprite = moduleSprite;
+            module_Image.gameObject.GetComponent<Button>().onClick.AddListener(() => open_Detail_Image.Open_Detail_Canvas(module_Image));
+            Debug.Log("Đã add sự kiện click vào module_Image");
         }
         await Task.Yield();
     }
@@ -244,8 +239,10 @@ public class Dropdown_On_ValueChange : MonoBehaviour
             {
                 var newImage = Instantiate(JB_Connection_Wiring_Image_Prefab, JB_Connection_Group.transform);
                 newImage.sprite = jbConnectionSprite;
+                newImage.gameObject.GetComponent<Button>().onClick.AddListener(() => open_Detail_Image.Open_Detail_Canvas(newImage));
+                Debug.Log("Đã add sự kiện click vào newImage");
                 newImage.gameObject.SetActive(true);
-                Resize_Gameobject_Function.Set_NativeSize_For_GameObject(newImage);
+                StartCoroutine(Resize_Gameobject_Function.Set_NativeSize_For_GameObject(newImage));
             }
         }
 
@@ -265,7 +262,9 @@ public class Dropdown_On_ValueChange : MonoBehaviour
         }
 
         imageComponent.sprite = jbSprite;
-        Resize_Gameobject_Function.Set_NativeSize_For_GameObject(imageComponent);
+        imageComponent.gameObject.GetComponent<Button>().onClick.AddListener(() => open_Detail_Image.Open_Detail_Canvas(imageComponent));
+        Debug.Log("Đã add sự kiện click vào imageComponent");
+        StartCoroutine(Resize_Gameobject_Function.Set_NativeSize_For_GameObject(imageComponent));
     }
 
     private void CreateAndSetSprite(string jb_name)
@@ -298,5 +297,6 @@ public class Dropdown_On_ValueChange : MonoBehaviour
         searchableDropDown.inputField.onValueChanged.RemoveListener(OnInputValueChanged);
         spriteCache.Clear();
         currentLoadedDeviceCode = null;
+
     }
 }

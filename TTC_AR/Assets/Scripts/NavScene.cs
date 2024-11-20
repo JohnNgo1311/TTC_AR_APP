@@ -35,6 +35,7 @@ public class NavScene : MonoBehaviour
         {
             yield return null;  // Wait for the next frame
         }
+
         // When ready_To_Nav_New_Scene is true, proceed with navigation
         if (GlobalVariable.recentScene != recentSceneName[buttonIndex])
         {

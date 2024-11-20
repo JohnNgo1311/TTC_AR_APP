@@ -36,4 +36,3 @@ public class Nav_Back_From_Module_Screen : MonoBehaviour
         close_Module_Screen_Button.onClick.RemoveAllListeners();
     }
 }
-
