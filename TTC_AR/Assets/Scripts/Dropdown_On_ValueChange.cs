@@ -10,8 +10,6 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 public class Dropdown_On_ValueChange : MonoBehaviour
 {
     public GameObject prefab_Device;
-    //public TMP_InputField inputField;
-    //  public GameObject overlay_Loading_Image;
     private RectTransform contentTransform;
     private TMP_Text code_Value_Text, function_Value_Text, range_Value_Text, io_Value_Text, jb_Connection_Value_Text, jb_Connection_Location_Text;
     private Image module_Image, JB_Location_Image_Prefab, JB_Connection_Wiring_Image_Prefab;
@@ -55,19 +53,14 @@ public class Dropdown_On_ValueChange : MonoBehaviour
 
         if (string.IsNullOrEmpty(searchableDropDown.inputField.text))
         {
+            loadDataSuccess = true;
             searchableDropDown.Set_Initial_Text_Field_Value();
         }
-
-        loadDataSuccess = true;
-
         /* if (!string.IsNullOrEmpty(GlobalVariable_Search_Devices.devices_Model_By_Grapper[0].code))
          {
              OnInputValueChanged(GlobalVariable_Search_Devices.devices_Model_By_Grapper[0].code);
          }*/
-
-
     }
-
     private void CacheUIElements()
     {
         scrollRect = prefab_Device.GetComponent<ScrollRect>();
@@ -83,7 +76,6 @@ public class Dropdown_On_ValueChange : MonoBehaviour
         JB_Location_Image_Prefab = JB_Connection_Group.transform.Find("JB_Location_Image").GetComponent<Image>();
         JB_Connection_Wiring_Image_Prefab = JB_Connection_Group.transform.Find("JB_Connection_Wiring").GetComponent<Image>();
     }
-
     private void CacheDevices()
     {
         deviceDictionary = GlobalVariable_Search_Devices.devices_Model_By_Grapper.ToDictionary(d => d.code);

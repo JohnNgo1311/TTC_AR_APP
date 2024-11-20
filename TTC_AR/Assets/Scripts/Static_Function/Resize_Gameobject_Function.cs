@@ -37,7 +37,7 @@ public class Resize_Gameobject_Function : MonoBehaviour
     // imageComponent.gameObject.SetActive(false);
     yield return new WaitForSeconds(0.3f);
 
-    Rect spriteRect = imageComponent.sprite.rect;
+    Rect spriteRect = imageComponent.sprite.rect; //Lấy kích thước của sprite 
     RectTransform rectTransform = imageComponent.rectTransform;
     float scaleWidth = rectTransform.sizeDelta.x / spriteRect.width;
 

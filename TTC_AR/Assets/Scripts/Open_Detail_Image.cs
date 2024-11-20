@@ -15,7 +15,7 @@ public class Open_Detail_Image : MonoBehaviour
     void Awake()
     {
         canvas = GameObject.Find("Overlay_Canvas_To_Watch_Image").GetComponent<Canvas>();
-        detail_Image = canvas.gameObject.transform.Find("Detail_Image_To_Watch").gameObject;
+        detail_Image = canvas.gameObject.transform.Find("Content/Detail_Image_To_Watch").gameObject;
         close_Button = canvas.gameObject.transform.Find("Back_Button_From_Detail_Panel").GetComponent<Button>();
         if (canvas.gameObject.activeSelf)
         {
