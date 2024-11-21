@@ -11,12 +11,14 @@ public class Open_Detail_Image : MonoBehaviour
     private GameObject detail_Image;
     [SerializeField]
     private Button close_Button;
+    private Vector3 originalPosition_Detail_Image_Content;
     //    private RectTransform originalRectTransform_Detail_Image;
     void Awake()
     {
         canvas = GameObject.Find("Overlay_Canvas_To_Watch_Image").GetComponent<Canvas>();
         detail_Image = canvas.gameObject.transform.Find("Content/Detail_Image_To_Watch").gameObject;
         close_Button = canvas.gameObject.transform.Find("Back_Button_From_Detail_Panel").GetComponent<Button>();
+        originalPosition_Detail_Image_Content = detail_Image.transform.parent.gameObject.transform.position;
         if (canvas.gameObject.activeSelf)
         {
             if (!detail_Image.activeSelf)
@@ -38,6 +40,7 @@ public class Open_Detail_Image : MonoBehaviour
         {
             canvas.gameObject.SetActive(true);
         }
+        detail_Image.transform.parent.gameObject.transform.position = originalPosition_Detail_Image_Content;
         detail_Image.GetComponent<Image>().sprite = image_To_Watch_Detail.sprite;
         StartCoroutine(Resize_Gameobject_Function.Set_NativeSize_For_GameObject(detail_Image.GetComponent<Image>()));
     }
@@ -48,6 +51,7 @@ public class Open_Detail_Image : MonoBehaviour
         {
             canvas.gameObject.SetActive(false);
         }
+
     }
     private void OnDestroy()
     {
