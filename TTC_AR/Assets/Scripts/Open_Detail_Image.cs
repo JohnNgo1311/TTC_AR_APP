@@ -40,7 +40,6 @@ public class Open_Detail_Image : MonoBehaviour
         {
             canvas.gameObject.SetActive(true);
         }
-        detail_Image.transform.parent.gameObject.transform.position = originalPosition_Detail_Image_Content;
         detail_Image.GetComponent<Image>().sprite = image_To_Watch_Detail.sprite;
         StartCoroutine(Resize_Gameobject_Function.Set_NativeSize_For_GameObject(detail_Image.GetComponent<Image>()));
     }
@@ -51,7 +50,7 @@ public class Open_Detail_Image : MonoBehaviour
         {
             canvas.gameObject.SetActive(false);
         }
-
+        detail_Image.transform.parent.gameObject.transform.position = originalPosition_Detail_Image_Content;
     }
     private void OnDestroy()
     {
