@@ -13,7 +13,9 @@ public class Active_AR_Camera : MonoBehaviour
     private Camera mainCamera;
 
     [SerializeField]
-    private List<Button> active_ARCamera_Buttons = new List<Button>() { };
+    private List<Button> active_ARCamera_Buttons;
+    //?active_ARCamera_Buttons[0] => Pause AR Camera
+    //?active_ARCamera_Buttons[1] => Resume AR Camera
     private VuforiaBehaviour vuforiaBehaviour;
     void Awake()
     {

@@ -13,7 +13,7 @@ public class UILogin : MonoBehaviour
 
     // Dictionary lưu thông tin tài khoản
     private readonly Dictionary<string, string> staffAccounts = new Dictionary<string, string>
-    {
+    {   
         {"ttc", "123456"},
         {"admin", "123456"},
         {"Nhut", "123456"}

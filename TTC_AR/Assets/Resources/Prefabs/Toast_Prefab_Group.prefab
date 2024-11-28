@@ -157,10 +157,10 @@ RectTransform:
   m_Father: {fileID: 1569956355555309226}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.19641578, y: 0}
-  m_AnchorMax: {x: 0.95400006, y: 1}
-  m_AnchoredPosition: {x: 0.69033813, y: 0}
-  m_SizeDelta: {x: 1.3807, y: 0}
+  m_AnchorMin: {x: 0.19732733, y: 0.078739025}
+  m_AnchorMax: {x: 0.95600003, y: 0.90026104}
+  m_AnchoredPosition: {x: -2.1903381, y: 1.9999924}
+  m_SizeDelta: {x: 0.3807001, y: -1.4382019}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1685662171438261513
 CanvasRenderer:
@@ -190,7 +190,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u0110ang \u0111\u0103ng nh\u1EADp..."
+  m_text: "\u0110ang t\u1EA3i d\u1EEF li\u1EC7u..."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d42468020d4f1cf43bb13b7447e2e66a, type: 2}
   m_sharedMaterial: {fileID: 5261312278513716158, guid: d42468020d4f1cf43bb13b7447e2e66a,
@@ -222,7 +222,7 @@ MonoBehaviour:
   m_fontSizeBase: 75
   m_fontWeight: 400
   m_enableAutoSizing: 1
-  m_fontSizeMin: 1
+  m_fontSizeMin: 50
   m_fontSizeMax: 80
   m_fontStyle: 0
   m_HorizontalAlignment: 1
@@ -234,7 +234,7 @@ MonoBehaviour:
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
-  m_enableWordWrapping: 0
+  m_enableWordWrapping: 1
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
   m_linkedTextComponent: {fileID: 0}
