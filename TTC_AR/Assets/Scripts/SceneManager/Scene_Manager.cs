@@ -46,11 +46,7 @@ public class Scene_Manager : MonoBehaviour
 
     public IEnumerator WaitAndNavigate(string recentSceneName, string previousSceneName)
     {
-        while (!GlobalVariable.ready_To_Nav_New_Scene)
-        {
-            yield return null; // Chờ frame tiếp theo
-        }
-
+        yield return new WaitUntil(() => GlobalVariable.ready_To_Nav_New_Scene == true);
         if (GlobalVariable.recentScene != recentSceneName)
         {
             Show_Dialog.Instance.Set_Instance_Status_True();

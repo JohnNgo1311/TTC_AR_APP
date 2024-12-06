@@ -41,7 +41,7 @@ public class NavigationToPanels : MonoBehaviour
 
     private void OnDisable()
     {
-        foreach (var button in navButtons) // Tránh sử dụng ForEach để giảm overhead
+        foreach (var button in navButtons)
         {
             button.onClick.RemoveAllListeners();
         }
@@ -52,7 +52,7 @@ public class NavigationToPanels : MonoBehaviour
 
     private void Start()
     {
-       
+
     }
 
     private void SetInitialState()
@@ -71,7 +71,7 @@ public class NavigationToPanels : MonoBehaviour
     {
         if (isFieldDevice)
         {
-            return generalModuleTitle.text; 
+            return generalModuleTitle.text;
         }
         else
         {

@@ -29,42 +29,70 @@ public class OpenCanvas : MonoBehaviour
     private List<GameObject> activated_imageTargets = new List<GameObject>();
     private List<ObserverBehaviour> observerBehaviours = new List<ObserverBehaviour>();
 
+    [SerializeField] Load_General_Data_From_Rack load_General_Data_From_Rack;
     void Awake()
     {
-        // Tối ưu hóa kiểm tra danh sách
-        foreach (var canvas in targetCanvas)
+        StartCoroutine(Initialize());
+    }
+    private IEnumerator Initialize()
+    {
+        if (SceneManager.GetActiveScene().name != "FieldDevicesScene")
         {
-            if (canvas != null)
+            if (load_General_Data_From_Rack != null)
             {
-                var generalPanelObj = canvas.transform.Find("General_Panel")?.gameObject;
-                if (generalPanelObj != null)
-                {
-                    generalPanel.Add(generalPanelObj);
-                    btnClose.Add(generalPanelObj.transform.Find("Close_Canvas_Btn")?.gameObject);
-                }
+                yield return new WaitUntil(() => load_General_Data_From_Rack.isInstantiating == false);
+                // Tối ưu hóa kiểm tra danh sách
+                targetCanvas = load_General_Data_From_Rack.targetCanvas;
+                Destroy(load_General_Data_From_Rack.module_Canvas_Prefab.gameObject);
             }
-        }
-        foreach (var target in imageTargets)
-        {
-            if (target != null)
-            {
-                var btnOpenObj = target.transform.GetChild(0)?.gameObject;
-                if (btnOpenObj != null)
-                {
-                    btnOpen.Add(btnOpenObj);
-                    tagName.Add(btnOpenObj.tag);
-                    list_Title.Add(target.transform.Find("imageTarget_Title")?.GetComponent<TMP_Text>());
-                    observerBehaviours.Add(target.GetComponent<ObserverBehaviour>());
 
-                    if (target.activeSelf)
+        }
+        if (targetCanvas.Count > 0 && imageTargets.Count > 0)
+        {
+            foreach (var canvas in targetCanvas)
+            {
+                if (canvas != null)
+                {
+                    var generalPanelObj = canvas.transform.Find("General_Panel")?.gameObject;
+                    if (generalPanelObj != null)
                     {
-                        activated_imageTargets.Add(target);
+                        generalPanel.Add(generalPanelObj);
+                        btnClose.Add(generalPanelObj.transform.Find("Close_Canvas_Btn")?.gameObject);
                     }
                 }
             }
-        }
-    }
+            foreach (var target in imageTargets)
+            {
+                if (target != null)
+                {
+                    var btnOpenObj = target.transform.GetChild(0)?.gameObject;
+                    if (btnOpenObj != null)
+                    {
+                        btnOpen.Add(btnOpenObj);
+                        tagName.Add(btnOpenObj.tag);
+                        list_Title.Add(target.transform.Find("imageTarget_Title")?.GetComponent<TMP_Text>());
+                        observerBehaviours.Add(target.GetComponent<ObserverBehaviour>());
 
+                        if (target.activeSelf)
+                        {
+                            activated_imageTargets.Add(target);
+                        }
+                    }
+                }
+            }
+            for (int i = 0; i < observerBehaviours.Count; i++)
+            {
+                int index = i; // Cần dùng biến tạm để tránh lỗi closure trong lambda
+                observerBehaviours[index].OnTargetStatusChanged += (behaviour, status) => OnStatusChanged(behaviour, status, list_Title[index], btnOpen[index].name);
+            }
+
+            SetActiveForList(targetCanvas, false);
+            SetActiveForList(generalPanel, true);
+            SetActiveForList(btnClose, true);
+            SetActiveForList(btnOpen, true);
+        }
+
+    }
     private void OnStatusChanged(ObserverBehaviour behaviour, TargetStatus status, TMP_Text title, string name)
     {
         if (status.Status == Status.TRACKED)
@@ -101,16 +129,7 @@ public class OpenCanvas : MonoBehaviour
 
     void Start()
     {
-        for (int i = 0; i < observerBehaviours.Count; i++)
-        {
-            int index = i; // Cần dùng biến tạm để tránh lỗi closure trong lambda
-            observerBehaviours[index].OnTargetStatusChanged += (behaviour, status) => OnStatusChanged(behaviour, status, list_Title[index], btnOpen[index].name);
-        }
 
-        SetActiveForList(targetCanvas, false);
-        SetActiveForList(generalPanel, true);
-        SetActiveForList(btnClose, true);
-        SetActiveForList(btnOpen, true);
     }
 
     void Update()
