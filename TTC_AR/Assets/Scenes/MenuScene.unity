@@ -577,7 +577,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 46.75
+  m_fontSize: 55.45
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -790,7 +790,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 67.55
+  m_fontSize: 79.55
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -926,7 +926,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 74.2
+  m_fontSize: 87.15
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1806,16 +1806,10 @@ MonoBehaviour:
   previousSceneName: MenuScene
   recentSceneName:
   - PLCBoxGrapA
-  - PLCBoxGrapA
-  - PLCBoxGrapA
-  - PLCBoxGrapA
   - MenuScene
   - LoginScene
   listButton:
   - {fileID: 953062724}
-  - {fileID: 751018072}
-  - {fileID: 1394794812}
-  - {fileID: 1329061825}
   - {fileID: 1624559455}
   - {fileID: 1010127339}
 --- !u!114 &878477617
@@ -1932,7 +1926,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 124.7
+  m_fontSize: 144.95
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -2468,7 +2462,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 67.4
+  m_fontSize: 79.3
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -3865,7 +3859,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 67.35
+  m_fontSize: 79.25
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1

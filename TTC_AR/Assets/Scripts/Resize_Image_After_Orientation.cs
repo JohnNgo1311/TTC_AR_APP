@@ -25,7 +25,9 @@ public class Resize_Image_After_Orientation : MonoBehaviour
     yield return new WaitForSeconds(0.5f);
     if (Screen.orientation != lastOrientation)
     {
-      StartCoroutine(Resize_Gameobject_Function.Set_NativeSize_For_GameObject(imageComponent));
+      StartCoroutine(
+      Resize_Gameobject_Function.Set_NativeSize_For_GameObject(imageComponent)
+       );
       Debug.Log("Resize Image");
       yield return new WaitForSeconds(1.5f);
       lastOrientation = Screen.orientation;

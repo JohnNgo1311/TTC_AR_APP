@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
@@ -5,6 +6,8 @@ using UnityEngine.UI;
 [System.Serializable]
 public class Resize_Gameobject_Function : MonoBehaviour
 {
+
+  //public static bool isResize = false;
   void Start()
   {
   }
@@ -28,7 +31,7 @@ public class Resize_Gameobject_Function : MonoBehaviour
   {
     LayoutRebuilder.ForceRebuildLayoutImmediate(imageComponent.rectTransform);
     Canvas.ForceUpdateCanvases();
-
+    //isResize = false;
     if (imageComponent.sprite == null)
     {
       Debug.LogWarning("Sprite is null on Image component.");
@@ -43,7 +46,6 @@ public class Resize_Gameobject_Function : MonoBehaviour
 
     rectTransform.sizeDelta = new Vector2(rectTransform.sizeDelta.x, spriteRect.height * scaleWidth);
     //imageComponent.gameObject.SetActive(true);
-
-    yield return null;
+    //isResize = true;
   }
 }

@@ -50,17 +50,21 @@ public class Dropdown_On_ValueChange : MonoBehaviour
             bottom_App_Bar.SetActive(true);
         }
     }
-    private void Start()
+    private async void Start()
     {
-        if (Show_Dialog.Instance != null)
-        {
-            Invoke(nameof(SetInstanceStatusTrue), 1f);
-        }
-        CacheUIElements();
-        CacheDevices();
-        Debug.Log("Dropdown_On_ValueChange Start");
-        searchableDropDown.Initialize();
-        searchableDropDown.inputField.onValueChanged.AddListener(OnInputValueChanged);
+        await LoadData();
+
+        /*  if (Show_Dialog.Instance != null)
+          {
+              Invoke(nameof(SetInstanceStatusTrue), 1f); 
+              //? sau 1s kể từ Start chạy thì hàm SetInstanceStatusTrue sẽ được gọi
+              //? trước 1s thì hàm này không được gọi nhưng các dòng phía dưới sẽ được chạy
+          }
+          CacheUIElements();
+          CacheDevices();
+          Debug.Log("Dropdown_On_ValueChange Start");
+          searchableDropDown.Initialize();
+          searchableDropDown.inputField.onValueChanged.AddListener(OnInputValueChanged);*/
 
         if (string.IsNullOrEmpty(searchableDropDown.inputField.text))
         {
@@ -72,18 +76,47 @@ public class Dropdown_On_ValueChange : MonoBehaviour
              OnInputValueChanged(GlobalVariable_Search_Devices.devices_Model_By_Grapper[0].code);
          }*/
     }
+
+    private async Task LoadData()
+    {
+        try
+        {
+            if (Show_Dialog.Instance != null)
+            {
+                SetInstanceStatusTrue();
+            }
+            Debug.Log(loadDataSuccess);
+            CacheUIElements();
+            CacheDevices();
+
+            searchableDropDown.Initialize();
+            searchableDropDown.inputField.onValueChanged.AddListener(OnInputValueChanged);
+            Debug.Log(loadDataSuccess);
+            await Task.Delay(1000);
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogWarning(e.Message);
+        }
+    }
     private void CacheUIElements()
     {
+        var content = prefab_Device.transform.Find("Content");
         scrollRect = prefab_Device.GetComponent<ScrollRect>();
-        contentTransform = prefab_Device.transform.Find("Content").GetComponent<RectTransform>();
-        code_Value_Text = contentTransform.Find("Device_information/Code_group/Code_value").GetComponent<TMP_Text>();
-        function_Value_Text = contentTransform.Find("Device_information/Function_group/Function_value").GetComponent<TMP_Text>();
-        range_Value_Text = contentTransform.Find("Device_information/Range_group/Range_value").GetComponent<TMP_Text>();
-        io_Value_Text = contentTransform.Find("Device_information/IO_group/IO_value").GetComponent<TMP_Text>();
-        jb_Connection_Value_Text = contentTransform.Find("JB_Connection_group/JB_Connection_text_group/JB_Connection_value").GetComponent<TMP_Text>();
-        jb_Connection_Location_Text = contentTransform.Find("JB_Connection_group/JB_Connection_text_group/JB_Connection_location").GetComponent<TMP_Text>();
-        module_Image = contentTransform.Find("Module_group/Real_Module_Image").GetComponent<Image>();
-        JB_Connection_Group = contentTransform.Find("JB_Connection_group").gameObject;
+        contentTransform = content.GetComponent<RectTransform>();
+
+        var deviceInfo = content.Find("Device_information");
+        code_Value_Text = deviceInfo.Find("Code_group/Code_value").GetComponent<TMP_Text>();
+        function_Value_Text = deviceInfo.Find("Function_group/Function_value").GetComponent<TMP_Text>();
+        range_Value_Text = deviceInfo.Find("Range_group/Range_value").GetComponent<TMP_Text>();
+        io_Value_Text = deviceInfo.Find("IO_group/IO_value").GetComponent<TMP_Text>();
+
+        var jbConnectionGroup = content.Find("JB_Connection_group/JB_Connection_text_group");
+        jb_Connection_Value_Text = jbConnectionGroup.Find("JB_Connection_value").GetComponent<TMP_Text>();
+        jb_Connection_Location_Text = jbConnectionGroup.Find("JB_Connection_location").GetComponent<TMP_Text>();
+
+        module_Image = content.Find("Module_group/Real_Module_Image").GetComponent<Image>();
+        JB_Connection_Group = content.Find("JB_Connection_group").gameObject;
         JB_Location_Image_Prefab = JB_Connection_Group.transform.Find("JB_Location_Image").GetComponent<Image>();
         JB_Connection_Wiring_Image_Prefab = JB_Connection_Group.transform.Find("JB_Connection_Wiring").GetComponent<Image>();
     }
@@ -253,7 +286,9 @@ public class Dropdown_On_ValueChange : MonoBehaviour
                 newImage.gameObject.GetComponent<Button>().onClick.AddListener(() => open_Detail_Image.Open_Detail_Canvas(newImage));
                 Debug.Log("Đã add sự kiện click vào newImage");
                 newImage.gameObject.SetActive(true);
-                StartCoroutine(Resize_Gameobject_Function.Set_NativeSize_For_GameObject(newImage));
+                StartCoroutine(
+                     Resize_Gameobject_Function.Set_NativeSize_For_GameObject(newImage));
+
             }
         }
 
@@ -275,7 +310,10 @@ public class Dropdown_On_ValueChange : MonoBehaviour
         imageComponent.sprite = jbSprite;
         imageComponent.gameObject.GetComponent<Button>().onClick.AddListener(() => open_Detail_Image.Open_Detail_Canvas(imageComponent));
         Debug.Log("Đã add sự kiện click vào imageComponent");
-        StartCoroutine(Resize_Gameobject_Function.Set_NativeSize_For_GameObject(imageComponent));
+        StartCoroutine(
+
+              Resize_Gameobject_Function.Set_NativeSize_For_GameObject(imageComponent)
+             );
     }
 
     private void CreateAndSetSprite(string jb_name)

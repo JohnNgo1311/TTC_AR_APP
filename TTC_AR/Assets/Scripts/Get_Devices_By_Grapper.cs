@@ -11,8 +11,7 @@ public class Get_Devices_By_Grapper : MonoBehaviour
 {
     public string grapper;
     private string filePath;
-    // [SerializeField]
-    // private GameObject overlay_Loading_Image;
+
     void Start()
     {
         if (UnityEngine.Rendering.DebugManager.instance.enableRuntimeUI)
@@ -21,9 +20,6 @@ public class Get_Devices_By_Grapper : MonoBehaviour
 
     public void Get_List_Device_By_Grapper()
     {
-        //  if (overlay_Loading_Image != null) overlay_Loading_Image.SetActive(true);
-        //Show_Dialog.Instance.Set_Instance_Status_True();
-        // Show_Dialog.Instance.ShowToast("loading", "Đang chuyển trang...");
         filePath = Path.Combine(Application.streamingAssetsPath, $"Device_Grapper{grapper}.json");
         if (Application.platform == RuntimePlatform.Android)
         {
@@ -35,7 +31,6 @@ public class Get_Devices_By_Grapper : MonoBehaviour
         }
         if (GlobalVariable_Search_Devices.devices_Model_For_FilterA != null)
         {
-            //    if (overlay_Loading_Image != null) overlay_Loading_Image.SetActive(false);
             StartCoroutine(Show_Dialog.Instance.Set_Instance_Status_False());
         }
 
