@@ -63,7 +63,6 @@ public class Press_PDF_Open_Online_Catalog : MonoBehaviour
     }
     void Start()
     {
-        if (UnityEngine.Rendering.DebugManager.instance.enableRuntimeUI)
-            UnityEngine.Rendering.DebugManager.instance.enableRuntimeUI = false;
+      
     }
 }

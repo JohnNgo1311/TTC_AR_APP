@@ -1,48 +1,44 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 using UnityEngine;
 using Newtonsoft.Json;
 using UnityEngine.Networking;
 using System.Collections;
 
-//! Script này lấy data danh sách các devices
 public class Get_Devices_By_Grapper : MonoBehaviour
 {
     public string grapper;
     private string filePath;
+    private bool isRunning = false;
 
     void Start()
     {
-        if (UnityEngine.Rendering.DebugManager.instance.enableRuntimeUI)
-            UnityEngine.Rendering.DebugManager.instance.enableRuntimeUI = false;
     }
 
-    public void Get_List_Device_By_Grapper()
+    public async void Get_List_Device_By_Grapper()
     {
+        GlobalVariable.ready_To_Nav_New_Scene = false;
         filePath = Path.Combine(Application.streamingAssetsPath, $"Device_Grapper{grapper}.json");
         if (Application.platform == RuntimePlatform.Android)
         {
-            StartCoroutine(LoadJsonFromAndroid(filePath));
+            await LoadJsonFromAndroid(filePath);
         }
         else
         {
-            LoadJsonFromFile(filePath);
+            await LoadJsonFromFile(filePath);
         }
-        if (GlobalVariable_Search_Devices.devices_Model_For_FilterA != null)
-        {
-            StartCoroutine(Show_Dialog.Instance.Set_Instance_Status_False());
-        }
-
+        GlobalVariable.ready_To_Nav_New_Scene = true;
     }
 
-    private void LoadJsonFromFile(string file)
+    private async Task LoadJsonFromFile(string file)
     {
         if (File.Exists(file))
         {
             try
             {
-                string jsonData = File.ReadAllText(file);
+                string jsonData = await File.ReadAllTextAsync(file);
                 ProcessJsonData(jsonData);
             }
             catch (Exception e)
@@ -52,28 +48,33 @@ public class Get_Devices_By_Grapper : MonoBehaviour
         }
         else
         {
-            //Debug.LogError($"File not found: {filePath}");
+            Debug.LogError($"File not found: {filePath}");
         }
     }
 
-    private IEnumerator LoadJsonFromAndroid(string file)
+    private async Task LoadJsonFromAndroid(string file)
     {
-        string androidPath = File.Exists(file) && !string.IsNullOrWhiteSpace(File.ReadAllText(file)) ? file : $"jar:file://{Application.dataPath}!/assets/Device_Grapper{grapper}.json";
+        isRunning = true;
+        string androidPath = File.Exists(file) && !string.IsNullOrWhiteSpace(await File.ReadAllTextAsync(file)) ? file : $"jar:file://{Application.dataPath}!/assets/Device_Grapper{grapper}.json";
         using (UnityWebRequest www = UnityWebRequest.Get(androidPath))
         {
             www.timeout = 30;
-            yield return www.SendWebRequest();
+            var operation = www.SendWebRequest();
+
+            while (!operation.isDone)
+            {
+                await Task.Yield();
+            }
 
             if (www.result != UnityWebRequest.Result.Success)
             {
-                //Debug.LogError($"Failed to load JSON file on Android: {www.error}");
+                Debug.LogError($"Failed to load JSON data: {www.error}");
             }
             else
             {
                 try
                 {
                     string jsonData = www.downloadHandler.text;
-                    //Debug.Log($"Loaded JSON data: {jsonData.Length} characters");
                     ProcessJsonData(jsonData);
                 }
                 catch (Exception e)
@@ -82,6 +83,7 @@ public class Get_Devices_By_Grapper : MonoBehaviour
                 }
             }
         }
+        isRunning = false;
     }
 
     private void ProcessJsonData(string jsonData)
@@ -89,8 +91,6 @@ public class Get_Devices_By_Grapper : MonoBehaviour
         try
         {
             List<DeviceModel> devices = JsonConvert.DeserializeObject<List<DeviceModel>>(jsonData);
-
-
             if (devices != null && devices.Count > 0 && !string.IsNullOrWhiteSpace(devices[1].function))
             {
                 GlobalVariable_Search_Devices.devices_Model_By_Grapper = devices;
@@ -98,7 +98,7 @@ public class Get_Devices_By_Grapper : MonoBehaviour
             }
             else
             {
-                //Debug.LogError("List thiết bị null hoặc không có đủ dữ liệu hợp lệ.");
+                Debug.LogError("List thiết bị null hoặc không có đủ dữ liệu hợp lệ.");
             }
         }
         catch (JsonException je)
@@ -114,18 +114,34 @@ public class Get_Devices_By_Grapper : MonoBehaviour
     private void ProcessAndSaveDevices(List<DeviceModel> devices)
     {
         List<string> filteredDevices = GetDeviceForFilter(devices);
-        Save_Data_To_Local.SaveStringList($"List_Device_For_Filter_{grapper}", filteredDevices);
-
-        List<string> savedList = Save_Data_To_Local.GetStringList($"List_Device_For_Filter_{grapper}");
-        GlobalVariable_Search_Devices.devices_Model_For_FilterA = savedList;
-
-        if (savedList != null && savedList.Count > 0)
+        switch (grapper)
         {
-            //Debug.Log($"Lượng data đã lưu: {savedList.Count} + {savedList[0]}");
+            case "A":
+                GlobalVariable_Search_Devices.devices_Model_For_FilterA = filteredDevices;
+                break;
+            case "B":
+                GlobalVariable_Search_Devices.devices_Model_For_FilterB = filteredDevices;
+                break;
+            case "C":
+                GlobalVariable_Search_Devices.devices_Model_For_FilterC = filteredDevices;
+                break;
+            case "D":
+                GlobalVariable_Search_Devices.devices_Model_For_FilterD = filteredDevices;
+                break;
+            default:
+                break;
+        }
+        if (filteredDevices != null && filteredDevices.Count > 0)
+        {
+            Debug.Log($"Filtered devices count: {filteredDevices.Count}");
         }
         else
         {
-            //Debug.LogError("Danh sách đã lưu có ít hơn 6 phần tử hoặc null");
+            Debug.LogError("Danh sách đã lưu có ít hơn 6 phần tử hoặc null");
+        }
+        if (GlobalVariable_Search_Devices.devices_Model_For_FilterA != null)
+        {
+            StartCoroutine(Show_Dialog.Instance.Set_Instance_Status_False());
         }
     }
 

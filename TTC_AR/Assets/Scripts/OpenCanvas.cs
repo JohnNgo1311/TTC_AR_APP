@@ -31,7 +31,6 @@ public class OpenCanvas : MonoBehaviour
 
     void Awake()
     {
-
         // Tối ưu hóa kiểm tra danh sách
         foreach (var canvas in targetCanvas)
         {
@@ -81,7 +80,14 @@ public class OpenCanvas : MonoBehaviour
 
     public static string ConvertString(string input)
     {
-        return input.Insert(2, ".").Insert(4, "."); // Chèn dấu chấm vào vị trí 2 và 4
+        if (SceneManager.GetActiveScene().name == "GrapperAScanScene")
+        {
+            return input.Insert(2, ".").Insert(4, "."); // Chèn dấu chấm vào vị trí 2 và 4
+        }
+        else
+        {
+            return input;
+        }
     }
 
     private void OnDestroy()
@@ -95,13 +101,6 @@ public class OpenCanvas : MonoBehaviour
 
     void Start()
     {
-
-        // Tắt runtime UI nếu đang bật
-        if (UnityEngine.Rendering.DebugManager.instance.enableRuntimeUI)
-        {
-            UnityEngine.Rendering.DebugManager.instance.enableRuntimeUI = false;
-        }
-
         for (int i = 0; i < observerBehaviours.Count; i++)
         {
             int index = i; // Cần dùng biến tạm để tránh lỗi closure trong lambda

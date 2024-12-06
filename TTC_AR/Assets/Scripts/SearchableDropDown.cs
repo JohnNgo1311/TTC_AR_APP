@@ -54,8 +54,7 @@ public class SearchableDropDown : MonoBehaviour
         }
         else
         {
-            if (UnityEngine.Rendering.DebugManager.instance.enableRuntimeUI)
-                UnityEngine.Rendering.DebugManager.instance.enableRuntimeUI = false;
+           
             PopulateDropdown(availableOptions);
             UpdateUI();
 

@@ -12,8 +12,7 @@ public class Gain_List_Devices_For_Search : MonoBehaviour
     private int activeDeviceCount = 0;
     private void Start()
     {
-        if (UnityEngine.Rendering.DebugManager.instance.enableRuntimeUI)
-            UnityEngine.Rendering.DebugManager.instance.enableRuntimeUI = false;
+       
     }
     private void Awake()
     {

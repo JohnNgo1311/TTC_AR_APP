@@ -12,8 +12,7 @@ public class Texture_To_Sprite : MonoBehaviour
 {
   void Start()
   {
-    if (UnityEngine.Rendering.DebugManager.instance.enableRuntimeUI)
-      UnityEngine.Rendering.DebugManager.instance.enableRuntimeUI = false;
+  
   }
   public static Sprite ConvertTextureToSprite(Texture2D texture)
   {

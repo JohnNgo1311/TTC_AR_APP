@@ -20,8 +20,7 @@ public class TouchScale : MonoBehaviour
 
     private void Start()
     {
-        if (UnityEngine.Rendering.DebugManager.instance.enableRuntimeUI)
-            UnityEngine.Rendering.DebugManager.instance.enableRuntimeUI = false;
+       
         InitializeComponents();
     }
 

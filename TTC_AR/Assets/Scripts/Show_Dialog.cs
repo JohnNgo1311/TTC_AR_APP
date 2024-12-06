@@ -52,8 +52,7 @@ public class Show_Dialog : MonoBehaviour
     }
     void Start()
     {
-        if (UnityEngine.Rendering.DebugManager.instance.enableRuntimeUI)
-            UnityEngine.Rendering.DebugManager.instance.enableRuntimeUI = false;
+       
         // Show initial toast if enabled
 
     }

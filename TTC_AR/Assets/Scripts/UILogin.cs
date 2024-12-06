@@ -21,8 +21,6 @@ public class UILogin : MonoBehaviour
 
     private void Awake()
     {
-        if (UnityEngine.Rendering.DebugManager.instance.enableRuntimeUI)
-            UnityEngine.Rendering.DebugManager.instance.enableRuntimeUI = false;
         Screen.orientation = ScreenOrientation.Portrait;
         if (GlobalVariable.loginSuccess && !string.IsNullOrWhiteSpace(GlobalVariable.accountModel.userName))
         {
@@ -33,7 +31,6 @@ public class UILogin : MonoBehaviour
 
     private void Start()
     {
-
         loginButton.onClick.AddListener(HandleLogin);
     }
 

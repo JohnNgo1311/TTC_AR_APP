@@ -7,8 +7,7 @@ public class SimpleBarcodeScanner : MonoBehaviour
     GameObject canvasButton;
     void Start()
     {
-        if (UnityEngine.Rendering.DebugManager.instance.enableRuntimeUI)
-            UnityEngine.Rendering.DebugManager.instance.enableRuntimeUI = false;
+        
         mBarcodeBehaviour = gameObject.GetComponent<BarcodeBehaviour>();
         canvasButton = mBarcodeBehaviour.gameObject.transform.GetChild(0).gameObject;
     }

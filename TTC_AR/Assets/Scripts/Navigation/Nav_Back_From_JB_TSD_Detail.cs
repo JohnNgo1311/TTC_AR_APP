@@ -16,8 +16,7 @@ public class Nav_Back_From_JB_TSD_Detail : MonoBehaviour
     private RectTransform jb_TSD_Detail_Transform;
     void Start()
     {
-        if (UnityEngine.Rendering.DebugManager.instance.enableRuntimeUI)
-            UnityEngine.Rendering.DebugManager.instance.enableRuntimeUI = false;
+      
         module_Canvas = GetComponentInParent<Canvas>();
         list_Devices_Transform = module_Canvas.gameObject.transform.Find("List_Devices").GetComponent<RectTransform>();
         jb_TSD_General_Transform = module_Canvas.gameObject.transform.Find("JB_TSD_General_Panel").GetComponent<RectTransform>();
