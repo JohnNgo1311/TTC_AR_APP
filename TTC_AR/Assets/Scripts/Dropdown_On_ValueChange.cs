@@ -19,7 +19,7 @@ public class Dropdown_On_ValueChange : MonoBehaviour
     private List<Image> instantiatedImages = new List<Image>();
     private string currentLoadedDeviceCode;
     private bool loadDataSuccess = false;
-    private Dictionary<string, DeviceModel> deviceDictionary;
+    private Dictionary<string, Device_Information_Model> deviceDictionary;
 
     public SearchableDropDown searchableDropDown;
 
@@ -122,8 +122,8 @@ public class Dropdown_On_ValueChange : MonoBehaviour
     }
     private void CacheDevices()
     {
-        deviceDictionary = GlobalVariable_Search_Devices.devices_Model_By_Grapper.ToDictionary(d => d.code);
-        var functionDictionary = GlobalVariable_Search_Devices.devices_Model_By_Grapper.ToDictionary(d => d.function);
+        deviceDictionary = GlobalVariable_Search_Devices.devices_Model_By_Grapper.ToDictionary(d => d.Code);
+        var functionDictionary = GlobalVariable_Search_Devices.devices_Model_By_Grapper.ToDictionary(d => d.Function);
         foreach (var kvp in functionDictionary)
         {
             if (deviceDictionary.ContainsKey(kvp.Key))
@@ -168,20 +168,20 @@ public class Dropdown_On_ValueChange : MonoBehaviour
         spriteCache.Clear();
     }
 
-    private void UpdateDeviceInformation(DeviceModel device)
+    private void UpdateDeviceInformation(Device_Information_Model device)
     {
-        prefab_Device.name = $"Scroll_Area_{device.code}";
-        code_Value_Text.text = device.code;
-        function_Value_Text.text = device.function;
-        range_Value_Text.text = device.rangeMeasurement;
-        io_Value_Text.text = device.ioAddress;
+        prefab_Device.name = $"Scroll_Area_{device.Code}";
+        code_Value_Text.text = device.Code;
+        function_Value_Text.text = device.Function;
+        range_Value_Text.text = device.Range;
+        io_Value_Text.text = device.IOAddress;
 
-        var parts = device.jbConnection.Split('_');
+        var parts = device.JB_Information_Model.Name.Split('_');
         jb_Connection_Value_Text.text = $"{parts[0]}:";
         jb_Connection_Location_Text.text = parts.Length > 1 ? parts[1] : string.Empty;
 
         GlobalVariable_Search_Devices.jbName = parts[0];
-        GlobalVariable_Search_Devices.moduleName = device.ioAddress.Substring(0, device.ioAddress.LastIndexOf('.'));
+        GlobalVariable_Search_Devices.moduleName = device.IOAddress.Substring(0, device.IOAddress.LastIndexOf('.'));
 
         if (!string.IsNullOrEmpty(GlobalVariable_Search_Devices.jbName))
         {
@@ -193,15 +193,14 @@ public class Dropdown_On_ValueChange : MonoBehaviour
     {
         ClearWiringGroupAndCache();
 
-        var addressableKeys = new List<string> { "Real_Outdoor_JB_TSD", $"{GlobalVariable_Search_Devices.devices_Model_By_Grapper[0].location}_Connection_Wiring" };
+        var addressableKeys = new List<string> { "Real_Outdoor_JB_TSD", $"GrapperA_Connection_Wiring" };
 
-        if (GlobalVariable_Search_Devices.devices_Model_By_Grapper[0].location == "GrapperA")
+
+        for (int i = 1; i <= 6; i++)
         {
-            for (int i = 1; i <= 6; i++)
-            {
-                addressableKeys.Add($"GrapperA_Module_Location_Rack{i}");
-            }
+            addressableKeys.Add($"GrapperA_Module_Location_Rack{i}");
         }
+
 
         var tasks = addressableKeys.Select(key => PreloadSpritesAsync(key)).ToList(); // dòng này chạy bất đồng bộ
 

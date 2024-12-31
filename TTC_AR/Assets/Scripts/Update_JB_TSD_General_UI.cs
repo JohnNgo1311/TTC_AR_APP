@@ -9,9 +9,9 @@ public class Update_JB_TSD_General_UI : MonoBehaviour
 {
     private string rack_Name = "Rack_1";
     private string module_Name = "D1.1.I";
-    private Module_General_Model module_General_Model;
 
     [SerializeField] private Canvas module_Canvas;
+    private Module_Information_Model module_Information_Model;
     [SerializeField] private RectTransform list_Devices_Transform;
     [SerializeField] private RectTransform jb_TSD_General_Transform;
     [SerializeField] private RectTransform jb_TSD_Detail_Transform;
@@ -25,8 +25,6 @@ public class Update_JB_TSD_General_UI : MonoBehaviour
     {
 
     }
-
-
     private void OnEnable()
     {
         module_Canvas = GetComponentInParent<Canvas>();
@@ -37,7 +35,7 @@ public class Update_JB_TSD_General_UI : MonoBehaviour
     private void OnDisable()
     {
         ClearCachedTransforms();
-        module_General_Model = null;
+        module_Information_Model = null;
         GlobalVariable.module_Type_Name = "1794-IB32";
         GlobalVariable.apdapter_Type_Name = "1794-ACN15";
     }
@@ -48,31 +46,30 @@ public class Update_JB_TSD_General_UI : MonoBehaviour
         rack_Name = $"Rack_{module_Canvas.name.Substring(1, 1)}"; //?{module_Canvas.name.Substring(1, 1)} = 1;
         module_Name = module_Canvas.gameObject.name.Split("_")[0]; //?module_Canvas.gameObject.name.Split("_")[0] = D1.1.I;
         Debug.Log($"Rack Name: {rack_Name}, Module Name: {module_Name}");
-        module_General_Model = GetModuleGeneralModel(rack_Name, module_Name);
-        GlobalVariable.module_Type_Name = module_General_Model.Type; //?module_General_Model.Type = 1794-IB32;
-        GlobalVariable.apdapter_Type_Name = module_General_Model.Adapter; //?module_General_Model.Adapter = 1794-ACN15;
-                                                                          // SetupJB_TSD_Connection();
+        module_Information_Model = GetModuleGeneralModel(rack_Name, module_Name);
+        GlobalVariable.module_Type_Name = module_Information_Model.Specification_Model.Type; //?Module_Information_Model.Type = 1794-IB32;
+        GlobalVariable.apdapter_Type_Name = module_Information_Model.Specification_Model.Adapter.Type; //?Module_Information_Model.Adapter = 1794-ACN15;
+                                                                                                       // SetupJB_TSD_Connection();
         StartCoroutine(Instantiate_JB_TSD_Connection_List());
     }
 
-    private Module_General_Model GetModuleGeneralModel(string rackName, string moduleName)
+    private Module_Information_Model GetModuleGeneralModel(string rackName, string moduleName)
     {
-        Debug.Log("Lấy data của Rack A");
 
-        var rackData = GlobalVariable.rackData_GrapperA;
-        Debug.Log($"{rackData}: Lấy data của Rack A thành công");
-        List<Module_General_Model> rackList = rackName switch
-        {
-            "Rack_1" => rackData.Rack_1,
-            "Rack_2" => rackData.Rack_2,
-            "Rack_3" => rackData.Rack_3,
-            "Rack_4" => rackData.Rack_4,
-            "Rack_5" => rackData.Rack_5,
-            "Rack_6" => rackData.Rack_6,
-            _ => null
-        };
-        Debug.Log($"{rackList}: Lấy data của Rack A thành công");
-        return rackList?.Find(module => module.Module == moduleName);
+        //var rackData = GlobalVariable.rackData_GrapperA;
+        // Debug.Log($"{rackData}: Lấy data của Rack A thành công");
+        // List<Module_Information_Model> rackList = rackName switch
+        // {
+        //     "Rack_1" => rackData.Rack_1,
+        //     "Rack_2" => rackData.Rack_2,
+        //     "Rack_3" => rackData.Rack_3,
+        //     "Rack_4" => rackData.Rack_4,
+        //     "Rack_5" => rackData.Rack_5,
+        //     "Rack_6" => rackData.Rack_6,
+        //     _ => null
+        // };
+        // Debug.Log($"{rackList}: Lấy data của Rack A thành công");
+        return null;
     }
 
     private IEnumerator CacheTransforms()
@@ -116,7 +113,7 @@ public class Update_JB_TSD_General_UI : MonoBehaviour
 
     private void SetupJB_TSD_Connection()
     {
-        if (module_General_Model.JbConnection == null || module_General_Model.JbConnection.Count == 0)
+        if (module_Information_Model.List_JB_Model == null || module_Information_Model.List_JB_Model.Count == 0)
         {
             jb_TSD_Connection_Horizontal_Group.gameObject.SetActive(false);
         }
@@ -125,12 +122,12 @@ public class Update_JB_TSD_General_UI : MonoBehaviour
     private IEnumerator Instantiate_JB_TSD_Connection_List()
     {
         yield return new WaitForSeconds(0.1f);
-        List<string> jbConnections = module_General_Model.JbConnection; //List JB/TSD của Module
+        List<JB_Information_Model> jbConnections = module_Information_Model.List_JB_Model; //List JB/TSD của Module
         int connectionCount = jbConnections.Count; // số lượng phần tử trong List JB/TSD của Module
 
         for (int i = 0; i < connectionCount; i++)
         {
-            string jb_TSD_Connection = jbConnections[i];
+            string jb_TSD_Connection = jbConnections[i].Name; // Lấy tên JB/TSD
             RectTransform new_JB_TSD_Connection_Horizontal_Group = Instantiate(jb_TSD_Connection_Horizontal_Group, jb_TSD_Connection_Vertical_Group);
             var new_JB_TSD_Connection_Button = new_JB_TSD_Connection_Horizontal_Group.Find("JB_TSD_Connection_Button").GetComponent<Button>();
             var new_JB_TSD_Connection_Name = new_JB_TSD_Connection_Button.transform.Find("JB_TSD_Connection_Name").GetComponent<TMP_Text>();

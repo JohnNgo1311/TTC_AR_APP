@@ -42,8 +42,8 @@ public class SearchableDropDown : MonoBehaviour
     }
     public void Set_Initial_Text_Field_Value()
     {
-        if (!string.IsNullOrEmpty(GlobalVariable_Search_Devices.devices_Model_By_Grapper[0].code))
-        { inputField.text = GlobalVariable_Search_Devices.devices_Model_By_Grapper[0].code; };
+        if (!string.IsNullOrEmpty(GlobalVariable_Search_Devices.devices_Model_By_Grapper[0].Code))
+        { inputField.text = GlobalVariable_Search_Devices.devices_Model_By_Grapper[0].Code; };
     }
     public void Initialize()
     {
@@ -54,7 +54,7 @@ public class SearchableDropDown : MonoBehaviour
         }
         else
         {
-           
+
             PopulateDropdown(availableOptions);
             UpdateUI();
 

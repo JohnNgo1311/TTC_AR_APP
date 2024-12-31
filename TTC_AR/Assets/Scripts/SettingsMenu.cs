@@ -22,7 +22,7 @@ public class SettingsMenu : MonoBehaviour
 
     void Start()
     {
-     
+
         InitializeMenuItems();
         SetupMainButton();
         // mainButtonPosition = mainButton.GetComponent<RectTransform>().anchoredPosition;
@@ -32,19 +32,18 @@ public class SettingsMenu : MonoBehaviour
     {
         scroll_Area = gameObject.transform.Find("Scroll_Area").gameObject;
         // scrollRect = gameObject.GetComponent<ScrollRect>();
-        if (grapper == "A" && GlobalVariable.rackData_GrapperA != null)
-        {
-            for (int i = 1; i < 6; i++)
-            {
-                var newObject = Instantiate(content.transform.GetChild(0), content.transform);
-                newObject.name = $"Rack_{i + 1}";
-                newObject.GetComponentInChildren<TMP_Text>().text = $"Rack {i + 1}";
-                newObject.gameObject.SetActive(false);
-            }
-            content.gameObject.SetActive(false);
-            scroll_Area.SetActive(false);
 
+        for (int i = 1; i < 6; i++)
+        {
+            var newObject = Instantiate(content.transform.GetChild(0), content.transform);
+            newObject.name = $"Rack_{i + 1}";
+            newObject.GetComponentInChildren<TMP_Text>().text = $"Rack {i + 1}";
+            newObject.gameObject.SetActive(false);
         }
+        content.gameObject.SetActive(false);
+        scroll_Area.SetActive(false);
+
+
 
         int itemsCount = content.transform.childCount;
         menuItems = new List<SettingsMenuItem>(itemsCount);

@@ -100,7 +100,7 @@ public class GlobalVariable : MonoBehaviour
         "FieldDevicesScene",
     };
 
-    public static RackData_GrapperA rackData_GrapperA = new RackData_GrapperA();
+    // public static RackData_GrapperA rackData_GrapperA = new RackData_GrapperA();
 
     public static Dictionary<string, string> online_Module_Catalog_Url = new Dictionary<string, string>()
     {

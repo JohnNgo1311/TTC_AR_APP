@@ -16,7 +16,8 @@ public class Get_JB_TSD_Data : MonoBehaviour
     }
     public async Task Get_JB_TSD_Infor()
     {
-        await APIManager.Instance.Get_JB_TSD_Information(url, grapper_Name);
+        await Task.Delay(0);
+        //   await APIManager.Instance.Get_JB_TSD_Information(url, grapper_Name);
     }
 
 }

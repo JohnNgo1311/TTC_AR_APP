@@ -52,7 +52,7 @@ public class Show_Dialog : MonoBehaviour
     }
     void Start()
     {
-       
+
         // Show initial toast if enabled
 
     }

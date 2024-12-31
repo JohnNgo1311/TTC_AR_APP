@@ -11,14 +11,6 @@ public class APIManager : MonoBehaviour
 {
     public static APIManager Instance { get; private set; }
 
-
-    [SerializeField] private GameObject uiOverlay; // Gán GameObject của overlay từ Unity Editor
-
-    private void ShowOverlay(bool isActive)
-    {
-        uiOverlay.SetActive(isActive);
-    }
-
     private void Awake()
     {
         if (Instance == null)
@@ -32,12 +24,44 @@ public class APIManager : MonoBehaviour
         }
     }
 
-    public async Task CreateNewDevice(string url, DeviceModel device, string sceneName)
+    // Get Devices by Grapper
+    public async Task Get_All_Devices_By_Grapper(string url, string grapperName)
     {
+        using UnityWebRequest webRequest = UnityWebRequest.Get(url);
+        {
+            if (!await SendWebRequestAsync(webRequest))
+            {
+                HandleRequestError(webRequest.error);
+                return;
+            }
 
+            try
+            {
+                var devices = JsonConvert.DeserializeObject<List<Device_Information_Model>>(webRequest.downloadHandler.text);
+                if (devices != null && devices.Count > 0)
+                {
+                    GlobalVariable_Search_Devices.all_Device_GrapperA = devices;
+                    GlobalVariable_Search_Devices.devices_Model_By_Grapper = devices;
+                    ProcessAndSaveDevices(devices, grapperName);
+                    GlobalVariable.ready_To_Nav_New_Scene = true;
+                }
+            }
+            catch (JsonException jsonEx)
+            {
+                HandleRequestError(jsonEx.Message);
+            }
+            catch (Exception ex)
+            {
+                HandleRequestError(ex.Message);
+            }
+        }
+    }
+    // Create New Device
+    public async Task CreateNewDevice(string url, Device_Information_Model device, string sceneName)
+    {
         try
         {
-            PrepareDeviceData(device);
+            //PrepareDeviceData(device);
             string jsonData = JsonConvert.SerializeObject(device);
 
             if (string.IsNullOrEmpty(jsonData))
@@ -69,25 +93,22 @@ public class APIManager : MonoBehaviour
 
     }
 
-    private void PrepareDeviceData(DeviceModel device)
-    {
-        if (string.IsNullOrEmpty(device.id))
-        {
-            device.id = (GlobalVariable_Search_Devices.all_Device_GrapperA.Count + 1).ToString();
-        }
+    // private void PrepareDeviceData(Device_Information_Model device)
+    // {
+    //     if (string.IsNullOrEmpty(device.id))
+    //     {
+    //         device.id = (GlobalVariable_Search_Devices.all_Device_GrapperA.Count + 1).ToString();
+    //     }
 
-        if (device.listImageConnection == null || device.listImageConnection.Count == 0)
-        {
-            device.listImageConnection = GlobalVariable_Search_Devices.all_Device_GrapperA[1].listImageConnection;
-        }
-    }
+
+    // }
 
     private async Task<bool> SendWebRequestAsync(UnityWebRequest webRequest)
     {
         var operation = webRequest.SendWebRequest();
         while (!operation.isDone)
         {
-            await Task.Yield();
+            await Task.Yield(); // Đợi cho đến khi request hoàn thành
         }
         return webRequest.result != UnityWebRequest.Result.ConnectionError && webRequest.result != UnityWebRequest.Result.ProtocolError;
     }
@@ -98,50 +119,15 @@ public class APIManager : MonoBehaviour
         Debug.LogError($"Request error: {error}");
     }
 
-    private async Task HandleSuccessfulPost(DeviceModel device, string sceneName)
+    private async Task HandleSuccessfulPost(Device_Information_Model device, string sceneName)
     {
-        //Debug"Post data successfully.");
-        Show_Dialog.Instance.ShowToast("success", $"Thêm thiết bị mới thành công: {device.code}");
-
+        Show_Dialog.Instance.ShowToast("success", $"Thêm thiết bị mới thành công: {device.Code}");
         GlobalVariable_Search_Devices.all_Device_GrapperA.Add(device);
-
-        await Get_Devices_By_Grapper($"{GlobalVariable.baseUrl}{device.location[^1..]}", sceneName);
+        // await GetAllDevicesByGrapper($"{GlobalVariable.baseUrl}{device.location[^1..]}", sceneName);
         Sence_Behaviour.Reload_Scene(sceneName);
+
     }
-
-    public async Task Get_Devices_By_Grapper(string url, string grapperName)
-    {
-        using UnityWebRequest webRequest = UnityWebRequest.Get(url);
-        {
-            if (!await SendWebRequestAsync(webRequest))
-            {
-                Debug.LogError($"Request error: {webRequest.error}");
-                return;
-            }
-
-            try
-            {
-                var devices = JsonConvert.DeserializeObject<List<DeviceModel>>(webRequest.downloadHandler.text);
-                if (devices != null && devices.Count > 0)
-                {
-                    GlobalVariable_Search_Devices.all_Device_GrapperA = devices;
-                    GlobalVariable_Search_Devices.devices_Model_By_Grapper = devices;
-                    ProcessAndSaveDevices(devices, grapperName);
-                    GlobalVariable.ready_To_Nav_New_Scene = true;
-                }
-            }
-            catch (JsonException jsonEx)
-            {
-                HandleRequestError(jsonEx.Message);
-            }
-            catch (Exception ex)
-            {
-                HandleRequestError(ex.Message);
-            }
-        }
-    }
-
-    private void ProcessAndSaveDevices(List<DeviceModel> devices, string grapperName)
+    private void ProcessAndSaveDevices(List<Device_Information_Model> devices, string grapperName)
     {
         List<string> filteredDevices = GetDeviceForFilter(devices);
 
@@ -161,81 +147,79 @@ public class APIManager : MonoBehaviour
                 break;
         }
 
-        //DebugfilteredDevices.Count > 0 ? $"Data saved: {filteredDevices.Count} entries." : "No data saved.");
+        Debug.Log(filteredDevices.Count > 0 ? $"Data saved: {filteredDevices.Count} entries." : "No data saved.");
     }
 
-    private List<string> GetDeviceForFilter(List<DeviceModel> deviceModels)
+    private List<string> GetDeviceForFilter(List<Device_Information_Model> Device_Information_Models)
     {
         var devicesForFilter = new HashSet<string>();
 
-        foreach (var device in deviceModels)
+        foreach (var device in Device_Information_Models)
         {
-            if (!string.IsNullOrWhiteSpace(device.code)) devicesForFilter.Add(device.code);
-            if (!string.IsNullOrWhiteSpace(device.function)) devicesForFilter.Add(device.function);
+            if (!string.IsNullOrWhiteSpace(device.Code)) devicesForFilter.Add(device.Code);
+            if (!string.IsNullOrWhiteSpace(device.Function)) devicesForFilter.Add(device.Function);
 
         }
 
         return new List<string>(devicesForFilter);
     }
 
-    public async Task Get_JB_TSD_Information(string url, string grapperName)
-    {
-        ShowOverlay(true);
-        await Task.Delay(1500);
-        Show_Dialog.Instance.Set_Instance_Status_True();
-        Show_Dialog.Instance.ShowToast("loading", $"Đang tải dữ liệu...");
-        string jsonData = await FetchJsonData(url, grapperName);
-        if (jsonData == null) return;
-        try
-        {
-            var jbDataList = JsonConvert.DeserializeObject<List<JB_TSD_Data>>(jsonData);
+    // public async Task Get_JB_TSD_Information(string url, string grapperName)
+    // {
+    //     await Task.Delay(1500);
+    //     Show_Dialog.Instance.Set_Instance_Status_True();
+    //     Show_Dialog.Instance.ShowToast("loading", $"Đang tải dữ liệu...");
+    //     string jsonData = await FetchJsonData(url, grapperName);
+    //     if (jsonData == null) return;
+    //     try
+    //     {
+    //         var jbDataList = JsonConvert.DeserializeObject<List<JB_TSD_Data>>(jsonData);
 
-            GlobalVariable.list_Name_and_Url_JB_Location_A = jbDataList[0].JB_TSD_Location;
-            GlobalVariable.list_Name_and_Url_JB_Connection_A = jbDataList[0].JB_TSD_Wiring;
+    //         GlobalVariable.list_Name_and_Url_JB_Location_A = jbDataList[0].JB_TSD_Location;
+    //         GlobalVariable.list_Name_and_Url_JB_Connection_A = jbDataList[0].JB_TSD_Wiring;
 
-            await Task.WhenAll(
-                LoadImagesAsync(GlobalVariable.list_Name_and_Url_JB_Location_A, "get_JB_Location"),
-                LoadImagesAsync(GlobalVariable.list_Name_and_Url_JB_Connection_A, "get_JB_Connection")
-            );
-            Show_Dialog.Instance.ShowToast("success", $"Tải dữ liệu thành công");
-            //DebugGlobalVariable.list_Name_and_Url_JB_Location_A.Count);
-            //DebugGlobalVariable.list_Name_and_Url_JB_Connection_A.Count);
-            await Task.Delay(1500);
-            StartCoroutine(Show_Dialog.Instance.Set_Instance_Status_False());
-            ShowOverlay(false);
-        }
-        catch (JsonException jsonEx)
-        {
-            Debug.LogError($"Error parsing JSON: {jsonEx.Message}");
-        }
-    }
+    //         await Task.WhenAll(
+    //             LoadImagesAsync(GlobalVariable.list_Name_and_Url_JB_Location_A, "get_JB_Location"),
+    //             LoadImagesAsync(GlobalVariable.list_Name_and_Url_JB_Connection_A, "get_JB_Connection")
+    //         );
+    //         Show_Dialog.Instance.ShowToast("success", $"Tải dữ liệu thành công");
+    //         Debug.Log(GlobalVariable.list_Name_and_Url_JB_Location_A.Count);
+    //         Debug.Log(GlobalVariable.list_Name_and_Url_JB_Connection_A.Count);
+    //         await Task.Delay(1500);
+    //         Show_Dialog.Instance.StartCoroutine(Show_Dialog.Instance.Set_Instance_Status_False());
+    //     }
+    //     catch (JsonException jsonEx)
+    //     {
+    //         Debug.LogError($"Error parsing JSON: {jsonEx.Message}");
+    //     }
+    // }
 
-    private async Task LoadImagesAsync(Dictionary<string, List<string>> urlDictionary, string action)
-    {
-        List<Task> loadTasks = new List<Task>();
+    // private async Task LoadImagesAsync(Dictionary<string, List<string>> urlDictionary, string action)
+    // {
+    //     List<Task> loadTasks = new List<Task>();
 
-        foreach (KeyValuePair<string, List<string>> kvp in urlDictionary)
-        {
-            var key = kvp.Key;
-            var List_url = kvp.Value;
+    //     foreach (KeyValuePair<string, List<string>> kvp in urlDictionary)
+    //     {
+    //         var key = kvp.Key;
+    //         var List_url = kvp.Value;
 
-            if (action == "get_JB_Location" && !GlobalVariable.list_Name_And_Image_JB_Location_A.ContainsKey(key))
-            {
-                GlobalVariable.list_Key_JB_Location_A.Add(key);
+    //         if (action == "get_JB_Location" && !GlobalVariable.list_Name_And_Image_JB_Location_A.ContainsKey(key))
+    //         {
+    //             GlobalVariable.list_Key_JB_Location_A.Add(key);
 
-            }
-            if (action == "get_JB_Connection" && !GlobalVariable.list_Name_And_Image_JB_Connection_A.ContainsKey(key))
-            {
-                GlobalVariable.list_Key_JB_Connection_A.Add(key);
-            }
-            foreach (string link in List_url)
-            {
-                loadTasks.Add(LoadImageFromUrlAsync(link, key, action));
-            }
-        }
-        await Task.WhenAll(loadTasks);
-        //Debug"Lưu các Sprite thành công vào Dictionary");
-    }
+    //         }
+    //         if (action == "get_JB_Connection" && !GlobalVariable.list_Name_And_Image_JB_Connection_A.ContainsKey(key))
+    //         {
+    //             GlobalVariable.list_Key_JB_Connection_A.Add(key);
+    //         }
+    //         foreach (string link in List_url)
+    //         {
+    //             loadTasks.Add(LoadImageFromUrlAsync(link, key, action));
+    //         }
+    //     }
+    //     await Task.WhenAll(loadTasks);
+    //     Debug.Log("Lưu các Sprite thành công vào Dictionary");
+    // }
 
     private async Task LoadImageFromUrlAsync(string url, string key, string action)
     {
@@ -264,7 +248,7 @@ public class APIManager : MonoBehaviour
                         {
                             GlobalVariable.list_Name_And_Image_JB_Location_A.Add(key, new List<Sprite> { sprite });
                         }
-                        //DebugGlobalVariable.list_Name_And_Image_JB_Location_A.Count);
+                        Debug.Log(GlobalVariable.list_Name_And_Image_JB_Location_A.Count);
                         break;
                     case "get_JB_Connection":
                         if (GlobalVariable.list_Name_And_Image_JB_Connection_A.ContainsKey(key))
@@ -300,20 +284,20 @@ public class APIManager : MonoBehaviour
         return webRequest.downloadHandler.text;
     }
 
-    private void LogJbTsdData(JB_TSD_Data jbData)
-    {
-        //Debug"JB_TSD_Wiring:");
-        foreach (var (key, urls) in jbData.JB_TSD_Wiring)
-        {
-            //Debug$"{key}:");
-            foreach (var url in urls) ; //Debug$" - {url}");
-        }
+    // private void LogJbTsdData(JB_TSD_Data jbData)
+    // {
+    //     Debug.Log("JB_TSD_Wiring:");
+    //     foreach (var (key, urls) in jbData.JB_TSD_Wiring)
+    //     {
+    //         Debug.Log($"{key}:");
+    //         foreach (var url in urls) Debug.Log($" - {url}");
+    //     }
 
-        //Debug"JB_TSD_Location:");
-        foreach (var (key, urls) in jbData.JB_TSD_Location)
-        {
-            //Debugkey}:");
-            foreach (var url in urls) ; //Debug$" - {url}");
-        }
-    }
+    //     Debug.Log("JB_TSD_Location:");
+    //     foreach (var (key, urls) in jbData.JB_TSD_Location)
+    //     {
+    //         Debug.Log($"{key}:");
+    //         foreach (var url in urls) Debug.Log($" - {url}");
+    //     }
+    // }
 }

@@ -8,8 +8,8 @@ using UnityEngine.UI;
 public class SearchDeviceFromModule : MonoBehaviour
 {
     public List<TMP_Text> deviceInformation = new List<TMP_Text>();
-    private List<DeviceModel> listDeviceFromModule;
-    private DeviceModel deviceInfor;
+    private List<Device_Information_Model> listDeviceFromModule;
+    private Device_Information_Model deviceInfor;
     public TMP_Dropdown dropdown;
     public GameObject contentPanel;
 
@@ -24,7 +24,7 @@ public class SearchDeviceFromModule : MonoBehaviour
     private RectTransform jb_TSD_Detail_Transform;
     private void Start()
     {
-       
+
         list_Devices_Transform = module_Canvas.gameObject.transform.Find("List_Devices").GetComponent<RectTransform>();
         jb_TSD_General_Transform = module_Canvas.gameObject.transform.Find("JB_TSD_General_Panel").GetComponent<RectTransform>();
         jb_TSD_Detail_Transform = module_Canvas.gameObject.transform.Find("Detail_JB_TSD").GetComponent<RectTransform>();
@@ -48,7 +48,7 @@ public class SearchDeviceFromModule : MonoBehaviour
                 // Chuyển đổi danh sách thiết bị thành danh sách tùy chọn cho dropdown
                 foreach (var device in listDeviceFromModule)
                 {
-                    dropdown.options.Add(new TMP_Dropdown.OptionData(device.code));
+                    dropdown.options.Add(new TMP_Dropdown.OptionData(device.Code));
                 }
 
                 // Đảm bảo rằng option1 luôn được chọn
@@ -116,22 +116,22 @@ public class SearchDeviceFromModule : MonoBehaviour
         }
     }
 
-    private List<DeviceModel> Get_List_Device_By_Module(string moduleName)
+    private List<Device_Information_Model> Get_List_Device_By_Module(string moduleName)
     {
         return GlobalVariable_Search_Devices.devices_Model_By_Grapper.FindAll(
-            device => device.ioAddress.StartsWith(moduleName + ".")
+            device => device.IOAddress.StartsWith(moduleName + ".")
         );
 
     }
 
-    private void UpdateDeviceInformation(DeviceModel device)
+    private void UpdateDeviceInformation(Device_Information_Model device)
     {
-        deviceInformation[0].text = device.code;
-        deviceInformation[1].text = device.function;
-        deviceInformation[2].text = device.rangeMeasurement;
-        deviceInformation[3].text = device.ioAddress;
+        deviceInformation[0].text = device.Code;
+        deviceInformation[1].text = device.Function;
+        deviceInformation[2].text = device.Range;
+        deviceInformation[3].text = device.IOAddress;
 
-        var jbParts = device.jbConnection.Split('_');
+        var jbParts = device.JB_Information_Model.Location.Split('_');
         deviceInformation[4].text = jbParts[0];
         deviceInformation[5].text = jbParts.Length > 1 ? jbParts[1] : string.Empty;
         // Đảm bảo không gán nhiều lần
@@ -140,7 +140,7 @@ public class SearchDeviceFromModule : MonoBehaviour
         {
             GlobalVariable.navigate_from_List_Devices = true;
             GlobalVariable.navigate_from_JB_TSD_General = false;
-            NavigateJBDetailScreen(device.jbConnection);
+            NavigateJBDetailScreen(device.JB_Information_Model.Name);
         });
     }
 

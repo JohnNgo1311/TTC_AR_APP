@@ -12,7 +12,7 @@ public class Gain_List_Devices_For_Search : MonoBehaviour
     private int activeDeviceCount = 0;
     private void Start()
     {
-       
+
     }
     private void Awake()
     {
@@ -24,8 +24,8 @@ public class Gain_List_Devices_For_Search : MonoBehaviour
               // Tạo đối tượng với tên dựa trên code và function
               foreach (var device in GlobalVariable_Search_Devices.devices_Model_By_Grapper)
               {
-                  CreateOrReuseDeviceObject(device.code, device);
-                  CreateOrReuseDeviceObject(device.function, device);
+                  CreateOrReuseDeviceObject(device.Code, device);
+                  CreateOrReuseDeviceObject(device.Function, device);
               }
               if (parent_Object.transform.childCount >= GlobalVariable_Search_Devices.devices_Model_For_Filter.Count)
               {
@@ -57,7 +57,7 @@ public class Gain_List_Devices_For_Search : MonoBehaviour
 
     }
 
-    private void CreateOrReuseDeviceObject(string name, DeviceModel device)
+    private void CreateOrReuseDeviceObject(string name, Device_Information_Model device)
     {
         GameObject deviceObject;
         if (activeDeviceCount < deviceObjectsPool.Count)
@@ -76,15 +76,15 @@ public class Gain_List_Devices_For_Search : MonoBehaviour
         activeDeviceCount++;
     }
 
-    private void UpdateDeviceInformation(GameObject new_GameObject, DeviceModel device)
+    private void UpdateDeviceInformation(GameObject new_GameObject, Device_Information_Model device)
     {
         // Tối ưu hóa: Chỉ cập nhật nếu có thay đổi
-        TMP_Text code = GetOrAddTextComponent(new_GameObject, "information/code_group/code", device.code);
-        TMP_Text function = GetOrAddTextComponent(new_GameObject, "information/function_group/function", device.function);
-        TMP_Text range_measurement = GetOrAddTextComponent(new_GameObject, "information/range_measurement_group/range_measurement", device.rangeMeasurement);
-        TMP_Text I_O = GetOrAddTextComponent(new_GameObject, "information/I_O_group/I_O", device.ioAddress);
+        TMP_Text code = GetOrAddTextComponent(new_GameObject, "information/code_group/code", device.Code);
+        TMP_Text function = GetOrAddTextComponent(new_GameObject, "information/function_group/function", device.Function);
+        TMP_Text range_measurement = GetOrAddTextComponent(new_GameObject, "information/range_measurement_group/range_measurement", device.Range);
+        TMP_Text I_O = GetOrAddTextComponent(new_GameObject, "information/I_O_group/I_O", device.IOAddress);
 
-        var jb_infor = JB_SplitString(device.jbConnection);
+        var jb_infor = JB_SplitString(device.JB_Information_Model.Name);
         TMP_Text jb_name = GetOrAddTextComponent(new_GameObject, "jb_information_group/jb_name", $"{jb_infor[0]}:");
         TMP_Text jb_location = GetOrAddTextComponent(new_GameObject, "jb_information_group/jb_location", jb_infor[1]);
     }

@@ -11,7 +11,7 @@ public class Get_All_Devices : MonoBehaviour
     private string filePath;
     void Start()
     {
-      
+
     }
     private void Awake()
     {
@@ -61,7 +61,7 @@ public class Get_All_Devices : MonoBehaviour
 
         try
         {
-            GlobalVariable_Search_Devices.all_Device_Models = JsonConvert.DeserializeObject<List<DeviceModel>>(jsonData);
+            GlobalVariable_Search_Devices.all_Device_Models = JsonConvert.DeserializeObject<List<Device_Information_Model>>(jsonData);
         }
         catch (Exception e)
         {

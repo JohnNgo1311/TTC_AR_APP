@@ -90,8 +90,8 @@ public class Get_Devices_By_Grapper : MonoBehaviour
     {
         try
         {
-            List<DeviceModel> devices = JsonConvert.DeserializeObject<List<DeviceModel>>(jsonData);
-            if (devices != null && devices.Count > 0 && !string.IsNullOrWhiteSpace(devices[1].function))
+            List<Device_Information_Model> devices = JsonConvert.DeserializeObject<List<Device_Information_Model>>(jsonData);
+            if (devices != null && devices.Count > 0 && !string.IsNullOrWhiteSpace(devices[1].Function))
             {
                 GlobalVariable_Search_Devices.devices_Model_By_Grapper = devices;
                 ProcessAndSaveDevices(devices);
@@ -111,7 +111,7 @@ public class Get_Devices_By_Grapper : MonoBehaviour
         }
     }
 
-    private void ProcessAndSaveDevices(List<DeviceModel> devices)
+    private void ProcessAndSaveDevices(List<Device_Information_Model> devices)
     {
         List<string> filteredDevices = GetDeviceForFilter(devices);
         switch (grapper)
@@ -145,19 +145,19 @@ public class Get_Devices_By_Grapper : MonoBehaviour
         }
     }
 
-    private List<string> GetDeviceForFilter(List<DeviceModel> deviceModels)
+    private List<string> GetDeviceForFilter(List<Device_Information_Model> Device_Information_Models)
     {
         List<string> devicesForFilter = new List<string>();
 
-        foreach (var device in deviceModels)
+        foreach (var device in Device_Information_Models)
         {
-            if (!string.IsNullOrWhiteSpace(device.code))
+            if (!string.IsNullOrWhiteSpace(device.Code))
             {
-                devicesForFilter.Add(device.code);
+                devicesForFilter.Add(device.Code);
             }
-            if (!string.IsNullOrWhiteSpace(device.function))
+            if (!string.IsNullOrWhiteSpace(device.Function))
             {
-                devicesForFilter.Add(device.function);
+                devicesForFilter.Add(device.Function);
             }
         }
 

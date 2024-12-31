@@ -12,7 +12,7 @@ public class Delete_Device_By_Grapper : MonoBehaviour
     private string grapper_Name = "A";
 
     [SerializeField]
-    private DeviceModel device = new DeviceModel();
+    private Device_Information_Model device;
 
     public Text code_text;
     public string title = "Delete Device Data";
@@ -28,7 +28,7 @@ public class Delete_Device_By_Grapper : MonoBehaviour
 
     public void Open_Panel_Delete_Device()
     {
-        device = GlobalVariable_Search_Devices.all_Device_GrapperA.Find(d => d.code == code_text.text);
+        device = GlobalVariable_Search_Devices.all_Device_GrapperA.Find(d => d.Code == code_text.text);
         if (device != null)
         {
             //Debug"Device found!");
@@ -73,9 +73,9 @@ public class Delete_Device_By_Grapper : MonoBehaviour
         // loadingIcon.SetActive(false); // Ẩn biểu tượng loading khi hoàn thành
     }
 
-    private async Task Delete_device_Data(string url, DeviceModel device)
+    private async Task Delete_device_Data(string url, Device_Information_Model device)
     {
-        using (UnityWebRequest www = UnityWebRequest.Delete($"{url}/{device.id}"))
+        using (UnityWebRequest www = UnityWebRequest.Delete($"{url}/{device.Id}"))
         {
             var operation = www.SendWebRequest();
 

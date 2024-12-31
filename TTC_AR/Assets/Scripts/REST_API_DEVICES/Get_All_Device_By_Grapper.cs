@@ -10,7 +10,7 @@ public class Get_All_Device_By_Grapper : MonoBehaviour
     [SerializeField]
     private string grapper_Name = "A";
     [SerializeField]
-    private List<DeviceModel> devices = new List<DeviceModel>();
+    private List<Device_Information_Model> devices = new List<Device_Information_Model>();
     private List<string> filter_Device_Data = new List<string>();
     void Start()
     {
@@ -39,7 +39,7 @@ public class Get_All_Device_By_Grapper : MonoBehaviour
             && (GlobalVariable_Search_Devices.devices_Model_By_Grapper == null || GlobalVariable_Search_Devices.devices_Model_By_Grapper.Count <= 0)
             && (filter_Device_Data == null || filter_Device_Data.Count <= 0))
         {
-            await APIManager.Instance.Get_Devices_By_Grapper($"{GlobalVariable.baseUrl}{grapper_Name}", grapper_Name);
+            await APIManager.Instance.Get_All_Devices_By_Grapper($"{GlobalVariable.baseUrl}{grapper_Name}", grapper_Name);
             // StartCoroutine(Get_Devices_By_Grapper($"{GlobalVariable.baseUrl}{grapper_Name}"));
         }
         else
@@ -62,7 +62,7 @@ public class Get_All_Device_By_Grapper : MonoBehaviour
             try
             {
                 string jsonData = webRequest.downloadHandler.text;
-                devices = JsonConvert.DeserializeObject<List<DeviceModel>>(jsonData);
+                devices = JsonConvert.DeserializeObject<List<Device_Information_Model>>(jsonData);
                 //Debug"Received data successfully.");
                 if (devices.Count > 0)
                 {
@@ -85,7 +85,7 @@ public class Get_All_Device_By_Grapper : MonoBehaviour
 
 
 
-    private void ProcessAndSaveDevices(List<DeviceModel> devices)
+    private void ProcessAndSaveDevices(List<Device_Information_Model> devices)
     {
         List<string> filteredDevices = GetDeviceForFilter(devices);
         Save_Data_To_Local.SaveStringList($"List_Device_For_Filter_{grapper_Name}", filteredDevices);
@@ -103,19 +103,19 @@ public class Get_All_Device_By_Grapper : MonoBehaviour
         }
     }
 
-    private List<string> GetDeviceForFilter(List<DeviceModel> deviceModels)
+    private List<string> GetDeviceForFilter(List<Device_Information_Model> Device_Information_Models)
     {
         List<string> devicesForFilter = new List<string>();
 
-        foreach (var device in deviceModels)
+        foreach (var device in Device_Information_Models)
         {
-            if (!string.IsNullOrWhiteSpace(device.code))
+            if (!string.IsNullOrWhiteSpace(device.Code))
             {
-                devicesForFilter.Add(device.code);
+                devicesForFilter.Add(device.Code);
             }
-            if (!string.IsNullOrWhiteSpace(device.function))
+            if (!string.IsNullOrWhiteSpace(device.Function))
             {
-                devicesForFilter.Add(device.function);
+                devicesForFilter.Add(device.Function);
             }
         }
 
