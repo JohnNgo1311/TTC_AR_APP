@@ -8,8 +8,7 @@ using UnityEngine.UI;
 using UnityEngine.Networking;
 
 public class APIManager : MonoBehaviour
-{
-
+{   
     public static APIManager Instance { get; private set; }
     private void Awake()
     {
@@ -23,7 +22,7 @@ public class APIManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
-
+  
     public async Task GetListGrappers(string url)
     {
         using UnityWebRequest webRequest = UnityWebRequest.Get(url);

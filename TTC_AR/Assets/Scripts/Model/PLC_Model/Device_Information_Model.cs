@@ -24,8 +24,8 @@ public class Device_Information_Model
 
   [JsonProperty("Additional_Connection_Images")]
   public List<string> Additional_Connection_Images { get; set; }
-  public Device_Information_Model(string id, string code, string function, string range, string unit, string ioAddress, Module_General_Model moduleGeneralModel, JB_Information_Model jbInformationModel, List<string> additionalConnectionImages)
-  {
+  public Device_Information_Model(string id, string code , string function, string range, string unit, string ioAddress, Module_General_Model moduleGeneralModel, JB_Information_Model jbInformationModel, List<string> additionalConnectionImages)
+  { 
     Id = id;
     Code = code;
     Function = function;

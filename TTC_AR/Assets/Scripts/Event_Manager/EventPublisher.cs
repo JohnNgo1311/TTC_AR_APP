@@ -17,4 +17,5 @@ public class EventPublisher : MonoBehaviour
     {
         OnOrientationChanged?.Invoke(newOrientation);
     }
+   
 }

@@ -9,6 +9,7 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.Networking;
 using Newtonsoft.Json;
 using System;
+using EasyUI.Progress;
 
 public class Dropdown_On_ValueChange : MonoBehaviour
 {
@@ -73,34 +74,12 @@ public class Dropdown_On_ValueChange : MonoBehaviour
         Show_Dialog.Instance.Set_Instance_Status_True();
         Show_Dialog.Instance.ShowToast("loading", "Đang tải dữ liệu...");
     }
-    private async void Start()
+    private void Start()
     {
-        await LoadData();
-
-        /*  if (Show_Dialog.Instance != null)
-          {
-              Invoke(nameof(SetToastInstanceStatusTrue), 1f); 
-               sau 1s kể từ Start chạy thì hàm SetToastInstanceStatusTrue sẽ được gọi
-               trước 1s thì hàm này không được gọi nhưng các dòng phía dưới sẽ được chạy
-          }
-          CacheUIElements();
-          CacheDevices();
-          Debug.Log("Dropdown_On_ValueChange Start");
-          searchableDropDown.Initialize();
-          searchableDropDown.inputField.onValueChanged.AddListener(OnInputValueChanged);*/
-
-        if (string.IsNullOrEmpty(searchableDropDown.inputField.text))
-        {
-            loadDataSuccess = true;
-            searchableDropDown.Set_Initial_Text_Field_Value();
-        }
-        /* if (!string.IsNullOrEmpty(GlobalVariable_Search_Devices.devices_Model_By_Grapper[0].code))
-         {
-             OnInputValueChanged(GlobalVariable_Search_Devices.devices_Model_By_Grapper[0].code);
-         }*/
+        LoadData();
     }
 
-    private async Task LoadData()
+    private void LoadData()
     {
         try
         {
@@ -110,10 +89,16 @@ public class Dropdown_On_ValueChange : MonoBehaviour
             }
             InitilizeUIElements();
             Prepare_Device_Dictionary_For_Searching();
-
             searchableDropDown.Initialize();
             searchableDropDown.inputField.onValueChanged.AddListener(OnInputValueChanged);
-            await Task.Delay(1000);
+            if (string.IsNullOrEmpty(searchableDropDown.inputField.text))
+            {
+                loadDataSuccess = true;
+                searchableDropDown.Set_Initial_Text_Field_Value();
+            }
+
+
+
         }
         catch (Exception e)
         {
@@ -168,7 +153,6 @@ public class Dropdown_On_ValueChange : MonoBehaviour
         if (!deviceDictionary.TryGetValue(input, out var device))
         {
             ClearWiringGroupAndCache();
-
         }
         else
         {
@@ -197,12 +181,11 @@ public class Dropdown_On_ValueChange : MonoBehaviour
         range_Value_Text.text = device.Range;
         io_Value_Text.text = device.IOAddress;
 
-        var parts = device.JB_Information_Model.Name.Split('_');
-        jb_Connection_Value_Text.text = $"{parts[0]}:";
-        jb_Connection_Location_Text.text = parts.Length > 1 ? parts[1] : string.Empty;
-        _jbName = parts[0];
+        jb_Connection_Value_Text.text = device.JB_Information_Model.Name;
+        jb_Connection_Location_Text.text = device.JB_Information_Model.Location;
+        _jbName = jb_Connection_Value_Text.text;
         GlobalVariable_Search_Devices.jbName = _jbName;
-        _moduleName = device.IOAddress.Substring(0, device.IOAddress.LastIndexOf('.'));
+        _moduleName = device.Module_General_Model.Name;
         GlobalVariable_Search_Devices.moduleName = _moduleName;
 
         if (!string.IsNullOrEmpty(_jbName))
@@ -256,7 +239,31 @@ public class Dropdown_On_ValueChange : MonoBehaviour
                 tasks.Add(APIManager.Instance.LoadImageFromUrlAsync(list_Connection_Images[0], JB_Connection_Wiring_Image_Prefab));
             }
         }
-        await Task.WhenAll(tasks);
+        Progress.Show("Đang tải dữ liệu...", ProgressColor.Blue, true);
+        Progress.SetDetailsText("Đang tải hình ảnh...");
+        int totalTasks = tasks.Count;
+        int completedTasks = 0;
+
+        // Wrap tasks to track their completion
+        var wrappedTasks = tasks.Select(async task =>
+        {
+            try
+            {
+                await task;
+            }
+            finally
+            {
+                // Increment the number of completed tasks
+                completedTasks++;
+                Progress.SetProgressValue((float)completedTasks / totalTasks * 100f);
+            }
+        });
+
+        // Wait for all tasks to complete
+        await Task.WhenAll(wrappedTasks);
+        Progress.SetProgressValue(100f);
+        await Task.Delay(500);
+        Progress.Hide();
     }
 
     private void SetSprite(Image imageComponent, string jb_name)

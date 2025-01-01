@@ -14,7 +14,8 @@ public class Get_All_Data_By_Grapper_For_Searching : MonoBehaviour
         }
     }
 
-    private void OnDisable()
+
+    void OnDisable()
     {
         if (eventPublisher != null)
         {
