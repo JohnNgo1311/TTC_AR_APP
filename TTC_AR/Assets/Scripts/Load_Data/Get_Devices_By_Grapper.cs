@@ -93,7 +93,7 @@ public class Get_Devices_By_Grapper : MonoBehaviour
             List<Device_Information_Model> devices = JsonConvert.DeserializeObject<List<Device_Information_Model>>(jsonData);
             if (devices != null && devices.Count > 0 && !string.IsNullOrWhiteSpace(devices[1].Function))
             {
-                GlobalVariable_Search_Devices.devices_Model_By_Grapper = devices;
+                GlobalVariable_Search_Devices.temp_List_Device_Information_Model = devices;
                 ProcessAndSaveDevices(devices);
             }
             else

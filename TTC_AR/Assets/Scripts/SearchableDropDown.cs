@@ -28,8 +28,8 @@ public class SearchableDropDown : MonoBehaviour
     private void Awake()
     {
         Debug.Log("SearchableDropDown awake");
-        if (GlobalVariable_Search_Devices.devices_Model_For_FilterA != null) availableOptions = GlobalVariable_Search_Devices.devices_Model_For_FilterA;
-        // //DebugavailableOptions[5].ToString());
+        availableOptions = GlobalVariable_Search_Devices.temp_List_Device_For_Fitler;
+
         contentRect = content.GetComponent<RectTransform>();
         scrollRectInitialSize = scrollRect.gameObject.GetComponent<RectTransform>().sizeDelta;
         // Initialize();
@@ -42,8 +42,8 @@ public class SearchableDropDown : MonoBehaviour
     }
     public void Set_Initial_Text_Field_Value()
     {
-        if (!string.IsNullOrEmpty(GlobalVariable_Search_Devices.devices_Model_By_Grapper[0].Code))
-        { inputField.text = GlobalVariable_Search_Devices.devices_Model_By_Grapper[0].Code; };
+        if (!string.IsNullOrEmpty(GlobalVariable_Search_Devices.temp_List_Device_Information_Model[0].Code))
+        { inputField.text = GlobalVariable_Search_Devices.temp_List_Device_Information_Model[0].Code; };
     }
     public void Initialize()
     {
@@ -54,10 +54,8 @@ public class SearchableDropDown : MonoBehaviour
         }
         else
         {
-
             PopulateDropdown(availableOptions);
             UpdateUI();
-
             //Đếm số lượng sự kiện được gán cố định cho inputField
             int onValueChangedListenerCount = inputField.onValueChanged.GetPersistentEventCount();
             if (onValueChangedListenerCount > 0)
@@ -71,10 +69,8 @@ public class SearchableDropDown : MonoBehaviour
 
     private void PopulateDropdown(List<string> options)
     {
-
         foreach (var option in options)
         {
-
             var itemObject = Instantiate(itemPrefab, content.transform);
             itemObject.name = option;
             var textComponent = itemObject.GetComponentInChildren<TMP_Text>();
@@ -90,7 +86,7 @@ public class SearchableDropDown : MonoBehaviour
     {
         if (availableOptions == null || availableOptions.Count == 0)
         {
-            availableOptions = GlobalVariable_Search_Devices.devices_Model_For_FilterA;
+            availableOptions = GlobalVariable_Search_Devices.temp_List_Device_For_Fitler;
         }
         for (int i = 0; i < itemGameObjects.Count; i++)
         {
@@ -107,7 +103,6 @@ public class SearchableDropDown : MonoBehaviour
                 item.SetActive(false);
             }
         }
-
         ResizeContent();
     }
 
@@ -159,8 +154,6 @@ public class SearchableDropDown : MonoBehaviour
             scrollRect.gameObject.GetComponent<RectTransform>().sizeDelta = activeItemCount == 1
                 ? new Vector2(scrollRectInitialSize.x, newHeight * 1.05f)
                 : scrollRectInitialSize;
-            // //Debug$"newHeight: {newHeight}");
-
         }
         else
         {

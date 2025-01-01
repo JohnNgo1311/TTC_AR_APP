@@ -13,8 +13,9 @@ public class GlobalVariable_Search_Devices : MonoBehaviour
    public static string moduleName;
    public static List<Device_Information_Model> all_Device_Models;
    //! Lưu ý chỉ lấy những thiết bị cần xem, không phải toàn bộ thiết bị kết nối đến 1 module (chỉ nằm trong 2 file Excel - các cảm biến )
-   public static List<Device_Information_Model> all_Device_GrapperA = new List<Device_Information_Model>();
-   public static List<Device_Information_Model> devices_Model_By_Grapper = new List<Device_Information_Model>(); // just Function and Code
+   public static List<Device_Information_Model> temp_List_Device_Information_Model = new List<Device_Information_Model>();
+   public static List<JB_Information_Model> temp_List_JB_Information_Model = new List<JB_Information_Model>();
+   public static List<string> temp_List_Device_For_Fitler = new List<string>(); // just Function and Code
    public static List<string> devices_Model_For_FilterA = new List<string>(); // just Function and Code
    public static List<string> devices_Model_For_FilterB = new List<string>(); // just Function and Code
    public static List<string> devices_Model_For_FilterC = new List<string>(); // just Function and Code

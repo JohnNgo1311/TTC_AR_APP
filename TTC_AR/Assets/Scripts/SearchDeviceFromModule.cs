@@ -118,7 +118,7 @@ public class SearchDeviceFromModule : MonoBehaviour
 
     private List<Device_Information_Model> Get_List_Device_By_Module(string moduleName)
     {
-        return GlobalVariable_Search_Devices.devices_Model_By_Grapper.FindAll(
+        return GlobalVariable_Search_Devices.temp_List_Device_Information_Model.FindAll(
             device => device.IOAddress.StartsWith(moduleName + ".")
         );
 

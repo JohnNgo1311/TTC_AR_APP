@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using TMPro;
 using UnityEngine;
 
@@ -66,12 +67,26 @@ public class GlobalVariable : MonoBehaviour
 
     //public static List<Texture2D> list_Image_JB_Location = new List<Texture2D>();
     //    public static List<Texture2D> list_Image_JB_TSD_Wiring = new List<Texture2D>();
+
+
+    public static List<Grapper_General_Model> temp_List_Grapper_General_Models = new List<Grapper_General_Model>(); // Id, Name, List_Rack_General_Model
+    public static Grapper_General_Model temp_Grapper_General_Model; // Id, Name, List_Rack_General_Model
+
+    public static List<Rack_General_Model> temp_List_Rack_General_Models = new List<Rack_General_Model>(); // Id, Name, List_Module_General_Non_Rack_Model
+    public static List<Module_General_Non_Rack_Model> temp_List_Module_General_Non_Rack_Models = new List<Module_General_Non_Rack_Model>(); // Id, Name
+
     public static AccountModel accountModel = new AccountModel()
     {
         userName = "",
         password = ""
     };
-
+    public static List<string> Area = new List<string>()
+    {
+        "GrapperA",
+        "GrapperB",
+        "GrapperC",
+        "LH",
+    };
     public static List<string> pLCBoxScene = new List<string>()
     {
         "PLCBoxGrapA",

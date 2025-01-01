@@ -24,8 +24,7 @@ public class APIManager : MonoBehaviour
         }
     }
 
-    // Get Devices by Grapper
-    public async Task Get_All_Devices_By_Grapper(string url, string grapperName)
+    public async Task GetListGrappers(string url)
     {
         using UnityWebRequest webRequest = UnityWebRequest.Get(url);
         {
@@ -37,71 +36,137 @@ public class APIManager : MonoBehaviour
 
             try
             {
-                var devices = JsonConvert.DeserializeObject<List<Device_Information_Model>>(webRequest.downloadHandler.text);
-                if (devices != null && devices.Count > 0)
+                var grapper_Models = JsonConvert.DeserializeObject<List<Grapper_General_Model>>(webRequest.downloadHandler.text);
+                if (grapper_Models != null && grapper_Models.Count > 0)
                 {
-                    GlobalVariable_Search_Devices.all_Device_GrapperA = devices;
-                    GlobalVariable_Search_Devices.devices_Model_By_Grapper = devices;
-                    ProcessAndSaveDevices(devices, grapperName);
-                    GlobalVariable.ready_To_Nav_New_Scene = true;
+                    GlobalVariable.temp_List_Grapper_General_Models = grapper_Models;
+                    var tempRackList = new List<Rack_General_Model>();
+                    var tempModuleList = new List<Module_General_Non_Rack_Model>();
+
+                    foreach (var grapper in grapper_Models)
+                    {
+                        tempRackList.AddRange(grapper.List_Rack_General_Model);
+                        foreach (var rack in grapper.List_Rack_General_Model)
+                        {
+                            tempModuleList.AddRange(rack.List_Module_General_Non_Rack_Model);
+                        }
+                    }
+
+                    GlobalVariable.temp_List_Rack_General_Models = tempRackList;
+                    GlobalVariable.temp_List_Module_General_Non_Rack_Models = tempModuleList;
                 }
             }
             catch (JsonException jsonEx)
             {
                 HandleRequestError(jsonEx.Message);
+                return;
             }
             catch (Exception ex)
             {
                 HandleRequestError(ex.Message);
+                return;
             }
         }
     }
-    // Create New Device
-    public async Task CreateNewDevice(string url, Device_Information_Model device, string sceneName)
+    // Get list Devices by Grapper ==> Search Devices
+    public async Task GetAllDevicesByGrapper(string url, string grapperId)
     {
-        try
+        using UnityWebRequest webRequest = UnityWebRequest.Get(url);
         {
-            //PrepareDeviceData(device);
-            string jsonData = JsonConvert.SerializeObject(device);
-
-            if (string.IsNullOrEmpty(jsonData))
+            if (!await SendWebRequestAsync(webRequest))
             {
-                Debug.LogError("Error serializing data.");
+                HandleRequestError(webRequest.error);
                 return;
             }
 
-            using (UnityWebRequest webRequest = new UnityWebRequest(url, "POST"))
+            try
             {
-                webRequest.uploadHandler = new UploadHandlerRaw(Encoding.UTF8.GetBytes(jsonData));
-                webRequest.downloadHandler = new DownloadHandlerBuffer();
-                webRequest.SetRequestHeader("Content-Type", "application/json");
-
-                if (!await SendWebRequestAsync(webRequest))
+                var list_Device_Information_Model = JsonConvert.DeserializeObject<List<Device_Information_Model>>(webRequest.downloadHandler.text);
+                if (list_Device_Information_Model != null && list_Device_Information_Model.Count > 0)
                 {
-                    HandleRequestError(webRequest.error);
-                    return;
+                    GlobalVariable_Search_Devices.temp_List_Device_Information_Model = list_Device_Information_Model;
+                    GlobalVariable_Search_Devices.temp_List_Device_For_Fitler = FilterListDevicesForSearching(list_Device_Information_Model);
                 }
-
-                await HandleSuccessfulPost(device, sceneName);
+            }
+            catch (JsonException jsonEx)
+            {
+                HandleRequestError(jsonEx.Message);
+                return;
+            }
+            catch (Exception ex)
+            {
+                HandleRequestError(ex.Message);
+                return;
             }
         }
-        catch (Exception ex)
-        {
-            Debug.LogError($"Unexpected error: {ex}");
-
-        }
-
     }
+    public async Task GetAllJBsByGrapper(string url, string grapperId)
+    {
+        using UnityWebRequest webRequest = UnityWebRequest.Get(url);
+        {
+            if (!await SendWebRequestAsync(webRequest))
+            {
+                HandleRequestError(webRequest.error);
+                return;
+            }
 
-    // private void PrepareDeviceData(Device_Information_Model device)
-    // {
-    //     if (string.IsNullOrEmpty(device.id))
-    //     {
-    //         device.id = (GlobalVariable_Search_Devices.all_Device_GrapperA.Count + 1).ToString();
-    //     }
-
-
-    // }
+            try
+            {
+                var list_JB_Information_Model = JsonConvert.DeserializeObject<List<JB_Information_Model>>(webRequest.downloadHandler.text);
+                if (list_JB_Information_Model != null && list_JB_Information_Model.Count > 0)
+                {
+                    GlobalVariable_Search_Devices.temp_List_JB_Information_Model = list_JB_Information_Model;
+                }
+            }
+            catch (JsonException jsonEx)
+            {
+                HandleRequestError(jsonEx.Message);
+                return;
+            }
+            catch (Exception ex)
+            {
+                HandleRequestError(ex.Message);
+                return;
+            }
+        }
+    }
+    private List<string> FilterListDevicesForSearching(List<Device_Information_Model> Device_Information_Models)
+    {
+        var list_Devices_For_Filter = new HashSet<string>();
+        foreach (var device in Device_Information_Models)
+        {
+            if (!string.IsNullOrWhiteSpace(device.Code)) list_Devices_For_Filter.Add(device.Code);
+            if (!string.IsNullOrWhiteSpace(device.Function)) list_Devices_For_Filter.Add(device.Function);
+        }
+        return new List<string>(list_Devices_For_Filter);
+    }
+    private async Task LoadImageFromUrlAsync(string url, Image image)
+    {
+        using (UnityWebRequest webRequest = UnityWebRequestTexture.GetTexture(url))
+        {
+            if (!await SendWebRequestAsync(webRequest))
+            {
+                Debug.LogError($"Request error: {webRequest.error}");
+                return;
+            }
+            try
+            {
+                Texture2D texture = DownloadHandlerTexture.GetContent(webRequest);
+                Sprite sprite = Texture_To_Sprite.ConvertTextureToSprite(texture);
+                image.sprite = sprite;
+            }
+            catch (JsonException jsonEx)
+            {
+                Debug.LogError($"Error parsing JSON: {jsonEx.Message}");
+                return;
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError($"Unexpected error: {ex}");
+                return;
+            }
+        }
+    }
 
     private async Task<bool> SendWebRequestAsync(UnityWebRequest webRequest)
     {
@@ -122,47 +187,49 @@ public class APIManager : MonoBehaviour
     private async Task HandleSuccessfulPost(Device_Information_Model device, string sceneName)
     {
         Show_Dialog.Instance.ShowToast("success", $"Thêm thiết bị mới thành công: {device.Code}");
-        GlobalVariable_Search_Devices.all_Device_GrapperA.Add(device);
         // await GetAllDevicesByGrapper($"{GlobalVariable.baseUrl}{device.location[^1..]}", sceneName);
+        await Task.Delay(0);
+
         Sence_Behaviour.Reload_Scene(sceneName);
 
     }
-    private void ProcessAndSaveDevices(List<Device_Information_Model> devices, string grapperName)
-    {
-        List<string> filteredDevices = GetDeviceForFilter(devices);
+    // Create New Device
+    /* public async Task CreateNewDevice(string url, Device_Information_Model device, string sceneName)
+     {
+         try
+         {
+             //PrepareDeviceData(device);
+             string jsonData = JsonConvert.SerializeObject(device);
 
-        switch (grapperName)
-        {
-            case "A":
-                GlobalVariable_Search_Devices.devices_Model_For_FilterA = filteredDevices;
-                break;
-            case "B":
-                GlobalVariable_Search_Devices.devices_Model_For_FilterB = filteredDevices;
-                break;
-            case "C":
-                GlobalVariable_Search_Devices.devices_Model_For_FilterC = filteredDevices;
-                break;
-            case "D":
-                GlobalVariable_Search_Devices.devices_Model_For_FilterD = filteredDevices;
-                break;
-        }
+             if (string.IsNullOrEmpty(jsonData))
+             {
+                 Debug.LogError("Error serializing data.");
+                 return;
+             }
 
-        Debug.Log(filteredDevices.Count > 0 ? $"Data saved: {filteredDevices.Count} entries." : "No data saved.");
-    }
+             using (UnityWebRequest webRequest = new UnityWebRequest(url, "POST"))
+             {
+                 webRequest.uploadHandler = new UploadHandlerRaw(Encoding.UTF8.GetBytes(jsonData));
+                 webRequest.downloadHandler = new DownloadHandlerBuffer();
+                 webRequest.SetRequestHeader("Content-Type", "application/json");
 
-    private List<string> GetDeviceForFilter(List<Device_Information_Model> Device_Information_Models)
-    {
-        var devicesForFilter = new HashSet<string>();
+                 if (!await SendWebRequestAsync(webRequest))
+                 {
+                     HandleRequestError(webRequest.error);
+                     return;
+                 }
 
-        foreach (var device in Device_Information_Models)
-        {
-            if (!string.IsNullOrWhiteSpace(device.Code)) devicesForFilter.Add(device.Code);
-            if (!string.IsNullOrWhiteSpace(device.Function)) devicesForFilter.Add(device.Function);
+                 await HandleSuccessfulPost(device, sceneName);
+             }
+         }
+         catch (Exception ex)
+         {
+             Debug.LogError($"Unexpected error: {ex}");
 
-        }
+         }
 
-        return new List<string>(devicesForFilter);
-    }
+     }*/
+
 
     // public async Task Get_JB_TSD_Information(string url, string grapperName)
     // {
@@ -194,6 +261,7 @@ public class APIManager : MonoBehaviour
     //     }
     // }
 
+
     // private async Task LoadImagesAsync(Dictionary<string, List<string>> urlDictionary, string action)
     // {
     //     List<Task> loadTasks = new List<Task>();
@@ -221,68 +289,6 @@ public class APIManager : MonoBehaviour
     //     Debug.Log("Lưu các Sprite thành công vào Dictionary");
     // }
 
-    private async Task LoadImageFromUrlAsync(string url, string key, string action)
-    {
-        using (UnityWebRequest webRequest = UnityWebRequestTexture.GetTexture(url))
-        {
-            if (!await SendWebRequestAsync(webRequest))
-            {
-                Debug.LogError($"Request error: {webRequest.error}");
-                return;
-            }
-            try
-            {
-                Texture2D texture = DownloadHandlerTexture.GetContent(webRequest);
-                Sprite sprite = Texture_To_Sprite.ConvertTextureToSprite(texture);
-                switch (action)
-                {
-                    case "get_JB_Location":
-                        if (GlobalVariable.list_Name_And_Image_JB_Location_A.ContainsKey(key))
-                        {
-                            if (!GlobalVariable.list_Name_And_Image_JB_Location_A[key].Contains(sprite))
-                            {
-                                GlobalVariable.list_Name_And_Image_JB_Location_A[key].Add(sprite);
-                            }
-                        }
-                        else
-                        {
-                            GlobalVariable.list_Name_And_Image_JB_Location_A.Add(key, new List<Sprite> { sprite });
-                        }
-                        Debug.Log(GlobalVariable.list_Name_And_Image_JB_Location_A.Count);
-                        break;
-                    case "get_JB_Connection":
-                        if (GlobalVariable.list_Name_And_Image_JB_Connection_A.ContainsKey(key))
-                        {
-                            if (!GlobalVariable.list_Name_And_Image_JB_Connection_A[key].Contains(sprite))
-                            {
-                                GlobalVariable.list_Name_And_Image_JB_Connection_A[key].Add(sprite);
-                            }
-                        }
-                        else
-                        {
-                            GlobalVariable.list_Name_And_Image_JB_Connection_A.Add(key, new List<Sprite> { sprite });
-                        }
-                        break;
-                }
-            }
-            catch (Exception ex)
-            {
-                Debug.LogError($"Unexpected error: {ex}");
-            }
-        }
-    }
-
-    private async Task<string> FetchJsonData(string url, string grapperName)
-    {
-        using UnityWebRequest webRequest = UnityWebRequest.Get(url);
-        if (!await SendWebRequestAsync(webRequest))
-        {
-            Debug.LogError($"Request error: {webRequest.error}");
-            return null;
-        }
-
-        return webRequest.downloadHandler.text;
-    }
 
     // private void LogJbTsdData(JB_TSD_Data jbData)
     // {

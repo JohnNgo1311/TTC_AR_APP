@@ -1,4 +1,4 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,7 +9,7 @@ public class NavScene : MonoBehaviour
     public List<string> recentSceneName;
     public List<Button> listButton;
 
-    void Start()
+    private void Start()
     {
         for (int i = 0; i < listButton.Count; i++)
         {

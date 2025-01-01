@@ -18,6 +18,9 @@ public class Scene_Manager : MonoBehaviour
             Destroy(gameObject);
         }
     }
+    private void Start()
+    {
+    }
     public void SetScreenOrientation(bool isOrientation = false)
     {
         if (!isOrientation)
