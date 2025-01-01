@@ -9,8 +9,8 @@ using UnityEngine.Networking;
 
 public class APIManager : MonoBehaviour
 {
-    public static APIManager Instance { get; private set; }
 
+    public static APIManager Instance { get; private set; }
     private void Awake()
     {
         if (Instance == null)
@@ -140,7 +140,7 @@ public class APIManager : MonoBehaviour
         }
         return new List<string>(list_Devices_For_Filter);
     }
-    private async Task LoadImageFromUrlAsync(string url, Image image)
+    public async Task LoadImageFromUrlAsync(string url, Image image)
     {
         using (UnityWebRequest webRequest = UnityWebRequestTexture.GetTexture(url))
         {
@@ -154,6 +154,7 @@ public class APIManager : MonoBehaviour
                 Texture2D texture = DownloadHandlerTexture.GetContent(webRequest);
                 Sprite sprite = Texture_To_Sprite.ConvertTextureToSprite(texture);
                 image.sprite = sprite;
+                image.gameObject.SetActive(true);
             }
             catch (JsonException jsonEx)
             {

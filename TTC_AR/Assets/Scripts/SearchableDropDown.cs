@@ -37,7 +37,6 @@ public class SearchableDropDown : MonoBehaviour
 
     private void Start()
     {
-
         //Invoke(nameof(Set_Initial_Text_Field_Value), 2f);
     }
     public void Set_Initial_Text_Field_Value()

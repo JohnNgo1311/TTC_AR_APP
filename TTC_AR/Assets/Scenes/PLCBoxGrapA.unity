@@ -1415,6 +1415,7 @@ MonoBehaviour:
   searchableDropDown: {fileID: 665309877}
   bottom_App_Bar: {fileID: 2138176416}
   open_Detail_Image: {fileID: 473294042}
+  eventPublisher: {fileID: 0}
 --- !u!114 &834697179
 MonoBehaviour:
   m_ObjectHideFlags: 0

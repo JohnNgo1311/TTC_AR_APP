@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class GlobalVariable : MonoBehaviour
 {
-    public static string baseUrl = "https://67176614b910c6a6e027ebfc.mockapi.io/api/v1/Device_Grapper";
+    public static string baseUrl = "https://67176614b910c6a6e027ebfc.mockapi.io/api/v1/";
     public static string previousScene;
     public static string recentScene;
     public static string jb_TSD_Title = "";

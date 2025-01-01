@@ -906,7 +906,7 @@ GameObject:
   - component: {fileID: 923202470}
   - component: {fileID: 923202469}
   m_Layer: 0
-  m_Name: Text (TMP)
+  m_Name: Small_Title
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -980,7 +980,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 154.45
+  m_fontSize: 135.7
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1240,7 +1240,7 @@ GameObject:
   - component: {fileID: 1089914356}
   - component: {fileID: 1089914355}
   m_Layer: 0
-  m_Name: Text (TMP)
+  m_Name: Button_Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1314,7 +1314,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 128.8
+  m_fontSize: 113.35
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1598,7 +1598,7 @@ GameObject:
   - component: {fileID: 1755807134}
   - component: {fileID: 1755807133}
   m_Layer: 0
-  m_Name: Text (TMP)
+  m_Name: Button_Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1672,7 +1672,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 128.9
+  m_fontSize: 113.35
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1

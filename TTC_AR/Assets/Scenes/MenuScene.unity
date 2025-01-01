@@ -577,7 +577,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 54.2
+  m_fontSize: 46.75
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -790,7 +790,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 77.75
+  m_fontSize: 67.55
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -926,7 +926,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 85.25
+  m_fontSize: 74.2
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1325,6 +1325,7 @@ GameObject:
   - component: {fileID: 751018074}
   - component: {fileID: 751018073}
   - component: {fileID: 751018072}
+  - component: {fileID: 751018075}
   m_Layer: 0
   m_Name: GrapperB_Btn
   m_TagString: Untagged
@@ -1398,19 +1399,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 751018073}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 878477618}
-        m_TargetAssemblyTypeName: Get_Devices_By_Grapper, Assembly-CSharp
-        m_MethodName: Get_List_Device_By_Grapper
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &751018073
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1449,6 +1438,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 751018070}
   m_CullTransparentMesh: 1
+--- !u!114 &751018075
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 751018070}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f18b5bc8103491c4da2471fd3e49de8d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  grapperName: GrapperB
+  eventPublisher: {fileID: 1528617988}
 --- !u!1 &778542787
 GameObject:
   m_ObjectHideFlags: 0
@@ -1836,10 +1839,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 878477614}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c2d78f8f01d958f41a95332209d942a3, type: 3}
+  m_Script: {fileID: 11500000, guid: 217a83dcd9f837e4999aefe302e73786, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  grapper: A
+  eventPublisher: {fileID: 1528617988}
 --- !u!1 &923202467
 GameObject:
   m_ObjectHideFlags: 0
@@ -1926,7 +1929,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 141.95
+  m_fontSize: 124.7
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1988,6 +1991,7 @@ GameObject:
   - component: {fileID: 953062726}
   - component: {fileID: 953062725}
   - component: {fileID: 953062724}
+  - component: {fileID: 953062727}
   m_Layer: 0
   m_Name: GrapperA_Btn
   m_TagString: Untagged
@@ -2061,19 +2065,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 953062725}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 878477618}
-        m_TargetAssemblyTypeName: Get_Devices_By_Grapper, Assembly-CSharp
-        m_MethodName: Get_List_Device_By_Grapper
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &953062725
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2112,6 +2104,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 953062722}
   m_CullTransparentMesh: 1
+--- !u!114 &953062727
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 953062722}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f18b5bc8103491c4da2471fd3e49de8d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  grapperName: GrapperA
+  eventPublisher: {fileID: 1528617988}
 --- !u!1 &981588575
 GameObject:
   m_ObjectHideFlags: 0
@@ -2462,7 +2468,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 77.5
+  m_fontSize: 67.4
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -2677,6 +2683,7 @@ GameObject:
   - component: {fileID: 1329061827}
   - component: {fileID: 1329061826}
   - component: {fileID: 1329061825}
+  - component: {fileID: 1329061828}
   m_Layer: 0
   m_Name: LH_Btn
   m_TagString: Untagged
@@ -2750,31 +2757,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1329061826}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 878477618}
-        m_TargetAssemblyTypeName: Get_Devices_By_Grapper, Assembly-CSharp
-        m_MethodName: Get_List_Device_By_Grapper
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 878477616}
-        m_TargetAssemblyTypeName: NavScene, Assembly-CSharp
-        m_MethodName: NavigateNewScene
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1329061826
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2813,6 +2796,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1329061823}
   m_CullTransparentMesh: 1
+--- !u!114 &1329061828
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1329061823}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f18b5bc8103491c4da2471fd3e49de8d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  grapperName: "L\xF2 H\u01A1i"
+  eventPublisher: {fileID: 1528617988}
 --- !u!1 &1394794810
 GameObject:
   m_ObjectHideFlags: 0
@@ -2825,6 +2822,7 @@ GameObject:
   - component: {fileID: 1394794814}
   - component: {fileID: 1394794813}
   - component: {fileID: 1394794812}
+  - component: {fileID: 1394794815}
   m_Layer: 0
   m_Name: GrapperC_Btn
   m_TagString: Untagged
@@ -2898,19 +2896,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1394794813}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 878477618}
-        m_TargetAssemblyTypeName: Get_Devices_By_Grapper, Assembly-CSharp
-        m_MethodName: Get_List_Device_By_Grapper
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1394794813
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2949,6 +2935,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1394794810}
   m_CullTransparentMesh: 1
+--- !u!114 &1394794815
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1394794810}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f18b5bc8103491c4da2471fd3e49de8d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  grapperName: GrapperC
+  eventPublisher: {fileID: 1528617988}
 --- !u!1 &1483066040
 GameObject:
   m_ObjectHideFlags: 0
@@ -3102,6 +3102,50 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1522059645}
   m_CullTransparentMesh: 1
+--- !u!1 &1528617987
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1528617989}
+  - component: {fileID: 1528617988}
+  m_Layer: 0
+  m_Name: EventPublisher
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1528617988
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1528617987}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eeb2ba2b1d827294198c18e3915cc060, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1528617989
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1528617987}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1553963280
 GameObject:
   m_ObjectHideFlags: 0
@@ -3443,7 +3487,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1803742723
 GameObject:
@@ -3859,7 +3903,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 77.45
+  m_fontSize: 67.35
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1

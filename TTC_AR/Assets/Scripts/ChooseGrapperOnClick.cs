@@ -6,9 +6,13 @@ using UnityEngine.UI;
 public class ChooseGrapperOnClick : MonoBehaviour
 {
     public string grapperName;
-    public Button onClickButton;
+    private Button onClickButton;
     [SerializeField] private EventPublisher eventPublisher; // Tham chiếu đến Publisher
 
+    private void Awake()
+    {
+        onClickButton = gameObject.GetComponent<Button>();
+    }
     private void OnEnable()
     {
         // Đăng ký chỉ SelectGrapperOnClick() cho nút
