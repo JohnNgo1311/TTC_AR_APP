@@ -68,12 +68,6 @@ public class Dropdown_On_ValueChange : MonoBehaviour
             bottom_App_Bar.SetActive(false);
         }
     }
-
-    private void SetToastInstanceStatusTrue()
-    {
-        Show_Dialog.Instance.Set_Instance_Status_True();
-        Show_Dialog.Instance.ShowToast("loading", "Đang tải dữ liệu...");
-    }
     private void Start()
     {
         LoadData();
@@ -83,10 +77,6 @@ public class Dropdown_On_ValueChange : MonoBehaviour
     {
         try
         {
-            if (Show_Dialog.Instance != null)
-            {
-                SetToastInstanceStatusTrue();
-            }
             InitilizeUIElements();
             Prepare_Device_Dictionary_For_Searching();
             searchableDropDown.Initialize();
@@ -121,7 +111,7 @@ public class Dropdown_On_ValueChange : MonoBehaviour
         jb_Connection_Value_Text = jbConnectionGroup.Find("JB_Connection_value").GetComponent<TMP_Text>();
         jb_Connection_Location_Text = jbConnectionGroup.Find("JB_Connection_location").GetComponent<TMP_Text>();
 
-        module_Image = content.Find("Module_group/Real_Module_Image").GetComponent<Image>();
+        //   module_Image = content.Find("Module_group/Real_Module_Image").GetComponent<Image>();
         JB_Connection_Group = content.Find("JB_Connection_group").gameObject;
         JB_Location_Image_Prefab = JB_Connection_Group.transform.Find("JB_Location_Image").GetComponent<Image>();
         JB_Connection_Wiring_Image_Prefab = JB_Connection_Group.transform.Find("JB_Connection_Wiring").GetComponent<Image>();
@@ -149,10 +139,11 @@ public class Dropdown_On_ValueChange : MonoBehaviour
         {
             return;
         }
-
         if (!deviceDictionary.TryGetValue(input, out var device))
         {
+
             ClearWiringGroupAndCache();
+
         }
         else
         {
@@ -170,7 +161,7 @@ public class Dropdown_On_ValueChange : MonoBehaviour
                 Destroy(child.gameObject);
             }
         }
-        spriteCache.Clear();
+        // spriteCache.Clear();
     }
 
     private void UpdateDeviceInformation(Device_Information_Model device)
@@ -181,7 +172,7 @@ public class Dropdown_On_ValueChange : MonoBehaviour
         range_Value_Text.text = device.Range;
         io_Value_Text.text = device.IOAddress;
 
-        jb_Connection_Value_Text.text = device.JB_Information_Model.Name;
+        jb_Connection_Value_Text.text = $"{device.JB_Information_Model.Name}:";
         jb_Connection_Location_Text.text = device.JB_Information_Model.Location;
         _jbName = jb_Connection_Value_Text.text;
         GlobalVariable_Search_Devices.jbName = _jbName;
@@ -190,61 +181,44 @@ public class Dropdown_On_ValueChange : MonoBehaviour
 
         if (!string.IsNullOrEmpty(_jbName))
         {
-            LoadDeviceSprites(device.JB_Information_Model);
+            ClearWiringGroupAndCache();
+            LoadDeviceSprites(device.Additional_Connection_Images, jbInformationModel: device.JB_Information_Model);
         }
     }
 
-    private async void LoadDeviceSprites(JB_Information_Model jbInformationModel)
+    private async void LoadDeviceSprites(List<string> list_Additional_Images, JB_Information_Model jbInformationModel)
     {
-        ClearWiringGroupAndCache();
-        await Apply_Sprite_JB_Images(jbInformationModel.Outdoor_Image, jbInformationModel.List_Connection_Images);
+        jbInformationModel.List_Connection_Images.AddRange(list_Additional_Images);
+        await Apply_Sprite_JB_Images(outdoor_Image: jbInformationModel.Outdoor_Image, list_Connection_Images: jbInformationModel.List_Connection_Images);
         scrollRect.verticalNormalizedPosition = 1f;
-        Debug.Log("scrollRect.verticalNormalizedPosition = 1f");
-        if (loadDataSuccess)
-        {
-            Debug.Log("loadDataSuccess: " + loadDataSuccess);
-            Show_Dialog.Instance.ShowToast("success", "Tải dữ liệu thành công");
-            StartCoroutine(Show_Dialog.Instance.Set_Instance_Status_False()); // đợi 1 giây rồi đặt Instance_Status thành false
-        }
-        loadDataSuccess = false;
-
+        jbInformationModel.List_Connection_Images.RemoveRange(jbInformationModel.List_Connection_Images.Count - list_Additional_Images.Count, list_Additional_Images.Count);
     }
 
     private async Task Apply_Sprite_JB_Images(string outdoor_Image, List<string> list_Connection_Images)
     {
-        List<Task> tasks = new List<Task>();
-        ClearInstantiatedImages();
         JB_Location_Image_Prefab.gameObject.SetActive(false);
         JB_Connection_Wiring_Image_Prefab.gameObject.SetActive(false);
+        List<Task> tasks = new List<Task>();
+
         if (!string.IsNullOrEmpty(outdoor_Image))
         {
             JB_Location_Image_Prefab.gameObject.GetComponent<Button>().onClick.AddListener(() => open_Detail_Image.Open_Detail_Canvas(JB_Location_Image_Prefab));
             tasks.Add(APIManager.Instance.LoadImageFromUrlAsync(outdoor_Image, JB_Location_Image_Prefab));
         }
-        if (list_Connection_Images.Count > 0)
-        {
-            if (list_Connection_Images.Count > 1)
-            {
-                foreach (string connectionImage in list_Connection_Images)
-                {
-                    var newImage = Instantiate(JB_Connection_Wiring_Image_Prefab, JB_Connection_Group.transform);
-                    newImage.gameObject.GetComponent<Button>().onClick.AddListener(() => open_Detail_Image.Open_Detail_Canvas(newImage));
-                    tasks.Add(APIManager.Instance.LoadImageFromUrlAsync(connectionImage, newImage));
-                }
 
-            }
-            else
-            {
-                JB_Connection_Wiring_Image_Prefab.gameObject.GetComponent<Button>().onClick.AddListener(() => open_Detail_Image.Open_Detail_Canvas(JB_Connection_Wiring_Image_Prefab));
-                tasks.Add(APIManager.Instance.LoadImageFromUrlAsync(list_Connection_Images[0], JB_Connection_Wiring_Image_Prefab));
-            }
+        foreach (string connectionImage in list_Connection_Images)
+        {
+            var newImage = Instantiate(JB_Connection_Wiring_Image_Prefab, JB_Connection_Group.transform);
+            newImage.gameObject.GetComponent<Button>().onClick.AddListener(() => open_Detail_Image.Open_Detail_Canvas(newImage));
+            tasks.Add(APIManager.Instance.LoadImageFromUrlAsync(connectionImage, newImage));
         }
-        Progress.Show("Đang tải dữ liệu...", ProgressColor.Blue, true);
-        Progress.SetDetailsText("Đang tải hình ảnh...");
+
+        Progress.Show("Đang tra cứu...", ProgressColor.Blue, true);
+        Progress.SetDetailsText("Dữ liệu đang được tải...");
+
         int totalTasks = tasks.Count;
         int completedTasks = 0;
 
-        // Wrap tasks to track their completion
         var wrappedTasks = tasks.Select(async task =>
         {
             try
@@ -253,15 +227,17 @@ public class Dropdown_On_ValueChange : MonoBehaviour
             }
             finally
             {
-                // Increment the number of completed tasks
                 completedTasks++;
                 Progress.SetProgressValue((float)completedTasks / totalTasks * 100f);
             }
         });
 
-        // Wait for all tasks to complete
         await Task.WhenAll(wrappedTasks);
         Progress.SetProgressValue(100f);
+        foreach (Image connectionImage in JB_Connection_Group.GetComponentsInChildren<Image>())
+        {
+            StartCoroutine(Resize_Gameobject_Function.Set_NativeSize_For_GameObject(connectionImage));
+        }
         await Task.Delay(500);
         Progress.Hide();
     }
