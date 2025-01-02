@@ -113,7 +113,7 @@ public class Update_JB_TSD_General_UI : MonoBehaviour
 
     private void SetupJB_TSD_Connection()
     {
-        if (module_Information_Model.List_JB_Model == null || module_Information_Model.List_JB_Model.Count == 0)
+        if (module_Information_Model.List_JB_Information_Model == null || module_Information_Model.List_JB_Information_Model.Count == 0)
         {
             jb_TSD_Connection_Horizontal_Group.gameObject.SetActive(false);
         }
@@ -122,7 +122,7 @@ public class Update_JB_TSD_General_UI : MonoBehaviour
     private IEnumerator Instantiate_JB_TSD_Connection_List()
     {
         yield return new WaitForSeconds(0.1f);
-        List<JB_Information_Model> jbConnections = module_Information_Model.List_JB_Model; //List JB/TSD của Module
+        List<JB_Information_Model> jbConnections = module_Information_Model.List_JB_Information_Model; //List JB/TSD của Module
         int connectionCount = jbConnections.Count; // số lượng phần tử trong List JB/TSD của Module
 
         for (int i = 0; i < connectionCount; i++)

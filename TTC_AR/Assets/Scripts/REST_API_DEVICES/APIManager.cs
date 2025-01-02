@@ -68,6 +68,39 @@ public class APIManager : MonoBehaviour
         }
     }
     // Get list Devices by Grapper ==> Search Devices
+    public async Task GetModuleInformation(string url, string grapperId, string rackId, string moduleId)
+    {
+        using UnityWebRequest webRequest = UnityWebRequest.Get(url);
+        {
+            if (!await SendWebRequestAsync(webRequest))
+            {
+                HandleRequestError(webRequest.error);
+                return;
+            }
+
+            try
+            {
+                var module_Information_Model = JsonConvert.DeserializeObject<List<Module_Information_Model>>(webRequest.downloadHandler.text);
+                if (module_Information_Model != null)
+                {
+                    GlobalVariable.temp_Module_Information_Model = module_Information_Model[0];
+                    GlobalVariable.temp_List_JB_Information_Models_From_Module = module_Information_Model[0].List_JB_Information_Model;
+                    GlobalVariable.temp_List_Device_Information_Models_From_Module = module_Information_Model[0].List_Device_Information_Model;
+                }
+                Debug.Log("success");
+            }
+            catch (JsonException jsonEx)
+            {
+                HandleRequestError(jsonEx.Message);
+                return;
+            }
+            catch (Exception ex)
+            {
+                HandleRequestError(ex.Message);
+                return;
+            }
+        }
+    }
     public async Task GetAllDevicesByGrapper(string url, string grapperId)
     {
         using UnityWebRequest webRequest = UnityWebRequest.Get(url);

@@ -86,9 +86,6 @@ public class Dropdown_On_ValueChange : MonoBehaviour
                 loadDataSuccess = true;
                 searchableDropDown.Set_Initial_Text_Field_Value();
             }
-
-
-
         }
         catch (Exception e)
         {

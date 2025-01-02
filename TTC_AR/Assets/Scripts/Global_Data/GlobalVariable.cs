@@ -6,7 +6,9 @@ using UnityEngine;
 
 public class GlobalVariable : MonoBehaviour
 {
-    public static string baseUrl = "https://67176614b910c6a6e027ebfc.mockapi.io/api/v1/";
+    public static string baseUrl1 = "https://67176614b910c6a6e027ebfc.mockapi.io/api/v1/";
+    public static string baseUrl2 = "https://6776bd1c12a55a9a7d0cbc42.mockapi.io/api/v2/";
+
     public static string previousScene;
     public static string recentScene;
     public static string jb_TSD_Title = "";
@@ -75,6 +77,10 @@ public class GlobalVariable : MonoBehaviour
     public static List<Rack_General_Model> temp_List_Rack_General_Models = new List<Rack_General_Model>(); // Id, Name, List_Module_General_Non_Rack_Model
     public static List<Module_General_Non_Rack_Model> temp_List_Module_General_Non_Rack_Models = new List<Module_General_Non_Rack_Model>(); // Id, Name
 
+
+    public static Module_Information_Model temp_Module_Information_Model;
+    public static List<JB_Information_Model> temp_List_JB_Information_Models_From_Module = new List<JB_Information_Model>();
+    public static List<Device_Information_Model> temp_List_Device_Information_Models_From_Module = new List<Device_Information_Model>();
     public static AccountModel accountModel = new AccountModel()
     {
         userName = "",

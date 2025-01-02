@@ -7,30 +7,25 @@ public class Module_Information_Model
 {
 #nullable enable
 
-  [JsonProperty("Id")]
-  public string Id { get; set; }
+  [JsonProperty("Id")] public string Id { get; set; }
 
-  [JsonProperty("Name")]
-  public string Name { get; set; }
+  [JsonProperty("Name")] public string Name { get; set; }
 
-  [JsonProperty("List_Device")]
-  public List<Device_Information_Model> List_Device_Model { get; set; }
+  [JsonProperty("List_Device")] public List<Device_Information_Model> List_Device_Information_Model { get; set; }
 
-  [JsonProperty("List_JB")]
-  public List<JB_Information_Model> List_JB_Model { get; set; }
+  [JsonProperty("List_JB")] public List<JB_Information_Model> List_JB_Information_Model { get; set; }
 
-  [JsonProperty("Module_Specification")]
-  public Module_Specification_Model? Specification_Model { get; set; }
+  [JsonProperty("Module_Specification")] public Module_Specification_Model? Specification_Model { get; set; }
 
   [JsonProperty("Rack")]
   public Rack_Non_List_Module_Model Rack_Non_List_Module_Mode { get; set; }
 
-  public Module_Information_Model(string id, string name, List<Device_Information_Model> list_Device_Model, List<JB_Information_Model> list_JB_Model, Module_Specification_Model? specification_Model, Rack_Non_List_Module_Model rack_Non_List_Module_Model)
+  public Module_Information_Model(string id, string name, List<Device_Information_Model> list_Device_Information_Model, List<JB_Information_Model> list_JB_Information_Model, Module_Specification_Model? specification_Model, Rack_Non_List_Module_Model rack_Non_List_Module_Model)
   {
     Id = id;
     Name = name;
-    List_Device_Model = list_Device_Model;
-    List_JB_Model = list_JB_Model;
+    List_Device_Information_Model = list_Device_Information_Model;
+    List_JB_Information_Model = list_JB_Information_Model;
     Specification_Model = specification_Model;
     Rack_Non_List_Module_Mode = rack_Non_List_Module_Model;
   }

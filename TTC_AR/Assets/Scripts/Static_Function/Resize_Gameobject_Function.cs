@@ -37,17 +37,14 @@ public class Resize_Gameobject_Function : MonoBehaviour
       Debug.LogWarning("Sprite is null on Image component.");
       yield break;
     }
-    // imageComponent.gameObject.SetActive(false);
+
     yield return new WaitForSeconds(0.3f);
     // Lấy kích thước gốc của hình ảnh
     float originalWidth = imageComponent.sprite.rect.width;
     float originalHeight = imageComponent.sprite.rect.height;
-    // Tính tỷ lệ gốc (width / height)
-    // Rect spriteRect = imageComponent.sprite.rect; //Lấy kích thước của sprite 
+
     RectTransform rectTransform = imageComponent.rectTransform;
     float aspectRatio = originalWidth / originalHeight;
     rectTransform.sizeDelta = new Vector2(rectTransform.sizeDelta.x, rectTransform.sizeDelta.x / aspectRatio);
-    //imageComponent.gameObject.SetActive(true);
-    //isResize = true;
   }
 }
