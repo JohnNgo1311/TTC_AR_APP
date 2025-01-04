@@ -22,78 +22,83 @@ public class SearchDeviceFromModule : MonoBehaviour
     private RectTransform list_Devices_Transform;
     private RectTransform jb_TSD_General_Transform;
     private RectTransform jb_TSD_Detail_Transform;
+    private void Awake()
+    {
+        list_Devices_Transform ??= module_Canvas.gameObject.transform.Find("List_Devices").GetComponent<RectTransform>();
+        jb_TSD_General_Transform ??= module_Canvas.gameObject.transform.Find("JB_TSD_General_Panel").GetComponent<RectTransform>();
+        jb_TSD_Detail_Transform ??= module_Canvas.gameObject.transform.Find("Detail_JB_TSD").GetComponent<RectTransform>();
+    }
     private void Start()
     {
 
-        list_Devices_Transform = module_Canvas.gameObject.transform.Find("List_Devices").GetComponent<RectTransform>();
-        jb_TSD_General_Transform = module_Canvas.gameObject.transform.Find("JB_TSD_General_Panel").GetComponent<RectTransform>();
-        jb_TSD_Detail_Transform = module_Canvas.gameObject.transform.Find("Detail_JB_TSD").GetComponent<RectTransform>();
     }
-
     private void OnEnable()
     {
-        module_Canvas = GetComponentInParent<Canvas>();
-
-        if (module_Canvas.gameObject.activeSelf)
+        if (!GlobalVariable.navigate_from_JB_TSD_Detail)
         {
-            // Tách moduleName một lần và lưu trữ
-            moduleName = module_Canvas.name.Split('_')[0];
-            listDeviceFromModule = Get_List_Device_By_Module(moduleName);
-
-            // Xóa các tùy chọn trước đó
-            dropdown.options.Clear();
-
-            if (listDeviceFromModule.Count > 0)
+            module_Canvas ??= GetComponentInParent<Canvas>();
+            if (module_Canvas.gameObject.activeSelf)
             {
-                // Chuyển đổi danh sách thiết bị thành danh sách tùy chọn cho dropdown
-                foreach (var device in listDeviceFromModule)
+                // Tách moduleName một lần và lưu trữ
+                moduleName = module_Canvas.name.Split('_')[0];
+                listDeviceFromModule = Get_List_Device_By_Module(moduleName);
+                // Xóa các tùy chọn trước đó
+                dropdown.options.Clear();
+                if (listDeviceFromModule.Count > 0)
                 {
-                    dropdown.options.Add(new TMP_Dropdown.OptionData(device.Code));
+                    // Chuyển đổi danh sách thiết bị thành danh sách tùy chọn cho dropdown
+                    foreach (var device in listDeviceFromModule)
+                    {
+                        dropdown.options.Add(new TMP_Dropdown.OptionData(device.Code));
+                    }
+
+                    // Đảm bảo rằng option1 luôn được chọn
+                    dropdown.value = 0;
+                    dropdown.RefreshShownValue();
+
+                    dropdown.onValueChanged.AddListener(OnValueChange);
+                    OnValueChange(0); // Gọi OnValueChange để cập nhật thông tin thiết bị đầu tiên
+
+                    /* deviceInfor = listDeviceFromModule[0];
+                     UpdateDeviceInformation(deviceInfor);*
+
+                     if (!contentPanel.activeSelf)
+                     {
+                         contentPanel.SetActive(true);
+                     }*/
+
                 }
+                else
+                {
+                    // Nếu không có thiết bị nào, thêm tùy chọn mặc định
+                    dropdown.options.Add(new TMP_Dropdown.OptionData(noDeviceMessage));
+                    dropdown.value = 0;
+                    dropdown.RefreshShownValue();
 
-                // Đảm bảo rằng option1 luôn được chọn
-                dropdown.value = 0;
-                dropdown.RefreshShownValue();
-
-                dropdown.onValueChanged.AddListener(OnValueChange);
-                OnValueChange(0); // Gọi OnValueChange để cập nhật thông tin thiết bị đầu tiên
-
-                /* deviceInfor = listDeviceFromModule[0];
-                 UpdateDeviceInformation(deviceInfor);*
-
-                 if (!contentPanel.activeSelf)
-                 {
-                     contentPanel.SetActive(true);
-                 }*/
-
+                    // Ẩn contentPanel và xóa thông tin thiết bị
+                    contentPanel.SetActive(false);
+                    ClearDeviceInformation();
+                }
             }
-            else
-            {
-                // Nếu không có thiết bị nào, thêm tùy chọn mặc định
-                dropdown.options.Add(new TMP_Dropdown.OptionData(noDeviceMessage));
-                dropdown.value = 0;
-                dropdown.RefreshShownValue();
 
-                // Ẩn contentPanel và xóa thông tin thiết bị
-                contentPanel.SetActive(false);
-                ClearDeviceInformation();
-            }
+
         }
+        GlobalVariable.navigate_from_JB_TSD_Detail = false;
     }
 
     private void OnDisable()
     {
-        // Xóa các tùy chọn trong dropdown
-        dropdown.options.Clear();
+        if (!GlobalVariable.navigate_from_JB_TSD_Detail)
+        { // Xóa các tùy chọn trong dropdown
+            dropdown.options.Clear();
+            // Xóa thông tin hiển thị về thiết bị
+            ClearDeviceInformation();
+            // Ẩn contentPanel
+            contentPanel.SetActive(false);
+            // Gỡ sự kiện khi OnDisable được gọi
+            dropdown.onValueChanged.RemoveListener(OnValueChange);
+        }
 
-        // Xóa thông tin hiển thị về thiết bị
-        ClearDeviceInformation();
-
-        // Ẩn contentPanel
-        contentPanel.SetActive(false);
-
-        // Gỡ sự kiện khi OnDisable được gọi
-        dropdown.onValueChanged.RemoveListener(OnValueChange);
     }
 
     public void OnValueChange(int value)
@@ -118,7 +123,7 @@ public class SearchDeviceFromModule : MonoBehaviour
 
     private List<Device_Information_Model> Get_List_Device_By_Module(string moduleName)
     {
-        return GlobalVariable_Search_Devices.temp_List_Device_Information_Model.FindAll(
+        return GlobalVariable.temp_List_Device_Information_Model_From_Module.FindAll(
             device => device.IOAddress.StartsWith(moduleName + ".")
         );
 
@@ -131,16 +136,17 @@ public class SearchDeviceFromModule : MonoBehaviour
         deviceInformation[2].text = device.Range;
         deviceInformation[3].text = device.IOAddress;
 
-        var jbParts = device.JB_Information_Model.Location.Split('_');
-        deviceInformation[4].text = jbParts[0];
-        deviceInformation[5].text = jbParts.Length > 1 ? jbParts[1] : string.Empty;
+        deviceInformation[4].text = device.JB_Information_Model.Name;
+        deviceInformation[5].text = device.JB_Information_Model.Location;
+        GlobalVariable.jb_TSD_Location = device.JB_Information_Model.Location;
         // Đảm bảo không gán nhiều lần
         nav_JB_TSD_Detail_button.onClick.RemoveAllListeners();
+
         nav_JB_TSD_Detail_button.onClick.AddListener(() =>
         {
             GlobalVariable.navigate_from_List_Devices = true;
             GlobalVariable.navigate_from_JB_TSD_General = false;
-            NavigateJBDetailScreen(device.JB_Information_Model.Name);
+            NavigateJBDetailScreen(jB_Information_Model: device.JB_Information_Model);
         });
     }
 
@@ -159,21 +165,23 @@ public class SearchDeviceFromModule : MonoBehaviour
     }
     */
 
-    public void NavigateJBDetailScreen(string jB_TSD_Connection)
+    public void NavigateJBDetailScreen(JB_Information_Model jB_Information_Model)
     {
-        GlobalVariable.jb_TSD_Title = jB_TSD_Connection; // Name_Location of JB
-        var jobDetails = GlobalVariable.jb_TSD_Title.Split('_'); // EX: JB100_Hầm Cáp MCC
-        GlobalVariable.jb_TSD_Name = jobDetails[0]; // jb_name: JB100
-                                                    // //Debug"jb_name: " + jb_name);
-        GlobalVariable.jb_TSD_Location = jobDetails.Length > 1 ? jobDetails[1] : string.Empty; // jb_location: Hầm Cáp MCC
-                                                                                               // //Debug"jb_location: " + jb_location);
+        GlobalVariable.jb_TSD_Title = jB_Information_Model.Name; // Name_Location of JB
+
+        GlobalVariable.jb_TSD_Name = jB_Information_Model.Name; // jb_name: JB100
+                                                                // //Debug"jb_name: " + jb_name);
+        GlobalVariable.jb_TSD_Location = jB_Information_Model.Location; // jb_location: Hầm Cáp MCC
+                                                                        // //Debug"jb_location: " + jb_location);
         if (GlobalVariable.navigate_from_JB_TSD_General)
         {
+            GlobalVariable.navigate_from_JB_TSD_Detail = true;
             jb_TSD_General_Transform.gameObject.SetActive(false);
             jb_TSD_Detail_Transform.gameObject.SetActive(true);
         }
         if (GlobalVariable.navigate_from_List_Devices)
         {
+            GlobalVariable.navigate_from_JB_TSD_Detail = true;
             list_Devices_Transform.gameObject.SetActive(false);
             jb_TSD_Detail_Transform.gameObject.SetActive(true);
         }

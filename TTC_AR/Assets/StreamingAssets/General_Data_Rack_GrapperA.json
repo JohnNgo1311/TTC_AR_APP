@@ -1,1 +1,741 @@
-{"Rack_1":[{"Module":"D1.0.I","jbConnection":["JB2_Hầm cáp MCC búa","JB114_Dưới hầm cáp MCC che Ép","TSD1_Được ghi chú trên sơ đồ","TSD2_Được ghi chú trên sơ đồ","TSD12_Được ghi chú trên sơ đồ"],"Type":"1794-IB32","Adapter":"1794-ACN15"},{"Module":"D1.1.I","jbConnection":["TSD3_Được ghi chú trên sơ đồ","TSD4_Được ghi chú trên sơ đồ","TSD5_Được ghi chú trên sơ đồ","TSD6_Được ghi chú trên sơ đồ","TSD7_Được ghi chú trên sơ đồ","TSD8_Được ghi chú trên sơ đồ"],"Type":"1794-IB32","Adapter":"1794-ACN15"},{"Module":"D1.2.I","jbConnection":["JB1_Hầm cáp MCC búa","JB6_Dưới chân Che Ép","JB7_Trên Vít Khuếch Tán","JB8_Trên Vít Khuếch Tán","JB212-JB115_Được ghi chú trên sơ đồ","TSD8_Được ghi chú trên sơ đồ","TSD9_Được ghi chú trên sơ đồ","TSD10_Được ghi chú trên sơ đồ","TSD11_Được ghi chú trên sơ đồ"],"Type":"1794-IB32","Adapter":"1794-ACN15"},{"Module":"D1.3.I","jbConnection":["JB8_Trên Vít Khuếch Tán","TSD3_Được ghi chú trên sơ đồ","TSD4_Được ghi chú trên sơ đồ","TSD5_Được ghi chú trên sơ đồ","TSD6_Được ghi chú trên sơ đồ","TSD7_Được ghi chú trên sơ đồ","TSD8_Được ghi chú trên sơ đồ"],"Type":"1794-IB32","Adapter":"1794-ACN15"},{"Module":"D1.4.I","jbConnection":["JB2_Hầm cáp MCC búa","TSD8_Được ghi chú trên sơ đồ","TSD9_Được ghi chú trên sơ đồ","TSD10_Được ghi chú trên sơ đồ","TSD11_Được ghi chú trên sơ đồ","TSD12_Được ghi chú trên sơ đồ","TSD13_Được ghi chú trên sơ đồ","TSD14_Được ghi chú trên sơ đồ"],"Type":"1794-IB32","Adapter":"1794-ACN15"},{"Module":"D1.5.I","jbConnection":["JB2_Hầm cáp MCC búa","JB6_Dưới chân Che Ép","JB110-JB111_Dưới hầm cáp MCC che Ép","TSD2_Được ghi chú trên sơ đồ","TSD11_Được ghi chú trên sơ đồ","TSD12_Được ghi chú trên sơ đồ","TSD18_Được ghi chú trên sơ đồ"],"Type":"1794-IB32","Adapter":"1794-ACN15"},{"Module":"D1.6.I","jbConnection":["JB1_Hầm cáp MCC búa","JB6_Dưới chân Che Ép","JB14_Che Ép","JB112-JB113_Dưới hầm cáp MCC che Ép","JB212-JB115_Được ghi chú trên sơ đồ","TSD2_Được ghi chú trên sơ đồ","TSD7_Được ghi chú trên sơ đồ","TSD9_Được ghi chú trên sơ đồ","TSD16_Được ghi chú trên sơ đồ","TSD17_Được ghi chú trên sơ đồ"],"Type":"1794-IB32","Adapter":"1794-ACN15"},{"Module":"D1.7.I","jbConnection":["JB1_Hầm cáp MCC búa","JB6_Dưới chân Che Ép","JB8_Trên Vít Khuếch Tán","JB14_Che Ép","TSD9_Được ghi chú trên sơ đồ","TSD10_Được ghi chú trên sơ đồ","TSD15_Được ghi chú trên sơ đồ"],"Type":"1794-IB32","Adapter":"1794-ACN15"}],"Rack_2":[{"Module":"D2.0.O","jbConnection":["JB8_Trên Vít Khuếch Tán","TSD1_Được ghi chú trên sơ đồ","TSD2_Được ghi chú trên sơ đồ","TSD3_Được ghi chú trên sơ đồ","TSD4_Được ghi chú trên sơ đồ","TSD5_Được ghi chú trên sơ đồ","TSD9_Được ghi chú trên sơ đồ","TSD10_Được ghi chú trên sơ đồ","TSD12_Được ghi chú trên sơ đồ"],"Type":"1794-OB32P","Adapter":"1794-ACN15"},{"Module":"D2.1.O","jbConnection":["JB14_Che Ép","TSD5_Được ghi chú trên sơ đồ","TSD6_Được ghi chú trên sơ đồ","TSD7_Được ghi chú trên sơ đồ","TSD8_Được ghi chú trên sơ đồ","TSD9_Được ghi chú trên sơ đồ","TSD10_Được ghi chú trên sơ đồ","TSD11_Được ghi chú trên sơ đồ","TSD13_Được ghi chú trên sơ đồ","TSD19_Được ghi chú trên sơ đồ"],"Type":"1794-OB32P","Adapter":"1794-ACN15"},{"Module":"D2.2.O","jbConnection":["JB14_Che Ép","JB104_Được ghi chú trên sơ đồ","JB110-JB111_Dưới hầm cáp MCC che Ép","JB114_Dưới hầm cáp MCC che Ép","TSD2_Được ghi chú trên sơ đồ","TSD7_Được ghi chú trên sơ đồ","TSD10_Được ghi chú trên sơ đồ","TSD11_Được ghi chú trên sơ đồ","TSD14_Được ghi chú trên sơ đồ","TSD16_Được ghi chú trên sơ đồ","TSD17_Được ghi chú trên sơ đồ","TSD18_Được ghi chú trên sơ đồ","TSD19_Được ghi chú trên sơ đồ"],"Type":"1794-OB32P","Adapter":"1794-ACN15"},{"Module":"D2.3.O","jbConnection":["JB11_Ngay cầu thang lên MCC","TSD15_Được ghi chú trên sơ đồ"],"Type":"1794-OB32P","Adapter":"1794-ACN15"},{"Module":"D2.4.I","jbConnection":["JB7_Trên Vít Khuếch Tán","JB8_Trên Vít Khuếch Tán"],"Type":"1794-IB32","Adapter":"1794-ACN15"},{"Module":"D2.5.I","jbConnection":["TSD19_Được ghi chú trên sơ đồ"],"Type":"1794-IB32","Adapter":"1794-ACN15"}],"Rack_3":[{"Module":"D3.0.I","jbConnection":[],"Type":"1794-IB32","Adapter":"1794-ACN15"},{"Module":"D3.1.I","jbConnection":[],"Type":"1794-IB32","Adapter":"1794-ACN15"},{"Module":"D3.2.O","jbConnection":[],"Type":"1794-OB32P","Adapter":"1794-ACN15"},{"Module":"D3.3.O","jbConnection":[],"Type":"1794-OB32P","Adapter":"1794-ACN15"}],"Rack_4":[{"Module":"A4.0.I","jbConnection":["JB1_Hầm cáp MCC búa","JB3_Cầu Thang lên Chè Cân","JB9_Được ghi chú trên sơ đồ","JB12_Được ghi chú trên sơ đồ","JB100-JB101_Cầu Thang lên Chè Cân"],"Type":"1794-IE8","Adapter":"1794-ACN15"},{"Module":"A4.1.I","jbConnection":["JB3_Cầu Thang lên Chè Cân","JB4_Hành Lang Khuếch Tán","JB9_Được ghi chú trên sơ đồ"],"Type":"1794-IE8","Adapter":"1794-ACN15"},{"Module":"A4.2.I","jbConnection":["JB3_Cầu Thang lên Chè Cân","JB5_Dưới chân Che Ép","JB116_Được ghi chú trên sơ đồ"],"Type":"1794-IE8","Adapter":"1794-ACN15"},{"Module":"A4.3.I","jbConnection":["JB3_Cầu Thang lên Chè Cân","JB4_Hành Lang Khuếch Tán","JB10_Được ghi chú trên sơ đồ","JB11_Ngay cầu thang lên MCC","JB12_Được ghi chú trên sơ đồ"],"Type":"1794-IE8","Adapter":"1794-ACN15"},{"Module":"A4.4.I","jbConnection":["JB5_Dưới chân Che Ép","JB9_Được ghi chú trên sơ đồ","JB10_Được ghi chú trên sơ đồ"],"Type":"1794-IE8","Adapter":"1794-ACN15"},{"Module":"A4.5.I","jbConnection":["JB1_Hầm cáp MCC búa"],"Type":"1794-IE8","Adapter":"1794-ACN15"},{"Module":"A4.6.I","jbConnection":["JB4_Hành lang khuếch tán","JB9_Được ghi chú trên sơ đồ","JB10_Được ghi chú trên sơ đồ"],"Type":"1794-IE8","Adapter":"1794-ACN15"},{"Module":"A4.7.I","jbConnection":["JB5_Dưới chân Che Ép","JB11_Ngay cầu thang lên MCC","JB12_Được ghi chú trên sơ đồ","JB100-JB101_Dưới hầm cáp MCC che Ép"],"Type":"1794-IE8","Adapter":"1794-ACN15"}],"Rack_5":[{"Module":"A5.0.I","jbConnection":["JB10_Được ghi chú trên sơ đồ","JB11_Ngay cầu thang lên MCC"],"Type":"1794-IE8","Adapter":"1794-ACN15"},{"Module":"A5.1.I","jbConnection":["JB1_Hầm cáp MCC búa","JB10_Được ghi chú trên sơ đồ","JB11_Ngay cầu thang lên MCC"],"Type":"1794-IE8","Adapter":"1794-ACN15"},{"Module":"A5.2.I","jbConnection":["JB3_Cầu Thang lên Chè Cân","JB5_Dưới chân Che Ép"],"Type":"1794-IE8","Adapter":"1794-ACN15"},{"Module":"A5.3.O","jbConnection":["JB1_Hầm cáp MCC búa","JB3_Cầu Thang lên Chè Cân","JB4_Hành Lang Khuếch Tán","JB9_Được ghi chú trên sơ đồ","JB12_Được ghi chú trên sơ đồ","JB100-JB101_Dưới hầm cáp MCC che Ép"],"Type":"1794-OE8H","Adapter":"1794-ACN15"},{"Module":"A5.4.O","jbConnection":["JB3_Cầu Thang lên Chè Cân","JB4_Hành Lang Khuếch Tán"],"Type":"1794-OE8H","Adapter":"1794-ACN15"},{"Module":"A5.5.O","jbConnection":["JB9_Được ghi chú trên sơ đồ","JB12_Được ghi chú trên sơ đồ","JB116_Được ghi chú trên sơ đồ"],"Type":"1794-OE8H","Adapter":"1794-ACN15"},{"Module":"A5.6.I","jbConnection":["JB5_Dưới chân Che Ép"],"Type":"1794-IE8","Adapter":"1794-ACN15"},{"Module":"A5.7.I","jbConnection":["JB5_Dưới chân Che Ép","JB14_Che Ép","JB116_Được ghi chú trên sơ đồ"],"Type":"1794-IE8","Adapter":"1794-ACN15"}],"Rack_6":[{"Module":"A6.0.I","jbConnection":[],"Type":"1794-IR8","Adapter":"1794-ACN15"},{"Module":"A6.1.I","jbConnection":[],"Type":"1794-IR8","Adapter":"1794-ACN15"}]}
+[
+  {
+    "Id": "GPA",
+    "Name": "GrapperA",
+    "List_Rack_General_Model": [
+      {
+        "Id": "RKA1",
+        "Name": "Rack_1",
+        "List_Module_General_Non_Rack_Model": [
+          {
+            "Id": "MOAD1.0.I",
+            "Name":"D1.0.I"
+          },
+             {
+            "Id": "MOAD1.1.I",
+            "Name":"D1.1.I"
+          },
+             {
+            "Id": "MOAD1.2.I",
+            "Name":"D1.2.I"
+          },
+             {
+            "Id": "MOAD1.3.I",
+            "Name":"D1.3.I"
+          },
+             {
+            "Id": "MOAD1.4.I",
+            "Name":"D1.4.I"
+          },
+             {
+            "Id": "MOAD1.5.I",
+            "Name":"D1.5.I"
+          },
+             {
+            "Id": "MOAD1.6.I",
+            "Name":"D1.6.I"
+          },
+           {
+            "Id": "MOAD1.7.I",
+            "Name":"D1.7.I"
+          } 
+        ]
+      },
+      {
+        "Id": "R2",
+        "Name": "Rack_2",
+        "List_Module_General_Non_Rack_Model": [
+          {
+            "Id": "MOAD2.0.O",
+            "Name": "D2.0.O"
+          },
+          {
+            "Id": "MOAD2.1.O",
+            "Name": "D2.1.O"
+          },
+           {
+            "Id": "MOAD2.2.O",
+            "Name": "D2.2.O"
+          },
+           {
+            "Id": "MOAD2.3.O",
+            "Name": "D2.3.O"
+          },
+           {
+            "Id": "MOAD2.4.I",
+            "Name": "D2.4.I"
+          },
+          {
+            "Id": "MOAD2.5.I",
+            "Name": "D2.5.I"
+          }
+        ]
+      },
+       {
+        "Id": "R3",
+        "Name": "Rack_3",
+        "List_Module_General_Non_Rack_Model": [
+          {
+            "Id": "MOAD3.0.I",
+            "Name": "D3.0.I"
+          },
+          {
+            "Id": "MOAD3.1.I",
+            "Name": "D3.1.I"
+          },
+           {
+            "Id": "MOAD3.2.O",
+            "Name": "D3.2.O"
+          },
+           {
+            "Id": "MOAD3.3.O",
+            "Name": "D3.3.O"
+          }
+        ]
+      },
+      {
+        "Id": "R4",
+        "Name": "Rack_4",
+        "List_Module_General_Non_Rack_Model": [
+          {
+            "Id": "MOAA4.0.I",
+            "Name": "A4.0.I"
+          },
+          {
+            "Id": "MOAA4.1.I",
+            "Name": "A4.1.I"
+          },
+          {
+            "Id": "MOAA4.2.I",
+            "Name": "A4.2.I"
+          },
+          {
+            "Id": "MOAA4.3.I",
+            "Name": "A4.3.I"
+          },
+          {
+            "Id": "MOAA4.4.I",
+            "Name": "A4.4.I"
+          },
+          {
+            "Id": "MOAA4.5.I",
+            "Name": "A4.5.I"
+          },
+           {
+            "Id": "MOAA4.6.I",
+            "Name": "A4.6.I"
+          }, {
+            "Id": "MOAA4.7.I",
+            "Name": "A4.7.I"
+          }
+        ]
+      },
+       {
+        "Id": "R5",
+        "Name": "Rack_5",
+        "List_Module_General_Non_Rack_Model": [
+          {
+            "Id": "MOAA5.0.I",
+            "Name": "A5.0.I"
+          },
+          {
+            "Id": "MOAA5.1.I",
+            "Name": "A5.1.I"
+          },
+          {
+            "Id": "MOAA5.2.I",
+            "Name": "A5.2.I"
+          },
+          {
+            "Id": "MOAA5.3.O",
+            "Name": "A5.3.O"
+          },
+          {
+            "Id": "MOAA5.4.O",
+            "Name": "A5.4.O"
+          },
+          {
+            "Id": "MOAA5.5.O",
+            "Name": "A5.5.O"
+          },
+           {
+            "Id": "MOAA5.6.I",
+            "Name": "A5.6.I"
+          }, {
+            "Id": "MOAA5.7.I",
+            "Name": "A5.7.I"
+          }
+        ]
+      },
+        {
+        "Id": "R6",
+        "Name": "Rack_6",
+        "List_Module_General_Non_Rack_Model": [
+          {
+            "Id": "MOAA6.0.I",
+            "Name": "A6.0.I"
+          },
+          {
+            "Id": "MOAA6.1.I",
+            "Name": "A6.1.I"
+          }
+        ]
+      }
+    ]
+  },
+   {
+    "Id": "GPB",
+    "Name": "GrapperB",
+    "List_Rack_General_Model": [
+      {
+        "Id": "RKB1",
+        "Name": "Rack_1",
+        "List_Module_General_Non_Rack_Model": [
+          {
+            "Id": "MOBD1.0.I",
+            "Name":"D1.0.I"
+          },
+             {
+            "Id": "MODB1.1.I",
+            "Name":"D1.1.I"
+          },
+             {
+            "Id": "MODB1.2.I",
+            "Name":"D1.2.I"
+          },
+             {
+            "Id": "MODB1.3.I",
+            "Name":"D1.3.I"
+          },
+             {
+            "Id": "MODB1.4.I",
+            "Name":"D1.4.I"
+          },
+             {
+            "Id": "MODB1.5.I",
+            "Name":"D1.5.I"
+          },
+             {
+            "Id": "MODB1.6.I",
+            "Name":"D1.6.I"
+          },
+           {
+            "Id": "MODB1.7.I",
+            "Name":"D1.7.I"
+          } 
+        ]
+      },
+      {
+        "Id": "R2",
+        "Name": "Rack_2",
+        "List_Module_General_Non_Rack_Model": [
+          {
+            "Id": "MODB2.0.O",
+            "Name": "D2.0.O"
+          },
+          {
+            "Id": "MODB2.1.O",
+            "Name": "D2.1.O"
+          },
+           {
+            "Id": "MODB2.2.O",
+            "Name": "D2.2.O"
+          },
+           {
+            "Id": "MODB2.3.O",
+            "Name": "D2.3.O"
+          },
+           {
+            "Id": "MODB2.4.I",
+            "Name": "D2.4.I"
+          },
+          {
+            "Id": "MODB2.5.I",
+            "Name": "D2.5.I"
+          }
+        ]
+      },
+       {
+        "Id": "R3",
+        "Name": "Rack_3",
+        "List_Module_General_Non_Rack_Model": [
+          {
+            "Id": "MODB3.0.I",
+            "Name": "D3.0.I"
+          },
+          {
+            "Id": "MODB3.1.I",
+            "Name": "D3.1.I"
+          },
+           {
+            "Id": "MODB3.2.O",
+            "Name": "D3.2.O"
+          },
+           {
+            "Id": "MODB3.3.O",
+            "Name": "D3.3.O"
+          }
+        ]
+      },
+      {
+        "Id": "R4",
+        "Name": "Rack_4",
+        "List_Module_General_Non_Rack_Model": [
+          {
+            "Id": "MOAB4.0.I",
+            "Name": "A4.0.I"
+          },
+          {
+            "Id": "MOAB4.1.I",
+            "Name": "A4.1.I"
+          },
+          {
+            "Id": "MOAB4.2.I",
+            "Name": "A4.2.I"
+          },
+          {
+            "Id": "MOAB4.3.I",
+            "Name": "A4.3.I"
+          },
+          {
+            "Id": "MOAB4.4.I",
+            "Name": "A4.4.I"
+          },
+          {
+            "Id": "MOAB4.5.I",
+            "Name": "A4.5.I"
+          },
+           {
+            "Id": "MOAB4.6.I",
+            "Name": "A4.6.I"
+          }, {
+            "Id": "MOAB4.7.I",
+            "Name": "A4.7.I"
+          }
+        ]
+      },
+       {
+        "Id": "R5",
+        "Name": "Rack_5",
+        "List_Module_General_Non_Rack_Model": [
+          {
+            "Id": "MOAB5.0.I",
+            "Name": "A5.0.I"
+          },
+          {
+            "Id": "MOAB5.1.I",
+            "Name": "A5.1.I"
+          },
+          {
+            "Id": "MOAB5.2.I",
+            "Name": "A5.2.I"
+          },
+          {
+            "Id": "MOAB5.3.O",
+            "Name": "A5.3.O"
+          },
+          {
+            "Id": "MOAB5.4.O",
+            "Name": "A5.4.O"
+          },
+          {
+            "Id": "MOAB5.5.O",
+            "Name": "A5.5.O"
+          },
+           {
+            "Id": "MOAB5.6.I",
+            "Name": "A5.6.I"
+          }, {
+            "Id": "MOAB5.7.I",
+            "Name": "A5.7.I"
+          }
+        ]
+      },
+        {
+        "Id": "R6",
+        "Name": "Rack_6",
+        "List_Module_General_Non_Rack_Model": [
+          {
+            "Id": "MOAB6.0.I",
+            "Name": "A6.0.I"
+          },
+          {
+            "Id": "MOAB6.1.I",
+            "Name": "A6.1.I"
+          }
+        ]
+      }
+    ]
+  },
+   {
+    "Id": "GPC",
+    "Name": "GrapperC",
+    "List_Rack_General_Model": [
+      {
+        "Id": "RKC1",
+        "Name": "Rack_1",
+        "List_Module_General_Non_Rack_Model": [
+          {
+            "Id": "MOCD1.0.I",
+            "Name":"D1.0.I"
+          },
+             {
+            "Id": "MOCD1.1.I",
+            "Name":"D1.1.I"
+          },
+             {
+            "Id": "MOCD1.2.I",
+            "Name":"D1.2.I"
+          },
+             {
+            "Id": "MOCD1.3.I",
+            "Name":"D1.3.I"
+          },
+             {
+            "Id": "MOCD1.4.I",
+            "Name":"D1.4.I"
+          },
+             {
+            "Id": "MOCD1.5.I",
+            "Name":"D1.5.I"
+          },
+             {
+            "Id": "MOCD1.6.I",
+            "Name":"D1.6.I"
+          },
+           {
+            "Id": "MOCD1.7.I",
+            "Name":"D1.7.I"
+          } 
+        ]
+      },
+      {
+        "Id": "R2",
+        "Name": "Rack_2",
+        "List_Module_General_Non_Rack_Model": [
+          {
+            "Id": "MOCD2.0.O",
+            "Name": "D2.0.O"
+          },
+          {
+            "Id": "MOCD2.1.O",
+            "Name": "D2.1.O"
+          },
+           {
+            "Id": "MOCD2.2.O",
+            "Name": "D2.2.O"
+          },
+           {
+            "Id": "MOCD2.3.O",
+            "Name": "D2.3.O"
+          },
+           {
+            "Id": "MOCD2.4.I",
+            "Name": "D2.4.I"
+          },
+          {
+            "Id": "MOCD2.5.I",
+            "Name": "D2.5.I"
+          }
+        ]
+      },
+       {
+        "Id": "R3",
+        "Name": "Rack_3",
+        "List_Module_General_Non_Rack_Model": [
+          {
+            "Id": "MOCD3.0.I",
+            "Name": "D3.0.I"
+          },
+          {
+            "Id": "MOCD3.1.I",
+            "Name": "D3.1.I"
+          },
+           {
+            "Id": "MOCD3.2.O",
+            "Name": "D3.2.O"
+          },
+           {
+            "Id": "MOCD3.3.O",
+            "Name": "D3.3.O"
+          }
+        ]
+      },
+      {
+        "Id": "R4",
+        "Name": "Rack_4",
+        "List_Module_General_Non_Rack_Model": [
+          {
+            "Id": "MOCA4.0.I",
+            "Name": "A4.0.I"
+          },
+          {
+            "Id": "MOCA4.1.I",
+            "Name": "A4.1.I"
+          },
+          {
+            "Id": "MOCA4.2.I",
+            "Name": "A4.2.I"
+          },
+          {
+            "Id": "MOCA4.3.I",
+            "Name": "A4.3.I"
+          },
+          {
+            "Id": "MOCA4.4.I",
+            "Name": "A4.4.I"
+          },
+          {
+            "Id": "MOCA4.5.I",
+            "Name": "A4.5.I"
+          },
+           {
+            "Id": "MOCA4.6.I",
+            "Name": "A4.6.I"
+          }, {
+            "Id": "MOCA4.7.I",
+            "Name": "A4.7.I"
+          }
+        ]
+      },
+       {
+        "Id": "R5",
+        "Name": "Rack_5",
+        "List_Module_General_Non_Rack_Model": [
+          {
+            "Id": "MOCA5.0.I",
+            "Name": "A5.0.I"
+          },
+          {
+            "Id": "MOCA5.1.I",
+            "Name": "A5.1.I"
+          },
+          {
+            "Id": "MOCA5.2.I",
+            "Name": "A5.2.I"
+          },
+          {
+            "Id": "MOCA5.3.O",
+            "Name": "A5.3.O"
+          },
+          {
+            "Id": "MOCA5.4.O",
+            "Name": "A5.4.O"
+          },
+          {
+            "Id": "MOCA5.5.O",
+            "Name": "A5.5.O"
+          },
+           {
+            "Id": "MOCA5.6.I",
+            "Name": "A5.6.I"
+          }, {
+            "Id": "MOCA5.7.I",
+            "Name": "A5.7.I"
+          }
+        ]
+      },
+        {
+        "Id": "R6",
+        "Name": "Rack_6",
+        "List_Module_General_Non_Rack_Model": [
+          {
+            "Id": "MOCA6.0.I",
+            "Name": "A6.0.I"
+          },
+          {
+            "Id": "MOCA6.1.I",
+            "Name": "A6.1.I"
+          }
+        ]
+      }
+    ]
+  },
+   {
+    "Id": "GPLH",
+    "Name": "Lò Hơi",
+    "List_Rack_General_Model": [
+      {
+        "Id": "RKLH1",
+        "Name": "Rack_1",
+        "List_Module_General_Non_Rack_Model": [
+          {
+            "Id": "MOLHD1.0.I",
+            "Name":"D1.0.I"
+          },
+             {
+            "Id": "MOLHD1.1.I",
+            "Name":"D1.1.I"
+          },
+             {
+            "Id": "MOLHD1.2.I",
+            "Name":"D1.2.I"
+          },
+             {
+            "Id": "MOLHD1.3.I",
+            "Name":"D1.3.I"
+          },
+             {
+            "Id": "MOLHD1.4.I",
+            "Name":"D1.4.I"
+          },
+             {
+            "Id": "MOLHD1.5.I",
+            "Name":"D1.5.I"
+          },
+             {
+            "Id": "MOLHD1.6.I",
+            "Name":"D1.6.I"
+          },
+           {
+            "Id": "MOLHD1.7.I",
+            "Name":"D1.7.I"
+          } 
+        ]
+      },
+      {
+        "Id": "R2",
+        "Name": "Rack_2",
+        "List_Module_General_Non_Rack_Model": [
+          {
+            "Id": "MOLHD2.0.O",
+            "Name": "D2.0.O"
+          },
+          {
+            "Id": "MOLHD2.1.O",
+            "Name": "D2.1.O"
+          },
+           {
+            "Id": "MOLHD2.2.O",
+            "Name": "D2.2.O"
+          },
+           {
+            "Id": "MOLHD2.3.O",
+            "Name": "D2.3.O"
+          },
+           {
+            "Id": "MOLHD2.4.I",
+            "Name": "D2.4.I"
+          },
+          {
+            "Id": "MOLHD2.5.I",
+            "Name": "D2.5.I"
+          }
+        ]
+      },
+       {
+        "Id": "R3",
+        "Name": "Rack_3",
+        "List_Module_General_Non_Rack_Model": [
+          {
+            "Id": "MOLHD3.0.I",
+            "Name": "D3.0.I"
+          },
+          {
+            "Id": "MOLHD3.1.I",
+            "Name": "D3.1.I"
+          },
+           {
+            "Id": "MOLHD3.2.O",
+            "Name": "D3.2.O"
+          },
+           {
+            "Id": "MOLHD3.3.O",
+            "Name": "D3.3.O"
+          }
+        ]
+      },
+      {
+        "Id": "R4",
+        "Name": "Rack_4",
+        "List_Module_General_Non_Rack_Model": [
+          {
+            "Id": "MOLHA4.0.I",
+            "Name": "A4.0.I"
+          },
+          {
+            "Id": "MOLHA4.1.I",
+            "Name": "A4.1.I"
+          },
+          {
+            "Id": "MOLHA4.2.I",
+            "Name": "A4.2.I"
+          },
+          {
+            "Id": "MOLHA4.3.I",
+            "Name": "A4.3.I"
+          },
+          {
+            "Id": "MOLHA4.4.I",
+            "Name": "A4.4.I"
+          },
+          {
+            "Id": "MOLHA4.5.I",
+            "Name": "A4.5.I"
+          },
+           {
+            "Id": "MOLHA4.6.I",
+            "Name": "A4.6.I"
+          }, {
+            "Id": "MOLHA4.7.I",
+            "Name": "A4.7.I"
+          }
+        ]
+      },
+       {
+        "Id": "R5",
+        "Name": "Rack_5",
+        "List_Module_General_Non_Rack_Model": [
+          {
+            "Id": "MOLHA5.0.I",
+            "Name": "A5.0.I"
+          },
+          {
+            "Id": "MOLHA5.1.I",
+            "Name": "A5.1.I"
+          },
+          {
+            "Id": "MOLHA5.2.I",
+            "Name": "A5.2.I"
+          },
+          {
+            "Id": "MOLHA5.3.O",
+            "Name": "A5.3.O"
+          },
+          {
+            "Id": "MOLHA5.4.O",
+            "Name": "A5.4.O"
+          },
+          {
+            "Id": "MOLHA5.5.O",
+            "Name": "A5.5.O"
+          },
+           {
+            "Id": "MOLHA5.6.I",
+            "Name": "A5.6.I"
+          }, {
+            "Id": "MOLHA5.7.I",
+            "Name": "A5.7.I"
+          }
+        ]
+      },
+        {
+        "Id": "R6",
+        "Name": "Rack_6",
+        "List_Module_General_Non_Rack_Model": [
+          {
+            "Id": "MOLHA6.0.I",
+            "Name": "A6.0.I"
+          },
+          {
+            "Id": "MOLHA6.1.I",
+            "Name": "A6.1.I"
+          }
+        ]
+      }
+    ]
+  }
+  
+]
+
+

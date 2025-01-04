@@ -245,7 +245,6 @@ public class Dropdown_On_ValueChange : MonoBehaviour
         {
             spriteCache.TryGetValue("JB_TSD_Location_Note", out jbSprite);
         }
-
         imageComponent.sprite = jbSprite;
         imageComponent.gameObject.GetComponent<Button>().onClick.AddListener(() => open_Detail_Image.Open_Detail_Canvas(imageComponent));
         Debug.Log("Đã add sự kiện click vào imageComponent");

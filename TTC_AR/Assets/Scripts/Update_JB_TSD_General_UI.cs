@@ -20,76 +20,78 @@ public class Update_JB_TSD_General_UI : MonoBehaviour
     [SerializeField] private Button jb_TSD_Connection_Button_Prefab;
     [SerializeField] private TMP_Text jb_TSD_Connection_Name_Prefab;
     [SerializeField] private TMP_Text jb_TSD_Connection_Location_Prefab;
+    [SerializeField] private EventPublisher eventPublisher;
+    public List<JB_Information_Model> jB_Information_Models = new List<JB_Information_Model>(); //List JB/TSD của Module
 
-    private void Start()
-    {
-
-    }
     private void OnEnable()
     {
-        module_Canvas = GetComponentInParent<Canvas>();
-        StartCoroutine(Create_Module_General());
-        StartCoroutine(CacheTransforms());
+        module_Canvas ??= GetComponentInParent<Canvas>();
+        eventPublisher ??= GameObject.Find(nameof(EventPublisher)).GetComponent<EventPublisher>();
+        StartCoroutine(InitializeUI());
     }
 
     private void OnDisable()
     {
         ClearCachedTransforms();
-        module_Information_Model = null;
         GlobalVariable.module_Type_Name = "1794-IB32";
         GlobalVariable.apdapter_Type_Name = "1794-ACN15";
     }
 
+    private IEnumerator InitializeUI()
+    {
+        eventPublisher.TriggerEvent_ButtonClicked();
+        yield return StartCoroutine(Get_Module_Information());
+        yield return StartCoroutine(InitionalizeUIElement());
+        yield return StartCoroutine(Create_Module_General());
+    }
+
+    private IEnumerator Get_Module_Information()
+    {
+        while (GlobalVariable.temp_Module_Information_Model == null ||
+               GlobalVariable.temp_List_JB_Information_Model_From_Module == null ||
+               GlobalVariable.temp_List_Device_Information_Model_From_Module == null)
+        {
+            yield return null;
+        }
+
+        Debug.Log("All variables have been assigned!");
+    }
+
     private IEnumerator Create_Module_General()
     {
+        yield return StartCoroutine(Instantiate_JB_TSD_Connection_List());
+    }
+
+    private IEnumerator InitionalizeUIElement()
+    {
         yield return null;
-        rack_Name = $"Rack_{module_Canvas.name.Substring(1, 1)}"; //?{module_Canvas.name.Substring(1, 1)} = 1;
-        module_Name = module_Canvas.gameObject.name.Split("_")[0]; //?module_Canvas.gameObject.name.Split("_")[0] = D1.1.I;
+        list_Devices_Transform ??= FindRectTransform("List_Devices", module_Canvas.transform);
+        yield return null;
+        jb_TSD_Detail_Transform ??= FindRectTransform("Detail_JB_TSD", module_Canvas.transform);
+        yield return null;
+        jb_TSD_General_Transform ??= FindRectTransform("JB_TSD_General_Panel", module_Canvas.transform);
+        yield return null;
+        jb_TSD_Connection_Vertical_Group ??= FindRectTransform("Scroll_Area/Content/JB_TSD_Connection_Vertical_Group", jb_TSD_General_Transform);
+        yield return null;
+        jb_TSD_Connection_Horizontal_Group ??= FindRectTransform("JB_TSD_Connection_Horizontal_Group", jb_TSD_Connection_Vertical_Group);
+        yield return null;
+        jb_TSD_Connection_Button_Prefab ??= FindComponent<Button>("JB_TSD_Connection_Button", jb_TSD_Connection_Horizontal_Group);
+        yield return null;
+        jb_TSD_Connection_Name_Prefab ??= FindComponent<TMP_Text>("JB_TSD_Connection_Name", jb_TSD_Connection_Button_Prefab.transform);
+        yield return null;
+        jb_TSD_Connection_Location_Prefab ??= FindComponent<TMP_Text>("JB_TSD_Connection_Location", jb_TSD_Connection_Horizontal_Group);
+
+        rack_Name = $"Rack_{module_Canvas.name.Substring(1, 1)}";
+        module_Name = module_Canvas.gameObject.name.Split('_')[0];
         Debug.Log($"Rack Name: {rack_Name}, Module Name: {module_Name}");
-        module_Information_Model = GetModuleGeneralModel(rack_Name, module_Name);
-        GlobalVariable.module_Type_Name = module_Information_Model.Specification_Model.Type; //?Module_Information_Model.Type = 1794-IB32;
-        GlobalVariable.apdapter_Type_Name = module_Information_Model.Specification_Model.Adapter.Type; //?Module_Information_Model.Adapter = 1794-ACN15;
-                                                                                                       // SetupJB_TSD_Connection();
-        StartCoroutine(Instantiate_JB_TSD_Connection_List());
+        module_Information_Model = GlobalVariable.temp_Module_Information_Model;
+        GlobalVariable.module_Type_Name = module_Information_Model.Specification_Model.Type;
+        GlobalVariable.apdapter_Type_Name = module_Information_Model.Specification_Model.Adapter.Type;
     }
 
-    private Module_Information_Model GetModuleGeneralModel(string rackName, string moduleName)
+    private RectTransform FindRectTransform(string name, Transform parent)
     {
-
-        //var rackData = GlobalVariable.rackData_GrapperA;
-        // Debug.Log($"{rackData}: Lấy data của Rack A thành công");
-        // List<Module_Information_Model> rackList = rackName switch
-        // {
-        //     "Rack_1" => rackData.Rack_1,
-        //     "Rack_2" => rackData.Rack_2,
-        //     "Rack_3" => rackData.Rack_3,
-        //     "Rack_4" => rackData.Rack_4,
-        //     "Rack_5" => rackData.Rack_5,
-        //     "Rack_6" => rackData.Rack_6,
-        //     _ => null
-        // };
-        // Debug.Log($"{rackList}: Lấy data của Rack A thành công");
-        return null;
-    }
-
-    private IEnumerator CacheTransforms()
-    {
-        yield return null;
-        list_Devices_Transform = FindRectTransform("List_Devices");
-        jb_TSD_Detail_Transform = FindRectTransform("Detail_JB_TSD");
-        jb_TSD_General_Transform = FindRectTransform("JB_TSD_General_Panel");
-
-        jb_TSD_Connection_Vertical_Group = FindRectTransform("Scroll_Area/Content/JB_TSD_Connection_Vertical_Group", jb_TSD_General_Transform);
-        jb_TSD_Connection_Horizontal_Group = FindRectTransform("JB_TSD_Connection_Horizontal_Group", jb_TSD_Connection_Vertical_Group);
-
-        jb_TSD_Connection_Button_Prefab = FindComponent<Button>("JB_TSD_Connection_Button", jb_TSD_Connection_Horizontal_Group);
-        jb_TSD_Connection_Name_Prefab = FindComponent<TMP_Text>("JB_TSD_Connection_Name", jb_TSD_Connection_Button_Prefab.transform);
-        jb_TSD_Connection_Location_Prefab = FindComponent<TMP_Text>("JB_TSD_Connection_Location", jb_TSD_Connection_Horizontal_Group);
-    }
-
-    private RectTransform FindRectTransform(string name, Transform parent = null)
-    {
-        return (parent ?? module_Canvas.transform).Find(name).GetComponent<RectTransform>();
+        return parent.Find(name).GetComponent<RectTransform>();
     }
 
     private T FindComponent<T>(string name, Transform parent) where T : Component
@@ -99,15 +101,6 @@ public class Update_JB_TSD_General_UI : MonoBehaviour
 
     private void ClearCachedTransforms()
     {
-        module_Canvas = null;
-        list_Devices_Transform = null;
-        jb_TSD_Detail_Transform = null;
-        jb_TSD_General_Transform = null;
-        jb_TSD_Connection_Vertical_Group = null;
-        jb_TSD_Connection_Horizontal_Group = null;
-        jb_TSD_Connection_Button_Prefab = null;
-        jb_TSD_Connection_Name_Prefab = null;
-        jb_TSD_Connection_Location_Prefab = null;
         StopAllCoroutines();
     }
 
@@ -121,39 +114,55 @@ public class Update_JB_TSD_General_UI : MonoBehaviour
 
     private IEnumerator Instantiate_JB_TSD_Connection_List()
     {
-        yield return new WaitForSeconds(0.1f);
-        List<JB_Information_Model> jbConnections = module_Information_Model.List_JB_Information_Model; //List JB/TSD của Module
-        int connectionCount = jbConnections.Count; // số lượng phần tử trong List JB/TSD của Module
-
+        jB_Information_Models = module_Information_Model.List_JB_Information_Model; //List JB/TSD của Module
+        int connectionCount = jB_Information_Models.Count; // số lượng phần tử trong List JB/TSD của Module
+        Debug.Log($"Connection Count: {connectionCount}");
         for (int i = 0; i < connectionCount; i++)
         {
-            string jb_TSD_Connection = jbConnections[i].Name; // Lấy tên JB/TSD
+            int currentIndex = i;
             RectTransform new_JB_TSD_Connection_Horizontal_Group = Instantiate(jb_TSD_Connection_Horizontal_Group, jb_TSD_Connection_Vertical_Group);
-            var new_JB_TSD_Connection_Button = new_JB_TSD_Connection_Horizontal_Group.Find("JB_TSD_Connection_Button").GetComponent<Button>();
-            var new_JB_TSD_Connection_Name = new_JB_TSD_Connection_Button.transform.Find("JB_TSD_Connection_Name").GetComponent<TMP_Text>();
-            var new_JB_TSD_Connection_Location = new_JB_TSD_Connection_Horizontal_Group.Find("JB_TSD_Connection_Location").GetComponent<TMP_Text>();
 
-            var jbParts = jb_TSD_Connection.Split('_');
-            new_JB_TSD_Connection_Name.text = jbParts[0];
-            new_JB_TSD_Connection_Location.text = jbParts.Length > 1 ? jbParts[1] : string.Empty;
+            var new_JB_TSD_Connection_Button = new_JB_TSD_Connection_Horizontal_Group.Find("JB_TSD_Connection_Button")?.GetComponent<Button>();
+            if (new_JB_TSD_Connection_Button == null)
+            {
+                Debug.LogError("JB_TSD_Connection_Button not found or missing Button component.");
+                continue;
+            }
 
+            var new_JB_TSD_Connection_Name = new_JB_TSD_Connection_Button.transform.Find("JB_TSD_Connection_Name")?.GetComponent<TMP_Text>();
+            if (new_JB_TSD_Connection_Name == null)
+            {
+                Debug.LogError("JB_TSD_Connection_Name not found or missing TMP_Text component.");
+                continue;
+            }
+
+            var new_JB_TSD_Connection_Location = new_JB_TSD_Connection_Horizontal_Group.Find("JB_TSD_Connection_Location")?.GetComponent<TMP_Text>();
+            if (new_JB_TSD_Connection_Location == null)
+            {
+                Debug.LogError("JB_TSD_Connection_Location not found or missing TMP_Text component.");
+                continue;
+            }
+
+            new_JB_TSD_Connection_Name.text = jB_Information_Models[i].Name;
+            new_JB_TSD_Connection_Location.text = jB_Information_Models[i].Location;
             new_JB_TSD_Connection_Button.onClick.AddListener(() =>
             {
                 GlobalVariable.navigate_from_List_Devices = false;
                 GlobalVariable.navigate_from_JB_TSD_General = true;
-                NavigateJBDetailScreen(jb_TSD_Connection);
+                NavigateJBDetailScreen(jB_Information_Models[currentIndex]);
             });
         }
         if (jb_TSD_Connection_Horizontal_Group.gameObject.activeSelf) jb_TSD_Connection_Horizontal_Group.gameObject.SetActive(false);
+        yield return null;
+
     }
 
-    public void NavigateJBDetailScreen(string jB_TSD_Connection)
-    {
-        GlobalVariable.jb_TSD_Title = jB_TSD_Connection;
-        var jobDetails = GlobalVariable.jb_TSD_Title.Split('_');
-        GlobalVariable.jb_TSD_Name = jobDetails[0];
-        GlobalVariable.jb_TSD_Location = jobDetails.Length > 1 ? jobDetails[1] : string.Empty;
 
+    public void NavigateJBDetailScreen(JB_Information_Model jB_Information_Model)
+    {
+        GlobalVariable.jb_TSD_Title = jB_Information_Model.Name;
+        GlobalVariable.jb_TSD_Name = jB_Information_Model.Name;
+        GlobalVariable.jb_TSD_Location = jB_Information_Model.Location;
         if (GlobalVariable.navigate_from_JB_TSD_General)
         {
             jb_TSD_General_Transform.gameObject.SetActive(false);

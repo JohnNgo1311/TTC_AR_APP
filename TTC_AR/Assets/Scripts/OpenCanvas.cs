@@ -31,7 +31,6 @@ public class OpenCanvas : MonoBehaviour
 
     [SerializeField] Load_General_Data_From_Rack load_General_Data_From_Rack;
 
-    [SerializeField] EventPublisher eventPublisher;
     void Awake()
     {
         StartCoroutine(Initialize());
@@ -193,7 +192,6 @@ public class OpenCanvas : MonoBehaviour
 
         if (IsValidIndex(index, btnClose))
             btnClose[index]?.SetActive(true);
-        eventPublisher.TriggerEvent_ButtonClicked();
     }
 
     private IEnumerator OnCloseCanvas(int index)

@@ -22,6 +22,7 @@ public class Load_General_Data_From_Rack : MonoBehaviour
     public bool isInstantiating = true;
     void Start()
     {
+        StartCoroutine(Instantiate_List_Module_Canvas());
 
     }
     private IEnumerator Instantiate_List_Module_Canvas()
@@ -40,15 +41,15 @@ public class Load_General_Data_From_Rack : MonoBehaviour
     }
     private void Awake()
     {
-        filePath = Path.Combine(Application.streamingAssetsPath, $"General_Data_Rack_Grapper{grapper}.json");
-        if (Application.platform == RuntimePlatform.Android)
-        {
-            StartCoroutine(LoadJsonFromAndroid(filePath));
-        }
-        else
-        {
-            LoadJsonFromFile(filePath);
-        }
+        // filePath = Path.Combine(Application.streamingAssetsPath, $"General_Data_Rack_Grapper{grapper}.json");
+        // if (Application.platform == RuntimePlatform.Android)
+        // {
+        //     StartCoroutine(LoadJsonFromAndroid(filePath));
+        // }
+        // else
+        // {
+        //     LoadJsonFromFile(filePath);
+        // }
     }
 
     private IEnumerator LoadJsonFromAndroid(string file)

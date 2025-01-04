@@ -585,6 +585,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3647350429215710485}
   - component: {fileID: 3647350429215710490}
+  - component: {fileID: 4159850200823103384}
   m_Layer: 7
   m_Name: List_Devices
   m_TagString: Untagged
@@ -640,6 +641,29 @@ MonoBehaviour:
   sensitivity: 1
   damping: -1
   remainingScale: {x: 0, y: 0, z: 0}
+--- !u!114 &4159850200823103384
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3647350429215710491}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ffe973260aeeb749b9570e38d484917, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  deviceInformation:
+  - {fileID: 3647350431038576512}
+  - {fileID: 3647350430633573410}
+  - {fileID: 3647350429347296445}
+  - {fileID: 3647350429865544458}
+  - {fileID: 3647350429953569555}
+  - {fileID: 3647350429518081320}
+  dropdown: {fileID: 3647350430776687230}
+  contentPanel: {fileID: 3647350429411300356}
+  nav_JB_TSD_Detail_button: {fileID: 3647350430775459546}
+  module_Canvas: {fileID: 3647350430788541893}
 --- !u!1 &3647350429222384501
 GameObject:
   m_ObjectHideFlags: 0
@@ -2251,7 +2275,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 65.15
+  m_fontSize: 1
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -2496,7 +2520,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 66.15
+  m_fontSize: 1
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -2625,7 +2649,6 @@ GameObject:
   - component: {fileID: 3647350429806306745}
   - component: {fileID: 3647350429806306750}
   - component: {fileID: 3647350429806306749}
-  - component: {fileID: 3647350429806306751}
   - component: {fileID: 3647350429806306748}
   m_Layer: 7
   m_Name: Scripts
@@ -2667,7 +2690,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   initialScreen: {fileID: 3647350430451162745}
-  generalModuleTitle: {fileID: 0}
+  generalModuleTitle: {fileID: 3647350429722660503}
   destinationScreens:
   - {fileID: 3647350429215710491}
   - {fileID: 3647350430785481407}
@@ -2689,30 +2712,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06163f5f9853fe147857b8aaac758209, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  module_Canvas: {fileID: 0}
---- !u!114 &3647350429806306751
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3647350429806306754}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2ffe973260aeeb749b9570e38d484917, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  deviceInformation:
-  - {fileID: 3647350431038576512}
-  - {fileID: 3647350430633573410}
-  - {fileID: 3647350429347296445}
-  - {fileID: 3647350429865544458}
-  - {fileID: 3647350429953569555}
-  - {fileID: 3647350429518081320}
-  dropdown: {fileID: 3647350430776687230}
-  contentPanel: {fileID: 3647350429411300356}
-  nav_JB_TSD_Detail_button: {fileID: 3647350430775459546}
-  module_Canvas: {fileID: 0}
+  module_Canvas: {fileID: 3647350430788541893}
 --- !u!114 &3647350429806306748
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2725,15 +2725,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67870341eadaf0b4c9bad32409844a58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  module_Canvas: {fileID: 0}
-  list_Devices_Transform: {fileID: 0}
-  jb_TSD_General_Transform: {fileID: 0}
-  jb_TSD_Detail_Transform: {fileID: 0}
-  jb_TSD_Connection_Vertical_Group: {fileID: 0}
-  jb_TSD_Connection_Horizontal_Group: {fileID: 0}
-  jb_TSD_Connection_Button_Prefab: {fileID: 0}
-  jb_TSD_Connection_Name_Prefab: {fileID: 0}
-  jb_TSD_Connection_Location_Prefab: {fileID: 0}
+  module_Canvas: {fileID: 3647350430788541893}
+  list_Devices_Transform: {fileID: 3647350429215710485}
+  jb_TSD_General_Transform: {fileID: 3647350430785481401}
+  jb_TSD_Detail_Transform: {fileID: 7103875553943033225}
+  jb_TSD_Connection_Vertical_Group: {fileID: 3647350429238851178}
+  jb_TSD_Connection_Horizontal_Group: {fileID: 3647350430540463963}
+  jb_TSD_Connection_Button_Prefab: {fileID: 3647350430796206934}
+  jb_TSD_Connection_Name_Prefab: {fileID: 3647350429426785030}
+  jb_TSD_Connection_Location_Prefab: {fileID: 3647350430455401160}
+  eventPublisher: {fileID: 0}
 --- !u!1 &3647350429834238232
 GameObject:
   m_ObjectHideFlags: 0
@@ -3994,7 +3995,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 67.95
+  m_fontSize: 1
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -5525,7 +5526,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 0
+  m_PresetInfoIsWorld: 1
 --- !u!114 &3647350430788541899
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6586,7 +6587,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 68.4
+  m_fontSize: 1
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1

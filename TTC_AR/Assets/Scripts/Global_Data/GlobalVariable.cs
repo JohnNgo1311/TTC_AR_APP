@@ -17,6 +17,8 @@ public class GlobalVariable : MonoBehaviour
     public static List<GameObject> activated_iamgeTargets = new List<GameObject>();
     public static bool navigate_from_List_Devices = false;
     public static bool navigate_from_JB_TSD_General = false;
+    public static bool navigate_from_JB_TSD_Detail = false;
+
     public static string module_Type_Name = "1794-IB32";
     public static string apdapter_Type_Name = "1794-ACN15";
     public static GameObject generalPanel;
@@ -79,8 +81,11 @@ public class GlobalVariable : MonoBehaviour
 
 
     public static Module_Information_Model temp_Module_Information_Model;
-    public static List<JB_Information_Model> temp_List_JB_Information_Models_From_Module = new List<JB_Information_Model>();
-    public static List<Device_Information_Model> temp_List_Device_Information_Models_From_Module = new List<Device_Information_Model>();
+    public static List<JB_Information_Model> temp_List_JB_Information_Model_From_Module = new List<JB_Information_Model>();
+    public static List<Device_Information_Model> temp_List_Device_Information_Model_From_Module = new List<Device_Information_Model>();
+
+    public static Dictionary<string, List<Texture2D>> temp_list_JB_Connection_Image_From_Module = new Dictionary<string, List<Texture2D>>();
+    public static Dictionary<string, Texture2D> temp_list_JB_Location_Image_From_Module = new Dictionary<string, Texture2D>();
     public static AccountModel accountModel = new AccountModel()
     {
         userName = "",
