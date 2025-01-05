@@ -159,7 +159,7 @@ public class APIManager : MonoBehaviour
         GlobalVariable.temp_list_JB_Location_Image_From_Module = list_JB_Location_Images_From_Module;
 
         // Log kết quả
-        LogImageResults();
+        // LogImageResults();
         Debug.Log("All images downloaded and converted to Texture2D.");
     }
 
@@ -217,18 +217,18 @@ public class APIManager : MonoBehaviour
         }
     }
 
-    private void LogImageResults()
-    {
-        foreach (var kvp in list_JB_Connection_Images_From_Module)
-        {
-            Debug.Log($"JB: {kvp.Key}, Connection Images Count: {kvp.Value.Count}");
-        }
+    // private void LogImageResults()
+    // {
+    //     foreach (var kvp in list_JB_Connection_Images_From_Module)
+    //     {
+    //         Debug.Log($"JB: {kvp.Key}, Connection Images Count: {kvp.Value.Count}");
+    //     }
 
-        foreach (var kvp in list_JB_Location_Images_From_Module)
-        {
-            Debug.Log($"JB: {kvp.Key}, Location Image: {kvp.Value}");
-        }
-    }
+    //     foreach (var kvp in list_JB_Location_Images_From_Module)
+    //     {
+    //         Debug.Log($"JB: {kvp.Key}, Location Image: {kvp.Value}");
+    //     }
+    // }
 
 
     // public IEnumerator Save_List_JB_Connection_To_Dictionary()
