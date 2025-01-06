@@ -10,18 +10,15 @@ public class Update_JB_TSD_Detail_UI : MonoBehaviour
     [SerializeField] private Canvas canvas_Parent;
     [SerializeField] private TMP_Text jB_TSD_Title;
     [SerializeField] private TMP_Text jb_location_value;
-    [SerializeField] private GameObject jb_location_imagePrefab_hortizontal_group;
-    [SerializeField] private Image jb_location_imagePrefab;
     [SerializeField] private Image jb_connection_imagePrefab;
+
+    [SerializeField] private Image jb_location_imagePrefab;
     [SerializeField] private GameObject jb_Infor_Item_Prefab;
     [SerializeField] private GameObject scroll_Area_Content;
     [SerializeField] private ScrollRect scroll_Area;
 
     private List<GameObject> instantiatedImages = new List<GameObject>();
     private string jb_name;
-    private string jb_location;
-    private Dictionary<string, Sprite> connectionSprites = new Dictionary<string, Sprite>();
-    private Dictionary<string, Sprite> locationSprites = new Dictionary<string, Sprite>();
 
     private void OnEnable()
     {
@@ -46,8 +43,7 @@ public class Update_JB_TSD_Detail_UI : MonoBehaviour
     {
         jB_TSD_Title = jB_TSD_Detail_Panel_Prefab.transform.Find("Horizontal_JB_TSD_Title/JB_TSD_Title").GetComponent<TMP_Text>();
         scroll_Area_Content = jB_TSD_Detail_Panel_Prefab.transform.Find("Scroll_Area/Content").gameObject;
-        jb_location_imagePrefab_hortizontal_group = scroll_Area_Content.transform.Find("JB_location_Horizontal_Group").gameObject;
-        jb_Infor_Item_Prefab = jb_location_imagePrefab_hortizontal_group.transform.Find("JB_Infor").gameObject;
+        jb_Infor_Item_Prefab = scroll_Area_Content.transform.Find("JB_Infor").gameObject;
         jb_location_value = jb_Infor_Item_Prefab.transform.Find("Text_JB_location_group/Text_Jb_Location_Value").GetComponent<TMP_Text>();
         jb_location_imagePrefab = jb_Infor_Item_Prefab.transform.Find("JB_location_imagePrefab").GetComponent<Image>();
         jb_connection_imagePrefab = scroll_Area_Content.transform.Find("JB_TSD_connection_imagePrefab").GetComponent<Image>();
@@ -58,19 +54,21 @@ public class Update_JB_TSD_Detail_UI : MonoBehaviour
         if (!string.IsNullOrEmpty(GlobalVariable.jb_TSD_Name) && !string.IsNullOrEmpty(GlobalVariable.jb_TSD_Location))
         {
             jb_name = jB_TSD_Title.text = GlobalVariable.jb_TSD_Name;
-            jb_location = jb_location_value.text = GlobalVariable.jb_TSD_Location;
+            jb_location_value.text = GlobalVariable.jb_TSD_Location;
         }
     }
 
     private IEnumerator RunApplyFunctions()
     {
         // Chạy song song ApplyLocationSprite và ApplyConnectionSprites
-        var applyLocation = StartCoroutine(ApplyLocationSprite());
         var applyConnection = StartCoroutine(ApplyConnectionSprites());
-
+        var applyLocation = StartCoroutine(ApplyLocationSprite());
         // Chờ cả hai coroutines kết thúc
-        yield return applyLocation;
+        Show_Dialog.Instance.Set_Instance_Status_True();
+        Show_Dialog.Instance.ShowToast("loading", "Đang tải hình ảnh...");
         yield return applyConnection;
+        yield return applyLocation;
+        yield return Show_Dialog.Instance.Set_Instance_Status_False();
     }
 
     private IEnumerator ApplyLocationSprite()
@@ -97,6 +95,7 @@ public class Update_JB_TSD_Detail_UI : MonoBehaviour
                 }
                 else
                 {
+                    Debug.Log("list_Texture.Count: " + list_Texture.Count);
                     foreach (var texture in list_Texture)
                     {
                         var imageObject = Instantiate(jb_connection_imagePrefab, scroll_Area_Content.transform);

@@ -91,6 +91,12 @@ namespace EasyUI.Helpers
 
       private void UpdateTheme()
       {
+         uiOverlayImage.raycastTarget = true;
+         uiOverlayImage.gameObject.layer = 5;
+         foreach (Transform child in uiOverlayImage.transform)
+         {
+            child.gameObject.layer = 5;
+         }
          uiOverlayImage.color = settings.theme.OverlayColor;
          uiPopupImage.color = settings.theme.BackgroundColor;
       }

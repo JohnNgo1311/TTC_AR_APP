@@ -5,7 +5,10 @@ using System.Threading.Tasks;
 public class Get_All_Data_By_Grapper_For_Searching : MonoBehaviour
 {
     [SerializeField] private EventPublisher eventPublisher; // Tham chiếu đến Publisher
-
+    private void Awake()
+    {
+        eventPublisher ??= FindObjectOfType<EventPublisher>();
+    }
     private void OnEnable()
     {
         if (eventPublisher != null)

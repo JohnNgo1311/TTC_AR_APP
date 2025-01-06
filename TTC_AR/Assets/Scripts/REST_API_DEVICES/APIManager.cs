@@ -91,12 +91,14 @@ public class APIManager : MonoBehaviour
                     temp_List_Device_Information_Model_From_Module = module_Information_Model[0].List_Device_Information_Model;
 
                     GlobalVariable.temp_List_JB_Information_Model_From_Module = temp_List_JB_Information_Model_From_Module;
-                    Debug.Log("GlobalVariable.temp_List_JB_Information_Model_From_Modules_From_Module.Count: " + GlobalVariable.temp_List_JB_Information_Model_From_Module.Count);
-                    GlobalVariable.temp_List_Device_Information_Model_From_Module = temp_List_Device_Information_Model_From_Module;
-                    Debug.Log("GlobalVariable.temp_List_Device_Information_Model_From_Modules_From_Module.Count: " + GlobalVariable.temp_List_Device_Information_Model_From_Module.Count);
-                    GlobalVariable.temp_Module_Information_Model = temp_Module_Information_Model[0];
-                    Debug.Log("GlobalVariable.temp_Module_Information_Model: " + GlobalVariable.temp_Module_Information_Model.Name);
 
+                    GlobalVariable.temp_List_Device_Information_Model_From_Module = temp_List_Device_Information_Model_From_Module;
+
+                    GlobalVariable.temp_Module_Information_Model = temp_Module_Information_Model[0];
+
+                    GlobalVariable.temp_Module_Specification_Model = module_Information_Model[0].Specification_Model;
+
+                    GlobalVariable.temp_Adapter_Specification_Model = module_Information_Model[0].Specification_Model.Adapter;
                 }
                 Debug.Log("success");
             }
@@ -152,6 +154,8 @@ public class APIManager : MonoBehaviour
             var downloadedTextures = await Task.WhenAll(downloadTasks);
             list_JB_Connection_Images_From_Module[jb.Name].AddRange(downloadedTextures);
             downloadTasks.Clear(); // Dọn danh sách nhiệm vụ sau mỗi JB
+            // Clear the list of downloaded textures after each JB
+            downloadedTextures = new Texture2D[0];
         }
 
         // Cập nhật biến toàn cục

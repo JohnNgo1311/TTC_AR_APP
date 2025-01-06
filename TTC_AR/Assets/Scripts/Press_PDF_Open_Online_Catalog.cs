@@ -4,6 +4,7 @@ using UnityEngine.UI;
 
 public class Press_PDF_Open_Online_Catalog : MonoBehaviour
 {
+
     [SerializeField]
     private List<Button> listButton = new List<Button>();
 
@@ -15,8 +16,9 @@ public class Press_PDF_Open_Online_Catalog : MonoBehaviour
 
     private string adapter_Name;
     private string module_Name;
-    private Dictionary<string, string> online_Adapter_Catalog_Url;
-    private Dictionary<string, string> online_Module_Catalog_Url;
+    public Dictionary<string, string> online_Adapter_Catalog_Url = new Dictionary<string, string>();
+    public Dictionary<string, string> online_Module_Catalog_Url = new Dictionary<string, string>();
+
     void OnEnable()
     {
         adapter_Name = GlobalVariable.apdapter_Type_Name;
@@ -63,6 +65,6 @@ public class Press_PDF_Open_Online_Catalog : MonoBehaviour
     }
     void Start()
     {
-      
+
     }
 }

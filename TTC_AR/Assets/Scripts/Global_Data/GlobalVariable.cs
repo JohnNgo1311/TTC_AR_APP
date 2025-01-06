@@ -83,7 +83,8 @@ public class GlobalVariable : MonoBehaviour
     public static Module_Information_Model temp_Module_Information_Model;
     public static List<JB_Information_Model> temp_List_JB_Information_Model_From_Module = new List<JB_Information_Model>();
     public static List<Device_Information_Model> temp_List_Device_Information_Model_From_Module = new List<Device_Information_Model>();
-
+    public static Module_Specification_Model temp_Module_Specification_Model;
+    public static Adapter_Specification_Model temp_Adapter_Specification_Model;
     public static Dictionary<string, List<Texture2D>> temp_list_JB_Connection_Image_From_Module = new Dictionary<string, List<Texture2D>>();
     public static Dictionary<string, Texture2D> temp_list_JB_Location_Image_From_Module = new Dictionary<string, Texture2D>();
     public static AccountModel accountModel = new AccountModel()
