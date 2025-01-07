@@ -29,100 +29,71 @@ public class OpenCanvas : MonoBehaviour
     private List<GameObject> activated_imageTargets = new List<GameObject>();
     private List<ObserverBehaviour> observerBehaviours = new List<ObserverBehaviour>();
 
-    public UnityEngine.UI.Image image;
+    [SerializeField] Load_General_Data_From_Rack load_General_Data_From_Rack;
 
-    private VuforiaBehaviour vuforiaBehaviour;
-    public void PauseARCamera()
-    {
-        // Chạy chụp ảnh màn hình trong một Coroutine để tránh lag
-        StartCoroutine(TakeScreenshotCoroutine());
-
-        if (vuforiaBehaviour != null)
-        {
-            vuforiaBehaviour.enabled = false;  // Tắt AR Camera
-            image.gameObject.SetActive(true);
-        }
-    }
-
-    public void ResumeARCamera()
-    {
-        if (vuforiaBehaviour != null)
-        {
-            vuforiaBehaviour.enabled = true; // Bật AR Camera
-            image.gameObject.SetActive(false);
-        }
-    }
-
-    private IEnumerator TakeScreenshotCoroutine()
-    {
-        // Tạo RenderTexture một lần và tái sử dụng nếu có thể
-        RenderTexture renderTexture = new RenderTexture(Screen.width, Screen.height, 24);
-        mainCamera.targetTexture = renderTexture;
-
-        // Lưu lại culling mask ban đầu để khôi phục sau này
-        int originalCullingMask = mainCamera.cullingMask;
-        mainCamera.cullingMask &= ~(1 << LayerMask.NameToLayer("BackBox") |
-             1 << LayerMask.NameToLayer("BackBox_Content") |
-             1 << LayerMask.NameToLayer("Canvas_Frame"));
-
-        // Render và chờ kết quả
-        mainCamera.Render();
-
-        // Cập nhật sprite của hình ảnh khi render hoàn tất
-        Texture2D screenshot = new Texture2D(Screen.width, Screen.height, TextureFormat.RGB24, false);
-        RenderTexture.active = renderTexture;
-        screenshot.ReadPixels(new Rect(0, 0, Screen.width, Screen.height), 0, 0);
-        screenshot.Apply();
-
-        // Khôi phục culling mask và giải phóng tài nguyên
-        mainCamera.targetTexture = null;
-        RenderTexture.active = null;
-        Destroy(renderTexture);
-        // Khôi phục lại culling mask ban đầu
-        mainCamera.cullingMask = originalCullingMask;
-        // Gán ảnh vào image
-        image.sprite = Sprite.Create(screenshot, new Rect(0, 0, screenshot.width, screenshot.height), new Vector2(0.5f, 0.5f));
-
-        yield return null;  // Đảm bảo coroutine hoàn tất trong frame tiếp theo
-    }
     void Awake()
     {
-        vuforiaBehaviour = mainCamera.gameObject.GetComponent<VuforiaBehaviour>();
-
-        // Tối ưu hóa kiểm tra danh sách
-        foreach (var canvas in targetCanvas)
+        StartCoroutine(Initialize());
+    }
+    private IEnumerator Initialize()
+    {
+        if (SceneManager.GetActiveScene().name != "FieldDevicesScene")
         {
-            if (canvas != null)
+            if (load_General_Data_From_Rack != null)
             {
-                var generalPanelObj = canvas.transform.Find("General_Panel")?.gameObject;
-                if (generalPanelObj != null)
-                {
-                    generalPanel.Add(generalPanelObj);
-                    btnClose.Add(generalPanelObj.transform.Find("Close_Canvas_Btn")?.gameObject);
-                }
+                yield return new WaitUntil(() => load_General_Data_From_Rack.isInstantiating == false);
+                // Tối ưu hóa kiểm tra danh sách
+                targetCanvas = load_General_Data_From_Rack.targetCanvas;
+                Destroy(load_General_Data_From_Rack.module_Canvas_Prefab.gameObject);
             }
-        }
-        foreach (var target in imageTargets)
-        {
-            if (target != null)
-            {
-                var btnOpenObj = target.transform.GetChild(0)?.gameObject;
-                if (btnOpenObj != null)
-                {
-                    btnOpen.Add(btnOpenObj);
-                    tagName.Add(btnOpenObj.tag);
-                    list_Title.Add(target.transform.Find("imageTarget_Title")?.GetComponent<TMP_Text>());
-                    observerBehaviours.Add(target.GetComponent<ObserverBehaviour>());
 
-                    if (target.activeSelf)
+        }
+        if (targetCanvas.Count > 0 && imageTargets.Count > 0)
+        {
+            foreach (var canvas in targetCanvas)
+            {
+                if (canvas != null)
+                {
+                    var generalPanelObj = canvas.transform.Find("General_Panel")?.gameObject;
+                    if (generalPanelObj != null)
                     {
-                        activated_imageTargets.Add(target);
+                        generalPanel.Add(generalPanelObj);
+                        btnClose.Add(generalPanelObj.transform.Find("Close_Canvas_Btn")?.gameObject);
                     }
                 }
             }
-        }
-    }
+            foreach (var target in imageTargets)
+            {
+                if (target != null)
+                {
+                    var btnOpenObj = target.transform.GetChild(0)?.gameObject;
+                    if (btnOpenObj != null)
+                    {
+                        btnOpen.Add(btnOpenObj);
+                        tagName.Add(btnOpenObj.tag);
+                        list_Title.Add(target.transform.Find("imageTarget_Title")?.GetComponent<TMP_Text>());
+                        observerBehaviours.Add(target.GetComponent<ObserverBehaviour>());
 
+                        if (target.activeSelf)
+                        {
+                            activated_imageTargets.Add(target);
+                        }
+                    }
+                }
+            }
+            for (int i = 0; i < observerBehaviours.Count; i++)
+            {
+                int index = i; // Cần dùng biến tạm để tránh lỗi closure trong lambda
+                observerBehaviours[index].OnTargetStatusChanged += (behaviour, status) => OnStatusChanged(behaviour, status, list_Title[index], btnOpen[index].name);
+            }
+
+            SetActiveForList(targetCanvas, false);
+            SetActiveForList(generalPanel, true);
+            SetActiveForList(btnClose, true);
+            SetActiveForList(btnOpen, true);
+        }
+
+    }
     private void OnStatusChanged(ObserverBehaviour behaviour, TargetStatus status, TMP_Text title, string name)
     {
         if (status.Status == Status.TRACKED)
@@ -144,8 +115,7 @@ public class OpenCanvas : MonoBehaviour
         }
         else
         {
-
-            return input.Replace("_", " "); ;
+            return input;
         }
     }
 
@@ -161,22 +131,6 @@ public class OpenCanvas : MonoBehaviour
     void Start()
     {
 
-        // Tắt runtime UI nếu đang bật
-        if (UnityEngine.Rendering.DebugManager.instance.enableRuntimeUI)
-        {
-            UnityEngine.Rendering.DebugManager.instance.enableRuntimeUI = false;
-        }
-
-        for (int i = 0; i < observerBehaviours.Count; i++)
-        {
-            int index = i; // Cần dùng biến tạm để tránh lỗi closure trong lambda
-            observerBehaviours[index].OnTargetStatusChanged += (behaviour, status) => OnStatusChanged(behaviour, status, list_Title[index], btnOpen[index].name);
-        }
-
-        SetActiveForList(targetCanvas, false);
-        SetActiveForList(generalPanel, true);
-        SetActiveForList(btnClose, true);
-        SetActiveForList(btnOpen, true);
     }
 
     void Update()
@@ -238,7 +192,6 @@ public class OpenCanvas : MonoBehaviour
 
         if (IsValidIndex(index, btnClose))
             btnClose[index]?.SetActive(true);
-        PauseARCamera();
     }
 
     private IEnumerator OnCloseCanvas(int index)
@@ -255,7 +208,6 @@ public class OpenCanvas : MonoBehaviour
 
         if (IsValidIndex(index, btnOpen) && btnOpen[index]?.activeSelf == false)
             btnOpen[index]?.SetActive(true);
-        ResumeARCamera();
 
     }
 

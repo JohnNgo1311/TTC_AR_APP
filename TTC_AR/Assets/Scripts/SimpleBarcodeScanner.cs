@@ -7,8 +7,7 @@ public class SimpleBarcodeScanner : MonoBehaviour
     GameObject canvasButton;
     void Start()
     {
-        if (UnityEngine.Rendering.DebugManager.instance.enableRuntimeUI)
-            UnityEngine.Rendering.DebugManager.instance.enableRuntimeUI = false;
+        
         mBarcodeBehaviour = gameObject.GetComponent<BarcodeBehaviour>();
         canvasButton = mBarcodeBehaviour.gameObject.transform.GetChild(0).gameObject;
     }
@@ -18,11 +17,11 @@ public class SimpleBarcodeScanner : MonoBehaviour
     {
         if (mBarcodeBehaviour != null && mBarcodeBehaviour.InstanceData != null)
         {
-            Debug.Log("Barcode: " + mBarcodeBehaviour.InstanceData.Text);
+        //    Debug.Log("Barcode: " + mBarcodeBehaviour.InstanceData.Text);
 
             if (canvasButton.name == mBarcodeBehaviour.InstanceData.Text)
             {
-                Debug.Log(canvasButton.name);
+             //   Debug.Log(canvasButton.name);
                 canvasButton.SetActive(true);
             }
         }

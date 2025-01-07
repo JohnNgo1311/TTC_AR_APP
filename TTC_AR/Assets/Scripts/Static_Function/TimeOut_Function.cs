@@ -12,14 +12,7 @@ public class TimeOut_Function : MonoBehaviour
 
   void Start()
   {
-#if UNITY_EDITOR
-    //Debug"Running in Unity Editor");
-#else
-    if (UnityEngine.Rendering.DebugManager.instance.enableRuntimeUI)
-      UnityEngine.Rendering.DebugManager.instance.enableRuntimeUI = false;
-#endif
 
-    // Initialize the timeout timer
     ResetTimeout();
   }
 

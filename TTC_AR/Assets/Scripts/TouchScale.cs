@@ -9,7 +9,7 @@ public class TouchScale : MonoBehaviour
     private bool isScaling = false;
     [SerializeField] private ScrollRect parentScrollRect;
     [SerializeField] private ScrollRect objectScrollRect;
-    [SerializeField] private bool keepScaleFunc = false;
+    // [SerializeField] private bool keepScaleFunc = false;
 
     private GraphicRaycaster raycaster;
     private PointerEventData pointerEventData;
@@ -20,8 +20,7 @@ public class TouchScale : MonoBehaviour
 
     private void Start()
     {
-        if (UnityEngine.Rendering.DebugManager.instance.enableRuntimeUI)
-            UnityEngine.Rendering.DebugManager.instance.enableRuntimeUI = false;
+       
         InitializeComponents();
     }
 
@@ -34,37 +33,16 @@ public class TouchScale : MonoBehaviour
     {
         initialScale = transform.localScale;
 
-        // Lấy ScrollRect của đối tượng cha nếu chưa có
-        if (parentScrollRect == null)
-            parentScrollRect = GetComponentInParent<ScrollRect>();
-
-        // Lấy GraphicRaycaster và EventSystem từ Canvas nếu chưa có
-        if (raycaster == null)
-            raycaster = GetComponentInParent<GraphicRaycaster>();
+        // Cache components
+        //if(parentScrollRect!=null) parentScrollRect = parentScrollRect ?? GetComponentInParent<ScrollRect>();
+        raycaster = raycaster ?? GetComponentInParent<GraphicRaycaster>();
         eventSystem = EventSystem.current;
-
-        // Lưu Canvas ban đầu nếu chưa có
-        if (originalCanvas == null)
-            originalCanvas = GetComponentInParent<Canvas>();
+        originalCanvas = originalCanvas ?? GetComponentInParent<Canvas>();
     }
 
     private void HandleScreenOrientation()
     {
-        if (Screen.orientation == ScreenOrientation.LandscapeLeft)
-        {
-            if (!keepScaleFunc)
-            {
-                DisableObjectScrollRect(); // Không cho phép kéo ngang
-            }
-            else
-            {
-                EnableScalingMode();
-            }
-        }
-        else if (Screen.orientation == ScreenOrientation.Portrait)
-        {
-            EnableScalingMode();
-        }
+        EnableScalingMode();
     }
 
     private void EnableScalingMode()
@@ -155,17 +133,9 @@ public class TouchScale : MonoBehaviour
     {
         if (tempCanvas == null)
         {
-            if (gameObject.GetComponent<Canvas>() == null)
-            {
-                tempCanvas = gameObject.AddComponent<Canvas>();
-                if (tempCanvas != null)
-                {
-                    tempCanvas.overrideSorting = true;
-                    tempCanvas.sortingOrder = 1000; // Đảm bảo trên cùng
-                }
-
-            }
-
+            tempCanvas = gameObject.AddComponent<Canvas>();
+            tempCanvas.overrideSorting = true;
+            tempCanvas.sortingOrder = 1000; // Đảm bảo trên cùng
         }
     }
 
@@ -174,6 +144,7 @@ public class TouchScale : MonoBehaviour
         if (tempCanvas != null)
         {
             Destroy(tempCanvas);
+            tempCanvas = null;
         }
     }
 
