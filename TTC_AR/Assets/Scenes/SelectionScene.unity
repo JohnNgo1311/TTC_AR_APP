@@ -383,7 +383,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 92.45
+  m_fontSize: 150
   m_fontSizeBase: 1
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -598,13 +598,13 @@ MonoBehaviour:
   toastParent: {fileID: 621601245}
   toastPrefab: {fileID: 1685662170610096501, guid: 9d73b758b6bf26a42b510dbc76d51c74,
     type: 3}
-  toastStatus: success
+  toastStatus: loading
   existingToast: {fileID: 0}
   toastBackground: {fileID: 0}
   toastText: {fileID: 0}
   allObjects: []
-  toastMessageInitial: "\u0110\u0103ng nh\u1EADp th\xE0nh c\xF4ng!"
-  showToastInitial: 1
+  toastMessageInitial: loading...
+  showToastInitial: 0
 --- !u!1 &720286216
 GameObject:
   m_ObjectHideFlags: 0
@@ -1009,7 +1009,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 166.1
+  m_fontSize: 133.25
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1343,7 +1343,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 165.3
+  m_fontSize: 111.35
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1701,7 +1701,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 165.3
+  m_fontSize: 111.35
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1

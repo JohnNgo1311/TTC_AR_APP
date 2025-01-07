@@ -1,8 +1,9 @@
 using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using UnityEngine.Scripting;
 
-[Serializable]
+[Preserve]
 public class Rack_Information_Model
 {
   [JsonProperty("Id")]
@@ -12,7 +13,8 @@ public class Rack_Information_Model
 
   [JsonProperty("List_Module")]
   public List<Module_Information_Model> List_Module_Model { get; set; }
-
+  [Preserve]
+  [JsonConstructor]
   public Rack_Information_Model(string id, string name, List<Module_Information_Model> listModuleModel)
   {
     Id = id;
@@ -21,12 +23,14 @@ public class Rack_Information_Model
   }
 }
 
+[Preserve]
 public class Rack_General_Model
 {
   public string Id { get; set; }
   public string Name { get; set; }
   public List<Module_General_Non_Rack_Model> List_Module_General_Non_Rack_Model { get; set; }
-
+  [Preserve]
+  [JsonConstructor]
   public Rack_General_Model(string id, string name, List<Module_General_Non_Rack_Model> list_Module_General_Non_Rack_Model)
   {
     Id = id;
@@ -34,12 +38,13 @@ public class Rack_General_Model
     List_Module_General_Non_Rack_Model = list_Module_General_Non_Rack_Model;
   }
 }
-
+[Preserve]
 public class Rack_Non_List_Module_Model
 {
   public string Id { get; set; }
   public string Name { get; set; }
-
+  [Preserve]
+  [JsonConstructor]
   public Rack_Non_List_Module_Model(string id, string name)
   {
     Id = id;

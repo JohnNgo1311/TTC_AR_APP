@@ -577,7 +577,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 56.95
+  m_fontSize: 45.8
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -790,7 +790,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 122.3
+  m_fontSize: 66.2
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -926,7 +926,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 122.3
+  m_fontSize: 72.75
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1062,7 +1062,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 94.4
+  m_fontSize: 150
   m_fontSizeBase: 1
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1455,6 +1455,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   grapperName: GrapperB
+  onClickButton: {fileID: 751018072}
   eventPublisher: {fileID: 1528617988}
 --- !u!1 &778542787
 GameObject:
@@ -1813,10 +1814,16 @@ MonoBehaviour:
   previousSceneName: MenuScene
   recentSceneName:
   - PLCBoxGrapA
+  - PLCBoxGrapA
+  - PLCBoxGrapA
+  - PLCBoxGrapA
   - MenuScene
   - LoginScene
   listButton:
   - {fileID: 953062724}
+  - {fileID: 751018072}
+  - {fileID: 1394794812}
+  - {fileID: 1329061825}
   - {fileID: 1624559455}
   - {fileID: 1010127339}
 --- !u!114 &878477617
@@ -1933,7 +1940,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 150
+  m_fontSize: 122.45
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -2121,6 +2128,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   grapperName: GrapperA
+  onClickButton: {fileID: 953062724}
   eventPublisher: {fileID: 1528617988}
 --- !u!1 &981588575
 GameObject:
@@ -2472,7 +2480,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 122.3
+  m_fontSize: 66.05
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -2813,6 +2821,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   grapperName: "L\xF2 H\u01A1i"
+  onClickButton: {fileID: 1329061825}
   eventPublisher: {fileID: 1528617988}
 --- !u!1 &1394794810
 GameObject:
@@ -2952,6 +2961,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   grapperName: GrapperC
+  onClickButton: {fileID: 1394794812}
   eventPublisher: {fileID: 1528617988}
 --- !u!1 &1483066040
 GameObject:
@@ -3907,7 +3917,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 122.3
+  m_fontSize: 66.05
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1

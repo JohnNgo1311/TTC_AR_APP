@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -30,7 +31,13 @@ public class UILogin : MonoBehaviour
             passwordField.text = GlobalVariable.accountModel.password;
         }
     }
-
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape) || (Gamepad.current != null && Gamepad.current.buttonEast != null && Gamepad.current.buttonEast.wasPressedThisFrame) || (Keyboard.current != null && Keyboard.current.escapeKey.wasPressedThisFrame))
+        {
+            Application.Quit();
+        }
+    }
     private void Start()
     {
         loginButton.onClick.AddListener(HandleLogin);
@@ -76,7 +83,7 @@ public class UILogin : MonoBehaviour
         Show_Dialog.Instance.ShowToast("loading", "Đang đăng nhập...");
         yield return Show_Dialog.Instance.Set_Instance_Status_False();
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
-
+        GlobalVariable.ready_To_Nav_New_Scene = true;
         while (!asyncLoad.isDone)
         {
             yield return null;

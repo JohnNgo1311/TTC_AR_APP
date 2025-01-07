@@ -25,7 +25,7 @@ public class GlobalVariable : MonoBehaviour
     public static GameObject generalPanel;
     public static bool loginSuccess = false;
     public static bool isOpenCanvas = false;
-    public static bool ready_To_Nav_New_Scene = true;
+    public static bool ready_To_Nav_New_Scene = false;
 
     public static bool Load_Initial_Data_From_Selection_Scene = true;
 

@@ -3,10 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using Newtonsoft.Json;
-using TMPro;
-using UnityEngine;
-using UnityEngine.Networking;
-[System.Serializable]
+using UnityEngine.Scripting;
+
+[Preserve]
 public class JB_Information_Model
 {
 #nullable enable
@@ -23,6 +22,9 @@ public class JB_Information_Model
 
   [JsonProperty("List_Connection_Images")]
   public List<string> List_Connection_Images { get; set; }
+
+  [Preserve]
+  [JsonConstructor]
   public JB_Information_Model(string id, string name, string location, string outdoor_Image, List<string> list_Connection_Images)
   {
     Id = id;
@@ -31,5 +33,6 @@ public class JB_Information_Model
     Outdoor_Image = outdoor_Image;
     List_Connection_Images = list_Connection_Images;
   }
+
 }
 

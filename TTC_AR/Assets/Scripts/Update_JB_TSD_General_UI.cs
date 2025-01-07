@@ -20,7 +20,7 @@ public class Update_JB_TSD_General_UI : MonoBehaviour
     [SerializeField] private Button jb_TSD_Connection_Button_Prefab;
     [SerializeField] private TMP_Text jb_TSD_Connection_Name_Prefab;
     [SerializeField] private TMP_Text jb_TSD_Connection_Location_Prefab;
-    [SerializeField] private EventPublisher eventPublisher;
+    public EventPublisher eventPublisher;
     public List<JB_Information_Model> jB_Information_Models = new List<JB_Information_Model>(); //List JB/TSD của Module
 
     private void OnEnable()

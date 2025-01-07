@@ -22,14 +22,13 @@ public class Dropdown_On_ValueChange : MonoBehaviour
     private Dictionary<string, Sprite> spriteCache = new Dictionary<string, Sprite>();
     private List<Image> instantiatedImages = new List<Image>();
     private string currentLoadedDeviceCode;
-    private bool loadDataSuccess = false;
     private Dictionary<string, Device_Information_Model> deviceDictionary;
 
     public SearchableDropDown searchableDropDown;
 
     [SerializeField] GameObject bottom_App_Bar;
     public Open_Detail_Image open_Detail_Image;
-    [SerializeField] private EventPublisher eventPublisher;
+    public EventPublisher eventPublisher;
     private string _jbName = "";
     private string _moduleName = "";
 
@@ -83,7 +82,6 @@ public class Dropdown_On_ValueChange : MonoBehaviour
             searchableDropDown.inputField.onValueChanged.AddListener(OnInputValueChanged);
             if (string.IsNullOrEmpty(searchableDropDown.inputField.text))
             {
-                loadDataSuccess = true;
                 searchableDropDown.Set_Initial_Text_Field_Value();
             }
         }

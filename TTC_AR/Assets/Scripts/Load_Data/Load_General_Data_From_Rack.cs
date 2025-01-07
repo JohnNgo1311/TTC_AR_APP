@@ -15,10 +15,8 @@ public class Load_General_Data_From_Rack : MonoBehaviour
     public GameObject module_Canvas_Prefab;
     public Transform parent_Transform_For_Instantiate;
     public string grapper;
-    [SerializeField]
-    private string filePath;
-    //! Scripts này sử dụng để tạo data cho 1 Rack, tương ứng hỗ trợ instantiate List JB Button, xác định Type Module, xác định type Adapter
-    private bool isRunning = false;
+
+    // private bool isRunning = false;
     public bool isInstantiating = true;
     void Start()
     {
@@ -54,7 +52,7 @@ public class Load_General_Data_From_Rack : MonoBehaviour
 
     private IEnumerator LoadJsonFromAndroid(string file)
     {
-        isRunning = true;
+        // isRunning = true;
         string androidPath = file;
         if (!File.Exists(file) || string.IsNullOrWhiteSpace(File.ReadAllText(file)))
         {
@@ -77,7 +75,7 @@ public class Load_General_Data_From_Rack : MonoBehaviour
              GlobalVariable.rackData_GrapperA = rackData_Grapper_General; //! Lưu danh sách các thiết bị trong 1 Grapper
              //Debug$"Loaded JSON data 1 : {rackData_Grapper_General.Rack4[0].Module + rackData_Grapper_General.Rack4[0].JbConnection[0] + rackData_Grapper_General.Rack4[0].DeviceConnection[0]}");*/
         }
-        isRunning = false;
+        // isRunning = false;
     }
     private void LoadJsonFromFile(string file)
     {

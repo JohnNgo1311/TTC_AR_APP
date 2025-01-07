@@ -19,7 +19,7 @@ public class TimeOut_Function : MonoBehaviour
   void Update()
   {
     // Check for any user interaction (key press or touch)
-    if (Input.anyKey || Input.touchCount > 0)
+    if (Input.touchCount > 0)
     {
       activeLogOut = false;
       ResetTimeout();  // Reset the timer if there is interaction
@@ -45,12 +45,7 @@ public class TimeOut_Function : MonoBehaviour
   // Method to exit the application
   public void ExitApplication()
   {
-#if UNITY_EDITOR
-    //Debug"Application would quit due to inactivity...");
-#else
-    //Debug"Ứng dụng sẽ thoát do không có tương tác...");
-    Application.Quit();  // Exit the application on Android
-#endif
+    Application.Quit();
   }
 
   // Coroutine to handle the timeout timer

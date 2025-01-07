@@ -9,29 +9,30 @@ public class Update_Set_Up_Value_UI : MonoBehaviour
 {
     public List<TMP_Text> setup_Value_Texts;
     public Field_Device_Information_Model field_Device_Information_Model;
-    [SerializeField] private EventPublisher eventPublisher;
+    public EventPublisher eventPublisher;
 
     private void OnEnable()
     {
-
         StartCoroutine(Update_Set_Up_Value_UI_Panel());
     }
 
     private IEnumerator Update_Set_Up_Value_UI_Panel()
     {
+        yield return new WaitForSeconds(3f);
+
         eventPublisher.TriggerEvent_ButtonClicked();
-        yield return StartCoroutine(Get_Module_Information());
-        // Chạy song song hai coroutine
+
+        yield return StartCoroutine(Get_SetUp_Value());
         yield return StartCoroutine(Update_UI());
 
     }
-    private IEnumerator Get_Module_Information()
+    private IEnumerator Get_SetUp_Value()
     {
         while (GlobalVariable.temp_Field_Device_Information_Model == null)
         {
+            Debug.Log("Waiting for GlobalVariable.temp_Field_Device_Information_Model to be assigned...");
             yield return null;
         }
-
         Debug.Log("All variables have been assigned!");
     }
 
@@ -40,29 +41,35 @@ public class Update_Set_Up_Value_UI : MonoBehaviour
     {
         field_Device_Information_Model = GlobalVariable.temp_Field_Device_Information_Model;
 
-        setup_Value_Texts[0].text = field_Device_Information_Model.Type;
-        yield return null;
-        setup_Value_Texts[1].text = field_Device_Information_Model.Name;
-        yield return null;
-        setup_Value_Texts[2].text = field_Device_Information_Model.Cabinet_Code;
-        yield return null;
-        setup_Value_Texts[3].text = field_Device_Information_Model.Brand;
-        yield return null;
-        setup_Value_Texts[4].text = field_Device_Information_Model.Rated_Power;
-        yield return null;
-        setup_Value_Texts[5].text = field_Device_Information_Model.Output_Power;
-        yield return null;
-        setup_Value_Texts[6].text = field_Device_Information_Model.Rated_Current;
-        yield return null;
-        setup_Value_Texts[7].text = field_Device_Information_Model.Active_Current;
-        yield return null;
-        setup_Value_Texts[8].text = field_Device_Information_Model.Active_Voltage;
-        yield return null;
-        setup_Value_Texts[9].text = field_Device_Information_Model.Frequency;
-        yield return null;
-        setup_Value_Texts[10].text = field_Device_Information_Model.Rotation_Speed;
-        yield return null;
-        setup_Value_Texts[11].text = field_Device_Information_Model.Noted;
+        string[] values = {
+            field_Device_Information_Model.Type,
+            field_Device_Information_Model.Name,
+            field_Device_Information_Model.Cabinet_Code,
+            field_Device_Information_Model.Brand,
+            field_Device_Information_Model.Rated_Power,
+            field_Device_Information_Model.Output_Power,
+            field_Device_Information_Model.Rated_Current,
+            field_Device_Information_Model.Active_Current,
+            field_Device_Information_Model.Active_Voltage,
+            field_Device_Information_Model.Frequency,
+            field_Device_Information_Model.Rotation_Speed,
+            field_Device_Information_Model.Noted
+        };
+
+        for (int i = 0; i < setup_Value_Texts.Count; i++)
+        {
+            if (string.IsNullOrEmpty(values[i]))
+            {
+                setup_Value_Texts[i].text = "Chưa cập nhật";
+                setup_Value_Texts[i].color = Color.red;
+            }
+            else
+            {
+                setup_Value_Texts[i].text = values[i];
+                setup_Value_Texts[i].color = Color.black;
+            }
+            yield return null;
+        }
     }
 
 

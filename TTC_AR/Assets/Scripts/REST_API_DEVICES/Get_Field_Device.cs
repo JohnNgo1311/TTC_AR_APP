@@ -1,66 +1,136 @@
-
 using UnityEngine;
 using System;
 using System.Threading.Tasks;
 using System.Collections;
+using PimDeWitte.UnityMainThreadDispatcher;
+
 public class Get_Field_Device : MonoBehaviour
 {
-    [SerializeField] private EventPublisher eventPublisher; // Tham chiếu đến Publisher
+    public EventPublisher eventPublisher; // Tham chiếu đến Publisher
 
     private void Awake()
     {
-        eventPublisher ??= FindObjectOfType<EventPublisher>();
     }
 
     private void OnEnable()
     {
-        if (eventPublisher != null)
+        if (eventPublisher == null)
         {
-            eventPublisher.OnButtonClicked += Get_Field_Device_Model; // Đăng ký sự kiện
+            Debug.LogError("EventPublisher not found!");
+            return;
         }
+        eventPublisher.OnButtonClicked += Get_Field_Device_Model;
     }
-
 
     void OnDisable()
     {
         if (eventPublisher != null)
         {
+            Debug.Log("Disable Get_Field_Device_Model");
             eventPublisher.OnButtonClicked -= Get_Field_Device_Model; // Hủy đăng ký sự kiện
         }
+        else
+        {
+            Debug.Log("eventPublisher is null");
+        }
     }
+
     private void Start()
     {
-
     }
+
     public async void Get_Field_Device_Model()
     {
+        Debug.Log("Get_Field_Device_Model");
         try
         {
             var cabinet_Name = gameObject.name.Split('_')[1];
-            var cabinet = GlobalVariable.temp_List_Field_Device_Information_Model.Find(cabinet => cabinet.Name == cabinet_Name);
+            Field_Device_Information_Model cabinet = null;
+
+            if (GlobalVariable.temp_List_Field_Device_Information_Model != null)
+            {
+                cabinet = GlobalVariable.temp_List_Field_Device_Information_Model.Find(cabinet => cabinet.Name == cabinet_Name);
+            }
+            else
+            {
+                Debug.Log("Get_Field_Device_Model + list field device đang null");
+                return;
+            }
+
             if (cabinet == null)
             {
-                Show_Dialog.Instance.ShowToast("error", "Không tìm thấy thông tin tủ!");
+                Debug.Log("Field device not found.");
                 return;
             }
 
             GlobalVariable.ready_To_Nav_New_Scene = false;
-            Show_Dialog.Instance.Set_Instance_Status_True();
-            Show_Dialog.Instance.ShowToast("loading", "Đang tải dữ liệu...");
+
+            // Cập nhật giao diện phải trên main thread
+            await RunOnMainThread(() =>
+            {
+                Show_Dialog.Instance.Set_Instance_Status_True();
+                Show_Dialog.Instance.ShowToast("loading", "Đang tải dữ liệu...");
+            });
+
+            Debug.Log("Get_Field_Device_Model 0 ");
 
             await APIManager.Instance.GetFieldDeviceInformation(
                 url: $"{GlobalVariable.baseUrl3}GetFieldDevice",
-                grapperId: "GlobalVariable.temp_Grapper_General_Model.Id",//Update sau
+                grapperId: "GlobalVariable.temp_Grapper_General_Model.Id", // Update sau
                 fieldDeviceId: cabinet.Id
             );
+
+            Debug.Log("Get_Field_Device_Model 1 ");
+
             await APIManager.Instance.DownloadImagesAsync();
+
+
+
+            // Cập nhật trạng thái giao diện trên main thread
+            await RunOnMainThread(() =>
+            {
+                StartCoroutine(Show_Dialog.Instance.Set_Instance_Status_False());
+            });
+
+
+            Debug.Log("Get_Field_Device_Model 2");
             GlobalVariable.ready_To_Nav_New_Scene = true;
-            StartCoroutine(Show_Dialog.Instance.Set_Instance_Status_False());
-            Debug.Log("Get_Field_Device_Model");
         }
         catch (Exception ex)
         {
-            Show_Dialog.Instance.ShowToast("failure", $"Lỗi: {ex.Message}");
+            GlobalVariable.ready_To_Nav_New_Scene = false;
+
+            Debug.LogError("Get_Field_Device_Model + lỗi: " + ex.Message);
+
+            // Cập nhật lỗi trên main thread
+            await RunOnMainThread(() =>
+            {
+                Show_Dialog.Instance.ShowToast("failure", $"Lỗi: {ex.Message}");
+            });
         }
+    }
+
+    // Hàm chuyển đổi tác vụ về main thread
+    private Task RunOnMainThread(Action action)
+    {
+        if (action == null) throw new ArgumentNullException(nameof(action));
+
+        var tcs = new TaskCompletionSource<bool>();
+
+        // Đảm bảo hành động được thực thi trên main thread
+        UnityMainThreadDispatcher.Instance.Enqueue(() =>
+        {
+            try
+            {
+                action();
+                tcs.SetResult(true);
+            }
+            catch (Exception ex)
+            {
+                tcs.SetException(ex);
+            }
+        });
+
+        return tcs.Task;
     }
 }

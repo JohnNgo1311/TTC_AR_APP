@@ -36,55 +36,72 @@ public class Update_Module_Specification_Screen : MonoBehaviour
         StartCoroutine(Update_Adapter_UI());
     }
 
-    // Coroutine cập nhật UI cho Module
+    // Coroutine cập nhật UI cho Module và Adapter
+    private IEnumerator Update_UI(TMP_Text[] texts, string[] values)
+    {
+        for (int i = 0; i < texts.Length; i++)
+        {
+            texts[i].text = values[i];
+            texts[i].color = (texts[i].text == "Chưa cập nhật") ? Color.red : Color.black;
+            yield return null; // Tạm dừng để tránh chặn frame
+        }
+    }
+
     private IEnumerator Update_Module_UI()
     {
-        module_Specification_Texts[0].text = module_Specification_Model.Code;
-        yield return null; // Tạm dừng để tránh chặn frame
-        module_Specification_Texts[1].text = module_Specification_Model.Type;
-        yield return null;
-        module_Specification_Texts[2].text = module_Specification_Model.Num_Of_IO;
-        yield return null;
-        module_Specification_Texts[3].text = module_Specification_Model.Signal_Type;
-        yield return null;
-        module_Specification_Texts[4].text = module_Specification_Model.Compatible_TBUs;
-        yield return null;
-        module_Specification_Texts[5].text = module_Specification_Model.Operating_Voltage;
-        yield return null;
-        module_Specification_Texts[6].text = module_Specification_Model.Operating_Current;
-        yield return null;
-        module_Specification_Texts[7].text = module_Specification_Model.Flexbus_Current;
-        yield return null;
-        module_Specification_Texts[8].text = module_Specification_Model.Alarm;
-        yield return null;
-        module_Specification_Texts[9].text = module_Specification_Model.Noted;
+        string[] values = new string[]
+        {
+            string.IsNullOrEmpty(module_Specification_Model.Code)? "Chưa cập nhật": module_Specification_Model.Code,
+            string.IsNullOrEmpty(module_Specification_Model.Type)? "Chưa cập nhật": module_Specification_Model.Type,
+            string.IsNullOrEmpty(module_Specification_Model.Signal_Type)? "Chưa cập nhật": module_Specification_Model.Signal_Type,
+            string.IsNullOrEmpty(module_Specification_Model.Num_Of_IO)? "Chưa cập nhật": module_Specification_Model.Num_Of_IO,
+            string.IsNullOrEmpty(module_Specification_Model.Compatible_TBUs)? "Chưa cập nhật": module_Specification_Model.Compatible_TBUs,
+            string.IsNullOrEmpty(module_Specification_Model.Operating_Voltage)? "Chưa cập nhật": module_Specification_Model.Operating_Voltage,
+            string.IsNullOrEmpty(module_Specification_Model.Operating_Current)? "Chưa cập nhật": module_Specification_Model.Operating_Current,
+            string.IsNullOrEmpty(module_Specification_Model.Flexbus_Current)? "Chưa cập nhật": module_Specification_Model.Flexbus_Current,
+            string.IsNullOrEmpty(module_Specification_Model.Alarm)? "Chưa cập nhật": module_Specification_Model.Alarm,
+            string.IsNullOrEmpty(module_Specification_Model.Noted)? "Chưa cập nhật": module_Specification_Model.Noted
+            // module_Specification_Model?.Type ?? "Chưa cập nhật",
+            // module_Specification_Model?.Signal_Type ?? "Chưa cập nhật",
+            // module_Specification_Model?.Num_Of_IO ?? "Chưa cập nhật",
+            // module_Specification_Model?.Compatible_TBUs ?? "Chưa cập nhật",
+            // module_Specification_Model?.Operating_Voltage ?? "Chưa cập nhật",
+            // module_Specification_Model?.Operating_Current ?? "Chưa cập nhật",
+            // module_Specification_Model?.Flexbus_Current ?? "Chưa cập nhật",
+            // module_Specification_Model?.Alarm ?? "Chưa cập nhật",
+            // module_Specification_Model?.Noted ?? "Chưa cập nhật"
+        };
+        yield return Update_UI(module_Specification_Texts.ToArray(), values);
     }
 
     // Coroutine cập nhật UI cho Adapter
     private IEnumerator Update_Adapter_UI()
     {
-        adapter_Specification_Texts[0].text = adapter_Specification_Model.Code;
-        yield return null;
-        adapter_Specification_Texts[1].text = adapter_Specification_Model.Type;
-        yield return null;
-        adapter_Specification_Texts[2].text = adapter_Specification_Model.Communication;
-        yield return null;
-        adapter_Specification_Texts[3].text = adapter_Specification_Model.Num_Of_Module_Allowed;
-        yield return null;
-        adapter_Specification_Texts[4].text = adapter_Specification_Model.Comm_Speed;
-        yield return null;
-        adapter_Specification_Texts[5].text = adapter_Specification_Model.Input_Supply;
-        yield return null;
-        adapter_Specification_Texts[6].text = adapter_Specification_Model.Output_Supply;
-        yield return null;
-        adapter_Specification_Texts[7].text = adapter_Specification_Model.Inrush_Current;
-        yield return null;
-        adapter_Specification_Texts[8].text = adapter_Specification_Model.Alarm;
-        yield return null;
-        adapter_Specification_Texts[9].text = adapter_Specification_Model.Noted;
+        string[] values = new string[]
+        {
+            string.IsNullOrEmpty(adapter_Specification_Model.Code)? "Chưa cập nhật": adapter_Specification_Model.Code,
+            string.IsNullOrEmpty(adapter_Specification_Model.Type)? "Chưa cập nhật": adapter_Specification_Model.Type,
+            string.IsNullOrEmpty(adapter_Specification_Model.Communication)? "Chưa cập nhật": adapter_Specification_Model.Communication,
+            string.IsNullOrEmpty(adapter_Specification_Model.Num_Of_Module_Allowed)? "Chưa cập nhật": adapter_Specification_Model.Num_Of_Module_Allowed,
+            string.IsNullOrEmpty(adapter_Specification_Model.Comm_Speed)? "Chưa cập nhật": adapter_Specification_Model.Comm_Speed,
+            string.IsNullOrEmpty(adapter_Specification_Model.Input_Supply)? "Chưa cập nhật": adapter_Specification_Model.Input_Supply,
+            string.IsNullOrEmpty(adapter_Specification_Model.Output_Supply)? "Chưa cập nhật": adapter_Specification_Model.Output_Supply,
+            string.IsNullOrEmpty(adapter_Specification_Model.Inrush_Current)? "Chưa cập nhật": adapter_Specification_Model.Inrush_Current,
+            string.IsNullOrEmpty(adapter_Specification_Model.Alarm)? "Chưa cập nhật": adapter_Specification_Model.Alarm,
+            string.IsNullOrEmpty(adapter_Specification_Model.Noted)? "Chưa cập nhật": adapter_Specification_Model.Noted
+            
+            // adapter_Specification_Model?.Type ?? "Chưa cập nhật",
+            // adapter_Specification_Model?.Communication ?? "Chưa cập nhật",
+            // adapter_Specification_Model?.Num_Of_Module_Allowed ?? "Chưa cập nhật",
+            // adapter_Specification_Model?.Comm_Speed ?? "Chưa cập nhật",
+            // adapter_Specification_Model?.Input_Supply ?? "Chưa cập nhật",
+            // adapter_Specification_Model?.Output_Supply ?? "Chưa cập nhật",
+            // adapter_Specification_Model?.Inrush_Current  ?? "Chưa cập nhật",
+            // adapter_Specification_Model?.Alarm ?? "Chưa cập nhật",
+            // adapter_Specification_Model?.Noted ?? "Chưa cập nhật"
+        };
+        yield return Update_UI(adapter_Specification_Texts.ToArray(), values);
     }
-
-
 
     private void Open_Module_Adapter_Online_Catalog(string url)
     {

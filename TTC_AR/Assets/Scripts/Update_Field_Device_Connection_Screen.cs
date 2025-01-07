@@ -48,7 +48,7 @@ public class Update_Field_Device_Connection_Screen : MonoBehaviour
             cabinet_Type = GlobalVariable.temp_Field_Device_Information_Model.Type;
             if (cabinet_Type.ToLower() == "biến tần")
             {
-                field_Device_Title.text = $"Sơ đồ đấu dây tủ {cabinet_Type} + {cabinet_Name}";
+                field_Device_Title.text = $"Sơ đồ đấu dây tủ {cabinet_Type.ToLower()} {cabinet_Name}";
             }
             else
             {
