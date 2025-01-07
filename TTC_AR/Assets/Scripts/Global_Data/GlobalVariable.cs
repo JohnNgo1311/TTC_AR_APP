@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GlobalVariable : MonoBehaviour
 {
     public static string baseUrl1 = "https://67176614b910c6a6e027ebfc.mockapi.io/api/v1/";
     public static string baseUrl2 = "https://6776bd1c12a55a9a7d0cbc42.mockapi.io/api/v2/";
-
+    public static string baseUrl3 = "https://677ba70820824100c07a4e9f.mockapi.io/api/v3/";
     public static string previousScene;
     public static string recentScene;
     public static string jb_TSD_Title = "";
@@ -81,6 +82,9 @@ public class GlobalVariable : MonoBehaviour
 
 
     public static Module_Information_Model temp_Module_Information_Model;
+    public static Field_Device_Information_Model temp_Field_Device_Information_Model;
+    public static List<Field_Device_Information_Model> temp_List_Field_Device_Information_Model = new List<Field_Device_Information_Model>();
+    public static List<Texture2D> temp_List_Field_Device_Connection_Images = new List<Texture2D>();
     public static List<JB_Information_Model> temp_List_JB_Information_Model_From_Module = new List<JB_Information_Model>();
     public static List<Device_Information_Model> temp_List_Device_Information_Model_From_Module = new List<Device_Information_Model>();
     public static Module_Specification_Model temp_Module_Specification_Model;

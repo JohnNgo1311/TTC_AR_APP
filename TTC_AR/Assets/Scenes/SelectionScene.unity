@@ -246,7 +246,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 119221432}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &119221432
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -371,7 +383,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 150
+  m_fontSize: 92.45
   m_fontSizeBase: 1
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -583,12 +595,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95fb9c4c25bc9cd468d9f19bea85279c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  toastParent: {fileID: 621601245}
   toastPrefab: {fileID: 1685662170610096501, guid: 9d73b758b6bf26a42b510dbc76d51c74,
     type: 3}
-  toastParent: {fileID: 621601245}
+  toastStatus: success
+  existingToast: {fileID: 0}
+  toastBackground: {fileID: 0}
+  toastText: {fileID: 0}
+  allObjects: []
   toastMessageInitial: "\u0110\u0103ng nh\u1EADp th\xE0nh c\xF4ng!"
   showToastInitial: 1
-  toastStatus: success
 --- !u!1 &720286216
 GameObject:
   m_ObjectHideFlags: 0
@@ -833,6 +849,7 @@ GameObject:
   - component: {fileID: 878477615}
   - component: {fileID: 878477616}
   - component: {fileID: 878477617}
+  - component: {fileID: 878477618}
   m_Layer: 0
   m_Name: Scripts
   m_TagString: Untagged
@@ -894,6 +911,18 @@ MonoBehaviour:
   previousSceneName: SelectionScene
   recentSceneName: LoginScene
   isOrientation: 0
+--- !u!114 &878477618
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 878477614}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d641fb717414ecb429a48659d941b53c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &923202467
 GameObject:
   m_ObjectHideFlags: 0
@@ -980,7 +1009,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 135.7
+  m_fontSize: 166.1
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1314,7 +1343,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 113.35
+  m_fontSize: 165.3
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1672,7 +1701,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 113.35
+  m_fontSize: 165.3
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1

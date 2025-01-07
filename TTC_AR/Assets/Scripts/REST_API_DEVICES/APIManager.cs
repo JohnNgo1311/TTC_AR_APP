@@ -9,6 +9,7 @@ using UnityEngine.Networking;
 using System.Linq;
 using System.Collections;
 using System.Threading;
+using UnityEngine.SceneManagement;
 
 public class APIManager : MonoBehaviour
 {
@@ -16,7 +17,10 @@ public class APIManager : MonoBehaviour
 
     // Danh sách URL cần tải
     public List<Grapper_General_Model> temp_List_Grapper_General_Models = new List<Grapper_General_Model>();
-    public List<Module_Information_Model> temp_Module_Information_Model = new List<Module_Information_Model>();
+    public List<Module_Information_Model> temp_List_Module_Information_Model = new List<Module_Information_Model>();
+    public List<Field_Device_Information_Model> temp_List_Field_Device_Information_Model = new List<Field_Device_Information_Model>();
+    public Field_Device_Information_Model temp_Field_Device_Information_Model;
+
     public List<JB_Information_Model> temp_List_JB_Information_Model_From_Module = new List<JB_Information_Model>();
     public List<Device_Information_Model> temp_List_Device_Information_Model_From_Module = new List<Device_Information_Model>();
     public Dictionary<string, List<Texture2D>> list_JB_Connection_Images_From_Module = new Dictionary<string, List<Texture2D>>();
@@ -69,6 +73,103 @@ public class APIManager : MonoBehaviour
             }
         }
     }
+    public async Task GetListFieldDeviceInformation(string url, string grapperId)
+    {
+        using UnityWebRequest webRequest = UnityWebRequest.Get(url);
+        {
+            if (!await SendWebRequestAsync(webRequest))
+            {
+                HandleRequestError(webRequest.error);
+                return;
+            }
+            try
+            {
+                var list_Field_Device_Model = JsonConvert.DeserializeObject<List<Field_Device_Information_Model>>(webRequest.downloadHandler.text);
+                if (list_Field_Device_Model != null)
+                {
+                    temp_List_Field_Device_Information_Model = list_Field_Device_Model;
+                    GlobalVariable.temp_List_Field_Device_Information_Model = temp_List_Field_Device_Information_Model;
+                }
+                Debug.Log("success");
+            }
+            catch (JsonException jsonEx)
+            {
+                HandleRequestError(jsonEx.Message);
+                return;
+            }
+            catch (Exception ex)
+            {
+                HandleRequestError(ex.Message);
+                return;
+            }
+        }
+    }
+    public async Task GetFieldDeviceInformation(string url, string grapperId, string fieldDeviceId)
+    {
+        using UnityWebRequest webRequest = UnityWebRequest.Get(url);
+        {
+            if (!await SendWebRequestAsync(webRequest))
+            {
+                HandleRequestError(webRequest.error);
+                return;
+            }
+            try
+            {
+                var list_Field_Device_Model = JsonConvert.DeserializeObject<List<Field_Device_Information_Model>>(webRequest.downloadHandler.text);
+                if (list_Field_Device_Model != null)
+                {
+                    temp_List_Field_Device_Information_Model = list_Field_Device_Model;
+                    GlobalVariable.temp_List_Field_Device_Information_Model = temp_List_Field_Device_Information_Model;
+                    GlobalVariable.temp_Field_Device_Information_Model = temp_List_Field_Device_Information_Model[0];
+                }
+                Debug.Log("success");
+            }
+            catch (JsonException jsonEx)
+            {
+                HandleRequestError(jsonEx.Message);
+                return;
+            }
+            catch (Exception ex)
+            {
+                HandleRequestError(ex.Message);
+                return;
+            }
+        }
+    }
+
+
+    public async Task GetListModuleInformation(string url, string grapperId)
+    {
+        using UnityWebRequest webRequest = UnityWebRequest.Get(url);
+        {
+            if (!await SendWebRequestAsync(webRequest))
+            {
+                HandleRequestError(webRequest.error);
+                return;
+            }
+
+            try
+            {
+                var list_module_Information_Model = JsonConvert.DeserializeObject<List<Module_Information_Model>>(webRequest.downloadHandler.text);
+                if (list_module_Information_Model != null)
+                {
+                    temp_List_Module_Information_Model = list_module_Information_Model;
+
+                }
+                Debug.Log("success");
+            }
+            catch (JsonException jsonEx)
+            {
+                HandleRequestError(jsonEx.Message);
+                return;
+            }
+            catch (Exception ex)
+            {
+                HandleRequestError(ex.Message);
+                return;
+            }
+        }
+    }
 
     // Get list Devices by Grapper ==> Search Devices
     public async Task GetModuleInformation(string url, string grapperId, string rackId, string moduleId)
@@ -86,7 +187,7 @@ public class APIManager : MonoBehaviour
                 var module_Information_Model = JsonConvert.DeserializeObject<List<Module_Information_Model>>(webRequest.downloadHandler.text);
                 if (module_Information_Model != null)
                 {
-                    temp_Module_Information_Model = module_Information_Model;
+                    temp_List_Module_Information_Model = module_Information_Model;
                     temp_List_JB_Information_Model_From_Module = module_Information_Model[0].List_JB_Information_Model;
                     temp_List_Device_Information_Model_From_Module = module_Information_Model[0].List_Device_Information_Model;
 
@@ -94,7 +195,7 @@ public class APIManager : MonoBehaviour
 
                     GlobalVariable.temp_List_Device_Information_Model_From_Module = temp_List_Device_Information_Model_From_Module;
 
-                    GlobalVariable.temp_Module_Information_Model = temp_Module_Information_Model[0];
+                    GlobalVariable.temp_Module_Information_Model = temp_List_Module_Information_Model[0];
 
                     GlobalVariable.temp_Module_Specification_Model = module_Information_Model[0].Specification_Model;
 
@@ -119,52 +220,68 @@ public class APIManager : MonoBehaviour
 
     public async Task DownloadImagesAsync()
     {
-        if (temp_List_JB_Information_Model_From_Module == null || temp_List_JB_Information_Model_From_Module.Count == 0)
+        if (SceneManager.GetActiveScene().name == "GrapperAScanScene")
         {
-            Debug.LogWarning("No JB information models available to download images.");
-            return;
+            if (temp_List_JB_Information_Model_From_Module == null || temp_List_JB_Information_Model_From_Module.Count == 0)
+            {
+                Debug.LogWarning("No JB information models available to download images.");
+                return;
+            }
+
+            var downloadTasks = new List<Task<Texture2D>>();
+
+            foreach (var jb in temp_List_JB_Information_Model_From_Module)
+            {
+                // Khởi tạo các danh sách nếu chưa tồn tại
+                if (!list_JB_Connection_Images_From_Module.ContainsKey(jb.Name))
+                {
+                    list_JB_Connection_Images_From_Module[jb.Name] = new List<Texture2D>();
+                }
+
+                if (!list_JB_Location_Images_From_Module.ContainsKey(jb.Name))
+                {
+                    list_JB_Location_Images_From_Module[jb.Name] = new Texture2D(2, 2);
+                }
+
+                // Tải hình ảnh ngoài trời
+                var outdoorImageTask = DownloadImageAsync(jb.Outdoor_Image);
+                list_JB_Location_Images_From_Module[jb.Name] = await outdoorImageTask;
+
+                // Tải danh sách hình ảnh kết nối
+                foreach (var url in jb.List_Connection_Images)
+                {
+                    downloadTasks.Add(DownloadImageAsync(url));
+                }
+
+                // Chờ tất cả hình ảnh kết nối hoàn tất
+                var downloadedTextures = await Task.WhenAll(downloadTasks);
+                list_JB_Connection_Images_From_Module[jb.Name].AddRange(downloadedTextures);
+                downloadTasks.Clear(); // Dọn danh sách nhiệm vụ sau mỗi JB
+                                       // Clear the list of downloaded textures after each JB
+                downloadedTextures = new Texture2D[0];
+            }
+
+            // Cập nhật biến toàn cục
+            GlobalVariable.temp_list_JB_Connection_Image_From_Module = new Dictionary<string, List<Texture2D>>();
+            GlobalVariable.temp_list_JB_Location_Image_From_Module = new Dictionary<string, Texture2D>();
+            GlobalVariable.temp_list_JB_Connection_Image_From_Module = list_JB_Connection_Images_From_Module;
+            GlobalVariable.temp_list_JB_Location_Image_From_Module = list_JB_Location_Images_From_Module;
+            // Log kết quả
+            // LogImageResults();
+            Debug.Log("All images downloaded and converted to Texture2D.");
         }
-
-        var downloadTasks = new List<Task<Texture2D>>();
-
-        foreach (var jb in temp_List_JB_Information_Model_From_Module)
+        else if (SceneManager.GetActiveScene().name == "FieldDevicesScene")
         {
-            // Khởi tạo các danh sách nếu chưa tồn tại
-            if (!list_JB_Connection_Images_From_Module.ContainsKey(jb.Name))
+            var downloadTasks = new List<Task<Texture2D>>();
+            foreach (var image_url in temp_Field_Device_Information_Model.List_connection_Images)
             {
-                list_JB_Connection_Images_From_Module[jb.Name] = new List<Texture2D>();
+                downloadTasks.Add(DownloadImageAsync(image_url));
             }
-
-            if (!list_JB_Location_Images_From_Module.ContainsKey(jb.Name))
-            {
-                list_JB_Location_Images_From_Module[jb.Name] = new Texture2D(2, 2);
-            }
-
-            // Tải hình ảnh ngoài trời
-            var outdoorImageTask = DownloadImageAsync(jb.Outdoor_Image);
-            list_JB_Location_Images_From_Module[jb.Name] = await outdoorImageTask;
-
-            // Tải danh sách hình ảnh kết nối
-            foreach (var url in jb.List_Connection_Images)
-            {
-                downloadTasks.Add(DownloadImageAsync(url));
-            }
-
-            // Chờ tất cả hình ảnh kết nối hoàn tất
             var downloadedTextures = await Task.WhenAll(downloadTasks);
-            list_JB_Connection_Images_From_Module[jb.Name].AddRange(downloadedTextures);
-            downloadTasks.Clear(); // Dọn danh sách nhiệm vụ sau mỗi JB
-            // Clear the list of downloaded textures after each JB
-            downloadedTextures = new Texture2D[0];
+            GlobalVariable.temp_List_Field_Device_Connection_Images = new List<Texture2D>();
+            GlobalVariable.temp_List_Field_Device_Connection_Images.AddRange(downloadedTextures);
+            downloadTasks.Clear();
         }
-
-        // Cập nhật biến toàn cục
-        GlobalVariable.temp_list_JB_Connection_Image_From_Module = list_JB_Connection_Images_From_Module;
-        GlobalVariable.temp_list_JB_Location_Image_From_Module = list_JB_Location_Images_From_Module;
-
-        // Log kết quả
-        // LogImageResults();
-        Debug.Log("All images downloaded and converted to Texture2D.");
     }
 
     private async Task<Texture2D> DownloadImageAsync(string url)
