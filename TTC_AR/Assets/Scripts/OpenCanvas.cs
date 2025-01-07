@@ -25,6 +25,8 @@ public class OpenCanvas : MonoBehaviour
 
     [SerializeField]
     private List<TMP_Text> list_Title = new List<TMP_Text>();
+    [SerializeField]
+    Load_General_Data_From_Rack load_General_Data_From_Rack;
 
     private List<GameObject> activated_imageTargets = new List<GameObject>();
     private List<ObserverBehaviour> observerBehaviours = new List<ObserverBehaviour>();
@@ -37,6 +39,19 @@ public class OpenCanvas : MonoBehaviour
     private IEnumerator Initialize()
     {
         yield return null;
+
+        if (SceneManager.GetActiveScene().name != "FieldDevicesScene")
+        {
+            if (load_General_Data_From_Rack != null)
+            {
+                yield return new WaitUntil(() => load_General_Data_From_Rack.isInstantiating == false);
+                // Tối ưu hóa kiểm tra danh sách
+                targetCanvas = load_General_Data_From_Rack.targetCanvas;
+                Destroy(load_General_Data_From_Rack.module_Canvas_Prefab.gameObject);
+            }
+
+        }
+
         if (targetCanvas.Count > 0 && imageTargets.Count > 0)
         {
             foreach (var canvas in targetCanvas)

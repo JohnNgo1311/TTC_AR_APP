@@ -2330,12 +2330,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95fb9c4c25bc9cd468d9f19bea85279c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  toastParent: {fileID: 1169281653}
   toastPrefab: {fileID: 1685662170610096501, guid: 9d73b758b6bf26a42b510dbc76d51c74,
     type: 3}
-  toastParent: {fileID: 1169281653}
+  toastStatus: loading
+  existingToast: {fileID: 0}
+  toastBackground: {fileID: 0}
+  toastText: {fileID: 0}
+  allObjects: []
   toastMessageInitial: "\u0110ang t\u1EA3i d\u1EEF li\u1EC7u..."
   showToastInitial: 0
-  toastStatus: loading
 --- !u!114 &1169281650
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2368,7 +2372,7 @@ MonoBehaviour:
   m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 1440, y: 3088}
+  m_ReferenceResolution: {x: 1600, y: 2560}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0.5
   m_PhysicalUnit: 3
@@ -3628,7 +3632,7 @@ MonoBehaviour:
   m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 1440, y: 3088}
+  m_ReferenceResolution: {x: 1600, y: 2560}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0.5
   m_PhysicalUnit: 3
