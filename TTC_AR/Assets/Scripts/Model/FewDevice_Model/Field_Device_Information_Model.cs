@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 #nullable enable
 
 [Serializable]
-public class FieldDevice_Information_Model
+public class Field_Device_Information_Model
 {
 
   [JsonProperty("Id")]
@@ -29,10 +29,10 @@ public class FieldDevice_Information_Model
   [JsonProperty("Rated_Current")]
   public string? Rated_Current { get; set; }
 
-  [JsonProperty("Operating_Current")]
-  public string? Operating_Current { get; set; }
-  [JsonProperty("Operating_Voltage")]
-  public string? Operating_Voltage { get; set; }
+  [JsonProperty("Active_Current")]
+  public string? Active_Current { get; set; }
+  [JsonProperty("Active_Voltage")]
+  public string? Active_Voltage { get; set; }
   [JsonProperty("Frequency")]
   public string? Frequency { get; set; }
   [JsonProperty("Rotation_Speed")]
@@ -43,7 +43,7 @@ public class FieldDevice_Information_Model
   [JsonProperty("Noted")]
   public string? Noted { get; set; }
 
-  public FieldDevice_Information_Model(string id, string type, string name, string cabinet_Code, string? brand, string? rated_Power, string? output_Power, string? rated_Current, string? operating_Current, string? operating_Voltage, string? frequency, string? rotation_Speed, List<string> list_connection_Images, string? noted)
+  public Field_Device_Information_Model(string id, string type, string name, string cabinet_Code, string? brand, string? rated_Power, string? output_Power, string? rated_Current, string? active_Current, string? active_Voltage, string? frequency, string? rotation_Speed, List<string> list_connection_Images, string? noted)
   {
     Id = id;
     Type = type;
@@ -53,8 +53,8 @@ public class FieldDevice_Information_Model
     Rated_Power = rated_Power;
     Output_Power = output_Power;
     Rated_Current = rated_Current;
-    Operating_Current = operating_Current;
-    Operating_Voltage = operating_Voltage;
+    Active_Current = active_Current;
+    Active_Voltage = active_Voltage;
     Frequency = frequency;
     Rotation_Speed = rotation_Speed;
     List_connection_Images = list_connection_Images;

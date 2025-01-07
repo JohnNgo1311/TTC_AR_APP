@@ -9,36 +9,36 @@
         "List_Module_General_Non_Rack_Model": [
           {
             "Id": "MOAD1.0.I",
-            "Name":"D1.0.I"
+            "Name": "D1.0.I"
           },
-             {
+          {
             "Id": "MOAD1.1.I",
-            "Name":"D1.1.I"
+            "Name": "D1.1.I"
           },
-             {
+          {
             "Id": "MOAD1.2.I",
-            "Name":"D1.2.I"
+            "Name": "D1.2.I"
           },
-             {
+          {
             "Id": "MOAD1.3.I",
-            "Name":"D1.3.I"
+            "Name": "D1.3.I"
           },
-             {
+          {
             "Id": "MOAD1.4.I",
-            "Name":"D1.4.I"
+            "Name": "D1.4.I"
           },
-             {
+          {
             "Id": "MOAD1.5.I",
-            "Name":"D1.5.I"
+            "Name": "D1.5.I"
           },
-             {
+          {
             "Id": "MOAD1.6.I",
-            "Name":"D1.6.I"
+            "Name": "D1.6.I"
           },
-           {
+          {
             "Id": "MOAD1.7.I",
-            "Name":"D1.7.I"
-          } 
+            "Name": "D1.7.I"
+          }
         ]
       },
       {
@@ -53,15 +53,15 @@
             "Id": "MOAD2.1.O",
             "Name": "D2.1.O"
           },
-           {
+          {
             "Id": "MOAD2.2.O",
             "Name": "D2.2.O"
           },
-           {
+          {
             "Id": "MOAD2.3.O",
             "Name": "D2.3.O"
           },
-           {
+          {
             "Id": "MOAD2.4.I",
             "Name": "D2.4.I"
           },
@@ -71,7 +71,7 @@
           }
         ]
       },
-       {
+      {
         "Id": "R3",
         "Name": "Rack_3",
         "List_Module_General_Non_Rack_Model": [
@@ -83,11 +83,11 @@
             "Id": "MOAD3.1.I",
             "Name": "D3.1.I"
           },
-           {
+          {
             "Id": "MOAD3.2.O",
             "Name": "D3.2.O"
           },
-           {
+          {
             "Id": "MOAD3.3.O",
             "Name": "D3.3.O"
           }
@@ -121,16 +121,17 @@
             "Id": "MOAA4.5.I",
             "Name": "A4.5.I"
           },
-           {
+          {
             "Id": "MOAA4.6.I",
             "Name": "A4.6.I"
-          }, {
+          },
+          {
             "Id": "MOAA4.7.I",
             "Name": "A4.7.I"
           }
         ]
       },
-       {
+      {
         "Id": "R5",
         "Name": "Rack_5",
         "List_Module_General_Non_Rack_Model": [
@@ -158,16 +159,17 @@
             "Id": "MOAA5.5.O",
             "Name": "A5.5.O"
           },
-           {
+          {
             "Id": "MOAA5.6.I",
             "Name": "A5.6.I"
-          }, {
+          },
+          {
             "Id": "MOAA5.7.I",
             "Name": "A5.7.I"
           }
         ]
       },
-        {
+      {
         "Id": "R6",
         "Name": "Rack_6",
         "List_Module_General_Non_Rack_Model": [
@@ -183,7 +185,7 @@
       }
     ]
   },
-   {
+  {
     "Id": "GPB",
     "Name": "GrapperB",
     "List_Rack_General_Model": [
@@ -193,36 +195,36 @@
         "List_Module_General_Non_Rack_Model": [
           {
             "Id": "MOBD1.0.I",
-            "Name":"D1.0.I"
+            "Name": "D1.0.I"
           },
-             {
+          {
             "Id": "MODB1.1.I",
-            "Name":"D1.1.I"
+            "Name": "D1.1.I"
           },
-             {
+          {
             "Id": "MODB1.2.I",
-            "Name":"D1.2.I"
+            "Name": "D1.2.I"
           },
-             {
+          {
             "Id": "MODB1.3.I",
-            "Name":"D1.3.I"
+            "Name": "D1.3.I"
           },
-             {
+          {
             "Id": "MODB1.4.I",
-            "Name":"D1.4.I"
+            "Name": "D1.4.I"
           },
-             {
+          {
             "Id": "MODB1.5.I",
-            "Name":"D1.5.I"
+            "Name": "D1.5.I"
           },
-             {
+          {
             "Id": "MODB1.6.I",
-            "Name":"D1.6.I"
+            "Name": "D1.6.I"
           },
-           {
+          {
             "Id": "MODB1.7.I",
-            "Name":"D1.7.I"
-          } 
+            "Name": "D1.7.I"
+          }
         ]
       },
       {
@@ -237,15 +239,15 @@
             "Id": "MODB2.1.O",
             "Name": "D2.1.O"
           },
-           {
+          {
             "Id": "MODB2.2.O",
             "Name": "D2.2.O"
           },
-           {
+          {
             "Id": "MODB2.3.O",
             "Name": "D2.3.O"
           },
-           {
+          {
             "Id": "MODB2.4.I",
             "Name": "D2.4.I"
           },
@@ -255,7 +257,7 @@
           }
         ]
       },
-       {
+      {
         "Id": "R3",
         "Name": "Rack_3",
         "List_Module_General_Non_Rack_Model": [
@@ -267,11 +269,11 @@
             "Id": "MODB3.1.I",
             "Name": "D3.1.I"
           },
-           {
+          {
             "Id": "MODB3.2.O",
             "Name": "D3.2.O"
           },
-           {
+          {
             "Id": "MODB3.3.O",
             "Name": "D3.3.O"
           }
@@ -305,16 +307,17 @@
             "Id": "MOAB4.5.I",
             "Name": "A4.5.I"
           },
-           {
+          {
             "Id": "MOAB4.6.I",
             "Name": "A4.6.I"
-          }, {
+          },
+          {
             "Id": "MOAB4.7.I",
             "Name": "A4.7.I"
           }
         ]
       },
-       {
+      {
         "Id": "R5",
         "Name": "Rack_5",
         "List_Module_General_Non_Rack_Model": [
@@ -342,16 +345,17 @@
             "Id": "MOAB5.5.O",
             "Name": "A5.5.O"
           },
-           {
+          {
             "Id": "MOAB5.6.I",
             "Name": "A5.6.I"
-          }, {
+          },
+          {
             "Id": "MOAB5.7.I",
             "Name": "A5.7.I"
           }
         ]
       },
-        {
+      {
         "Id": "R6",
         "Name": "Rack_6",
         "List_Module_General_Non_Rack_Model": [
@@ -367,7 +371,7 @@
       }
     ]
   },
-   {
+  {
     "Id": "GPC",
     "Name": "GrapperC",
     "List_Rack_General_Model": [
@@ -377,36 +381,36 @@
         "List_Module_General_Non_Rack_Model": [
           {
             "Id": "MOCD1.0.I",
-            "Name":"D1.0.I"
+            "Name": "D1.0.I"
           },
-             {
+          {
             "Id": "MOCD1.1.I",
-            "Name":"D1.1.I"
+            "Name": "D1.1.I"
           },
-             {
+          {
             "Id": "MOCD1.2.I",
-            "Name":"D1.2.I"
+            "Name": "D1.2.I"
           },
-             {
+          {
             "Id": "MOCD1.3.I",
-            "Name":"D1.3.I"
+            "Name": "D1.3.I"
           },
-             {
+          {
             "Id": "MOCD1.4.I",
-            "Name":"D1.4.I"
+            "Name": "D1.4.I"
           },
-             {
+          {
             "Id": "MOCD1.5.I",
-            "Name":"D1.5.I"
+            "Name": "D1.5.I"
           },
-             {
+          {
             "Id": "MOCD1.6.I",
-            "Name":"D1.6.I"
+            "Name": "D1.6.I"
           },
-           {
+          {
             "Id": "MOCD1.7.I",
-            "Name":"D1.7.I"
-          } 
+            "Name": "D1.7.I"
+          }
         ]
       },
       {
@@ -421,15 +425,15 @@
             "Id": "MOCD2.1.O",
             "Name": "D2.1.O"
           },
-           {
+          {
             "Id": "MOCD2.2.O",
             "Name": "D2.2.O"
           },
-           {
+          {
             "Id": "MOCD2.3.O",
             "Name": "D2.3.O"
           },
-           {
+          {
             "Id": "MOCD2.4.I",
             "Name": "D2.4.I"
           },
@@ -439,7 +443,7 @@
           }
         ]
       },
-       {
+      {
         "Id": "R3",
         "Name": "Rack_3",
         "List_Module_General_Non_Rack_Model": [
@@ -451,11 +455,11 @@
             "Id": "MOCD3.1.I",
             "Name": "D3.1.I"
           },
-           {
+          {
             "Id": "MOCD3.2.O",
             "Name": "D3.2.O"
           },
-           {
+          {
             "Id": "MOCD3.3.O",
             "Name": "D3.3.O"
           }
@@ -489,16 +493,17 @@
             "Id": "MOCA4.5.I",
             "Name": "A4.5.I"
           },
-           {
+          {
             "Id": "MOCA4.6.I",
             "Name": "A4.6.I"
-          }, {
+          },
+          {
             "Id": "MOCA4.7.I",
             "Name": "A4.7.I"
           }
         ]
       },
-       {
+      {
         "Id": "R5",
         "Name": "Rack_5",
         "List_Module_General_Non_Rack_Model": [
@@ -526,16 +531,17 @@
             "Id": "MOCA5.5.O",
             "Name": "A5.5.O"
           },
-           {
+          {
             "Id": "MOCA5.6.I",
             "Name": "A5.6.I"
-          }, {
+          },
+          {
             "Id": "MOCA5.7.I",
             "Name": "A5.7.I"
           }
         ]
       },
-        {
+      {
         "Id": "R6",
         "Name": "Rack_6",
         "List_Module_General_Non_Rack_Model": [
@@ -551,7 +557,7 @@
       }
     ]
   },
-   {
+  {
     "Id": "GPLH",
     "Name": "Lò Hơi",
     "List_Rack_General_Model": [
@@ -561,36 +567,36 @@
         "List_Module_General_Non_Rack_Model": [
           {
             "Id": "MOLHD1.0.I",
-            "Name":"D1.0.I"
+            "Name": "D1.0.I"
           },
-             {
+          {
             "Id": "MOLHD1.1.I",
-            "Name":"D1.1.I"
+            "Name": "D1.1.I"
           },
-             {
+          {
             "Id": "MOLHD1.2.I",
-            "Name":"D1.2.I"
+            "Name": "D1.2.I"
           },
-             {
+          {
             "Id": "MOLHD1.3.I",
-            "Name":"D1.3.I"
+            "Name": "D1.3.I"
           },
-             {
+          {
             "Id": "MOLHD1.4.I",
-            "Name":"D1.4.I"
+            "Name": "D1.4.I"
           },
-             {
+          {
             "Id": "MOLHD1.5.I",
-            "Name":"D1.5.I"
+            "Name": "D1.5.I"
           },
-             {
+          {
             "Id": "MOLHD1.6.I",
-            "Name":"D1.6.I"
+            "Name": "D1.6.I"
           },
-           {
+          {
             "Id": "MOLHD1.7.I",
-            "Name":"D1.7.I"
-          } 
+            "Name": "D1.7.I"
+          }
         ]
       },
       {
@@ -605,15 +611,15 @@
             "Id": "MOLHD2.1.O",
             "Name": "D2.1.O"
           },
-           {
+          {
             "Id": "MOLHD2.2.O",
             "Name": "D2.2.O"
           },
-           {
+          {
             "Id": "MOLHD2.3.O",
             "Name": "D2.3.O"
           },
-           {
+          {
             "Id": "MOLHD2.4.I",
             "Name": "D2.4.I"
           },
@@ -623,7 +629,7 @@
           }
         ]
       },
-       {
+      {
         "Id": "R3",
         "Name": "Rack_3",
         "List_Module_General_Non_Rack_Model": [
@@ -635,11 +641,11 @@
             "Id": "MOLHD3.1.I",
             "Name": "D3.1.I"
           },
-           {
+          {
             "Id": "MOLHD3.2.O",
             "Name": "D3.2.O"
           },
-           {
+          {
             "Id": "MOLHD3.3.O",
             "Name": "D3.3.O"
           }
@@ -673,16 +679,17 @@
             "Id": "MOLHA4.5.I",
             "Name": "A4.5.I"
           },
-           {
+          {
             "Id": "MOLHA4.6.I",
             "Name": "A4.6.I"
-          }, {
+          },
+          {
             "Id": "MOLHA4.7.I",
             "Name": "A4.7.I"
           }
         ]
       },
-       {
+      {
         "Id": "R5",
         "Name": "Rack_5",
         "List_Module_General_Non_Rack_Model": [
@@ -710,16 +717,17 @@
             "Id": "MOLHA5.5.O",
             "Name": "A5.5.O"
           },
-           {
+          {
             "Id": "MOLHA5.6.I",
             "Name": "A5.6.I"
-          }, {
+          },
+          {
             "Id": "MOLHA5.7.I",
             "Name": "A5.7.I"
           }
         ]
       },
-        {
+      {
         "Id": "R6",
         "Name": "Rack_6",
         "List_Module_General_Non_Rack_Model": [
@@ -735,7 +743,4 @@
       }
     ]
   }
-  
 ]
-
-
