@@ -28,24 +28,25 @@ public class NavScene : MonoBehaviour
     }
 
     private IEnumerator NavigateNewScene(int buttonIndex)
-    {
-        // Vô hiệu hóa tất cả button
-        foreach (var button in listButton)
-        {
-            button.interactable = false;
-        }
-
-        // Đợi trước khi thực hiện các thao tác tiếp theo
+    { // Đợi trước khi thực hiện các thao tác tiếp theo
         int index = buttonIndex;
 
         Debug.Log($"Navigate to {recentSceneName[index]}");
         Debug.Log($"Previous scene: {previousSceneName}");
         Debug.Log(GlobalVariable.ready_To_Nav_New_Scene);
-        if (index > 3)
+        if (recentSceneName[index] != previousSceneName)
         {
-            GlobalVariable.ready_To_Nav_New_Scene = true;
-        }
-        // Gọi coroutine WaitAndNavigate để di chuyển đến cảnh mới
-        yield return Scene_Manager.Instance.WaitAndNavigate(recentSceneName[index], previousSceneName);
+            foreach (var button in listButton)
+            {
+                button.interactable = false;
+            }
+            if (index > 3)
+            {
+                GlobalVariable.ready_To_Nav_New_Scene = true;
+            }
+            // Gọi coroutine WaitAndNavigate để di chuyển đến cảnh mới
+            yield return Scene_Manager.Instance.WaitAndNavigate(recentSceneName[index], previousSceneName);
+        }  // Vô hiệu hóa tất cả button
+       ;
     }
 }
