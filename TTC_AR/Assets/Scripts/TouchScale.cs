@@ -52,6 +52,7 @@ public class TouchScale : MonoBehaviour
         EnableObjectScrollRect();  // Cho phép scroll
     }
 
+#if ENABLE_LEGACY_INPUT_MANAGER
     private void HandleTouchScaling()
     {
         if (Input.touchCount == 2)
@@ -83,6 +84,53 @@ public class TouchScale : MonoBehaviour
             ApplyScaling(currentTouchDistance);
         }
     }
+#elif ENABLE_INPUT_SYSTEM
+        private void HandleTouchScaling()
+        {
+            if (UnityEngine.InputSystem.EnhancedTouch.Touch.activeTouches.Count == 2)
+            {
+                var touch0 = UnityEngine.InputSystem.EnhancedTouch.Touch.activeTouches[0];
+                var touch1 = UnityEngine.InputSystem.EnhancedTouch.Touch.activeTouches[1];
+
+                if (BothTouchesOverGameObject(touch0, touch1))
+                {
+                    ProcessScaling(touch0, touch1);
+                }
+            }
+            else
+            {
+                ResetScalingState();
+            }
+        }
+
+        private void ProcessScaling(UnityEngine.InputSystem.EnhancedTouch.Touch touch0, UnityEngine.InputSystem.EnhancedTouch.Touch touch1)
+        {
+            float currentTouchDistance = Vector2.Distance(touch0.screenPosition, touch1.screenPosition);
+
+            if (!isScaling)
+            {
+                BeginScaling(currentTouchDistance);
+            }
+            else
+            {
+                ApplyScaling(currentTouchDistance);
+            }
+        }
+
+        private bool BothTouchesOverGameObject(UnityEngine.InputSystem.EnhancedTouch.Touch touch0, UnityEngine.InputSystem.EnhancedTouch.Touch touch1)
+        {
+            return IsTouchOverGameObject(touch0) && IsTouchOverGameObject(touch1);
+        }
+
+        private bool IsTouchOverGameObject(UnityEngine.InputSystem.EnhancedTouch.Touch touch)
+        {
+            pointerEventData = new PointerEventData(eventSystem) { position = touch.screenPosition };
+            var results = new System.Collections.Generic.List<RaycastResult>();
+            raycaster.Raycast(pointerEventData, results);
+
+            return results.Exists(result => result.gameObject == gameObject);
+        }
+#endif
 
     private void BeginScaling(float currentTouchDistance)
     {

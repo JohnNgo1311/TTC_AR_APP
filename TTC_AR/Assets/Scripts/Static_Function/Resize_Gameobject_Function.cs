@@ -5,6 +5,8 @@ using UnityEngine.UI;
 [System.Serializable]
 public class Resize_Gameobject_Function : MonoBehaviour
 {
+
+  //public static bool isResize = false;
   void Start()
   {
   }
@@ -37,13 +39,13 @@ public class Resize_Gameobject_Function : MonoBehaviour
     // imageComponent.gameObject.SetActive(false);
     yield return new WaitForSeconds(0.3f);
 
-    Rect spriteRect = imageComponent.sprite.rect; //Lấy kích thước của sprite 
+    yield return new WaitForSeconds(0.3f);
+    // Lấy kích thước gốc của hình ảnh
+    float originalWidth = imageComponent.sprite.rect.width;
+    float originalHeight = imageComponent.sprite.rect.height;
+
     RectTransform rectTransform = imageComponent.rectTransform;
-    float scaleWidth = rectTransform.sizeDelta.x / spriteRect.width;
-
-    rectTransform.sizeDelta = new Vector2(rectTransform.sizeDelta.x, spriteRect.height * scaleWidth);
-    //imageComponent.gameObject.SetActive(true);
-
-    yield return null;
+    float aspectRatio = originalWidth / originalHeight;
+    rectTransform.sizeDelta = new Vector2(rectTransform.sizeDelta.x, rectTransform.sizeDelta.x / aspectRatio);
   }
 }

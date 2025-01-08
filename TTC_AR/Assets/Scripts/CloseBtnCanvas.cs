@@ -9,8 +9,7 @@ public class CloseBtnCanvas : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (UnityEngine.Rendering.DebugManager.instance.enableRuntimeUI)
-            UnityEngine.Rendering.DebugManager.instance.enableRuntimeUI = false;
+        
     }
     void OnEnable()
     {

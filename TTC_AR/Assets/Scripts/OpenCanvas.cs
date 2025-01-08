@@ -28,44 +28,73 @@ public class OpenCanvas : MonoBehaviour
 
     private List<GameObject> activated_imageTargets = new List<GameObject>();
     private List<ObserverBehaviour> observerBehaviours = new List<ObserverBehaviour>();
+    [SerializeField] Load_General_Data_From_Rack load_General_Data_From_Rack;
+
 
     void Awake()
     {
-
-        // Tối ưu hóa kiểm tra danh sách
-        foreach (var canvas in targetCanvas)
+        StartCoroutine(Initialize());
+    }
+    private IEnumerator Initialize()
+    {
+        yield return null;
+        if (SceneManager.GetActiveScene().name != "FieldDevicesScene")
         {
-            if (canvas != null)
+            if (load_General_Data_From_Rack != null)
             {
-                var generalPanelObj = canvas.transform.Find("General_Panel")?.gameObject;
-                if (generalPanelObj != null)
-                {
-                    generalPanel.Add(generalPanelObj);
-                    btnClose.Add(generalPanelObj.transform.Find("Close_Canvas_Btn")?.gameObject);
-                }
+                yield return new WaitUntil(() => load_General_Data_From_Rack.isInstantiating == false);
+                // Tối ưu hóa kiểm tra danh sách
+                targetCanvas = load_General_Data_From_Rack.targetCanvas;
+                Destroy(load_General_Data_From_Rack.module_Canvas_Prefab.gameObject);
             }
-        }
-        foreach (var target in imageTargets)
-        {
-            if (target != null)
-            {
-                var btnOpenObj = target.transform.GetChild(0)?.gameObject;
-                if (btnOpenObj != null)
-                {
-                    btnOpen.Add(btnOpenObj);
-                    tagName.Add(btnOpenObj.tag);
-                    list_Title.Add(target.transform.Find("imageTarget_Title")?.GetComponent<TMP_Text>());
-                    observerBehaviours.Add(target.GetComponent<ObserverBehaviour>());
 
-                    if (target.activeSelf)
+        }
+        if (targetCanvas.Count > 0 && imageTargets.Count > 0)
+        {
+            foreach (var canvas in targetCanvas)
+            {
+                if (canvas != null)
+                {
+                    var generalPanelObj = canvas.transform.Find("General_Panel")?.gameObject;
+                    if (generalPanelObj != null)
                     {
-                        activated_imageTargets.Add(target);
+                        generalPanel.Add(generalPanelObj);
+                        btnClose.Add(generalPanelObj.transform.Find("Close_Canvas_Btn")?.gameObject);
                     }
                 }
             }
-        }
-    }
+            foreach (var target in imageTargets)
+            {
+                if (target != null)
+                {
+                    var btnOpenObj = target.transform.GetChild(0)?.gameObject;
+                    if (btnOpenObj != null)
+                    {
+                        btnOpen.Add(btnOpenObj);
+                        tagName.Add(btnOpenObj.tag);
+                        list_Title.Add(target.transform.Find("imageTarget_Title")?.GetComponent<TMP_Text>());
+                        observerBehaviours.Add(target.GetComponent<ObserverBehaviour>());
 
+                        if (target.activeSelf)
+                        {
+                            activated_imageTargets.Add(target);
+                        }
+                    }
+                }
+            }
+            for (int i = 0; i < observerBehaviours.Count; i++)
+            {
+                int index = i; // Cần dùng biến tạm để tránh lỗi closure trong lambda
+                observerBehaviours[index].OnTargetStatusChanged += (behaviour, status) => OnStatusChanged(behaviour, status, list_Title[index], btnOpen[index].name);
+            }
+
+            SetActiveForList(targetCanvas, false);
+            SetActiveForList(generalPanel, true);
+            // SetActiveForList(btnClose, true);
+            SetActiveForList(btnOpen, true);
+        }
+
+    }
     private void OnStatusChanged(ObserverBehaviour behaviour, TargetStatus status, TMP_Text title, string name)
     {
         if (SceneManager.GetActiveScene().name == "GrapperAScanScene")
@@ -96,7 +125,14 @@ public class OpenCanvas : MonoBehaviour
 
     public static string ConvertString(string input)
     {
-        return input.Insert(2, ".").Insert(4, "."); // Chèn dấu chấm vào vị trí 2 và 4
+        if (SceneManager.GetActiveScene().name == "GrapperAScanScene")
+        {
+            return input.Insert(2, ".").Insert(4, "."); // Chèn dấu chấm vào vị trí 2 và 4
+        }
+        else
+        {
+            return input;
+        }
     }
 
     private void OnDestroy()
@@ -111,22 +147,6 @@ public class OpenCanvas : MonoBehaviour
     void Start()
     {
 
-        // Tắt runtime UI nếu đang bật
-        if (UnityEngine.Rendering.DebugManager.instance.enableRuntimeUI)
-        {
-            UnityEngine.Rendering.DebugManager.instance.enableRuntimeUI = false;
-        }
-
-        for (int i = 0; i < observerBehaviours.Count; i++)
-        {
-            int index = i; // Cần dùng biến tạm để tránh lỗi closure trong lambda
-            observerBehaviours[index].OnTargetStatusChanged += (behaviour, status) => OnStatusChanged(behaviour, status, list_Title[index], btnOpen[index].name);
-        }
-
-        SetActiveForList(targetCanvas, false);
-        SetActiveForList(generalPanel, true);
-        SetActiveForList(btnClose, true);
-        SetActiveForList(btnOpen, true);
     }
 
     void Update()
@@ -136,7 +156,18 @@ public class OpenCanvas : MonoBehaviour
             activated_imageTargets = GlobalVariable.activated_iamgeTargets;
         }
 
-        if (Input.GetMouseButtonDown(0) || (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began))
+#if ENABLE_INPUT_SYSTEM && !ENABLE_LEGACY_INPUT_MANAGER
+        if (UnityEngine.InputSystem.Mouse.current.leftButton.wasPressedThisFrame ||
+            (UnityEngine.InputSystem.Touchscreen.current != null && UnityEngine.InputSystem.Touchscreen.current.primaryTouch.press.wasPressedThisFrame))
+        {
+            Vector3 inputPosition = UnityEngine.InputSystem.Mouse.current.position.ReadValue();
+#if !UNITY_EDITOR
+            inputPosition = UnityEngine.InputSystem.Touchscreen.current.primaryTouch.position.ReadValue();
+#endif
+            HandleInput(inputPosition);
+        }
+#else
+        if (Input.GetMouseButtonDown(0) || Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
         {
             Vector3 inputPosition = Input.mousePosition;
 #if !UNITY_EDITOR
@@ -144,6 +175,7 @@ public class OpenCanvas : MonoBehaviour
 #endif
             HandleInput(inputPosition);
         }
+#endif
     }
 
     private RaycastHit[] hits = new RaycastHit[10];
@@ -176,33 +208,50 @@ public class OpenCanvas : MonoBehaviour
     private IEnumerator OnOpenCanvas(int index)
     {
         if (IsValidIndex(index, targetCanvas))
-            targetCanvas[index].SetActive(true);
+            targetCanvas[index].gameObject.SetActive(true);
         yield return null;  // Đảm bảo coroutine hoàn tất trong frame tiếp theo
 
         SetActiveForList(activated_imageTargets, false);
         yield return null;  // Đảm bảo coroutine hoàn tất trong frame tiếp theo
 
         if (IsValidIndex(index, btnOpen))
-            btnOpen[index]?.SetActive(false);
-        yield return null;  // Đảm bảo coroutine hoàn tất trong frame tiếp theo
+            btnOpen[index]?.gameObject.SetActive(false);
 
+        if (SceneManager.GetActiveScene().name == "GrapperAScanScene")
+        {
+            yield return new WaitUntil(() =>
+            GlobalVariable.temp_list_JB_Connection_Image_From_Module != null
+            && GlobalVariable.temp_list_JB_Location_Image_From_Module != null
+            && GlobalVariable.temp_list_JB_Connection_Image_From_Module.Count > 0
+            && GlobalVariable.temp_list_JB_Location_Image_From_Module.Count > 0);
+            Debug.Log("OnOpenCanvas 1");
+
+        }
+        else
+        {
+            yield return new WaitUntil(() =>
+            GlobalVariable.temp_List_Field_Device_Connection_Images != null
+            && GlobalVariable.temp_List_Field_Device_Connection_Images.Count > 0);
+            Debug.Log("OnOpenCanvas 2");
+
+        }
         if (IsValidIndex(index, btnClose))
-            btnClose[index]?.SetActive(true);
+            btnClose[index]?.gameObject.SetActive(true);
     }
 
     private IEnumerator OnCloseCanvas(int index)
     {
         if (IsValidIndex(index, targetCanvas))
-            targetCanvas[index]?.SetActive(false);
+            targetCanvas[index]?.gameObject.SetActive(false);
         yield return null;  // Đảm bảo coroutine hoàn tất trong frame tiếp theo
 
         SetActiveForList(activated_imageTargets, true);
 
-        if (IsValidIndex(index, btnClose) && btnClose[index]?.activeSelf == true)
+        if (IsValidIndex(index, btnClose) && btnClose[index]?.gameObject.activeSelf == true)
             btnClose[index]?.SetActive(false);
         yield return null;  // Đảm bảo coroutine hoàn tất trong frame tiếp theo
 
-        if (IsValidIndex(index, btnOpen) && btnOpen[index]?.activeSelf == false)
+        if (IsValidIndex(index, btnOpen) && btnOpen[index]?.gameObject.activeSelf == false)
             btnOpen[index]?.SetActive(true);
 
     }

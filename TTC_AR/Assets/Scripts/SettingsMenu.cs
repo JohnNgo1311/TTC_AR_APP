@@ -9,21 +9,19 @@ public class SettingsMenu : MonoBehaviour
     public string grapper;
     public List<GameObject> imageTargets;
     public GameObject content;
+    [SerializeField]
     private GameObject scroll_Area;
     [Header("space between menu items")]
     //  [SerializeField] private Vector2 spacing;
-
     [Header("Main button rotation")]
     public Button mainButton;
     private List<SettingsMenuItem> menuItems;
-
     private bool isExpanded = true;
     // private Vector2 mainButtonPosition;
 
     void Start()
     {
-        if (UnityEngine.Rendering.DebugManager.instance.enableRuntimeUI)
-            UnityEngine.Rendering.DebugManager.instance.enableRuntimeUI = false;
+
         InitializeMenuItems();
         SetupMainButton();
         // mainButtonPosition = mainButton.GetComponent<RectTransform>().anchoredPosition;
@@ -31,21 +29,18 @@ public class SettingsMenu : MonoBehaviour
 
     private void InitializeMenuItems()
     {
-        scroll_Area = gameObject.transform.Find("Scroll_Area").gameObject;
+        scroll_Area = scroll_Area ?? gameObject.transform.Find("Scroll_Area").gameObject;
         // scrollRect = gameObject.GetComponent<ScrollRect>();
-        if (grapper == "A" && GlobalVariable.rackData_GrapperA != null)
-        {
-            for (int i = 1; i < 6; i++)
-            {
-                var newObject = Instantiate(content.transform.GetChild(0), content.transform);
-                newObject.name = $"Rack_{i + 1}";
-                newObject.GetComponentInChildren<TMP_Text>().text = $"Rack {i + 1}";
-                newObject.gameObject.SetActive(false);
-            }
-            content.gameObject.SetActive(false);
-            scroll_Area.SetActive(false);
 
+        for (int i = 1; i < GlobalVariable.temp_List_Rack_General_Models.Count; i++)
+        {
+            var newObject = Instantiate(content.transform.GetChild(0), content.transform);
+            newObject.name = $"Rack_{i + 1}";
+            newObject.GetComponentInChildren<TMP_Text>().text = $"Rack {i + 1}";
+            newObject.gameObject.SetActive(false);
         }
+        content.SetActive(false);
+        scroll_Area.SetActive(false);
 
         int itemsCount = content.transform.childCount;
         menuItems = new List<SettingsMenuItem>(itemsCount);
@@ -78,7 +73,7 @@ public class SettingsMenu : MonoBehaviour
     public void OnItemClick(string itemName)
     {
         string[] splitString = itemName.Split("_");
-        char rackIdentifier = splitString[1][0];
+        var rackIdentifier = splitString[1][0];
         GlobalVariable.activated_iamgeTargets.Clear();
         foreach (var imageTarget in imageTargets)
         {

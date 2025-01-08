@@ -16,7 +16,7 @@ public class SearchableDropDown : MonoBehaviour
     public ScrollRect scrollRect;
     public GameObject content;
     private RectTransform contentRect;
-    private List<string> availableOptions = new List<string>();
+    private List<string> available_Options_For_Dropdown = new List<string>();
     private List<GameObject> itemGameObjects = new List<GameObject>();
     private bool contentActive = false;
     private Vector2 scrollRectInitialSize;
@@ -24,29 +24,26 @@ public class SearchableDropDown : MonoBehaviour
 
     public event Action<string> OnValueChangedEvt;
 
-    //! Script này sử dụng cho trang search nhanh 
     private void Awake()
     {
-        Debug.Log("SearchableDropDown awake");
-        if (GlobalVariable_Search_Devices.devices_Model_For_FilterA != null) availableOptions = GlobalVariable_Search_Devices.devices_Model_For_FilterA;
-        // //DebugavailableOptions[5].ToString());
         contentRect = content.GetComponent<RectTransform>();
         scrollRectInitialSize = scrollRect.gameObject.GetComponent<RectTransform>().sizeDelta;
-        // Initialize();
+        Debug.Log("SearchableDropDown awake");
     }
 
     private void Start()
     {
-
         //Invoke(nameof(Set_Initial_Text_Field_Value), 2f);
     }
     public void Set_Initial_Text_Field_Value()
     {
-        if (!string.IsNullOrEmpty(GlobalVariable_Search_Devices.devices_Model_By_Grapper[0].code))
-        { inputField.text = GlobalVariable_Search_Devices.devices_Model_By_Grapper[0].code; };
+        if (!string.IsNullOrEmpty(GlobalVariable_Search_Devices.temp_List_Device_Information_Model[0].Code))
+        { inputField.text = GlobalVariable_Search_Devices.temp_List_Device_Information_Model[0].Code; };
     }
     public void Initialize()
     {
+        available_Options_For_Dropdown = GlobalVariable_Search_Devices.temp_List_Device_For_Fitler;
+
         if (scrollRect == null || inputField == null || content == null || itemPrefab == null)
         {
             Debug.LogError("Không thể tìm thấy các thành phần cần thiết cho SearchableDropDown");
@@ -54,11 +51,9 @@ public class SearchableDropDown : MonoBehaviour
         }
         else
         {
-            if (UnityEngine.Rendering.DebugManager.instance.enableRuntimeUI)
-                UnityEngine.Rendering.DebugManager.instance.enableRuntimeUI = false;
-            PopulateDropdown(availableOptions);
+            Debug.Log(available_Options_For_Dropdown.Count);
+            PopulateDropdown(available_Options_For_Dropdown);
             UpdateUI();
-
             //Đếm số lượng sự kiện được gán cố định cho inputField
             int onValueChangedListenerCount = inputField.onValueChanged.GetPersistentEventCount();
             if (onValueChangedListenerCount > 0)
@@ -72,50 +67,45 @@ public class SearchableDropDown : MonoBehaviour
 
     private void PopulateDropdown(List<string> options)
     {
-
         foreach (var option in options)
         {
-
             var itemObject = Instantiate(itemPrefab, content.transform);
             itemObject.name = option;
             var textComponent = itemObject.GetComponentInChildren<TMP_Text>();
             textComponent.text = option;
-            itemGameObjects.Add(itemObject);
             itemObject.GetComponent<Button>().onClick.AddListener(() => OnItemSelected(option));
+            itemGameObjects.Add(itemObject);
         }
-        ResizeContent();
-        scrollRect.gameObject.SetActive(false);
+        Debug.Log(itemGameObjects.Count);
     }
 
     private void UpdateUI()
     {
-        if (availableOptions == null || availableOptions.Count == 0)
-        {
-            availableOptions = GlobalVariable_Search_Devices.devices_Model_For_FilterA;
-        }
+        int optionsCount = available_Options_For_Dropdown.Count;
         for (int i = 0; i < itemGameObjects.Count; i++)
         {
             var item = itemGameObjects[i];
-            if (i < availableOptions.Count)
+            if (i < optionsCount)
             {
-                var optionText = availableOptions[i];
+                var optionText = available_Options_For_Dropdown[i];
                 var textComponent = item.GetComponentInChildren<TMP_Text>();
                 textComponent.text = optionText;
                 item.name = optionText;
+                item.SetActive(true);
             }
             else
             {
                 item.SetActive(false);
             }
         }
-
-        ResizeContent();
     }
 
     private void ToggleDropdown()
     {
         contentActive = !contentActive;
-        SetContentActive(contentActive);
+        scrollRect.gameObject.SetActive(contentActive);
+        arrowButtonDown.SetActive(contentActive);
+        arrowButtonUp.SetActive(!contentActive);
     }
 
     private void SetContentActive(bool isActive)
@@ -133,7 +123,6 @@ public class SearchableDropDown : MonoBehaviour
 
     private void FilterDropdown(string input)
     {
-        bool hasActiveItems = false;
         //itemGameObjects chứa danh sách các item (là các GameObject) trong dropdown
         foreach (var item in itemGameObjects)
         {
@@ -141,10 +130,8 @@ public class SearchableDropDown : MonoBehaviour
             //StringComparison.OrdinalIgnoreCase: Là cách so sánh chuỗi không phân biệt chữ hoa chữ thường.
             //IndexOf: Trả về chỉ số của chuỗi con đầu tiên được tìm thấy trong chuỗi hiện tại. Nếu không tìm thấy, trả về -1, nếu có thì trả về 0
             item.SetActive(shouldActivate);
-            if (shouldActivate) hasActiveItems = true;
         }
-        SetContentActive(hasActiveItems);
-        ResizeContent();
+        SetContentActive(true);
     }
 
     private void ResizeContent()
@@ -153,15 +140,15 @@ public class SearchableDropDown : MonoBehaviour
         int activeItemCount = itemGameObjects.Count(item => item.activeSelf);
         if (activeItemCount > 0)
         {
-            RectTransform itemRect = itemGameObjects.First(item => item.activeSelf).GetComponent<RectTransform>();
+            Debug.Log("activeItemCount: " + activeItemCount);
+            RectTransform itemRect = itemGameObjects.FirstOrDefault(item => item.activeSelf).gameObject.GetComponent<RectTransform>();
             float newHeight = itemRect.sizeDelta.y * activeItemCount * 1.05f;
-
+            Debug.Log("newHeight: " + newHeight);
             contentRect.sizeDelta = new Vector2(contentRect.sizeDelta.x, newHeight);
-            scrollRect.gameObject.GetComponent<RectTransform>().sizeDelta = activeItemCount == 1
-                ? new Vector2(scrollRectInitialSize.x, newHeight * 1.05f)
-                : scrollRectInitialSize;
-            // //Debug$"newHeight: {newHeight}");
 
+            scrollRect.gameObject.GetComponent<RectTransform>().sizeDelta = (activeItemCount == 1)
+             ? new Vector2(scrollRectInitialSize.x, newHeight * 1.05f)
+                 : scrollRectInitialSize;
         }
         else
         {
@@ -178,7 +165,6 @@ public class SearchableDropDown : MonoBehaviour
         scrollRect.gameObject.SetActive(false);
         arrowButtonDown.SetActive(false);
         arrowButtonUp.SetActive(true);
-        ResizeContent();
         //ToggleDropdown();
     }
 

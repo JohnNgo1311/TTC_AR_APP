@@ -29,7 +29,6 @@ public class SettingsMenuItem : MonoBehaviour
     }
     void Start()
     {
-        if (UnityEngine.Rendering.DebugManager.instance.enableRuntimeUI)
-            UnityEngine.Rendering.DebugManager.instance.enableRuntimeUI = false;
+      
     }
 }

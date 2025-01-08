@@ -8,9 +8,7 @@ public class InitialSceneLoader : MonoBehaviour
 
     void Start()
     {
-        if (UnityEngine.Rendering.DebugManager.instance.enableRuntimeUI)
-            UnityEngine.Rendering.DebugManager.instance.enableRuntimeUI = false;
-
+      
         // Kiểm tra nếu có cảnh được lưu trữ từ lần chạy trước
         if (PlayerPrefs.HasKey(LastSceneKey))
         {

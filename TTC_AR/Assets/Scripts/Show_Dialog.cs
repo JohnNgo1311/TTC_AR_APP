@@ -1,7 +1,6 @@
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
-using Unity.VisualScripting;
 using System.Collections;
 
 public class Show_Dialog : MonoBehaviour
@@ -9,19 +8,27 @@ public class Show_Dialog : MonoBehaviour
     // Singleton Instance
     public static Show_Dialog Instance { get; set; }
 
-    [SerializeField] private GameObject toastPrefab;
-    [SerializeField] private Transform toastParent;
+    public Transform toastParent;
+    public GameObject toastPrefab;
+    public string toastStatus = "loading";
+    public Transform existingToast;
+    public Image toastBackground;
+    public TMP_Text toastText;
+    // Tìm tất cả các GameObject trong scene
+    public GameObject[] allObjects;
+    // Preload Sprites for better performance
     [SerializeField] private string toastMessageInitial = "";
     [SerializeField] private bool showToastInitial = false;
-    [SerializeField] private string toastStatus = "loading";
-
-    // Preload Sprites for better performance
     private Sprite loadingSprite;
     private Sprite successSprite;
     private Sprite failureSprite;
 
+
     private void Awake()
     {
+        allObjects = FindObjectsOfType<GameObject>();
+        toastParent ??= GetComponent<Canvas>().transform;
+        Debug.Log(toastParent.name);
         // Singleton setup
         if (Instance != null && Instance != this)
         {
@@ -30,8 +37,8 @@ public class Show_Dialog : MonoBehaviour
         }
         else
         {
-            //Debug"Show_Dialog");
             Instance = this;
+            Debug.Log("Show_Dialog");
             PreloadSprites();
         }
         if (showToastInitial)
@@ -51,10 +58,6 @@ public class Show_Dialog : MonoBehaviour
     }
     void Start()
     {
-        if (UnityEngine.Rendering.DebugManager.instance.enableRuntimeUI)
-            UnityEngine.Rendering.DebugManager.instance.enableRuntimeUI = false;
-        // Show initial toast if enabled
-
     }
 
     private void PreloadSprites()
@@ -66,42 +69,34 @@ public class Show_Dialog : MonoBehaviour
 
     public void ShowToast(string toastStatus, string message)
     {
-        Transform existingToast = toastParent.Find("Toast_Prefab_Group(Clone)/Background");
-        TMP_Text toastText;
-        Image toastBackground;
-
-        if (existingToast != null)
+        if (existingToast == null)
         {
-            existingToast.gameObject.transform.parent.gameObject.SetActive(true);
-            toastText = existingToast.GetComponentInChildren<TMP_Text>();
-            toastBackground = existingToast.GetComponentInChildren<Image>();
+            existingToast = Instantiate(toastPrefab, toastParent).transform;
+            var layoutToast = existingToast.transform.GetChild(0);
+            toastText = layoutToast.GetComponentInChildren<TMP_Text>();
+            toastBackground = layoutToast.GetComponentInChildren<Image>();
+            existingToast.gameObject.SetActive(true);
         }
         else
         {
-            GameObject toastInstance = Instantiate(toastPrefab, toastParent);
-            toastInstance.gameObject.SetActive(true);
-            toastInstance.transform.GetChild(0).gameObject.SetActive(true);
-            toastText = toastInstance.transform.GetChild(0).GetComponentInChildren<TMP_Text>();
-            toastBackground = toastInstance.transform.GetChild(0).GetComponentInChildren<Image>();
+            existingToast.gameObject.SetActive(true);
         }
 
         if (toastText != null && toastBackground != null)
         {
             toastText.text = message;
-
-            // Set color and sprite based on toast status
             switch (toastStatus.ToLower())
             {
                 case "loading":
-                    toastText.color = new Color32(0x00, 0x96, 0xFF, 0xFF); // Correct color code
+                    toastText.color = new Color32(0x00, 0x96, 0xFF, 0xFF);
                     toastBackground.sprite = loadingSprite;
                     break;
                 case "success":
-                    toastText.color = new Color32(0x27, 0xC8, 0x6F, 0xFF); // Correct color code
+                    toastText.color = new Color32(0x27, 0xC8, 0x6F, 0xFF);
                     toastBackground.sprite = successSprite;
                     break;
                 case "failure":
-                    toastText.color = new Color32(0xFF, 0x49, 0x39, 0xFF); // Correct color code
+                    toastText.color = new Color32(0xFF, 0x49, 0x39, 0xFF);
                     toastBackground.sprite = failureSprite;
                     break;
                 default:
@@ -109,28 +104,42 @@ public class Show_Dialog : MonoBehaviour
                     break;
             }
         }
-        // StartCoroutine(SetInstanceDisable(toastParent.Find("Toast_Prefab_Group(Clone)")));
+
     }
-    public void Set_Instance_Status_True()
+    private void SetInstanceStatus(bool status)
     {
-        // yield return new WaitForSeconds(0.5f);
-        if (toastParent.Find("Toast_Prefab_Group(Clone)") != null)
+
+        if (status == false)
         {
-            //Debug$"Set_Instance_Status: {status}");
+            if (existingToast == null)
+            {
+                Debug.LogError("existingToast is null. Make sure it is assigned properly.");
+                return;
+            }
 
-            toastParent.Find("Toast_Prefab_Group(Clone)").gameObject.SetActive(true);
+            existingToast.gameObject.SetActive(status);
+        }
 
+        foreach (GameObject obj in allObjects)
+        {
+            if (obj != null && obj.name == "LeanTouch")
+            {
+                obj.SetActive(!status);
+                Debug.Log($"{(status ? "Deactivated" : "Activated")}: {obj.name}");
+            }
         }
     }
+
+
+    public void Set_Instance_Status_True()
+    {
+        SetInstanceStatus(true);
+    }
+
     public IEnumerator Set_Instance_Status_False()
     {
         yield return new WaitForSeconds(1f);
-        if (toastParent.Find("Toast_Prefab_Group(Clone)") != null)
-        {
-            //Debug$"Set_Instance_Status: {status}");
-
-            toastParent.Find("Toast_Prefab_Group(Clone)").gameObject.SetActive(false);
-
-        }
+        SetInstanceStatus(false);
+        Debug.Log("Tắt Toast");
     }
 }

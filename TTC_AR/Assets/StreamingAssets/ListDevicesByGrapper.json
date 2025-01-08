@@ -1,0 +1,1046 @@
+[
+  {
+    "Id": "DV02LT002",
+    "Code": "02LT002",
+    "Function": "Đo mức bồn nước chè échaudage số 1",
+    "Range": "-50 to 150",
+    "Unit": "Celsius",
+    "IOAddress": "A4.0.I.01",
+    "Module": {
+      "Id": "MOAA4.0.I",
+      "Name": "A4.0.I",
+      "Rack_Non_List_Module_Model": {
+        "Id": "RKA4",
+        "Name": "Rack_4"
+      }
+    },
+    "JB": {
+      "Id": "AJB01",
+      "Name": "JB1",
+      "Location": "Cầu thang lên che ép",
+      "Outdoor_Image": "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_Outdoor_Location%2FJB2_Location.jpg?alt=media&token=9976f0f4-bb38-4541-a485-3aac90f12cb2",
+      "List_Connection_Images": [
+        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_1.png?alt=media&token=9c8905b4-f032-4977-b086-c72198c7ce20",
+        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_2.png?alt=media&token=26799a41-3914-4aab-8e8b-f616f4327bae"
+      ]
+    },
+    "Additional_Connection_Images": [
+      "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FNHIET%20DO%20MCC1.png?alt=media&token=dda0faaf-dbf2-4fcd-b45a-5d94d3445b9f"
+    ]
+  },
+  {
+    "Id": "DV02LT003",
+    "Code": "02LT003",
+    "Function": "Đo mức bồn nước chè échaudage số 2",
+    "Range": "-50 to 1850",
+    "Unit": "Cels8ius",
+    "IOAddress": "A4.0.I.02",
+    "Module": {
+      "Id": "MOAA4.0.I",
+      "Name": "A4.0.I",
+      "Rack_Non_List_Module_Model": {
+        "Id": "RKA4",
+        "Name": "Rack_4"
+      }
+    },
+    "JB": {
+      "Id": "AJB02",
+      "Name": "JB2",
+      "Location": "MCC",
+      "Outdoor_Image": "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_Outdoor_Location%2FJB2_Location.jpg?alt=media&token=9976f0f4-bb38-4541-a485-3aac90f12cb2",
+      "List_Connection_Images": [
+        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_1.png?alt=media&token=9c8905b4-f032-4977-b086-c72198c7ce20",
+        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_2.png?alt=media&token=26799a41-3914-4aab-8e8b-f616f4327bae"
+      ]
+    },
+    "Additional_Connection_Images": [
+      "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FNHIET%20DO%20MCC1.png?alt=media&token=dda0faaf-dbf2-4fcd-b45a-5d94d3445b9f"
+    ]
+  },
+  {
+    "Id": "DV02LT004",
+    "Code": "02LT004",
+    "Function": "Đo mức bồn nước chè échaudage số 02",
+    "Range": "-50 to 1850",
+    "Unit": "Cels8ius",
+    "IOAddress": "A4.0.I.03",
+    "Module": {
+      "Id": "MOAA4.0.I",
+      "Name": "A4.0.I",
+      "Rack_Non_List_Module_Model": {
+        "Id": "RKA4",
+        "Name": "Rack_4"
+      }
+    },
+    "JB": {
+      "Id": "AJB02",
+      "Name": "JB2",
+      "Location": "MCC",
+      "Outdoor_Image": "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_Outdoor_Location%2FJB2_Location.jpg?alt=media&token=9976f0f4-bb38-4541-a485-3aac90f12cb2",
+      "List_Connection_Images": [
+        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_1.png?alt=media&token=9c8905b4-f032-4977-b086-c72198c7ce20",
+        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_2.png?alt=media&token=26799a41-3914-4aab-8e8b-f616f4327bae"
+      ]
+    },
+    "Additional_Connection_Images": [
+      "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FNHIET%20DO%20MCC1.png?alt=media&token=dda0faaf-dbf2-4fcd-b45a-5d94d3445b9f"
+    ]
+  },
+  {
+    "Id": "DV02LT005",
+    "Code": "02LT005",
+    "Function": "Đo mức bồn nước chè échaudage số 3",
+    "Range": "-50 to 200",
+    "Unit": "Celsius",
+    "IOAddress": "A4.0.I.04",
+    "Module": {
+      "Id": "MOAA4.0.I",
+      "Name": "A4.0.I",
+      "Rack_Non_List_Module_Model": {
+        "Id": "RKA4",
+        "Name": "Rack_4"
+      }
+    },
+    "JB": {
+      "Id": "AJB03",
+      "Name": "JB3",
+      "Location": "Cầu thang lên che ép",
+      "Outdoor_Image": "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_Outdoor_Location%2FJB2_Location.jpg?alt=media&token=9976f0f4-bb38-4541-a485-3aac90f12cb2",
+      "List_Connection_Images": [
+        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_1.png?alt=media&token=9c8905b4-f032-4977-b086-c72198c7ce20",
+        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_2.png?alt=media&token=26799a41-3914-4aab-8e8b-f616f4327bae"
+      ]
+    },
+    "Additional_Connection_Images": [
+      "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FNHIET%20DO%20MCC1.png?alt=media&token=dda0faaf-dbf2-4fcd-b45a-5d94d3445b9f"
+    ]
+  },
+  {
+    "Id": "DV02LT006",
+    "Code": "02LT006",
+    "Function": "Đo mức bồn nước chè échaudage số 4",
+    "Range": "-50 to 250",
+    "Unit": "Celsius",
+    "IOAddress": "A4.0.I.05",
+    "Module": {
+      "Id": "MOAA4.0.I",
+      "Name": "A4.0.I",
+      "Rack_Non_List_Module_Model": {
+        "Id": "RKA4",
+        "Name": "Rack_4"
+      }
+    },
+    "JB": {
+      "Id": "AJB04",
+      "Name": "JB4",
+      "Location": "Cầu thang lên che ép",
+      "Outdoor_Image": "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_Outdoor_Location%2FJB2_Location.jpg?alt=media&token=9976f0f4-bb38-4541-a485-3aac90f12cb2",
+      "List_Connection_Images": [
+        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_1.png?alt=media&token=9c8905b4-f032-4977-b086-c72198c7ce20",
+        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_2.png?alt=media&token=26799a41-3914-4aab-8e8b-f616f4327bae"
+      ]
+    },
+    "Additional_Connection_Images": [
+      "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FNHIET%20DO%20MCC1.png?alt=media&token=dda0faaf-dbf2-4fcd-b45a-5d94d3445b9f"
+    ]
+  },
+  {
+    "Id": "DV02LT007",
+    "Code": "02LT007",
+    "Function": "Đo mức bồn nước chè échaudage số 5",
+    "Range": "-50 to 300",
+    "Unit": "Celsius",
+    "IOAddress": "A4.0.I.06",
+    "Module": {
+      "Id": "MOAA4.0.I",
+      "Name": "A4.0.I",
+      "Rack_Non_List_Module_Model": {
+        "Id": "RKA4",
+        "Name": "Rack_4"
+      }
+    },
+    "JB": {
+      "Id": "AJB05",
+      "Name": "JB5",
+      "Location": "Cầu thang lên che ép",
+      "Outdoor_Image": "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_Outdoor_Location%2FJB2_Location.jpg?alt=media&token=9976f0f4-bb38-4541-a485-3aac90f12cb2",
+      "List_Connection_Images": [
+        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_1.png?alt=media&token=9c8905b4-f032-4977-b086-c72198c7ce20",
+        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_2.png?alt=media&token=26799a41-3914-4aab-8e8b-f616f4327bae"
+      ]
+    },
+    "Additional_Connection_Images": [
+      "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FNHIET%20DO%20MCC1.png?alt=media&token=dda0faaf-dbf2-4fcd-b45a-5d94d3445b9f"
+    ]
+  },
+  {
+    "Id": "DV02LT008",
+    "Code": "02LT008",
+    "Function": "Đo mức bồn nước chè échaudage số 6",
+    "Range": "-50 to 350",
+    "Unit": "Celsius",
+    "IOAddress": "A4.0.I.07",
+    "Module": {
+      "Id": "MOAA4.0.I",
+      "Name": "A4.0.I",
+      "Rack_Non_List_Module_Model": {
+        "Id": "RKA4",
+        "Name": "Rack_4"
+      }
+    },
+    "JB": {
+      "Id": "AJB06",
+      "Name": "JB6",
+      "Location": "Cầu thang lên che ép",
+      "Outdoor_Image": "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_Outdoor_Location%2FJB2_Location.jpg?alt=media&token=9976f0f4-bb38-4541-a485-3aac90f12cb2",
+      "List_Connection_Images": [
+        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_1.png?alt=media&token=9c8905b4-f032-4977-b086-c72198c7ce20",
+        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_2.png?alt=media&token=26799a41-3914-4aab-8e8b-f616f4327bae"
+      ]
+    },
+    "Additional_Connection_Images": [
+      "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FNHIET%20DO%20MCC1.png?alt=media&token=dda0faaf-dbf2-4fcd-b45a-5d94d3445b9f"
+    ]
+  },
+  {
+    "Id": "DV02LT009",
+    "Code": "02LT009",
+    "Function": "Đo mức bồn nước chè échaudage số 7",
+    "Range": "-50 to 400",
+    "Unit": "Celsius",
+    "IOAddress": "A4.0.I.08",
+    "Module": {
+      "Id": "MOAA4.0.I",
+      "Name": "A4.0.I",
+      "Rack_Non_List_Module_Model": {
+        "Id": "RKA4",
+        "Name": "Rack_4"
+      }
+    },
+    "JB": {
+      "Id": "AJB07",
+      "Name": "JB7",
+      "Location": "Cầu thang lên che ép",
+      "Outdoor_Image": "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_Outdoor_Location%2FJB2_Location.jpg?alt=media&token=9976f0f4-bb38-4541-a485-3aac90f12cb2",
+      "List_Connection_Images": [
+        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_1.png?alt=media&token=9c8905b4-f032-4977-b086-c72198c7ce20",
+        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_2.png?alt=media&token=26799a41-3914-4aab-8e8b-f616f4327bae"
+      ]
+    },
+    "Additional_Connection_Images": [
+      "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FNHIET%20DO%20MCC1.png?alt=media&token=dda0faaf-dbf2-4fcd-b45a-5d94d3445b9f"
+    ]
+  },
+  {
+    "Id": "DV02LT010",
+    "Code": "02LT010",
+    "Function": "Đo mức bồn nước chè échaudage số 8",
+    "Range": "-50 to 450",
+    "Unit": "Celsius",
+    "IOAddress": "A4.0.I.09",
+    "Module": {
+      "Id": "MOAA4.0.I",
+      "Name": "A4.0.I",
+      "Rack_Non_List_Module_Model": {
+        "Id": "RKA4",
+        "Name": "Rack_4"
+      }
+    },
+    "JB": {
+      "Id": "AJB08",
+      "Name": "JB8",
+      "Location": "Cầu thang lên che ép",
+      "Outdoor_Image": "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_Outdoor_Location%2FJB2_Location.jpg?alt=media&token=9976f0f4-bb38-4541-a485-3aac90f12cb2",
+      "List_Connection_Images": [
+        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_1.png?alt=media&token=9c8905b4-f032-4977-b086-c72198c7ce20",
+        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_2.png?alt=media&token=26799a41-3914-4aab-8e8b-f616f4327bae"
+      ]
+    },
+    "Additional_Connection_Images": [
+      "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FNHIET%20DO%20MCC1.png?alt=media&token=dda0faaf-dbf2-4fcd-b45a-5d94d3445b9f"
+    ]
+  },
+  {
+    "Id": "DV02LT011",
+    "Code": "02LT011",
+    "Function": "Đo mức bồn nước chè échaudage số 9",
+    "Range": "-50 to 500",
+    "Unit": "Celsius",
+    "IOAddress": "A4.0.I.10",
+    "Module": {
+      "Id": "MOAA4.0.I",
+      "Name": "A4.0.I",
+      "Rack_Non_List_Module_Model": {
+        "Id": "RKA4",
+        "Name": "Rack_4"
+      }
+    },
+    "JB": {
+      "Id": "AJB09",
+      "Name": "JB9",
+      "Location": "Cầu thang lên che ép",
+      "Outdoor_Image": "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_Outdoor_Location%2FJB2_Location.jpg?alt=media&token=9976f0f4-bb38-4541-a485-3aac90f12cb2",
+      "List_Connection_Images": [
+        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_1.png?alt=media&token=9c8905b4-f032-4977-b086-c72198c7ce20",
+        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_2.png?alt=media&token=26799a41-3914-4aab-8e8b-f616f4327bae"
+      ]
+    },
+    "Additional_Connection_Images": [
+      "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FNHIET%20DO%20MCC1.png?alt=media&token=dda0faaf-dbf2-4fcd-b45a-5d94d3445b9f"
+    ]
+  },
+  {
+    "Id": "DV02LT012",
+    "Code": "02LT012",
+    "Function": "Đo mức bồn nước chè échaudage số 10",
+    "Range": "-50 to 550",
+    "Unit": "Celsius",
+    "IOAddress": "A4.0.I.11",
+    "Module": {
+      "Id": "MOAA4.0.I",
+      "Name": "A4.0.I",
+      "Rack_Non_List_Module_Model": {
+        "Id": "RKA4",
+        "Name": "Rack_4"
+      }
+    },
+    "JB": {
+      "Id": "AJB10",
+      "Name": "JB10",
+      "Location": "Cầu thang lên che ép",
+      "Outdoor_Image": "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_Outdoor_Location%2FJB2_Location.jpg?alt=media&token=9976f0f4-bb38-4541-a485-3aac90f12cb2",
+      "List_Connection_Images": [
+        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_1.png?alt=media&token=9c8905b4-f032-4977-b086-c72198c7ce20",
+        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_2.png?alt=media&token=26799a41-3914-4aab-8e8b-f616f4327bae"
+      ]
+    },
+    "Additional_Connection_Images": [
+      "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FNHIET%20DO%20MCC1.png?alt=media&token=dda0faaf-dbf2-4fcd-b45a-5d94d3445b9f"
+    ]
+  },
+  {
+    "Id": "DV02LT013",
+    "Code": "02LT013",
+    "Function": "Đo mức bồn nước chè échaudage số 11",
+    "Range": "-50 to 600",
+    "Unit": "Celsius",
+    "IOAddress": "A4.0.I.12",
+    "Module": {
+      "Id": "MOAA4.0.I",
+      "Name": "A4.0.I",
+      "Rack_Non_List_Module_Model": {
+        "Id": "RKA4",
+        "Name": "Rack_4"
+      }
+    },
+    "JB": {
+      "Id": "AJB11",
+      "Name": "JB11",
+      "Location": "Cầu thang lên che ép",
+      "Outdoor_Image": "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_Outdoor_Location%2FJB2_Location.jpg?alt=media&token=9976f0f4-bb38-4541-a485-3aac90f12cb2",
+      "List_Connection_Images": [
+        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_1.png?alt=media&token=9c8905b4-f032-4977-b086-c72198c7ce20",
+        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_2.png?alt=media&token=26799a41-3914-4aab-8e8b-f616f4327bae"
+      ]
+    },
+    "Additional_Connection_Images": [
+      "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FNHIET%20DO%20MCC1.png?alt=media&token=dda0faaf-dbf2-4fcd-b45a-5d94d3445b9f"
+    ]
+  },
+  {
+    "Id": "DV02LT014",
+    "Code": "02LT014",
+    "Function": "Đo mức bồn nước chè échaudage số 12",
+    "Range": "-50 to 650",
+    "Unit": "Celsius",
+    "IOAddress": "A4.0.I.13",
+    "Module": {
+      "Id": "MOAA4.0.I",
+      "Name": "A4.0.I",
+      "Rack_Non_List_Module_Model": {
+        "Id": "RKA4",
+        "Name": "Rack_4"
+      }
+    },
+    "JB": {
+      "Id": "AJB12",
+      "Name": "JB12",
+      "Location": "Cầu thang lên che ép",
+      "Outdoor_Image": "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_Outdoor_Location%2FJB2_Location.jpg?alt=media&token=9976f0f4-bb38-4541-a485-3aac90f12cb2",
+      "List_Connection_Images": [
+        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_1.png?alt=media&token=9c8905b4-f032-4977-b086-c72198c7ce20",
+        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_2.png?alt=media&token=26799a41-3914-4aab-8e8b-f616f4327bae"
+      ]
+    },
+    "Additional_Connection_Images": [
+      "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FNHIET%20DO%20MCC1.png?alt=media&token=dda0faaf-dbf2-4fcd-b45a-5d94d3445b9f"
+    ]
+  },
+  {
+    "Id": "DV02LT015",
+    "Code": "02LT015",
+    "Function": "Đo mức bồn nước chè échaudage số 13",
+    "Range": "-50 to 700",
+    "Unit": "Celsius",
+    "IOAddress": "A4.0.I.14",
+    "Module": {
+      "Id": "MOAA4.0.I",
+      "Name": "A4.0.I",
+      "Rack_Non_List_Module_Model": {
+        "Id": "RKA4",
+        "Name": "Rack_4"
+      }
+    },
+    "JB": {
+      "Id": "AJB13",
+      "Name": "JB13",
+      "Location": "Cầu thang lên che ép",
+      "Outdoor_Image": "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_Outdoor_Location%2FJB2_Location.jpg?alt=media&token=9976f0f4-bb38-4541-a485-3aac90f12cb2",
+      "List_Connection_Images": [
+        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_1.png?alt=media&token=9c8905b4-f032-4977-b086-c72198c7ce20",
+        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_2.png?alt=media&token=26799a41-3914-4aab-8e8b-f616f4327bae"
+      ]
+    },
+    "Additional_Connection_Images": [
+      "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FNHIET%20DO%20MCC1.png?alt=media&token=dda0faaf-dbf2-4fcd-b45a-5d94d3445b9f"
+    ]
+  },
+  {
+    "Id": "DV02LT016",
+    "Code": "02LT016",
+    "Function": "Đo mức bồn nước chè échaudage số 14",
+    "Range": "-50 to 750",
+    "Unit": "Celsius",
+    "IOAddress": "A4.0.I.15",
+    "Module": {
+      "Id": "MOAA4.0.I",
+      "Name": "A4.0.I",
+      "Rack_Non_List_Module_Model": {
+        "Id": "RKA4",
+        "Name": "Rack_4"
+      }
+    },
+    "JB": {
+      "Id": "AJB14",
+      "Name": "JB14",
+      "Location": "Cầu thang lên che ép",
+      "Outdoor_Image": "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_Outdoor_Location%2FJB2_Location.jpg?alt=media&token=9976f0f4-bb38-4541-a485-3aac90f12cb2",
+      "List_Connection_Images": [
+        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_1.png?alt=media&token=9c8905b4-f032-4977-b086-c72198c7ce20",
+        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_2.png?alt=media&token=26799a41-3914-4aab-8e8b-f616f4327bae"
+      ]
+    },
+    "Additional_Connection_Images": [
+      "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FNHIET%20DO%20MCC1.png?alt=media&token=dda0faaf-dbf2-4fcd-b45a-5d94d3445b9f"
+    ]
+  },
+  {
+    "Id": "DV02LT017",
+    "Code": "02LT017",
+    "Function": "Đo mức bồn nước chè échaudage số 15",
+    "Range": "-50 to 800",
+    "Unit": "Celsius",
+    "IOAddress": "A4.0.I.16",
+    "Module": {
+      "Id": "MOAA4.0.I",
+      "Name": "A4.0.I",
+      "Rack_Non_List_Module_Model": {
+        "Id": "RKA4",
+        "Name": "Rack_4"
+      }
+    },
+    "JB": {
+      "Id": "AJB15",
+      "Name": "JB15",
+      "Location": "Cầu thang lên che ép",
+      "Outdoor_Image": "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_Outdoor_Location%2FJB2_Location.jpg?alt=media&token=9976f0f4-bb38-4541-a485-3aac90f12cb2",
+      "List_Connection_Images": [
+        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_1.png?alt=media&token=9c8905b4-f032-4977-b086-c72198c7ce20",
+        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_2.png?alt=media&token=26799a41-3914-4aab-8e8b-f616f4327bae"
+      ]
+    },
+    "Additional_Connection_Images": [
+      "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FNHIET%20DO%20MCC1.png?alt=media&token=dda0faaf-dbf2-4fcd-b45a-5d94d3445b9f"
+    ]
+  },
+  {
+    "Id": "DV02LT018",
+    "Code": "02LT018",
+    "Function": "Đo mức bồn nước chè échaudage số 16",
+    "Range": "-50 to 850",
+    "Unit": "Celsius",
+    "IOAddress": "A4.0.I.17",
+    "Module": {
+      "Id": "MOAA4.0.I",
+      "Name": "A4.0.I",
+      "Rack_Non_List_Module_Model": {
+        "Id": "RKA4",
+        "Name": "Rack_4"
+      }
+    },
+    "JB": {
+      "Id": "AJB16",
+      "Name": "JB16",
+      "Location": "Cầu thang lên che ép",
+      "Outdoor_Image": "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_Outdoor_Location%2FJB2_Location.jpg?alt=media&token=9976f0f4-bb38-4541-a485-3aac90f12cb2",
+      "List_Connection_Images": [
+        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_1.png?alt=media&token=9c8905b4-f032-4977-b086-c72198c7ce20",
+        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_2.png?alt=media&token=26799a41-3914-4aab-8e8b-f616f4327bae"
+      ]
+    },
+    "Additional_Connection_Images": [
+      "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FNHIET%20DO%20MCC1.png?alt=media&token=dda0faaf-dbf2-4fcd-b45a-5d94d3445b9f"
+    ]
+  },
+  {
+    "Id": "DV02LT019",
+    "Code": "02LT019",
+    "Function": "Đo mức bồn nước chè échaudage số 17",
+    "Range": "-50 to 900",
+    "Unit": "Celsius",
+    "IOAddress": "A4.0.I.18",
+    "Module": {
+      "Id": "MOAA4.0.I",
+      "Name": "A4.0.I",
+      "Rack_Non_List_Module_Model": {
+        "Id": "RKA4",
+        "Name": "Rack_4"
+      }
+    },
+    "JB": {
+      "Id": "AJB17",
+      "Name": "JB17",
+      "Location": "Cầu thang lên che ép",
+      "Outdoor_Image": "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_Outdoor_Location%2FJB2_Location.jpg?alt=media&token=9976f0f4-bb38-4541-a485-3aac90f12cb2",
+      "List_Connection_Images": [
+        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_1.png?alt=media&token=9c8905b4-f032-4977-b086-c72198c7ce20",
+        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_2.png?alt=media&token=26799a41-3914-4aab-8e8b-f616f4327bae"
+      ]
+    },
+    "Additional_Connection_Images": [
+      "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FNHIET%20DO%20MCC1.png?alt=media&token=dda0faaf-dbf2-4fcd-b45a-5d94d3445b9f"
+    ]
+  },
+  {
+    "Id": "DV02LT020",
+    "Code": "02LT020",
+    "Function": "Đo mức bồn nước chè échaudage số 18",
+    "Range": "-50 to 950",
+    "Unit": "Celsius",
+    "IOAddress": "A4.0.I.19",
+    "Module": {
+      "Id": "MOAA4.0.I",
+      "Name": "A4.0.I",
+      "Rack_Non_List_Module_Model": {
+        "Id": "RKA4",
+        "Name": "Rack_4"
+      }
+    },
+    "JB": {
+      "Id": "AJB18",
+      "Name": "JB18",
+      "Location": "Cầu thang lên che ép",
+      "Outdoor_Image": "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_Outdoor_Location%2FJB2_Location.jpg?alt=media&token=9976f0f4-bb38-4541-a485-3aac90f12cb2",
+      "List_Connection_Images": [
+        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_1.png?alt=media&token=9c8905b4-f032-4977-b086-c72198c7ce20",
+        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_2.png?alt=media&token=26799a41-3914-4aab-8e8b-f616f4327bae"
+      ]
+    },
+    "Additional_Connection_Images": [
+      "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FNHIET%20DO%20MCC1.png?alt=media&token=dda0faaf-dbf2-4fcd-b45a-5d94d3445b9f"
+    ]
+  },
+  {
+    "Id": "DV02LT021",
+    "Code": "02LT021",
+    "Function": "Đo mức bồn nước chè échaudage số 19",
+    "Range": "-50 to 1000",
+    "Unit": "Celsius",
+    "IOAddress": "A4.0.I.20",
+    "Module": {
+      "Id": "MOAA4.0.I",
+      "Name": "A4.0.I",
+      "Rack_Non_List_Module_Model": {
+        "Id": "RKA4",
+        "Name": "Rack_4"
+      }
+    },
+    "JB": {
+      "Id": "AJB19",
+      "Name": "JB19",
+      "Location": "Cầu thang lên che ép",
+      "Outdoor_Image": "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_Outdoor_Location%2FJB2_Location.jpg?alt=media&token=9976f0f4-bb38-4541-a485-3aac90f12cb2",
+      "List_Connection_Images": [
+        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_1.png?alt=media&token=9c8905b4-f032-4977-b086-c72198c7ce20",
+        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_2.png?alt=media&token=26799a41-3914-4aab-8e8b-f616f4327bae"
+      ]
+    },
+    "Additional_Connection_Images": [
+      "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FNHIET%20DO%20MCC1.png?alt=media&token=dda0faaf-dbf2-4fcd-b45a-5d94d3445b9f"
+    ]
+  },
+  {
+    "Id": "DV02LT022",
+    "Code": "02LT022",
+    "Function": "Đo mức bồn nước chè échaudage số 20",
+    "Range": "-50 to 1050",
+    "Unit": "Celsius",
+    "IOAddress": "A4.0.I.21",
+    "Module": {
+      "Id": "MOAA4.0.I",
+      "Name": "A4.0.I",
+      "Rack_Non_List_Module_Model": {
+        "Id": "RKA4",
+        "Name": "Rack_4"
+      }
+    },
+    "JB": {
+      "Id": "AJB20",
+      "Name": "JB20",
+      "Location": "Cầu thang lên che ép",
+      "Outdoor_Image": "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_Outdoor_Location%2FJB2_Location.jpg?alt=media&token=9976f0f4-bb38-4541-a485-3aac90f12cb2",
+      "List_Connection_Images": [
+        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_1.png?alt=media&token=9c8905b4-f032-4977-b086-c72198c7ce20",
+        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_2.png?alt=media&token=26799a41-3914-4aab-8e8b-f616f4327bae"
+      ]
+    },
+    "Additional_Connection_Images": [
+      "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FNHIET%20DO%20MCC1.png?alt=media&token=dda0faaf-dbf2-4fcd-b45a-5d94d3445b9f"
+    ]
+  },
+  {
+    "Id": "DV02LT023",
+    "Code": "02LT023",
+    "Function": "Đo mức bồn nước chè échaudage số 21",
+    "Range": "-50 to 1100",
+    "Unit": "Celsius",
+    "IOAddress": "A4.0.I.22",
+    "Module": {
+      "Id": "MOAA4.0.I",
+      "Name": "A4.0.I",
+      "Rack_Non_List_Module_Model": {
+        "Id": "RKA4",
+        "Name": "Rack_4"
+      }
+    },
+    "JB": {
+      "Id": "AJB21",
+      "Name": "JB21",
+      "Location": "Cầu thang lên che ép",
+      "Outdoor_Image": "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_Outdoor_Location%2FJB2_Location.jpg?alt=media&token=9976f0f4-bb38-4541-a485-3aac90f12cb2",
+      "List_Connection_Images": [
+        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_1.png?alt=media&token=9c8905b4-f032-4977-b086-c72198c7ce20",
+        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_2.png?alt=media&token=26799a41-3914-4aab-8e8b-f616f4327bae"
+      ]
+    },
+    "Additional_Connection_Images": [
+      "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FNHIET%20DO%20MCC1.png?alt=media&token=dda0faaf-dbf2-4fcd-b45a-5d94d3445b9f"
+    ]
+  },
+  {
+    "Id": "DV02LT024",
+    "Code": "02LT024",
+    "Function": "Đo mức bồn nước chè échaudage số 22",
+    "Range": "-50 to 1150",
+    "Unit": "Celsius",
+    "IOAddress": "A4.0.I.23",
+    "Module": {
+      "Id": "MOAA4.0.I",
+      "Name": "A4.0.I",
+      "Rack_Non_List_Module_Model": {
+        "Id": "RKA4",
+        "Name": "Rack_4"
+      }
+    },
+    "JB": {
+      "Id": "AJB22",
+      "Name": "JB22",
+      "Location": "Cầu thang lên che ép",
+      "Outdoor_Image": "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_Outdoor_Location%2FJB2_Location.jpg?alt=media&token=9976f0f4-bb38-4541-a485-3aac90f12cb2",
+      "List_Connection_Images": [
+        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_1.png?alt=media&token=9c8905b4-f032-4977-b086-c72198c7ce20",
+        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_2.png?alt=media&token=26799a41-3914-4aab-8e8b-f616f4327bae"
+      ]
+    },
+    "Additional_Connection_Images": [
+      "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FNHIET%20DO%20MCC1.png?alt=media&token=dda0faaf-dbf2-4fcd-b45a-5d94d3445b9f"
+    ]
+  },
+  {
+    "Id": "DV02LT025",
+    "Code": "02LT025",
+    "Function": "Đo mức bồn nước chè échaudage số 23",
+    "Range": "-50 to 1200",
+    "Unit": "Celsius",
+    "IOAddress": "A4.0.I.24",
+    "Module": {
+      "Id": "MOAA4.0.I",
+      "Name": "A4.0.I",
+      "Rack_Non_List_Module_Model": {
+        "Id": "RKA4",
+        "Name": "Rack_4"
+      }
+    },
+    "JB": {
+      "Id": "AJB23",
+      "Name": "JB23",
+      "Location": "Cầu thang lên che ép",
+      "Outdoor_Image": "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_Outdoor_Location%2FJB2_Location.jpg?alt=media&token=9976f0f4-bb38-4541-a485-3aac90f12cb2",
+      "List_Connection_Images": [
+        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_1.png?alt=media&token=9c8905b4-f032-4977-b086-c72198c7ce20",
+        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_2.png?alt=media&token=26799a41-3914-4aab-8e8b-f616f4327bae"
+      ]
+    },
+    "Additional_Connection_Images": [
+      "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FNHIET%20DO%20MCC1.png?alt=media&token=dda0faaf-dbf2-4fcd-b45a-5d94d3445b9f"
+    ]
+  },
+  {
+    "Id": "DV02LT026",
+    "Code": "02LT026",
+    "Function": "Đo mức bồn nước chè échaudage số 24",
+    "Range": "-50 to 1250",
+    "Unit": "Celsius",
+    "IOAddress": "A4.0.I.25",
+    "Module": {
+      "Id": "MOAA4.0.I",
+      "Name": "A4.0.I",
+      "Rack_Non_List_Module_Model": {
+        "Id": "RKA4",
+        "Name": "Rack_4"
+      }
+    },
+    "JB": {
+      "Id": "AJB24",
+      "Name": "JB24",
+      "Location": "Cầu thang lên che ép",
+      "Outdoor_Image": "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_Outdoor_Location%2FJB2_Location.jpg?alt=media&token=9976f0f4-bb38-4541-a485-3aac90f12cb2",
+      "List_Connection_Images": [
+        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_1.png?alt=media&token=9c8905b4-f032-4977-b086-c72198c7ce20",
+        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_2.png?alt=media&token=26799a41-3914-4aab-8e8b-f616f4327bae"
+      ]
+    },
+    "Additional_Connection_Images": [
+      "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FNHIET%20DO%20MCC1.png?alt=media&token=dda0faaf-dbf2-4fcd-b45a-5d94d3445b9f"
+    ]
+  },
+  {
+    "Id": "DV02LT027",
+    "Code": "02LT027",
+    "Function": "Đo mức bồn nước chè échaudage số 25",
+    "Range": "-50 to 1300",
+    "Unit": "Celsius",
+    "IOAddress": "A4.0.I.26",
+    "Module": {
+      "Id": "MOAA4.0.I",
+      "Name": "A4.0.I",
+      "Rack_Non_List_Module_Model": {
+        "Id": "RKA4",
+        "Name": "Rack_4"
+      }
+    },
+    "JB": {
+      "Id": "AJB25",
+      "Name": "JB25",
+      "Location": "Cầu thang lên che ép",
+      "Outdoor_Image": "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_Outdoor_Location%2FJB2_Location.jpg?alt=media&token=9976f0f4-bb38-4541-a485-3aac90f12cb2",
+      "List_Connection_Images": [
+        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_1.png?alt=media&token=9c8905b4-f032-4977-b086-c72198c7ce20",
+        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_2.png?alt=media&token=26799a41-3914-4aab-8e8b-f616f4327bae"
+      ]
+    },
+    "Additional_Connection_Images": [
+      "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FNHIET%20DO%20MCC1.png?alt=media&token=dda0faaf-dbf2-4fcd-b45a-5d94d3445b9f"
+    ]
+  },
+  {
+    "Id": "DV02LT028",
+    "Code": "02LT028",
+    "Function": "Đo mức bồn nước chè échaudage số 26",
+    "Range": "-50 to 1350",
+    "Unit": "Celsius",
+    "IOAddress": "A4.0.I.27",
+    "Module": {
+      "Id": "MOAA4.0.I",
+      "Name": "A4.0.I",
+      "Rack_Non_List_Module_Model": {
+        "Id": "RKA4",
+        "Name": "Rack_4"
+      }
+    },
+    "JB": {
+      "Id": "AJB26",
+      "Name": "JB26",
+      "Location": "Cầu thang lên che ép",
+      "Outdoor_Image": "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_Outdoor_Location%2FJB2_Location.jpg?alt=media&token=9976f0f4-bb38-4541-a485-3aac90f12cb2",
+      "List_Connection_Images": [
+        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_1.png?alt=media&token=9c8905b4-f032-4977-b086-c72198c7ce20",
+        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_2.png?alt=media&token=26799a41-3914-4aab-8e8b-f616f4327bae"
+      ]
+    },
+    "Additional_Connection_Images": [
+      "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FNHIET%20DO%20MCC1.png?alt=media&token=dda0faaf-dbf2-4fcd-b45a-5d94d3445b9f"
+    ]
+  },
+  {
+    "Id": "DV02LT029",
+    "Code": "02LT029",
+    "Function": "Đo mức bồn nước chè échaudage số 27",
+    "Range": "-50 to 1400",
+    "Unit": "Celsius",
+    "IOAddress": "A4.0.I.28",
+    "Module": {
+      "Id": "MOAA4.0.I",
+      "Name": "A4.0.I",
+      "Rack_Non_List_Module_Model": {
+        "Id": "RKA4",
+        "Name": "Rack_4"
+      }
+    },
+    "JB": {
+      "Id": "AJB27",
+      "Name": "JB27",
+      "Location": "Cầu thang lên che ép",
+      "Outdoor_Image": "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_Outdoor_Location%2FJB2_Location.jpg?alt=media&token=9976f0f4-bb38-4541-a485-3aac90f12cb2",
+      "List_Connection_Images": [
+        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_1.png?alt=media&token=9c8905b4-f032-4977-b086-c72198c7ce20",
+        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_2.png?alt=media&token=26799a41-3914-4aab-8e8b-f616f4327bae"
+      ]
+    },
+    "Additional_Connection_Images": [
+      "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FNHIET%20DO%20MCC1.png?alt=media&token=dda0faaf-dbf2-4fcd-b45a-5d94d3445b9f"
+    ]
+  },
+  {
+    "Id": "DV02LT030",
+    "Code": "02LT030",
+    "Function": "Đo mức bồn nước chè échaudage số 28",
+    "Range": "-50 to 1450",
+    "Unit": "Celsius",
+    "IOAddress": "A4.0.I.29",
+    "Module": {
+      "Id": "MOAA4.0.I",
+      "Name": "A4.0.I",
+      "Rack_Non_List_Module_Model": {
+        "Id": "RKA4",
+        "Name": "Rack_4"
+      }
+    },
+    "JB": {
+      "Id": "AJB28",
+      "Name": "JB28",
+      "Location": "Cầu thang lên che ép",
+      "Outdoor_Image": "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_Outdoor_Location%2FJB2_Location.jpg?alt=media&token=9976f0f4-bb38-4541-a485-3aac90f12cb2",
+      "List_Connection_Images": [
+        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_1.png?alt=media&token=9c8905b4-f032-4977-b086-c72198c7ce20",
+        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_2.png?alt=media&token=26799a41-3914-4aab-8e8b-f616f4327bae"
+      ]
+    },
+    "Additional_Connection_Images": [
+      "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FNHIET%20DO%20MCC1.png?alt=media&token=dda0faaf-dbf2-4fcd-b45a-5d94d3445b9f"
+    ]
+  },
+  {
+    "Id": "DV02LT031",
+    "Code": "02LT031",
+    "Function": "Đo mức bồn nước chè échaudage số 29",
+    "Range": "-50 to 1500",
+    "Unit": "Celsius",
+    "IOAddress": "A4.0.I.30",
+    "Module": {
+      "Id": "MOAA4.0.I",
+      "Name": "A4.0.I",
+      "Rack_Non_List_Module_Model": {
+        "Id": "RKA4",
+        "Name": "Rack_4"
+      }
+    },
+    "JB": {
+      "Id": "AJB29",
+      "Name": "JB29",
+      "Location": "Cầu thang lên che ép",
+      "Outdoor_Image": "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_Outdoor_Location%2FJB2_Location.jpg?alt=media&token=9976f0f4-bb38-4541-a485-3aac90f12cb2",
+      "List_Connection_Images": [
+        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_1.png?alt=media&token=9c8905b4-f032-4977-b086-c72198c7ce20",
+        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_2.png?alt=media&token=26799a41-3914-4aab-8e8b-f616f4327bae"
+      ]
+    },
+    "Additional_Connection_Images": [
+      "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FNHIET%20DO%20MCC1.png?alt=media&token=dda0faaf-dbf2-4fcd-b45a-5d94d3445b9f"
+    ]
+  },
+  {
+    "Id": "DV02LT032",
+    "Code": "02LT032",
+    "Function": "Đo mức bồn nước chè échaudage số 30",
+    "Range": "-50 to 1550",
+    "Unit": "Celsius",
+    "IOAddress": "A4.0.I.31",
+    "Module": {
+      "Id": "MOAA4.0.I",
+      "Name": "A4.0.I",
+      "Rack_Non_List_Module_Model": {
+        "Id": "RKA4",
+        "Name": "Rack_4"
+      }
+    },
+    "JB": {
+      "Id": "AJB30",
+      "Name": "JB30",
+      "Location": "Cầu thang lên che ép",
+      "Outdoor_Image": "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_Outdoor_Location%2FJB2_Location.jpg?alt=media&token=9976f0f4-bb38-4541-a485-3aac90f12cb2",
+      "List_Connection_Images": [
+        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_1.png?alt=media&token=9c8905b4-f032-4977-b086-c72198c7ce20",
+        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_2.png?alt=media&token=26799a41-3914-4aab-8e8b-f616f4327bae"
+      ]
+    },
+    "Additional_Connection_Images": [
+      "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FNHIET%20DO%20MCC1.png?alt=media&token=dda0faaf-dbf2-4fcd-b45a-5d94d3445b9f"
+    ]
+  },
+  {
+    "Id": "DV02LT033",
+    "Code": "02LT033",
+    "Function": "Đo mức bồn nước chè échaudage số 31",
+    "Range": "-50 to 1600",
+    "Unit": "Celsius",
+    "IOAddress": "A4.0.I.32",
+    "Module": {
+      "Id": "MOAA4.0.I",
+      "Name": "A4.0.I",
+      "Rack_Non_List_Module_Model": {
+        "Id": "RKA4",
+        "Name": "Rack_4"
+      }
+    },
+    "JB": {
+      "Id": "AJB31",
+      "Name": "JB31",
+      "Location": "Cầu thang lên che ép",
+      "Outdoor_Image": "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_Outdoor_Location%2FJB2_Location.jpg?alt=media&token=9976f0f4-bb38-4541-a485-3aac90f12cb2",
+      "List_Connection_Images": [
+        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_1.png?alt=media&token=9c8905b4-f032-4977-b086-c72198c7ce20",
+        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_2.png?alt=media&token=26799a41-3914-4aab-8e8b-f616f4327bae"
+      ]
+    },
+    "Additional_Connection_Images": [
+      "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FNHIET%20DO%20MCC1.png?alt=media&token=dda0faaf-dbf2-4fcd-b45a-5d94d3445b9f"
+    ]
+  },
+  {
+    "Id": "DV02LT034",
+    "Code": "02LT034",
+    "Function": "Đo mức bồn nước chè échaudage số 32",
+    "Range": "-50 to 1650",
+    "Unit": "Celsius",
+    "IOAddress": "A4.0.I.33",
+    "Module": {
+      "Id": "MOAA4.0.I",
+      "Name": "A4.0.I",
+      "Rack_Non_List_Module_Model": {
+        "Id": "RKA4",
+        "Name": "Rack_4"
+      }
+    },
+    "JB": {
+      "Id": "AJB32",
+      "Name": "JB32",
+      "Location": "Cầu thang lên che ép",
+      "Outdoor_Image": "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_Outdoor_Location%2FJB2_Location.jpg?alt=media&token=9976f0f4-bb38-4541-a485-3aac90f12cb2",
+      "List_Connection_Images": [
+        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_1.png?alt=media&token=9c8905b4-f032-4977-b086-c72198c7ce20",
+        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_2.png?alt=media&token=26799a41-3914-4aab-8e8b-f616f4327bae"
+      ]
+    },
+    "Additional_Connection_Images": [
+      "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FNHIET%20DO%20MCC1.png?alt=media&token=dda0faaf-dbf2-4fcd-b45a-5d94d3445b9f"
+    ]
+  },
+  {
+    "Id": "DV02LT035",
+    "Code": "02LT035",
+    "Function": "Đo mức bồn nước chè échaudage số 33",
+    "Range": "-50 to 1700",
+    "Unit": "Celsius",
+    "IOAddress": "A4.0.I.34",
+    "Module": {
+      "Id": "MOAA4.0.I",
+      "Name": "A4.0.I",
+      "Rack_Non_List_Module_Model": {
+        "Id": "RKA4",
+        "Name": "Rack_4"
+      }
+    },
+    "JB": {
+      "Id": "AJB33",
+      "Name": "JB33",
+      "Location": "Cầu thang lên che ép",
+      "Outdoor_Image": "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_Outdoor_Location%2FJB2_Location.jpg?alt=media&token=9976f0f4-bb38-4541-a485-3aac90f12cb2",
+      "List_Connection_Images": [
+        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_1.png?alt=media&token=9c8905b4-f032-4977-b086-c72198c7ce20",
+        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_2.png?alt=media&token=26799a41-3914-4aab-8e8b-f616f4327bae"
+      ]
+    },
+    "Additional_Connection_Images": [
+      "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FNHIET%20DO%20MCC1.png?alt=media&token=dda0faaf-dbf2-4fcd-b45a-5d94d3445b9f"
+    ]
+  },
+  {
+    "Id": "DV02LT036",
+    "Code": "02LT036",
+    "Function": "Đo mức bồn nước chè échaudage số 34",
+    "Range": "-50 to 1750",
+    "Unit": "Celsius",
+    "IOAddress": "A4.0.I.35",
+    "Module": {
+      "Id": "MOAA4.0.I",
+      "Name": "A4.0.I",
+      "Rack_Non_List_Module_Model": {
+        "Id": "RKA4",
+        "Name": "Rack_4"
+      }
+    },
+    "JB": {
+      "Id": "AJB34",
+      "Name": "JB34",
+      "Location": "Cầu thang lên che ép",
+      "Outdoor_Image": "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_Outdoor_Location%2FJB2_Location.jpg?alt=media&token=9976f0f4-bb38-4541-a485-3aac90f12cb2",
+      "List_Connection_Images": [
+        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_1.png?alt=media&token=9c8905b4-f032-4977-b086-c72198c7ce20",
+        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_2.png?alt=media&token=26799a41-3914-4aab-8e8b-f616f4327bae"
+      ]
+    },
+    "Additional_Connection_Images": [
+      "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FNHIET%20DO%20MCC1.png?alt=media&token=dda0faaf-dbf2-4fcd-b45a-5d94d3445b9f"
+    ]
+  },
+  {
+    "Id": "DV02LT037",
+    "Code": "02LT037",
+    "Function": "Đo mức bồn nước chè échaudage số 35",
+    "Range": "-50 to 1800",
+    "Unit": "Celsius",
+    "IOAddress": "A4.0.I.36",
+    "Module": {
+      "Id": "MOAA4.0.I",
+      "Name": "A4.0.I",
+      "Rack_Non_List_Module_Model": {
+        "Id": "RKA4",
+        "Name": "Rack_4"
+      }
+    },
+    "JB": {
+      "Id": "AJB35",
+      "Name": "JB35",
+      "Location": "Cầu thang lên che ép",
+      "Outdoor_Image": "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_Outdoor_Location%2FJB2_Location.jpg?alt=media&token=9976f0f4-bb38-4541-a485-3aac90f12cb2",
+      "List_Connection_Images": [
+        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_1.png?alt=media&token=9c8905b4-f032-4977-b086-c72198c7ce20",
+        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_2.png?alt=media&token=26799a41-3914-4aab-8e8b-f616f4327bae"
+      ]
+    },
+    "Additional_Connection_Images": [
+      "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FNHIET%20DO%20MCC1.png?alt=media&token=dda0faaf-dbf2-4fcd-b45a-5d94d3445b9f"
+    ]
+  }
+]

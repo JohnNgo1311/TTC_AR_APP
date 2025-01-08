@@ -4,14 +4,6 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - D11I_Btn
-  - D10I_Btn
-  - D12I_Btn
-  - D13I_Btn
-  - D14I_Btn
-  - D15I_Btn
-  - D16I_Btn
-  - D17I_Btn
   - CL_Inverter_Btn
   - CN_Inverter_Btn
   - T5_Inverter_Btn
@@ -44,6 +36,14 @@ TagManager:
   - A5.7.I_Btn
   - A6.0.I_Btn
   - A6.1.I_Btn
+  - D1.1.I_Btn
+  - D1.0.I_Btn
+  - D1.2.I_Btn
+  - D1.3.I_Btn
+  - D1.4.I_Btn
+  - D1.5.I_Btn
+  - D1.6.I_Btn
+  - D1.7.I_Btn
   layers:
   - Default
   - TransparentFX
@@ -54,7 +54,7 @@ TagManager:
   - BackBox
   - BackBox_Content
   - Canvas_Frame
-  - 
+  - Temp_Background
   - 
   - 
   - 
