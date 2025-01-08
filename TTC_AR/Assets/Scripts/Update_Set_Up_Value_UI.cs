@@ -18,7 +18,7 @@ public class Update_Set_Up_Value_UI : MonoBehaviour
 
     private IEnumerator Update_Set_Up_Value_UI_Panel()
     {
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(2f);
 
         eventPublisher.TriggerEvent_ButtonClicked();
 

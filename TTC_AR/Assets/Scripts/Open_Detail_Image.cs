@@ -15,9 +15,9 @@ public class Open_Detail_Image : MonoBehaviour
     //    private RectTransform originalRectTransform_Detail_Image;
     void Awake()
     {
-        canvas = GameObject.Find("Overlay_Canvas_To_Watch_Image").GetComponent<Canvas>();
-        detail_Image = canvas.gameObject.transform.Find("Content/Detail_Image_To_Watch").gameObject;
-        close_Button = canvas.gameObject.transform.Find("Back_Button_From_Detail_Panel").GetComponent<Button>();
+        canvas = canvas ?? GameObject.Find("Overlay_Canvas_To_Watch_Image").GetComponent<Canvas>();
+        detail_Image = detail_Image ?? canvas.gameObject.transform.Find("Content/Detail_Image_To_Watch").gameObject;
+        close_Button = close_Button ?? canvas.gameObject.transform.Find("Back_Button_From_Detail_Panel").GetComponent<Button>();
         originalPosition_Detail_Image_Content = detail_Image.transform.parent.gameObject.transform.position;
         if (canvas.gameObject.activeSelf)
         {

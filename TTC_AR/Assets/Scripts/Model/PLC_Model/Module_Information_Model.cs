@@ -18,7 +18,7 @@ public class Module_Information_Model
 
   [JsonProperty("Module_Specification")] public Module_Specification_Model? Specification_Model { get; set; }
 
-  [JsonProperty("Rack")]
+  [JsonProperty("Rack_Non_List_Module_Model")]
   public Rack_Non_List_Module_Model Rack_Non_List_Module_Mode { get; set; }
   [Preserve]
   [JsonConstructor]
