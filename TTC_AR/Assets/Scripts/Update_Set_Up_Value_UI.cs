@@ -8,7 +8,7 @@ using System.Collections;
 public class Update_Set_Up_Value_UI : MonoBehaviour
 {
     public List<TMP_Text> setup_Value_Texts;
-    public Field_Device_Information_Model field_Device_Information_Model;
+    public FieldDeviceInformationModel field_DeviceInformationModel;
     public EventPublisher eventPublisher;
 
     private void OnEnable()
@@ -28,9 +28,9 @@ public class Update_Set_Up_Value_UI : MonoBehaviour
     }
     private IEnumerator Get_SetUp_Value()
     {
-        while (GlobalVariable.temp_Field_Device_Information_Model == null)
+        while (GlobalVariable.temp_FieldDeviceInformationModel == null)
         {
-            Debug.Log("Waiting for GlobalVariable.temp_Field_Device_Information_Model to be assigned...");
+            Debug.Log("Waiting for GlobalVariable.temp_FieldDeviceInformationModel to be assigned...");
             yield return null;
         }
         Debug.Log("All variables have been assigned!");
@@ -39,21 +39,17 @@ public class Update_Set_Up_Value_UI : MonoBehaviour
     // Coroutine cập nhật UI cho Adapter
     private IEnumerator Update_UI()
     {
-        field_Device_Information_Model = GlobalVariable.temp_Field_Device_Information_Model;
+        field_DeviceInformationModel = GlobalVariable.temp_FieldDeviceInformationModel;
 
         string[] values = {
-            field_Device_Information_Model.Type,
-            field_Device_Information_Model.Name,
-            field_Device_Information_Model.Cabinet_Code,
-            field_Device_Information_Model.Brand,
-            field_Device_Information_Model.Rated_Power,
-            field_Device_Information_Model.Output_Power,
-            field_Device_Information_Model.Rated_Current,
-            field_Device_Information_Model.Active_Current,
-            field_Device_Information_Model.Active_Voltage,
-            field_Device_Information_Model.Frequency,
-            field_Device_Information_Model.Rotation_Speed,
-            field_Device_Information_Model.Noted
+            field_DeviceInformationModel.Type,
+            field_DeviceInformationModel.Name,
+            // field_DeviceInformationModel.CabinetCode,
+            // field_DeviceInformationModel.Brand,
+            field_DeviceInformationModel.RatedPower,
+            field_DeviceInformationModel.RatedCurrent,
+            field_DeviceInformationModel.ActiveCurrent,
+            field_DeviceInformationModel.Note
         };
 
         for (int i = 0; i < setup_Value_Texts.Count; i++)

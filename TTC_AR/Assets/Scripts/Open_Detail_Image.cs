@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class Open_Detail_Image : MonoBehaviour
@@ -34,6 +35,14 @@ public class Open_Detail_Image : MonoBehaviour
         close_Button.onClick.AddListener(Close_Detail_Canvas);
 
     }
+    private void Update()
+    {
+        // if (Input.GetKeyDown(KeyCode.Escape) || (Gamepad.current != null && Gamepad.current.buttonEast != null && Gamepad.current.buttonEast.wasPressedThisFrame) || (Keyboard.current != null && Keyboard.current.escapeKey.wasPressedThisFrame))
+        // {
+        //     Close_Detail_Canvas();
+        // }
+    }
+
     public void Open_Detail_Canvas(Image image_To_Watch_Detail)
     {
         StartCoroutine(Resize_Gameobject_Function.Set_NativeSize_For_GameObject(detail_Image.GetComponent<Image>()));

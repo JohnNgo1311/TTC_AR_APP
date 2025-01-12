@@ -1456,6 +1456,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   grapperName: GrapperB
   onClickButton: {fileID: 751018072}
+  getAllDataByGrapperForSearching: {fileID: 878477618}
   eventPublisher: {fileID: 1528617988}
 --- !u!1 &778542787
 GameObject:
@@ -1841,6 +1842,7 @@ MonoBehaviour:
   previousSceneName: MenuScene
   recentSceneName: SelectionScene
   isOrientation: 0
+  detail_Image: {fileID: 0}
 --- !u!114 &878477618
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1853,6 +1855,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 217a83dcd9f837e4999aefe302e73786, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  grapperId: 1
   eventPublisher: {fileID: 1528617988}
 --- !u!1 &923202467
 GameObject:
@@ -2129,6 +2132,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   grapperName: GrapperA
   onClickButton: {fileID: 953062724}
+  getAllDataByGrapperForSearching: {fileID: 878477618}
   eventPublisher: {fileID: 1528617988}
 --- !u!1 &981588575
 GameObject:
@@ -2822,6 +2826,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   grapperName: "L\xF2 H\u01A1i"
   onClickButton: {fileID: 1329061825}
+  getAllDataByGrapperForSearching: {fileID: 878477618}
   eventPublisher: {fileID: 1528617988}
 --- !u!1 &1394794810
 GameObject:
@@ -2962,6 +2967,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   grapperName: GrapperC
   onClickButton: {fileID: 1394794812}
+  getAllDataByGrapperForSearching: {fileID: 878477618}
   eventPublisher: {fileID: 1528617988}
 --- !u!1 &1483066040
 GameObject:

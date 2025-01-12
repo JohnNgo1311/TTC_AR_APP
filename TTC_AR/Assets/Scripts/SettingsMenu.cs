@@ -6,14 +6,12 @@ using UnityEngine.UI;
 
 public class SettingsMenu : MonoBehaviour
 {
-    public string grapper;
+    // public string grapper;
     public List<GameObject> imageTargets;
     public GameObject content;
+
     [SerializeField]
     private GameObject scroll_Area;
-    [Header("space between menu items")]
-    //  [SerializeField] private Vector2 spacing;
-    [Header("Main button rotation")]
     public Button mainButton;
     private List<SettingsMenuItem> menuItems;
     private bool isExpanded = true;
@@ -21,7 +19,6 @@ public class SettingsMenu : MonoBehaviour
 
     void Start()
     {
-
         InitializeMenuItems();
         SetupMainButton();
         // mainButtonPosition = mainButton.GetComponent<RectTransform>().anchoredPosition;
@@ -31,14 +28,21 @@ public class SettingsMenu : MonoBehaviour
     {
         scroll_Area = scroll_Area ?? gameObject.transform.Find("Scroll_Area").gameObject;
         // scrollRect = gameObject.GetComponent<ScrollRect>();
-
-        for (int i = 1; i < GlobalVariable.temp_List_Rack_General_Models.Count; i++)
+        if (GlobalVariable.temp_List_Rack_Non_List_Module_Model.Count > 0)
         {
-            var newObject = Instantiate(content.transform.GetChild(0), content.transform);
-            newObject.name = $"Rack_{i + 1}";
-            newObject.GetComponentInChildren<TMP_Text>().text = $"Rack {i + 1}";
-            newObject.gameObject.SetActive(false);
+            for (int i = 1; i < GlobalVariable.temp_List_Rack_Non_List_Module_Model.Count; i++)
+            {
+                var newObject = Instantiate(content.transform.GetChild(0), content.transform);
+                newObject.name = $"Rack_{i + 1}";
+                newObject.GetComponentInChildren<TMP_Text>().text = $"Rack {i + 1}";
+                newObject.gameObject.SetActive(false);
+            }
         }
+        else
+        {
+            Debug.LogError("No rack found");
+        }
+
         content.SetActive(false);
         scroll_Area.SetActive(false);
 

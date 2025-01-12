@@ -12,7 +12,7 @@
 //     private string grapper_Name = "A";
 
 //     [SerializeField]
-//     private Device_Information_Model device;
+//     private DeviceInformationModel device;
 
 //     public Text code_text;
 //     public string title = "Delete Device Data";
@@ -73,7 +73,7 @@
 //         // loadingIcon.SetActive(false); // Ẩn biểu tượng loading khi hoàn thành
 //     }
 
-//     private async Task Delete_device_Data(string url, Device_Information_Model device)
+//     private async Task Delete_device_Data(string url, DeviceInformationModel device)
 //     {
 //         using (UnityWebRequest www = UnityWebRequest.Delete($"{url}/{device.Id}"))
 //         {

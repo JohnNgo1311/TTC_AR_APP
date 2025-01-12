@@ -2,14 +2,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
-
-//! Script này sử dụng cho Dropdown trong Device Search trong mỗi module
-//! Lọc theo GlobalVariable_Search_Devices.devices_Model_By_Grapper
 public class SearchDeviceFromModule : MonoBehaviour
 {
     public List<TMP_Text> deviceInformation = new List<TMP_Text>();
-    private List<Device_Information_Model> listDeviceFromModule;
-    private Device_Information_Model deviceInfor;
+    private List<DeviceInformationModel> listDeviceFromModule;
+    private DeviceInformationModel deviceInfor;
     public TMP_Dropdown dropdown;
     public GameObject contentPanel;
 
@@ -121,24 +118,24 @@ public class SearchDeviceFromModule : MonoBehaviour
         }
     }
 
-    private List<Device_Information_Model> Get_List_Device_By_Module(string moduleName)
+    private List<DeviceInformationModel> Get_List_Device_By_Module(string moduleName)
     {
-        return GlobalVariable.temp_List_Device_Information_Model_From_Module.FindAll(
+        return GlobalVariable.temp_ListDeviceInformationModelFromModule.FindAll(
             device => device.IOAddress.StartsWith(moduleName + ".")
         );
 
     }
 
-    private void UpdateDeviceInformation(Device_Information_Model device)
+    private void UpdateDeviceInformation(DeviceInformationModel device)
     {
         deviceInformation[0].text = device.Code;
         deviceInformation[1].text = device.Function;
         deviceInformation[2].text = device.Range;
         deviceInformation[3].text = device.IOAddress;
 
-        deviceInformation[4].text = device.JB_Information_Model.Name;
-        deviceInformation[5].text = device.JB_Information_Model.Location;
-        GlobalVariable.jb_TSD_Location = device.JB_Information_Model.Location;
+        deviceInformation[4].text = device.JBInformationModel.Name;
+        deviceInformation[5].text = device.JBInformationModel.Location;
+        GlobalVariable.jb_TSD_Location = device.JBInformationModel.Location;
         // Đảm bảo không gán nhiều lần
         nav_JB_TSD_Detail_button.onClick.RemoveAllListeners();
 
@@ -146,7 +143,7 @@ public class SearchDeviceFromModule : MonoBehaviour
         {
             GlobalVariable.navigate_from_List_Devices = true;
             GlobalVariable.navigate_from_JB_TSD_General = false;
-            NavigateJBDetailScreen(jB_Information_Model: device.JB_Information_Model);
+            NavigateJBDetailScreen(jB_Information_Model: device.JBInformationModel);
         });
     }
 
@@ -165,7 +162,7 @@ public class SearchDeviceFromModule : MonoBehaviour
     }
     */
 
-    public void NavigateJBDetailScreen(JB_Information_Model jB_Information_Model)
+    public void NavigateJBDetailScreen(JBInformationModel jB_Information_Model)
     {
         GlobalVariable.jb_TSD_Title = jB_Information_Model.Name; // Name_Location of JB
 

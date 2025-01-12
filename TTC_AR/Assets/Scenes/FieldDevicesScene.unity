@@ -9485,7 +9485,6 @@ GameObject:
   m_Component:
   - component: {fileID: 976853295}
   - component: {fileID: 976853294}
-  - component: {fileID: 976853293}
   m_Layer: 7
   m_Name: General_Panel
   m_TagString: Untagged
@@ -9493,29 +9492,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &976853293
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 976853292}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4eda371e5375f454490a86f21559ee38, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Use:
-    Filter: 0
-    IgnoreStartedOverGui: 1
-    RequiredFingerCount: 0
-    RequiredMouseButtons: 0
-    RequiredSelectable: {fileID: 0}
-  _camera: {fileID: 1364942599}
-  sensitivity: 1
-  damping: -1
-  inertia: 0
-  remainingTranslation: {x: 0, y: 0, z: 0}
 --- !u!114 &976853294
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14092,6 +14068,7 @@ MonoBehaviour:
   previousSceneName: FieldDevicesScene
   recentSceneName: SelectionScene
   isOrientation: 0
+  detail_Image: {fileID: 0}
 --- !u!114 &1838124275
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14157,9 +14134,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   image: {fileID: 1857794409}
   mainCamera: {fileID: 1364942599}
-  active_ARCamera_Buttons:
-  - {fileID: 1613733152}
-  - {fileID: 35583324}
+  active_ARCamera_Button: {fileID: 35583324}
+  deactive_ARCamera_Button: {fileID: 1613733152}
 --- !u!1 &1845493733
 GameObject:
   m_ObjectHideFlags: 0

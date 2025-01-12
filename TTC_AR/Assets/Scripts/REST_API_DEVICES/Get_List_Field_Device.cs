@@ -50,8 +50,8 @@ public class Get_List_Field_Device : MonoBehaviour
             // Chờ API hoàn thành
             await Task.WhenAll(
                 APIManager.Instance.GetListFieldDeviceInformation(
-                    url: $"{GlobalVariable.baseUrl3}GetFieldDevice",
-                    GlobalVariable.temp_List_Grapper_General_Models[0].Id
+                    url: $"{GlobalVariable.baseUrl}GetFieldDevice",1
+                // GlobalVariable.temp_ListGrapperGeneralModels[0].Id
                 )
             );
 

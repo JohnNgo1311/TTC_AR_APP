@@ -42,10 +42,10 @@ public class Update_Field_Device_Connection_Screen : MonoBehaviour
     }
     private void UpdateTitle()
     {
-        if (!string.IsNullOrEmpty(GlobalVariable.temp_Field_Device_Information_Model.Type) && !string.IsNullOrEmpty(GlobalVariable.temp_Field_Device_Information_Model.Name))
+        if (!string.IsNullOrEmpty(GlobalVariable.temp_FieldDeviceInformationModel.Type) && !string.IsNullOrEmpty(GlobalVariable.temp_FieldDeviceInformationModel.Name))
         {
-            cabinet_Name = GlobalVariable.temp_Field_Device_Information_Model.Name;
-            cabinet_Type = GlobalVariable.temp_Field_Device_Information_Model.Type;
+            cabinet_Name = GlobalVariable.temp_FieldDeviceInformationModel.Name;
+            cabinet_Type = GlobalVariable.temp_FieldDeviceInformationModel.Type;
             if (cabinet_Type.ToLower() == "biến tần")
             {
                 field_Device_Title.text = $"Sơ đồ đấu dây tủ {cabinet_Type.ToLower()} {cabinet_Name}";
@@ -71,9 +71,9 @@ public class Update_Field_Device_Connection_Screen : MonoBehaviour
 
     private IEnumerator ApplyConnectionSprites()
     {
-        if (GlobalVariable.temp_List_Field_Device_Connection_Images != null)
+        if (GlobalVariable.temp_ListFieldDeviceConnectionImages != null)
         {
-            var list_Texture = GlobalVariable.temp_List_Field_Device_Connection_Images;
+            var list_Texture = GlobalVariable.temp_ListFieldDeviceConnectionImages;
             if (list_Texture.Count > 0)
             {
                 if (list_Texture.Count == 1)

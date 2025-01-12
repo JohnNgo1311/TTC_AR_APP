@@ -6,8 +6,6 @@ using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Networking;
-using System.Linq;
-using System.Collections;
 using System.Threading;
 using UnityEngine.SceneManagement;
 using PimDeWitte.UnityMainThreadDispatcher;
@@ -16,19 +14,28 @@ public class APIManager : MonoBehaviour
 {
     public static APIManager Instance { get; private set; }
 
+    public int GrapperId = 1;
+    public int RackId = 1;
+    public int ModuleId = 1;
+    public int DeviceId = 1;
+    public int JBId = 1;
+    public int FieldDeviceId = 1;
     // Danh sách URL cần tải
-    public List<Grapper_General_Model> temp_List_Grapper_General_Models = new List<Grapper_General_Model>();
-    public List<Module_Information_Model> temp_List_Module_Information_Model = new List<Module_Information_Model>();
-    public List<Field_Device_Information_Model> temp_List_Field_Device_Information_Model = new List<Field_Device_Information_Model>();
-    public Field_Device_Information_Model temp_Field_Device_Information_Model;
-
-    public List<JB_Information_Model> temp_List_JB_Information_Model_From_Module = new List<JB_Information_Model>();
-    public List<Device_Information_Model> temp_List_Device_Information_Model_From_Module = new List<Device_Information_Model>();
+    public List<Rack_General_Model> temp_List_Rack_General_Models;
+    public List<Grapper_General_Model> temp_List_Grapper_General_Models;
+    public List<ModuleInformationModel> temp_List_ModuleInformationModel = new List<ModuleInformationModel>();
+    public ModuleInformationModel temp_ModuleInformationModel;
+    public List<FieldDeviceInformationModel> temp_ListFieldDeviceInformationModel = new List<FieldDeviceInformationModel>();
+    public FieldDeviceInformationModel temp_FieldDeviceInformationModel;
+    public List<JBInformationModel> temp_ListJBInformationModel_From_Module = new List<JBInformationModel>();
+    public List<DeviceInformationModel> temp_ListDeviceInformationModelFromModule = new List<DeviceInformationModel>();
     public Dictionary<string, List<Texture2D>> list_JB_Connection_Images_From_Module = new Dictionary<string, List<Texture2D>>();
     public Dictionary<string, Texture2D> list_JB_Location_Images_From_Module = new Dictionary<string, Texture2D>();
     public List<string> imageUrls = new List<string>();
-    // Danh sách Texture2D
     public List<Texture2D> textures = new List<Texture2D>();
+
+
+    public Dictionary<string, int> Dic_Grapper_General_Non_List_Rack_Models = new Dictionary<string, int>();
     private void Awake()
     {
         if (Instance == null)
@@ -42,7 +49,8 @@ public class APIManager : MonoBehaviour
         }
     }
 
-    public async Task GetList_Grappers(string url)
+
+    public async Task GetListGrappers(string url)
     {
         using UnityWebRequest webRequest = UnityWebRequest.Get(url);
         {
@@ -54,12 +62,19 @@ public class APIManager : MonoBehaviour
 
             try
             {
+                Debug.Log("GetListGrappers:+ " + webRequest.downloadHandler.text);
                 var grapper_Models = JsonConvert.DeserializeObject<List<Grapper_General_Model>>(webRequest.downloadHandler.text);
                 if (grapper_Models != null && grapper_Models.Count > 0)
                 {
                     temp_List_Grapper_General_Models = grapper_Models;
                     GlobalVariable.temp_List_Grapper_General_Models = temp_List_Grapper_General_Models;
                     Debug.Log(GlobalVariable.temp_List_Grapper_General_Models.Count);
+
+                    foreach (var grapper in temp_List_Grapper_General_Models)
+                    {
+                        Dic_Grapper_General_Non_List_Rack_Models.Add(grapper.Name, grapper.Id);
+                    }
+
                 }
             }
             catch (JsonException jsonEx)
@@ -74,7 +89,39 @@ public class APIManager : MonoBehaviour
             }
         }
     }
-    public async Task GetListFieldDeviceInformation(string url, string grapperId)
+    public async Task GetListRacks(string url)
+    {
+        using UnityWebRequest webRequest = UnityWebRequest.Get(url);
+        {
+            if (!await SendWebRequestAsync(webRequest))
+            {
+                HandleRequestError(webRequest.error);
+                return;
+            }
+
+            try
+            {
+                Debug.Log("GetListRacks:+ " + webRequest.downloadHandler.text);
+                var rack_models = JsonConvert.DeserializeObject<List<Rack_General_Model>>(webRequest.downloadHandler.text);
+                if (rack_models != null && rack_models.Count > 0)
+                {
+                    temp_List_Rack_General_Models = rack_models;
+                    GlobalVariable.temp_List_Rack_General_Models = rack_models;
+                }
+            }
+            catch (JsonException jsonEx)
+            {
+                HandleRequestError(jsonEx.Message);
+                return;
+            }
+            catch (Exception ex)
+            {
+                HandleRequestError(ex.Message);
+                return;
+            }
+        }
+    }
+    public async Task GetListFieldDeviceInformation(string url, int grapperId)
     {
         using UnityWebRequest webRequest = UnityWebRequest.Get(url);
         {
@@ -85,12 +132,12 @@ public class APIManager : MonoBehaviour
             }
             try
             {
-                var list_Field_Device_Model = JsonConvert.DeserializeObject<List<Field_Device_Information_Model>>(webRequest.downloadHandler.text);
+                var list_Field_Device_Model = JsonConvert.DeserializeObject<List<FieldDeviceInformationModel>>(webRequest.downloadHandler.text);
                 if (list_Field_Device_Model != null)
                 {
-                    GlobalVariable.temp_List_Field_Device_Information_Model = new List<Field_Device_Information_Model>();
-                    temp_List_Field_Device_Information_Model = list_Field_Device_Model;
-                    GlobalVariable.temp_List_Field_Device_Information_Model = temp_List_Field_Device_Information_Model;
+                    GlobalVariable.temp_ListFieldDeviceInformationModel = new List<FieldDeviceInformationModel>();
+                    temp_ListFieldDeviceInformationModel = list_Field_Device_Model;
+                    GlobalVariable.temp_ListFieldDeviceInformationModel = temp_ListFieldDeviceInformationModel;
                     Debug.Log("list_Field_Device_Model.Count: " + list_Field_Device_Model.Count);
                 }
                 Debug.Log("success");
@@ -107,7 +154,7 @@ public class APIManager : MonoBehaviour
             }
         }
     }
-    public async Task GetFieldDeviceInformation(string url, string grapperId, string fieldDeviceId)
+    public async Task GetMccInformation(string url, int grapperId)
     {
         using UnityWebRequest webRequest = UnityWebRequest.Get(url);
         {
@@ -118,17 +165,18 @@ public class APIManager : MonoBehaviour
             }
             try
             {
-                var list_Field_Device_Model = JsonConvert.DeserializeObject<List<Field_Device_Information_Model>>(webRequest.downloadHandler.text);
+                var mccModel = JsonConvert.DeserializeObject<MccModel>(webRequest.downloadHandler.text);
 
-                if (list_Field_Device_Model != null)
+                if (mccModel != null)
                 {
-                    GlobalVariable.temp_List_Field_Device_Information_Model = new List<Field_Device_Information_Model>();
-                    GlobalVariable.temp_Field_Device_Information_Model = null;
-                    temp_List_Field_Device_Information_Model = list_Field_Device_Model;
-                    GlobalVariable.temp_List_Field_Device_Information_Model = temp_List_Field_Device_Information_Model;
-                    GlobalVariable.temp_Field_Device_Information_Model = temp_List_Field_Device_Information_Model[0];
-                    Debug.Log("list_Field_Device_Model.Count: " + list_Field_Device_Model.Count);
-                    Debug.Log("GlobalVariable.temp_Field_Device_Information_Model: " + GlobalVariable.temp_Field_Device_Information_Model.Name);
+                    FieldDeviceId = mccModel.Id;
+                    // GlobalVariable.temp_ListMccInformationModel = new List<MccInformationModel>();
+                    // GlobalVariable.temp_MccInformationModel = null;
+                    // temp_ListMccInformationModel = Field_Device_Model;
+                    // GlobalVariable.temp_ListMccInformationModel = temp_ListMccInformationModel;
+                    // GlobalVariable.temp_MccInformationModel = temp_ListMccInformationModel[0];
+                    // Debug.Log("list_Field_Device_Model.Count: " + list_Field_Device_Model.Count);
+                    // Debug.Log("GlobalVariable.temp_FieldDeviceInformationModel: " + GlobalVariable.temp_FieldDeviceInformationModel.Name);
                 }
                 Debug.Log("success");
             }
@@ -146,7 +194,7 @@ public class APIManager : MonoBehaviour
     }
 
 
-    public async Task GetListModuleInformation(string url, string grapperId)
+    public async Task GetListModuleInformation(string url, int grapperId)
     {
         using UnityWebRequest webRequest = UnityWebRequest.Get(url);
         {
@@ -158,10 +206,10 @@ public class APIManager : MonoBehaviour
 
             try
             {
-                var list_module_Information_Model = JsonConvert.DeserializeObject<List<Module_Information_Model>>(webRequest.downloadHandler.text);
-                if (list_module_Information_Model != null)
+                var list_moduleInformationModel = JsonConvert.DeserializeObject<List<ModuleInformationModel>>(webRequest.downloadHandler.text);
+                if (list_moduleInformationModel != null)
                 {
-                    temp_List_Module_Information_Model = list_module_Information_Model;
+                    temp_List_ModuleInformationModel = list_moduleInformationModel;
 
                 }
                 Debug.Log("success");
@@ -180,7 +228,7 @@ public class APIManager : MonoBehaviour
     }
 
     // Get list Devices by Grapper ==> Search Devices
-    public async Task GetModuleInformation(string url, string grapperId, string rackId, string moduleId)
+    public async Task GetModuleInformation(string url, int moduleId)
     {
         using UnityWebRequest webRequest = UnityWebRequest.Get(url);
         {
@@ -192,26 +240,21 @@ public class APIManager : MonoBehaviour
 
             try
             {
-                var module_Information_Model = JsonConvert.DeserializeObject<List<Module_Information_Model>>(webRequest.downloadHandler.text);
-                if (module_Information_Model != null)
+                var moduleInformationModel = JsonConvert.DeserializeObject<ModuleInformationModel>(webRequest.downloadHandler.text);
+                if (moduleInformationModel != null)
                 {
-                    // temp_List_JB_Information_Model_From_Module.Clear();
-                    // temp_List_Device_Information_Model_From_Module.Clear();
-                    // temp_List_Module_Information_Model = null;
 
-                    temp_List_Module_Information_Model = module_Information_Model;
-                    temp_List_JB_Information_Model_From_Module = module_Information_Model[0].List_JB_Information_Model;
-                    temp_List_Device_Information_Model_From_Module = module_Information_Model[0].List_Device_Information_Model;
+                    temp_ModuleInformationModel = moduleInformationModel;
+                    temp_ListJBInformationModel_From_Module = temp_ModuleInformationModel.ListJBInformationModel;
+                    temp_ListDeviceInformationModelFromModule = temp_ModuleInformationModel.ListDeviceInformationModel;
+                    ModuleId = temp_ModuleInformationModel.Id;
 
-                    GlobalVariable.temp_List_JB_Information_Model_From_Module = temp_List_JB_Information_Model_From_Module;
-
-                    GlobalVariable.temp_List_Device_Information_Model_From_Module = temp_List_Device_Information_Model_From_Module;
-
-                    GlobalVariable.temp_Module_Information_Model = temp_List_Module_Information_Model[0];
-
-                    GlobalVariable.temp_Module_Specification_Model = module_Information_Model[0].Specification_Model;
-
-                    GlobalVariable.temp_Adapter_Specification_Model = module_Information_Model[0].Specification_Model.Adapter;
+                    GlobalVariable.ModuleId = ModuleId;
+                    GlobalVariable.temp_ListJBInformationModelFromModule = temp_ListJBInformationModel_From_Module;
+                    GlobalVariable.temp_ListDeviceInformationModelFromModule = temp_ListDeviceInformationModelFromModule;
+                    GlobalVariable.temp_ModuleInformationModel = temp_ModuleInformationModel;
+                    GlobalVariable.temp_ModuleSpecificationModel = moduleInformationModel.ModuleSpecificationModel;
+                    GlobalVariable.temp_AdapterSpecificationModel = moduleInformationModel.ModuleSpecificationModel.Adapter;
                 }
                 Debug.Log("success");
             }
@@ -237,17 +280,17 @@ public class APIManager : MonoBehaviour
 
             if (SceneManager.GetActiveScene().name == "GrapperAScanScene")
             {
-                if (temp_List_JB_Information_Model_From_Module == null || temp_List_JB_Information_Model_From_Module.Count == 0)
+                if (temp_ListJBInformationModel_From_Module == null || temp_ListJBInformationModel_From_Module.Count == 0)
                 {
                     Debug.LogWarning("No JB information models available to download images.");
                     return;
                 }
 
-                Debug.Log("temp_List_JB_Information_Model_From_Module.Count: " + temp_List_JB_Information_Model_From_Module.Count);
+                Debug.Log("temp_ListJBInformationModel_From_Module.Count: " + temp_ListJBInformationModel_From_Module.Count);
 
                 var downloadTasks = new List<Task<Texture2D>>();
 
-                foreach (var jb in temp_List_JB_Information_Model_From_Module)
+                foreach (var jb in temp_ListJBInformationModel_From_Module)
                 {
                     // Khởi tạo các danh sách nếu chưa tồn tại
                     if (!list_JB_Connection_Images_From_Module.ContainsKey(jb.Name))
@@ -261,11 +304,11 @@ public class APIManager : MonoBehaviour
                     }
 
                     // Tải hình ảnh ngoài trời
-                    var outdoorImageTask = DownloadImageAsync(jb.Outdoor_Image);
+                    var outdoorImageTask = DownloadImageAsync(jb.OutdoorImage);
                     list_JB_Location_Images_From_Module[jb.Name] = await outdoorImageTask;
 
                     // Tải danh sách hình ảnh kết nối
-                    foreach (var url in jb.List_Connection_Images)
+                    foreach (var url in jb.ListConnectionImages)
                     {
                         downloadTasks.Add(DownloadImageAsync(url));
                     }
@@ -287,8 +330,8 @@ public class APIManager : MonoBehaviour
                 // Cập nhật biến toàn cục trên Main Thread
                 UnityMainThreadDispatcher.Instance.Enqueue(() =>
                 {
-                    GlobalVariable.temp_list_JB_Connection_Image_From_Module = new Dictionary<string, List<Texture2D>>(list_JB_Connection_Images_From_Module);
-                    GlobalVariable.temp_list_JB_Location_Image_From_Module = new Dictionary<string, Texture2D>(list_JB_Location_Images_From_Module);
+                    GlobalVariable.temp_listJBConnectionImageFromModule = new Dictionary<string, List<Texture2D>>(list_JB_Connection_Images_From_Module);
+                    GlobalVariable.temp_listJBLocationImageFromModule = new Dictionary<string, Texture2D>(list_JB_Location_Images_From_Module);
                     Debug.Log("All images downloaded and updated in global variables.");
                     list_JB_Connection_Images_From_Module.Clear();
                     list_JB_Location_Images_From_Module.Clear();
@@ -296,11 +339,11 @@ public class APIManager : MonoBehaviour
             }
             else if (SceneManager.GetActiveScene().name == "FieldDevicesScene")
             {
-                temp_Field_Device_Information_Model = GlobalVariable.temp_Field_Device_Information_Model;
+                temp_FieldDeviceInformationModel = GlobalVariable.temp_FieldDeviceInformationModel;
 
                 var downloadTasks = new List<Task<Texture2D>>();
 
-                foreach (var image_url in temp_Field_Device_Information_Model.List_connection_Images)
+                foreach (var image_url in temp_FieldDeviceInformationModel.ListConnectionImages)
                 {
                     downloadTasks.Add(DownloadImageAsync(image_url));
                 }
@@ -310,7 +353,7 @@ public class APIManager : MonoBehaviour
                 // Cập nhật danh sách hình ảnh kết nối trên Main Thread
                 UnityMainThreadDispatcher.Instance.Enqueue(() =>
                 {
-                    GlobalVariable.temp_List_Field_Device_Connection_Images = new List<Texture2D>(downloadedTextures);
+                    GlobalVariable.temp_ListFieldDeviceConnectionImages = new List<Texture2D>(downloadedTextures);
                     Debug.Log("All field device connection images downloaded and updated.");
                 });
 
@@ -367,7 +410,11 @@ public class APIManager : MonoBehaviour
             {
                 await Task.Yield();
             }
-
+            if (request.result != UnityWebRequest.Result.Success)
+            {
+                Debug.LogError($"Failed to download image from URL: Error: {request.error}");
+                return false;
+            }
             return !request.result.HasFlag(UnityWebRequest.Result.ConnectionError | UnityWebRequest.Result.ProtocolError);
         }
         catch (Exception ex)
@@ -376,95 +423,7 @@ public class APIManager : MonoBehaviour
             return false;
         }
     }
-
-    // private void LogImageResults()
-    // {
-    //     foreach (var kvp in list_JB_Connection_Images_From_Module)
-    //     {
-    //         Debug.Log($"JB: {kvp.Key}, Connection Images Count: {kvp.Value.Count}");
-    //     }
-
-    //     foreach (var kvp in list_JB_Location_Images_From_Module)
-    //     {
-    //         Debug.Log($"JB: {kvp.Key}, Location Image: {kvp.Value}");
-    //     }
-    // }
-
-
-    // public IEnumerator Save_List_JB_Connection_To_Dictionary()
-    // {
-    //     // Danh sách các task để tải hình ảnh
-    //     var tasks = new List<Task>();
-    //     foreach (var jb in GlobalVariable.temp_List_JB_Information_Model_From_Modules_From_Module)
-    //     {
-    //         if (GlobalVariable.temp_list_JB_Connection_Image_From_Module.ContainsKey(jb.Name))
-    //         {
-    //             continue;
-    //         }
-
-    //         // background thread => không được sử dụng API của Unity
-    //         var task = Task.Run(async () =>
-    //         {
-    //             await Task.Yield(); // Quay lại main thread
-
-    //             var list_JB_Connection_Image = new List<Texture2D>();
-
-    //             // Tải từng hình ảnh trong List_Connection_Images
-    //             foreach (var imageUrl in jb.List_Connection_Images)
-    //             {
-
-    //                 Texture2D texture = await _LoadImageFromUrlAsync(imageUrl);
-    //                 if (texture != null)
-    //                 {
-    //                     list_JB_Connection_Image.Add(texture);
-    //                 }
-    //             }
-    //             //? Lưu kết quả vào Dictionary, lock vào phần cập nhật Dictionary để đảm bảo rằng chỉ một thread có thể truy cập và cập nhật từ Dictionary tại một thời điểm.
-    //             lock (GlobalVariable.temp_list_JB_Connection_Image_From_Module)
-    //             {
-    //                 GlobalVariable.temp_list_JB_Connection_Image_From_Module[jb.Name] = list_JB_Connection_Image;
-    //             }
-    //         });
-    //         tasks.Add(task);
-    //     }
-
-    //     // Đợi tất cả các task hoàn thành
-    //     await Task.WhenAll(tasks);
-    //     // Debug để kiểm tra
-    //     Debug.Log("Loaded all images into dictionary.");
-    //     Debug.Log("Save_List_JB_Connection_To_Dictionary\n GlobalVariable.temp_list_JB_Connection_Image_From_Module.Count: " + GlobalVariable.temp_list_JB_Connection_Image_From_Module.Count);
-    // }
-
-
-
-    // // Phương thức tải ảnh từ URL
-    // public async Task<Texture2D> _LoadImageFromUrlAsync(string url)
-    // {
-    //     using (UnityWebRequest webRequest = UnityWebRequestTexture.GetTexture(url))
-    //     {
-    //         if (!await SendWebRequestAsync(webRequest))
-    //         {
-    //             Debug.LogError($"Request error: {webRequest.error}");
-    //             return null;
-    //         }
-    //         try
-    //         {
-    //             return DownloadHandlerTexture.GetContent(webRequest);
-
-    //         }
-    //         catch (JsonException jsonEx)
-    //         {
-    //             Debug.LogError($"Error parsing JSON: {jsonEx.Message}");
-    //             return null;
-    //         }
-    //         catch (Exception ex)
-    //         {
-    //             Debug.LogError($"Unexpected error: {ex}");
-    //             return null;
-    //         }
-    //     }
-    // }
-    public async Task GetAllDevicesByGrapper(string url, string grapperId)
+    public async Task GetAllDevicesByGrapper(string url, int grapperId)
     {
         using UnityWebRequest webRequest = UnityWebRequest.Get(url);
         {
@@ -473,18 +432,17 @@ public class APIManager : MonoBehaviour
                 HandleRequestError(webRequest.error);
                 return;
             }
-
             try
             {
-                var list_Device_Information_Model = JsonConvert.DeserializeObject<List<Device_Information_Model>>(webRequest.downloadHandler.text);
-                if (list_Device_Information_Model != null && list_Device_Information_Model.Count > 0)
+                var list_DeviceInformationModel = JsonConvert.DeserializeObject<List<DeviceInformationModel>>(webRequest.downloadHandler.text);
+                if (list_DeviceInformationModel != null && list_DeviceInformationModel.Count > 0)
                 {
-                    GlobalVariable_Search_Devices.temp_List_Device_Information_Model = list_Device_Information_Model;
-                    GlobalVariable_Search_Devices.temp_List_Device_For_Fitler = FilterListDevicesForSearching(list_Device_Information_Model);
+                    GlobalVariable_Search_Devices.temp_ListDeviceInformationModel = list_DeviceInformationModel;
+                    GlobalVariable_Search_Devices.temp_List_Device_For_Fitler = FilterListDevicesForSearching(list_DeviceInformationModel);
                 }
                 else
                 {
-                    Debug.Log("list_Device_Information_Model is null");
+                    Debug.Log("list_DeviceInformationModel is null");
                 }
             }
             catch (JsonException jsonEx)
@@ -499,7 +457,7 @@ public class APIManager : MonoBehaviour
             }
         }
     }
-    public async Task GetAllJBsByGrapper(string url, string grapperId)
+    public async Task GetAllJBsByGrapper(string url, int grapperId)
     {
         using UnityWebRequest webRequest = UnityWebRequest.Get(url);
         {
@@ -511,11 +469,11 @@ public class APIManager : MonoBehaviour
 
             try
             {
-                var list_JB_Information_Model = JsonConvert.DeserializeObject<List<JB_Information_Model>>(webRequest.downloadHandler.text);
-                if (list_JB_Information_Model != null && list_JB_Information_Model.Count > 0)
+                var list_JBInformationModel = JsonConvert.DeserializeObject<List<JBInformationModel>>(webRequest.downloadHandler.text);
+                if (list_JBInformationModel != null && list_JBInformationModel.Count > 0)
                 {
-                    GlobalVariable_Search_Devices.temp_List_JB_Information_Model = list_JB_Information_Model;
-                    Debug.Log("GlobalVariable_Search_Devices.temp_List_JB_Information_Model_From_Module.Count: " + GlobalVariable_Search_Devices.temp_List_JB_Information_Model.Count);
+                    GlobalVariable_Search_Devices.temp_ListJBInformationModel = list_JBInformationModel;
+                    Debug.Log("GlobalVariable_Search_Devices.temp_ListJBInformationModel_From_Module.Count: " + GlobalVariable_Search_Devices.temp_ListJBInformationModel.Count);
                 }
             }
             catch (JsonException jsonEx)
@@ -530,10 +488,10 @@ public class APIManager : MonoBehaviour
             }
         }
     }
-    private List<string> FilterListDevicesForSearching(List<Device_Information_Model> Device_Information_Models)
+    private List<string> FilterListDevicesForSearching(List<DeviceInformationModel> DeviceInformationModels)
     {
         var list_Devices_For_Filter = new HashSet<string>();
-        foreach (var device in Device_Information_Models)
+        foreach (var device in DeviceInformationModels)
         {
             if (!string.IsNullOrWhiteSpace(device.Code)) list_Devices_For_Filter.Add(device.Code);
             if (!string.IsNullOrWhiteSpace(device.Function)) list_Devices_For_Filter.Add(device.Function);
@@ -547,31 +505,33 @@ public class APIManager : MonoBehaviour
         {
             if (!await SendWebRequestAsync(webRequest))
             {
-                Debug.LogError($"Request error from URL: {webRequest.url}, Error: {webRequest.error}");
-                return;
+                Debug.LogError($"Không thành công: {webRequest.url}, Error: {webRequest.error}");
             }
-            try
+            else
             {
-                Texture2D texture = DownloadHandlerTexture.GetContent(webRequest);
-                if (convertToSprite)
+                try
                 {
-                    Sprite sprite = Texture_To_Sprite.ConvertTextureToSprite(texture);
-                    image.sprite = sprite;
-                    image.gameObject.SetActive(true);
+                    Texture2D texture = DownloadHandlerTexture.GetContent(webRequest);
+                    if (convertToSprite)
+                    {
+                        Sprite sprite = Texture_To_Sprite.ConvertTextureToSprite(texture);
+                        image.sprite = sprite;
+                        image.gameObject.SetActive(true);
+                    }
+                }
+                catch (JsonException jsonEx)
+                {
+                    Debug.LogError($"Error parsing JSON from URL: {webRequest.url}, Error: {jsonEx.Message}");
+                }
+                catch (Exception ex)
+                {
+                    Debug.LogError($"Unexpected error from URL: {webRequest.url}, Error: {ex}");
                 }
             }
-            catch (JsonException jsonEx)
-            {
-                Debug.LogError($"Error parsing JSON from URL: {webRequest.url}, Error: {jsonEx.Message}");
-                return;
-            }
-            catch (Exception ex)
-            {
-                Debug.LogError($"Unexpected error from URL: {webRequest.url}, Error: {ex}");
-                return;
-            }
+
         }
     }
+
     //operation.isDone: Đoạn mã này kiểm tra xem tác vụ tải ảnh có hoàn thành chưa.
     // Điều này là một công việc background — tải ảnh từ internet, không ảnh hưởng đến main thread.
     // await Task.Yield(): Khi bạn gọi await Task.Yield(), điều này có nghĩa là main thread tạm dừng công việc hiện tại của nó(kiểm tra operation.isDone) 
@@ -585,17 +545,8 @@ public class APIManager : MonoBehaviour
         Debug.LogError($"Request error: {error}");
     }
 
-    private async Task HandleSuccessfulPost(Device_Information_Model device, string sceneName)
-    {
-        Show_Dialog.Instance.ShowToast("success", $"Thêm thiết bị mới thành công: {device.Code}");
-        // await GetAllDevicesByGrapper($"{GlobalVariable.baseUrl}{device.location[^1..]}", sceneName);
-        await Task.Delay(0);
-
-        Sence_Behaviour.Reload_Scene(sceneName);
-
-    }
     // Create New Device
-    /* public async Task CreateNewDevice(string url, Device_Information_Model device, string sceneName)
+    /* public async Task CreateNewDevice(string url, DeviceInformationModel device, string sceneName)
      {
          try
          {

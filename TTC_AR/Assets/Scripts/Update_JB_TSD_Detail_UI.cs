@@ -73,8 +73,8 @@ public class Update_JB_TSD_Detail_UI : MonoBehaviour
 
     private IEnumerator ApplyLocationSprite()
     {
-        if (GlobalVariable.temp_list_JB_Location_Image_From_Module != null &&
-            GlobalVariable.temp_list_JB_Location_Image_From_Module.TryGetValue(jb_name, out var texture))
+        if (GlobalVariable.temp_listJBLocationImageFromModule != null &&
+            GlobalVariable.temp_listJBLocationImageFromModule.TryGetValue(jb_name, out var texture))
         {
             jb_location_imagePrefab.sprite = Texture_To_Sprite.ConvertTextureToSprite(texture);
             yield return StartCoroutine(Resize_Gameobject_Function.Set_NativeSize_For_GameObject(jb_location_imagePrefab));
@@ -83,8 +83,8 @@ public class Update_JB_TSD_Detail_UI : MonoBehaviour
 
     private IEnumerator ApplyConnectionSprites()
     {
-        if (GlobalVariable.temp_list_JB_Connection_Image_From_Module != null &&
-            GlobalVariable.temp_list_JB_Connection_Image_From_Module.TryGetValue(jb_name, out var list_Texture))
+        if (GlobalVariable.temp_listJBConnectionImageFromModule != null &&
+            GlobalVariable.temp_listJBConnectionImageFromModule.TryGetValue(jb_name, out var list_Texture))
         {
             if (list_Texture.Count > 0)
             {

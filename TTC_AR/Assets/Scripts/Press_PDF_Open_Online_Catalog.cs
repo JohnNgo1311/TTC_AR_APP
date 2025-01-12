@@ -14,17 +14,15 @@ public class Press_PDF_Open_Online_Catalog : MonoBehaviour
     [SerializeField]
     private bool open_module_adapter_Catalog = false;
 
-    private string adapter_Name;
-    private string module_Name;
+    private string adapterSpecificationName;
+    private string moduleSpecificationName;
     public Dictionary<string, string> online_Adapter_Catalog_Url = new Dictionary<string, string>();
     public Dictionary<string, string> online_Module_Catalog_Url = new Dictionary<string, string>();
 
     void OnEnable()
     {
-        adapter_Name = GlobalVariable.apdapter_Type_Name;
-        module_Name = GlobalVariable.module_Type_Name;
-        online_Adapter_Catalog_Url = GlobalVariable.online_Adapter_Catalog_Url;
-        online_Module_Catalog_Url = GlobalVariable.online_Module_Catalog_Url;
+        adapterSpecificationName = GlobalVariable.adapterSpecificationName;
+        moduleSpecificationName = GlobalVariable.moduleSpecificationName;
 
         if (open_module_adapter_Catalog)
         {
@@ -47,11 +45,11 @@ public class Press_PDF_Open_Online_Catalog : MonoBehaviour
     {
         if (open_module_Catalog && !open_adapter_Catalog)
         {
-            Application.OpenURL(online_Module_Catalog_Url[module_Name]);
+            Application.OpenURL(online_Module_Catalog_Url[moduleSpecificationName]);
         }
         else if (!open_module_Catalog && open_adapter_Catalog)
         {
-            Application.OpenURL(online_Adapter_Catalog_Url[adapter_Name]);
+            Application.OpenURL(online_Adapter_Catalog_Url[adapterSpecificationName]);
         }
     }
     private void Open_url(int index)

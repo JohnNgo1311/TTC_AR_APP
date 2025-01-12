@@ -1,0 +1,68 @@
+using System;
+using System.Collections.Generic;
+using Newtonsoft.Json;
+using UnityEngine.Scripting;
+
+[Preserve]
+public class ModuleInformationModel
+{
+#nullable enable
+
+  [JsonProperty("id")] public int Id { get; set; }
+
+  [JsonProperty("name")] public string Name { get; set; }
+  [JsonProperty("rack")] public Rack_Non_List_Module_Model Rack { get; set; }
+  [JsonProperty("jbs")] public List<JBInformationModel> ListJBInformationModel { get; set; }
+
+  [JsonProperty("devices")] public List<DeviceInformationModel> ListDeviceInformationModel { get; set; }
+
+  [JsonProperty("specification")] public ModuleSpecificationModel? ModuleSpecificationModel { get; set; }
+
+
+  [Preserve]
+  [JsonConstructor]
+  public ModuleInformationModel(int id, string name, Rack_Non_List_Module_Model rack, List<JBInformationModel> listJBInformationModel, List<DeviceInformationModel> listDeviceInformationModel, ModuleSpecificationModel? moduleSpecificationModel)
+  {
+    Id = id;
+    Name = name;
+    Rack = rack;
+    ListJBInformationModel = listJBInformationModel;
+    ListDeviceInformationModel = listDeviceInformationModel;
+    ModuleSpecificationModel = moduleSpecificationModel;
+  }
+}
+[Preserve]
+public class Module_General_Model //! Module Module có Id, Name và Rack tương ứng (Rack chỉ chứa Id và Name)
+{
+  [JsonProperty("Id")]
+  public int Id { get; set; }
+  [JsonProperty("Name")]
+  public string Name { get; set; }
+  [JsonProperty("Rack")]
+  public Rack_Non_List_Module_Model Rack_Non_List_Module_Model { get; set; }
+  [Preserve]
+  [JsonConstructor]
+  public Module_General_Model(int id, string name, Rack_Non_List_Module_Model rack_Non_List_Module_Model)
+  {
+    Id = id;
+    Name = name;
+    Rack_Non_List_Module_Model = rack_Non_List_Module_Model;
+  }
+}
+public class Module_General_Non_Rack_Model //! Module chỉ có Id và Name, không chứa Rack
+{
+  [JsonProperty("id")]
+  public int Id { get; set; }
+  [JsonProperty("name")]
+  public string Name { get; set; }
+  [Preserve]
+  [JsonConstructor]
+  public Module_General_Non_Rack_Model(int id, string name)
+  {
+    Id = id;
+    Name = name;
+  }
+}
+
+
+
