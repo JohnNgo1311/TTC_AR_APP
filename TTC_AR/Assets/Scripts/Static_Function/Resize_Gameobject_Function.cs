@@ -37,7 +37,7 @@ public class Resize_Gameobject_Function : MonoBehaviour
       yield break;
     }
 
-
+    yield return new WaitForSeconds(2f);
     // Lấy kích thước gốc của hình ảnh
     float originalWidth = imageComponent.sprite.rect.width;
     float originalHeight = imageComponent.sprite.rect.height;

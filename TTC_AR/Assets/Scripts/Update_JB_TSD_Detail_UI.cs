@@ -68,7 +68,7 @@ public class Update_JB_TSD_Detail_UI : MonoBehaviour
 
         // Chạy song song ApplyLocationSprite và ApplyConnectionSprites
         yield return ApplyConnectionSprites();
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(2f);
         yield return ApplyLocationSprite();
         yield return Show_Dialog.Instance.Set_Instance_Status_False();
     }
@@ -95,7 +95,7 @@ public class Update_JB_TSD_Detail_UI : MonoBehaviour
                     if (!jb_location_imagePrefab.gameObject.activeSelf) jb_location_imagePrefab.gameObject.SetActive(true);
                     jb_location_imagePrefab.sprite = Texture_To_Sprite.ConvertTextureToSprite(texture);
                     yield return Resize_Gameobject_Function.Set_NativeSize_For_GameObject(jb_location_imagePrefab);
-                    yield return null;
+                    yield return new WaitForSeconds(1f);
                 }
             }
             else
@@ -117,6 +117,7 @@ public class Update_JB_TSD_Detail_UI : MonoBehaviour
                     jb_connection_imagePrefab.sprite = Texture_To_Sprite.ConvertTextureToSprite(list_Texture[0]);
                     jb_connection_imagePrefab.gameObject.SetActive(true);
                     yield return Resize_Gameobject_Function.Set_NativeSize_For_GameObject(jb_connection_imagePrefab);
+                    yield return new WaitForSeconds(1f);
                 }
                 else
                 {
@@ -129,6 +130,7 @@ public class Update_JB_TSD_Detail_UI : MonoBehaviour
                         imageObject.gameObject.SetActive(true);
 
                         yield return Resize_Gameobject_Function.Set_NativeSize_For_GameObject(imageObject);
+                        yield return new WaitForSeconds(1f);
                     }
                     jb_connection_imagePrefab.gameObject.SetActive(false);
                 }

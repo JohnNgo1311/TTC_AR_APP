@@ -246,10 +246,7 @@ public class Dropdown_On_ValueChange : MonoBehaviour
         imageComponent.sprite = jbSprite;
         imageComponent.gameObject.GetComponent<Button>().onClick.AddListener(() => open_Detail_Image.Open_Detail_Canvas(imageComponent));
         Debug.Log("Đã add sự kiện click vào imageComponent");
-        StartCoroutine(
-
-              Resize_Gameobject_Function.Set_NativeSize_For_GameObject(imageComponent)
-             );
+        StartCoroutine(Resize_Gameobject_Function.Set_NativeSize_For_GameObject(imageComponent));
     }
 
     private void CreateAndSetSprite(string jb_name)
