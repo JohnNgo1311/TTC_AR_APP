@@ -151,10 +151,9 @@ public class OpenCanvas : MonoBehaviour
 
     void Update()
     {
-        if (SceneManager.GetActiveScene().name == "GrapperAScanScene")
-        {
-            activated_imageTargets = GlobalVariable.activated_iamgeTargets;
-        }
+
+        activated_imageTargets = GlobalVariable.activated_iamgeTargets;
+
 
 #if ENABLE_INPUT_SYSTEM && !ENABLE_LEGACY_INPUT_MANAGER
         if (UnityEngine.InputSystem.Mouse.current.leftButton.wasPressedThisFrame ||
@@ -220,18 +219,18 @@ public class OpenCanvas : MonoBehaviour
         if (SceneManager.GetActiveScene().name == "GrapperAScanScene")
         {
             yield return new WaitUntil(() =>
-            GlobalVariable.temp_list_JB_Connection_Image_From_Module != null
-            && GlobalVariable.temp_list_JB_Location_Image_From_Module != null
-            && GlobalVariable.temp_list_JB_Connection_Image_From_Module.Count > 0
-            && GlobalVariable.temp_list_JB_Location_Image_From_Module.Count > 0);
+            GlobalVariable.temp_listJBConnectionImageFromModule != null
+            && GlobalVariable.temp_listJBLocationImageFromModule != null
+            && GlobalVariable.temp_listJBConnectionImageFromModule.Count > 0
+            && GlobalVariable.temp_listJBLocationImageFromModule.Count > 0);
             Debug.Log("OnOpenCanvas 1");
 
         }
-        else
+        else if (SceneManager.GetActiveScene().name == "FieldDevicesScene")
         {
             yield return new WaitUntil(() =>
-            GlobalVariable.temp_List_Field_Device_Connection_Images != null
-            && GlobalVariable.temp_List_Field_Device_Connection_Images.Count > 0);
+            GlobalVariable.temp_ListFieldDeviceConnectionImages != null
+            && GlobalVariable.temp_ListFieldDeviceConnectionImages.Count > 0);
             Debug.Log("OnOpenCanvas 2");
 
         }

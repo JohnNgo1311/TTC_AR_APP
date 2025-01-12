@@ -8,29 +8,38 @@ using System.Collections;
 public class Update_Set_Up_Value_UI : MonoBehaviour
 {
     public List<TMP_Text> setup_Value_Texts;
-    public Field_Device_Information_Model field_Device_Information_Model;
+    public MccModel MCCInformationModel;
+    public FieldDeviceInformationModel FieldDeviceInformationModel;
     public EventPublisher eventPublisher;
+    private string cabinetCode;
 
     private void OnEnable()
     {
+        Initialize();
+    }
+    private void Initialize()
+    {
         StartCoroutine(Update_Set_Up_Value_UI_Panel());
     }
-
     private IEnumerator Update_Set_Up_Value_UI_Panel()
     {
+        cabinetCode = gameObject.transform.parent.gameObject.name.Split('_')[1];
+        Debug.Log("Cabinet Code: " + cabinetCode);
+        var cabinetId = GlobalVariable.temp_ListMCCInformationModel.Find(cabinet => cabinet.CabinetCode == cabinetCode).Id;
+        GlobalVariable.MCCId = cabinetId;
+
         yield return new WaitForSeconds(2f);
 
         eventPublisher.TriggerEvent_ButtonClicked();
-
-        yield return StartCoroutine(Get_SetUp_Value());
+        yield return StartCoroutine(GetMCCInformationMopdel());
         yield return StartCoroutine(Update_UI());
 
     }
-    private IEnumerator Get_SetUp_Value()
+    private IEnumerator GetMCCInformationMopdel()
     {
-        while (GlobalVariable.temp_Field_Device_Information_Model == null)
+        while (GlobalVariable.temp_MCCInformationModel == null)
         {
-            Debug.Log("Waiting for GlobalVariable.temp_Field_Device_Information_Model to be assigned...");
+            Debug.Log("Waiting for GlobalVariable.temp_MCCInformationModel to be assigned...");
             yield return null;
         }
         Debug.Log("All variables have been assigned!");
@@ -39,21 +48,17 @@ public class Update_Set_Up_Value_UI : MonoBehaviour
     // Coroutine cập nhật UI cho Adapter
     private IEnumerator Update_UI()
     {
-        field_Device_Information_Model = GlobalVariable.temp_Field_Device_Information_Model;
-
+        MCCInformationModel = GlobalVariable.temp_MCCInformationModel;
+        FieldDeviceInformationModel = MCCInformationModel.FieldDeviceInformationModel[0];
         string[] values = {
-            field_Device_Information_Model.Type,
-            field_Device_Information_Model.Name,
-            field_Device_Information_Model.Cabinet_Code,
-            field_Device_Information_Model.Brand,
-            field_Device_Information_Model.Rated_Power,
-            field_Device_Information_Model.Output_Power,
-            field_Device_Information_Model.Rated_Current,
-            field_Device_Information_Model.Active_Current,
-            field_Device_Information_Model.Active_Voltage,
-            field_Device_Information_Model.Frequency,
-            field_Device_Information_Model.Rotation_Speed,
-            field_Device_Information_Model.Noted
+            MCCInformationModel.Type,
+            FieldDeviceInformationModel.Name,
+            MCCInformationModel.CabinetCode,
+            MCCInformationModel.Brand,
+            FieldDeviceInformationModel.RatedPower,
+            FieldDeviceInformationModel.RatedCurrent,
+            FieldDeviceInformationModel.ActiveCurrent,
+            MCCInformationModel.Note
         };
 
         for (int i = 0; i < setup_Value_Texts.Count; i++)
@@ -75,6 +80,6 @@ public class Update_Set_Up_Value_UI : MonoBehaviour
 
     private void OnDisable()
     {
-
+        StopAllCoroutines();
     }
 }

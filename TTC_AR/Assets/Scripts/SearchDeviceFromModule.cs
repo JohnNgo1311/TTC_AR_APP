@@ -2,19 +2,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
-
-//! Script này sử dụng cho Dropdown trong Device Search trong mỗi module
-//! Lọc theo GlobalVariable_Search_Devices.devices_Model_By_Grapper
 public class SearchDeviceFromModule : MonoBehaviour
 {
     public List<TMP_Text> deviceInformation = new List<TMP_Text>();
-    private List<Device_Information_Model> listDeviceFromModule;
-    private Device_Information_Model deviceInfor;
+    private List<DeviceInformationModel_FromModule> listDeviceFromModule;
+    private DeviceInformationModel_FromModule deviceInfor;
     public TMP_Dropdown dropdown;
     public GameObject contentPanel;
-
+    private JBInformationModel jBInformationModel_ConnectingToDevice;
     public Button nav_JB_TSD_Detail_button;
-    private string moduleName = "D1.0.I";
+    // private string moduleName = "D1.0.I";
     private const string noDeviceMessage = "không có thiết bị kết nối";
 
     [SerializeField]
@@ -40,8 +37,8 @@ public class SearchDeviceFromModule : MonoBehaviour
             if (module_Canvas.gameObject.activeSelf)
             {
                 // Tách moduleName một lần và lưu trữ
-                moduleName = module_Canvas.name.Split('_')[0];
-                listDeviceFromModule = Get_List_Device_By_Module(moduleName);
+                //moduleName = module_Canvas.name.Split('_')[0];
+                listDeviceFromModule = Get_List_Device_By_Module();
                 // Xóa các tùy chọn trước đó
                 dropdown.options.Clear();
                 if (listDeviceFromModule.Count > 0)
@@ -121,32 +118,29 @@ public class SearchDeviceFromModule : MonoBehaviour
         }
     }
 
-    private List<Device_Information_Model> Get_List_Device_By_Module(string moduleName)
+    private List<DeviceInformationModel_FromModule> Get_List_Device_By_Module()
     {
-        return GlobalVariable.temp_List_Device_Information_Model_From_Module.FindAll(
-            device => device.IOAddress.StartsWith(moduleName + ".")
-        );
-
+        return GlobalVariable.temp_ListDeviceInformationModel_FromModule;
     }
 
-    private void UpdateDeviceInformation(Device_Information_Model device)
+    private void UpdateDeviceInformation(DeviceInformationModel_FromModule device)
     {
         deviceInformation[0].text = device.Code;
         deviceInformation[1].text = device.Function;
         deviceInformation[2].text = device.Range;
         deviceInformation[3].text = device.IOAddress;
 
-        deviceInformation[4].text = device.JB_Information_Model.Name;
-        deviceInformation[5].text = device.JB_Information_Model.Location;
-        GlobalVariable.jb_TSD_Location = device.JB_Information_Model.Location;
+        jBInformationModel_ConnectingToDevice = GlobalVariable.temp_ListJBInformationModel_FromModule.Find(jB => jB.Id == device.JBGeneralModel.Id);
+
+        deviceInformation[4].text = jBInformationModel_ConnectingToDevice.Name;
+        deviceInformation[5].text = jBInformationModel_ConnectingToDevice.Location;
         // Đảm bảo không gán nhiều lần
         nav_JB_TSD_Detail_button.onClick.RemoveAllListeners();
-
         nav_JB_TSD_Detail_button.onClick.AddListener(() =>
         {
             GlobalVariable.navigate_from_List_Devices = true;
             GlobalVariable.navigate_from_JB_TSD_General = false;
-            NavigateJBDetailScreen(jB_Information_Model: device.JB_Information_Model);
+            NavigateJBDetailScreen(jB_Information_Model: jBInformationModel_ConnectingToDevice);
         });
     }
 
@@ -165,7 +159,7 @@ public class SearchDeviceFromModule : MonoBehaviour
     }
     */
 
-    public void NavigateJBDetailScreen(JB_Information_Model jB_Information_Model)
+    public void NavigateJBDetailScreen(JBInformationModel jB_Information_Model)
     {
         GlobalVariable.jb_TSD_Title = jB_Information_Model.Name; // Name_Location of JB
 

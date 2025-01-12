@@ -8,12 +8,12 @@ public class Update_Field_Device_Connection_Screen : MonoBehaviour
 {
     [SerializeField] private GameObject field_Device_Connection_Panel_Prefab;
     [SerializeField] private Canvas canvas_Parent;
-    [SerializeField] private TMP_Text field_Device_Title;
+    [SerializeField] private TMP_Text MCC_Title;
     [SerializeField] private Image connection_ImagePrefab;
     [SerializeField] private GameObject scroll_Area_Content;
     [SerializeField] private ScrollRect scroll_Area;
-    [SerializeField] private string cabinet_Type = "";
-    [SerializeField] private string cabinet_Name = "";
+    private string fieldDevice_Name;
+    private string cabinet_Type;
     private List<GameObject> instantiatedImages = new List<GameObject>();
 
     private void OnEnable()
@@ -35,35 +35,33 @@ public class Update_Field_Device_Connection_Screen : MonoBehaviour
 
     private void InitializeReferences()
     {
-        field_Device_Title ??= field_Device_Connection_Panel_Prefab.transform.Find("Title").GetComponent<TMP_Text>();
+        MCC_Title ??= field_Device_Connection_Panel_Prefab.transform.Find("Title").GetComponent<TMP_Text>();
         scroll_Area ??= field_Device_Connection_Panel_Prefab.transform.Find("Scroll_Area").GetComponent<ScrollRect>();
         scroll_Area_Content ??= field_Device_Connection_Panel_Prefab.transform.Find("Scroll_Area/Content").gameObject;
         connection_ImagePrefab ??= scroll_Area_Content.transform.Find("Field_Device_Connection_Image_Prefab").gameObject.GetComponent<Image>();
     }
     private void UpdateTitle()
     {
-        if (!string.IsNullOrEmpty(GlobalVariable.temp_Field_Device_Information_Model.Type) && !string.IsNullOrEmpty(GlobalVariable.temp_Field_Device_Information_Model.Name))
+        if (!string.IsNullOrEmpty(GlobalVariable.temp_MCCInformationModel.Type) && !string.IsNullOrEmpty(GlobalVariable.temp_FieldDeviceInformationModel.Name))
         {
-            cabinet_Name = GlobalVariable.temp_Field_Device_Information_Model.Name;
-            cabinet_Type = GlobalVariable.temp_Field_Device_Information_Model.Type;
+            fieldDevice_Name = GlobalVariable.temp_FieldDeviceInformationModel.Name;
+            cabinet_Type = GlobalVariable.temp_MCCInformationModel.Type;
             if (cabinet_Type.ToLower() == "biến tần")
             {
-                field_Device_Title.text = $"Sơ đồ đấu dây tủ {cabinet_Type.ToLower()} {cabinet_Name}";
+                MCC_Title.text = $"Sơ đồ đấu dây tủ {cabinet_Type.ToLower()} {fieldDevice_Name}";
             }
             else
             {
-                field_Device_Title.text = $"Sơ đồ đấu dây tủ động lực + {cabinet_Name}";
+                MCC_Title.text = $"Sơ đồ đấu dây tủ động lực + {fieldDevice_Name}";
             }
         }
     }
 
     private IEnumerator RunApplyFunctions()
     {
-        var applyConnection = StartCoroutine(ApplyConnectionSprites());
-
         Show_Dialog.Instance.Set_Instance_Status_True();
         Show_Dialog.Instance.ShowToast("loading", "Đang tải hình ảnh...");
-        yield return applyConnection;
+        yield return ApplyConnectionSprites();
         yield return Show_Dialog.Instance.Set_Instance_Status_False();
     }
 
@@ -71,9 +69,9 @@ public class Update_Field_Device_Connection_Screen : MonoBehaviour
 
     private IEnumerator ApplyConnectionSprites()
     {
-        if (GlobalVariable.temp_List_Field_Device_Connection_Images != null)
+        if (GlobalVariable.temp_ListFieldDeviceConnectionImages != null)
         {
-            var list_Texture = GlobalVariable.temp_List_Field_Device_Connection_Images;
+            var list_Texture = GlobalVariable.temp_ListFieldDeviceConnectionImages;
             if (list_Texture.Count > 0)
             {
                 if (list_Texture.Count == 1)
@@ -96,6 +94,10 @@ public class Update_Field_Device_Connection_Screen : MonoBehaviour
                     connection_ImagePrefab.gameObject.SetActive(false);
                 }
             }
+        }
+        else
+        {
+            Debug.LogError("No connection images found");
         }
     }
 

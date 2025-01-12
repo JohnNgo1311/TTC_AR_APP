@@ -8,17 +8,29 @@ public class Nav_Scene_Back : MonoBehaviour
     public string recentSceneName;
     [SerializeField]
     private bool isOrientation = false;
-
+    [SerializeField]
+    private GameObject detail_Image;
     private void Awake()
     {
         Scene_Manager.Instance.SetScreenOrientation(isOrientation);
     }
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape) || (Gamepad.current != null && Gamepad.current.buttonEast != null && Gamepad.current.buttonEast.wasPressedThisFrame) || (Keyboard.current != null && Keyboard.current.escapeKey.wasPressedThisFrame))
+        if (IsEscapePressed())
         {
-            NavigatePop();
+            if (SceneManager.GetActiveScene().name == "PLCBoxGrapA" && detail_Image.activeSelf)
+            {
+                detail_Image.gameObject.SetActive(false);
+            }
+            else NavigatePop();
         }
+    }
+
+    private bool IsEscapePressed()
+    {
+        return Input.GetKeyDown(KeyCode.Escape) ||
+               (Gamepad.current?.buttonEast?.wasPressedThisFrame ?? false) ||
+               (Keyboard.current?.escapeKey.wasPressedThisFrame ?? false);
     }
 
     public void NavigatePop()

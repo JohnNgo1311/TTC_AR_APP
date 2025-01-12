@@ -57,7 +57,7 @@
 
 //     }
 
-//     private void CreateOrReuseDeviceObject(string name, Device_Information_Model device)
+//     private void CreateOrReuseDeviceObject(string name, DeviceInformationModel device)
 //     {
 //         GameObject deviceObject;
 //         if (activeDeviceCount < deviceObjectsPool.Count)
@@ -76,7 +76,7 @@
 //         activeDeviceCount++;
 //     }
 
-//     private void UpdateDeviceInformation(GameObject new_GameObject, Device_Information_Model device)
+//     private void UpdateDeviceInformation(GameObject new_GameObject, DeviceInformationModel device)
 //     {
 //         // Tối ưu hóa: Chỉ cập nhật nếu có thay đổi
 //         TMP_Text code = GetOrAddTextComponent(new_GameObject, "information/code_group/code", device.Code);
@@ -84,7 +84,7 @@
 //         TMP_Text range_measurement = GetOrAddTextComponent(new_GameObject, "information/range_measurement_group/range_measurement", device.Range);
 //         TMP_Text I_O = GetOrAddTextComponent(new_GameObject, "information/I_O_group/I_O", device.IOAddress);
 
-//         var jb_infor = JB_SplitString(device.JB_Information_Model.Name);
+//         var jb_infor = JB_SplitString(device.JBInformationModel.Name);
 //         TMP_Text jb_name = GetOrAddTextComponent(new_GameObject, "jb_information_group/jb_name", $"{jb_infor[0]}:");
 //         TMP_Text jb_location = GetOrAddTextComponent(new_GameObject, "jb_information_group/jb_location", jb_infor[1]);
 //     }

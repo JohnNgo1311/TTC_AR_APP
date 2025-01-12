@@ -90,10 +90,10 @@
 //     {
 //         try
 //         {
-//             List<Device_Information_Model> devices = JsonConvert.DeserializeObject<List<Device_Information_Model>>(jsonData);
+//             List<DeviceInformationModel> devices = JsonConvert.DeserializeObject<List<DeviceInformationModel>>(jsonData);
 //             if (devices != null && devices.Count > 0 && !string.IsNullOrWhiteSpace(devices[1].Function))
 //             {
-//                 GlobalVariable_Search_Devices.temp_List_Device_Information_Model = devices;
+//                 GlobalVariable_Search_Devices.temp_ListDeviceInformationModel = devices;
 //                 ProcessAndSaveDevices(devices);
 //             }
 //             else
@@ -111,7 +111,7 @@
 //         }
 //     }
 
-//     private void ProcessAndSaveDevices(List<Device_Information_Model> devices)
+//     private void ProcessAndSaveDevices(List<DeviceInformationModel> devices)
 //     {
 //         List<string> filteredDevices = GetDeviceForFilter(devices);
 //         switch (grapper)
@@ -145,11 +145,11 @@
 //         }
 //     }
 
-//     private List<string> GetDeviceForFilter(List<Device_Information_Model> Device_Information_Models)
+//     private List<string> GetDeviceForFilter(List<DeviceInformationModel> DeviceInformationModels)
 //     {
 //         List<string> devicesForFilter = new List<string>();
 
-//         foreach (var device in Device_Information_Models)
+//         foreach (var device in DeviceInformationModels)
 //         {
 //             if (!string.IsNullOrWhiteSpace(device.Code))
 //             {

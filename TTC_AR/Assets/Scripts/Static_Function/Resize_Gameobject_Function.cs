@@ -28,7 +28,6 @@ public class Resize_Gameobject_Function : MonoBehaviour
 
   public static IEnumerator Set_NativeSize_For_GameObject(Image imageComponent)
   {
-    LayoutRebuilder.ForceRebuildLayoutImmediate(imageComponent.rectTransform);
     Canvas.ForceUpdateCanvases();
 
     if (imageComponent.sprite == null)
@@ -39,7 +38,7 @@ public class Resize_Gameobject_Function : MonoBehaviour
     // imageComponent.gameObject.SetActive(false);
     yield return new WaitForSeconds(0.3f);
 
-    yield return new WaitForSeconds(0.3f);
+    yield return new WaitForSeconds(2f);
     // Lấy kích thước gốc của hình ảnh
     float originalWidth = imageComponent.sprite.rect.width;
     float originalHeight = imageComponent.sprite.rect.height;
@@ -47,5 +46,7 @@ public class Resize_Gameobject_Function : MonoBehaviour
     RectTransform rectTransform = imageComponent.rectTransform;
     float aspectRatio = originalWidth / originalHeight;
     rectTransform.sizeDelta = new Vector2(rectTransform.sizeDelta.x, rectTransform.sizeDelta.x / aspectRatio);
+    LayoutRebuilder.ForceRebuildLayoutImmediate(imageComponent.rectTransform);
+
   }
 }

@@ -2383,7 +2383,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 74.5
+  m_fontSize: 1
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -2628,7 +2628,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 74.5
+  m_fontSize: 1
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -2757,7 +2757,7 @@ GameObject:
   - component: {fileID: 3647350429806306745}
   - component: {fileID: 3647350429806306750}
   - component: {fileID: 3647350429806306749}
-  - component: {fileID: 3647350429806306748}
+  - component: {fileID: 4418757019422539148}
   m_Layer: 7
   m_Name: Scripts
   m_TagString: Untagged
@@ -2821,7 +2821,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   module_Canvas: {fileID: 3647350430788541893}
---- !u!114 &3647350429806306748
+--- !u!114 &4418757019422539148
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3931,7 +3931,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3647350430451162747}
   - component: {fileID: 3647350430451162744}
-  - component: {fileID: 3647350430451162746}
   m_Layer: 7
   m_Name: General_Panel
   m_TagString: Untagged
@@ -3986,29 +3985,6 @@ MonoBehaviour:
   sensitivity: 1
   damping: -1
   remainingScale: {x: 0, y: 0, z: 0}
---- !u!114 &3647350430451162746
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3647350430451162745}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4eda371e5375f454490a86f21559ee38, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Use:
-    Filter: 0
-    IgnoreStartedOverGui: 1
-    RequiredFingerCount: 0
-    RequiredMouseButtons: 0
-    RequiredSelectable: {fileID: 0}
-  _camera: {fileID: 0}
-  sensitivity: 1
-  damping: -1
-  inertia: 0
-  remainingTranslation: {x: 0, y: 0, z: 0}
 --- !u!1 &3647350430453500301
 GameObject:
   m_ObjectHideFlags: 0
@@ -4103,7 +4079,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 74.6
+  m_fontSize: 1
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -6709,7 +6685,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 75.2
+  m_fontSize: 1
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -7263,6 +7239,11 @@ PrefabInstance:
       propertyPath: canvas_Parent
       value: 
       objectReference: {fileID: 3647350430788541893}
+    - target: {fileID: 8030745039658582646, guid: f3702c28c3ee673489e58a8278ce40c4,
+        type: 3}
+      propertyPath: jb_location_title
+      value: 
+      objectReference: {fileID: 7103875554535093789}
     m_RemovedComponents:
     - {fileID: 6629458298504969122, guid: f3702c28c3ee673489e58a8278ce40c4, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: f3702c28c3ee673489e58a8278ce40c4, type: 3}
@@ -7272,3 +7253,15 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 3647350430453329630}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &7103875554535093789 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5767972894423177411, guid: f3702c28c3ee673489e58a8278ce40c4,
+    type: 3}
+  m_PrefabInstance: {fileID: 3647350430453329630}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

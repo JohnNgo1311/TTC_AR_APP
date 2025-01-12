@@ -37,8 +37,8 @@ public class SearchableDropDown : MonoBehaviour
     }
     public void Set_Initial_Text_Field_Value()
     {
-        if (!string.IsNullOrEmpty(GlobalVariable_Search_Devices.temp_List_Device_Information_Model[0].Code))
-        { inputField.text = GlobalVariable_Search_Devices.temp_List_Device_Information_Model[0].Code; };
+        if (!string.IsNullOrEmpty(GlobalVariable_Search_Devices.temp_ListDeviceInformationModel[0].Code))
+        { inputField.text = GlobalVariable_Search_Devices.temp_ListDeviceInformationModel[0].Code; };
     }
     public void Initialize()
     {
