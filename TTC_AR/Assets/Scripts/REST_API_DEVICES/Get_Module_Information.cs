@@ -60,7 +60,6 @@ public class Get_Module_Information : MonoBehaviour
                 return;
             }
 
-            GlobalVariable.ready_To_Nav_New_Scene = false;
             await Move_On_Main_Thread.RunOnMainThread(() =>
                       {
                           Show_Dialog.Instance.Set_Instance_Status_True();
@@ -72,7 +71,7 @@ public class Get_Module_Information : MonoBehaviour
                 moduleId: 1
             );
             await APIManager.Instance.DownloadImagesAsync();
-            GlobalVariable.ready_To_Nav_New_Scene = true;
+
             await Move_On_Main_Thread.RunOnMainThread(() =>
                {
                    StartCoroutine(Show_Dialog.Instance.Set_Instance_Status_False());

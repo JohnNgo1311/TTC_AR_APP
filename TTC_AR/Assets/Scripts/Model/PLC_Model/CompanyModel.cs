@@ -28,12 +28,4 @@ public class CompanyModel
         ?? throw new ArgumentNullException(nameof(listGrapperInformationModel), "List of grapper information cannot be null");
   }
 
-  [Preserve]
-  [JsonConstructor]
-  public CompanyModel()
-  {
-    // Id = string.Empty;
-    // Name = string.Empty;
-    // List_Grapper_Information_Model = new List<Grapper_Information_Model>();
-  }
 }

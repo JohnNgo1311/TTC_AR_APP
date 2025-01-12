@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Reflection;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -18,9 +19,6 @@ public class GlobalVariable : MonoBehaviour
     public static bool navigate_from_List_Devices = false;
     public static bool navigate_from_JB_TSD_General = false;
     public static bool navigate_from_JB_TSD_Detail = false;
-
-    public static string moduleSpecificationName = "1794-IB32";
-    public static string adapterSpecificationName = "1794-ACN15";
     public static GameObject generalPanel;
     public static bool loginSuccess = false;
     public static bool isOpenCanvas = false;
@@ -92,23 +90,30 @@ public class GlobalVariable : MonoBehaviour
     public static DeviceInformationModel temp_DeviceInformationModel;
     public static int DeviceId = 1;
     //! JBS
-    public static List<JBInformationModel> temp_ListJBInformationModelFromModule = new List<JBInformationModel>();
+    public static List<JBInformationModel> temp_ListJBInformationModel_FromModule = new List<JBInformationModel>();
     public static JBInformationModel temp_JBInformationModel;
     public static int JBId = 1;
 
     //! Mccs
     public static List<MccModel> temp_ListMCCInformationModel = new List<MccModel>();
     public static MccModel temp_MCCInformationModel;
+    public static int MCCId = 1;
 
     //! Field Device
     public static List<FieldDeviceInformationModel> temp_ListFieldDeviceInformationModel = new List<FieldDeviceInformationModel>();
     public static FieldDeviceInformationModel temp_FieldDeviceInformationModel;
     public static int FieldDeviceId = 1;
+    //! ModuleSpecification 
+    public static ModuleSpecificationModel temp_ModuleSpecificationModel;
+    public static ModuleSpecificationGeneralModel temp_ModuleSpecificationGeneralModel;
+    public static int ModuleSpecificationId = 1;
+    //! AdapterSpecification
+    public static AdapterSpecificationModel temp_AdapterSpecificationModel;
+    public static int AdapterSpecificationId = 1;
+    //!   
 
     public static List<Texture2D> temp_ListFieldDeviceConnectionImages = new List<Texture2D>();
-    public static List<DeviceInformationModel> temp_ListDeviceInformationModelFromModule = new List<DeviceInformationModel>();
-    public static ModuleSpecificationModel temp_ModuleSpecificationModel;
-    public static AdapterSpecificationModel temp_AdapterSpecificationModel;
+    public static List<DeviceInformationModel_FromModule> temp_ListDeviceInformationModel_FromModule = new List<DeviceInformationModel_FromModule>();
     public static Dictionary<string, List<Texture2D>> temp_listJBConnectionImageFromModule = new Dictionary<string, List<Texture2D>>();
     public static Dictionary<string, Texture2D> temp_listJBLocationImageFromModule = new Dictionary<string, Texture2D>();
     public static AccountModel accountModel = new AccountModel()

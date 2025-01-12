@@ -13,6 +13,7 @@ public class GrapperInformationModel
 
   [JsonProperty("racks")]
   public List<Rack_Non_List_Module_Model> List_Rack_Non_List_Module_Model { get; set; }
+
   [Preserve]
   [JsonConstructor]
   public GrapperInformationModel(int id, string name, List<Rack_Non_List_Module_Model> list_Rack_Non_List_Module_Model)
@@ -54,6 +55,7 @@ public class Grapper_General_Non_List_Rack_Model
   public int Id { get; set; }
   [JsonProperty("Name")]
   public string Name { get; set; }
+
   [Preserve]
   [JsonConstructor]
   public Grapper_General_Non_List_Rack_Model(int id, string name)
@@ -61,5 +63,5 @@ public class Grapper_General_Non_List_Rack_Model
     Id = id;
     Name = name;
   }
-  public Grapper_General_Non_List_Rack_Model() { }
+
 }

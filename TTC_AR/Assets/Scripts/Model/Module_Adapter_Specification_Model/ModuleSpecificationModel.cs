@@ -3,9 +3,10 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using Newtonsoft.Json;
+using UnityEngine.Scripting;
 
 
-[Serializable]
+[Preserve]
 public class ModuleSpecificationModel
 {
 #nullable enable
@@ -16,7 +17,7 @@ public class ModuleSpecificationModel
   [JsonProperty("code")]
   public string Code { get; set; }
   [JsonProperty("type")]
-  public int Type { get; set; }
+  public string Type { get; set; }
   [JsonProperty("numOfIO")]
   public string? NumOfIO { get; set; }
 
@@ -39,7 +40,10 @@ public class ModuleSpecificationModel
   public string? Note { get; set; }
   [JsonProperty("PdfManual")]
   public string? PdfManual { get; set; }
-  public ModuleSpecificationModel(int id, AdapterSpecificationModel? adapter, string code, int type, string? numOfIO, string? signalType, string? compatibleTBUs, string? operatingVoltage, string? operatingCurrent, string? flexbusCurrent, string? alarm, string? note, string? pdfManual)
+
+  [Preserve]
+  [JsonConstructor]
+  public ModuleSpecificationModel(int id, AdapterSpecificationModel? adapter, string code, string type, string? numOfIO, string? signalType, string? compatibleTBUs, string? operatingVoltage, string? operatingCurrent, string? flexbusCurrent, string? alarm, string? note, string? pdfManual)
   {
     Id = id;
     Adapter = adapter;
@@ -55,4 +59,21 @@ public class ModuleSpecificationModel
     Note = note;
     PdfManual = pdfManual;
   }
+}
+[Preserve]
+public class ModuleSpecificationGeneralModel
+{
+  [JsonProperty("id")]
+  public int Id { get; set; }
+
+  [JsonProperty("code")]
+  public string Code { get; set; }
+  [Preserve]
+  [JsonConstructor]
+  public ModuleSpecificationGeneralModel(int id, string code)
+  {
+    Id = id;
+    Code = code;
+  }
+
 }

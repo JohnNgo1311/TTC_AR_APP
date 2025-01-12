@@ -35,4 +35,19 @@ public class JBInformationModel
   }
 
 }
+public class JBGeneralModel
+{
+  [JsonProperty("id")]
+  public int Id { get; set; }
+  [JsonProperty("name")]
+  public string Name { get; set; }
 
+  [Preserve]
+  [JsonConstructor]
+  public JBGeneralModel(int id, string name)
+  {
+    Id = id;
+    Name = name;
+
+  }
+}

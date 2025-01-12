@@ -136,10 +136,9 @@ public class OpenCanvas : MonoBehaviour
 
     void Update()
     {
-        if (SceneManager.GetActiveScene().name == "GrapperAScanScene")
-        {
-            activated_imageTargets = GlobalVariable.activated_iamgeTargets;
-        }
+
+        activated_imageTargets = GlobalVariable.activated_iamgeTargets;
+
 
 #if ENABLE_INPUT_SYSTEM && !ENABLE_LEGACY_INPUT_MANAGER
         if (UnityEngine.InputSystem.Mouse.current.leftButton.wasPressedThisFrame ||
@@ -212,7 +211,7 @@ public class OpenCanvas : MonoBehaviour
             Debug.Log("OnOpenCanvas 1");
 
         }
-        else
+        else if (SceneManager.GetActiveScene().name == "FieldDevicesScene")
         {
             yield return new WaitUntil(() =>
             GlobalVariable.temp_ListFieldDeviceConnectionImages != null

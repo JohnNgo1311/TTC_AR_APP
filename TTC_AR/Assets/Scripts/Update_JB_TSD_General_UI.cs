@@ -21,7 +21,7 @@ public class Update_JB_TSD_General_UI : MonoBehaviour
     [SerializeField] private TMP_Text jb_TSD_Connection_Name_Prefab;
     [SerializeField] private TMP_Text jb_TSD_Connection_Location_Prefab;
     public EventPublisher eventPublisher;
-    public List<JBInformationModel> jBInformationModels = new List<JBInformationModel>(); //List JB/TSD của Module
+    public List<JBInformationModel> list_JBInformationModels = new List<JBInformationModel>(); //List JB/TSD của Module
 
     private void OnEnable()
     {
@@ -33,12 +33,12 @@ public class Update_JB_TSD_General_UI : MonoBehaviour
     private void OnDisable()
     {
         ClearCachedTransforms();
-        GlobalVariable.moduleSpecificationName = "1794-IB32";
-        GlobalVariable.adapterSpecificationName = "1794-ACN15";
+
     }
 
     private IEnumerator InitializeUI()
     {
+        yield return new WaitForSeconds(2f);
         eventPublisher.TriggerEvent_ButtonClicked();
         yield return StartCoroutine(Get_Module_Information());
         yield return StartCoroutine(InitionalizeUIElement());
@@ -48,8 +48,9 @@ public class Update_JB_TSD_General_UI : MonoBehaviour
     private IEnumerator Get_Module_Information()
     {
         while (GlobalVariable.temp_ModuleInformationModel == null ||
-               GlobalVariable.temp_ListJBInformationModelFromModule == null ||
-               GlobalVariable.temp_ListDeviceInformationModelFromModule == null)
+               GlobalVariable.temp_ListJBInformationModel_FromModule == null ||
+               GlobalVariable.temp_ListDeviceInformationModel_FromModule == null ||
+               GlobalVariable.temp_ModuleSpecificationGeneralModel == null)
         {
             yield return null;
         }
@@ -84,9 +85,8 @@ public class Update_JB_TSD_General_UI : MonoBehaviour
         rack_Name = $"Rack_{module_Canvas.name.Substring(1, 1)}";
         module_Name = module_Canvas.gameObject.name.Split('_')[0];
         Debug.Log($"Rack Name: {rack_Name}, Module Name: {module_Name}");
+
         module_Information_Model = GlobalVariable.temp_ModuleInformationModel;
-        GlobalVariable.moduleSpecificationName = module_Information_Model.ModuleSpecificationModel.Code;
-        GlobalVariable.adapterSpecificationName = module_Information_Model.ModuleSpecificationModel.Adapter.Code;
     }
 
     private RectTransform FindRectTransform(string name, Transform parent)
@@ -114,8 +114,8 @@ public class Update_JB_TSD_General_UI : MonoBehaviour
 
     private IEnumerator Instantiate_JB_TSD_Connection_List()
     {
-        jBInformationModels = module_Information_Model.ListJBInformationModel; //List JB/TSD của Module
-        int connectionCount = jBInformationModels.Count; // số lượng phần tử trong List JB/TSD của Module
+        list_JBInformationModels = module_Information_Model.ListJBInformationModel; //List JB/TSD của Module
+        int connectionCount = list_JBInformationModels.Count; // số lượng phần tử trong List JB/TSD của Module
         Debug.Log($"Connection Count: {connectionCount}");
         if (connectionCount > 0)
         {
@@ -145,13 +145,13 @@ public class Update_JB_TSD_General_UI : MonoBehaviour
                     continue;
                 }
 
-                new_JB_TSD_Connection_Name.text = jBInformationModels[currentIndex].Name;
-                new_JB_TSD_Connection_Location.text = jBInformationModels[currentIndex].Location;
+                new_JB_TSD_Connection_Name.text = list_JBInformationModels[currentIndex].Name;
+                new_JB_TSD_Connection_Location.text = list_JBInformationModels[currentIndex].Location;
                 new_JB_TSD_Connection_Button.onClick.AddListener(() =>
                 {
                     GlobalVariable.navigate_from_List_Devices = false;
                     GlobalVariable.navigate_from_JB_TSD_General = true;
-                    NavigateJBDetailScreen(jBInformationModels[currentIndex]);
+                    NavigateJBDetailScreen(list_JBInformationModels[currentIndex]);
                 });
             }
         }
@@ -163,6 +163,10 @@ public class Update_JB_TSD_General_UI : MonoBehaviour
     public void NavigateJBDetailScreen(JBInformationModel jBInformationModel)
     {
         GlobalVariable.jb_TSD_Title = jBInformationModel.Name;
+        Debug.Log
+        (
+            $"JB Name: {jBInformationModel.Name},\n JB Location: {jBInformationModel.Location}"
+        );
         GlobalVariable.jb_TSD_Name = jBInformationModel.Name;
         GlobalVariable.jb_TSD_Location = jBInformationModel.Location;
         if (GlobalVariable.navigate_from_JB_TSD_General)

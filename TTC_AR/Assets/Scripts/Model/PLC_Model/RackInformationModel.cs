@@ -29,6 +29,7 @@ public class Rack_General_Model
   [JsonProperty("id")] public int Id { get; set; }
   [JsonProperty("name")] public string Name { get; set; }
   [JsonProperty("modules")] public List<Module_General_Non_Rack_Model> List_Module_General_Non_Rack_Model { get; set; }
+
   [Preserve]
   [JsonConstructor]
   public Rack_General_Model(int id, string name, List<Module_General_Non_Rack_Model> list_Module_General_Non_Rack_Model)
@@ -43,6 +44,7 @@ public class Rack_Non_List_Module_Model
 {
   [JsonProperty("id")] public int Id { get; set; }
   [JsonProperty("name")] public string Name { get; set; }
+  
   [Preserve]
   [JsonConstructor]
   public Rack_Non_List_Module_Model(int id, string name)

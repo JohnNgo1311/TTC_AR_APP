@@ -4,11 +4,12 @@ using TMPro;
 using UnityEngine.UI;
 using System.Threading.Tasks;
 using System.Collections;
+using Unity.VisualScripting;
 
 public class Update_Module_Specification_Screen : MonoBehaviour
 {
-    private string moduleSpecificationName;
-    private string adapterSpecificationName;
+    private string moduleSpecificationCode;
+    private string adapterSpecificationCode;
     public ModuleSpecificationModel module_Specification_Model;
     public AdapterSpecificationModel adapter_Specification_Model;
     public List<TMP_Text> module_Specification_Texts;
@@ -16,24 +17,47 @@ public class Update_Module_Specification_Screen : MonoBehaviour
     public List<TMP_Text> adapter_Specification_Texts;
     public Button adapter_Specification_Button_PDF;
 
+    public EventPublisher eventPublisher;
+
     private void OnEnable()
+    {
+        StartCoroutine(Initial());
+    }
+
+    IEnumerator Initial()
+    {
+        eventPublisher.TriggerEvent_SpecificationClicked();
+        yield return WaitingDownload();
+        yield return AssignVariables();
+    }
+    IEnumerator AssignVariables()
     {
         module_Specification_Model = GlobalVariable.temp_ModuleSpecificationModel;
         adapter_Specification_Model = GlobalVariable.temp_AdapterSpecificationModel;
-        moduleSpecificationName = GlobalVariable.moduleSpecificationName;
-        adapterSpecificationName = GlobalVariable.adapterSpecificationName;
-
-        Update_Specification();
-
+        moduleSpecificationCode = module_Specification_Model.Code;
+        adapterSpecificationCode = adapter_Specification_Model.Code;
+        Debug.Log("Module Specification Code: " + moduleSpecificationCode);
+        Debug.Log("Adapter Specification Code: " + adapterSpecificationCode);
+        yield return null;
+        Update_UI();
         module_Specification_Button_PDF.onClick.AddListener(() => Open_Module_Adapter_Online_Catalog(module_Specification_Model.PdfManual));
         adapter_Specification_Button_PDF.onClick.AddListener(() => Open_Module_Adapter_Online_Catalog(adapter_Specification_Model.PdfManual));
     }
+    IEnumerator WaitingDownload()
+    {
+        while (GlobalVariable.temp_ModuleSpecificationModel == null || GlobalVariable.temp_AdapterSpecificationModel == null)
+        {
+            Debug.Log("Waiting for GlobalVariable.temp_ModuleSpecificationModel to be assigned...");
+            yield return null;
+        }
+        Debug.Log("All variables have been assigned!");
+    }
 
-    private void Update_Specification()
+    private void Update_UI()
     {
         // Chạy song song hai coroutine
-        StartCoroutine(Update_Module_UI());
-        StartCoroutine(Update_Adapter_UI());
+        StartCoroutine(Update_Module_Specification_UI());
+        StartCoroutine(Update_Adapter_Specification_UI());
     }
 
     // Coroutine cập nhật UI cho Module và Adapter
@@ -47,12 +71,12 @@ public class Update_Module_Specification_Screen : MonoBehaviour
         }
     }
 
-    private IEnumerator Update_Module_UI()
+    private IEnumerator Update_Module_Specification_UI()
     {
         string[] values = new string[]
         {
-            // string.IsNullOrEmpty(module_Specification_Model.Code)? "Chưa cập nhật": module_Specification_Model.Code,
-            // string.IsNullOrEmpty(module_Specification_Model.Type)? "Chưa cập nhật": module_Specification_Model.Type,
+            string.IsNullOrEmpty(module_Specification_Model.Code)? "Chưa cập nhật": module_Specification_Model.Code,
+            string.IsNullOrEmpty(module_Specification_Model.Type)? "Chưa cập nhật": module_Specification_Model.Type,
             string.IsNullOrEmpty(module_Specification_Model.SignalType)? "Chưa cập nhật": module_Specification_Model.SignalType,
             string.IsNullOrEmpty(module_Specification_Model.NumOfIO)? "Chưa cập nhật": module_Specification_Model.NumOfIO,
             string.IsNullOrEmpty(module_Specification_Model.CompatibleTBUs)? "Chưa cập nhật": module_Specification_Model.CompatibleTBUs,
@@ -75,7 +99,7 @@ public class Update_Module_Specification_Screen : MonoBehaviour
     }
 
     // Coroutine cập nhật UI cho Adapter
-    private IEnumerator Update_Adapter_UI()
+    private IEnumerator Update_Adapter_Specification_UI()
     {
         string[] values = new string[]
         {
@@ -89,16 +113,7 @@ public class Update_Module_Specification_Screen : MonoBehaviour
             string.IsNullOrEmpty(adapter_Specification_Model.InrushCurrent)? "Chưa cập nhật": adapter_Specification_Model.InrushCurrent,
             string.IsNullOrEmpty(adapter_Specification_Model.Alarm)? "Chưa cập nhật": adapter_Specification_Model.Alarm,
             string.IsNullOrEmpty(adapter_Specification_Model.Noted)? "Chưa cập nhật": adapter_Specification_Model.Noted
-            
-            // adapter_Specification_Model?.Type ?? "Chưa cập nhật",
-            // adapter_Specification_Model?.Communication ?? "Chưa cập nhật",
-            // adapter_Specification_Model?.Num_Of_Module_Allowed ?? "Chưa cập nhật",
-            // adapter_Specification_Model?.Comm_Speed ?? "Chưa cập nhật",
-            // adapter_Specification_Model?.Input_Supply ?? "Chưa cập nhật",
-            // adapter_Specification_Model?.Output_Supply ?? "Chưa cập nhật",
-            // adapter_Specification_Model?.Inrush_Current  ?? "Chưa cập nhật",
-            // adapter_Specification_Model?.Alarm ?? "Chưa cập nhật",
-            // adapter_Specification_Model?.Noted ?? "Chưa cập nhật"
+
         };
         yield return Update_UI(adapter_Specification_Texts.ToArray(), values);
     }
@@ -110,7 +125,13 @@ public class Update_Module_Specification_Screen : MonoBehaviour
 
     private void OnDisable()
     {
+        StopAllCoroutines();
+        GlobalVariable.temp_ModuleSpecificationModel = null;
+        GlobalVariable.temp_AdapterSpecificationModel = null;
         adapter_Specification_Button_PDF.onClick.RemoveAllListeners();
         module_Specification_Button_PDF.onClick.RemoveAllListeners();
+        module_Specification_Model = null;
+        adapter_Specification_Model = null;
+        Debug.Log("All variables have been cleared!");
     }
 }

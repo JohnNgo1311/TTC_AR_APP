@@ -18,9 +18,19 @@ public class Load_General_Data_From_Rack : MonoBehaviour
 
     // private bool isRunning = false;
     public bool isInstantiating = true;
-    void Start()
+
+    void Awake()
     {
-        StartCoroutine(Instantiate_List_Module_Canvas());
+        StartCoroutine(InitialCanvas());
+    }
+
+    void Enable()
+    {
+
+    }
+    private IEnumerator InitialCanvas()
+    {
+        yield return StartCoroutine(Instantiate_List_Module_Canvas());
     }
     private IEnumerator Instantiate_List_Module_Canvas()
     {
@@ -38,18 +48,17 @@ public class Load_General_Data_From_Rack : MonoBehaviour
         isInstantiating = false;
         yield return null;
     }
-    private void Awake()
-    {
-        // filePath = Path.Combine(Application.streamingAssetsPath, $"General_Data_Rack_Grapper{grapper}.json");
-        // if (Application.platform == RuntimePlatform.Android)
-        // {
-        //     StartCoroutine(LoadJsonFromAndroid(filePath));
-        // }
-        // else
-        // {
-        //     LoadJsonFromFile(filePath);
-        // }
-    }
+
+    // filePath = Path.Combine(Application.streamingAssetsPath, $"General_Data_Rack_Grapper{grapper}.json");
+    // if (Application.platform == RuntimePlatform.Android)
+    // {
+    //     StartCoroutine(LoadJsonFromAndroid(filePath));
+    // }
+    // else
+    // {
+    //     LoadJsonFromFile(filePath);
+    // }
+
 
     private IEnumerator LoadJsonFromAndroid(string file)
     {

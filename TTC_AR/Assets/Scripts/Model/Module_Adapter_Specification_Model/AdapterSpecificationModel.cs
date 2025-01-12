@@ -1,9 +1,10 @@
 using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using UnityEngine.Scripting;
 
 
-[Serializable]
+[Preserve]
 public class AdapterSpecificationModel
 {
 #nullable enable
@@ -37,7 +38,8 @@ public class AdapterSpecificationModel
   public string? Noted { get; set; }
   [JsonProperty("pdfManual")]
   public string? PdfManual { get; set; }
-
+  [Preserve]
+  [JsonConstructor]
   public AdapterSpecificationModel(int? id, string? code, string? type, string? communication, string? numOfModulesAllowed, string? commSpeed, string? inputSupply, string? outputSupply, string? inrushCurrent, string? alarm, string? noted, string? pdfManual)
   {
     Id = id;

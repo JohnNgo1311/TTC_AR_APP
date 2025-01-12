@@ -9,6 +9,7 @@ using UnityEngine.Networking;
 using System.Threading;
 using UnityEngine.SceneManagement;
 using PimDeWitte.UnityMainThreadDispatcher;
+using System.Reflection;
 
 public class APIManager : MonoBehaviour
 {
@@ -20,15 +21,22 @@ public class APIManager : MonoBehaviour
     public int DeviceId = 1;
     public int JBId = 1;
     public int FieldDeviceId = 1;
+    public int MCCId = 1;
     // Danh sách URL cần tải
     public List<Rack_General_Model> temp_List_Rack_General_Models;
     public List<Grapper_General_Model> temp_List_Grapper_General_Models;
     public List<ModuleInformationModel> temp_List_ModuleInformationModel = new List<ModuleInformationModel>();
     public ModuleInformationModel temp_ModuleInformationModel;
+    public ModuleSpecificationGeneralModel temp_ModuleSpecificationGeneralModel;
+    public ModuleSpecificationModel temp_ModuleSpecificationModel;
+    public AdapterSpecificationModel temp_AdapterSpecificationModel;
+
+    public List<MccModel> temp_ListMCCInformationModel = new List<MccModel>();
+    public MccModel temp_MccInformationModel;
     public List<FieldDeviceInformationModel> temp_ListFieldDeviceInformationModel = new List<FieldDeviceInformationModel>();
     public FieldDeviceInformationModel temp_FieldDeviceInformationModel;
     public List<JBInformationModel> temp_ListJBInformationModel_From_Module = new List<JBInformationModel>();
-    public List<DeviceInformationModel> temp_ListDeviceInformationModelFromModule = new List<DeviceInformationModel>();
+    public List<DeviceInformationModel_FromModule> temp_ListDeviceInformationModel_FromModule = new List<DeviceInformationModel_FromModule>();
     public Dictionary<string, List<Texture2D>> list_JB_Connection_Images_From_Module = new Dictionary<string, List<Texture2D>>();
     public Dictionary<string, Texture2D> list_JB_Location_Images_From_Module = new Dictionary<string, Texture2D>();
     public List<string> imageUrls = new List<string>();
@@ -121,7 +129,7 @@ public class APIManager : MonoBehaviour
             }
         }
     }
-    public async Task GetListFieldDeviceInformation(string url, int grapperId)
+    public async Task GetListMCCModels(string url)
     {
         using UnityWebRequest webRequest = UnityWebRequest.Get(url);
         {
@@ -132,13 +140,13 @@ public class APIManager : MonoBehaviour
             }
             try
             {
-                var list_Field_Device_Model = JsonConvert.DeserializeObject<List<FieldDeviceInformationModel>>(webRequest.downloadHandler.text);
-                if (list_Field_Device_Model != null)
+                var List_MCC_Models = JsonConvert.DeserializeObject<List<MccModel>>(webRequest.downloadHandler.text);
+                if (List_MCC_Models != null)
                 {
-                    GlobalVariable.temp_ListFieldDeviceInformationModel = new List<FieldDeviceInformationModel>();
-                    temp_ListFieldDeviceInformationModel = list_Field_Device_Model;
-                    GlobalVariable.temp_ListFieldDeviceInformationModel = temp_ListFieldDeviceInformationModel;
-                    Debug.Log("list_Field_Device_Model.Count: " + list_Field_Device_Model.Count);
+                    GlobalVariable.temp_ListMCCInformationModel = new List<MccModel>();
+                    temp_ListMCCInformationModel = List_MCC_Models;
+                    GlobalVariable.temp_ListMCCInformationModel = temp_ListMCCInformationModel;
+                    Debug.Log("List_MCC_Models.Count: " + List_MCC_Models.Count);
                 }
                 Debug.Log("success");
             }
@@ -154,7 +162,7 @@ public class APIManager : MonoBehaviour
             }
         }
     }
-    public async Task GetMccInformation(string url, int grapperId)
+    public async Task GetMccInformation(string url)
     {
         using UnityWebRequest webRequest = UnityWebRequest.Get(url);
         {
@@ -169,14 +177,11 @@ public class APIManager : MonoBehaviour
 
                 if (mccModel != null)
                 {
-                    FieldDeviceId = mccModel.Id;
-                    // GlobalVariable.temp_ListMccInformationModel = new List<MccInformationModel>();
-                    // GlobalVariable.temp_MccInformationModel = null;
-                    // temp_ListMccInformationModel = Field_Device_Model;
-                    // GlobalVariable.temp_ListMccInformationModel = temp_ListMccInformationModel;
-                    // GlobalVariable.temp_MccInformationModel = temp_ListMccInformationModel[0];
-                    // Debug.Log("list_Field_Device_Model.Count: " + list_Field_Device_Model.Count);
-                    // Debug.Log("GlobalVariable.temp_FieldDeviceInformationModel: " + GlobalVariable.temp_FieldDeviceInformationModel.Name);
+                    MCCId = mccModel.Id;
+                    GlobalVariable.temp_MCCInformationModel = mccModel;
+                    GlobalVariable.temp_FieldDeviceInformationModel = mccModel.FieldDeviceInformationModel[0];
+                    GlobalVariable.FieldDeviceId = GlobalVariable.temp_FieldDeviceInformationModel.Id;
+                    GlobalVariable.MCCId = MCCId;
                 }
                 Debug.Log("success");
             }
@@ -243,18 +248,51 @@ public class APIManager : MonoBehaviour
                 var moduleInformationModel = JsonConvert.DeserializeObject<ModuleInformationModel>(webRequest.downloadHandler.text);
                 if (moduleInformationModel != null)
                 {
-
                     temp_ModuleInformationModel = moduleInformationModel;
                     temp_ListJBInformationModel_From_Module = temp_ModuleInformationModel.ListJBInformationModel;
-                    temp_ListDeviceInformationModelFromModule = temp_ModuleInformationModel.ListDeviceInformationModel;
+                    temp_ListDeviceInformationModel_FromModule = temp_ModuleInformationModel.ListDeviceInformationModel_FromModule;
                     ModuleId = temp_ModuleInformationModel.Id;
 
                     GlobalVariable.ModuleId = ModuleId;
-                    GlobalVariable.temp_ListJBInformationModelFromModule = temp_ListJBInformationModel_From_Module;
-                    GlobalVariable.temp_ListDeviceInformationModelFromModule = temp_ListDeviceInformationModelFromModule;
+                    GlobalVariable.ModuleSpecificationId = moduleInformationModel.ModuleSpecificationGeneralModel.Id;
+                    GlobalVariable.temp_ListJBInformationModel_FromModule = temp_ListJBInformationModel_From_Module;
+                    GlobalVariable.temp_ListDeviceInformationModel_FromModule = temp_ListDeviceInformationModel_FromModule;
                     GlobalVariable.temp_ModuleInformationModel = temp_ModuleInformationModel;
-                    GlobalVariable.temp_ModuleSpecificationModel = moduleInformationModel.ModuleSpecificationModel;
-                    GlobalVariable.temp_AdapterSpecificationModel = moduleInformationModel.ModuleSpecificationModel.Adapter;
+                    GlobalVariable.temp_ModuleSpecificationGeneralModel = moduleInformationModel.ModuleSpecificationGeneralModel;
+                }
+                Debug.Log("success");
+            }
+            catch (JsonException jsonEx)
+            {
+                HandleRequestError(jsonEx.Message);
+                return;
+            }
+            catch (Exception ex)
+            {
+                HandleRequestError(ex.Message);
+                return;
+            }
+        }
+    }
+    public async Task GetModuleSpecification(string url)
+    {
+        using UnityWebRequest webRequest = UnityWebRequest.Get(url);
+        {
+            if (!await SendWebRequestAsync(webRequest))
+            {
+                HandleRequestError(webRequest.error);
+                return;
+            }
+
+            try
+            {
+                var moduleSpecificationModel = JsonConvert.DeserializeObject<ModuleSpecificationModel>(webRequest.downloadHandler.text);
+                if (moduleSpecificationModel != null)
+                {
+                    temp_ModuleSpecificationModel = moduleSpecificationModel;
+                    temp_AdapterSpecificationModel = moduleSpecificationModel.Adapter;
+                    GlobalVariable.temp_ModuleSpecificationModel = moduleSpecificationModel;
+                    GlobalVariable.temp_AdapterSpecificationModel = moduleSpecificationModel.Adapter;
                 }
                 Debug.Log("success");
             }
@@ -303,14 +341,21 @@ public class APIManager : MonoBehaviour
                         list_JB_Location_Images_From_Module[jb.Name] = new Texture2D(2, 2);
                     }
 
-                    // Tải hình ảnh ngoài trời
-                    var outdoorImageTask = DownloadImageAsync(jb.OutdoorImage);
-                    list_JB_Location_Images_From_Module[jb.Name] = await outdoorImageTask;
+                    if (!string.IsNullOrEmpty(jb.OutdoorImage))
+                    {
+                        // Tải hình ảnh ngoài trời
+                        var outdoorImageTask = DownloadImageAsync(jb.OutdoorImage);
+                        list_JB_Location_Images_From_Module[jb.Name] = await outdoorImageTask;
+                    }
+
 
                     // Tải danh sách hình ảnh kết nối
                     foreach (var url in jb.ListConnectionImages)
                     {
-                        downloadTasks.Add(DownloadImageAsync(url));
+                        if (!string.IsNullOrEmpty(url))
+                        {
+                            downloadTasks.Add(DownloadImageAsync(url));
+                        }
                     }
 
                     // Chờ tất cả hình ảnh kết nối hoàn tất
@@ -345,9 +390,11 @@ public class APIManager : MonoBehaviour
 
                 foreach (var image_url in temp_FieldDeviceInformationModel.ListConnectionImages)
                 {
-                    downloadTasks.Add(DownloadImageAsync(image_url));
+                    if (!string.IsNullOrEmpty(image_url))
+                    {
+                        downloadTasks.Add(DownloadImageAsync(image_url));
+                    }
                 }
-
                 var downloadedTextures = await Task.WhenAll(downloadTasks);
 
                 // Cập nhật danh sách hình ảnh kết nối trên Main Thread
@@ -368,16 +415,11 @@ public class APIManager : MonoBehaviour
 
     private async Task<Texture2D> DownloadImageAsync(string url)
     {
-        if (string.IsNullOrWhiteSpace(url))
-        {
-            Debug.LogWarning("URL is null or empty.");
-            return null;
-        }
 
         await _semaphore.WaitAsync();
         try
         {
-            using (var request = UnityWebRequestTexture.GetTexture(url))
+            using (var request = UnityWebRequestTexture.GetTexture($"{GlobalVariable.baseUrl}files/{url}"))
             {
                 if (!await SendWebRequestAsync(request))
                 {
