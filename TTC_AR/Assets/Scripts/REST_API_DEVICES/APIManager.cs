@@ -77,10 +77,11 @@ public class APIManager : MonoBehaviour
                     temp_List_Grapper_General_Models = grapper_Models;
                     GlobalVariable.temp_List_Grapper_General_Models = temp_List_Grapper_General_Models;
                     Debug.Log(GlobalVariable.temp_List_Grapper_General_Models.Count);
-
+                    Dic_Grapper_General_Non_List_Rack_Models.Clear();
                     foreach (var grapper in temp_List_Grapper_General_Models)
                     {
-                        Dic_Grapper_General_Non_List_Rack_Models.Add(grapper.Name, grapper.Id);
+                        if (!Dic_Grapper_General_Non_List_Rack_Models.ContainsKey(grapper.Name))
+                            Dic_Grapper_General_Non_List_Rack_Models.Add(grapper.Name, grapper.Id);
                     }
 
                 }

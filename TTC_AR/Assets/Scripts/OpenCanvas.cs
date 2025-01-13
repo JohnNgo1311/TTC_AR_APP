@@ -10,13 +10,13 @@ public class OpenCanvas : MonoBehaviour
     public List<GameObject> imageTargets;
 
     [SerializeField]
-    private List<string> tagName = new List<string>();
+    private List<string> tagName = new List<string>() { };
 
     [SerializeField]
     private Camera mainCamera;
 
     [SerializeField]
-    private List<GameObject> btnOpen = new List<GameObject>(), btnClose = new List<GameObject>();
+    private List<GameObject> btnOpen = new List<GameObject>() { }, btnClose = new List<GameObject>() { };
 
     [SerializeField]
     private List<GameObject> generalPanel = new List<GameObject>();
@@ -97,14 +97,29 @@ public class OpenCanvas : MonoBehaviour
     }
     private void OnStatusChanged(ObserverBehaviour behaviour, TargetStatus status, TMP_Text title, string name)
     {
-        if (status.Status == Status.TRACKED)
+        if (SceneManager.GetActiveScene().name == "GrapperAScanScene")
         {
-            title.text = ConvertString(name);
-            title.gameObject.SetActive(true);
+            if (status.Status == Status.TRACKED)
+            {
+                title.text = ConvertString(name);
+                title.gameObject.SetActive(true);
+            }
+            else
+            {
+                title.gameObject.SetActive(false);
+            }
         }
-        else
+        if (SceneManager.GetActiveScene().name == "FieldDevicesScene")
         {
-            title.gameObject.SetActive(false);
+            if (status.Status == Status.TRACKED)
+            {
+                title.text = name;
+                title.gameObject.SetActive(true);
+            }
+            else
+            {
+                title.gameObject.SetActive(false);
+            }
         }
     }
 

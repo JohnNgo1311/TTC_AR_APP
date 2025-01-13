@@ -134,15 +134,14 @@ public class SettingsMenu : MonoBehaviour
                 if (imageTarget.gameObject.name.Contains(itemName))
                 {
                     imageTarget.SetActive(true);
-                    mainButton.GetComponentInChildren<TMP_Text>().text = itemName;
                     GlobalVariable.activated_iamgeTargets.Add(imageTarget);
-                    mainButton.GetComponentInChildren<TMP_Text>().text = itemName;
                 }
                 else
                 {
                     imageTarget.SetActive(false);
                 }
             }
+            mainButton.GetComponentInChildren<TMP_Text>().text = itemName;
 
         }
         ToggleMenu();
