@@ -35,10 +35,9 @@ public class Resize_Gameobject_Function : MonoBehaviour
       Debug.LogWarning("Sprite is null on Image component.");
       yield break;
     }
-    // imageComponent.gameObject.SetActive(false);
-    yield return new WaitForSeconds(0.3f);
 
-    yield return new WaitForSeconds(2f);
+
+    yield return new WaitForEndOfFrame();
     // Lấy kích thước gốc của hình ảnh
     float originalWidth = imageComponent.sprite.rect.width;
     float originalHeight = imageComponent.sprite.rect.height;

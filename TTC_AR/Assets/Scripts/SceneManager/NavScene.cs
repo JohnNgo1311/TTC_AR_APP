@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class NavScene : MonoBehaviour
@@ -19,11 +20,19 @@ public class NavScene : MonoBehaviour
         for (int i = 0; i < listButton.Count; i++)
         {
             int localIndex = i; // Tạo bản sao cục bộ của `i` để tránh lỗi tham chiếu trong lambda
-            listButton[i].onClick.AddListener(() =>
+            if (SceneManager.GetActiveScene().name == "MenuScene" &&
+            (listButton[i].gameObject.name.Contains("GrapperB")
+             || listButton[i].gameObject.name.Contains("GrapperC")
+            || listButton[i].gameObject.name.Contains("LH_Btn"))
+            )
             {
-                // Khi một button được nhấn, gọi NavigateNewScene coroutine
-                StartCoroutine(NavigateNewScene(localIndex));
-            });
+
+            }
+            else listButton[i].onClick.AddListener(() =>
+             {
+                 // Khi một button được nhấn, gọi NavigateNewScene coroutine
+                 StartCoroutine(NavigateNewScene(localIndex));
+             });
         }
     }
 

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class ChooseGrapperOnClick : MonoBehaviour
@@ -23,7 +24,11 @@ public class ChooseGrapperOnClick : MonoBehaviour
 
     private void StartHandleButtonClick()
     {
-        StartCoroutine(HandleButtonClick());
+        if (SceneManager.GetActiveScene().name == "MenuScene" && grapperName != "GrapperA")
+        {
+
+        }
+        else StartCoroutine(HandleButtonClick());
         // Vô hiệu hóa nút để không thể click lại trong quá trình xử lý
     }
 

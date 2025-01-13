@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class Update_JB_TSD_Detail_UI : MonoBehaviour
 {
@@ -37,6 +38,11 @@ public class Update_JB_TSD_Detail_UI : MonoBehaviour
 
     private void OnDisable()
     {
+        if (SceneManager.GetActiveScene().name == "GrapperAScanScene")
+        {
+            jb_Infor_Item_Prefab.GetComponent<ContentSizeFitter>().enabled = false;
+            scroll_Area_Content.GetComponent<ContentSizeFitter>().enabled = false;
+        }
         ClearInstantiatedImageObjects();
     }
 
@@ -68,8 +74,16 @@ public class Update_JB_TSD_Detail_UI : MonoBehaviour
 
         // Chạy song song ApplyLocationSprite và ApplyConnectionSprites
         yield return ApplyConnectionSprites();
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(2.2f);
         yield return ApplyLocationSprite();
+        if (SceneManager.GetActiveScene().name == "GrapperAScanScene")
+        {
+            jb_Infor_Item_Prefab.GetComponent<ContentSizeFitter>().gameObject.SetActive(true);
+            jb_Infor_Item_Prefab.GetComponent<ContentSizeFitter>().enabled = true;
+            yield return null;
+            scroll_Area_Content.GetComponent<ContentSizeFitter>().gameObject.SetActive(true);
+            scroll_Area_Content.GetComponent<ContentSizeFitter>().enabled = true;
+        }
         yield return Show_Dialog.Instance.Set_Instance_Status_False();
     }
 
@@ -95,7 +109,7 @@ public class Update_JB_TSD_Detail_UI : MonoBehaviour
                     if (!jb_location_imagePrefab.gameObject.activeSelf) jb_location_imagePrefab.gameObject.SetActive(true);
                     jb_location_imagePrefab.sprite = Texture_To_Sprite.ConvertTextureToSprite(texture);
                     yield return Resize_Gameobject_Function.Set_NativeSize_For_GameObject(jb_location_imagePrefab);
-                    yield return new WaitForSeconds(1f);
+                    yield return new WaitForSeconds(0.2f);
                 }
             }
             else
@@ -117,7 +131,7 @@ public class Update_JB_TSD_Detail_UI : MonoBehaviour
                     jb_connection_imagePrefab.sprite = Texture_To_Sprite.ConvertTextureToSprite(list_Texture[0]);
                     jb_connection_imagePrefab.gameObject.SetActive(true);
                     yield return Resize_Gameobject_Function.Set_NativeSize_For_GameObject(jb_connection_imagePrefab);
-                    yield return new WaitForSeconds(1f);
+                    yield return new WaitForSeconds(0.2f);
                 }
                 else
                 {
@@ -130,7 +144,7 @@ public class Update_JB_TSD_Detail_UI : MonoBehaviour
                         imageObject.gameObject.SetActive(true);
 
                         yield return Resize_Gameobject_Function.Set_NativeSize_For_GameObject(imageObject);
-                        yield return new WaitForSeconds(1f);
+                        yield return new WaitForSeconds(0.2f);
                     }
                     jb_connection_imagePrefab.gameObject.SetActive(false);
                 }
