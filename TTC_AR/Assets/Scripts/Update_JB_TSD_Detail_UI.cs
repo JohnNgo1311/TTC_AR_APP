@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class Update_JB_TSD_Detail_UI : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class Update_JB_TSD_Detail_UI : MonoBehaviour
     [SerializeField] private Canvas canvas_Parent;
     [SerializeField] private TMP_Text jB_TSD_Title;
     [SerializeField] private TMP_Text jb_location_value;
+    [SerializeField] private TMP_Text jb_location_title;
     [SerializeField] private Image jb_connection_imagePrefab;
 
     [SerializeField] private Image jb_location_imagePrefab;
@@ -36,6 +38,11 @@ public class Update_JB_TSD_Detail_UI : MonoBehaviour
 
     private void OnDisable()
     {
+        if (SceneManager.GetActiveScene().name == "GrapperAScanScene")
+        {
+            jb_Infor_Item_Prefab.GetComponent<ContentSizeFitter>().enabled = false;
+            scroll_Area_Content.GetComponent<ContentSizeFitter>().enabled = false;
+        }
         ClearInstantiatedImageObjects();
     }
 
@@ -44,6 +51,7 @@ public class Update_JB_TSD_Detail_UI : MonoBehaviour
         jB_TSD_Title = jB_TSD_Detail_Panel_Prefab.transform.Find("Horizontal_JB_TSD_Title/JB_TSD_Title").GetComponent<TMP_Text>();
         scroll_Area_Content = jB_TSD_Detail_Panel_Prefab.transform.Find("Scroll_Area/Content").gameObject;
         jb_Infor_Item_Prefab = scroll_Area_Content.transform.Find("JB_Infor").gameObject;
+        jb_location_title = jb_Infor_Item_Prefab.transform.Find("Text_JB_location_group/Text_Jb_Location_Title").GetComponent<TMP_Text>();
         jb_location_value = jb_Infor_Item_Prefab.transform.Find("Text_JB_location_group/Text_Jb_Location_Value").GetComponent<TMP_Text>();
         jb_location_imagePrefab = jb_Infor_Item_Prefab.transform.Find("JB_location_imagePrefab").GetComponent<Image>();
         jb_connection_imagePrefab = scroll_Area_Content.transform.Find("JB_TSD_connection_imagePrefab").GetComponent<Image>();
@@ -51,7 +59,7 @@ public class Update_JB_TSD_Detail_UI : MonoBehaviour
 
     private void UpdateTitle()
     {
-        if (!string.IsNullOrEmpty(GlobalVariable.jb_TSD_Name) && !string.IsNullOrEmpty(GlobalVariable.jb_TSD_Location))
+        if (!string.IsNullOrEmpty(GlobalVariable.jb_TSD_Name))
         {
             jb_name = jB_TSD_Title.text = GlobalVariable.jb_TSD_Name;
             jb_location_value.text = GlobalVariable.jb_TSD_Location;
@@ -60,31 +68,61 @@ public class Update_JB_TSD_Detail_UI : MonoBehaviour
 
     private IEnumerator RunApplyFunctions()
     {
-        // Chạy song song ApplyLocationSprite và ApplyConnectionSprites
-        var applyConnection = StartCoroutine(ApplyConnectionSprites());
-        var applyLocation = StartCoroutine(ApplyLocationSprite());
         // Chờ cả hai coroutines kết thúc
         Show_Dialog.Instance.Set_Instance_Status_True();
         Show_Dialog.Instance.ShowToast("loading", "Đang tải hình ảnh...");
-        yield return applyConnection;
-        yield return applyLocation;
+
+        // Chạy song song ApplyLocationSprite và ApplyConnectionSprites
+        yield return ApplyConnectionSprites();
+        yield return new WaitForSeconds(2.2f);
+        yield return ApplyLocationSprite();
+        if (SceneManager.GetActiveScene().name == "GrapperAScanScene")
+        {
+            jb_Infor_Item_Prefab.GetComponent<ContentSizeFitter>().gameObject.SetActive(true);
+            jb_Infor_Item_Prefab.GetComponent<ContentSizeFitter>().enabled = true;
+            yield return null;
+            scroll_Area_Content.GetComponent<ContentSizeFitter>().gameObject.SetActive(true);
+            scroll_Area_Content.GetComponent<ContentSizeFitter>().enabled = true;
+        }
         yield return Show_Dialog.Instance.Set_Instance_Status_False();
     }
 
     private IEnumerator ApplyLocationSprite()
     {
-        if (GlobalVariable.temp_list_JB_Location_Image_From_Module != null &&
-            GlobalVariable.temp_list_JB_Location_Image_From_Module.TryGetValue(jb_name, out var texture))
+        if (GlobalVariable.temp_listJBLocationImageFromModule != null &&
+            GlobalVariable.temp_listJBLocationImageFromModule.TryGetValue(jb_name, out var texture))
         {
-            jb_location_imagePrefab.sprite = Texture_To_Sprite.ConvertTextureToSprite(texture);
-            yield return StartCoroutine(Resize_Gameobject_Function.Set_NativeSize_For_GameObject(jb_location_imagePrefab));
+            if (texture != null)
+            {
+                if (texture.width == 2 && texture.height == 2)
+                {
+                    jb_location_title.gameObject.SetActive(false);
+                    jb_location_value.gameObject.SetActive(false);
+                    jb_location_imagePrefab.gameObject.SetActive(false);
+                    jb_Infor_Item_Prefab.SetActive(false);
+                }
+                else
+                {
+                    if (!jb_Infor_Item_Prefab.gameObject.activeSelf) jb_Infor_Item_Prefab.SetActive(true);
+                    if (!jb_location_title.gameObject.activeSelf) jb_location_title.gameObject.SetActive(true);
+                    if (!jb_location_value.gameObject.activeSelf) jb_location_value.gameObject.SetActive(true);
+                    if (!jb_location_imagePrefab.gameObject.activeSelf) jb_location_imagePrefab.gameObject.SetActive(true);
+                    jb_location_imagePrefab.sprite = Texture_To_Sprite.ConvertTextureToSprite(texture);
+                    yield return Resize_Gameobject_Function.Set_NativeSize_For_GameObject(jb_location_imagePrefab);
+                    yield return new WaitForSeconds(0.2f);
+                }
+            }
+            else
+            {
+                Debug.Log("texture is null");
+            }
         }
     }
 
     private IEnumerator ApplyConnectionSprites()
     {
-        if (GlobalVariable.temp_list_JB_Connection_Image_From_Module != null &&
-            GlobalVariable.temp_list_JB_Connection_Image_From_Module.TryGetValue(jb_name, out var list_Texture))
+        if (GlobalVariable.temp_listJBConnectionImageFromModule != null &&
+            GlobalVariable.temp_listJBConnectionImageFromModule.TryGetValue(jb_name, out var list_Texture))
         {
             if (list_Texture.Count > 0)
             {
@@ -92,6 +130,8 @@ public class Update_JB_TSD_Detail_UI : MonoBehaviour
                 {
                     jb_connection_imagePrefab.sprite = Texture_To_Sprite.ConvertTextureToSprite(list_Texture[0]);
                     jb_connection_imagePrefab.gameObject.SetActive(true);
+                    yield return Resize_Gameobject_Function.Set_NativeSize_For_GameObject(jb_connection_imagePrefab);
+                    yield return new WaitForSeconds(0.2f);
                 }
                 else
                 {
@@ -103,7 +143,8 @@ public class Update_JB_TSD_Detail_UI : MonoBehaviour
                         imageObject.sprite = Texture_To_Sprite.ConvertTextureToSprite(texture);
                         imageObject.gameObject.SetActive(true);
 
-                        yield return StartCoroutine(Resize_Gameobject_Function.Set_NativeSize_For_GameObject(imageObject));
+                        yield return Resize_Gameobject_Function.Set_NativeSize_For_GameObject(imageObject);
+                        yield return new WaitForSeconds(0.2f);
                     }
                     jb_connection_imagePrefab.gameObject.SetActive(false);
                 }

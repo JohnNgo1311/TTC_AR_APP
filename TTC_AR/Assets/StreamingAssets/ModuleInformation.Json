@@ -22,8 +22,8 @@
           "Id": "AJB01",
           "Name": "JB1",
           "Location": "Cầu thang lên che ép",
-          "Outdoor_Image": "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_Outdoor_Location%2FJB2_Location.jpg?alt=media&token=9976f0f4-bb38-4541-a485-3aac90f12cb2",
-          "List_Connection_Images": [
+          "OutdoorImage": "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_Outdoor_Location%2FJB2_Location.jpg?alt=media&token=9976f0f4-bb38-4541-a485-3aac90f12cb2",
+          "ListConnectionImages": [
             "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_1.png?alt=media&token=9c8905b4-f032-4977-b086-c72198c7ce20",
             "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_2.png?alt=media&token=26799a41-3914-4aab-8e8b-f616f4327bae"
           ]
@@ -51,8 +51,8 @@
           "Id": "AJB02",
           "Name": "JB2",
           "Location": "MCC",
-          "Outdoor_Image": "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_Outdoor_Location%2FJB2_Location.jpg?alt=media&token=9976f0f4-bb38-4541-a485-3aac90f12cb2",
-          "List_Connection_Images": [
+          "OutdoorImage": "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_Outdoor_Location%2FJB2_Location.jpg?alt=media&token=9976f0f4-bb38-4541-a485-3aac90f12cb2",
+          "ListConnectionImages": [
             "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_1.png?alt=media&token=9c8905b4-f032-4977-b086-c72198c7ce20",
             "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_2.png?alt=media&token=26799a41-3914-4aab-8e8b-f616f4327bae"
           ]
@@ -80,8 +80,8 @@
           "Id": "AJB02",
           "Name": "JB2",
           "Location": "MCC",
-          "Outdoor_Image": "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_Outdoor_Location%2FJB2_Location.jpg?alt=media&token=9976f0f4-bb38-4541-a485-3aac90f12cb2",
-          "List_Connection_Images": [
+          "OutdoorImage": "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_Outdoor_Location%2FJB2_Location.jpg?alt=media&token=9976f0f4-bb38-4541-a485-3aac90f12cb2",
+          "ListConnectionImages": [
             "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_1.png?alt=media&token=9c8905b4-f032-4977-b086-c72198c7ce20",
             "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_2.png?alt=media&token=26799a41-3914-4aab-8e8b-f616f4327bae"
           ]
@@ -109,8 +109,8 @@
           "Id": "AJB03",
           "Name": "JB3",
           "Location": "Cầu thang lên che ép",
-          "Outdoor_Image": "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_Outdoor_Location%2FJB2_Location.jpg?alt=media&token=9976f0f4-bb38-4541-a485-3aac90f12cb2",
-          "List_Connection_Images": [
+          "OutdoorImage": "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_Outdoor_Location%2FJB2_Location.jpg?alt=media&token=9976f0f4-bb38-4541-a485-3aac90f12cb2",
+          "ListConnectionImages": [
             "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_1.png?alt=media&token=9c8905b4-f032-4977-b086-c72198c7ce20",
             "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_2.png?alt=media&token=26799a41-3914-4aab-8e8b-f616f4327bae"
           ]
@@ -138,8 +138,8 @@
           "Id": "AJB04",
           "Name": "JB4",
           "Location": "Cầu thang lên che ép",
-          "Outdoor_Image": "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_Outdoor_Location%2FJB2_Location.jpg?alt=media&token=9976f0f4-bb38-4541-a485-3aac90f12cb2",
-          "List_Connection_Images": [
+          "OutdoorImage": "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_Outdoor_Location%2FJB2_Location.jpg?alt=media&token=9976f0f4-bb38-4541-a485-3aac90f12cb2",
+          "ListConnectionImages": [
             "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_1.png?alt=media&token=9c8905b4-f032-4977-b086-c72198c7ce20",
             "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_2.png?alt=media&token=26799a41-3914-4aab-8e8b-f616f4327bae"
           ]
@@ -167,8 +167,8 @@
           "Id": "AJB05",
           "Name": "JB5",
           "Location": "Cầu thang lên che ép",
-          "Outdoor_Image": "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_Outdoor_Location%2FJB2_Location.jpg?alt=media&token=9976f0f4-bb38-4541-a485-3aac90f12cb2",
-          "List_Connection_Images": [
+          "OutdoorImage": "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_Outdoor_Location%2FJB2_Location.jpg?alt=media&token=9976f0f4-bb38-4541-a485-3aac90f12cb2",
+          "ListConnectionImages": [
             "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_1.png?alt=media&token=9c8905b4-f032-4977-b086-c72198c7ce20",
             "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_2.png?alt=media&token=26799a41-3914-4aab-8e8b-f616f4327bae"
           ]
@@ -196,8 +196,8 @@
           "Id": "AJB06",
           "Name": "JB6",
           "Location": "Cầu thang lên che ép",
-          "Outdoor_Image": "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_Outdoor_Location%2FJB2_Location.jpg?alt=media&token=9976f0f4-bb38-4541-a485-3aac90f12cb2",
-          "List_Connection_Images": [
+          "OutdoorImage": "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_Outdoor_Location%2FJB2_Location.jpg?alt=media&token=9976f0f4-bb38-4541-a485-3aac90f12cb2",
+          "ListConnectionImages": [
             "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_1.png?alt=media&token=9c8905b4-f032-4977-b086-c72198c7ce20",
             "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_2.png?alt=media&token=26799a41-3914-4aab-8e8b-f616f4327bae"
           ]
@@ -225,8 +225,8 @@
           "Id": "AJB07",
           "Name": "JB7",
           "Location": "Cầu thang lên che ép",
-          "Outdoor_Image": "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_Outdoor_Location%2FJB2_Location.jpg?alt=media&token=9976f0f4-bb38-4541-a485-3aac90f12cb2",
-          "List_Connection_Images": [
+          "OutdoorImage": "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_Outdoor_Location%2FJB2_Location.jpg?alt=media&token=9976f0f4-bb38-4541-a485-3aac90f12cb2",
+          "ListConnectionImages": [
             "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_1.png?alt=media&token=9c8905b4-f032-4977-b086-c72198c7ce20",
             "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_2.png?alt=media&token=26799a41-3914-4aab-8e8b-f616f4327bae"
           ]
@@ -254,8 +254,8 @@
           "Id": "AJB08",
           "Name": "JB8",
           "Location": "Cầu thang lên che ép",
-          "Outdoor_Image": "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_Outdoor_Location%2FJB2_Location.jpg?alt=media&token=9976f0f4-bb38-4541-a485-3aac90f12cb2",
-          "List_Connection_Images": [
+          "OutdoorImage": "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_Outdoor_Location%2FJB2_Location.jpg?alt=media&token=9976f0f4-bb38-4541-a485-3aac90f12cb2",
+          "ListConnectionImages": [
             "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_1.png?alt=media&token=9c8905b4-f032-4977-b086-c72198c7ce20",
             "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_2.png?alt=media&token=26799a41-3914-4aab-8e8b-f616f4327bae"
           ]
@@ -270,8 +270,8 @@
         "Id": "AJB01",
         "Name": "JB1",
         "Location": "Hầm cáp MCC búa",
-        "Outdoor_Image": "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_Outdoor_Location%2FJB1_Location.jpg?alt=media&token=db3dba60-afe1-4fd4-aa33-a08bce20b46d",
-        "List_Connection_Images": [
+        "OutdoorImage": "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_Outdoor_Location%2FJB1_Location.jpg?alt=media&token=db3dba60-afe1-4fd4-aa33-a08bce20b46d",
+        "ListConnectionImages": [
           "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_1.png?alt=media&token=9c8905b4-f032-4977-b086-c72198c7ce20",
           "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_2.png?alt=media&token=26799a41-3914-4aab-8e8b-f616f4327bae"
         ]
@@ -280,8 +280,8 @@
         "Id": "AJB02",
         "Name": "JB2",
         "Location": "Hầm cáp MCC búa",
-        "Outdoor_Image": "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_Outdoor_Location%2FJB2_Location.jpg?alt=media&token=9976f0f4-bb38-4541-a485-3aac90f12cb2",
-        "List_Connection_Images": [
+        "OutdoorImage": "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_Outdoor_Location%2FJB2_Location.jpg?alt=media&token=9976f0f4-bb38-4541-a485-3aac90f12cb2",
+        "ListConnectionImages": [
           "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB2_0.png?alt=media&token=9efefd25-365f-49f4-b778-529e0252899c"
         ]
       },
@@ -289,8 +289,8 @@
         "Id": "AJB03",
         "Name": "JB3",
         "Location": "Cầu Thang lên Chè Cân",
-        "Outdoor_Image": "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_Outdoor_Location%2FJB3_Location.jpg?alt=media&token=a3603173-7799-440b-b623-31a6b86babb0",
-        "List_Connection_Images": [
+        "OutdoorImage": "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_Outdoor_Location%2FJB3_Location.jpg?alt=media&token=a3603173-7799-440b-b623-31a6b86babb0",
+        "ListConnectionImages": [
           "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB3_1.png?alt=media&token=9e3d2ebc-7648-45e9-b8a8-18daa90a377b",
           "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB3_2.png?alt=media&token=4ec3eecd-9d03-4c6e-a98a-39e8df8c450b"
         ]
@@ -299,8 +299,8 @@
         "Id": "AJB04",
         "Name": "JB4",
         "Location": "Hành Lang Khuếch Tán",
-        "Outdoor_Image": "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_Outdoor_Location%2FJB4_Location.jpg?alt=media&token=91470c5b-084e-48d8-8b9e-26cbb97ee958",
-        "List_Connection_Images": [
+        "OutdoorImage": "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_Outdoor_Location%2FJB4_Location.jpg?alt=media&token=91470c5b-084e-48d8-8b9e-26cbb97ee958",
+        "ListConnectionImages": [
           "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB4_1.png?alt=media&token=167c8e76-04d7-497e-ba21-5ac1443a6f9f",
           "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB4_2.png?alt=media&token=ca51417c-3b9f-4198-800a-8e7431a00420"
         ]
@@ -309,8 +309,8 @@
         "Id": "AJB05",
         "Name": "JB5",
         "Location": "Duới chân Che Ép",
-        "Outdoor_Image": "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_Outdoor_Location%2FJB5_Location.jpg?alt=media&token=255321ee-df0a-4f84-bedf-ba4b7c0a76e1",
-        "List_Connection_Images": [
+        "OutdoorImage": "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_Outdoor_Location%2FJB5_Location.jpg?alt=media&token=255321ee-df0a-4f84-bedf-ba4b7c0a76e1",
+        "ListConnectionImages": [
           "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB5_1.png?alt=media&token=c13dcd4a-25e7-4f9f-84e7-90b8cf8cb1bd",
           "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB5_2.png?alt=media&token=228de536-aa35-412d-8111-0a5cf84cdb78"
         ]

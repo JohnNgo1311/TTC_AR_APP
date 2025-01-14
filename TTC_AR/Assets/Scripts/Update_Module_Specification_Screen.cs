@@ -4,87 +4,119 @@ using TMPro;
 using UnityEngine.UI;
 using System.Threading.Tasks;
 using System.Collections;
+using Unity.VisualScripting;
 
 public class Update_Module_Specification_Screen : MonoBehaviour
 {
-    private string module_Type_Name;
-    private string adapter_Type_Name;
-    public Module_Specification_Model module_Specification_Model;
-    public Adapter_Specification_Model adapter_Specification_Model;
+    private string moduleSpecificationCode;
+    private string adapterSpecificationCode;
+    public ModuleSpecificationModel module_Specification_Model;
+    public AdapterSpecificationModel adapter_Specification_Model;
     public List<TMP_Text> module_Specification_Texts;
     public Button module_Specification_Button_PDF;
     public List<TMP_Text> adapter_Specification_Texts;
     public Button adapter_Specification_Button_PDF;
 
+    public EventPublisher eventPublisher;
+
     private void OnEnable()
     {
-        module_Specification_Model = GlobalVariable.temp_Module_Specification_Model;
-        adapter_Specification_Model = GlobalVariable.temp_Adapter_Specification_Model;
-        module_Type_Name = GlobalVariable.module_Type_Name;
-        adapter_Type_Name = GlobalVariable.apdapter_Type_Name;
-
-        Update_Specification();
-
-        module_Specification_Button_PDF.onClick.AddListener(() => Open_Module_Adapter_Online_Catalog(module_Specification_Model.PDF_Turtorial));
-        adapter_Specification_Button_PDF.onClick.AddListener(() => Open_Module_Adapter_Online_Catalog(adapter_Specification_Model.PDF_Turtorial));
+        StartCoroutine(Initial());
     }
 
-    private void Update_Specification()
+    IEnumerator Initial()
+    {
+        eventPublisher.TriggerEvent_SpecificationClicked();
+        yield return WaitingDownload();
+        yield return AssignVariables();
+    }
+    IEnumerator AssignVariables()
+    {
+        module_Specification_Model = GlobalVariable.temp_ModuleSpecificationModel;
+        adapter_Specification_Model = GlobalVariable.temp_AdapterSpecificationModel;
+        moduleSpecificationCode = module_Specification_Model.Code;
+        adapterSpecificationCode = adapter_Specification_Model.Code;
+        Debug.Log("Module Specification Code: " + moduleSpecificationCode);
+        Debug.Log("Adapter Specification Code: " + adapterSpecificationCode);
+        yield return null;
+        Update_UI();
+        module_Specification_Button_PDF.onClick.AddListener(() => Open_Module_Adapter_Online_Catalog(module_Specification_Model.PdfManual));
+        adapter_Specification_Button_PDF.onClick.AddListener(() => Open_Module_Adapter_Online_Catalog(adapter_Specification_Model.PdfManual));
+    }
+    IEnumerator WaitingDownload()
+    {
+        while (GlobalVariable.temp_ModuleSpecificationModel == null || GlobalVariable.temp_AdapterSpecificationModel == null)
+        {
+            Debug.Log("Waiting for GlobalVariable.temp_ModuleSpecificationModel to be assigned...");
+            yield return null;
+        }
+        Debug.Log("All variables have been assigned!");
+    }
+
+    private void Update_UI()
     {
         // Chạy song song hai coroutine
-        StartCoroutine(Update_Module_UI());
-        StartCoroutine(Update_Adapter_UI());
+        StartCoroutine(Update_Module_Specification_UI());
+        StartCoroutine(Update_Adapter_Specification_UI());
     }
 
-    // Coroutine cập nhật UI cho Module
-    private IEnumerator Update_Module_UI()
+    // Coroutine cập nhật UI cho Module và Adapter
+    private IEnumerator Update_UI(TMP_Text[] texts, string[] values)
     {
-        module_Specification_Texts[0].text = module_Specification_Model.Code;
-        yield return null; // Tạm dừng để tránh chặn frame
-        module_Specification_Texts[1].text = module_Specification_Model.Type;
-        yield return null;
-        module_Specification_Texts[2].text = module_Specification_Model.Num_Of_IO;
-        yield return null;
-        module_Specification_Texts[3].text = module_Specification_Model.Signal_Type;
-        yield return null;
-        module_Specification_Texts[4].text = module_Specification_Model.Compatible_TBUs;
-        yield return null;
-        module_Specification_Texts[5].text = module_Specification_Model.Operating_Voltage;
-        yield return null;
-        module_Specification_Texts[6].text = module_Specification_Model.Operating_Current;
-        yield return null;
-        module_Specification_Texts[7].text = module_Specification_Model.Flexbus_Current;
-        yield return null;
-        module_Specification_Texts[8].text = module_Specification_Model.Alarm;
-        yield return null;
-        module_Specification_Texts[9].text = module_Specification_Model.Noted;
+        for (int i = 0; i < texts.Length; i++)
+        {
+            texts[i].text = values[i];
+            texts[i].color = (texts[i].text == "Chưa cập nhật") ? Color.red : Color.black;
+            yield return null; // Tạm dừng để tránh chặn frame
+        }
+    }
+
+    private IEnumerator Update_Module_Specification_UI()
+    {
+        string[] values = new string[]
+        {
+            string.IsNullOrEmpty(module_Specification_Model.Code)? "Chưa cập nhật": module_Specification_Model.Code,
+            string.IsNullOrEmpty(module_Specification_Model.Type)? "Chưa cập nhật": module_Specification_Model.Type,
+            string.IsNullOrEmpty(module_Specification_Model.SignalType)? "Chưa cập nhật": module_Specification_Model.SignalType,
+            string.IsNullOrEmpty(module_Specification_Model.NumOfIO)? "Chưa cập nhật": module_Specification_Model.NumOfIO,
+            string.IsNullOrEmpty(module_Specification_Model.CompatibleTBUs)? "Chưa cập nhật": module_Specification_Model.CompatibleTBUs,
+            string.IsNullOrEmpty(module_Specification_Model.OperatingVoltage)? "Chưa cập nhật": module_Specification_Model.OperatingVoltage,
+            string.IsNullOrEmpty(module_Specification_Model.OperatingCurrent)? "Chưa cập nhật": module_Specification_Model.OperatingCurrent,
+            string.IsNullOrEmpty(module_Specification_Model.FlexbusCurrent)? "Chưa cập nhật": module_Specification_Model.FlexbusCurrent,
+            string.IsNullOrEmpty(module_Specification_Model.Alarm)? "Chưa cập nhật": module_Specification_Model.Alarm,
+            string.IsNullOrEmpty(module_Specification_Model.Note)? "Chưa cập nhật": module_Specification_Model.Note
+            // module_Specification_Model?.Type ?? "Chưa cập nhật",
+            // module_Specification_Model?.Signal_Type ?? "Chưa cập nhật",
+            // module_Specification_Model?.Num_Of_IO ?? "Chưa cập nhật",
+            // module_Specification_Model?.Compatible_TBUs ?? "Chưa cập nhật",
+            // module_Specification_Model?.Operating_Voltage ?? "Chưa cập nhật",
+            // module_Specification_Model?.Operating_Current ?? "Chưa cập nhật",
+            // module_Specification_Model?.Flexbus_Current ?? "Chưa cập nhật",
+            // module_Specification_Model?.Alarm ?? "Chưa cập nhật",
+            // module_Specification_Model?.Noted ?? "Chưa cập nhật"
+        };
+        yield return Update_UI(module_Specification_Texts.ToArray(), values);
     }
 
     // Coroutine cập nhật UI cho Adapter
-    private IEnumerator Update_Adapter_UI()
+    private IEnumerator Update_Adapter_Specification_UI()
     {
-        adapter_Specification_Texts[0].text = adapter_Specification_Model.Code;
-        yield return null;
-        adapter_Specification_Texts[1].text = adapter_Specification_Model.Type;
-        yield return null;
-        adapter_Specification_Texts[2].text = adapter_Specification_Model.Communication;
-        yield return null;
-        adapter_Specification_Texts[3].text = adapter_Specification_Model.Num_Of_Module_Allowed;
-        yield return null;
-        adapter_Specification_Texts[4].text = adapter_Specification_Model.Comm_Speed;
-        yield return null;
-        adapter_Specification_Texts[5].text = adapter_Specification_Model.Input_Supply;
-        yield return null;
-        adapter_Specification_Texts[6].text = adapter_Specification_Model.Output_Supply;
-        yield return null;
-        adapter_Specification_Texts[7].text = adapter_Specification_Model.Inrush_Current;
-        yield return null;
-        adapter_Specification_Texts[8].text = adapter_Specification_Model.Alarm;
-        yield return null;
-        adapter_Specification_Texts[9].text = adapter_Specification_Model.Noted;
+        string[] values = new string[]
+        {
+            string.IsNullOrEmpty(adapter_Specification_Model.Code)? "Chưa cập nhật": adapter_Specification_Model.Code,
+            string.IsNullOrEmpty(adapter_Specification_Model.Type)? "Chưa cập nhật": adapter_Specification_Model.Type,
+            string.IsNullOrEmpty(adapter_Specification_Model.Communication)? "Chưa cập nhật": adapter_Specification_Model.Communication,
+            string.IsNullOrEmpty(adapter_Specification_Model.NumOfModulesAllowed)? "Chưa cập nhật": adapter_Specification_Model.NumOfModulesAllowed,
+            string.IsNullOrEmpty(adapter_Specification_Model.CommSpeed)? "Chưa cập nhật": adapter_Specification_Model.CommSpeed,
+            string.IsNullOrEmpty(adapter_Specification_Model.InputSupply)? "Chưa cập nhật": adapter_Specification_Model.InputSupply,
+            string.IsNullOrEmpty(adapter_Specification_Model.OutputSupply)? "Chưa cập nhật": adapter_Specification_Model.OutputSupply,
+            string.IsNullOrEmpty(adapter_Specification_Model.InrushCurrent)? "Chưa cập nhật": adapter_Specification_Model.InrushCurrent,
+            string.IsNullOrEmpty(adapter_Specification_Model.Alarm)? "Chưa cập nhật": adapter_Specification_Model.Alarm,
+            string.IsNullOrEmpty(adapter_Specification_Model.Noted)? "Chưa cập nhật": adapter_Specification_Model.Noted
+
+        };
+        yield return Update_UI(adapter_Specification_Texts.ToArray(), values);
     }
-
-
 
     private void Open_Module_Adapter_Online_Catalog(string url)
     {
@@ -93,7 +125,13 @@ public class Update_Module_Specification_Screen : MonoBehaviour
 
     private void OnDisable()
     {
+        StopAllCoroutines();
+        GlobalVariable.temp_ModuleSpecificationModel = null;
+        GlobalVariable.temp_AdapterSpecificationModel = null;
         adapter_Specification_Button_PDF.onClick.RemoveAllListeners();
         module_Specification_Button_PDF.onClick.RemoveAllListeners();
+        module_Specification_Model = null;
+        adapter_Specification_Model = null;
+        Debug.Log("All variables have been cleared!");
     }
 }

@@ -14,7 +14,7 @@
 //     private string grapperName = "A";
 
 //     [SerializeField]
-//     private Device_Information_Model device ;
+//     private DeviceInformationModel device ;
 
 //     public TMP_Text codeText;
 //     public string title = "Cập nhật thiết bị";
@@ -71,14 +71,14 @@
 //         ShowQuestionDialog(UpdateDeviceData, ClearInputFieldsAndListeners);
 //     }
 
-//     private void PopulateInputFields(Device_Information_Model device)
+//     private void PopulateInputFields(DeviceInformationModel device)
 //     {
 //         inputFields[0].text = device.Code;
 //         inputFields[1].text = device.Function;
 //         inputFields[2].text = device.Range;
 //         inputFields[3].text = device.IOAddress;
 
-//         var jbConnectionParts = device.JB.List_Connection_Images?.Split('_');
+//         var jbConnectionParts = device.JB.ListConnectionImages?.Split('_');
 //         if (jbConnectionParts != null && jbConnectionParts.Length == 2)
 //         {
 //             inputFields[4].text = jbConnectionParts[0];
@@ -89,7 +89,7 @@
 //             Debug.LogWarning("Invalid jbConnection format.");
 //         }
 //     }
-//     private async Task Set_Up_JB_Location_Group_Image(Device_Information_Model device)
+//     private async Task Set_Up_JB_Location_Group_Image(DeviceInformationModel device)
 //     {
 //         await Task.Yield();
 
@@ -107,7 +107,7 @@
 //             }
 //         }
 
-//         var jbConnectionParts = device.JB.List_Connection_Images?.Split('_');
+//         var jbConnectionParts = device.JB.ListConnectionImages?.Split('_');
 //         if (jbConnectionParts != null && jbConnectionParts.Length == 2)
 //         {
 //             for (int i = 1; i <= GlobalVariable.list_Temp_JB_Location_Image.Count; i++)
@@ -121,7 +121,7 @@
 //         }
 //     }
 
-//     private async Task Set_Up_JB_Connection_Group_Image(Device_Information_Model device)
+//     private async Task Set_Up_JB_Connection_Group_Image(DeviceInformationModel device)
 //     {
 //         await Task.Yield();
 
@@ -139,7 +139,7 @@
 //             }
 //         }
 
-//         var jbConnectionParts = device.JB.List_Connection_Images?.Split('_');
+//         var jbConnectionParts = device.JB.ListConnectionImages?.Split('_');
 //         if (jbConnectionParts != null && jbConnectionParts.Length == 2)
 //         {
 //             for (int i = 1; i <= GlobalVariable.list_Temp_JB_Connection_Image.Count; i++)
@@ -161,7 +161,7 @@
 
 //     private void UpdateDeviceData()
 //     {
-//         Device_Information_Model tempDevice = new Device_Information_Model
+//         DeviceInformationModel tempDevice = new DeviceInformationModel
 //         {
 //             Id = id_Of_Device_in_Globals,
 //         //    Location = $"Grapper{grapperName}",
@@ -197,7 +197,7 @@
 //         inputField_Search.interactable = state;
 //     }
 
-//     public async void UpdateDevice(Device_Information_Model tempDevice)
+//     public async void UpdateDevice(DeviceInformationModel tempDevice)
 //     {
 //         panelDialog.SetActive(false);
 //         foreach (var inputField in inputFields)
@@ -211,7 +211,7 @@
 //         await UpdateDeviceData($"{GlobalVariable.baseUrl}{grapperName}", tempDevice).ConfigureAwait(false);
 //     }
 
-//     private async Task UpdateDeviceData(string url, Device_Information_Model device)
+//     private async Task UpdateDeviceData(string url, DeviceInformationModel device)
 //     {
 //         string jsonData = JsonConvert.SerializeObject(device);
 //         byte[] dataToByte = Encoding.UTF8.GetBytes(jsonData);

@@ -10,13 +10,13 @@ public class OpenCanvas : MonoBehaviour
     public List<GameObject> imageTargets;
 
     [SerializeField]
-    private List<string> tagName = new List<string>();
+    private List<string> tagName = new List<string>() { };
 
     [SerializeField]
     private Camera mainCamera;
 
     [SerializeField]
-    private List<GameObject> btnOpen = new List<GameObject>(), btnClose = new List<GameObject>();
+    private List<GameObject> btnOpen = new List<GameObject>() { }, btnClose = new List<GameObject>() { };
 
     [SerializeField]
     private List<GameObject> generalPanel = new List<GameObject>();
@@ -25,11 +25,9 @@ public class OpenCanvas : MonoBehaviour
 
     [SerializeField]
     private List<TMP_Text> list_Title = new List<TMP_Text>();
-    [SerializeField]
-    Load_General_Data_From_Rack load_General_Data_From_Rack;
-
     private List<GameObject> activated_imageTargets = new List<GameObject>();
     private List<ObserverBehaviour> observerBehaviours = new List<ObserverBehaviour>();
+    [SerializeField] Load_General_Data_From_Rack load_General_Data_From_Rack;
 
 
     void Awake()
@@ -39,7 +37,6 @@ public class OpenCanvas : MonoBehaviour
     private IEnumerator Initialize()
     {
         yield return null;
-
         if (SceneManager.GetActiveScene().name != "FieldDevicesScene")
         {
             if (load_General_Data_From_Rack != null)
@@ -51,7 +48,6 @@ public class OpenCanvas : MonoBehaviour
             }
 
         }
-
         if (targetCanvas.Count > 0 && imageTargets.Count > 0)
         {
             foreach (var canvas in targetCanvas)
@@ -93,21 +89,36 @@ public class OpenCanvas : MonoBehaviour
 
             SetActiveForList(targetCanvas, false);
             SetActiveForList(generalPanel, true);
-            SetActiveForList(btnClose, true);
+            // SetActiveForList(btnClose, true);
             SetActiveForList(btnOpen, true);
         }
 
     }
     private void OnStatusChanged(ObserverBehaviour behaviour, TargetStatus status, TMP_Text title, string name)
     {
-        if (status.Status == Status.TRACKED)
+        if (SceneManager.GetActiveScene().name == "GrapperAScanScene")
         {
-            title.text = ConvertString(name);
-            title.gameObject.SetActive(true);
+            if (status.Status == Status.TRACKED)
+            {
+                title.text = ConvertString(name);
+                title.gameObject.SetActive(true);
+            }
+            else
+            {
+                title.gameObject.SetActive(false);
+            }
         }
-        else
+        if (SceneManager.GetActiveScene().name == "FieldDevicesScene")
         {
-            title.gameObject.SetActive(false);
+            if (status.Status == Status.TRACKED)
+            {
+                title.text = name;
+                title.gameObject.SetActive(true);
+            }
+            else
+            {
+                title.gameObject.SetActive(false);
+            }
         }
     }
 
@@ -139,12 +150,22 @@ public class OpenCanvas : MonoBehaviour
 
     void Update()
     {
-        if (SceneManager.GetActiveScene().name == "GrapperAScanScene")
-        {
-            activated_imageTargets = GlobalVariable.activated_iamgeTargets;
-        }
 
-        if (Input.GetMouseButtonDown(0) || (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began))
+        activated_imageTargets = GlobalVariable.activated_iamgeTargets;
+
+
+#if ENABLE_INPUT_SYSTEM && !ENABLE_LEGACY_INPUT_MANAGER
+        if (UnityEngine.InputSystem.Mouse.current.leftButton.wasPressedThisFrame ||
+            (UnityEngine.InputSystem.Touchscreen.current != null && UnityEngine.InputSystem.Touchscreen.current.primaryTouch.press.wasPressedThisFrame))
+        {
+            Vector3 inputPosition = UnityEngine.InputSystem.Mouse.current.position.ReadValue();
+#if !UNITY_EDITOR
+            inputPosition = UnityEngine.InputSystem.Touchscreen.current.primaryTouch.position.ReadValue();
+#endif
+            HandleInput(inputPosition);
+        }
+#else
+        if (Input.GetMouseButtonDown(0) || Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
         {
             Vector3 inputPosition = Input.mousePosition;
 #if !UNITY_EDITOR
@@ -152,6 +173,7 @@ public class OpenCanvas : MonoBehaviour
 #endif
             HandleInput(inputPosition);
         }
+#endif
     }
 
     private RaycastHit[] hits = new RaycastHit[10];
@@ -184,33 +206,48 @@ public class OpenCanvas : MonoBehaviour
     private IEnumerator OnOpenCanvas(int index)
     {
         if (IsValidIndex(index, targetCanvas))
-            targetCanvas[index].SetActive(true);
+            targetCanvas[index].gameObject.SetActive(true);
         yield return null;  // Đảm bảo coroutine hoàn tất trong frame tiếp theo
 
         SetActiveForList(activated_imageTargets, false);
         yield return null;  // Đảm bảo coroutine hoàn tất trong frame tiếp theo
 
         if (IsValidIndex(index, btnOpen))
-            btnOpen[index]?.SetActive(false);
-        yield return null;  // Đảm bảo coroutine hoàn tất trong frame tiếp theo
+            btnOpen[index]?.gameObject.SetActive(false);
 
+        if (SceneManager.GetActiveScene().name == "GrapperAScanScene")
+        {
+            yield return new WaitUntil(() =>
+            GlobalVariable.ActiveCloseCanvasButton = true
+            );
+            Debug.Log("OnOpenCanvas 1");
+
+        }
+        else if (SceneManager.GetActiveScene().name == "FieldDevicesScene")
+        {
+            yield return new WaitUntil(() =>
+            GlobalVariable.temp_ListFieldDeviceConnectionImages.Count > 0
+            && GlobalVariable.temp_ListFieldDeviceConnectionImages.Count > 0);
+            Debug.Log("OnOpenCanvas 2");
+
+        }
         if (IsValidIndex(index, btnClose))
-            btnClose[index]?.SetActive(true);
+            btnClose[index]?.gameObject.SetActive(true);
     }
 
     private IEnumerator OnCloseCanvas(int index)
     {
         if (IsValidIndex(index, targetCanvas))
-            targetCanvas[index]?.SetActive(false);
+            targetCanvas[index]?.gameObject.SetActive(false);
         yield return null;  // Đảm bảo coroutine hoàn tất trong frame tiếp theo
 
         SetActiveForList(activated_imageTargets, true);
 
-        if (IsValidIndex(index, btnClose) && btnClose[index]?.activeSelf == true)
+        if (IsValidIndex(index, btnClose) && btnClose[index]?.gameObject.activeSelf == true)
             btnClose[index]?.SetActive(false);
         yield return null;  // Đảm bảo coroutine hoàn tất trong frame tiếp theo
 
-        if (IsValidIndex(index, btnOpen) && btnOpen[index]?.activeSelf == false)
+        if (IsValidIndex(index, btnOpen) && btnOpen[index]?.gameObject.activeSelf == false)
             btnOpen[index]?.SetActive(true);
 
     }

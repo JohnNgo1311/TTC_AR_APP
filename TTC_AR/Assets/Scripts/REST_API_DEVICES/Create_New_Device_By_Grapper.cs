@@ -18,7 +18,7 @@
 //     private string grapperName = "A";
 
 //     [SerializeField]
-//     private Device_Information_Model device = new Device_Information_Model();
+//     private DeviceInformationModel device = new DeviceInformationModel();
 //     public List<TMP_InputField> inputFields = new List<TMP_InputField>();
 //     public Button cancelButton;
 //     public Button confirmButton;
@@ -77,7 +77,7 @@
 //         device.Function = inputFields[1].text;
 //         device.Range = inputFields[2].text;
 //         device.IOAddress = inputFields[3].text;
-//         device.JB.List_Connection_Images = $"{inputFields[4].text}_{inputFields[5].text}";
+//         device.JB.ListConnectionImages = $"{inputFields[4].text}_{inputFields[5].text}";
 //         device.listImageConnection = new List<string>();
 
 //         for (int i = 0; i < inputFields.Count; i++)
@@ -101,7 +101,7 @@
 //         editButton.interactable = state;
 //         inputField_Search.interactable = state;
 //     }
-//     private async Task Set_Up_JB_Location_Group_Image(Device_Information_Model device)
+//     private async Task Set_Up_JB_Location_Group_Image(DeviceInformationModel device)
 //     {
 //         await Task.Yield();
 
@@ -119,7 +119,7 @@
 //             }
 //         }
 
-//         var jbConnectionParts = device.JB.List_Connection_Images?.Split('_');
+//         var jbConnectionParts = device.JB.ListConnectionImages?.Split('_');
 //         if (jbConnectionParts != null && jbConnectionParts.Length == 2)
 //         {
 //             for (int i = 1; i <= GlobalVariable.list_Temp_JB_Location_Image.Count; i++)
@@ -133,7 +133,7 @@
 //         }
 //     }
 
-//     private async Task Set_Up_JB_Connection_Group_Image(Device_Information_Model device)
+//     private async Task Set_Up_JB_Connection_Group_Image(DeviceInformationModel device)
 //     {
 //         await Task.Yield();
 
@@ -151,7 +151,7 @@
 //             }
 //         }
 
-//         var jbConnectionParts = device.JB.List_Connection_Images?.Split('_');
+//         var jbConnectionParts = device.JB.ListConnectionImages?.Split('_');
 //         if (jbConnectionParts != null && jbConnectionParts.Length == 2)
 //         {
 //             for (int i = 1; i <= GlobalVariable.list_Temp_JB_Connection_Image.Count; i++)

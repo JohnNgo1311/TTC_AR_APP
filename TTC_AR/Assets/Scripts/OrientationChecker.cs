@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class OrientationChecker : MonoBehaviour
 {
-    [SerializeField] private EventPublisher eventPublisher;
+    public EventPublisher eventPublisher;
 
     private ScreenOrientation _currentOrientation;
 
@@ -21,7 +21,7 @@ public class OrientationChecker : MonoBehaviour
             _currentOrientation = Screen.orientation;
 
             // Gọi phương thức trigger sự kiện
-            eventPublisher.TriggerOrientationChange(_currentOrientation);
+            // eventPublisher.TriggerOrientationChange(_currentOrientation);
         }
     }
 }

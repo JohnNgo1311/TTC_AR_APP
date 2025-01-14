@@ -9,7 +9,7 @@
     "Module": {
       "Id": "MOAA4.0.I",
       "Name": "A4.0.I",
-      "Rack_Non_List_Module_Model": {
+      "Rack": {
         "Id": "RKA4",
         "Name": "Rack_4"
       }
@@ -18,13 +18,13 @@
       "Id": "AJB01",
       "Name": "JB1",
       "Location": "Cầu thang lên che ép",
-      "Outdoor_Image": "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_Outdoor_Location%2FJB2_Location.jpg?alt=media&token=9976f0f4-bb38-4541-a485-3aac90f12cb2",
-      "List_Connection_Images": [
-        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_1.png?alt=media&token=9c8905b4-f032-4977-b086-c72198c7ce20",
-        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_2.png?alt=media&token=26799a41-3914-4aab-8e8b-f616f4327bae"
+      "OutdoorImage": "52.230.123.204:81/api/files/GrapA_Location_JB1.png",
+      "ListConnectionImages": [
+        "52.230.123.204:81/api/files/GrapA_Connection_JB1_1.png",
+        "52.230.123.204:81/api/files/GrapA_Connection_JB1_2.png"
       ]
     },
-    "Additional_Connection_Images": [
+    "AdditionalConnectionImages": [
       "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FNHIET%20DO%20MCC1.png?alt=media&token=dda0faaf-dbf2-4fcd-b45a-5d94d3445b9f"
     ]
   },
@@ -38,7 +38,7 @@
     "Module": {
       "Id": "MOAA4.0.I",
       "Name": "A4.0.I",
-      "Rack_Non_List_Module_Model": {
+      "Rack": {
         "Id": "RKA4",
         "Name": "Rack_4"
       }
@@ -47,13 +47,13 @@
       "Id": "AJB02",
       "Name": "JB2",
       "Location": "MCC",
-      "Outdoor_Image": "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_Outdoor_Location%2FJB2_Location.jpg?alt=media&token=9976f0f4-bb38-4541-a485-3aac90f12cb2",
-      "List_Connection_Images": [
-        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_1.png?alt=media&token=9c8905b4-f032-4977-b086-c72198c7ce20",
-        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_2.png?alt=media&token=26799a41-3914-4aab-8e8b-f616f4327bae"
+      "OutdoorImage": "http://52.230.123.204:81/api/files/GrapA_Location_JB1.png",
+      "ListConnectionImages": [
+        "http://52.230.123.204:81/api/files/GrapA_Connection_JB1_2.png",
+        "http://52.230.123.204:81/api/files/GrapA_Connection_JB1_2.png"
       ]
     },
-    "Additional_Connection_Images": [
+    "AdditionalConnectionImages": [
       "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FNHIET%20DO%20MCC1.png?alt=media&token=dda0faaf-dbf2-4fcd-b45a-5d94d3445b9f"
     ]
   },
@@ -67,7 +67,7 @@
     "Module": {
       "Id": "MOAA4.0.I",
       "Name": "A4.0.I",
-      "Rack_Non_List_Module_Model": {
+      "Rack": {
         "Id": "RKA4",
         "Name": "Rack_4"
       }
@@ -76,13 +76,13 @@
       "Id": "AJB02",
       "Name": "JB2",
       "Location": "MCC",
-      "Outdoor_Image": "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_Outdoor_Location%2FJB2_Location.jpg?alt=media&token=9976f0f4-bb38-4541-a485-3aac90f12cb2",
-      "List_Connection_Images": [
-        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_1.png?alt=media&token=9c8905b4-f032-4977-b086-c72198c7ce20",
-        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_2.png?alt=media&token=26799a41-3914-4aab-8e8b-f616f4327bae"
+      "OutdoorImage": "52.230.123.204:81/api/files/GrapA_Location_JB1.png",
+      "ListConnectionImages": [
+        "52.230.123.204:81/api/files/GrapA_Connection_JB1_1.png",
+        "52.230.123.204:81/api/files/GrapA_Connection_JB1_2.png"
       ]
     },
-    "Additional_Connection_Images": [
+    "AdditionalConnectionImages": [
       "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FNHIET%20DO%20MCC1.png?alt=media&token=dda0faaf-dbf2-4fcd-b45a-5d94d3445b9f"
     ]
   },
@@ -96,7 +96,7 @@
     "Module": {
       "Id": "MOAA4.0.I",
       "Name": "A4.0.I",
-      "Rack_Non_List_Module_Model": {
+      "Rack": {
         "Id": "RKA4",
         "Name": "Rack_4"
       }
@@ -105,13 +105,13 @@
       "Id": "AJB03",
       "Name": "JB3",
       "Location": "Cầu thang lên che ép",
-      "Outdoor_Image": "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_Outdoor_Location%2FJB2_Location.jpg?alt=media&token=9976f0f4-bb38-4541-a485-3aac90f12cb2",
-      "List_Connection_Images": [
-        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_1.png?alt=media&token=9c8905b4-f032-4977-b086-c72198c7ce20",
-        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_2.png?alt=media&token=26799a41-3914-4aab-8e8b-f616f4327bae"
+      "OutdoorImage": "52.230.123.204:81/api/files/GrapA_Location_JB1.png",
+      "ListConnectionImages": [
+        "52.230.123.204:81/api/files/GrapA_Connection_JB1_1.png",
+        "52.230.123.204:81/api/files/GrapA_Connection_JB1_2.png"
       ]
     },
-    "Additional_Connection_Images": [
+    "AdditionalConnectionImages": [
       "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FNHIET%20DO%20MCC1.png?alt=media&token=dda0faaf-dbf2-4fcd-b45a-5d94d3445b9f"
     ]
   },
@@ -125,7 +125,7 @@
     "Module": {
       "Id": "MOAA4.0.I",
       "Name": "A4.0.I",
-      "Rack_Non_List_Module_Model": {
+      "Rack": {
         "Id": "RKA4",
         "Name": "Rack_4"
       }
@@ -134,13 +134,13 @@
       "Id": "AJB04",
       "Name": "JB4",
       "Location": "Cầu thang lên che ép",
-      "Outdoor_Image": "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_Outdoor_Location%2FJB2_Location.jpg?alt=media&token=9976f0f4-bb38-4541-a485-3aac90f12cb2",
-      "List_Connection_Images": [
-        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_1.png?alt=media&token=9c8905b4-f032-4977-b086-c72198c7ce20",
-        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_2.png?alt=media&token=26799a41-3914-4aab-8e8b-f616f4327bae"
+      "OutdoorImage": "52.230.123.204:81/api/files/GrapA_Location_JB1.png",
+      "ListConnectionImages": [
+        "52.230.123.204:81/api/files/GrapA_Connection_JB1_1.png",
+        "52.230.123.204:81/api/files/GrapA_Connection_JB1_2.png"
       ]
     },
-    "Additional_Connection_Images": [
+    "AdditionalConnectionImages": [
       "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FNHIET%20DO%20MCC1.png?alt=media&token=dda0faaf-dbf2-4fcd-b45a-5d94d3445b9f"
     ]
   },
@@ -154,7 +154,7 @@
     "Module": {
       "Id": "MOAA4.0.I",
       "Name": "A4.0.I",
-      "Rack_Non_List_Module_Model": {
+      "Rack": {
         "Id": "RKA4",
         "Name": "Rack_4"
       }
@@ -163,13 +163,13 @@
       "Id": "AJB05",
       "Name": "JB5",
       "Location": "Cầu thang lên che ép",
-      "Outdoor_Image": "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_Outdoor_Location%2FJB2_Location.jpg?alt=media&token=9976f0f4-bb38-4541-a485-3aac90f12cb2",
-      "List_Connection_Images": [
-        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_1.png?alt=media&token=9c8905b4-f032-4977-b086-c72198c7ce20",
-        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_2.png?alt=media&token=26799a41-3914-4aab-8e8b-f616f4327bae"
+      "OutdoorImage": "52.230.123.204:81/api/files/GrapA_Location_JB1.png",
+      "ListConnectionImages": [
+        "52.230.123.204:81/api/files/GrapA_Connection_JB1_1.png",
+        "52.230.123.204:81/api/files/GrapA_Connection_JB1_2.png"
       ]
     },
-    "Additional_Connection_Images": [
+    "AdditionalConnectionImages": [
       "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FNHIET%20DO%20MCC1.png?alt=media&token=dda0faaf-dbf2-4fcd-b45a-5d94d3445b9f"
     ]
   },
@@ -183,7 +183,7 @@
     "Module": {
       "Id": "MOAA4.0.I",
       "Name": "A4.0.I",
-      "Rack_Non_List_Module_Model": {
+      "Rack": {
         "Id": "RKA4",
         "Name": "Rack_4"
       }
@@ -192,13 +192,13 @@
       "Id": "AJB06",
       "Name": "JB6",
       "Location": "Cầu thang lên che ép",
-      "Outdoor_Image": "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_Outdoor_Location%2FJB2_Location.jpg?alt=media&token=9976f0f4-bb38-4541-a485-3aac90f12cb2",
-      "List_Connection_Images": [
-        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_1.png?alt=media&token=9c8905b4-f032-4977-b086-c72198c7ce20",
-        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_2.png?alt=media&token=26799a41-3914-4aab-8e8b-f616f4327bae"
+      "OutdoorImage": "52.230.123.204:81/api/files/GrapA_Location_JB1.png",
+      "ListConnectionImages": [
+        "52.230.123.204:81/api/files/GrapA_Connection_JB1_1.png",
+        "52.230.123.204:81/api/files/GrapA_Connection_JB1_2.png"
       ]
     },
-    "Additional_Connection_Images": [
+    "AdditionalConnectionImages": [
       "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FNHIET%20DO%20MCC1.png?alt=media&token=dda0faaf-dbf2-4fcd-b45a-5d94d3445b9f"
     ]
   },
@@ -212,7 +212,7 @@
     "Module": {
       "Id": "MOAA4.0.I",
       "Name": "A4.0.I",
-      "Rack_Non_List_Module_Model": {
+      "Rack": {
         "Id": "RKA4",
         "Name": "Rack_4"
       }
@@ -221,13 +221,13 @@
       "Id": "AJB07",
       "Name": "JB7",
       "Location": "Cầu thang lên che ép",
-      "Outdoor_Image": "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_Outdoor_Location%2FJB2_Location.jpg?alt=media&token=9976f0f4-bb38-4541-a485-3aac90f12cb2",
-      "List_Connection_Images": [
-        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_1.png?alt=media&token=9c8905b4-f032-4977-b086-c72198c7ce20",
-        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_2.png?alt=media&token=26799a41-3914-4aab-8e8b-f616f4327bae"
+      "OutdoorImage": "52.230.123.204:81/api/files/GrapA_Location_JB1.png",
+      "ListConnectionImages": [
+        "52.230.123.204:81/api/files/GrapA_Connection_JB1_1.png",
+        "52.230.123.204:81/api/files/GrapA_Connection_JB1_2.png"
       ]
     },
-    "Additional_Connection_Images": [
+    "AdditionalConnectionImages": [
       "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FNHIET%20DO%20MCC1.png?alt=media&token=dda0faaf-dbf2-4fcd-b45a-5d94d3445b9f"
     ]
   },
@@ -241,7 +241,7 @@
     "Module": {
       "Id": "MOAA4.0.I",
       "Name": "A4.0.I",
-      "Rack_Non_List_Module_Model": {
+      "Rack": {
         "Id": "RKA4",
         "Name": "Rack_4"
       }
@@ -250,13 +250,13 @@
       "Id": "AJB08",
       "Name": "JB8",
       "Location": "Cầu thang lên che ép",
-      "Outdoor_Image": "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_Outdoor_Location%2FJB2_Location.jpg?alt=media&token=9976f0f4-bb38-4541-a485-3aac90f12cb2",
-      "List_Connection_Images": [
-        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_1.png?alt=media&token=9c8905b4-f032-4977-b086-c72198c7ce20",
-        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_2.png?alt=media&token=26799a41-3914-4aab-8e8b-f616f4327bae"
+      "OutdoorImage": "52.230.123.204:81/api/files/GrapA_Location_JB1.png",
+      "ListConnectionImages": [
+        "52.230.123.204:81/api/files/GrapA_Connection_JB1_1.png",
+        "52.230.123.204:81/api/files/GrapA_Connection_JB1_2.png"
       ]
     },
-    "Additional_Connection_Images": [
+    "AdditionalConnectionImages": [
       "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FNHIET%20DO%20MCC1.png?alt=media&token=dda0faaf-dbf2-4fcd-b45a-5d94d3445b9f"
     ]
   },
@@ -270,7 +270,7 @@
     "Module": {
       "Id": "MOAA4.0.I",
       "Name": "A4.0.I",
-      "Rack_Non_List_Module_Model": {
+      "Rack": {
         "Id": "RKA4",
         "Name": "Rack_4"
       }
@@ -279,13 +279,13 @@
       "Id": "AJB09",
       "Name": "JB9",
       "Location": "Cầu thang lên che ép",
-      "Outdoor_Image": "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_Outdoor_Location%2FJB2_Location.jpg?alt=media&token=9976f0f4-bb38-4541-a485-3aac90f12cb2",
-      "List_Connection_Images": [
-        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_1.png?alt=media&token=9c8905b4-f032-4977-b086-c72198c7ce20",
-        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_2.png?alt=media&token=26799a41-3914-4aab-8e8b-f616f4327bae"
+      "OutdoorImage": "52.230.123.204:81/api/files/GrapA_Location_JB1.png",
+      "ListConnectionImages": [
+        "52.230.123.204:81/api/files/GrapA_Connection_JB1_1.png",
+        "52.230.123.204:81/api/files/GrapA_Connection_JB1_2.png"
       ]
     },
-    "Additional_Connection_Images": [
+    "AdditionalConnectionImages": [
       "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FNHIET%20DO%20MCC1.png?alt=media&token=dda0faaf-dbf2-4fcd-b45a-5d94d3445b9f"
     ]
   },
@@ -299,7 +299,7 @@
     "Module": {
       "Id": "MOAA4.0.I",
       "Name": "A4.0.I",
-      "Rack_Non_List_Module_Model": {
+      "Rack": {
         "Id": "RKA4",
         "Name": "Rack_4"
       }
@@ -308,13 +308,13 @@
       "Id": "AJB10",
       "Name": "JB10",
       "Location": "Cầu thang lên che ép",
-      "Outdoor_Image": "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_Outdoor_Location%2FJB2_Location.jpg?alt=media&token=9976f0f4-bb38-4541-a485-3aac90f12cb2",
-      "List_Connection_Images": [
-        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_1.png?alt=media&token=9c8905b4-f032-4977-b086-c72198c7ce20",
-        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_2.png?alt=media&token=26799a41-3914-4aab-8e8b-f616f4327bae"
+      "OutdoorImage": "52.230.123.204:81/api/files/GrapA_Location_JB1.png",
+      "ListConnectionImages": [
+        "52.230.123.204:81/api/files/GrapA_Connection_JB1_1.png",
+        "52.230.123.204:81/api/files/GrapA_Connection_JB1_2.png"
       ]
     },
-    "Additional_Connection_Images": [
+    "AdditionalConnectionImages": [
       "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FNHIET%20DO%20MCC1.png?alt=media&token=dda0faaf-dbf2-4fcd-b45a-5d94d3445b9f"
     ]
   },
@@ -328,7 +328,7 @@
     "Module": {
       "Id": "MOAA4.0.I",
       "Name": "A4.0.I",
-      "Rack_Non_List_Module_Model": {
+      "Rack": {
         "Id": "RKA4",
         "Name": "Rack_4"
       }
@@ -337,13 +337,13 @@
       "Id": "AJB11",
       "Name": "JB11",
       "Location": "Cầu thang lên che ép",
-      "Outdoor_Image": "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_Outdoor_Location%2FJB2_Location.jpg?alt=media&token=9976f0f4-bb38-4541-a485-3aac90f12cb2",
-      "List_Connection_Images": [
-        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_1.png?alt=media&token=9c8905b4-f032-4977-b086-c72198c7ce20",
-        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_2.png?alt=media&token=26799a41-3914-4aab-8e8b-f616f4327bae"
+      "OutdoorImage": "52.230.123.204:81/api/files/GrapA_Location_JB1.png",
+      "ListConnectionImages": [
+        "52.230.123.204:81/api/files/GrapA_Connection_JB1_1.png",
+        "52.230.123.204:81/api/files/GrapA_Connection_JB1_2.png"
       ]
     },
-    "Additional_Connection_Images": [
+    "AdditionalConnectionImages": [
       "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FNHIET%20DO%20MCC1.png?alt=media&token=dda0faaf-dbf2-4fcd-b45a-5d94d3445b9f"
     ]
   },
@@ -357,7 +357,7 @@
     "Module": {
       "Id": "MOAA4.0.I",
       "Name": "A4.0.I",
-      "Rack_Non_List_Module_Model": {
+      "Rack": {
         "Id": "RKA4",
         "Name": "Rack_4"
       }
@@ -366,13 +366,13 @@
       "Id": "AJB12",
       "Name": "JB12",
       "Location": "Cầu thang lên che ép",
-      "Outdoor_Image": "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_Outdoor_Location%2FJB2_Location.jpg?alt=media&token=9976f0f4-bb38-4541-a485-3aac90f12cb2",
-      "List_Connection_Images": [
-        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_1.png?alt=media&token=9c8905b4-f032-4977-b086-c72198c7ce20",
-        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_2.png?alt=media&token=26799a41-3914-4aab-8e8b-f616f4327bae"
+      "OutdoorImage": "52.230.123.204:81/api/files/GrapA_Location_JB1.png",
+      "ListConnectionImages": [
+        "52.230.123.204:81/api/files/GrapA_Connection_JB1_1.png",
+        "52.230.123.204:81/api/files/GrapA_Connection_JB1_2.png"
       ]
     },
-    "Additional_Connection_Images": [
+    "AdditionalConnectionImages": [
       "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FNHIET%20DO%20MCC1.png?alt=media&token=dda0faaf-dbf2-4fcd-b45a-5d94d3445b9f"
     ]
   },
@@ -386,7 +386,7 @@
     "Module": {
       "Id": "MOAA4.0.I",
       "Name": "A4.0.I",
-      "Rack_Non_List_Module_Model": {
+      "Rack": {
         "Id": "RKA4",
         "Name": "Rack_4"
       }
@@ -395,13 +395,13 @@
       "Id": "AJB13",
       "Name": "JB13",
       "Location": "Cầu thang lên che ép",
-      "Outdoor_Image": "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_Outdoor_Location%2FJB2_Location.jpg?alt=media&token=9976f0f4-bb38-4541-a485-3aac90f12cb2",
-      "List_Connection_Images": [
-        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_1.png?alt=media&token=9c8905b4-f032-4977-b086-c72198c7ce20",
-        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_2.png?alt=media&token=26799a41-3914-4aab-8e8b-f616f4327bae"
+      "OutdoorImage": "52.230.123.204:81/api/files/GrapA_Location_JB1.png",
+      "ListConnectionImages": [
+        "52.230.123.204:81/api/files/GrapA_Connection_JB1_1.png",
+        "52.230.123.204:81/api/files/GrapA_Connection_JB1_2.png"
       ]
     },
-    "Additional_Connection_Images": [
+    "AdditionalConnectionImages": [
       "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FNHIET%20DO%20MCC1.png?alt=media&token=dda0faaf-dbf2-4fcd-b45a-5d94d3445b9f"
     ]
   },
@@ -415,7 +415,7 @@
     "Module": {
       "Id": "MOAA4.0.I",
       "Name": "A4.0.I",
-      "Rack_Non_List_Module_Model": {
+      "Rack": {
         "Id": "RKA4",
         "Name": "Rack_4"
       }
@@ -424,13 +424,13 @@
       "Id": "AJB14",
       "Name": "JB14",
       "Location": "Cầu thang lên che ép",
-      "Outdoor_Image": "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_Outdoor_Location%2FJB2_Location.jpg?alt=media&token=9976f0f4-bb38-4541-a485-3aac90f12cb2",
-      "List_Connection_Images": [
-        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_1.png?alt=media&token=9c8905b4-f032-4977-b086-c72198c7ce20",
-        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_2.png?alt=media&token=26799a41-3914-4aab-8e8b-f616f4327bae"
+      "OutdoorImage": "52.230.123.204:81/api/files/GrapA_Location_JB1.png",
+      "ListConnectionImages": [
+        "52.230.123.204:81/api/files/GrapA_Connection_JB1_1.png",
+        "52.230.123.204:81/api/files/GrapA_Connection_JB1_2.png"
       ]
     },
-    "Additional_Connection_Images": [
+    "AdditionalConnectionImages": [
       "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FNHIET%20DO%20MCC1.png?alt=media&token=dda0faaf-dbf2-4fcd-b45a-5d94d3445b9f"
     ]
   },
@@ -444,7 +444,7 @@
     "Module": {
       "Id": "MOAA4.0.I",
       "Name": "A4.0.I",
-      "Rack_Non_List_Module_Model": {
+      "Rack": {
         "Id": "RKA4",
         "Name": "Rack_4"
       }
@@ -453,13 +453,13 @@
       "Id": "AJB15",
       "Name": "JB15",
       "Location": "Cầu thang lên che ép",
-      "Outdoor_Image": "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_Outdoor_Location%2FJB2_Location.jpg?alt=media&token=9976f0f4-bb38-4541-a485-3aac90f12cb2",
-      "List_Connection_Images": [
-        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_1.png?alt=media&token=9c8905b4-f032-4977-b086-c72198c7ce20",
-        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_2.png?alt=media&token=26799a41-3914-4aab-8e8b-f616f4327bae"
+      "OutdoorImage": "52.230.123.204:81/api/files/GrapA_Location_JB1.png",
+      "ListConnectionImages": [
+        "52.230.123.204:81/api/files/GrapA_Connection_JB1_1.png",
+        "52.230.123.204:81/api/files/GrapA_Connection_JB1_2.png"
       ]
     },
-    "Additional_Connection_Images": [
+    "AdditionalConnectionImages": [
       "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FNHIET%20DO%20MCC1.png?alt=media&token=dda0faaf-dbf2-4fcd-b45a-5d94d3445b9f"
     ]
   },
@@ -473,7 +473,7 @@
     "Module": {
       "Id": "MOAA4.0.I",
       "Name": "A4.0.I",
-      "Rack_Non_List_Module_Model": {
+      "Rack": {
         "Id": "RKA4",
         "Name": "Rack_4"
       }
@@ -482,13 +482,13 @@
       "Id": "AJB16",
       "Name": "JB16",
       "Location": "Cầu thang lên che ép",
-      "Outdoor_Image": "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_Outdoor_Location%2FJB2_Location.jpg?alt=media&token=9976f0f4-bb38-4541-a485-3aac90f12cb2",
-      "List_Connection_Images": [
-        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_1.png?alt=media&token=9c8905b4-f032-4977-b086-c72198c7ce20",
-        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_2.png?alt=media&token=26799a41-3914-4aab-8e8b-f616f4327bae"
+      "OutdoorImage": "52.230.123.204:81/api/files/GrapA_Location_JB1.png",
+      "ListConnectionImages": [
+        "52.230.123.204:81/api/files/GrapA_Connection_JB1_1.png",
+        "52.230.123.204:81/api/files/GrapA_Connection_JB1_2.png"
       ]
     },
-    "Additional_Connection_Images": [
+    "AdditionalConnectionImages": [
       "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FNHIET%20DO%20MCC1.png?alt=media&token=dda0faaf-dbf2-4fcd-b45a-5d94d3445b9f"
     ]
   },
@@ -502,7 +502,7 @@
     "Module": {
       "Id": "MOAA4.0.I",
       "Name": "A4.0.I",
-      "Rack_Non_List_Module_Model": {
+      "Rack": {
         "Id": "RKA4",
         "Name": "Rack_4"
       }
@@ -511,13 +511,13 @@
       "Id": "AJB17",
       "Name": "JB17",
       "Location": "Cầu thang lên che ép",
-      "Outdoor_Image": "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_Outdoor_Location%2FJB2_Location.jpg?alt=media&token=9976f0f4-bb38-4541-a485-3aac90f12cb2",
-      "List_Connection_Images": [
-        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_1.png?alt=media&token=9c8905b4-f032-4977-b086-c72198c7ce20",
-        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_2.png?alt=media&token=26799a41-3914-4aab-8e8b-f616f4327bae"
+      "OutdoorImage": "52.230.123.204:81/api/files/GrapA_Location_JB1.png",
+      "ListConnectionImages": [
+        "52.230.123.204:81/api/files/GrapA_Connection_JB1_1.png",
+        "52.230.123.204:81/api/files/GrapA_Connection_JB1_2.png"
       ]
     },
-    "Additional_Connection_Images": [
+    "AdditionalConnectionImages": [
       "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FNHIET%20DO%20MCC1.png?alt=media&token=dda0faaf-dbf2-4fcd-b45a-5d94d3445b9f"
     ]
   },
@@ -531,7 +531,7 @@
     "Module": {
       "Id": "MOAA4.0.I",
       "Name": "A4.0.I",
-      "Rack_Non_List_Module_Model": {
+      "Rack": {
         "Id": "RKA4",
         "Name": "Rack_4"
       }
@@ -540,13 +540,13 @@
       "Id": "AJB18",
       "Name": "JB18",
       "Location": "Cầu thang lên che ép",
-      "Outdoor_Image": "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_Outdoor_Location%2FJB2_Location.jpg?alt=media&token=9976f0f4-bb38-4541-a485-3aac90f12cb2",
-      "List_Connection_Images": [
-        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_1.png?alt=media&token=9c8905b4-f032-4977-b086-c72198c7ce20",
-        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_2.png?alt=media&token=26799a41-3914-4aab-8e8b-f616f4327bae"
+      "OutdoorImage": "52.230.123.204:81/api/files/GrapA_Location_JB1.png",
+      "ListConnectionImages": [
+        "52.230.123.204:81/api/files/GrapA_Connection_JB1_1.png",
+        "52.230.123.204:81/api/files/GrapA_Connection_JB1_2.png"
       ]
     },
-    "Additional_Connection_Images": [
+    "AdditionalConnectionImages": [
       "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FNHIET%20DO%20MCC1.png?alt=media&token=dda0faaf-dbf2-4fcd-b45a-5d94d3445b9f"
     ]
   },
@@ -560,7 +560,7 @@
     "Module": {
       "Id": "MOAA4.0.I",
       "Name": "A4.0.I",
-      "Rack_Non_List_Module_Model": {
+      "Rack": {
         "Id": "RKA4",
         "Name": "Rack_4"
       }
@@ -569,13 +569,13 @@
       "Id": "AJB19",
       "Name": "JB19",
       "Location": "Cầu thang lên che ép",
-      "Outdoor_Image": "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_Outdoor_Location%2FJB2_Location.jpg?alt=media&token=9976f0f4-bb38-4541-a485-3aac90f12cb2",
-      "List_Connection_Images": [
-        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_1.png?alt=media&token=9c8905b4-f032-4977-b086-c72198c7ce20",
-        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_2.png?alt=media&token=26799a41-3914-4aab-8e8b-f616f4327bae"
+      "OutdoorImage": "52.230.123.204:81/api/files/GrapA_Location_JB1.png",
+      "ListConnectionImages": [
+        "52.230.123.204:81/api/files/GrapA_Connection_JB1_1.png",
+        "52.230.123.204:81/api/files/GrapA_Connection_JB1_2.png"
       ]
     },
-    "Additional_Connection_Images": [
+    "AdditionalConnectionImages": [
       "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FNHIET%20DO%20MCC1.png?alt=media&token=dda0faaf-dbf2-4fcd-b45a-5d94d3445b9f"
     ]
   },
@@ -589,7 +589,7 @@
     "Module": {
       "Id": "MOAA4.0.I",
       "Name": "A4.0.I",
-      "Rack_Non_List_Module_Model": {
+      "Rack": {
         "Id": "RKA4",
         "Name": "Rack_4"
       }
@@ -598,13 +598,13 @@
       "Id": "AJB20",
       "Name": "JB20",
       "Location": "Cầu thang lên che ép",
-      "Outdoor_Image": "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_Outdoor_Location%2FJB2_Location.jpg?alt=media&token=9976f0f4-bb38-4541-a485-3aac90f12cb2",
-      "List_Connection_Images": [
-        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_1.png?alt=media&token=9c8905b4-f032-4977-b086-c72198c7ce20",
-        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_2.png?alt=media&token=26799a41-3914-4aab-8e8b-f616f4327bae"
+      "OutdoorImage": "52.230.123.204:81/api/files/GrapA_Location_JB1.png",
+      "ListConnectionImages": [
+        "52.230.123.204:81/api/files/GrapA_Connection_JB1_1.png",
+        "52.230.123.204:81/api/files/GrapA_Connection_JB1_2.png"
       ]
     },
-    "Additional_Connection_Images": [
+    "AdditionalConnectionImages": [
       "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FNHIET%20DO%20MCC1.png?alt=media&token=dda0faaf-dbf2-4fcd-b45a-5d94d3445b9f"
     ]
   },
@@ -618,7 +618,7 @@
     "Module": {
       "Id": "MOAA4.0.I",
       "Name": "A4.0.I",
-      "Rack_Non_List_Module_Model": {
+      "Rack": {
         "Id": "RKA4",
         "Name": "Rack_4"
       }
@@ -627,13 +627,13 @@
       "Id": "AJB21",
       "Name": "JB21",
       "Location": "Cầu thang lên che ép",
-      "Outdoor_Image": "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_Outdoor_Location%2FJB2_Location.jpg?alt=media&token=9976f0f4-bb38-4541-a485-3aac90f12cb2",
-      "List_Connection_Images": [
-        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_1.png?alt=media&token=9c8905b4-f032-4977-b086-c72198c7ce20",
-        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_2.png?alt=media&token=26799a41-3914-4aab-8e8b-f616f4327bae"
+      "OutdoorImage": "52.230.123.204:81/api/files/GrapA_Location_JB1.png",
+      "ListConnectionImages": [
+        "52.230.123.204:81/api/files/GrapA_Connection_JB1_1.png",
+        "52.230.123.204:81/api/files/GrapA_Connection_JB1_2.png"
       ]
     },
-    "Additional_Connection_Images": [
+    "AdditionalConnectionImages": [
       "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FNHIET%20DO%20MCC1.png?alt=media&token=dda0faaf-dbf2-4fcd-b45a-5d94d3445b9f"
     ]
   },
@@ -647,7 +647,7 @@
     "Module": {
       "Id": "MOAA4.0.I",
       "Name": "A4.0.I",
-      "Rack_Non_List_Module_Model": {
+      "Rack": {
         "Id": "RKA4",
         "Name": "Rack_4"
       }
@@ -656,13 +656,13 @@
       "Id": "AJB22",
       "Name": "JB22",
       "Location": "Cầu thang lên che ép",
-      "Outdoor_Image": "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_Outdoor_Location%2FJB2_Location.jpg?alt=media&token=9976f0f4-bb38-4541-a485-3aac90f12cb2",
-      "List_Connection_Images": [
-        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_1.png?alt=media&token=9c8905b4-f032-4977-b086-c72198c7ce20",
-        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_2.png?alt=media&token=26799a41-3914-4aab-8e8b-f616f4327bae"
+      "OutdoorImage": "52.230.123.204:81/api/files/GrapA_Location_JB1.png",
+      "ListConnectionImages": [
+        "52.230.123.204:81/api/files/GrapA_Connection_JB1_1.png",
+        "52.230.123.204:81/api/files/GrapA_Connection_JB1_2.png"
       ]
     },
-    "Additional_Connection_Images": [
+    "AdditionalConnectionImages": [
       "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FNHIET%20DO%20MCC1.png?alt=media&token=dda0faaf-dbf2-4fcd-b45a-5d94d3445b9f"
     ]
   },
@@ -676,7 +676,7 @@
     "Module": {
       "Id": "MOAA4.0.I",
       "Name": "A4.0.I",
-      "Rack_Non_List_Module_Model": {
+      "Rack": {
         "Id": "RKA4",
         "Name": "Rack_4"
       }
@@ -685,13 +685,13 @@
       "Id": "AJB23",
       "Name": "JB23",
       "Location": "Cầu thang lên che ép",
-      "Outdoor_Image": "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_Outdoor_Location%2FJB2_Location.jpg?alt=media&token=9976f0f4-bb38-4541-a485-3aac90f12cb2",
-      "List_Connection_Images": [
-        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_1.png?alt=media&token=9c8905b4-f032-4977-b086-c72198c7ce20",
-        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_2.png?alt=media&token=26799a41-3914-4aab-8e8b-f616f4327bae"
+      "OutdoorImage": "52.230.123.204:81/api/files/GrapA_Location_JB1.png",
+      "ListConnectionImages": [
+        "52.230.123.204:81/api/files/GrapA_Connection_JB1_1.png",
+        "52.230.123.204:81/api/files/GrapA_Connection_JB1_2.png"
       ]
     },
-    "Additional_Connection_Images": [
+    "AdditionalConnectionImages": [
       "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FNHIET%20DO%20MCC1.png?alt=media&token=dda0faaf-dbf2-4fcd-b45a-5d94d3445b9f"
     ]
   },
@@ -705,7 +705,7 @@
     "Module": {
       "Id": "MOAA4.0.I",
       "Name": "A4.0.I",
-      "Rack_Non_List_Module_Model": {
+      "Rack": {
         "Id": "RKA4",
         "Name": "Rack_4"
       }
@@ -714,13 +714,13 @@
       "Id": "AJB24",
       "Name": "JB24",
       "Location": "Cầu thang lên che ép",
-      "Outdoor_Image": "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_Outdoor_Location%2FJB2_Location.jpg?alt=media&token=9976f0f4-bb38-4541-a485-3aac90f12cb2",
-      "List_Connection_Images": [
-        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_1.png?alt=media&token=9c8905b4-f032-4977-b086-c72198c7ce20",
-        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_2.png?alt=media&token=26799a41-3914-4aab-8e8b-f616f4327bae"
+      "OutdoorImage": "52.230.123.204:81/api/files/GrapA_Location_JB1.png",
+      "ListConnectionImages": [
+        "52.230.123.204:81/api/files/GrapA_Connection_JB1_1.png",
+        "52.230.123.204:81/api/files/GrapA_Connection_JB1_2.png"
       ]
     },
-    "Additional_Connection_Images": [
+    "AdditionalConnectionImages": [
       "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FNHIET%20DO%20MCC1.png?alt=media&token=dda0faaf-dbf2-4fcd-b45a-5d94d3445b9f"
     ]
   },
@@ -734,7 +734,7 @@
     "Module": {
       "Id": "MOAA4.0.I",
       "Name": "A4.0.I",
-      "Rack_Non_List_Module_Model": {
+      "Rack": {
         "Id": "RKA4",
         "Name": "Rack_4"
       }
@@ -743,13 +743,13 @@
       "Id": "AJB25",
       "Name": "JB25",
       "Location": "Cầu thang lên che ép",
-      "Outdoor_Image": "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_Outdoor_Location%2FJB2_Location.jpg?alt=media&token=9976f0f4-bb38-4541-a485-3aac90f12cb2",
-      "List_Connection_Images": [
-        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_1.png?alt=media&token=9c8905b4-f032-4977-b086-c72198c7ce20",
-        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_2.png?alt=media&token=26799a41-3914-4aab-8e8b-f616f4327bae"
+      "OutdoorImage": "52.230.123.204:81/api/files/GrapA_Location_JB1.png",
+      "ListConnectionImages": [
+        "52.230.123.204:81/api/files/GrapA_Connection_JB1_1.png",
+        "52.230.123.204:81/api/files/GrapA_Connection_JB1_2.png"
       ]
     },
-    "Additional_Connection_Images": [
+    "AdditionalConnectionImages": [
       "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FNHIET%20DO%20MCC1.png?alt=media&token=dda0faaf-dbf2-4fcd-b45a-5d94d3445b9f"
     ]
   },
@@ -763,7 +763,7 @@
     "Module": {
       "Id": "MOAA4.0.I",
       "Name": "A4.0.I",
-      "Rack_Non_List_Module_Model": {
+      "Rack": {
         "Id": "RKA4",
         "Name": "Rack_4"
       }
@@ -772,13 +772,13 @@
       "Id": "AJB26",
       "Name": "JB26",
       "Location": "Cầu thang lên che ép",
-      "Outdoor_Image": "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_Outdoor_Location%2FJB2_Location.jpg?alt=media&token=9976f0f4-bb38-4541-a485-3aac90f12cb2",
-      "List_Connection_Images": [
-        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_1.png?alt=media&token=9c8905b4-f032-4977-b086-c72198c7ce20",
-        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_2.png?alt=media&token=26799a41-3914-4aab-8e8b-f616f4327bae"
+      "OutdoorImage": "52.230.123.204:81/api/files/GrapA_Location_JB1.png",
+      "ListConnectionImages": [
+        "52.230.123.204:81/api/files/GrapA_Connection_JB1_1.png",
+        "52.230.123.204:81/api/files/GrapA_Connection_JB1_2.png"
       ]
     },
-    "Additional_Connection_Images": [
+    "AdditionalConnectionImages": [
       "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FNHIET%20DO%20MCC1.png?alt=media&token=dda0faaf-dbf2-4fcd-b45a-5d94d3445b9f"
     ]
   },
@@ -792,7 +792,7 @@
     "Module": {
       "Id": "MOAA4.0.I",
       "Name": "A4.0.I",
-      "Rack_Non_List_Module_Model": {
+      "Rack": {
         "Id": "RKA4",
         "Name": "Rack_4"
       }
@@ -801,13 +801,13 @@
       "Id": "AJB27",
       "Name": "JB27",
       "Location": "Cầu thang lên che ép",
-      "Outdoor_Image": "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_Outdoor_Location%2FJB2_Location.jpg?alt=media&token=9976f0f4-bb38-4541-a485-3aac90f12cb2",
-      "List_Connection_Images": [
-        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_1.png?alt=media&token=9c8905b4-f032-4977-b086-c72198c7ce20",
-        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_2.png?alt=media&token=26799a41-3914-4aab-8e8b-f616f4327bae"
+      "OutdoorImage": "52.230.123.204:81/api/files/GrapA_Location_JB1.png",
+      "ListConnectionImages": [
+        "52.230.123.204:81/api/files/GrapA_Connection_JB1_1.png",
+        "52.230.123.204:81/api/files/GrapA_Connection_JB1_2.png"
       ]
     },
-    "Additional_Connection_Images": [
+    "AdditionalConnectionImages": [
       "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FNHIET%20DO%20MCC1.png?alt=media&token=dda0faaf-dbf2-4fcd-b45a-5d94d3445b9f"
     ]
   },
@@ -821,7 +821,7 @@
     "Module": {
       "Id": "MOAA4.0.I",
       "Name": "A4.0.I",
-      "Rack_Non_List_Module_Model": {
+      "Rack": {
         "Id": "RKA4",
         "Name": "Rack_4"
       }
@@ -830,13 +830,13 @@
       "Id": "AJB28",
       "Name": "JB28",
       "Location": "Cầu thang lên che ép",
-      "Outdoor_Image": "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_Outdoor_Location%2FJB2_Location.jpg?alt=media&token=9976f0f4-bb38-4541-a485-3aac90f12cb2",
-      "List_Connection_Images": [
-        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_1.png?alt=media&token=9c8905b4-f032-4977-b086-c72198c7ce20",
-        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_2.png?alt=media&token=26799a41-3914-4aab-8e8b-f616f4327bae"
+      "OutdoorImage": "52.230.123.204:81/api/files/GrapA_Location_JB1.png",
+      "ListConnectionImages": [
+        "52.230.123.204:81/api/files/GrapA_Connection_JB1_1.png",
+        "52.230.123.204:81/api/files/GrapA_Connection_JB1_2.png"
       ]
     },
-    "Additional_Connection_Images": [
+    "AdditionalConnectionImages": [
       "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FNHIET%20DO%20MCC1.png?alt=media&token=dda0faaf-dbf2-4fcd-b45a-5d94d3445b9f"
     ]
   },
@@ -850,7 +850,7 @@
     "Module": {
       "Id": "MOAA4.0.I",
       "Name": "A4.0.I",
-      "Rack_Non_List_Module_Model": {
+      "Rack": {
         "Id": "RKA4",
         "Name": "Rack_4"
       }
@@ -859,13 +859,13 @@
       "Id": "AJB29",
       "Name": "JB29",
       "Location": "Cầu thang lên che ép",
-      "Outdoor_Image": "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_Outdoor_Location%2FJB2_Location.jpg?alt=media&token=9976f0f4-bb38-4541-a485-3aac90f12cb2",
-      "List_Connection_Images": [
-        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_1.png?alt=media&token=9c8905b4-f032-4977-b086-c72198c7ce20",
-        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_2.png?alt=media&token=26799a41-3914-4aab-8e8b-f616f4327bae"
+      "OutdoorImage": "52.230.123.204:81/api/files/GrapA_Location_JB1.png",
+      "ListConnectionImages": [
+        "52.230.123.204:81/api/files/GrapA_Connection_JB1_1.png",
+        "52.230.123.204:81/api/files/GrapA_Connection_JB1_2.png"
       ]
     },
-    "Additional_Connection_Images": [
+    "AdditionalConnectionImages": [
       "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FNHIET%20DO%20MCC1.png?alt=media&token=dda0faaf-dbf2-4fcd-b45a-5d94d3445b9f"
     ]
   },
@@ -879,7 +879,7 @@
     "Module": {
       "Id": "MOAA4.0.I",
       "Name": "A4.0.I",
-      "Rack_Non_List_Module_Model": {
+      "Rack": {
         "Id": "RKA4",
         "Name": "Rack_4"
       }
@@ -888,13 +888,13 @@
       "Id": "AJB30",
       "Name": "JB30",
       "Location": "Cầu thang lên che ép",
-      "Outdoor_Image": "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_Outdoor_Location%2FJB2_Location.jpg?alt=media&token=9976f0f4-bb38-4541-a485-3aac90f12cb2",
-      "List_Connection_Images": [
-        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_1.png?alt=media&token=9c8905b4-f032-4977-b086-c72198c7ce20",
-        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_2.png?alt=media&token=26799a41-3914-4aab-8e8b-f616f4327bae"
+      "OutdoorImage": "52.230.123.204:81/api/files/GrapA_Location_JB1.png",
+      "ListConnectionImages": [
+        "52.230.123.204:81/api/files/GrapA_Connection_JB1_1.png",
+        "52.230.123.204:81/api/files/GrapA_Connection_JB1_2.png"
       ]
     },
-    "Additional_Connection_Images": [
+    "AdditionalConnectionImages": [
       "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FNHIET%20DO%20MCC1.png?alt=media&token=dda0faaf-dbf2-4fcd-b45a-5d94d3445b9f"
     ]
   },
@@ -908,7 +908,7 @@
     "Module": {
       "Id": "MOAA4.0.I",
       "Name": "A4.0.I",
-      "Rack_Non_List_Module_Model": {
+      "Rack": {
         "Id": "RKA4",
         "Name": "Rack_4"
       }
@@ -917,13 +917,13 @@
       "Id": "AJB31",
       "Name": "JB31",
       "Location": "Cầu thang lên che ép",
-      "Outdoor_Image": "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_Outdoor_Location%2FJB2_Location.jpg?alt=media&token=9976f0f4-bb38-4541-a485-3aac90f12cb2",
-      "List_Connection_Images": [
-        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_1.png?alt=media&token=9c8905b4-f032-4977-b086-c72198c7ce20",
-        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_2.png?alt=media&token=26799a41-3914-4aab-8e8b-f616f4327bae"
+      "OutdoorImage": "52.230.123.204:81/api/files/GrapA_Location_JB1.png",
+      "ListConnectionImages": [
+        "52.230.123.204:81/api/files/GrapA_Connection_JB1_1.png",
+        "52.230.123.204:81/api/files/GrapA_Connection_JB1_2.png"
       ]
     },
-    "Additional_Connection_Images": [
+    "AdditionalConnectionImages": [
       "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FNHIET%20DO%20MCC1.png?alt=media&token=dda0faaf-dbf2-4fcd-b45a-5d94d3445b9f"
     ]
   },
@@ -937,7 +937,7 @@
     "Module": {
       "Id": "MOAA4.0.I",
       "Name": "A4.0.I",
-      "Rack_Non_List_Module_Model": {
+      "Rack": {
         "Id": "RKA4",
         "Name": "Rack_4"
       }
@@ -946,13 +946,13 @@
       "Id": "AJB32",
       "Name": "JB32",
       "Location": "Cầu thang lên che ép",
-      "Outdoor_Image": "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_Outdoor_Location%2FJB2_Location.jpg?alt=media&token=9976f0f4-bb38-4541-a485-3aac90f12cb2",
-      "List_Connection_Images": [
-        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_1.png?alt=media&token=9c8905b4-f032-4977-b086-c72198c7ce20",
-        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_2.png?alt=media&token=26799a41-3914-4aab-8e8b-f616f4327bae"
+      "OutdoorImage": "52.230.123.204:81/api/files/GrapA_Location_JB1.png",
+      "ListConnectionImages": [
+        "52.230.123.204:81/api/files/GrapA_Connection_JB1_1.png",
+        "52.230.123.204:81/api/files/GrapA_Connection_JB1_2.png"
       ]
     },
-    "Additional_Connection_Images": [
+    "AdditionalConnectionImages": [
       "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FNHIET%20DO%20MCC1.png?alt=media&token=dda0faaf-dbf2-4fcd-b45a-5d94d3445b9f"
     ]
   },
@@ -966,7 +966,7 @@
     "Module": {
       "Id": "MOAA4.0.I",
       "Name": "A4.0.I",
-      "Rack_Non_List_Module_Model": {
+      "Rack": {
         "Id": "RKA4",
         "Name": "Rack_4"
       }
@@ -975,13 +975,13 @@
       "Id": "AJB33",
       "Name": "JB33",
       "Location": "Cầu thang lên che ép",
-      "Outdoor_Image": "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_Outdoor_Location%2FJB2_Location.jpg?alt=media&token=9976f0f4-bb38-4541-a485-3aac90f12cb2",
-      "List_Connection_Images": [
-        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_1.png?alt=media&token=9c8905b4-f032-4977-b086-c72198c7ce20",
-        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_2.png?alt=media&token=26799a41-3914-4aab-8e8b-f616f4327bae"
+      "OutdoorImage": "52.230.123.204:81/api/files/GrapA_Location_JB1.png",
+      "ListConnectionImages": [
+        "52.230.123.204:81/api/files/GrapA_Connection_JB1_1.png",
+        "52.230.123.204:81/api/files/GrapA_Connection_JB1_2.png"
       ]
     },
-    "Additional_Connection_Images": [
+    "AdditionalConnectionImages": [
       "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FNHIET%20DO%20MCC1.png?alt=media&token=dda0faaf-dbf2-4fcd-b45a-5d94d3445b9f"
     ]
   },
@@ -995,7 +995,7 @@
     "Module": {
       "Id": "MOAA4.0.I",
       "Name": "A4.0.I",
-      "Rack_Non_List_Module_Model": {
+      "Rack": {
         "Id": "RKA4",
         "Name": "Rack_4"
       }
@@ -1004,13 +1004,13 @@
       "Id": "AJB34",
       "Name": "JB34",
       "Location": "Cầu thang lên che ép",
-      "Outdoor_Image": "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_Outdoor_Location%2FJB2_Location.jpg?alt=media&token=9976f0f4-bb38-4541-a485-3aac90f12cb2",
-      "List_Connection_Images": [
-        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_1.png?alt=media&token=9c8905b4-f032-4977-b086-c72198c7ce20",
-        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_2.png?alt=media&token=26799a41-3914-4aab-8e8b-f616f4327bae"
+      "OutdoorImage": "52.230.123.204:81/api/files/GrapA_Location_JB1.png",
+      "ListConnectionImages": [
+        "52.230.123.204:81/api/files/GrapA_Connection_JB1_1.png",
+        "52.230.123.204:81/api/files/GrapA_Connection_JB1_2.png"
       ]
     },
-    "Additional_Connection_Images": [
+    "AdditionalConnectionImages": [
       "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FNHIET%20DO%20MCC1.png?alt=media&token=dda0faaf-dbf2-4fcd-b45a-5d94d3445b9f"
     ]
   },
@@ -1024,7 +1024,7 @@
     "Module": {
       "Id": "MOAA4.0.I",
       "Name": "A4.0.I",
-      "Rack_Non_List_Module_Model": {
+      "Rack": {
         "Id": "RKA4",
         "Name": "Rack_4"
       }
@@ -1033,13 +1033,13 @@
       "Id": "AJB35",
       "Name": "JB35",
       "Location": "Cầu thang lên che ép",
-      "Outdoor_Image": "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_Outdoor_Location%2FJB2_Location.jpg?alt=media&token=9976f0f4-bb38-4541-a485-3aac90f12cb2",
-      "List_Connection_Images": [
-        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_1.png?alt=media&token=9c8905b4-f032-4977-b086-c72198c7ce20",
-        "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FJB1_2.png?alt=media&token=26799a41-3914-4aab-8e8b-f616f4327bae"
+      "OutdoorImage": "52.230.123.204:81/api/files/GrapA_Location_JB1.png",
+      "ListConnectionImages": [
+        "52.230.123.204:81/api/files/GrapA_Connection_JB1_1.png",
+        "52.230.123.204:81/api/files/GrapA_Connection_JB1_2.png"
       ]
     },
-    "Additional_Connection_Images": [
+    "AdditionalConnectionImages": [
       "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_TSD_Wiring%2FNHIET%20DO%20MCC1.png?alt=media&token=dda0faaf-dbf2-4fcd-b45a-5d94d3445b9f"
     ]
   }

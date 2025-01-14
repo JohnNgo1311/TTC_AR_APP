@@ -30,6 +30,8 @@ EditorBuildSettings:
       type: 2}
     com.unity.addressableassets: {fileID: 11400000, guid: 52cd827af883df0439dfc99dc9ffe981,
       type: 2}
+    com.unity.input.settings: {fileID: 11400000, guid: 7d8433fe3d11a7b44aa716076d7f1323,
+      type: 2}
     com.unity.xr.magicleap.magic_leap_settings: {fileID: 11400000, guid: 18952047aa282db4798f3a1ba398b0fb,
       type: 2}
     com.unity.xr.management.loader_settings: {fileID: 11400000, guid: b2f505ae59cf15342a97a76d884c8670,

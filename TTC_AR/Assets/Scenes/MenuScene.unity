@@ -577,7 +577,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 52.9
+  m_fontSize: 45.8
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -790,7 +790,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 76
+  m_fontSize: 66.2
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -926,7 +926,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 83.35
+  m_fontSize: 72.75
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1455,6 +1455,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   grapperName: GrapperB
+  onClickButton: {fileID: 751018072}
+  getAllDataByGrapperForSearching: {fileID: 878477618}
   eventPublisher: {fileID: 1528617988}
 --- !u!1 &778542787
 GameObject:
@@ -1494,7 +1496,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.8623637}
   m_AnchorMax: {x: 1, y: 0.8623637}
-  m_AnchoredPosition: {x: -0.5001221, y: -732.4}
+  m_AnchoredPosition: {x: -0.5, y: -732.4}
   m_SizeDelta: {x: -150.6106, y: 1426.3802}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &778542789
@@ -1813,10 +1815,16 @@ MonoBehaviour:
   previousSceneName: MenuScene
   recentSceneName:
   - PLCBoxGrapA
+  - PLCBoxGrapA
+  - PLCBoxGrapA
+  - PLCBoxGrapA
   - MenuScene
   - LoginScene
   listButton:
   - {fileID: 953062724}
+  - {fileID: 751018072}
+  - {fileID: 1394794812}
+  - {fileID: 1329061825}
   - {fileID: 1624559455}
   - {fileID: 1010127339}
 --- !u!114 &878477617
@@ -1834,6 +1842,7 @@ MonoBehaviour:
   previousSceneName: MenuScene
   recentSceneName: SelectionScene
   isOrientation: 0
+  detail_Image: {fileID: 0}
 --- !u!114 &878477618
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1846,6 +1855,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 217a83dcd9f837e4999aefe302e73786, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  grapperId: 1
   eventPublisher: {fileID: 1528617988}
 --- !u!1 &923202467
 GameObject:
@@ -1933,7 +1943,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 138.95
+  m_fontSize: 122.45
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -2121,6 +2131,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   grapperName: GrapperA
+  onClickButton: {fileID: 953062724}
+  getAllDataByGrapperForSearching: {fileID: 878477618}
   eventPublisher: {fileID: 1528617988}
 --- !u!1 &981588575
 GameObject:
@@ -2472,7 +2484,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 75.75
+  m_fontSize: 66.05
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -2813,6 +2825,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   grapperName: "L\xF2 H\u01A1i"
+  onClickButton: {fileID: 1329061825}
+  getAllDataByGrapperForSearching: {fileID: 878477618}
   eventPublisher: {fileID: 1528617988}
 --- !u!1 &1394794810
 GameObject:
@@ -2952,6 +2966,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   grapperName: GrapperC
+  onClickButton: {fileID: 1394794812}
+  getAllDataByGrapperForSearching: {fileID: 878477618}
   eventPublisher: {fileID: 1528617988}
 --- !u!1 &1483066040
 GameObject:
@@ -3907,7 +3923,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 75.7
+  m_fontSize: 66.05
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1

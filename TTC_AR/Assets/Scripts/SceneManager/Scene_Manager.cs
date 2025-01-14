@@ -1,55 +1,53 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class Scene_Manager : MonoBehaviour
 {
     public static Scene_Manager Instance { get; private set; }
+
     private void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject); // Đảm bảo không bị hủy khi chuyển Scene
+            DontDestroyOnLoad(gameObject);
         }
         else
         {
             Destroy(gameObject);
         }
     }
-    private void Start()
-    {
-    }
+
     public void SetScreenOrientation(bool isOrientation = false)
     {
-        if (!isOrientation)
-        {
-            if (GlobalVariable.sceneNamesLandScape.Contains(GlobalVariable.recentScene))
-            {
-                Screen.orientation = ScreenOrientation.LandscapeLeft;
-            }
-            else
-            {
-                Screen.orientation = ScreenOrientation.Portrait;
-            }
-        }
-        else
+        if (isOrientation)
         {
             Screen.orientation = ScreenOrientation.AutoRotation;
         }
+        else
+        {
+            Screen.orientation = GlobalVariable.sceneNamesLandScape.Contains(GlobalVariable.recentScene)
+                ? ScreenOrientation.LandscapeLeft
+                : ScreenOrientation.Portrait;
+        }
     }
+
     public void NavigateToScene(string recentSceneName, string previousSceneName)
     {
-        GlobalVariable.recentScene = recentSceneName;
-        GlobalVariable.previousScene = previousSceneName;
-        SceneManager.LoadScene(recentSceneName);
-        PlayerPrefs.SetString(recentSceneName, SceneManager.GetActiveScene().name);
+        if (GlobalVariable.recentScene != recentSceneName)
+        {
+            GlobalVariable.recentScene = recentSceneName;
+            GlobalVariable.previousScene = previousSceneName;
+            SceneManager.LoadScene(recentSceneName);
+            //  PlayerPrefs.SetString(recentSceneName, SceneManager.GetActiveScene().name);
+        }
     }
 
     public IEnumerator WaitAndNavigate(string recentSceneName, string previousSceneName)
     {
-        yield return new WaitUntil(() => GlobalVariable.ready_To_Nav_New_Scene == true);
+        yield return new WaitUntil(() => GlobalVariable.ready_To_Nav_New_Scene);
+
         if (GlobalVariable.recentScene != recentSceneName)
         {
             Show_Dialog.Instance.Set_Instance_Status_True();

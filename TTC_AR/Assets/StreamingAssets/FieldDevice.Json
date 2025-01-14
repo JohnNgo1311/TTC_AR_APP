@@ -12,7 +12,7 @@
     "Active_Voltage": "660V",
     "Frequency": "50 Hz",
     "RotationSpeed": "1492 RPM",
-    "List_Connection_Images": [
+    "ListConnectionImages": [
       "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/Field_Device_Connection%2FGrapA_Connection_Inverter_CHE%20EP%20LON_1.png?alt=media&token=d518394f-3d82-402e-adf5-8633ba3f90b4",
       "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/Field_Device_Connection%2FGrapA_Connection_Inverter_CHE%20EP%20LON_2.png?alt=media&token=00a897d8-37d5-4bdc-b280-78e2ab7d69dc",
       "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/Field_Device_Connection%2FGrapA_Connection_Inverter_CHE%20EP%20LON_CHE%20EP%20NHO_3.png?alt=media&token=27fd39f7-f18a-43ac-bbb3-7b4e641d2f56",

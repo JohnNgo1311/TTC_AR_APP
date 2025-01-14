@@ -8,13 +8,13 @@ using UnityEngine;
 
 public class GlobalVariable_Search_Devices : MonoBehaviour
 {
-   public static Device_Information_Model device;
+   public static DeviceInformationModel device;
    public static string jbName;
    public static string moduleName;
-   public static List<Device_Information_Model> all_Device_Models;
+   public static List<DeviceInformationModel> all_Device_Models;
    //! Lưu ý chỉ lấy những thiết bị cần xem, không phải toàn bộ thiết bị kết nối đến 1 module (chỉ nằm trong 2 file Excel - các cảm biến )
-   public static List<Device_Information_Model> temp_List_Device_Information_Model = new List<Device_Information_Model>();
-   public static List<JB_Information_Model> temp_List_JB_Information_Model = new List<JB_Information_Model>();
+   public static List<DeviceInformationModel> temp_ListDeviceInformationModel = new List<DeviceInformationModel>();
+   public static List<JBInformationModel> temp_ListJBInformationModel = new List<JBInformationModel>();
    public static List<string> temp_List_Device_For_Fitler = new List<string>(); // just Function and Code
 
 

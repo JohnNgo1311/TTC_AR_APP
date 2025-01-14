@@ -1345,7 +1345,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8533cca31a969d44aaa429c5f138d62a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parentScrollRect: {fileID: 0}
   objectScrollRect: {fileID: 789787354}
 --- !u!114 &789787356
 MonoBehaviour:
@@ -1474,7 +1473,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   previousSceneName: PLCBoxGrapA
   recentSceneName: MenuScene
-  isOrientation: 1
+  isOrientation: 0
+  detail_Image: {fileID: 1756439108}
 --- !u!114 &834697180
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2608,7 +2608,7 @@ PrefabInstance:
     - target: {fileID: 5497176500156202000, guid: adecf6ceef6bb3a41a9dab5412dbdcc0,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -3.6400146
+      value: -3.6401367
       objectReference: {fileID: 0}
     - target: {fileID: 5497176500156202000, guid: adecf6ceef6bb3a41a9dab5412dbdcc0,
         type: 3}
@@ -3071,7 +3071,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 954585729}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.07068151
+  m_Size: 0.07068152
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

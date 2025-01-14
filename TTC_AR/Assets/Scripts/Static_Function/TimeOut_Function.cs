@@ -19,7 +19,7 @@ public class TimeOut_Function : MonoBehaviour
   void Update()
   {
     // Check for any user interaction (key press or touch)
-    if (Input.anyKey || Input.touchCount > 0)
+    if (Input.touchCount > 0)
     {
       activeLogOut = false;
       ResetTimeout();  // Reset the timer if there is interaction
@@ -45,12 +45,7 @@ public class TimeOut_Function : MonoBehaviour
   // Method to exit the application
   public void ExitApplication()
   {
-#if UNITY_EDITOR
-    //Debug"Application would quit due to inactivity...");
-#else
-    //Debug"Ứng dụng sẽ thoát do không có tương tác...");
-    Application.Quit();  // Exit the application on Android
-#endif
+    Application.Quit();
   }
 
   // Coroutine to handle the timeout timer
@@ -59,7 +54,7 @@ public class TimeOut_Function : MonoBehaviour
     while (true)
     {
       // Wait for 1 second before incrementing the timer
-      yield return new WaitForSeconds(1);
+      yield return new WaitForSeconds(1f);
 
       // Increment the interaction time
       timeSinceLastInteraction += 1f;
@@ -71,20 +66,16 @@ public class TimeOut_Function : MonoBehaviour
         activeLogOut = true;
         Show_Dialog.Instance.Set_Instance_Status_True();
         Show_Dialog.Instance.ShowToast("failure", "Phát hiện treo máy lâu! Hãy chạm vào màn hình hoặc ứng dụng sẽ tự thoát");
-        StartCoroutine(WaitShowToast());
-        StartCoroutine(Show_Dialog.Instance.Set_Instance_Status_False());
+        yield return new WaitForSeconds(timeShowToast);
+        yield return Show_Dialog.Instance.Set_Instance_Status_False();
+        if (activeLogOut) ExitApplication();  // Exit the application if no interaction
         break;
       }
     }
   }
 
   // Coroutine to wait for the toast message to be displayed
-  IEnumerator WaitShowToast()
-  {
-    yield return new WaitForSeconds(timeShowToast);
-    if (activeLogOut) ExitApplication();  // Exit the application if no interaction
-    //Debug"Timeout! Application will exit...");
-  }
+
 
   private void OnDestroy()
   {
