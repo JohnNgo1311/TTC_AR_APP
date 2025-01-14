@@ -250,6 +250,7 @@ public class APIManager : MonoBehaviour
                 var moduleInformationModel = JsonConvert.DeserializeObject<ModuleInformationModel>(webRequest.downloadHandler.text);
                 if (moduleInformationModel != null)
                 {
+
                     temp_ModuleInformationModel = moduleInformationModel;
                     temp_ListJBInformationModel_From_Module = temp_ModuleInformationModel.ListJBInformationModel;
                     temp_ListDeviceInformationModel_FromModule = temp_ModuleInformationModel.ListDeviceInformationModel_FromModule;
@@ -261,6 +262,8 @@ public class APIManager : MonoBehaviour
                     GlobalVariable.temp_ListDeviceInformationModel_FromModule = temp_ListDeviceInformationModel_FromModule;
                     GlobalVariable.temp_ModuleInformationModel = temp_ModuleInformationModel;
                     GlobalVariable.temp_ModuleSpecificationGeneralModel = moduleInformationModel.ModuleSpecificationGeneralModel;
+                    Debug.Log(GlobalVariable.temp_ModuleInformationModel.Name);
+                    Debug.Log(GlobalVariable.temp_ModuleInformationModel.Id + " " + GlobalVariable.temp_ModuleSpecificationGeneralModel.Id);
                 }
 
                 Debug.Log("success");
@@ -325,66 +328,68 @@ public class APIManager : MonoBehaviour
                 if (temp_ListJBInformationModel_From_Module == null || temp_ListJBInformationModel_From_Module.Count == 0)
                 {
                     Debug.LogWarning("No JB information models available to download images.");
-                    return;
+
                 }
-
-                Debug.Log("temp_ListJBInformationModel_From_Module.Count: " + temp_ListJBInformationModel_From_Module.Count);
-
-                var downloadTasks = new List<Task<Texture2D>>();
-
-                foreach (var jb in temp_ListJBInformationModel_From_Module)
+                else
                 {
-                    // Khởi tạo các danh sách nếu chưa tồn tại
-                    if (!list_JB_Connection_Images_From_Module.ContainsKey(jb.Name))
-                    {
-                        list_JB_Connection_Images_From_Module[jb.Name] = new List<Texture2D>();
-                    }
+                    Debug.Log("temp_ListJBInformationModel_From_Module.Count: " + temp_ListJBInformationModel_From_Module.Count);
 
-                    if (!list_JB_Location_Images_From_Module.ContainsKey(jb.Name))
-                    {
-                        list_JB_Location_Images_From_Module[jb.Name] = new Texture2D(2, 2);
-                    }
+                    var downloadTasks = new List<Task<Texture2D>>();
 
-                    if (!string.IsNullOrEmpty(jb.OutdoorImage))
+                    foreach (var jb in temp_ListJBInformationModel_From_Module)
                     {
-                        // Tải hình ảnh ngoài trời
-                        var outdoorImageTask = DownloadImageAsync(jb.OutdoorImage);
-                        list_JB_Location_Images_From_Module[jb.Name] = await outdoorImageTask;
-                    }
-
-
-                    // Tải danh sách hình ảnh kết nối
-                    foreach (var url in jb.ListConnectionImages)
-                    {
-                        if (!string.IsNullOrEmpty(url))
+                        // Khởi tạo các danh sách nếu chưa tồn tại
+                        if (!list_JB_Connection_Images_From_Module.ContainsKey(jb.Name))
                         {
-                            downloadTasks.Add(DownloadImageAsync(url));
+                            list_JB_Connection_Images_From_Module[jb.Name] = new List<Texture2D>();
                         }
+
+                        if (!list_JB_Location_Images_From_Module.ContainsKey(jb.Name))
+                        {
+                            list_JB_Location_Images_From_Module[jb.Name] = new Texture2D(2, 2);
+                        }
+
+                        if (!string.IsNullOrEmpty(jb.OutdoorImage))
+                        {
+                            // Tải hình ảnh ngoài trời
+                            var outdoorImageTask = DownloadImageAsync(jb.OutdoorImage);
+                            list_JB_Location_Images_From_Module[jb.Name] = await outdoorImageTask;
+                        }
+
+
+                        // Tải danh sách hình ảnh kết nối
+                        foreach (var url in jb.ListConnectionImages)
+                        {
+                            if (!string.IsNullOrEmpty(url))
+                            {
+                                downloadTasks.Add(DownloadImageAsync(url));
+                            }
+                        }
+
+                        // Chờ tất cả hình ảnh kết nối hoàn tất
+                        var downloadedTextures = await Task.WhenAll(downloadTasks);
+
+                        // Cập nhật danh sách hình ảnh kết nối trên Main Thread
+                        UnityMainThreadDispatcher.Instance.Enqueue(() =>
+                        {
+                            list_JB_Connection_Images_From_Module[jb.Name].AddRange(downloadedTextures);
+                        });
+
+                        // Dọn danh sách nhiệm vụ sau mỗi JB
+                        downloadTasks.Clear();
+
                     }
 
-                    // Chờ tất cả hình ảnh kết nối hoàn tất
-                    var downloadedTextures = await Task.WhenAll(downloadTasks);
-
-                    // Cập nhật danh sách hình ảnh kết nối trên Main Thread
+                    // Cập nhật biến toàn cục trên Main Thread
                     UnityMainThreadDispatcher.Instance.Enqueue(() =>
                     {
-                        list_JB_Connection_Images_From_Module[jb.Name].AddRange(downloadedTextures);
+                        GlobalVariable.temp_listJBConnectionImageFromModule = new Dictionary<string, List<Texture2D>>(list_JB_Connection_Images_From_Module);
+                        GlobalVariable.temp_listJBLocationImageFromModule = new Dictionary<string, Texture2D>(list_JB_Location_Images_From_Module);
+                        Debug.Log("All images downloaded and updated in global variables.");
+                        list_JB_Connection_Images_From_Module.Clear();
+                        list_JB_Location_Images_From_Module.Clear();
                     });
-
-                    // Dọn danh sách nhiệm vụ sau mỗi JB
-                    downloadTasks.Clear();
-
                 }
-
-                // Cập nhật biến toàn cục trên Main Thread
-                UnityMainThreadDispatcher.Instance.Enqueue(() =>
-                {
-                    GlobalVariable.temp_listJBConnectionImageFromModule = new Dictionary<string, List<Texture2D>>(list_JB_Connection_Images_From_Module);
-                    GlobalVariable.temp_listJBLocationImageFromModule = new Dictionary<string, Texture2D>(list_JB_Location_Images_From_Module);
-                    Debug.Log("All images downloaded and updated in global variables.");
-                    list_JB_Connection_Images_From_Module.Clear();
-                    list_JB_Location_Images_From_Module.Clear();
-                });
             }
             else if (SceneManager.GetActiveScene().name == "FieldDevicesScene")
             {
@@ -410,6 +415,8 @@ public class APIManager : MonoBehaviour
 
                 downloadTasks.Clear();
             }
+
+
             GlobalVariable.ActiveCloseCanvasButton = true;
         }
         catch (Exception ex)
@@ -417,7 +424,7 @@ public class APIManager : MonoBehaviour
             Debug.LogError($"Unexpected error in DownloadImagesAsync: {ex.Message}");
             GlobalVariable.ActiveCloseCanvasButton = false;
         }
-    }
+    }   
 
     private async Task<Texture2D> DownloadImageAsync(string url)
     {

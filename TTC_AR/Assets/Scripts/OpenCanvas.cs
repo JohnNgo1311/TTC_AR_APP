@@ -218,7 +218,7 @@ public class OpenCanvas : MonoBehaviour
         if (SceneManager.GetActiveScene().name == "GrapperAScanScene")
         {
             yield return new WaitUntil(() =>
-            GlobalVariable.ActiveCloseCanvasButton = true
+        GlobalVariable.ActiveCloseCanvasButton = true
             );
             Debug.Log("OnOpenCanvas 1");
 
