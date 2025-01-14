@@ -250,6 +250,13 @@ public class APIManager : MonoBehaviour
                 var moduleInformationModel = JsonConvert.DeserializeObject<ModuleInformationModel>(webRequest.downloadHandler.text);
                 if (moduleInformationModel != null)
                 {
+                    GlobalVariable.ModuleId = 1;
+                    GlobalVariable.ModuleSpecificationId = 1;
+                    GlobalVariable.temp_ListJBInformationModel_FromModule.Clear();
+                    GlobalVariable.temp_ListDeviceInformationModel_FromModule.Clear();
+                    GlobalVariable.temp_ModuleInformationModel = null;
+                    GlobalVariable.temp_ModuleSpecificationGeneralModel = null;
+
                     temp_ModuleInformationModel = moduleInformationModel;
                     temp_ListJBInformationModel_From_Module = temp_ModuleInformationModel.ListJBInformationModel;
                     temp_ListDeviceInformationModel_FromModule = temp_ModuleInformationModel.ListDeviceInformationModel_FromModule;
