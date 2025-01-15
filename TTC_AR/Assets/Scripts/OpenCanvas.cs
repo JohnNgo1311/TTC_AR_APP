@@ -37,7 +37,7 @@ public class OpenCanvas : MonoBehaviour
     private IEnumerator Initialize()
     {
         yield return null;
-        if (SceneManager.GetActiveScene().name != "FieldDevicesScene")
+        if (SceneManager.GetActiveScene().name != MyEnum.FieldDevicesScene.GetDescription())
         {
             if (load_General_Data_From_Rack != null)
             {
@@ -96,7 +96,7 @@ public class OpenCanvas : MonoBehaviour
     }
     private void OnStatusChanged(ObserverBehaviour behaviour, TargetStatus status, TMP_Text title, string name)
     {
-        if (SceneManager.GetActiveScene().name == "GrapperAScanScene")
+        if (SceneManager.GetActiveScene().name == MyEnum.GrapperAScanScene.GetDescription())
         {
             if (status.Status == Status.TRACKED)
             {
@@ -108,7 +108,7 @@ public class OpenCanvas : MonoBehaviour
                 title.gameObject.SetActive(false);
             }
         }
-        if (SceneManager.GetActiveScene().name == "FieldDevicesScene")
+        if (SceneManager.GetActiveScene().name == MyEnum.FieldDevicesScene.GetDescription())
         {
             if (status.Status == Status.TRACKED)
             {
@@ -124,7 +124,7 @@ public class OpenCanvas : MonoBehaviour
 
     public static string ConvertString(string input)
     {
-        if (SceneManager.GetActiveScene().name == "GrapperAScanScene")
+        if (SceneManager.GetActiveScene().name == MyEnum.GrapperAScanScene.GetDescription())
         {
             return input.Insert(2, ".").Insert(4, "."); // Chèn dấu chấm vào vị trí 2 và 4
         }
@@ -215,7 +215,7 @@ public class OpenCanvas : MonoBehaviour
         if (IsValidIndex(index, btnOpen))
             btnOpen[index]?.gameObject.SetActive(false);
 
-        if (SceneManager.GetActiveScene().name == "GrapperAScanScene")
+        if (SceneManager.GetActiveScene().name == MyEnum.GrapperAScanScene.GetDescription())
         {
             yield return new WaitUntil(() =>
         GlobalVariable.ActiveCloseCanvasButton = true
@@ -223,7 +223,7 @@ public class OpenCanvas : MonoBehaviour
             Debug.Log("OnOpenCanvas 1");
 
         }
-        else if (SceneManager.GetActiveScene().name == "FieldDevicesScene")
+        else if (SceneManager.GetActiveScene().name == MyEnum.FieldDevicesScene.GetDescription())
         {
             yield return new WaitUntil(() =>
             GlobalVariable.temp_ListFieldDeviceConnectionImages.Count > 0

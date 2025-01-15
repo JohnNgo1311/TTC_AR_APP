@@ -43,7 +43,7 @@ public class Show_Dialog : MonoBehaviour
         }
         if (showToastInitial)
         {
-            if (GlobalVariable.recentScene == "SelectionScene" && GlobalVariable.previousScene != "LoginScene")
+            if (GlobalVariable.recentScene == MyEnum.SelectionsScene.GetDescription() && GlobalVariable.previousScene != MyEnum.LoginScene.GetDescription())
             {
                 return;
             }

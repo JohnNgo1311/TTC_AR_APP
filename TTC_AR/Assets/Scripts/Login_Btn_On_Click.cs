@@ -93,7 +93,7 @@ public class Login_Btn_On_Click : MonoBehaviour
         GlobalVariable.accountModel.userName = userName;
         GlobalVariable.accountModel.password = password;
         GlobalVariable.recentScene = targetSceneName;
-        GlobalVariable.previousScene = "LoginScene";
+        GlobalVariable.previousScene = MyEnum.LoginScene.GetDescription();
         GlobalVariable.loginSuccess = true;
     }
 

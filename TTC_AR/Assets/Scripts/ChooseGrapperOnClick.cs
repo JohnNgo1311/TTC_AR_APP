@@ -24,7 +24,7 @@ public class ChooseGrapperOnClick : MonoBehaviour
 
     private void StartHandleButtonClick()
     {
-        if (SceneManager.GetActiveScene().name == "MenuScene" && grapperName != "GrapperA")
+        if (SceneManager.GetActiveScene().name == MyEnum.MenuScene.GetDescription() && grapperName != "GrapperA")
         {
 
         }

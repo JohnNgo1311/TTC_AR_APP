@@ -327,8 +327,9 @@ public class APIManager : MonoBehaviour
         try
         {
 
-            if (SceneManager.GetActiveScene().name == "GrapperAScanScene")
+            if (SceneManager.GetActiveScene().name == MyEnum.GrapperAScanScene.GetDescription())
             {
+
                 if (temp_ListJBInformationModel_From_Module == null || temp_ListJBInformationModel_From_Module.Count == 0)
                 {
                     Debug.LogWarning("No JB information models available to download images.");
@@ -395,7 +396,7 @@ public class APIManager : MonoBehaviour
                     });
                 }
             }
-            else if (SceneManager.GetActiveScene().name == "FieldDevicesScene")
+            else if (SceneManager.GetActiveScene().name == MyEnum.FieldDevicesScene.GetDescription())
             {
                 temp_FieldDeviceInformationModel = GlobalVariable.temp_FieldDeviceInformationModel;
 

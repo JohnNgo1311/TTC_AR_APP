@@ -30,7 +30,7 @@ public class SettingsMenu : MonoBehaviour
     {
         scroll_Area = scroll_Area ?? gameObject.transform.Find("Scroll_Area").gameObject;
         // scrollRect = gameObject.GetComponent<ScrollRect>();
-        if (SceneManager.GetActiveScene().name == "GrapperAScanScene")
+        if (SceneManager.GetActiveScene().name == MyEnum.GrapperAScanScene.GetDescription())
         {
             if (GlobalVariable.temp_List_Rack_Non_List_Module_Model.Count > 0)
             {
@@ -47,7 +47,7 @@ public class SettingsMenu : MonoBehaviour
                 Debug.LogError("No rack found");
             }
         }
-        else if (SceneManager.GetActiveScene().name == "FieldDevicesScene")
+        else if (SceneManager.GetActiveScene().name == MyEnum.FieldDevicesScene.GetDescription())
         {
             if (GlobalVariable.temp_List_Grapper_General_Models.Count > 0)
             {
@@ -75,11 +75,11 @@ public class SettingsMenu : MonoBehaviour
         {
             menuItems.Add(content.transform.GetChild(i).GetComponent<SettingsMenuItem>());
         }
-        if (SceneManager.GetActiveScene().name == "GrapperAScanScene")
+        if (SceneManager.GetActiveScene().name == MyEnum.GrapperAScanScene.GetDescription())
         {
             OnItemClick("Rack_1");
         }
-        else if (SceneManager.GetActiveScene().name == "FieldDevicesScene")
+        else if (SceneManager.GetActiveScene().name == MyEnum.FieldDevicesScene.GetDescription())
         {
             OnItemClick("GrapperA");
         }
@@ -105,7 +105,7 @@ public class SettingsMenu : MonoBehaviour
 
     public void OnItemClick(string itemName)
     {
-        if (SceneManager.GetActiveScene().name == "GrapperAScanScene")
+        if (SceneManager.GetActiveScene().name == MyEnum.GrapperAScanScene.GetDescription())
         {
             string[] splitString = itemName.Split("_");
             var rackIdentifier = splitString[1][0];
@@ -122,7 +122,7 @@ public class SettingsMenu : MonoBehaviour
                 }
             }
         }
-        else if (SceneManager.GetActiveScene().name == "FieldDevicesScene")
+        else if (SceneManager.GetActiveScene().name == MyEnum.FieldDevicesScene.GetDescription())
         {
             var grapperId = GlobalVariable.temp_List_Grapper_General_Models.Find(g => g.Name == itemName).Id;
             get_List_MCCs.GrapperId = grapperId;
