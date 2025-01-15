@@ -383,7 +383,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 150
+  m_fontSize: 94.3
   m_fontSizeBase: 1
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -911,6 +911,7 @@ MonoBehaviour:
   previousSceneName: SelectionScene
   recentSceneName: LoginScene
   isOrientation: 0
+  detail_Image: {fileID: 0}
 --- !u!114 &878477618
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1009,7 +1010,11 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
+<<<<<<< HEAD
   m_fontSize: 151.2
+=======
+  m_fontSize: 166.1
+>>>>>>> 9b9b3cefd5e5673a771eeb8f6ee5d71475276ef1
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1343,7 +1348,11 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
+<<<<<<< HEAD
   m_fontSize: 126.1
+=======
+  m_fontSize: 165.3
+>>>>>>> 9b9b3cefd5e5673a771eeb8f6ee5d71475276ef1
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1701,7 +1710,11 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
+<<<<<<< HEAD
   m_fontSize: 126.2
+=======
+  m_fontSize: 165.3
+>>>>>>> 9b9b3cefd5e5673a771eeb8f6ee5d71475276ef1
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1

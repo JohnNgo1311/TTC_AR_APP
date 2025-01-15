@@ -25,7 +25,6 @@ public class OpenCanvas : MonoBehaviour
 
     [SerializeField]
     private List<TMP_Text> list_Title = new List<TMP_Text>();
-
     private List<GameObject> activated_imageTargets = new List<GameObject>();
     private List<ObserverBehaviour> observerBehaviours = new List<ObserverBehaviour>();
     [SerializeField] Load_General_Data_From_Rack load_General_Data_From_Rack;
@@ -219,17 +218,15 @@ public class OpenCanvas : MonoBehaviour
         if (SceneManager.GetActiveScene().name == "GrapperAScanScene")
         {
             yield return new WaitUntil(() =>
-            GlobalVariable.temp_listJBConnectionImageFromModule != null
-            && GlobalVariable.temp_listJBLocationImageFromModule != null
-            && GlobalVariable.temp_listJBConnectionImageFromModule.Count > 0
-            && GlobalVariable.temp_listJBLocationImageFromModule.Count > 0);
+        GlobalVariable.ActiveCloseCanvasButton = true
+            );
             Debug.Log("OnOpenCanvas 1");
 
         }
         else if (SceneManager.GetActiveScene().name == "FieldDevicesScene")
         {
             yield return new WaitUntil(() =>
-            GlobalVariable.temp_ListFieldDeviceConnectionImages != null
+            GlobalVariable.temp_ListFieldDeviceConnectionImages.Count > 0
             && GlobalVariable.temp_ListFieldDeviceConnectionImages.Count > 0);
             Debug.Log("OnOpenCanvas 2");
 

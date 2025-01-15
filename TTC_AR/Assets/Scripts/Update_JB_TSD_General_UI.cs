@@ -27,7 +27,7 @@ public class Update_JB_TSD_General_UI : MonoBehaviour
     {
         module_Canvas ??= GetComponentInParent<Canvas>();
         eventPublisher ??= GameObject.Find(nameof(EventPublisher)).GetComponent<EventPublisher>();
-        StartCoroutine(InitializeUI());
+        Initialize();
     }
 
     private void OnDisable()
@@ -35,24 +35,24 @@ public class Update_JB_TSD_General_UI : MonoBehaviour
         ClearCachedTransforms();
 
     }
-
+    private void Initialize() { StartCoroutine(InitializeUI()); }
     private IEnumerator InitializeUI()
     {
-        yield return new WaitForSeconds(2f);
         eventPublisher.TriggerEvent_ButtonClicked();
-        yield return StartCoroutine(Get_Module_Information());
-        yield return StartCoroutine(InitionalizeUIElement());
-        yield return StartCoroutine(Create_Module_General());
+        yield return new WaitForSeconds(2.5f);
+        yield return Get_Module_Information();
+        Debug.Log(GlobalVariable.temp_ModuleInformationModel.Name);
+        yield return InitionalizeUIElement();
+        yield return Create_Module_General();
     }
 
     private IEnumerator Get_Module_Information()
     {
-        while (GlobalVariable.temp_ModuleInformationModel == null ||
-               GlobalVariable.temp_ListJBInformationModel_FromModule == null ||
-               GlobalVariable.temp_ListDeviceInformationModel_FromModule == null ||
-               GlobalVariable.temp_ModuleSpecificationGeneralModel == null)
+        while (GlobalVariable.ActiveCloseCanvasButton == false)
         {
             yield return null;
+            Debug.Log("Waiting ");
+
         }
 
         Debug.Log("All variables have been assigned!");
@@ -60,7 +60,7 @@ public class Update_JB_TSD_General_UI : MonoBehaviour
 
     private IEnumerator Create_Module_General()
     {
-        yield return StartCoroutine(Instantiate_JB_TSD_Connection_List());
+        yield return Instantiate_JB_TSD_Connection_List();
     }
 
     private IEnumerator InitionalizeUIElement()

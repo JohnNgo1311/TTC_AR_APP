@@ -93,7 +93,7 @@ public class GlobalVariable : MonoBehaviour
     public static List<JBInformationModel> temp_ListJBInformationModel_FromModule = new List<JBInformationModel>();
     public static JBInformationModel temp_JBInformationModel;
     public static int JBId = 1;
-
+    public static bool ActiveCloseCanvasButton = false;
     //! Mccs
     public static List<MccModel> temp_ListMCCInformationModel = new List<MccModel>();
     public static MccModel temp_MCCInformationModel;
