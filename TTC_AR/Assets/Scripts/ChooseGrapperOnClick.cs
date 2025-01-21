@@ -39,7 +39,7 @@ public class ChooseGrapperOnClick : MonoBehaviour
         getAllDataByGrapperForSearching.grapperId = APIManager.Instance.GrapperId;
         GlobalVariable.GrapperId = APIManager.Instance.GrapperId;
         yield return SelectGrapperOnClick();
-        Debug.Log("Button Clicked!");
+        Debug.Log("Button Clicked!" + GlobalVariable.GrapperId);
         eventPublisher.TriggerEvent_ButtonClicked();
         yield return new WaitForSeconds(2f);
         if (!onClickButton.interactable) onClickButton.interactable = true;

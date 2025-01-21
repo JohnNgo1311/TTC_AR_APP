@@ -10,6 +10,7 @@ using UnityEngine.Networking;
 using Newtonsoft.Json;
 using System;
 using EasyUI.Progress;
+using System.Threading;
 
 public class Dropdown_On_ValueChange : MonoBehaviour
 {
@@ -184,33 +185,70 @@ public class Dropdown_On_ValueChange : MonoBehaviour
     private async void LoadDeviceSprites(List<string> list_Additional_Images, JBInformationModel jbInformationModel)
     {
         jbInformationModel.ListConnectionImages.AddRange(list_Additional_Images);
-        await Apply_Sprite_JB_Images(outdoor_Image: jbInformationModel.OutdoorImage, list_Connection_Images: jbInformationModel.ListConnectionImages);
+        await Apply_Sprite_JB_Images(jbInformationModel.OutdoorImage, jbInformationModel.ListConnectionImages);
         scrollRect.verticalNormalizedPosition = 1f;
         jbInformationModel.ListConnectionImages.RemoveRange(jbInformationModel.ListConnectionImages.Count - list_Additional_Images.Count, list_Additional_Images.Count);
     }
 
-    private async Task Apply_Sprite_JB_Images(string outdoor_Image, List<string> list_Connection_Images)
+    private async Task Apply_Sprite_JB_Images(string outdoorImage, List<string> listConnectionImages)
     {
+        // Tắt các prefab ban đầu
         JB_Location_Image_Prefab.gameObject.SetActive(false);
         JB_Connection_Wiring_Image_Prefab.gameObject.SetActive(false);
-        List<Task> tasks = new List<Task>();
 
-        if (!string.IsNullOrEmpty(outdoor_Image))
+        var tasks = new List<Task>();
+
+        // Tải hình ảnh vị trí ngoài trời nếu có
+        if (!string.IsNullOrEmpty(outdoorImage))
         {
-            JB_Location_Image_Prefab.gameObject.GetComponent<Button>().onClick.AddListener(() => open_Detail_Image.Open_Detail_Canvas(JB_Location_Image_Prefab));
-            tasks.Add(APIManager.Instance.LoadImageFromUrlAsync($"{GlobalVariable.baseUrl}files/{outdoor_Image}", JB_Location_Image_Prefab));
+            AddButtonListener(JB_Location_Image_Prefab, outdoorImage);
+            tasks.Add(LoadImageAsync(outdoorImage, JB_Location_Image_Prefab));
         }
 
-        foreach (string connectionImage in list_Connection_Images)
+        // Tải hình ảnh kết nối
+        foreach (string connectionImage in listConnectionImages)
         {
             var newImage = Instantiate(JB_Connection_Wiring_Image_Prefab, JB_Connection_Group.transform);
-            newImage.gameObject.GetComponent<Button>().onClick.AddListener(() => open_Detail_Image.Open_Detail_Canvas(newImage));
-            tasks.Add(APIManager.Instance.LoadImageFromUrlAsync($"{GlobalVariable.baseUrl}files/{connectionImage}", newImage));
+            AddButtonListener(newImage, connectionImage);
+            tasks.Add(LoadImageAsync(connectionImage, newImage));
         }
 
-        Progress.Show("Đang tra cứu...", ProgressColor.Blue, true);
-        Progress.SetDetailsText("Dữ liệu đang được tải...");
+        // Hiển thị thanh tiến trình
+        await ShowProgressBar("Đang tra cứu...", "Dữ liệu đang được tải...");
 
+        // Theo dõi tiến trình tải ảnh
+        await TrackProgress(tasks);
+
+        // Đặt kích thước ảnh phù hợp
+        ResizeImages();
+
+        // Ẩn thanh tiến trình
+        await HideProgressBar();
+    }
+
+    private void AddButtonListener(Image imagePrefab, string imageName)
+    {
+        var button = imagePrefab.GetComponent<Button>();
+        button.onClick.RemoveAllListeners(); // Đảm bảo không lặp lại listener
+        button.onClick.AddListener(() => open_Detail_Image.Open_Detail_Canvas(imagePrefab));
+    }
+
+    private Task LoadImageAsync(string imageName, Image imagePrefab)
+    {
+        string url = $"{GlobalVariable.baseUrl}files/{imageName}";
+        return APIManager.Instance.LoadImageFromUrlAsync(url, imagePrefab);
+    }
+
+    private async Task ShowProgressBar(string title, string details)
+    {
+
+        Progress.Show(title, ProgressColor.Blue, true);
+        Progress.SetDetailsText(details);
+        await Task.Delay(100);
+    }
+
+    private async Task TrackProgress(List<Task> tasks)
+    {
         int totalTasks = tasks.Count;
         int completedTasks = 0;
 
@@ -220,22 +258,37 @@ public class Dropdown_On_ValueChange : MonoBehaviour
             {
                 await task;
             }
+            catch (Exception e)
+            {
+                Debug.LogError($"Error loading image: {e.Message}");
+            }
             finally
             {
                 completedTasks++;
+
                 Progress.SetProgressValue((float)completedTasks / totalTasks * 100f);
             }
         });
-
         await Task.WhenAll(wrappedTasks);
-        foreach (Image connectionImage in JB_Connection_Group.GetComponentsInChildren<Image>())
+        Progress.SetProgressValue(100f);
+    }
+
+    private void ResizeImages()
+    {
+        StartCoroutine(Resize_Gameobject_Function.Set_NativeSize_For_GameObject(JB_Location_Image_Prefab));
+
+        foreach (var connectionImage in JB_Connection_Group.GetComponentsInChildren<Image>())
         {
             StartCoroutine(Resize_Gameobject_Function.Set_NativeSize_For_GameObject(connectionImage));
         }
-        Progress.SetProgressValue(100f);
-        await Task.Delay(500);
+    }
+
+    private async Task HideProgressBar()
+    {
+        await Task.Delay(200);
         Progress.Hide();
     }
+
 
     private void SetSprite(Image imageComponent, string jb_name)
     {

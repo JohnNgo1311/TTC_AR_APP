@@ -116,11 +116,7 @@ public class GlobalVariable : MonoBehaviour
     public static List<DeviceInformationModel_FromModule> temp_ListDeviceInformationModel_FromModule = new List<DeviceInformationModel_FromModule>();
     public static Dictionary<string, List<Texture2D>> temp_listJBConnectionImageFromModule = new Dictionary<string, List<Texture2D>>();
     public static Dictionary<string, Texture2D> temp_listJBLocationImageFromModule = new Dictionary<string, Texture2D>();
-    public static AccountModel accountModel = new AccountModel()
-    {
-        userName = "",
-        password = ""
-    };
+    public static AccountModel accountModel = new AccountModel("", "");
 
     public static List<string> pLCBoxScene = new List<string>()
     {
@@ -150,26 +146,4 @@ public class GlobalVariable : MonoBehaviour
         "FieldDevicesScene",
     };
 
-    // public static RackData_GrapperA rackData_GrapperA = new RackData_GrapperA();
-
-    // public static Dictionary<string, string> online_Module_Catalog_Url = new Dictionary<string, string>()
-    // {
-    //     {"1794-IR8", "https://literature.rockwellautomation.com/idc/groups/literature/documents/in/1794-in021_-en-p.pdf"},
-    //     {"1794-IE8", "https://literature.rockwellautomation.com/idc/groups/literature/documents/in/1794-in100_-en-p.pdf"},
-    //     {"1794-OE8H", "https://literature.rockwellautomation.com/idc/groups/literature/documents/in/1794-in109_-en-p.pdf"},
-    //     {"1794-IB32", "https://literature.rockwellautomation.com/idc/groups/literature/documents/in/1794-in093_-en-p.pdf"},
-    //     {"1794-OB32P", "https://literature.rockwellautomation.com/idc/groups/literature/documents/in/1794-in094_-en-p.pdf"},
-    // };
-
-    // public static Dictionary<string, string> online_Adapter_Catalog_Url = new Dictionary<string, string>()
-    // {
-    //     {"1794-ACN15", "https://literature.rockwellautomation.com/idc/groups/literature/documents/in/1794-in128_-en-p.pdf"}
-    // };
-}
-
-[System.Serializable]
-public class AccountModel
-{
-    public string userName;
-    public string password;
 }

@@ -10,6 +10,7 @@ using System.Threading;
 using UnityEngine.SceneManagement;
 using PimDeWitte.UnityMainThreadDispatcher;
 using System.Reflection;
+using System.Linq;
 
 public class APIManager : MonoBehaviour
 {
@@ -216,9 +217,10 @@ public class APIManager : MonoBehaviour
                 if (list_moduleInformationModel != null)
                 {
                     temp_List_ModuleInformationModel = list_moduleInformationModel;
+                    GlobalVariable.temp_ListModuleInformationModel = temp_List_ModuleInformationModel;
 
                 }
-                Debug.Log("success");
+                Debug.Log("success" + temp_List_ModuleInformationModel.Count);
             }
             catch (JsonException jsonEx)
             {
@@ -354,15 +356,13 @@ public class APIManager : MonoBehaviour
                             list_JB_Location_Images_From_Module[jb.Name] = new Texture2D(2, 2);
                         }
 
+                        //? Tải hình ảnh ngoài trời
                         if (!string.IsNullOrEmpty(jb.OutdoorImage))
                         {
-                            // Tải hình ảnh ngoài trời
-                            var outdoorImageTask = DownloadImageAsync(jb.OutdoorImage);
-                            list_JB_Location_Images_From_Module[jb.Name] = await outdoorImageTask;
+                            downloadTasks.Add(DownloadImageAsync(jb.OutdoorImage));
                         }
 
-
-                        // Tải danh sách hình ảnh kết nối
+                        //? Tải danh sách hình ảnh kết nối
                         foreach (var url in jb.ListConnectionImages)
                         {
                             if (!string.IsNullOrEmpty(url))
@@ -371,18 +371,24 @@ public class APIManager : MonoBehaviour
                             }
                         }
 
-                        // Chờ tất cả hình ảnh kết nối hoàn tất
+                        //? Chờ tất cả hình ảnh kết nối hoàn tất
                         var downloadedTextures = await Task.WhenAll(downloadTasks);
 
-                        // Cập nhật danh sách hình ảnh kết nối trên Main Thread
+                        //? Cập nhật danh sách hình ảnh kết nối trên Main Thread
                         UnityMainThreadDispatcher.Instance.Enqueue(() =>
                         {
-                            list_JB_Connection_Images_From_Module[jb.Name].AddRange(downloadedTextures);
+                            if (!string.IsNullOrEmpty(jb.OutdoorImage))
+                            {
+                                list_JB_Location_Images_From_Module[jb.Name] = downloadedTextures[0];
+                                list_JB_Connection_Images_From_Module[jb.Name].AddRange(downloadedTextures.Skip(1));
+                            }
+                            else
+                            {
+                                list_JB_Connection_Images_From_Module[jb.Name].AddRange(downloadedTextures);
+                            }
                         });
-
-                        // Dọn danh sách nhiệm vụ sau mỗi JB
+                        //? Dọn danh sách nhiệm vụ sau mỗi JB
                         downloadTasks.Clear();
-
                     }
 
                     // Cập nhật biến toàn cục trên Main Thread
