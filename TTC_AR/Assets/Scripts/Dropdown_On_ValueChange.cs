@@ -15,29 +15,24 @@ using System.Threading;
 public class Dropdown_On_ValueChange : MonoBehaviour
 {
     public GameObject prefab_Device;
-    private RectTransform contentTransform;
-    private TMP_Text code_Value_Text, function_Value_Text, range_Value_Text, io_Value_Text, jb_Connection_Value_Text, jb_Connection_Location_Text;
-    private Image module_Image, JB_Location_Image_Prefab, JB_Connection_Wiring_Image_Prefab;
-    private GameObject JB_Connection_Group;
-    private ScrollRect scrollRect;
-    private Dictionary<string, Sprite> spriteCache = new Dictionary<string, Sprite>();
-    private List<Image> instantiatedImages = new List<Image>();
-    private string currentLoadedDeviceCode;
-    private Dictionary<string, DeviceInformationModel> deviceDictionary;
-
     public SearchableDropDown searchableDropDown;
-
-    [SerializeField] GameObject bottom_App_Bar;
     public Open_Detail_Image open_Detail_Image;
     public EventPublisher eventPublisher;
+    [SerializeField] private RectTransform contentTransform;
+    [SerializeField] private TMP_Text code_Value_Text, function_Value_Text, range_Value_Text, io_Value_Text, jb_Connection_Value_Text, jb_Connection_Location_Text;
+    [SerializeField] private Image JB_Location_Image_Prefab, JB_Connection_Wiring_Image_Prefab;
+    [SerializeField] private GameObject JB_Connection_Group, bottom_App_Bar;
+    [SerializeField] private ScrollRect scrollRect;
+    [SerializeField] private Dictionary<string, Sprite> spriteCache = new();
+    [SerializeField] private List<Image> instantiatedImages = new();
+    private string currentLoadedDeviceCode;
+    private Dictionary<string, DeviceInformationModel> deviceDictionary;
     private string _jbName = "";
     private string _moduleName = "";
-
-
     private void Awake()
     {
         Debug.Log("Dropdown_On_ValueChange Awake");
-        searchableDropDown = searchableDropDown.GetComponent<SearchableDropDown>();
+        searchableDropDown ??= searchableDropDown.GetComponent<SearchableDropDown>();
     }
     private void OnEnable()
     {
@@ -94,23 +89,22 @@ public class Dropdown_On_ValueChange : MonoBehaviour
     private void InitilizeUIElements()
     {
         var content = prefab_Device.transform.Find("Content");
-        scrollRect = prefab_Device.GetComponent<ScrollRect>();
-        contentTransform = content.GetComponent<RectTransform>();
+        scrollRect ??= prefab_Device.GetComponent<ScrollRect>();
+        contentTransform ??= content.GetComponent<RectTransform>();
 
         var deviceInfo = content.Find("Device_information");
-        code_Value_Text = deviceInfo.Find("Code_group/Code_value").GetComponent<TMP_Text>();
-        function_Value_Text = deviceInfo.Find("Function_group/Function_value").GetComponent<TMP_Text>();
-        range_Value_Text = deviceInfo.Find("Range_group/Range_value").GetComponent<TMP_Text>();
-        io_Value_Text = deviceInfo.Find("IO_group/IO_value").GetComponent<TMP_Text>();
+        code_Value_Text ??= deviceInfo.Find("Code_group/Code_value").GetComponent<TMP_Text>();
+        function_Value_Text ??= deviceInfo.Find("Function_group/Function_value").GetComponent<TMP_Text>();
+        range_Value_Text ??= deviceInfo.Find("Range_group/Range_value").GetComponent<TMP_Text>();
+        io_Value_Text ??= deviceInfo.Find("IO_group/IO_value").GetComponent<TMP_Text>();
 
         var jbConnectionGroup = content.Find("JB_Connection_group/JB_Connection_text_group");
-        jb_Connection_Value_Text = jbConnectionGroup.Find("JB_Connection_value").GetComponent<TMP_Text>();
-        jb_Connection_Location_Text = jbConnectionGroup.Find("JB_Connection_location").GetComponent<TMP_Text>();
-
-        //   module_Image = content.Find("Module_group/Real_Module_Image").GetComponent<Image>();
-        JB_Connection_Group = content.Find("JB_Connection_group").gameObject;
-        JB_Location_Image_Prefab = JB_Connection_Group.transform.Find("JB_Location_Image").GetComponent<Image>();
-        JB_Connection_Wiring_Image_Prefab = JB_Connection_Group.transform.Find("JB_Connection_Wiring").GetComponent<Image>();
+        jb_Connection_Value_Text ??= jbConnectionGroup.Find("JB_Connection_value").GetComponent<TMP_Text>();
+        jb_Connection_Location_Text ??= jbConnectionGroup.Find("JB_Connection_location").GetComponent<TMP_Text>();
+        //   module_Image ??= content.Find("Module_group/Real_Module_Image").GetComponent<Image>();
+        JB_Connection_Group ??= content.Find("JB_Connection_group").gameObject;
+        JB_Location_Image_Prefab ??= JB_Connection_Group.transform.Find("JB_Location_Image").GetComponent<Image>();
+        JB_Connection_Wiring_Image_Prefab ??= JB_Connection_Group.transform.Find("JB_Connection_Wiring").GetComponent<Image>();
     }
     private void Prepare_Device_Dictionary_For_Searching()
     {
@@ -137,9 +131,7 @@ public class Dropdown_On_ValueChange : MonoBehaviour
         }
         if (!deviceDictionary.TryGetValue(input, out var device))
         {
-
             ClearWiringGroupAndCache();
-
         }
         else
         {

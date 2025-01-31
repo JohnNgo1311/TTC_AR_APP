@@ -15,14 +15,15 @@ public class SearchableDropDown : MonoBehaviour
     public TMP_InputField inputField;
     public ScrollRect scrollRect;
     public GameObject content;
+    public event Action<string> OnValueChangedEvt;
+    public GameObject filter_Content;
+
     private RectTransform contentRect;
     private List<string> available_Options_For_Dropdown = new List<string>();
     private List<GameObject> itemGameObjects = new List<GameObject>();
-    private bool contentActive = false;
+    private bool filter_Content_Active = false;
     private Vector2 scrollRectInitialSize;
-
-
-    public event Action<string> OnValueChangedEvt;
+    private List<string> originalOptions = new List<string>();
 
     private void Awake()
     {
@@ -37,13 +38,21 @@ public class SearchableDropDown : MonoBehaviour
     }
     public void Set_Initial_Text_Field_Value()
     {
-        if (!string.IsNullOrEmpty(GlobalVariable_Search_Devices.temp_ListDeviceInformationModel[0].Code))
-        { inputField.text = GlobalVariable_Search_Devices.temp_ListDeviceInformationModel[0].Code; };
+        var temp_ListDeviceInformation = GlobalVariable_Search_Devices.temp_ListDeviceInformationModel;
+        var temp_ListJBInformationModel = GlobalVariable_Search_Devices.temp_ListJBInformationModel;
+        if (!string.IsNullOrEmpty(temp_ListDeviceInformation[0].Code) && !string.IsNullOrEmpty(temp_ListJBInformationModel[0].Name))
+        {
+            inputField.text = temp_ListDeviceInformation[0].Code;
+        }
+        else
+        {
+            return;
+        }
     }
     public void Initialize()
     {
         available_Options_For_Dropdown = GlobalVariable_Search_Devices.temp_List_Device_For_Fitler;
-
+        originalOptions = available_Options_For_Dropdown;
         if (scrollRect == null || inputField == null || content == null || itemPrefab == null)
         {
             Debug.LogError("Không thể tìm thấy các thành phần cần thiết cho SearchableDropDown");
@@ -65,18 +74,63 @@ public class SearchableDropDown : MonoBehaviour
         }
     }
 
+    public void Select_Device_Filter_On_clicked()
+    {
+        var jbOptions = GlobalVariable_Search_Devices.temp_List_Device_For_Fitler;
+        UpdateDropdownOptions(jbOptions);
+    }
+
+    public void Select_JB_TSD_Filter_On_clicked()
+    {
+        var jbOptions = GlobalVariable_Search_Devices.temp_ListJBInformationModel.Select(jb => jb.Name).ToList();
+        UpdateDropdownOptions(jbOptions);
+    }
+
+    private void UpdateDropdownOptions(List<string> options)
+    {
+        available_Options_For_Dropdown = options;
+        if (scrollRect == null || inputField == null || content == null || itemPrefab == null)
+        {
+            Debug.LogError("Không thể tìm thấy các thành phần cần thiết cho SearchableDropDown");
+            return;
+        }
+
+        inputField.onValueChanged.RemoveListener(OnInputValueChange);
+        PopulateDropdown(available_Options_For_Dropdown);
+        UpdateUI();
+
+        if (inputField.onValueChanged.GetPersistentEventCount() > 0)
+        {
+            inputField.onValueChanged.AddListener(OnInputValueChange);
+        }
+    }
+    void ClearChildren(Transform parentObjectTransform)
+    {
+        foreach (Transform child in parentObjectTransform)
+        {
+            if (child.gameObject != itemPrefab)
+                Destroy(child.gameObject);
+        }
+    }
     private void PopulateDropdown(List<string> options)
     {
-        foreach (var option in options)
+        if (originalOptions != options)
         {
-            var itemObject = Instantiate(itemPrefab, content.transform);
-            itemObject.name = option;
-            var textComponent = itemObject.GetComponentInChildren<TMP_Text>();
-            textComponent.text = option;
-            itemObject.GetComponent<Button>().onClick.AddListener(() => OnItemSelected(option));
-            itemGameObjects.Add(itemObject);
+            ClearChildren(content.transform);
+            foreach (var option in options)
+            {
+                var itemObject = Instantiate(itemPrefab, content.transform);
+                itemObject.name = option;
+                var textComponent = itemObject.GetComponentInChildren<TMP_Text>();
+                textComponent.text = option;
+                itemObject.GetComponent<Button>().onClick.AddListener(() => OnItemSelected(option));
+                itemGameObjects.Add(itemObject);
+            }
+            originalOptions = options;
+
+            Debug.Log(itemGameObjects.Count);
         }
-        Debug.Log(itemGameObjects.Count);
+
     }
 
     private void UpdateUI()
@@ -102,10 +156,10 @@ public class SearchableDropDown : MonoBehaviour
 
     private void ToggleDropdown()
     {
-        contentActive = !contentActive;
-        scrollRect.gameObject.SetActive(contentActive);
-        arrowButtonDown.SetActive(contentActive);
-        arrowButtonUp.SetActive(!contentActive);
+        filter_Content_Active = !filter_Content_Active;
+        filter_Content.gameObject.SetActive(filter_Content_Active);
+        arrowButtonDown.SetActive(filter_Content_Active);
+        arrowButtonUp.SetActive(!filter_Content_Active);
     }
 
     private void SetContentActive(bool isActive)
@@ -165,7 +219,6 @@ public class SearchableDropDown : MonoBehaviour
         scrollRect.gameObject.SetActive(false);
         arrowButtonDown.SetActive(false);
         arrowButtonUp.SetActive(true);
-        //ToggleDropdown();
     }
 
     public void ResetDropDown()
