@@ -17,7 +17,7 @@ public class SearchableDropDown : MonoBehaviour
     public GameObject content;
     public event Action<string> OnValueChangedEvt;
     public GameObject filter_Content;
-
+    public TMP_Text filter_Text;
     private RectTransform contentRect;
     private List<string> available_Options_For_Dropdown = new List<string>();
     private List<GameObject> itemGameObjects = new List<GameObject>();
@@ -78,12 +78,16 @@ public class SearchableDropDown : MonoBehaviour
     {
         var jbOptions = GlobalVariable_Search_Devices.temp_List_Device_For_Fitler;
         UpdateDropdownOptions(jbOptions);
+        ToggleDropdown();
+        filter_Text.text = "Thiết bị";
     }
 
     public void Select_JB_TSD_Filter_On_clicked()
     {
         var jbOptions = GlobalVariable_Search_Devices.temp_ListJBInformationModel.Select(jb => jb.Name).ToList();
         UpdateDropdownOptions(jbOptions);
+        ToggleDropdown();
+        filter_Text.text = "JB/TSD";
     }
 
     private void UpdateDropdownOptions(List<string> options)
@@ -104,12 +108,11 @@ public class SearchableDropDown : MonoBehaviour
             inputField.onValueChanged.AddListener(OnInputValueChange);
         }
     }
-    void ClearChildren(Transform parentObjectTransform)
+    private void ClearChildren(Transform parentObjectTransform)
     {
         foreach (Transform child in parentObjectTransform)
         {
-            if (child.gameObject != itemPrefab)
-                Destroy(child.gameObject);
+            Destroy(child.gameObject);
         }
     }
     private void PopulateDropdown(List<string> options)
@@ -117,6 +120,7 @@ public class SearchableDropDown : MonoBehaviour
         if (originalOptions != options)
         {
             ClearChildren(content.transform);
+            itemGameObjects.Clear();
             foreach (var option in options)
             {
                 var itemObject = Instantiate(itemPrefab, content.transform);
@@ -127,10 +131,8 @@ public class SearchableDropDown : MonoBehaviour
                 itemGameObjects.Add(itemObject);
             }
             originalOptions = options;
-
             Debug.Log(itemGameObjects.Count);
         }
-
     }
 
     private void UpdateUI()
@@ -141,6 +143,7 @@ public class SearchableDropDown : MonoBehaviour
             var item = itemGameObjects[i];
             if (i < optionsCount)
             {
+                Debug.Log("item Index: " + i);
                 var optionText = available_Options_For_Dropdown[i];
                 var textComponent = item.GetComponentInChildren<TMP_Text>();
                 textComponent.text = optionText;

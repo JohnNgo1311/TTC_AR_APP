@@ -133,7 +133,7 @@ GameObject:
   - component: {fileID: 873792}
   - component: {fileID: 873794}
   - component: {fileID: 873793}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: icon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -209,7 +209,7 @@ GameObject:
   - component: {fileID: 2553993}
   - component: {fileID: 2553995}
   - component: {fileID: 2553994}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: icon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -745,6 +745,7 @@ MonoBehaviour:
   scrollRect: {fileID: 1467489169}
   content: {fileID: 385985388}
   filter_Content: {fileID: 1888942150}
+  filter_Text: {fileID: 2007211260}
 --- !u!1 &703875921
 GameObject:
   m_ObjectHideFlags: 0
@@ -3766,7 +3767,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1620957334}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Filter_Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4318,7 +4319,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1892745830}
   - component: {fileID: 1892745831}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Arrow_Dn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4341,10 +4342,10 @@ RectTransform:
   m_Father: {fileID: 1963225177}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.75748485, y: 0.25833336}
-  m_AnchorMax: {x: 0.943, y: 0.7333334}
-  m_AnchoredPosition: {x: -116.98, y: 0.49986076}
-  m_SizeDelta: {x: 272.04, y: 63}
+  m_AnchorMin: {x: 0, y: 0.25833336}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0.019989014, y: -15.500139}
+  m_SizeDelta: {x: 0.040008545, y: 31}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1892745831
 MonoBehaviour:
@@ -4446,7 +4447,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1933421427}
   - component: {fileID: 1933421428}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Arrow_Up
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4469,10 +4470,10 @@ RectTransform:
   m_Father: {fileID: 1963225177}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.75748485, y: 0.25833336}
-  m_AnchorMax: {x: 0.943, y: 0.7333334}
-  m_AnchoredPosition: {x: -116.98, y: 0.49986076}
-  m_SizeDelta: {x: 272.04, y: 63}
+  m_AnchorMin: {x: 0, y: 0.25833336}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0.020004272, y: -15.500139}
+  m_SizeDelta: {x: 0.040008545, y: 31}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1933421428
 MonoBehaviour:
@@ -4529,7 +4530,7 @@ GameObject:
   - component: {fileID: 1963225177}
   - component: {fileID: 1963225179}
   - component: {fileID: 1963225178}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Fitler_Dropdown
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4608,7 +4609,7 @@ GameObject:
   - component: {fileID: 2007211259}
   - component: {fileID: 2007211261}
   - component: {fileID: 2007211260}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Filter_Text_Value
   m_TagString: Untagged
   m_Icon: {fileID: 0}
