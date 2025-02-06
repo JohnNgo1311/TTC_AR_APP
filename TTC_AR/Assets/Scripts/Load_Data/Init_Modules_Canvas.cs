@@ -13,7 +13,6 @@ public class Init_Modules_Canvas : MonoBehaviour
     public List<GameObject> imageTargets = new List<GameObject>();
     public List<GameObject> targetCanvas = new List<GameObject>();
     public GameObject moduleCanvasPrefab;
-    public Transform parentTransformForInstantiate;
     public Get_List_Modules_By_Grapper getListModulesByGrapper;
     public bool isInstantiating = false;
     public Transform parentTransform;
@@ -62,7 +61,7 @@ public class Init_Modules_Canvas : MonoBehaviour
             Debug.LogError("No data available to instantiate module canvases.");
             yield break;
         }
-        isInstantiating = false;
+        isInstantiating = true;
         foreach (var module in GlobalVariable.temp_ListModuleInformationModel)
         {
             GameObject newCanvas = Instantiate(moduleCanvasPrefab, parentTransform);
@@ -76,7 +75,7 @@ public class Init_Modules_Canvas : MonoBehaviour
             targetCanvas.Add(newCanvas);
         }
         Destroy(moduleCanvasPrefab.gameObject);
-        isInstantiating = true;
+        isInstantiating = false;
         Debug.Log("Module canvases instantiated successfully.");
     }
 

@@ -45,11 +45,14 @@ public class OpenCanvas : MonoBehaviour
                 // Tối ưu hóa kiểm tra danh sách
                 targetCanvas = Init_Modules_Canvas.targetCanvas;
                 Destroy(Init_Modules_Canvas.moduleCanvasPrefab.gameObject);
+                Debug.Log("targetCanvas.Count: " + targetCanvas.Count);
             }
 
         }
         if (targetCanvas.Count > 0 && imageTargets.Count > 0)
         {
+            Debug.Log("targetCanvas.Count: " + targetCanvas.Count);
+            Debug.Log("imageTargets.Count: " + imageTargets.Count);
             foreach (var canvas in targetCanvas)
             {
                 if (canvas != null)
@@ -73,7 +76,6 @@ public class OpenCanvas : MonoBehaviour
                         tagName.Add(btnOpenObj.tag);
                         list_Title.Add(target.transform.Find("imageTarget_Title")?.GetComponent<TMP_Text>());
                         observerBehaviours.Add(target.GetComponent<ObserverBehaviour>());
-
                         if (target.activeSelf)
                         {
                             activated_imageTargets.Add(target);
