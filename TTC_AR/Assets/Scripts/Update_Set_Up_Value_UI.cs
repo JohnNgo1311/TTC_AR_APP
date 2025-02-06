@@ -11,6 +11,7 @@ public class Update_Set_Up_Value_UI : MonoBehaviour
     public MccModel MCCInformationModel;
     public FieldDeviceInformationModel FieldDeviceInformationModel;
     public EventPublisher eventPublisher;
+    [SerializeField]
     private string cabinetCode;
 
     private void OnEnable()

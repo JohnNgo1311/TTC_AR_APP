@@ -25,10 +25,9 @@ public class OpenCanvas : MonoBehaviour
 
     [SerializeField]
     private List<TMP_Text> list_Title = new List<TMP_Text>();
-
     private List<GameObject> activated_imageTargets = new List<GameObject>();
     private List<ObserverBehaviour> observerBehaviours = new List<ObserverBehaviour>();
-    [SerializeField] Load_General_Data_From_Rack load_General_Data_From_Rack;
+    [SerializeField] Init_Modules_Canvas Init_Modules_Canvas;
 
 
     void Awake()
@@ -38,19 +37,22 @@ public class OpenCanvas : MonoBehaviour
     private IEnumerator Initialize()
     {
         yield return null;
-        if (SceneManager.GetActiveScene().name != "FieldDevicesScene")
+        if (SceneManager.GetActiveScene().name != MyEnum.FieldDevicesScene.GetDescription())
         {
-            if (load_General_Data_From_Rack != null)
+            if (Init_Modules_Canvas != null)
             {
-                yield return new WaitUntil(() => load_General_Data_From_Rack.isInstantiating == false);
+                yield return new WaitUntil(() => Init_Modules_Canvas.isInstantiating == false);
                 // Tối ưu hóa kiểm tra danh sách
-                targetCanvas = load_General_Data_From_Rack.targetCanvas;
-                Destroy(load_General_Data_From_Rack.module_Canvas_Prefab.gameObject);
+                targetCanvas = Init_Modules_Canvas.targetCanvas;
+                Destroy(Init_Modules_Canvas.moduleCanvasPrefab.gameObject);
+                Debug.Log("targetCanvas.Count: " + targetCanvas.Count);
             }
 
         }
         if (targetCanvas.Count > 0 && imageTargets.Count > 0)
         {
+            Debug.Log("targetCanvas.Count: " + targetCanvas.Count);
+            Debug.Log("imageTargets.Count: " + imageTargets.Count);
             foreach (var canvas in targetCanvas)
             {
                 if (canvas != null)
@@ -74,7 +76,6 @@ public class OpenCanvas : MonoBehaviour
                         tagName.Add(btnOpenObj.tag);
                         list_Title.Add(target.transform.Find("imageTarget_Title")?.GetComponent<TMP_Text>());
                         observerBehaviours.Add(target.GetComponent<ObserverBehaviour>());
-
                         if (target.activeSelf)
                         {
                             activated_imageTargets.Add(target);
@@ -97,7 +98,7 @@ public class OpenCanvas : MonoBehaviour
     }
     private void OnStatusChanged(ObserverBehaviour behaviour, TargetStatus status, TMP_Text title, string name)
     {
-        if (SceneManager.GetActiveScene().name == "GrapperAScanScene")
+        if (SceneManager.GetActiveScene().name == MyEnum.GrapperAScanScene.GetDescription())
         {
             if (status.Status == Status.TRACKED)
             {
@@ -109,7 +110,7 @@ public class OpenCanvas : MonoBehaviour
                 title.gameObject.SetActive(false);
             }
         }
-        if (SceneManager.GetActiveScene().name == "FieldDevicesScene")
+        if (SceneManager.GetActiveScene().name == MyEnum.FieldDevicesScene.GetDescription())
         {
             if (status.Status == Status.TRACKED)
             {
@@ -125,7 +126,7 @@ public class OpenCanvas : MonoBehaviour
 
     public static string ConvertString(string input)
     {
-        if (SceneManager.GetActiveScene().name == "GrapperAScanScene")
+        if (SceneManager.GetActiveScene().name == MyEnum.GrapperAScanScene.GetDescription())
         {
             return input.Insert(2, ".").Insert(4, "."); // Chèn dấu chấm vào vị trí 2 và 4
         }
@@ -216,20 +217,18 @@ public class OpenCanvas : MonoBehaviour
         if (IsValidIndex(index, btnOpen))
             btnOpen[index]?.gameObject.SetActive(false);
 
-        if (SceneManager.GetActiveScene().name == "GrapperAScanScene")
+        if (SceneManager.GetActiveScene().name == MyEnum.GrapperAScanScene.GetDescription())
         {
             yield return new WaitUntil(() =>
-            GlobalVariable.temp_listJBConnectionImageFromModule != null
-            && GlobalVariable.temp_listJBLocationImageFromModule != null
-            && GlobalVariable.temp_listJBConnectionImageFromModule.Count > 0
-            && GlobalVariable.temp_listJBLocationImageFromModule.Count > 0);
+        GlobalVariable.ActiveCloseCanvasButton = true
+            );
             Debug.Log("OnOpenCanvas 1");
 
         }
-        else if (SceneManager.GetActiveScene().name == "FieldDevicesScene")
+        else if (SceneManager.GetActiveScene().name == MyEnum.FieldDevicesScene.GetDescription())
         {
             yield return new WaitUntil(() =>
-            GlobalVariable.temp_ListFieldDeviceConnectionImages != null
+            GlobalVariable.temp_ListFieldDeviceConnectionImages.Count > 0
             && GlobalVariable.temp_ListFieldDeviceConnectionImages.Count > 0);
             Debug.Log("OnOpenCanvas 2");
 

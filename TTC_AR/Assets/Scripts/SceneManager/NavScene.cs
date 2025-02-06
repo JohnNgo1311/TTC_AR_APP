@@ -20,7 +20,7 @@ public class NavScene : MonoBehaviour
         for (int i = 0; i < listButton.Count; i++)
         {
             int localIndex = i; // Tạo bản sao cục bộ của `i` để tránh lỗi tham chiếu trong lambda
-            if (SceneManager.GetActiveScene().name == "MenuScene" &&
+            if (SceneManager.GetActiveScene().name == MyEnum.MenuScene.GetDescription() &&
             (listButton[i].gameObject.name.Contains("GrapperB")
              || listButton[i].gameObject.name.Contains("GrapperC")
             || listButton[i].gameObject.name.Contains("LH_Btn"))
