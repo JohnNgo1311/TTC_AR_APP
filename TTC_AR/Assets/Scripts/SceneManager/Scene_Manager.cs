@@ -39,7 +39,7 @@ public class Scene_Manager : MonoBehaviour
         {
             GlobalVariable.recentScene = recentSceneName;
             GlobalVariable.previousScene = previousSceneName;
-            SceneManager.LoadScene(recentSceneName);
+            SceneManager.LoadScene(recentSceneName, LoadSceneMode.Single);
             //  PlayerPrefs.SetString(recentSceneName, SceneManager.GetActiveScene().name);
         }
     }
