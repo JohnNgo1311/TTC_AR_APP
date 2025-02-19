@@ -61,41 +61,38 @@ public class APIManager : MonoBehaviour
 
     public async Task GetListGrappers(string url)
     {
-        using UnityWebRequest webRequest = UnityWebRequest.Get(url);
+        using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
         {
             if (!await SendWebRequestAsync(webRequest))
             {
                 HandleRequestError(webRequest.error);
                 return;
             }
-
             try
             {
-                Debug.Log("GetListGrappers:+ " + webRequest.downloadHandler.text);
-                var grapper_Models = JsonConvert.DeserializeObject<List<Grapper_General_Model>>(webRequest.downloadHandler.text);
-                if (grapper_Models != null && grapper_Models.Count > 0)
-                {
-                    temp_List_Grapper_General_Models = grapper_Models;
-                    GlobalVariable.temp_List_Grapper_General_Models = temp_List_Grapper_General_Models;
-                    Debug.Log(GlobalVariable.temp_List_Grapper_General_Models.Count);
-                    Dic_Grapper_General_Non_List_Rack_Models.Clear();
-                    foreach (var grapper in temp_List_Grapper_General_Models)
-                    {
-                        if (!Dic_Grapper_General_Non_List_Rack_Models.ContainsKey(grapper.Name))
-                            Dic_Grapper_General_Non_List_Rack_Models.Add(grapper.Name, grapper.Id);
-                    }
+                string json = webRequest.downloadHandler.text;
+                Debug.Log("GetListGrappers: " + json);
 
+                var grapperModels = JsonConvert.DeserializeObject<List<Grapper_General_Model>>(json);
+                if (grapperModels == null || grapperModels.Count == 0) return;
+
+                GlobalVariable.temp_List_Grapper_General_Models = grapperModels;
+                Dic_Grapper_General_Non_List_Rack_Models.Clear();
+
+                foreach (var grapper in grapperModels)
+                {
+                    Dic_Grapper_General_Non_List_Rack_Models.TryAdd(grapper.Name, grapper.Id);
                 }
+
+                Debug.Log($"Total grappers: {GlobalVariable.temp_List_Grapper_General_Models.Count}");
             }
             catch (JsonException jsonEx)
             {
-                HandleRequestError(jsonEx.Message);
-                return;
+                HandleRequestError($"JSON error: {jsonEx.Message}");
             }
             catch (Exception ex)
             {
-                HandleRequestError(ex.Message);
-                return;
+                HandleRequestError($"Unexpected error: {ex.Message}");
             }
         }
     }
@@ -471,21 +468,20 @@ public class APIManager : MonoBehaviour
     {
         try
         {
+            request.timeout = 20;
             var operation = request.SendWebRequest();
             while (!operation.isDone)
             {
                 await Task.Yield();
             }
-            if (request.result != UnityWebRequest.Result.Success)
-            {
-                Debug.LogError($"Failed to download image from URL: Error: {request.error}");
-                return false;
-            }
-            return !request.result.HasFlag(UnityWebRequest.Result.ConnectionError | UnityWebRequest.Result.ProtocolError);
+            bool isSuccess = request.result == UnityWebRequest.Result.Success;
+            GlobalVariable.API_Status = isSuccess;
+            return isSuccess;
         }
         catch (Exception ex)
         {
             Debug.LogError($"Error during web request: {ex}");
+            GlobalVariable.API_Status = false;
             return false;
         }
     }
@@ -571,10 +567,10 @@ public class APIManager : MonoBehaviour
         {
             if (!await SendWebRequestAsync(webRequest))
             {
-                Debug.LogError($"Không thành công: {webRequest.url}, Error: {webRequest.error}");
+                HandleRequestError(webRequest.error);
+                return;
             }
-            else
-            {
+           
                 try
                 {
                     Texture2D texture = DownloadHandlerTexture.GetContent(webRequest);
@@ -593,8 +589,6 @@ public class APIManager : MonoBehaviour
                 {
                     Debug.LogError($"Unexpected error from URL: {webRequest.url}, Error: {ex}");
                 }
-            }
-
         }
     }
 
@@ -607,8 +601,8 @@ public class APIManager : MonoBehaviour
 
     private void HandleRequestError(string error)
     {
-
         Debug.LogError($"Request error: {error}");
+        throw new Exception(error);
     }
 
     // Create New Device

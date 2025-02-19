@@ -23,6 +23,8 @@ public class GlobalVariable : MonoBehaviour
     public static bool loginSuccess = false;
     public static bool isOpenCanvas = false;
     public static bool ready_To_Nav_New_Scene = false;
+    public static bool API_Status = false;
+    public static string API_Error_Text = "";
 
     public static bool Load_Initial_Data_From_Selection_Scene = true;
 
