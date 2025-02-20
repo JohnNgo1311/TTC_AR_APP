@@ -60,10 +60,10 @@ public class Update_Field_Device_Connection_Screen : MonoBehaviour
 
     private IEnumerator RunApplyFunctions()
     {
-        Show_Dialog.Instance.Set_Instance_Status_True();
-        Show_Dialog.Instance.ShowToast("loading", "Đang tải hình ảnh...");
+        Show_Toast.Instance.Set_Instance_Status_True();
+        Show_Toast.Instance.ShowToast("loading", "Đang tải hình ảnh...");
         yield return ApplyConnectionSprites();
-        yield return Show_Dialog.Instance.Set_Instance_Status_False();
+        yield return Show_Toast.Instance.Set_Instance_Status_False();
     }
 
 

@@ -50,8 +50,8 @@ public class Scene_Manager : MonoBehaviour
 
         if (GlobalVariable.recentScene != recentSceneName)
         {
-            Show_Dialog.Instance.Set_Instance_Status_True();
-            Show_Dialog.Instance.ShowToast("loading", "Đang chuyển trang...");
+            Show_Toast.Instance.Set_Instance_Status_True();
+            Show_Toast.Instance.ShowToast("loading", "Đang chuyển trang...");
             NavigateToScene(recentSceneName, previousSceneName);
         }
     }

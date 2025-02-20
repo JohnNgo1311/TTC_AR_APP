@@ -60,12 +60,12 @@ public class Get_All_Data_By_Grapper_For_Searching : MonoBehaviour
             // Xử lý lỗi và hiển thị thông báo
             await Move_On_Main_Thread.RunOnMainThread(() =>
              {
-                 Show_Dialog.Instance.ShowToast("failure", "Đã có lỗi xảy ra");
+                 Show_Toast.Instance.ShowToast("failure", "Đã có lỗi xảy ra");
              });
             await Task.Delay(2000);
             await Move_On_Main_Thread.RunOnMainThread(() =>
               {
-                  StartCoroutine(Show_Dialog.Instance.Set_Instance_Status_False());
+                  StartCoroutine(Show_Toast.Instance.Set_Instance_Status_False());
               });
         }
     }

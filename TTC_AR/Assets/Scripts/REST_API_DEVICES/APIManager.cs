@@ -570,25 +570,25 @@ public class APIManager : MonoBehaviour
                 HandleRequestError(webRequest.error);
                 return;
             }
-           
-                try
+
+            try
+            {
+                Texture2D texture = DownloadHandlerTexture.GetContent(webRequest);
+                if (convertToSprite)
                 {
-                    Texture2D texture = DownloadHandlerTexture.GetContent(webRequest);
-                    if (convertToSprite)
-                    {
-                        Sprite sprite = Texture_To_Sprite.ConvertTextureToSprite(texture);
-                        image.sprite = sprite;
-                        image.gameObject.SetActive(true);
-                    }
+                    Sprite sprite = Texture_To_Sprite.ConvertTextureToSprite(texture);
+                    image.sprite = sprite;
+                    image.gameObject.SetActive(true);
                 }
-                catch (JsonException jsonEx)
-                {
-                    Debug.LogError($"Error parsing JSON from URL: {webRequest.url}, Error: {jsonEx.Message}");
-                }
-                catch (Exception ex)
-                {
-                    Debug.LogError($"Unexpected error from URL: {webRequest.url}, Error: {ex}");
-                }
+            }
+            catch (JsonException jsonEx)
+            {
+                Debug.LogError($"Error parsing JSON from URL: {webRequest.url}, Error: {jsonEx.Message}");
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError($"Unexpected error from URL: {webRequest.url}, Error: {ex}");
+            }
         }
     }
 
@@ -646,8 +646,8 @@ public class APIManager : MonoBehaviour
     // public async Task Get_JB_TSD_Information(string url, string grapperName)
     // {
     //     await Task.Delay(1500);
-    //     Show_Dialog.Instance.Set_Instance_Status_True();
-    //     Show_Dialog.Instance.ShowToast("loading", $"Đang tải dữ liệu...");
+    //     Show_Toast.Instance.Set_Instance_Status_True();
+    //     Show_Toast.Instance.ShowToast("loading", $"Đang tải dữ liệu...");
     //     string jsonData = await FetchJsonData(url, grapperName);
     //     if (jsonData == null) return;
     //     try
@@ -661,11 +661,11 @@ public class APIManager : MonoBehaviour
     //             LoadImagesAsync(GlobalVariable.list_Name_and_Url_JB_Location_A, "get_JB_Location"),
     //             LoadImagesAsync(GlobalVariable.list_Name_and_Url_JB_Connection_A, "get_JB_Connection")
     //         );
-    //         Show_Dialog.Instance.ShowToast("success", $"Tải dữ liệu thành công");
+    //         Show_Toast.Instance.ShowToast("success", $"Tải dữ liệu thành công");
     //         Debug.Log(GlobalVariable.list_Name_and_Url_JB_Location_A.Count);
     //         Debug.Log(GlobalVariable.list_Name_and_Url_JB_Connection_A.Count);
     //         await Task.Delay(1500);
-    //         Show_Dialog.Instance.StartCoroutine(Show_Dialog.Instance.Set_Instance_Status_False());
+    //         Show_Toast.Instance.StartCoroutine(Show_Toast.Instance.Set_Instance_Status_False());
     //     }
     //     catch (JsonException jsonEx)
     //     {
