@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using System.Reflection;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class Add_Item_For_Update : MonoBehaviour
@@ -13,8 +13,7 @@ public class Add_Item_For_Update : MonoBehaviour
     public RectTransform viewPortTransform;
     public List<LayoutElement> layoutElements = new List<LayoutElement>();
 
-
-    [Header("List Selection Panel")]
+    [Header("List Selection Panels")]
     public GameObject selection_List_Device_Panel;
     public GameObject selection_List_ModuleIO_Panel;
     public GameObject selection_List_Location_Image_Panel;
@@ -24,57 +23,52 @@ public class Add_Item_For_Update : MonoBehaviour
     public Transform ModuleIO_List_Selection_Option_Transform;
     public Transform Location_Image_List_Selection_Option_Transform;
     public Transform Connection_Image_List_Selection_Option_Transform;
+    private Dictionary<string, GameObject> initialSelectionOptions = new Dictionary<string, GameObject>();
 
-    private GameObject Device_Selection_Option_Initial;
-    private GameObject ModuleIO_Selection_Option_Initial;
-    private GameObject Location_Image_Selection_Option_Initial;
-    private GameObject Connection_Image_Selection_Option_Initial;
-
-
-    [Header("Device Selection Item")]
+    [Header("Selection Items")]
     public GameObject Device_Parent_GridLayout_Group;
     public GameObject Device_Item_Prefab;
-    private List<GameObject> Device_selected_GameObjects = new List<GameObject>();
-    private int Device_Selected_Count = 0;
-
-    [Header("ModuleIO Selection Item")]
     public GameObject ModuleIO_Parent_GridLayout_Group;
     public GameObject ModuleIO_Item_Prefab;
-    private List<GameObject> ModuleIO_selected_GameObjects = new List<GameObject>();
-    private int ModuleIO_Selected_Count = 0;
-
-
-    [Header("Location_Image Selection Item")]
     public GameObject Location_Image_Parent_VerticalLayout_Group;
     public GameObject Location_Image_Item_Prefab;
-    private List<GameObject> Location_Image_selected_GameObjects = new List<GameObject>();
-    private int Location_Image_Selected_Count = 0;
-
-    [Header("Connection_Image Selection Item")]
     public GameObject Connection_Image_Parent_VerticalLayout_Group;
     public GameObject Connection_Image_Item_Prefab;
-    private List<GameObject> Connection_Image_selected_GameObjects = new List<GameObject>();
-    private int Connection_Image_Selected_Count = 0;
+
+    private Dictionary<string, List<GameObject>> selectedGameObjects = new Dictionary<string, List<GameObject>>()
+    {
+        { "Device", new List<GameObject>() },
+        { "ModuleIO", new List<GameObject>() },
+        { "Location_Image", new List<GameObject>() },
+        { "Connection_Image", new List<GameObject>() }
+    };
+
+    private Dictionary<string, int> selectedCounts = new Dictionary<string, int>()
+    {
+        { "Device", 0 },
+        { "ModuleIO", 0 },
+        { "Location_Image", 0 },
+        { "Connection_Image", 0 }
+    };
 
     private Transform temp_Item_Transform;
-    // private Dictionary<int, string> item_Text_Value_Dictionary = new Dictionary<int, string>();
 
     private void Start()
     {
-        InitializeItemOption();
-        Populate_List_Selection_JB_TSD();
+        InitializeItemOptions();
+        PopulateListSelection();
         scrollRect.normalizedPosition = new Vector2(0, 1);
         AdjustLayoutElements();
     }
 
-    private void InitializeItemOption()
+    private void InitializeItemOptions()
     {
-        Device_Selection_Option_Initial = Device_List_Selection_Option_Transform.GetChild(0).gameObject;
-        ModuleIO_Selection_Option_Initial = ModuleIO_List_Selection_Option_Transform.GetChild(0).gameObject;
-        Location_Image_Selection_Option_Initial = Location_Image_List_Selection_Option_Transform.GetChild(0).gameObject;
-        Connection_Image_Selection_Option_Initial = Connection_Image_List_Selection_Option_Transform.GetChild(0).gameObject;
-
+        initialSelectionOptions["Device"] = Device_List_Selection_Option_Transform.GetChild(0).gameObject;
+        initialSelectionOptions["ModuleIO"] = ModuleIO_List_Selection_Option_Transform.GetChild(0).gameObject;
+        initialSelectionOptions["Location_Image"] = Location_Image_List_Selection_Option_Transform.GetChild(0).gameObject;
+        initialSelectionOptions["Connection_Image"] = Connection_Image_List_Selection_Option_Transform.GetChild(0).gameObject;
     }
+
     private void AdjustLayoutElements()
     {
         float viewPortHeight = viewPortTransform.rect.height;
@@ -83,95 +77,33 @@ public class Add_Item_For_Update : MonoBehaviour
         layoutElements[2].minHeight = viewPortHeight * 0.6f;
     }
 
-    private void Populate_List_Selection_JB_TSD()
+    private void PopulateListSelection()
     {
-        if (!selection_List_Device_Panel.activeSelf) selection_List_Device_Panel.SetActive(true);
-        if (!selection_List_ModuleIO_Panel.activeSelf) selection_List_ModuleIO_Panel.SetActive(true);
-        if (!selection_List_Location_Image_Panel.activeSelf) selection_List_Location_Image_Panel.SetActive(true);
-        if (!selection_List_Connection_Image_Panel.activeSelf) selection_List_Connection_Image_Panel.SetActive(true);
+        PopulateSelectionPanel("Device", GlobalVariable.list_DeviceName, selection_List_Device_Panel, Device_List_Selection_Option_Transform);
+        PopulateSelectionPanel("ModuleIO", GlobalVariable.list_ModuleIOName, selection_List_ModuleIO_Panel, ModuleIO_List_Selection_Option_Transform);
+        PopulateSelectionPanel("Location_Image", GlobalVariable.list_ImageName, selection_List_Location_Image_Panel, Location_Image_List_Selection_Option_Transform);
+        PopulateSelectionPanel("Connection_Image", GlobalVariable.list_ImageName, selection_List_Connection_Image_Panel, Connection_Image_List_Selection_Option_Transform);
+    }
 
-
-        List<string> List_DeviceName = GlobalVariable.list_DeviceName;
-        List<string> List_ModuleIOName = GlobalVariable.list_ModuleIOName;
-
-        List<string> List_LocationImageName = GlobalVariable.list_ImageName;
-        List<string> List_ConnectionImageName = GlobalVariable.list_ImageName;
-
-        if (List_DeviceName != null && List_DeviceName.Count > 0)
+    private void PopulateSelectionPanel(string field, List<string> itemList, GameObject panel, Transform optionTransform)
+    {
+        if (itemList != null && itemList.Count > 0)
         {
-            // item_Text_Value_Dictionary.Clear();
-            if (List_DeviceName.Count == 1)
+            if (itemList.Count == 1)
             {
-                AddItemOption(Device_Selection_Option_Initial, List_DeviceName[0], "Device");
+                AddItemOption(initialSelectionOptions[field], itemList[0], field);
             }
             else
             {
-                foreach (var DeviceName in List_DeviceName)
+                foreach (var itemName in itemList)
                 {
-                    GameObject new_Device_Option = Instantiate(Device_Selection_Option_Initial, Device_List_Selection_Option_Transform);
-                    AddItemOption(new_Device_Option, DeviceName, "Device");
+                    GameObject newOption = Instantiate(initialSelectionOptions[field], optionTransform);
+                    AddItemOption(newOption, itemName, field);
                 }
-                Device_Selection_Option_Initial.SetActive(false);
+                initialSelectionOptions[field].SetActive(false);
             }
         }
-        selection_List_Device_Panel.SetActive(false);
-
-        if (List_ModuleIOName != null && List_ModuleIOName.Count > 0)
-        {
-            // item_Text_Value_Dictionary.Clear();
-            if (List_ModuleIOName.Count == 1)
-            {
-                AddItemOption(ModuleIO_Selection_Option_Initial, List_ModuleIOName[0], "ModuleIO");
-            }
-            else
-            {
-                foreach (var ModuleIOName in List_ModuleIOName)
-                {
-                    GameObject new_ModuleIO_Option = Instantiate(ModuleIO_Selection_Option_Initial, ModuleIO_List_Selection_Option_Transform);
-                    AddItemOption(new_ModuleIO_Option, ModuleIOName, "ModuleIO");
-                }
-                ModuleIO_Selection_Option_Initial.SetActive(false);
-            }
-        }
-        selection_List_ModuleIO_Panel.SetActive(false);
-
-        if (List_LocationImageName != null && List_LocationImageName.Count > 0)
-        {
-            // item_Text_Value_Dictionary.Clear();
-            if (List_LocationImageName.Count == 1)
-            {
-                AddItemOption(Location_Image_Selection_Option_Initial, List_LocationImageName[0], "Location_Image");
-            }
-            else
-            {
-                foreach (var ImageName in List_LocationImageName)
-                {
-                    GameObject new_Image_Option = Instantiate(Location_Image_Selection_Option_Initial, Location_Image_List_Selection_Option_Transform);
-                    AddItemOption(new_Image_Option, ImageName, "Location_Image");
-                }
-                Location_Image_Selection_Option_Initial.SetActive(false);
-            }
-        }
-        selection_List_Location_Image_Panel.SetActive(false);
-
-        if (List_ConnectionImageName != null && List_ConnectionImageName.Count > 0)
-        {
-            // item_Text_Value_Dictionary.Clear();
-            if (List_ConnectionImageName.Count == 1)
-            {
-                AddItemOption(Connection_Image_Selection_Option_Initial, List_ConnectionImageName[0], "Connection_Image");
-            }
-            else
-            {
-                foreach (var ImageName in List_ConnectionImageName)
-                {
-                    GameObject new_Image_Option = Instantiate(Connection_Image_Selection_Option_Initial, Connection_Image_List_Selection_Option_Transform);
-                    AddItemOption(new_Image_Option, ImageName, "Connection_Image");
-                }
-                Connection_Image_Selection_Option_Initial.SetActive(false);
-            }
-        }
-        selection_List_Connection_Image_Panel.SetActive(false);
+        panel.SetActive(false);
     }
 
     private void AddItemOption(GameObject item, string text, string field)
@@ -198,36 +130,19 @@ public class Add_Item_For_Update : MonoBehaviour
         }
     }
 
-    public void OpenListDeviceSelection()
+    public void OpenListSelection(string field, GameObject itemPrefab, GameObject parentGroup)
     {
-        GameObject newDeviceItem = Instantiate(Device_Item_Prefab, Device_Parent_GridLayout_Group.transform);
-        temp_Item_Transform = newDeviceItem.transform;
-        temp_Item_Transform.GetChild(1).gameObject.GetComponent<Button>().onClick.AddListener(() => DeselectItem(newDeviceItem, "Device"));
-        selection_List_Device_Panel.SetActive(true);
-        Device_Parent_GridLayout_Group.transform.GetChild(0).gameObject.SetActive(false);
+        GameObject newItem = Instantiate(itemPrefab, parentGroup.transform);
+        temp_Item_Transform = newItem.transform;
+        temp_Item_Transform.GetChild(1).gameObject.GetComponent<Button>().onClick.AddListener(() => DeselectItem(newItem, field));
+        GetSelectionPanel(field).SetActive(true);
+        //parentGroup.transform.GetChild(0).gameObject.SetActive(false);
     }
-    public void OpenListModuleSelection()
-    {
-        GameObject newModuleItem = Instantiate(ModuleIO_Item_Prefab, ModuleIO_Parent_GridLayout_Group.transform);
-        temp_Item_Transform = newModuleItem.transform;
-        temp_Item_Transform.GetChild(1).gameObject.GetComponent<Button>().onClick.AddListener(() => DeselectItem(newModuleItem, "ModuleIO"));
-        selection_List_ModuleIO_Panel.SetActive(true);
-        ModuleIO_Parent_GridLayout_Group.transform.GetChild(0).gameObject.SetActive(false);
-    }
-    public void OpenListImageLocationSelection()
-    {
-        GameObject new_Location_Image_Item = Instantiate(Location_Image_Item_Prefab, Location_Image_Parent_VerticalLayout_Group.transform);
-        temp_Item_Transform = new_Location_Image_Item.transform;
-        temp_Item_Transform.GetChild(1).gameObject.GetComponent<Button>().onClick.AddListener(() => DeselectItem(new_Location_Image_Item, "Location_Image"));
-        selection_List_Location_Image_Panel.SetActive(true);
-    }
-    public void OpenListImageConnectionSelection()
-    {
-        GameObject new_Connection_Image_Item = Instantiate(Connection_Image_Item_Prefab, Connection_Image_Parent_VerticalLayout_Group.transform);
-        temp_Item_Transform = new_Connection_Image_Item.transform;
-        temp_Item_Transform.GetChild(1).gameObject.GetComponent<Button>().onClick.AddListener(() => DeselectItem(new_Connection_Image_Item, "Connection_Image"));
-        selection_List_Connection_Image_Panel.SetActive(true);
-    }
+
+    public void OpenListDeviceSelection() => OpenListSelection("Device", Device_Item_Prefab, Device_Parent_GridLayout_Group);
+    public void OpenListModuleSelection() => OpenListSelection("ModuleIO", ModuleIO_Item_Prefab, ModuleIO_Parent_GridLayout_Group);
+    public void OpenListImageLocationSelection() => OpenListSelection("Location_Image", Location_Image_Item_Prefab, Location_Image_Parent_VerticalLayout_Group);
+    public void OpenListImageConnectionSelection() => OpenListSelection("Connection_Image", Connection_Image_Item_Prefab, Connection_Image_Parent_VerticalLayout_Group);
 
     private void SetItemTextValue(Transform temp_Item_Transform, string textValue)
     {
@@ -239,90 +154,64 @@ public class Add_Item_For_Update : MonoBehaviour
         Debug.Log("Text Value: " + textValue);
     }
 
-    private void SelectItem(string textValue, string Field)
+    private void SelectItem(string textValue, string field)
     {
         SetItemTextValue(temp_Item_Transform, textValue);
-        // Blue_Item_Selected_Count++;
-        // Debug.Log("Select Item" + Blue_Item_Selected_Count);
         CloseListSelection();
-        switch (Field)
+        selectedCounts[field]++;
+        if (!selectedGameObjects[field].Contains(temp_Item_Transform.gameObject))
         {
-            case "Device":
-                Device_Selected_Count++;
-                if (!Device_selected_GameObjects.Contains(temp_Item_Transform.gameObject))
-                {
-                    Device_selected_GameObjects.Add(temp_Item_Transform.gameObject);
-                }
-                break;
-            case "ModuleIO":
-                ModuleIO_Selected_Count++;
-                if (!ModuleIO_selected_GameObjects.Contains(temp_Item_Transform.gameObject))
-                {
-                    ModuleIO_selected_GameObjects.Add(temp_Item_Transform.gameObject);
-                }
-                break;
-            case "Location_Image":
-                Location_Image_Selected_Count++;
-                if (!Location_Image_selected_GameObjects
-                    .Contains(temp_Item_Transform.gameObject))
-                {
-                    Location_Image_selected_GameObjects.Add(temp_Item_Transform.gameObject);
-                }
-                break;
-            case "Connection_Image":
-                Connection_Image_Selected_Count++;
-                if (!Connection_Image_selected_GameObjects
-                    .Contains(temp_Item_Transform.gameObject))
-                {
-                    Connection_Image_selected_GameObjects.Add(temp_Item_Transform.gameObject);
-                }
-                break;
+            selectedGameObjects[field].Add(temp_Item_Transform.gameObject);
         }
-
     }
 
     private void DeselectItem(GameObject item, string field)
     {
-        // if (Device_selected_GameObjects.Contains(item))
-        // {
-        //     Device_selected_GameObjects.Remove(item);
-        //     Destroy(item);
-        //     Debug.Log("Deselect Item - Count: " + Blue_Item_Selected_Count);
-        //     CloseListSelection();
-        // }
-        switch (field)
-        {
-            case "Device":
-                Device_Selected_Count--;
-                Device_selected_GameObjects.Remove(item);
-                Destroy(item);
-                break;
-            case "ModuleIO":
-                ModuleIO_Selected_Count--;
-                ModuleIO_selected_GameObjects.Remove(item);
-                Destroy(item);
-                break;
-            case "Location_Image":
-                Location_Image_Selected_Count--;
-                Location_Image_selected_GameObjects.Remove(item);
-                Destroy(item);
-                break;
-            case "Connection_Image":
-                Connection_Image_Selected_Count--;
-                Connection_Image_selected_GameObjects.Remove(item);
-                Destroy(item);
-                break;
-        }
+        selectedCounts[field]--;
+        selectedGameObjects[field].Remove(item);
+        Destroy(item);
         CloseListSelection();
     }
 
     public void CloseListSelection()
     {
-        LayoutRebuilder.ForceRebuildLayoutImmediate(parent_Content_Vertical_Group.GetComponent<RectTransform>());
-        Canvas.ForceUpdateCanvases();
+        //LayoutRebuilder.ForceRebuildLayoutImmediate(parent_Content_Vertical_Group.GetComponent<RectTransform>());
+        // Canvas.ForceUpdateCanvases();
         if (selection_List_Device_Panel.activeSelf) selection_List_Device_Panel.SetActive(false);
         if (selection_List_ModuleIO_Panel.activeSelf) selection_List_ModuleIO_Panel.SetActive(false);
         if (selection_List_Location_Image_Panel.activeSelf) selection_List_Location_Image_Panel.SetActive(false);
         if (selection_List_Connection_Image_Panel.activeSelf) selection_List_Connection_Image_Panel.SetActive(false);
+    }
+    public void CloseListSelectionFromBackButton()
+    {
+        //LayoutRebuilder.ForceRebuildLayoutImmediate(parent_Content_Vertical_Group.GetComponent<RectTransform>());
+        // Canvas.ForceUpdateCanvases();
+        Destroy(temp_Item_Transform.gameObject);
+        if (selection_List_Device_Panel.activeSelf) selection_List_Device_Panel.SetActive(false);
+        if (selection_List_ModuleIO_Panel.activeSelf) selection_List_ModuleIO_Panel.SetActive(false);
+        if (selection_List_Location_Image_Panel.activeSelf) selection_List_Location_Image_Panel.SetActive(false);
+        if (selection_List_Connection_Image_Panel.activeSelf) selection_List_Connection_Image_Panel.SetActive(false);
+    }
+    private GameObject GetSelectionPanel(string field)
+    {
+        return field switch
+        {
+            "Device" => selection_List_Device_Panel,
+            "ModuleIO" => selection_List_ModuleIO_Panel,
+            "Location_Image" => selection_List_Location_Image_Panel,
+            "Connection_Image" => selection_List_Connection_Image_Panel,
+            _ => throw new ArgumentException("Invalid field name")
+        };
+    }
+    private void Update()
+    {
+        if (selection_List_Device_Panel.activeSelf || selection_List_ModuleIO_Panel.activeSelf || selection_List_Location_Image_Panel.activeSelf || selection_List_Connection_Image_Panel.activeSelf)
+        {
+            if (Input.GetKeyDown(KeyCode.Escape) || (Gamepad.current != null && Gamepad.current.buttonEast != null && Gamepad.current.buttonEast.wasPressedThisFrame) || (Keyboard.current != null && Keyboard.current.escapeKey.wasPressedThisFrame))
+            {
+                CloseListSelectionFromBackButton();
+            }
+        }
+
     }
 }
