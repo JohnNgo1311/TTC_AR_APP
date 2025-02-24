@@ -91,7 +91,7 @@ GameObject:
   - component: {fileID: 2830320570378362188}
   - component: {fileID: 4441703233934175557}
   m_Layer: 0
-  m_Name: List_Item_To_Select_For_Upadte
+  m_Name: List_Item_To_Select_For_Update
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

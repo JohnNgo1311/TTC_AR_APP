@@ -10,7 +10,7 @@ public class DeviceInformationModel
   public int Id { get; set; }
 
   [JsonProperty("module")]
-  public Module_General_Non_Rack_Model Module_General_Non_Rack_Model { get; set; }
+  public ModuleGeneralNonRackModel ModuleGeneralNonRackModel { get; set; }
 
   [JsonProperty("jb")]
   public JBInformationModel JBInformationModel { get; set; }
@@ -27,13 +27,13 @@ public class DeviceInformationModel
 
   [JsonProperty("additionalConnectionImages")]
   public List<string> AdditionalConnectionImages { get; set; }
-  
+
   [Preserve]
   [JsonConstructor]
-  public DeviceInformationModel(int id, Module_General_Non_Rack_Model module_General_Non_Rack_Model, JBInformationModel jbInformationModel, string code, string function, string range, string unit, string io_Address, List<string> additional_Connection_Images)
+  public DeviceInformationModel(int id, ModuleGeneralNonRackModel module_General_Non_Rack_Model, JBInformationModel jbInformationModel, string code, string function, string range, string unit, string io_Address, List<string> additional_Connection_Images)
   {
     Id = id;
-    Module_General_Non_Rack_Model = module_General_Non_Rack_Model;
+    ModuleGeneralNonRackModel = module_General_Non_Rack_Model;
     JBInformationModel = jbInformationModel;
     Code = code;
     Function = function;
@@ -51,7 +51,7 @@ public class DeviceInformationModel
     // Range = string.Empty;
     // Unit = string.Empty;
     // IOAddress = string.Empty;
-    // Module_General_Non_Rack_Model = new Module_General_Non_Rack_Model(
+    // ModuleGeneralNonRackModel = new ModuleGeneralNonRackModel(
     //   string.Empty,
     //   string.Empty,
     //   new Rack_Non_List_Module_Model(
@@ -102,4 +102,22 @@ public class DeviceInformationModel_FromModule
     IOAddress = io_Address;
     AdditionalConnectionImages = additional_Connection_Images;
   }
+
+
+}
+[Preserve]
+public class DeviceGeneralModel
+{
+  [JsonProperty("id")]
+  public int Id { get; set; }
+  [JsonProperty("code")]
+  public string Code { get; set; }
+  [Preserve]
+  [JsonConstructor]
+  public DeviceGeneralModel(int id, string code)
+  {
+    Id = id;
+    Code = code;
+  }
+
 }

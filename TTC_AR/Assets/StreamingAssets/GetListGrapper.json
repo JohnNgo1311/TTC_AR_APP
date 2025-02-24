@@ -6,7 +6,7 @@
       {
         "Id": "RKA1",
         "Name": "Rack_1",
-        "List_Module_General_Non_Rack_Model": [
+        "List_ModuleGeneralNonRackModel": [
           {
             "Id": "MOAD1.0.I",
             "Name": "D1.0.I"
@@ -44,7 +44,7 @@
       {
         "Id": "R2",
         "Name": "Rack_2",
-        "List_Module_General_Non_Rack_Model": [
+        "List_ModuleGeneralNonRackModel": [
           {
             "Id": "MOAD2.0.O",
             "Name": "D2.0.O"
@@ -74,7 +74,7 @@
       {
         "Id": "R3",
         "Name": "Rack_3",
-        "List_Module_General_Non_Rack_Model": [
+        "List_ModuleGeneralNonRackModel": [
           {
             "Id": "MOAD3.0.I",
             "Name": "D3.0.I"
@@ -96,7 +96,7 @@
       {
         "Id": "R4",
         "Name": "Rack_4",
-        "List_Module_General_Non_Rack_Model": [
+        "List_ModuleGeneralNonRackModel": [
           {
             "Id": "MOAA4.0.I",
             "Name": "A4.0.I"
@@ -134,7 +134,7 @@
       {
         "Id": "R5",
         "Name": "Rack_5",
-        "List_Module_General_Non_Rack_Model": [
+        "List_ModuleGeneralNonRackModel": [
           {
             "Id": "MOAA5.0.I",
             "Name": "A5.0.I"
@@ -172,7 +172,7 @@
       {
         "Id": "R6",
         "Name": "Rack_6",
-        "List_Module_General_Non_Rack_Model": [
+        "List_ModuleGeneralNonRackModel": [
           {
             "Id": "MOAA6.0.I",
             "Name": "A6.0.I"
@@ -192,7 +192,7 @@
       {
         "Id": "RKB1",
         "Name": "Rack_1",
-        "List_Module_General_Non_Rack_Model": [
+        "List_ModuleGeneralNonRackModel": [
           {
             "Id": "MOBD1.0.I",
             "Name": "D1.0.I"
@@ -230,7 +230,7 @@
       {
         "Id": "R2",
         "Name": "Rack_2",
-        "List_Module_General_Non_Rack_Model": [
+        "List_ModuleGeneralNonRackModel": [
           {
             "Id": "MODB2.0.O",
             "Name": "D2.0.O"
@@ -260,7 +260,7 @@
       {
         "Id": "R3",
         "Name": "Rack_3",
-        "List_Module_General_Non_Rack_Model": [
+        "List_ModuleGeneralNonRackModel": [
           {
             "Id": "MODB3.0.I",
             "Name": "D3.0.I"
@@ -282,7 +282,7 @@
       {
         "Id": "R4",
         "Name": "Rack_4",
-        "List_Module_General_Non_Rack_Model": [
+        "List_ModuleGeneralNonRackModel": [
           {
             "Id": "MOAB4.0.I",
             "Name": "A4.0.I"
@@ -320,7 +320,7 @@
       {
         "Id": "R5",
         "Name": "Rack_5",
-        "List_Module_General_Non_Rack_Model": [
+        "List_ModuleGeneralNonRackModel": [
           {
             "Id": "MOAB5.0.I",
             "Name": "A5.0.I"
@@ -358,7 +358,7 @@
       {
         "Id": "R6",
         "Name": "Rack_6",
-        "List_Module_General_Non_Rack_Model": [
+        "List_ModuleGeneralNonRackModel": [
           {
             "Id": "MOAB6.0.I",
             "Name": "A6.0.I"
@@ -378,7 +378,7 @@
       {
         "Id": "RKC1",
         "Name": "Rack_1",
-        "List_Module_General_Non_Rack_Model": [
+        "List_ModuleGeneralNonRackModel": [
           {
             "Id": "MOCD1.0.I",
             "Name": "D1.0.I"
@@ -416,7 +416,7 @@
       {
         "Id": "R2",
         "Name": "Rack_2",
-        "List_Module_General_Non_Rack_Model": [
+        "List_ModuleGeneralNonRackModel": [
           {
             "Id": "MOCD2.0.O",
             "Name": "D2.0.O"
@@ -446,7 +446,7 @@
       {
         "Id": "R3",
         "Name": "Rack_3",
-        "List_Module_General_Non_Rack_Model": [
+        "List_ModuleGeneralNonRackModel": [
           {
             "Id": "MOCD3.0.I",
             "Name": "D3.0.I"
@@ -468,7 +468,7 @@
       {
         "Id": "R4",
         "Name": "Rack_4",
-        "List_Module_General_Non_Rack_Model": [
+        "List_ModuleGeneralNonRackModel": [
           {
             "Id": "MOCA4.0.I",
             "Name": "A4.0.I"
@@ -506,7 +506,7 @@
       {
         "Id": "R5",
         "Name": "Rack_5",
-        "List_Module_General_Non_Rack_Model": [
+        "List_ModuleGeneralNonRackModel": [
           {
             "Id": "MOCA5.0.I",
             "Name": "A5.0.I"
@@ -544,7 +544,7 @@
       {
         "Id": "R6",
         "Name": "Rack_6",
-        "List_Module_General_Non_Rack_Model": [
+        "List_ModuleGeneralNonRackModel": [
           {
             "Id": "MOCA6.0.I",
             "Name": "A6.0.I"
@@ -564,7 +564,7 @@
       {
         "Id": "RKLH1",
         "Name": "Rack_1",
-        "List_Module_General_Non_Rack_Model": [
+        "List_ModuleGeneralNonRackModel": [
           {
             "Id": "MOLHD1.0.I",
             "Name": "D1.0.I"
@@ -602,7 +602,7 @@
       {
         "Id": "R2",
         "Name": "Rack_2",
-        "List_Module_General_Non_Rack_Model": [
+        "List_ModuleGeneralNonRackModel": [
           {
             "Id": "MOLHD2.0.O",
             "Name": "D2.0.O"
@@ -632,7 +632,7 @@
       {
         "Id": "R3",
         "Name": "Rack_3",
-        "List_Module_General_Non_Rack_Model": [
+        "List_ModuleGeneralNonRackModel": [
           {
             "Id": "MOLHD3.0.I",
             "Name": "D3.0.I"
@@ -654,7 +654,7 @@
       {
         "Id": "R4",
         "Name": "Rack_4",
-        "List_Module_General_Non_Rack_Model": [
+        "List_ModuleGeneralNonRackModel": [
           {
             "Id": "MOLHA4.0.I",
             "Name": "A4.0.I"
@@ -692,7 +692,7 @@
       {
         "Id": "R5",
         "Name": "Rack_5",
-        "List_Module_General_Non_Rack_Model": [
+        "List_ModuleGeneralNonRackModel": [
           {
             "Id": "MOLHA5.0.I",
             "Name": "A5.0.I"
@@ -730,7 +730,7 @@
       {
         "Id": "R6",
         "Name": "Rack_6",
-        "List_Module_General_Non_Rack_Model": [
+        "List_ModuleGeneralNonRackModel": [
           {
             "Id": "MOLHA6.0.I",
             "Name": "A6.0.I"

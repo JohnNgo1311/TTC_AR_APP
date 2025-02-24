@@ -52,7 +52,7 @@ public class Get_Module_Information : MonoBehaviour
             //? Rack tương ứng
             var rack = GlobalVariable.temp_List_Rack_General_Models.Find(rack => rack.Name == rackName);
             //? Module tương ứng    
-            var module = rack.List_Module_General_Non_Rack_Model.Find(module => module.Name == moduleName);
+            var module = rack.List_ModuleGeneralNonRackModel.Find(module => module.Name == moduleName);
 
             if (rack == null || module == null)
             {

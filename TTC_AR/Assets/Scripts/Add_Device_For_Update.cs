@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
-public class Add_Item_For_Update : MonoBehaviour
+public class Add_Device_For_Update : MonoBehaviour
 {
     [Header("General")]
     public GameObject parent_Content_Vertical_Group;

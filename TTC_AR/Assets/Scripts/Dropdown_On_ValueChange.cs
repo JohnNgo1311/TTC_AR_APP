@@ -194,7 +194,7 @@ public class Dropdown_On_ValueChange : MonoBehaviour
         jb_Connection_Location_Text.text = device.JBInformationModel.Location;
         _jbName = jb_Connection_Value_Text.text;
         GlobalVariable_Search_Devices.jbName = _jbName;
-        _moduleName = device.Module_General_Non_Rack_Model.Name;
+        _moduleName = device.ModuleGeneralNonRackModel.Name;
         GlobalVariable_Search_Devices.moduleName = _moduleName;
 
         if (!string.IsNullOrEmpty(_jbName))

@@ -76,11 +76,11 @@ public class ChooseGrapperOnClick : MonoBehaviour
     //     }
 
     //     var tempRackList = new List<Rack_Non_List_Module_Model>(grapper_General_Model.List_Rack_General_Model);
-    //     var tempModuleList = new List<Module_General_Non_Rack_Model>();
+    //     var tempModuleList = new List<ModuleGeneralNonRackModel>();
 
     //     foreach (var rack in grapper_General_Model.List_Rack_General_Model)
     //     {
-    //         tempModuleList.AddRange(rack.List_Module_General_Non_Rack_Model);
+    //         tempModuleList.AddRange(rack.List_ModuleGeneralNonRackModel);
     //     }
 
     //     GlobalVariable.temp_List_Rack_Non_List_Module_Model = tempRackList;

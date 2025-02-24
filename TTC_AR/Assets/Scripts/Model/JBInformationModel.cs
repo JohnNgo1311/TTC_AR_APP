@@ -16,6 +16,12 @@ public class JBInformationModel
 
   [JsonProperty("location")]
   public string Location { get; set; }
+  [JsonProperty("listDevices")]
+
+  public List<DeviceGeneralModel> ListDeviceInformation { get; set; }
+  [JsonProperty("listModules")]
+
+  public List<ModuleGeneralNonRackModel> ListModuleInformation { get; set; }
 
   [JsonProperty("outdoorImages")]
   public string OutdoorImage { get; set; }
@@ -25,14 +31,17 @@ public class JBInformationModel
 
   [Preserve]
   [JsonConstructor]
-  public JBInformationModel(int id, string name, string location, string outdoor_Image, List<string> list_Connection_Images)
+  public JBInformationModel(int id, string name, string location, List<DeviceGeneralModel> listDeviceInformation, List<ModuleGeneralNonRackModel> listModuleInformation, string outdoorImage, List<string> listConnectionImages)
   {
     Id = id;
     Name = name;
     Location = location;
-    OutdoorImage = outdoor_Image;
-    ListConnectionImages = list_Connection_Images;
+    ListDeviceInformation = listDeviceInformation;
+    ListModuleInformation = listModuleInformation;
+    OutdoorImage = outdoorImage;
+    ListConnectionImages = listConnectionImages;
   }
+
 
 }
 public class JBGeneralModel

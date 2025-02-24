@@ -33,7 +33,7 @@ public class ModuleInformationModel
 
 }
 [Preserve]
-public class Module_General_Model //! Module Module có Id, Name và Rack tương ứng (Rack chỉ chứa Id và Name)
+public class ModuleGeneralModel //! Module Module có Id, Name và Rack tương ứng (Rack chỉ chứa Id và Name)
 {
   [JsonProperty("Id")]
   public int Id { get; set; }
@@ -44,7 +44,7 @@ public class Module_General_Model //! Module Module có Id, Name và Rack tươn
 
   [Preserve]
   [JsonConstructor]
-  public Module_General_Model(int id, string name, Rack_Non_List_Module_Model rack_Non_List_Module_Model)
+  public ModuleGeneralModel(int id, string name, Rack_Non_List_Module_Model rack_Non_List_Module_Model)
   {
     Id = id;
     Name = name;
@@ -52,16 +52,16 @@ public class Module_General_Model //! Module Module có Id, Name và Rack tươn
   }
 }
 [Preserve]
-public class Module_General_Non_Rack_Model //! Module chỉ có Id và Name, không chứa Rack
+public class ModuleGeneralNonRackModel //! Module chỉ có Id và Name, không chứa Rack
 {
   [JsonProperty("id")]
   public int Id { get; set; }
   [JsonProperty("name")]
   public string Name { get; set; }
-  
+
   [Preserve]
   [JsonConstructor]
-  public Module_General_Non_Rack_Model(int id, string name)
+  public ModuleGeneralNonRackModel(int id, string name)
   {
     Id = id;
     Name = name;

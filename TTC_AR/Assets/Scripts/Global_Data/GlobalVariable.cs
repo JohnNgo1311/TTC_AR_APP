@@ -76,14 +76,14 @@ public class GlobalVariable : MonoBehaviour
     public static Grapper_General_Model temp_GrapperGeneralModel; // Id, Name, List_Rack_General_Model
     public static int GrapperId = 1;
     //!Rack
-    public static List<Rack_Non_List_Module_Model> temp_List_Rack_Non_List_Module_Model = new List<Rack_Non_List_Module_Model>(); // Id, Name, List_Module_General_Non_Rack_Model
-    public static List<Rack_General_Model> temp_List_Rack_General_Models = new List<Rack_General_Model>(); // Id, Name, List_Module_General_Non_Rack_Model
-    public static Rack_General_Model temp_RackGeneralModel; // Id, Name, List_Module_General_Non_Rack_Model
+    public static List<Rack_Non_List_Module_Model> temp_List_Rack_Non_List_Module_Model = new List<Rack_Non_List_Module_Model>(); // Id, Name, List_ ModuleGeneralNonRackModel
+    public static List<Rack_General_Model> temp_List_Rack_General_Models = new List<Rack_General_Model>(); // Id, Name, List_ ModuleGeneralNonRackModel
+    public static Rack_General_Model temp_RackGeneralModel; // Id, Name, List_ ModuleGeneralNonRackModel
     public static int RackId = 1;
     //!Module
-    public static List<Module_General_Non_Rack_Model> temp_ListModuleGeneralNonRackModels = new List<Module_General_Non_Rack_Model>(); // Id, Name
-    public static List<Module_General_Model> temp_ListModuleGeneralModels = new List<Module_General_Model>(); // Id, Name, Rack_Non_List_Module_Model
-    public static Module_General_Model temp_ModuleGeneralModel; // Id, Name, Rack_Non_List_Module_Model
+    public static List<ModuleGeneralNonRackModel> temp_ListModuleGeneralNonRackModels = new List<ModuleGeneralNonRackModel>(); // Id, Name
+    public static List<ModuleGeneralModel> temp_ListModuleGeneralModels = new List<ModuleGeneralModel>(); // Id, Name, Rack_Non_List_Module_Model
+    public static ModuleGeneralModel temp_ModuleGeneralModel; // Id, Name, Rack_Non_List_Module_Model
     public static List<ModuleInformationModel> temp_ListModuleInformationModel = new List<ModuleInformationModel>();
     public static ModuleInformationModel temp_ModuleInformationModel;
     public static int ModuleId = 1;
@@ -93,6 +93,7 @@ public class GlobalVariable : MonoBehaviour
     public static int DeviceId = 1;
     //! JBS
     public static List<JBInformationModel> temp_ListJBInformationModel_FromModule = new List<JBInformationModel>();
+    public static List<JBInformationModel> temp_ListJBInformationModel = new List<JBInformationModel>();
     public static JBInformationModel temp_JBInformationModel;
     public static int JBId = 1;
     public static bool ActiveCloseCanvasButton = false;
