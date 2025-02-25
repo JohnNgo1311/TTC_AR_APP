@@ -14,6 +14,9 @@ public class FieldDeviceInformationModel
   [JsonProperty("name")]
   public string Name { get; set; }
 
+  [JsonProperty("CabinetCode")]
+  public string CabinetCode { get; set; }
+
   [JsonProperty("ratedPower")]
   public string? RatedPower { get; set; }
 
@@ -25,30 +28,41 @@ public class FieldDeviceInformationModel
 
   [JsonProperty("connectionImages")]
   public List<string> ListConnectionImages { get; set; }
+
+  [JsonProperty("Note")]
+  public List<string> Note { get; set; }
+
   [Preserve]
   [JsonConstructor]
-  public FieldDeviceInformationModel(int id, string name, string? ratedPower, string? ratedCurrent, string? activeCurrent, List<string> listConnectionImages)
+  public FieldDeviceInformationModel(int id, string name, string cabinetCode, string? ratedPower, string? ratedCurrent, string? activeCurrent, List<string> listConnectionImages, List<string> note)
   {
     Id = id;
     Name = name;
+    CabinetCode = cabinetCode;
     RatedPower = ratedPower;
     RatedCurrent = ratedCurrent;
     ActiveCurrent = activeCurrent;
     ListConnectionImages = listConnectionImages;
-
+    Note = note;
   }
 
-  public class FieldDevice_General_Model
+
+  public class FieldDevice_Basic_Model
   {
     [JsonProperty("id")]
     public int Id { get; set; }
     [JsonProperty("name")]
     public string Name { get; set; }
 
-    public FieldDevice_General_Model(int id, string name)
+    [JsonProperty("CabinetCode")]
+    public string CabinetCode { get; set; }
+
+    public FieldDevice_Basic_Model(int id, string name, string cabinetCode)
     {
       Id = id;
       Name = name;
+      CabinetCode = cabinetCode;
     }
+
   }
 }

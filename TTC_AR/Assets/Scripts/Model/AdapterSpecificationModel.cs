@@ -9,10 +9,11 @@ public class AdapterSpecificationModel
 {
 #nullable enable
   [JsonProperty("id")]
-  public int? Id { get; set; }
+  public int Id { get; set; }
 
   [JsonProperty("code")]
   public string? Code { get; set; }
+
   [JsonProperty("type")]
   public string? Type { get; set; }
 
@@ -40,7 +41,7 @@ public class AdapterSpecificationModel
   public string? PdfManual { get; set; }
   [Preserve]
   [JsonConstructor]
-  public AdapterSpecificationModel(int? id, string? code, string? type, string? communication, string? numOfModulesAllowed, string? commSpeed, string? inputSupply, string? outputSupply, string? inrushCurrent, string? alarm, string? noted, string? pdfManual)
+  public AdapterSpecificationModel(int id, string? code, string? type, string? communication, string? numOfModulesAllowed, string? commSpeed, string? inputSupply, string? outputSupply, string? inrushCurrent, string? alarm, string? note, string? pdfManual)
   {
     Id = id;
     Code = code;
@@ -52,8 +53,23 @@ public class AdapterSpecificationModel
     OutputSupply = outputSupply;
     InrushCurrent = inrushCurrent;
     Alarm = alarm;
-    Noted = noted;
+    Noted = note;
     PdfManual = pdfManual;
+  }
+
+}
+public class AdapterSpecificationBasicModel
+{
+  [JsonProperty("id")]
+  public int Id { get; set; }
+  [JsonProperty("code")]
+  public string Code { get; set; }
+  [Preserve]
+  [JsonConstructor]
+  public AdapterSpecificationBasicModel(int id, string code)
+  {
+    Id = id;
+    Code = code;
   }
 }
 

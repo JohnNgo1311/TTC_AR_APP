@@ -64,10 +64,10 @@ public class TimeOut_Function : MonoBehaviour
       if (timeSinceLastInteraction >= timeoutDuration)
       {
         activeLogOut = true;
-        Show_Dialog.Instance.Set_Instance_Status_True();
-        Show_Dialog.Instance.ShowToast("failure", "Phát hiện treo máy lâu! Hãy chạm vào màn hình hoặc ứng dụng sẽ tự thoát");
+        Show_Toast.Instance.Set_Instance_Status_True();
+        Show_Toast.Instance.ShowToast("failure", "Phát hiện treo máy lâu! Hãy chạm vào màn hình hoặc ứng dụng sẽ tự thoát");
         yield return new WaitForSeconds(timeShowToast);
-        yield return Show_Dialog.Instance.Set_Instance_Status_False();
+        yield return Show_Toast.Instance.Set_Instance_Status_False();
         if (activeLogOut) ExitApplication();  // Exit the application if no interaction
         break;
       }

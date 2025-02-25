@@ -194,7 +194,7 @@ public class Dropdown_On_ValueChange : MonoBehaviour
         jb_Connection_Location_Text.text = device.JBInformationModel.Location;
         _jbName = jb_Connection_Value_Text.text;
         GlobalVariable_Search_Devices.jbName = _jbName;
-        _moduleName = device.Module_General_Non_Rack_Model.Name;
+        _moduleName = device.ModuleBasicModel.Name;
         GlobalVariable_Search_Devices.moduleName = _moduleName;
 
         if (!string.IsNullOrEmpty(_jbName))
@@ -219,16 +219,16 @@ public class Dropdown_On_ValueChange : MonoBehaviour
         }
     }
 
-    private async void LoadDeviceSprites(List<string> list_Additional_Images, JBInformationModel jbInformationModel)
+    private async void LoadDeviceSprites(List<ImageInformationModel> list_Additional_Images, JBInformationModel jbInformationModel)
     {
         if (list_Additional_Images != null) jbInformationModel.ListConnectionImages.AddRange(list_Additional_Images);
-        await Apply_Sprite_JB_Images(jbInformationModel.OutdoorImage, jbInformationModel.ListConnectionImages);
+        await Apply_Sprite_JB_Images(jbInformationModel.OutdoorImage.url, jbInformationModel.ListConnectionImages);
         scrollRect.verticalNormalizedPosition = 1f;
         if (list_Additional_Images != null) jbInformationModel.ListConnectionImages.RemoveRange(jbInformationModel.ListConnectionImages.Count - list_Additional_Images.Count, list_Additional_Images.Count);
 
     }
 
-    private async Task Apply_Sprite_JB_Images(string outdoorImage, List<string> listConnectionImages)
+    private async Task Apply_Sprite_JB_Images(string outdoorImage, List<ImageInformationModel> listConnectionImages)
     {
         JB_Location_Image_Prefab.gameObject.SetActive(false);
         JB_Connection_Wiring_Image_Prefab.gameObject.SetActive(false);
@@ -241,11 +241,11 @@ public class Dropdown_On_ValueChange : MonoBehaviour
             tasks.Add(LoadImageAsync(outdoorImage, JB_Location_Image_Prefab));
         }
 
-        foreach (string connectionImage in listConnectionImages)
+        foreach (var image in listConnectionImages)
         {
             var newImage = Instantiate(JB_Connection_Wiring_Image_Prefab, JB_Connection_Group.transform);
-            AddButtonListener(newImage, connectionImage);
-            tasks.Add(LoadImageAsync(connectionImage, newImage));
+            AddButtonListener(newImage, image.Name);
+            tasks.Add(LoadImageAsync(image.Name, newImage));
         }
 
         await ShowProgressBar("Đang tra cứu...", "Dữ liệu đang được tải...");

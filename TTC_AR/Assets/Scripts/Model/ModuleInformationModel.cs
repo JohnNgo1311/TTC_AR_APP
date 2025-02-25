@@ -11,61 +11,75 @@ public class ModuleInformationModel
   [JsonProperty("id")] public int Id { get; set; }
 
   [JsonProperty("name")] public string Name { get; set; }
-  [JsonProperty("rack")] public Rack_Non_List_Module_Model Rack { get; set; }
-  [JsonProperty("jbs")] public List<JBInformationModel> ListJBInformationModel { get; set; }
+  [JsonProperty("rack")] public RackBasicModel Rack { get; set; }
 
-  [JsonProperty("devices")] public List<DeviceInformationModel_FromModule> ListDeviceInformationModel_FromModule { get; set; }
+  [JsonProperty("listDevices")] public List<DeviceInformationModel> ListDeviceInformationModel_FromModule { get; set; }
 
-  [JsonProperty("specification")] public ModuleSpecificationGeneralModel? ModuleSpecificationGeneralModel { get; set; }
+  [JsonProperty("listJBs")] public List<JBInformationModel> ListJBInformationModel { get; set; }
+
+  [JsonProperty("moduleSpecification")] public ModuleSpecificationModel? ModuleSpecificationModel { get; set; }
+  [JsonProperty("AdapterSpecification")] public AdapterSpecificationModel? AdapterSpecificationModel { get; set; }
+
 
 
   [Preserve]
   [JsonConstructor]
-  public ModuleInformationModel(int id, string name, Rack_Non_List_Module_Model rack, List<JBInformationModel> listJBInformationModel, List<DeviceInformationModel_FromModule> listDeviceInformationModel_FromModule, ModuleSpecificationGeneralModel? moduleSpecificationGeneralModel)
+  public ModuleInformationModel(int id, string name, RackBasicModel rack, List<DeviceInformationModel> listDeviceInformationModel_FromModule, List<JBInformationModel> listJBInformationModel, ModuleSpecificationModel? moduleSpecificationModel, AdapterSpecificationModel? adapterSpecificationModel)
   {
     Id = id;
     Name = name;
     Rack = rack;
-    ListJBInformationModel = listJBInformationModel;
     ListDeviceInformationModel_FromModule = listDeviceInformationModel_FromModule;
-    ModuleSpecificationGeneralModel = moduleSpecificationGeneralModel;
+    ListJBInformationModel = listJBInformationModel;
+    ModuleSpecificationModel = moduleSpecificationModel;
+    AdapterSpecificationModel = adapterSpecificationModel;
   }
-
 }
+
 [Preserve]
-public class Module_General_Model //! Module Module có Id, Name và Rack tương ứng (Rack chỉ chứa Id và Name)
+public class ModuleBasicModel//! Module Module có Id, Name và Rack tương ứng (Rack chỉ chứa Id và Name)
+{
+  [JsonProperty("Id")]
+  public int Id { get; set; }
+  [JsonProperty("Name")]
+  public string Name { get; set; }
+  public ModuleBasicModel(int id, string name)
+  {
+    Id = id;
+    Name = name;
+  }
+}
+
+[Preserve]
+public class ModuleGeneralModel //! Module Module có Id, Name và Rack tương ứng (Rack chỉ chứa Id và Name)
 {
   [JsonProperty("Id")]
   public int Id { get; set; }
   [JsonProperty("Name")]
   public string Name { get; set; }
   [JsonProperty("Rack")]
-  public Rack_Non_List_Module_Model Rack_Non_List_Module_Model { get; set; }
+  public RackBasicModel RackBasicModel { get; set; }
+
+  [JsonProperty("listDevices")] public List<DeviceBasicModel> ListDeviceBasicModel { get; set; }
+
+  [JsonProperty("listJBs")] public List<JBBasicModel> ListJBBasicModel { get; set; }
+
+  [JsonProperty("moduleSpecification")] public ModuleSpecificationBasicModel? ModuleSpecificationBasicModel { get; set; }
+  [JsonProperty("AdapterSpecification")] public AdapterSpecificationBasicModel? AdapterSpecificationBasicModel { get; set; }
 
   [Preserve]
   [JsonConstructor]
-  public Module_General_Model(int id, string name, Rack_Non_List_Module_Model rack_Non_List_Module_Model)
+  public ModuleGeneralModel(int id, string name, RackBasicModel rackBasicModel, List<DeviceBasicModel> listDeviceBasicModel, List<JBBasicModel> listJBBasicModel, ModuleSpecificationBasicModel? moduleSpecificationBasicModel, AdapterSpecificationBasicModel? adapterSpecificationBasicModel)
   {
     Id = id;
     Name = name;
-    Rack_Non_List_Module_Model = rack_Non_List_Module_Model;
+    RackBasicModel = rackBasicModel;
+    ListDeviceBasicModel = listDeviceBasicModel;
+    ListJBBasicModel = listJBBasicModel;
+    ModuleSpecificationBasicModel = moduleSpecificationBasicModel;
+    AdapterSpecificationBasicModel = adapterSpecificationBasicModel;
   }
-}
-[Preserve]
-public class Module_General_Non_Rack_Model //! Module chỉ có Id và Name, không chứa Rack
-{
-  [JsonProperty("id")]
-  public int Id { get; set; }
-  [JsonProperty("name")]
-  public string Name { get; set; }
-  
-  [Preserve]
-  [JsonConstructor]
-  public Module_General_Non_Rack_Model(int id, string name)
-  {
-    Id = id;
-    Name = name;
-  }
+
 }
 
 

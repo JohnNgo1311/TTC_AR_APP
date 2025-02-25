@@ -43,27 +43,27 @@ public class Update_Field_Device_Connection_Screen : MonoBehaviour
     }
     private void UpdateTitle()
     {
-        if (!string.IsNullOrEmpty(GlobalVariable.temp_MCCInformationModel.Type) && !string.IsNullOrEmpty(GlobalVariable.temp_FieldDeviceInformationModel.Name))
-        {
-            fieldDevice_Name = GlobalVariable.temp_FieldDeviceInformationModel.Name;
-            cabinet_Type = GlobalVariable.temp_MCCInformationModel.Type;
-            if (cabinet_Type.ToLower() == "biến tần")
-            {
-                MCC_Title.text = $"Sơ đồ đấu dây tủ {cabinet_Type.ToLower()} {fieldDevice_Name}";
-            }
-            else
-            {
-                MCC_Title.text = $"Sơ đồ đấu dây tủ động lực + {fieldDevice_Name}";
-            }
-        }
+        //! if (!string.IsNullOrEmpty(GlobalVariable.temp_MCCInformationModel.Type) && !string.IsNullOrEmpty(GlobalVariable.temp_FieldDeviceInformationModel.Name))
+        //! {
+        //!     fieldDevice_Name = GlobalVariable.temp_FieldDeviceInformationModel.Name;
+        //!     cabinet_Type = GlobalVariable.temp_MCCInformationModel.Type;
+        //!     if (cabinet_Type.ToLower() == "biến tần")
+        //!     {
+        //!         MCC_Title.text = $"Sơ đồ đấu dây tủ {cabinet_Type.ToLower()} {fieldDevice_Name}";
+        //!     }
+        //!     else
+        //!     {
+        //!         MCC_Title.text = $"Sơ đồ đấu dây tủ động lực + {fieldDevice_Name}";
+        //!     }
+        //! }
     }
 
     private IEnumerator RunApplyFunctions()
     {
-        Show_Dialog.Instance.Set_Instance_Status_True();
-        Show_Dialog.Instance.ShowToast("loading", "Đang tải hình ảnh...");
+        Show_Toast.Instance.Set_Instance_Status_True();
+        Show_Toast.Instance.ShowToast("loading", "Đang tải hình ảnh...");
         yield return ApplyConnectionSprites();
-        yield return Show_Dialog.Instance.Set_Instance_Status_False();
+        yield return Show_Toast.Instance.Set_Instance_Status_False();
     }
 
 

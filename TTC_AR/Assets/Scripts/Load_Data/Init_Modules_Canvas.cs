@@ -29,7 +29,7 @@ public class Init_Modules_Canvas : MonoBehaviour
         StartCoroutine(InstantiateModuleCanvases());
     }
 
-    private IEnumerator LoadGeneralDataWithTimeout()
+    private IEnumerator LoadBasicDataWithTimeout()
     {
         float timer = 0f;
         getListModulesByGrapper.GetListModuleByGrapper();
@@ -54,7 +54,7 @@ public class Init_Modules_Canvas : MonoBehaviour
 
     private IEnumerator InstantiateModuleCanvases()
     {
-        yield return LoadGeneralDataWithTimeout();
+        yield return LoadBasicDataWithTimeout();
 
         if (GlobalVariable.temp_ListModuleInformationModel.Count == 0)
         {
@@ -67,7 +67,7 @@ public class Init_Modules_Canvas : MonoBehaviour
             GameObject newCanvas = Instantiate(moduleCanvasPrefab, parentTransform);
             string moduleName = module.Name;
             newCanvas.name = $"{moduleName}_Canvas";
-            Transform closeButton = newCanvas.transform.Find("General_Panel/Close_Canvas_Btn");
+            Transform closeButton = newCanvas.transform.Find("Basic_Panel/Close_Canvas_Btn");
             if (closeButton != null)
             {
                 closeButton.gameObject.tag = $"{moduleName}_Btn";

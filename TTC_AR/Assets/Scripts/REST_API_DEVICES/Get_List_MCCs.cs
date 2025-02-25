@@ -19,15 +19,15 @@ public class Get_List_MCCs : MonoBehaviour
             // Thực thi các tác vụ giao diện trên Main Thread
             UnityMainThreadDispatcher.Instance.Enqueue(() =>
             {
-                Show_Dialog.Instance.Set_Instance_Status_True();
-                Show_Dialog.Instance.ShowToast("loading", "Đang tải dữ liệu...");
+                Show_Toast.Instance.Set_Instance_Status_True();
+                Show_Toast.Instance.ShowToast("loading", "Đang tải dữ liệu...");
             });
 
             // Chờ API hoàn thành
             await Task.WhenAll(
                 APIManager.Instance.GetListMCCModels(
                     url: $"{GlobalVariable.baseUrl}Grappers/{GrapperId}/mccs"
-                // GlobalVariable.temp_ListGrapperGeneralModels[0].Id
+                // GlobalVariable.temp_ListGrapperBasicModels[0].Id
                 )
             );
 
@@ -37,20 +37,23 @@ public class Get_List_MCCs : MonoBehaviour
             // Cập nhật trạng thái giao diện
             UnityMainThreadDispatcher.Instance.Enqueue(() =>
             {
-                StartCoroutine(Show_Dialog.Instance.Set_Instance_Status_False());
+                StartCoroutine(Show_Toast.Instance.Set_Instance_Status_False());
             });
             GlobalVariable.ready_To_Nav_New_Scene = true;
         }
-        catch (Exception ex)
+        catch (Exception)
         {
             GlobalVariable.ready_To_Nav_New_Scene = false;
-
             // Xử lý lỗi và hiển thị thông báo
-            UnityMainThreadDispatcher.Instance.Enqueue(() =>
-            {
-                Debug.LogError("Error in GetListMCCModels: " + ex.Message);
-                Show_Dialog.Instance.ShowToast("failure", $"Lỗi: {ex.Message}");
-            });
+            await Move_On_Main_Thread.RunOnMainThread(() =>
+             {
+                 Show_Toast.Instance.ShowToast("failure", "Đã có lỗi xảy ra");
+             });
+            await Task.Delay(2000);
+            await Move_On_Main_Thread.RunOnMainThread(() =>
+              {
+                  StartCoroutine(Show_Toast.Instance.Set_Instance_Status_False());
+              });
         }
     }
 

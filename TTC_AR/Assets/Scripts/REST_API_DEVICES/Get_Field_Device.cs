@@ -68,8 +68,8 @@
 //             // Cập nhật giao diện phải trên main thread
 //             await Move_On_Main_Thread.RunOnMainThread(() =>
 //             {
-//                 Show_Dialog.Instance.Set_Instance_Status_True();
-//                 Show_Dialog.Instance.ShowToast("loading", "Đang tải dữ liệu...");
+//                 Show_Toast.Instance.Set_Instance_Status_True();
+//                 Show_Toast.Instance.ShowToast("loading", "Đang tải dữ liệu...");
 //             });
 
 //             Debug.Log("Get_Field_Device_Model 0 ");
@@ -89,7 +89,7 @@
 //             // Cập nhật trạng thái giao diện trên main thread
 //             await Move_On_Main_Thread.RunOnMainThread(() =>
 //             {
-//                 StartCoroutine(Show_Dialog.Instance.Set_Instance_Status_False());
+//                 StartCoroutine(Show_Toast.Instance.Set_Instance_Status_False());
 //             });
 
 
@@ -105,7 +105,7 @@
 //             // Cập nhật lỗi trên main thread
 //             await Move_On_Main_Thread.RunOnMainThread(() =>
 //             {
-//                 Show_Dialog.Instance.ShowToast("failure", $"Lỗi: {ex.Message}");
+//                 Show_Toast.Instance.ShowToast("failure", $"Lỗi: {ex.Message}");
 //             });
 //         }
 //     }

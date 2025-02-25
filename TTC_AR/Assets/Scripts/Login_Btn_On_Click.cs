@@ -100,20 +100,20 @@ public class Login_Btn_On_Click : MonoBehaviour
 
     private IEnumerator HandleLoginFailure()
     {
-        Show_Dialog.Instance.Set_Instance_Status_True();
-        Show_Dialog.Instance.ShowToast("failure", "Sai tên đăng nhập hoặc mật khẩu!");
+        Show_Toast.Instance.Set_Instance_Status_True();
+        Show_Toast.Instance.ShowToast("failure", "Sai tên đăng nhập hoặc mật khẩu!");
         yield return new WaitForSeconds(0.5f);
         Debug.Log("Sai tên đăng nhập hoặc mật khẩu!");
         GlobalVariable.loginSuccess = false;
-        yield return Show_Dialog.Instance.Set_Instance_Status_False();
+        yield return Show_Toast.Instance.Set_Instance_Status_False();
     }
 
     private IEnumerator LoadSceneAsync(string sceneName)
     {
-        Show_Dialog.Instance.Set_Instance_Status_True();
-        Show_Dialog.Instance.ShowToast("loading", "Đang đăng nhập...");
+        Show_Toast.Instance.Set_Instance_Status_True();
+        Show_Toast.Instance.ShowToast("loading", "Đang đăng nhập...");
         GlobalVariable.ready_To_Nav_New_Scene = true;
-        yield return Show_Dialog.Instance.Set_Instance_Status_False();
+        yield return Show_Toast.Instance.Set_Instance_Status_False();
 
         SceneManager.LoadScene(sceneName);
     }
