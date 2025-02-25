@@ -27,7 +27,7 @@ public class Get_List_MCCs : MonoBehaviour
             await Task.WhenAll(
                 APIManager.Instance.GetListMCCModels(
                     url: $"{GlobalVariable.baseUrl}Grappers/{GrapperId}/mccs"
-                // GlobalVariable.temp_ListGrapperGeneralModels[0].Id
+                // GlobalVariable.temp_ListGrapperBasicModels[0].Id
                 )
             );
 

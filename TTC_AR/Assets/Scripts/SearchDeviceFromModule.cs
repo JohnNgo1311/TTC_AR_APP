@@ -5,8 +5,8 @@ using UnityEngine.UI;
 public class SearchDeviceFromModule : MonoBehaviour
 {
     public List<TMP_Text> deviceInformation = new List<TMP_Text>();
-    private List<DeviceInformationModel_FromModule> listDeviceFromModule;
-    private DeviceInformationModel_FromModule deviceInfor;
+    private List<DeviceInformationModel> listDeviceFromModule;
+    private DeviceInformationModel deviceInfor;
     public TMP_Dropdown dropdown;
     public GameObject contentPanel;
     private JBInformationModel jBInformationModel_ConnectingToDevice;
@@ -17,12 +17,12 @@ public class SearchDeviceFromModule : MonoBehaviour
     [SerializeField]
     private Canvas module_Canvas;
     private RectTransform list_Devices_Transform;
-    private RectTransform jb_TSD_General_Transform;
+    private RectTransform jb_TSD_Basic_Transform;
     private RectTransform jb_TSD_Detail_Transform;
     private void Awake()
     {
         list_Devices_Transform ??= module_Canvas.gameObject.transform.Find("List_Devices").GetComponent<RectTransform>();
-        jb_TSD_General_Transform ??= module_Canvas.gameObject.transform.Find("JB_TSD_General_Panel").GetComponent<RectTransform>();
+        jb_TSD_Basic_Transform ??= module_Canvas.gameObject.transform.Find("JB_TSD_Basic_Panel").GetComponent<RectTransform>();
         jb_TSD_Detail_Transform ??= module_Canvas.gameObject.transform.Find("Detail_JB_TSD").GetComponent<RectTransform>();
     }
     private void Start()
@@ -118,19 +118,19 @@ public class SearchDeviceFromModule : MonoBehaviour
         }
     }
 
-    private List<DeviceInformationModel_FromModule> Get_List_Device_By_Module()
+    private List<DeviceInformationModel> Get_List_Device_By_Module()
     {
-        return GlobalVariable.temp_ListDeviceInformationModel_FromModule;
+        return GlobalVariable.temp_ListDeviceInformationModel;
     }
 
-    private void UpdateDeviceInformation(DeviceInformationModel_FromModule device)
+    private void UpdateDeviceInformation(DeviceInformationModel device)
     {
         deviceInformation[0].text = device.Code;
         deviceInformation[1].text = device.Function;
         deviceInformation[2].text = device.Range;
         deviceInformation[3].text = device.IOAddress;
 
-        jBInformationModel_ConnectingToDevice = GlobalVariable.temp_ListJBInformationModel_FromModule.Find(jB => jB.Id == device.JBGeneralModel.Id);
+        jBInformationModel_ConnectingToDevice = GlobalVariable.temp_ListJBInformationModel_FromModule.Find(jB => jB.Id == device.JBInformationModel.Id);
 
         deviceInformation[4].text = jBInformationModel_ConnectingToDevice.Name;
         deviceInformation[5].text = jBInformationModel_ConnectingToDevice.Location;
@@ -139,7 +139,7 @@ public class SearchDeviceFromModule : MonoBehaviour
         nav_JB_TSD_Detail_button.onClick.AddListener(() =>
         {
             GlobalVariable.navigate_from_List_Devices = true;
-            GlobalVariable.navigate_from_JB_TSD_General = false;
+            GlobalVariable.navigate_from_JB_TSD_Basic = false;
             NavigateJBDetailScreen(jB_Information_Model: jBInformationModel_ConnectingToDevice);
         });
     }
@@ -167,10 +167,10 @@ public class SearchDeviceFromModule : MonoBehaviour
                                                                 // //Debug"jb_name: " + jb_name);
         GlobalVariable.jb_TSD_Location = jB_Information_Model.Location; // jb_location: Hầm Cáp MCC
                                                                         // //Debug"jb_location: " + jb_location);
-        if (GlobalVariable.navigate_from_JB_TSD_General)
+        if (GlobalVariable.navigate_from_JB_TSD_Basic)
         {
             GlobalVariable.navigate_from_JB_TSD_Detail = true;
-            jb_TSD_General_Transform.gameObject.SetActive(false);
+            jb_TSD_Basic_Transform.gameObject.SetActive(false);
             jb_TSD_Detail_Transform.gameObject.SetActive(true);
         }
         if (GlobalVariable.navigate_from_List_Devices)
@@ -183,11 +183,11 @@ public class SearchDeviceFromModule : MonoBehaviour
     /*  public void NavigatePop()
       {
 
-          if (GlobalVariable.navigate_from_JB_TSD_General)
+          if (GlobalVariable.navigate_from_JB_TSD_Basic)
           {
               jb_TSD_Detail_Transform.gameObject.SetActive(false);
-              jb_TSD_General_Transform.gameObject.SetActive(true);
-              GlobalVariable.navigate_from_JB_TSD_General = false;
+              jb_TSD_Basic_Transform.gameObject.SetActive(true);
+              GlobalVariable.navigate_from_JB_TSD_Basic = false;
           }
           if (GlobalVariable.navigate_from_List_Devices)
           {

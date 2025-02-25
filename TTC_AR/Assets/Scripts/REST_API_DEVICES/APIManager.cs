@@ -16,6 +16,7 @@ public class APIManager : MonoBehaviour
 {
     public static APIManager Instance { get; private set; }
 
+    public int CompanyId = 1;
     public int GrapperId = 1;
     public int RackId = 1;
     public int ModuleId = 1;
@@ -23,28 +24,37 @@ public class APIManager : MonoBehaviour
     public int JBId = 1;
     public int FieldDeviceId = 1;
     public int MCCId = 1;
-    // Danh sách URL cần tải
-    public List<Rack_General_Model> temp_List_Rack_General_Models;
-    public List<Grapper_General_Model> temp_List_Grapper_General_Models;
-    public List<ModuleInformationModel> temp_List_ModuleInformationModel = new List<ModuleInformationModel>();
+
+    public List<RackBasicModel> temp_ListRackBasicModels;
+    public List<GrapperBasicModel> temp_ListGrapperBasicModels;
+    public List<ModuleInformationModel> temp_ListModuleInformationModel = new List<ModuleInformationModel>();
     public ModuleInformationModel temp_ModuleInformationModel;
-    public ModuleSpecificationGeneralModel temp_ModuleSpecificationGeneralModel;
+    public ModuleSpecificationBasicModel temp_ModuleSpecificationBasicModel;
     public ModuleSpecificationModel temp_ModuleSpecificationModel;
     public AdapterSpecificationModel temp_AdapterSpecificationModel;
 
-    public List<MccModel> temp_ListMCCInformationModel = new List<MccModel>();
-    public MccModel temp_MccInformationModel;
+    public List<MccInformationModel> temp_ListMCCInformationModel = new List<MccInformationModel>();
+    public MccInformationModel temp_MccInformationModel;
     public List<FieldDeviceInformationModel> temp_ListFieldDeviceInformationModel = new List<FieldDeviceInformationModel>();
     public FieldDeviceInformationModel temp_FieldDeviceInformationModel;
     public List<JBInformationModel> temp_ListJBInformationModel_From_Module = new List<JBInformationModel>();
-    public List<DeviceInformationModel_FromModule> temp_ListDeviceInformationModel_FromModule = new List<DeviceInformationModel_FromModule>();
-    public Dictionary<string, List<Texture2D>> list_JB_Connection_Images_From_Module = new Dictionary<string, List<Texture2D>>();
-    public Dictionary<string, Texture2D> list_JB_Location_Images_From_Module = new Dictionary<string, Texture2D>();
+    public List<DeviceInformationModel> temp_ListDeviceInformationModel_FromModule = new List<DeviceInformationModel>();
+    public Dictionary<string, List<Texture2D>> list_JBConnectionImagesFromModule = new Dictionary<string, List<Texture2D>>();
+    public Dictionary<string, Texture2D> list_JBLocationImagesFromModule = new Dictionary<string, Texture2D>();
     public List<string> imageUrls = new List<string>();
     public List<Texture2D> textures = new List<Texture2D>();
+    public Dictionary<string, int> Dic_GrapperBasicNonListRackModels = new Dictionary<string, int>();
 
 
-    public Dictionary<string, int> Dic_Grapper_General_Non_List_Rack_Models = new Dictionary<string, int>();
+    //! Dictionary
+    public Dictionary<string, DeviceInformationModel> Dic_DeviceInformationModels = new Dictionary<string, DeviceInformationModel>();
+    public Dictionary<string, JBInformationModel> Dic_JBInformationModels = new Dictionary<string, JBInformationModel>();
+    public Dictionary<string, ModuleInformationModel> Dic_ModuleInformationModels = new Dictionary<string, ModuleInformationModel>();
+    public Dictionary<string, MccInformationModel> Dic_MCCInformationModels = new Dictionary<string, MccInformationModel>();
+    public Dictionary<string, FieldDeviceInformationModel> Dic_FieldDeviceInformationModels = new Dictionary<string, FieldDeviceInformationModel>();
+    public Dictionary<string, ModuleSpecificationModel> Dic_ModuleSpecificationModels = new Dictionary<string, ModuleSpecificationModel>();
+    public Dictionary<string, AdapterSpecificationModel> Dic_AdapterSpecificationModels = new Dictionary<string, AdapterSpecificationModel>();
+
     private void Awake()
     {
         if (Instance == null)
@@ -73,18 +83,18 @@ public class APIManager : MonoBehaviour
                 string json = webRequest.downloadHandler.text;
                 Debug.Log("GetListGrappers: " + json);
 
-                var grapperModels = JsonConvert.DeserializeObject<List<Grapper_General_Model>>(json);
+                var grapperModels = JsonConvert.DeserializeObject<List<GrapperBasicModel>>(json);
                 if (grapperModels == null || grapperModels.Count == 0) return;
 
-                GlobalVariable.temp_List_Grapper_General_Models = grapperModels;
-                Dic_Grapper_General_Non_List_Rack_Models.Clear();
+                GlobalVariable.temp_ListGrapperBasicModels = grapperModels;
+                Dic_GrapperBasicNonListRackModels.Clear();
 
                 foreach (var grapper in grapperModels)
                 {
-                    Dic_Grapper_General_Non_List_Rack_Models.TryAdd(grapper.Name, grapper.Id);
+                    Dic_GrapperBasicNonListRackModels.TryAdd(grapper.Name, grapper.Id);
                 }
 
-                Debug.Log($"Total grappers: {GlobalVariable.temp_List_Grapper_General_Models.Count}");
+                Debug.Log($"Total grappers: {GlobalVariable.temp_ListGrapperBasicModels.Count}");
             }
             catch (JsonException jsonEx)
             {
@@ -109,11 +119,11 @@ public class APIManager : MonoBehaviour
             try
             {
                 Debug.Log("GetListRacks:+ " + webRequest.downloadHandler.text);
-                var rack_models = JsonConvert.DeserializeObject<List<Rack_General_Model>>(webRequest.downloadHandler.text);
+                var rack_models = JsonConvert.DeserializeObject<List<RackBasicModel>>(webRequest.downloadHandler.text);
                 if (rack_models != null && rack_models.Count > 0)
                 {
-                    temp_List_Rack_General_Models = rack_models;
-                    GlobalVariable.temp_List_Rack_General_Models = rack_models;
+                    temp_ListRackBasicModels = rack_models;
+                    GlobalVariable.temp_ListRackBasicModels = rack_models;
                 }
             }
             catch (JsonException jsonEx)
@@ -139,10 +149,10 @@ public class APIManager : MonoBehaviour
             }
             try
             {
-                var List_MCC_Models = JsonConvert.DeserializeObject<List<MccModel>>(webRequest.downloadHandler.text);
+                var List_MCC_Models = JsonConvert.DeserializeObject<List<MccInformationModel>>(webRequest.downloadHandler.text);
                 if (List_MCC_Models != null)
                 {
-                    GlobalVariable.temp_ListMCCInformationModel = new List<MccModel>();
+                    GlobalVariable.temp_ListMCCInformationModel = new List<MccInformationModel>();
                     temp_ListMCCInformationModel = List_MCC_Models;
                     GlobalVariable.temp_ListMCCInformationModel = temp_ListMCCInformationModel;
                     Debug.Log("List_MCC_Models.Count: " + List_MCC_Models.Count);
@@ -172,13 +182,13 @@ public class APIManager : MonoBehaviour
             }
             try
             {
-                var mccModel = JsonConvert.DeserializeObject<MccModel>(webRequest.downloadHandler.text);
+                var mccModel = JsonConvert.DeserializeObject<MccInformationModel>(webRequest.downloadHandler.text);
 
                 if (mccModel != null)
                 {
                     MCCId = mccModel.Id;
                     GlobalVariable.temp_MCCInformationModel = mccModel;
-                    GlobalVariable.temp_FieldDeviceInformationModel = mccModel.FieldDeviceInformationModel[0];
+                    //!   GlobalVariable.temp_FieldDeviceInformationModel = mccModel.FieldDeviceInformationModel[0];
                     GlobalVariable.FieldDeviceId = GlobalVariable.temp_FieldDeviceInformationModel.Id;
                     GlobalVariable.MCCId = MCCId;
                 }
@@ -213,11 +223,16 @@ public class APIManager : MonoBehaviour
                 var list_moduleInformationModel = JsonConvert.DeserializeObject<List<ModuleInformationModel>>(webRequest.downloadHandler.text);
                 if (list_moduleInformationModel != null)
                 {
-                    temp_List_ModuleInformationModel = list_moduleInformationModel;
-                    GlobalVariable.temp_ListModuleInformationModel = temp_List_ModuleInformationModel;
-
+                    temp_ListModuleInformationModel = list_moduleInformationModel;
+                    GlobalVariable.temp_ListModuleInformationModel = temp_ListModuleInformationModel;
+                    foreach (var module in list_moduleInformationModel)
+                    {
+                        Dic_ModuleInformationModels.TryAdd(module.Name, module);
+                    }
+                    GlobalVariable.temp_Dictionary_ModuleInformationModel = Dic_ModuleInformationModels;
                 }
-                Debug.Log("success" + temp_List_ModuleInformationModel.Count);
+
+                Debug.Log("success" + temp_ListModuleInformationModel.Count);
             }
             catch (JsonException jsonEx)
             {
@@ -251,22 +266,33 @@ public class APIManager : MonoBehaviour
                 {
                     GlobalVariable.ModuleId = 1;
                     GlobalVariable.ModuleSpecificationId = 1;
+                    GlobalVariable.AdapterSpecificationId = 1;
+
                     GlobalVariable.temp_ListJBInformationModel_FromModule.Clear();
                     GlobalVariable.temp_ListDeviceInformationModel_FromModule.Clear();
+
                     GlobalVariable.temp_ModuleInformationModel = null;
-                    GlobalVariable.temp_ModuleSpecificationGeneralModel = null;
+                    GlobalVariable.temp_ModuleSpecificationBasicModel = null;
+                    GlobalVariable.temp_AdapterSpecificationModel = null;
 
                     temp_ModuleInformationModel = moduleInformationModel;
                     temp_ListJBInformationModel_From_Module = temp_ModuleInformationModel.ListJBInformationModel;
                     temp_ListDeviceInformationModel_FromModule = temp_ModuleInformationModel.ListDeviceInformationModel_FromModule;
                     ModuleId = temp_ModuleInformationModel.Id;
 
+                    GlobalVariable.temp_ModuleInformationModel = temp_ModuleInformationModel;
+
                     GlobalVariable.ModuleId = ModuleId;
-                    GlobalVariable.ModuleSpecificationId = moduleInformationModel.ModuleSpecificationGeneralModel.Id;
+                    GlobalVariable.ModuleSpecificationId = moduleInformationModel.ModuleSpecificationModel.Id;
+                    GlobalVariable.AdapterSpecificationId = moduleInformationModel.AdapterSpecificationModel.Id;
+
                     GlobalVariable.temp_ListJBInformationModel_FromModule = temp_ListJBInformationModel_From_Module;
                     GlobalVariable.temp_ListDeviceInformationModel_FromModule = temp_ListDeviceInformationModel_FromModule;
-                    GlobalVariable.temp_ModuleInformationModel = temp_ModuleInformationModel;
-                    GlobalVariable.temp_ModuleSpecificationGeneralModel = moduleInformationModel.ModuleSpecificationGeneralModel;
+
+                    GlobalVariable.temp_ModuleSpecificationModel = moduleInformationModel.ModuleSpecificationModel;
+                    GlobalVariable.temp_AdapterSpecificationModel = moduleInformationModel.AdapterSpecificationModel;
+
+
                 }
 
                 Debug.Log("success");
@@ -299,9 +325,9 @@ public class APIManager : MonoBehaviour
                 if (moduleSpecificationModel != null)
                 {
                     temp_ModuleSpecificationModel = moduleSpecificationModel;
-                    temp_AdapterSpecificationModel = moduleSpecificationModel.Adapter;
+                    //!temp_AdapterSpecificationModel = moduleSpecificationModel.Adapter;
                     GlobalVariable.temp_ModuleSpecificationModel = moduleSpecificationModel;
-                    GlobalVariable.temp_AdapterSpecificationModel = moduleSpecificationModel.Adapter;
+                    //!  GlobalVariable.temp_AdapterSpecificationModel = moduleSpecificationModel.Adapter;
                 }
                 Debug.Log("success");
             }
@@ -343,28 +369,28 @@ public class APIManager : MonoBehaviour
                     foreach (var jb in temp_ListJBInformationModel_From_Module)
                     {
                         // Khởi tạo các danh sách nếu chưa tồn tại
-                        if (!list_JB_Connection_Images_From_Module.ContainsKey(jb.Name))
+                        if (!list_JBConnectionImagesFromModule.ContainsKey(jb.Name))
                         {
-                            list_JB_Connection_Images_From_Module[jb.Name] = new List<Texture2D>();
+                            list_JBConnectionImagesFromModule[jb.Name] = new List<Texture2D>();
                         }
 
-                        if (!list_JB_Location_Images_From_Module.ContainsKey(jb.Name))
+                        if (!list_JBLocationImagesFromModule.ContainsKey(jb.Name))
                         {
-                            list_JB_Location_Images_From_Module[jb.Name] = new Texture2D(2, 2);
+                            list_JBLocationImagesFromModule[jb.Name] = new Texture2D(2, 2);
                         }
 
                         //? Tải hình ảnh ngoài trời
-                        if (!string.IsNullOrEmpty(jb.OutdoorImage))
+                        if (!string.IsNullOrEmpty(jb.OutdoorImage.url))
                         {
-                            downloadTasks.Add(DownloadImageAsync(jb.OutdoorImage));
+                            downloadTasks.Add(DownloadImageAsync(jb.OutdoorImage.url));
                         }
 
                         //? Tải danh sách hình ảnh kết nối
-                        foreach (var url in jb.ListConnectionImages)
+                        foreach (var image in jb.ListConnectionImages)
                         {
-                            if (!string.IsNullOrEmpty(url))
+                            if (!string.IsNullOrEmpty(image.url))
                             {
-                                downloadTasks.Add(DownloadImageAsync(url));
+                                downloadTasks.Add(DownloadImageAsync(image.url));
                             }
                         }
 
@@ -374,14 +400,14 @@ public class APIManager : MonoBehaviour
                         //? Cập nhật danh sách hình ảnh kết nối trên Main Thread
                         UnityMainThreadDispatcher.Instance.Enqueue(() =>
                         {
-                            if (!string.IsNullOrEmpty(jb.OutdoorImage))
+                            if (!string.IsNullOrEmpty(jb.OutdoorImage.url))
                             {
-                                list_JB_Location_Images_From_Module[jb.Name] = downloadedTextures[0];
-                                list_JB_Connection_Images_From_Module[jb.Name].AddRange(downloadedTextures.Skip(1));
+                                list_JBLocationImagesFromModule[jb.Name] = downloadedTextures[0];
+                                list_JBConnectionImagesFromModule[jb.Name].AddRange(downloadedTextures.Skip(1));
                             }
                             else
                             {
-                                list_JB_Connection_Images_From_Module[jb.Name].AddRange(downloadedTextures);
+                                list_JBConnectionImagesFromModule[jb.Name].AddRange(downloadedTextures);
                             }
                         });
                         //? Dọn danh sách nhiệm vụ sau mỗi JB
@@ -391,11 +417,11 @@ public class APIManager : MonoBehaviour
                     // Cập nhật biến toàn cục trên Main Thread
                     UnityMainThreadDispatcher.Instance.Enqueue(() =>
                     {
-                        GlobalVariable.temp_listJBConnectionImageFromModule = new Dictionary<string, List<Texture2D>>(list_JB_Connection_Images_From_Module);
-                        GlobalVariable.temp_listJBLocationImageFromModule = new Dictionary<string, Texture2D>(list_JB_Location_Images_From_Module);
+                        GlobalVariable.temp_listJBConnectionImageFromModule = new Dictionary<string, List<Texture2D>>(list_JBConnectionImagesFromModule);
+                        GlobalVariable.temp_listJBLocationImageFromModule = new Dictionary<string, Texture2D>(list_JBLocationImagesFromModule);
                         Debug.Log("All images downloaded and updated in global variables.");
-                        list_JB_Connection_Images_From_Module.Clear();
-                        list_JB_Location_Images_From_Module.Clear();
+                        list_JBConnectionImagesFromModule.Clear();
+                        list_JBLocationImagesFromModule.Clear();
                     });
                 }
             }
@@ -501,6 +527,14 @@ public class APIManager : MonoBehaviour
                 {
                     GlobalVariable_Search_Devices.temp_ListDeviceInformationModel = list_DeviceInformationModel;
                     GlobalVariable_Search_Devices.temp_List_Device_For_Fitler = FilterListDevicesForSearching(list_DeviceInformationModel);
+
+                    Dic_DeviceInformationModels.Clear();
+
+                    foreach (var device in list_DeviceInformationModel)
+                    {
+                        Dic_DeviceInformationModels.TryAdd(device.Code, device);
+                    }
+                    GlobalVariable.temp_Dictionary_DeviceInformationModel = Dic_DeviceInformationModels;
                 }
                 else
                 {
@@ -536,7 +570,16 @@ public class APIManager : MonoBehaviour
                 {
                     GlobalVariable_Search_Devices.temp_ListJBInformationModel = list_JBInformationModel;
                     Debug.Log("GlobalVariable_Search_Devices.temp_ListJBInformationModel_From_Module.Count: " + GlobalVariable_Search_Devices.temp_ListJBInformationModel.Count);
+                    Dic_JBInformationModels.Clear();
+
+                    foreach (var JB in list_JBInformationModel)
+                    {
+                        Dic_JBInformationModels.TryAdd(JB.Name, JB);
+                    }
+                    GlobalVariable.temp_Dictionary_JBInformationModel = Dic_JBInformationModels;
+
                 }
+
             }
             catch (JsonException jsonEx)
             {

@@ -9,13 +9,13 @@ public class Get_List_Rack : MonoBehaviour
     private void Awake()
     {
         grapperId = GlobalVariable.GrapperId;
-        Get_List_Rack_General_Models();
+        Get_List_Rack_Basic_Models();
     }
     private void Start()
     {
 
     }
-    public async void Get_List_Rack_General_Models()
+    public async void Get_List_Rack_Basic_Models()
     {
         try
         {

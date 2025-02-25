@@ -8,7 +8,7 @@ using System.Collections;
 public class Update_Set_Up_Value_UI : MonoBehaviour
 {
     public List<TMP_Text> setup_Value_Texts;
-    public MccModel MCCInformationModel;
+    public MccInformationModel MCCInformationModel;
     public FieldDeviceInformationModel FieldDeviceInformationModel;
     public EventPublisher eventPublisher;
     [SerializeField]
@@ -50,11 +50,11 @@ public class Update_Set_Up_Value_UI : MonoBehaviour
     private IEnumerator Update_UI()
     {
         MCCInformationModel = GlobalVariable.temp_MCCInformationModel;
-        FieldDeviceInformationModel = MCCInformationModel.FieldDeviceInformationModel[0];
+        //!  FieldDeviceInformationModel = MCCInformationModel.FieldDeviceInformationModel[0];
         string[] values = {
-            MCCInformationModel.Type,
+         //!   MCCInformationModel.Type,
             FieldDeviceInformationModel.Name,
-            MCCInformationModel.CabinetCode,
+         //!MCCInformationModel.CabinetCode,
             MCCInformationModel.Brand,
             FieldDeviceInformationModel.RatedPower,
             FieldDeviceInformationModel.RatedCurrent,

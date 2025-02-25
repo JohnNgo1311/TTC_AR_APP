@@ -16,22 +16,22 @@ public class JBInformationModel
 
   [JsonProperty("location")]
   public string Location { get; set; }
+
   [JsonProperty("listDevices")]
+  public List<DeviceBasicModel> ListDeviceInformation { get; set; }
 
-  public List<DeviceGeneralModel> ListDeviceInformation { get; set; }
   [JsonProperty("listModules")]
+  public List<ModuleBasicModel> ListModuleInformation { get; set; }
 
-  public List<ModuleGeneralNonRackModel> ListModuleInformation { get; set; }
+  [JsonProperty("outdoorImage")]
+  public ImageInformationModel OutdoorImage { get; set; }
 
-  [JsonProperty("outdoorImages")]
-  public string OutdoorImage { get; set; }
-
-  [JsonProperty("connectionImages")]
-  public List<string> ListConnectionImages { get; set; }
+  [JsonProperty("listConnectionImages")]
+  public List<ImageInformationModel> ListConnectionImages { get; set; }
 
   [Preserve]
   [JsonConstructor]
-  public JBInformationModel(int id, string name, string location, List<DeviceGeneralModel> listDeviceInformation, List<ModuleGeneralNonRackModel> listModuleInformation, string outdoorImage, List<string> listConnectionImages)
+  public JBInformationModel(int id, string name, string location, List<DeviceBasicModel> listDeviceInformation, List<ModuleBasicModel> listModuleInformation, ImageInformationModel outdoorImage, List<ImageInformationModel> listConnectionImages)
   {
     Id = id;
     Name = name;
@@ -41,10 +41,48 @@ public class JBInformationModel
     OutdoorImage = outdoorImage;
     ListConnectionImages = listConnectionImages;
   }
+}
 
+[Preserve]
+public class JBGeneralModel
+{
+#nullable enable
+  [JsonProperty("id")]
+  public int Id { get; set; }
+  [JsonProperty("name")]
+  public string Name { get; set; }
+
+  [JsonProperty("location")]
+  public string Location { get; set; }
+
+  [JsonProperty("listDevices")]
+  public List<DeviceBasicModel> ListDevice { get; set; }
+
+  [JsonProperty("listModules")]
+  public List<ModuleBasicModel> ListModule { get; set; }
+
+  [JsonProperty("outdoorImage")]
+  public ImageBasicModel OutdoorImage { get; set; }
+
+  [JsonProperty("listConnectionImages")]
+  public List<ImageBasicModel> ListConnectionImages { get; set; }
+
+  [Preserve]
+  [JsonConstructor]
+  public JBGeneralModel(int id, string name, string location, List<DeviceBasicModel> listDevice, List<ModuleBasicModel> listModule, ImageBasicModel outdoorImage, List<ImageBasicModel> listConnectionImages)
+  {
+    Id = id;
+    Name = name;
+    Location = location;
+    ListDevice = listDevice;
+    ListModule = listModule;
+    OutdoorImage = outdoorImage;
+    ListConnectionImages = listConnectionImages;
+  }
 
 }
-public class JBGeneralModel
+
+public class JBBasicModel
 {
   [JsonProperty("id")]
   public int Id { get; set; }
@@ -53,10 +91,9 @@ public class JBGeneralModel
 
   [Preserve]
   [JsonConstructor]
-  public JBGeneralModel(int id, string name)
+  public JBBasicModel(int id, string name)
   {
     Id = id;
     Name = name;
-
   }
 }

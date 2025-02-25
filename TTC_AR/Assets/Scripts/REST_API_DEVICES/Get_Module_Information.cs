@@ -50,9 +50,9 @@ public class Get_Module_Information : MonoBehaviour
             var moduleName = gameObject.name.Split('_')[0];
             var rackName = $"Rack_{gameObject.name.Substring(1, 1)}";
             //? Rack tương ứng
-            var rack = GlobalVariable.temp_List_Rack_General_Models.Find(rack => rack.Name == rackName);
+            var rack = GlobalVariable.temp_ListRackBasicModels.Find(rack => rack.Name == rackName);
             //? Module tương ứng    
-            var module = rack.List_ModuleGeneralNonRackModel.Find(module => module.Name == moduleName);
+            var module = GlobalVariable.temp_ListModuleBasicModels.Find(module => module.Name == moduleName);
 
             if (rack == null || module == null)
             {

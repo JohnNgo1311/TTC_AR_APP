@@ -8,60 +8,59 @@ public class GrapperInformationModel
 {
   [JsonProperty("id")]
   public int Id { get; set; }
+
   [JsonProperty("name")]
   public string Name { get; set; }
 
-  [JsonProperty("racks")]
-  public List<Rack_Non_List_Module_Model> List_Rack_Non_List_Module_Model { get; set; }
+  [JsonProperty("ListRacks")]
+  public List<RackBasicModel> List_RackBasicModel { get; set; }
+
+  [JsonProperty("ListDevices")]
+  public List<DeviceInformationModel> ListDeviceInformationModel { get; set; }
+
+  [JsonProperty("ListJBs")]
+  public List<JBInformationModel> ListJBInformationModel { get; set; }
+
+  [JsonProperty("ListMCCs")]
+  public List<MccInformationModel> ListMccInformationModel { get; set; }
+
+  [JsonProperty("ListModuleSpecifications")]
+  public List<ModuleSpecificationModel> ListModuleSpecificationModel { get; set; }
+
+  [JsonProperty("ListAdapterSpecifications")]
+  public List<AdapterSpecificationModel> ListAdapterSpecificationModel { get; set; }
+
 
   [Preserve]
   [JsonConstructor]
-  public GrapperInformationModel(int id, string name, List<Rack_Non_List_Module_Model> list_Rack_Non_List_Module_Model)
+  public GrapperInformationModel(int id, string name, List<RackBasicModel> list_RackBasicModel, List<DeviceInformationModel> listDeviceInformationModel, List<JBInformationModel> listJBInformationModel, List<MccInformationModel> listMccInformationModel, List<ModuleSpecificationModel> listModuleSpecificationModel, List<AdapterSpecificationModel> listAdapterSpecificationModel)
   {
     Id = id;
     Name = name;
-    List_Rack_Non_List_Module_Model = list_Rack_Non_List_Module_Model;
+    List_RackBasicModel = list_RackBasicModel;
+    ListDeviceInformationModel = listDeviceInformationModel;
+    ListJBInformationModel = listJBInformationModel;
+    ListMccInformationModel = listMccInformationModel;
+    ListModuleSpecificationModel = listModuleSpecificationModel;
+    ListAdapterSpecificationModel = listAdapterSpecificationModel;
   }
+
 }
 
 [Preserve]
-public class Grapper_General_Model
+public class GrapperBasicModel
 {
   [JsonProperty("Id")]
   public int Id { get; set; }
   [JsonProperty("Name")]
   public string Name { get; set; }
-  [JsonProperty("racks")]
-  public List<Rack_Non_List_Module_Model> List_Rack_Non_List_Module_Model { get; set; }
-
-  public Grapper_General_Model()
-  {
-  }
 
   [Preserve]
   [JsonConstructor]
-  public Grapper_General_Model(int id, string name, List<Rack_Non_List_Module_Model> list_Rack_Non_List_Module_Model)
-  {
-    Id = id;
-    Name = name;
-    List_Rack_Non_List_Module_Model = list_Rack_Non_List_Module_Model;
-  }
-}
-[Preserve]
-public class Grapper_General_Non_List_Rack_Model
-{
-
-  [JsonProperty("Id")]
-  public int Id { get; set; }
-  [JsonProperty("Name")]
-  public string Name { get; set; }
-
-  [Preserve]
-  [JsonConstructor]
-  public Grapper_General_Non_List_Rack_Model(int id, string name)
+  public GrapperBasicModel(int id, string name)
   {
     Id = id;
     Name = name;
   }
-
 }
+

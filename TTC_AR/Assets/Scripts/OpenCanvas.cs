@@ -57,7 +57,7 @@ public class OpenCanvas : MonoBehaviour
             {
                 if (canvas != null)
                 {
-                    var generalPanelObj = canvas.transform.Find("General_Panel")?.gameObject;
+                    var generalPanelObj = canvas.transform.Find("Basic_Panel")?.gameObject;
                     if (generalPanelObj != null)
                     {
                         generalPanel.Add(generalPanelObj);

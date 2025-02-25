@@ -32,9 +32,9 @@ public class SettingsMenu : MonoBehaviour
         // scrollRect = gameObject.GetComponent<ScrollRect>();
         if (SceneManager.GetActiveScene().name == MyEnum.GrapperAScanScene.GetDescription())
         {
-            if (GlobalVariable.temp_List_Rack_Non_List_Module_Model.Count > 0)
+            if (GlobalVariable.temp_ListRackBasicModels.Count > 0)
             {
-                for (int i = 1; i < GlobalVariable.temp_List_Rack_Non_List_Module_Model.Count; i++)
+                for (int i = 1; i < GlobalVariable.temp_ListRackBasicModels.Count; i++)
                 {
                     var newObject = Instantiate(content.transform.GetChild(0), content.transform);
                     newObject.name = $"Rack_{i + 1}";
@@ -49,12 +49,12 @@ public class SettingsMenu : MonoBehaviour
         }
         else if (SceneManager.GetActiveScene().name == MyEnum.FieldDevicesScene.GetDescription())
         {
-            if (GlobalVariable.temp_List_Grapper_General_Models.Count > 0)
+            if (GlobalVariable.temp_ListGrapperBasicModels.Count > 0)
             {
-                for (int i = 1; i < GlobalVariable.temp_List_Grapper_General_Models.Count; i++)
+                for (int i = 1; i < GlobalVariable.temp_ListGrapperBasicModels.Count; i++)
                 {
                     var newObject = Instantiate(content.transform.GetChild(0), content.transform);
-                    newObject.name = GlobalVariable.temp_List_Grapper_General_Models[i].Name;
+                    newObject.name = GlobalVariable.temp_ListGrapperBasicModels[i].Name;
                     newObject.GetComponentInChildren<TMP_Text>().text = newObject.name;
                     newObject.gameObject.SetActive(false);
                 }
@@ -124,7 +124,7 @@ public class SettingsMenu : MonoBehaviour
         }
         else if (SceneManager.GetActiveScene().name == MyEnum.FieldDevicesScene.GetDescription())
         {
-            var grapperId = GlobalVariable.temp_List_Grapper_General_Models.Find(g => g.Name == itemName).Id;
+            var grapperId = GlobalVariable.temp_ListGrapperBasicModels.Find(g => g.Name == itemName).Id;
             get_List_MCCs.GrapperId = grapperId;
             get_List_MCCs.GrapperName = itemName;
             get_List_MCCs.GetListMCCModels(grapperId);

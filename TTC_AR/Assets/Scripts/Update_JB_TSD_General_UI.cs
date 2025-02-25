@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using System;
 using System.Collections;
 
-public class Update_JB_TSD_General_UI : MonoBehaviour
+public class Update_JB_TSD_Basic_UI : MonoBehaviour
 {
     private string rack_Name = "Rack_1";
     private string module_Name = "D1.1.I";
@@ -13,7 +13,7 @@ public class Update_JB_TSD_General_UI : MonoBehaviour
     [SerializeField] private Canvas module_Canvas;
     private ModuleInformationModel module_Information_Model;
     [SerializeField] private RectTransform list_Devices_Transform;
-    [SerializeField] private RectTransform jb_TSD_General_Transform;
+    [SerializeField] private RectTransform jb_TSD_Basic_Transform;
     [SerializeField] private RectTransform jb_TSD_Detail_Transform;
     [SerializeField] private RectTransform jb_TSD_Connection_Vertical_Group;
     [SerializeField] private RectTransform jb_TSD_Connection_Horizontal_Group;
@@ -43,7 +43,7 @@ public class Update_JB_TSD_General_UI : MonoBehaviour
         yield return Get_Module_Information();
         Debug.Log(GlobalVariable.temp_ModuleInformationModel.Name);
         yield return InitionalizeUIElement();
-        yield return Create_Module_General();
+        yield return Create_Module_Basic();
     }
 
     private IEnumerator Get_Module_Information()
@@ -58,7 +58,7 @@ public class Update_JB_TSD_General_UI : MonoBehaviour
         Debug.Log("All variables have been assigned!");
     }
 
-    private IEnumerator Create_Module_General()
+    private IEnumerator Create_Module_Basic()
     {
         yield return Instantiate_JB_TSD_Connection_List();
     }
@@ -70,9 +70,9 @@ public class Update_JB_TSD_General_UI : MonoBehaviour
         yield return null;
         jb_TSD_Detail_Transform ??= FindRectTransform("Detail_JB_TSD", module_Canvas.transform);
         yield return null;
-        jb_TSD_General_Transform ??= FindRectTransform("JB_TSD_General_Panel", module_Canvas.transform);
+        jb_TSD_Basic_Transform ??= FindRectTransform("JB_TSD_Basic_Panel", module_Canvas.transform);
         yield return null;
-        jb_TSD_Connection_Vertical_Group ??= FindRectTransform("Scroll_Area/Content/JB_TSD_Connection_Vertical_Group", jb_TSD_General_Transform);
+        jb_TSD_Connection_Vertical_Group ??= FindRectTransform("Scroll_Area/Content/JB_TSD_Connection_Vertical_Group", jb_TSD_Basic_Transform);
         yield return null;
         jb_TSD_Connection_Horizontal_Group ??= FindRectTransform("JB_TSD_Connection_Horizontal_Group", jb_TSD_Connection_Vertical_Group);
         yield return null;
@@ -150,7 +150,7 @@ public class Update_JB_TSD_General_UI : MonoBehaviour
                 new_JB_TSD_Connection_Button.onClick.AddListener(() =>
                 {
                     GlobalVariable.navigate_from_List_Devices = false;
-                    GlobalVariable.navigate_from_JB_TSD_General = true;
+                    GlobalVariable.navigate_from_JB_TSD_Basic = true;
                     NavigateJBDetailScreen(list_JBInformationModels[currentIndex]);
                 });
             }
@@ -169,9 +169,9 @@ public class Update_JB_TSD_General_UI : MonoBehaviour
         );
         GlobalVariable.jb_TSD_Name = jBInformationModel.Name;
         GlobalVariable.jb_TSD_Location = jBInformationModel.Location;
-        if (GlobalVariable.navigate_from_JB_TSD_General)
+        if (GlobalVariable.navigate_from_JB_TSD_Basic)
         {
-            jb_TSD_General_Transform.gameObject.SetActive(false);
+            jb_TSD_Basic_Transform.gameObject.SetActive(false);
             jb_TSD_Detail_Transform.gameObject.SetActive(true);
         }
         if (GlobalVariable.navigate_from_List_Devices)

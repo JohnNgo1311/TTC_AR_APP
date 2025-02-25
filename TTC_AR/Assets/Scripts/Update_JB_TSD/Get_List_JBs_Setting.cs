@@ -86,6 +86,7 @@ public class Get_List_JBs_Setting : MonoBehaviour
         var Horizontal_Group = DialogTwoButton.transform.Find("Background/Horizontal_Group").gameObject.transform;
         var dialog_Content = DialogTwoButton.transform.Find("Background/Dialog_Content").GetComponent<TMP_Text>().text =
         $"Bạn có chắc chắn muốn xóa tủ <color=#FF0000><b>{JbName}</b></color> khỏi hệ thống? Hãy kiểm tra kĩ trước khi nhấn nút xác nhận phía dưới";
+        var dialog_Title = DialogTwoButton.transform.Find("Background/Dialog_Title").GetComponent<TMP_Text>().text = "Xóa tủ JB/TSD khỏi hệ thống?";
         var confirmButton = Horizontal_Group.transform.Find("Confirm_Button").GetComponent<Button>();
         var backButton = Horizontal_Group.transform.Find("Back_Button").GetComponent<Button>();
         confirmButton.onClick.RemoveAllListeners();
