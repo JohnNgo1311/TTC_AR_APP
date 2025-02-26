@@ -90,12 +90,9 @@ public class Initialize_List_Option_Selection : MonoBehaviour
     }
     private void OnEnable()
     {
-
     }
     private void OnDisable()
     {
-
-
     }
 
 

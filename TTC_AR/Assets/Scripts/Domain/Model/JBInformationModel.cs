@@ -53,13 +53,13 @@ public class JBGeneralModel
   public string Name { get; set; }
 
   [JsonProperty("location")]
-  public string Location { get; set; }
+  public string? Location { get; set; }
 
   [JsonProperty("listDevices")]
-  public List<DeviceBasicModel> ListDevice { get; set; }
+  public List<DeviceBasicModel> ListDevices { get; set; }
 
   [JsonProperty("listModules")]
-  public List<ModuleBasicModel> ListModule { get; set; }
+  public List<ModuleBasicModel> ListModules { get; set; }
 
   [JsonProperty("outdoorImage")]
   public ImageBasicModel OutdoorImage { get; set; }
@@ -69,13 +69,50 @@ public class JBGeneralModel
 
   [Preserve]
   [JsonConstructor]
-  public JBGeneralModel(int id, string name, string location, List<DeviceBasicModel> listDevice, List<ModuleBasicModel> listModule, ImageBasicModel outdoorImage, List<ImageBasicModel> listConnectionImages)
+  public JBGeneralModel(int id, string name, string? location, List<DeviceBasicModel> listDevices, List<ModuleBasicModel> listModules, ImageBasicModel outdoorImage, List<ImageBasicModel> listConnectionImages)
   {
     Id = id;
     Name = name;
     Location = location;
-    ListDevice = listDevice;
-    ListModule = listModule;
+    ListDevices = listDevices;
+    ListModules = listModules;
+    OutdoorImage = outdoorImage;
+    ListConnectionImages = listConnectionImages;
+  }
+}
+
+
+[Preserve]
+public class JBPostGeneralModel
+{
+#nullable enable
+
+  [JsonProperty("name")]
+  public string Name { get; set; }
+
+  [JsonProperty("location")]
+  public string? Location { get; set; }
+
+  [JsonProperty("listDevices")]
+  public List<DeviceBasicModel> ListDevices { get; set; }
+
+  [JsonProperty("listModules")]
+  public List<ModuleBasicModel> ListModules { get; set; }
+
+  [JsonProperty("outdoorImage")]
+  public ImageBasicModel OutdoorImage { get; set; }
+
+  [JsonProperty("listConnectionImages")]
+  public List<ImageBasicModel> ListConnectionImages { get; set; }
+
+  [Preserve]
+  [JsonConstructor]
+  public JBPostGeneralModel(string name, string? location, List<DeviceBasicModel> listDevices, List<ModuleBasicModel> listModules, ImageBasicModel outdoorImage, List<ImageBasicModel> listConnectionImages)
+  {
+    Name = name;
+    Location = location;
+    ListDevices = listDevices;
+    ListModules = listModules;
     OutdoorImage = outdoorImage;
     ListConnectionImages = listConnectionImages;
   }

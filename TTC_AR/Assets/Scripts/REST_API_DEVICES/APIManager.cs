@@ -11,6 +11,7 @@ using UnityEngine.SceneManagement;
 using PimDeWitte.UnityMainThreadDispatcher;
 using System.Reflection;
 using System.Linq;
+using System.Net.Http;
 
 public class APIManager : MonoBehaviour
 {
@@ -208,107 +209,107 @@ public class APIManager : MonoBehaviour
     }
 
 
-    public async Task GetListModuleInformation(string url, int grapperId)
-    {
-        using UnityWebRequest webRequest = UnityWebRequest.Get(url);
-        {
-            if (!await SendWebRequestAsync(webRequest))
-            {
-                HandleRequestError(webRequest.error);
-                return;
-            }
+    // public async Task GetListModuleInformation(string url, int grapperId)
+    // {
+    //     using UnityWebRequest webRequest = UnityWebRequest.Get(url);
+    //     {
+    //         if (!await SendWebRequestAsync(webRequest))
+    //         {
+    //             HandleRequestError(webRequest.error);
+    //             return;
+    //         }
 
-            try
-            {
-                var list_moduleInformationModel = JsonConvert.DeserializeObject<List<ModuleInformationModel>>(webRequest.downloadHandler.text);
-                if (list_moduleInformationModel != null)
-                {
-                    temp_ListModuleInformationModel = list_moduleInformationModel;
-                    GlobalVariable.temp_ListModuleInformationModel = temp_ListModuleInformationModel;
-                    foreach (var module in list_moduleInformationModel)
-                    {
-                        Dic_ModuleInformationModels.TryAdd(module.Name, module);
-                    }
-                    GlobalVariable.temp_Dictionary_ModuleInformationModel = Dic_ModuleInformationModels;
-                }
+    //         try
+    //         {
+    //             var list_moduleInformationModel = JsonConvert.DeserializeObject<List<ModuleInformationModel>>(webRequest.downloadHandler.text);
+    //             if (list_moduleInformationModel != null)
+    //             {
+    //                 temp_ListModuleInformationModel = list_moduleInformationModel;
+    //                 GlobalVariable.temp_ListModuleInformationModel = temp_ListModuleInformationModel;
+    //                 foreach (var module in list_moduleInformationModel)
+    //                 {
+    //                     Dic_ModuleInformationModels.TryAdd(module.Name, module);
+    //                 }
+    //                 GlobalVariable.temp_Dictionary_ModuleInformationModel = Dic_ModuleInformationModels;
+    //             }
 
-                Debug.Log("success" + temp_ListModuleInformationModel.Count);
-            }
-            catch (JsonException jsonEx)
-            {
-                HandleRequestError(jsonEx.Message);
-                return;
-            }
-            catch (Exception ex)
-            {
-                HandleRequestError(ex.Message);
-                return;
-            }
-        }
-    }
+    //             Debug.Log("success" + temp_ListModuleInformationModel.Count);
+    //         }
+    //         catch (JsonException jsonEx)
+    //         {
+    //             HandleRequestError(jsonEx.Message);
+    //             return;
+    //         }
+    //         catch (Exception ex)
+    //         {
+    //             HandleRequestError(ex.Message);
+    //             return;
+    //         }
+    //     }
+    // }
 
     // Get list Devices by Grapper ==> Search Devices
-    public async Task GetModuleInformation(string url, int moduleId)
-    {
-        using UnityWebRequest webRequest = UnityWebRequest.Get(url);
-        {
-            GlobalVariable.ActiveCloseCanvasButton = false;
-            if (!await SendWebRequestAsync(webRequest))
-            {
-                HandleRequestError(webRequest.error);
-                return;
-            }
+    // public async Task GetModuleInformation(string url, int moduleId)
+    // {
+    //     using UnityWebRequest webRequest = UnityWebRequest.Get(url);
+    //     {
+    //         GlobalVariable.ActiveCloseCanvasButton = false;
+    //         if (!await SendWebRequestAsync(webRequest))
+    //         {
+    //             HandleRequestError(webRequest.error);
+    //             return;
+    //         }
 
-            try
-            {
-                var moduleInformationModel = JsonConvert.DeserializeObject<ModuleInformationModel>(webRequest.downloadHandler.text);
-                if (moduleInformationModel != null)
-                {
-                    GlobalVariable.ModuleId = 1;
-                    GlobalVariable.ModuleSpecificationId = 1;
-                    GlobalVariable.AdapterSpecificationId = 1;
+    //         try
+    //         {
+    //             var moduleInformationModel = JsonConvert.DeserializeObject<ModuleInformationModel>(webRequest.downloadHandler.text);
+    //             if (moduleInformationModel != null)
+    //             {
+    //                 GlobalVariable.ModuleId = 1;
+    //                 GlobalVariable.ModuleSpecificationId = 1;
+    //                 GlobalVariable.AdapterSpecificationId = 1;
 
-                    GlobalVariable.temp_ListJBInformationModel_FromModule.Clear();
-                    GlobalVariable.temp_ListDeviceInformationModel_FromModule.Clear();
+    //                 GlobalVariable.temp_ListJBInformationModel_FromModule.Clear();
+    //                 GlobalVariable.temp_ListDeviceInformationModel_FromModule.Clear();
 
-                    GlobalVariable.temp_ModuleInformationModel = null;
-                    GlobalVariable.temp_ModuleSpecificationBasicModel = null;
-                    GlobalVariable.temp_AdapterSpecificationModel = null;
+    //                 GlobalVariable.temp_ModuleInformationModel = null;
+    //                 GlobalVariable.temp_ModuleSpecificationBasicModel = null;
+    //                 GlobalVariable.temp_AdapterSpecificationModel = null;
 
-                    temp_ModuleInformationModel = moduleInformationModel;
-                    temp_ListJBInformationModel_From_Module = temp_ModuleInformationModel.ListJBInformationModel;
-                    temp_ListDeviceInformationModel_FromModule = temp_ModuleInformationModel.ListDeviceInformationModel_FromModule;
-                    ModuleId = temp_ModuleInformationModel.Id;
+    //                 temp_ModuleInformationModel = moduleInformationModel;
+    //                 temp_ListJBInformationModel_From_Module = temp_ModuleInformationModel.ListJBInformationModel;
+    //                 temp_ListDeviceInformationModel_FromModule = temp_ModuleInformationModel.ListDeviceInformationModel_FromModule;
+    //                 ModuleId = temp_ModuleInformationModel.Id;
 
-                    GlobalVariable.temp_ModuleInformationModel = temp_ModuleInformationModel;
+    //                 GlobalVariable.temp_ModuleInformationModel = temp_ModuleInformationModel;
 
-                    GlobalVariable.ModuleId = ModuleId;
-                    GlobalVariable.ModuleSpecificationId = moduleInformationModel.ModuleSpecificationModel.Id;
-                    GlobalVariable.AdapterSpecificationId = moduleInformationModel.AdapterSpecificationModel.Id;
+    //                 GlobalVariable.ModuleId = ModuleId;
+    //                 GlobalVariable.ModuleSpecificationId = moduleInformationModel.ModuleSpecificationModel.Id;
+    //                 GlobalVariable.AdapterSpecificationId = moduleInformationModel.AdapterSpecificationModel.Id;
 
-                    GlobalVariable.temp_ListJBInformationModel_FromModule = temp_ListJBInformationModel_From_Module;
-                    GlobalVariable.temp_ListDeviceInformationModel_FromModule = temp_ListDeviceInformationModel_FromModule;
+    //                 GlobalVariable.temp_ListJBInformationModel_FromModule = temp_ListJBInformationModel_From_Module;
+    //                 GlobalVariable.temp_ListDeviceInformationModel_FromModule = temp_ListDeviceInformationModel_FromModule;
 
-                    GlobalVariable.temp_ModuleSpecificationModel = moduleInformationModel.ModuleSpecificationModel;
-                    GlobalVariable.temp_AdapterSpecificationModel = moduleInformationModel.AdapterSpecificationModel;
+    //                 GlobalVariable.temp_ModuleSpecificationModel = moduleInformationModel.ModuleSpecificationModel;
+    //                 GlobalVariable.temp_AdapterSpecificationModel = moduleInformationModel.AdapterSpecificationModel;
 
 
-                }
+    //             }
 
-                Debug.Log("success");
-            }
-            catch (JsonException jsonEx)
-            {
-                HandleRequestError(jsonEx.Message);
-                return;
-            }
-            catch (Exception ex)
-            {
-                HandleRequestError(ex.Message);
-                return;
-            }
-        }
-    }
+    //             Debug.Log("success");
+    //         }
+    //         catch (JsonException jsonEx)
+    //         {
+    //             HandleRequestError(jsonEx.Message);
+    //             return;
+    //         }
+    //         catch (Exception ex)
+    //         {
+    //             HandleRequestError(ex.Message);
+    //             return;
+    //         }
+    //     }
+    // }
     public async Task GetModuleSpecification(string url)
     {
         using UnityWebRequest webRequest = UnityWebRequest.Get(url);
@@ -553,46 +554,7 @@ public class APIManager : MonoBehaviour
             }
         }
     }
-    public async Task GetAllJBsByGrapper(string url, int grapperId)
-    {
-        using UnityWebRequest webRequest = UnityWebRequest.Get(url);
-        {
-            if (!await SendWebRequestAsync(webRequest))
-            {
-                HandleRequestError(webRequest.error);
-                return;
-            }
 
-            try
-            {
-                var list_JBInformationModel = JsonConvert.DeserializeObject<List<JBInformationModel>>(webRequest.downloadHandler.text);
-                if (list_JBInformationModel != null && list_JBInformationModel.Count > 0)
-                {
-                    GlobalVariable_Search_Devices.temp_ListJBInformationModel = list_JBInformationModel;
-                    Debug.Log("GlobalVariable_Search_Devices.temp_ListJBInformationModel_From_Module.Count: " + GlobalVariable_Search_Devices.temp_ListJBInformationModel.Count);
-                    Dic_JBInformationModels.Clear();
-
-                    foreach (var JB in list_JBInformationModel)
-                    {
-                        Dic_JBInformationModels.TryAdd(JB.Name, JB);
-                    }
-                    GlobalVariable.temp_Dictionary_JBInformationModel = Dic_JBInformationModels;
-
-                }
-
-            }
-            catch (JsonException jsonEx)
-            {
-                HandleRequestError(jsonEx.Message);
-                return;
-            }
-            catch (Exception ex)
-            {
-                HandleRequestError(ex.Message);
-                return;
-            }
-        }
-    }
     private List<string> FilterListDevicesForSearching(List<DeviceInformationModel> DeviceInformationModels)
     {
         var list_Devices_For_Filter = new HashSet<string>();
@@ -647,6 +609,306 @@ public class APIManager : MonoBehaviour
         Debug.LogError($"Request error: {error}");
         throw new Exception(error);
     }
+
+
+
+
+
+    //! Module
+
+    public async Task<List<ModuleInformationModel>> GetListModuleData(string url)
+    {
+        try
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                HttpResponseMessage response = await client.GetAsync(url);
+                if (response.IsSuccessStatusCode)
+                {
+                    string json = await response.Content.ReadAsStringAsync();
+                    var listModuleInformationModel = JsonConvert.DeserializeObject<List<ModuleInformationModel>>(json);
+                    Debug.Log("listModuleInformationModel.Count: " + listModuleInformationModel.Count);
+
+                    if (listModuleInformationModel != null && listModuleInformationModel.Count > 0)
+                    {
+                        GlobalVariable.temp_ListModuleInformationModel = listModuleInformationModel;
+                        Dic_ModuleInformationModels.Clear();
+                        foreach (var Module in listModuleInformationModel)
+                        {
+                            Dic_ModuleInformationModels.TryAdd(Module.Name, Module);
+                        }
+                        GlobalVariable.temp_Dictionary_ModuleInformationModel = Dic_ModuleInformationModels;
+                        Debug.Log("Dic_ModuleInformationModels.Count: " + Dic_ModuleInformationModels.Count);
+                        return listModuleInformationModel;
+
+                    }
+                    else
+                    {
+                        HandleRequestError("Failed to get JB information.");
+                        return null;
+                    }
+                }
+                else
+                {
+                    HandleRequestError($"Failed to get JB information. Status code: {response.StatusCode}");
+                    return null;
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            HandleRequestError($"Unexpected error: {ex.Message}");
+            return null;
+        }
+    }
+    public async Task<ModuleInformationModel> GetModuleData(string url)
+    {
+        GlobalVariable.ActiveCloseCanvasButton = false;
+        try
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                HttpResponseMessage response = await client.GetAsync(url);
+                if (response.IsSuccessStatusCode)
+                {
+                    string json = await response.Content.ReadAsStringAsync();
+                    var moduleInformationModel = JsonConvert.DeserializeObject<ModuleInformationModel>(json);
+                    if (moduleInformationModel != null)
+                    {
+                        GlobalVariable.ModuleId = 1;
+                        GlobalVariable.ModuleSpecificationId = 1;
+                        GlobalVariable.AdapterSpecificationId = 1;
+
+                        GlobalVariable.temp_ListJBInformationModel_FromModule.Clear();
+                        GlobalVariable.temp_ListDeviceInformationModel_FromModule.Clear();
+
+                        GlobalVariable.temp_ModuleInformationModel = null;
+                        GlobalVariable.temp_ModuleSpecificationBasicModel = null;
+                        GlobalVariable.temp_AdapterSpecificationModel = null;
+
+                        temp_ModuleInformationModel = moduleInformationModel;
+                        temp_ListJBInformationModel_From_Module = temp_ModuleInformationModel.ListJBInformationModel;
+                        temp_ListDeviceInformationModel_FromModule = temp_ModuleInformationModel.ListDeviceInformationModel_FromModule;
+                        ModuleId = temp_ModuleInformationModel.Id;
+
+                        GlobalVariable.temp_ModuleInformationModel = temp_ModuleInformationModel;
+
+                        GlobalVariable.ModuleId = ModuleId;
+                        GlobalVariable.ModuleSpecificationId = moduleInformationModel.ModuleSpecificationModel.Id;
+                        GlobalVariable.AdapterSpecificationId = moduleInformationModel.AdapterSpecificationModel.Id;
+
+                        GlobalVariable.temp_ListJBInformationModel_FromModule = temp_ListJBInformationModel_From_Module;
+                        GlobalVariable.temp_ListDeviceInformationModel_FromModule = temp_ListDeviceInformationModel_FromModule;
+
+                        GlobalVariable.temp_ModuleSpecificationModel = moduleInformationModel.ModuleSpecificationModel;
+                        GlobalVariable.temp_AdapterSpecificationModel = moduleInformationModel.AdapterSpecificationModel;
+                        return moduleInformationModel;
+                    }
+                    else
+                    {
+                        HandleRequestError("Failed to get JB information.");
+                        return null;
+                    }
+                }
+                else
+                {
+                    HandleRequestError($"Failed to get JB information. Status code: {response.StatusCode}");
+                    return null;
+                }
+            }
+        }
+        catch (JsonException jsonEx)
+        {
+            HandleRequestError(jsonEx.Message);
+            return null;
+
+        }
+        catch (Exception ex)
+        {
+            HandleRequestError(ex.Message);
+            return null;
+
+        }
+    }
+
+    //! JB
+    public async Task<List<JBInformationModel>> GetListJBData(string url)
+    {
+        try
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                HttpResponseMessage response = await client.GetAsync(url);
+                if (response.IsSuccessStatusCode)
+                {
+                    string json = await response.Content.ReadAsStringAsync();
+                    var listJBInformationModel = JsonConvert.DeserializeObject<List<JBInformationModel>>(json);
+                    Debug.Log("listJBInformationModel.Count: " + listJBInformationModel.Count);
+
+                    if (listJBInformationModel != null && listJBInformationModel.Count > 0)
+                    {
+                        GlobalVariable_Search_Devices.temp_ListJBInformationModel = listJBInformationModel;
+                        Dic_JBInformationModels.Clear();
+                        GlobalVariable.list_jBName.Clear();
+                        foreach (var JB in listJBInformationModel)
+                        {
+                            Dic_JBInformationModels.TryAdd(JB.Name, JB);
+                            GlobalVariable.list_jBName.Add(JB.Name);
+                        }
+                        GlobalVariable.temp_Dictionary_JBInformationModel = Dic_JBInformationModels;
+                        Debug.Log("Dic_JBInformationModels.Count: " + Dic_JBInformationModels.Count);
+                    }
+                    return listJBInformationModel;
+                }
+                else
+                {
+                    HandleRequestError($"Failed to get JB information. Status code: {response.StatusCode}");
+                    return null;
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            HandleRequestError($"Unexpected error: {ex.Message}");
+            return null;
+        }
+    }
+    public async Task<JBInformationModel> GetJBData(string url)
+    {
+        try
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                HttpResponseMessage response = await client.GetAsync(url);
+                if (response.IsSuccessStatusCode)
+                {
+                    string json = await response.Content.ReadAsStringAsync();
+                    var jBInformationModel = JsonConvert.DeserializeObject<JBInformationModel>(json);
+
+                    if (jBInformationModel != null)
+                    {
+                        GlobalVariable.temp_JBInformationModel = jBInformationModel;
+                    }
+                    return jBInformationModel;
+                }
+                else
+                {
+                    HandleRequestError($"Failed to get JB information. Status code: {response.StatusCode}");
+                    return null;
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            HandleRequestError($"Unexpected error: {ex.Message}");
+            return null;
+        }
+    }
+    public async Task<bool> UpdateJBDataAsync(JBGeneralModel jBGeneralModel, string url)
+    {
+        try
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                string json = JsonConvert.SerializeObject(jBGeneralModel);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+                HttpResponseMessage response = await client.PostAsync(url, content);
+                return response.IsSuccessStatusCode;
+            }
+        }
+        catch (JsonException jsonEx)
+        {
+            Debug.LogError($"Error parsing JSON: {jsonEx.Message}");
+            return false;
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError($"Error posting data: {ex.Message}");
+            return false;
+        }
+    }
+    public async Task<bool> AddNewJBAsync(JBPostGeneralModel jBGeneralModel, string url)
+    {
+        try
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                string json = JsonConvert.SerializeObject(jBGeneralModel);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+                HttpResponseMessage response = await client.PutAsync(url, content);
+                return response.IsSuccessStatusCode;
+            }
+        }
+        catch (JsonException jsonEx)
+        {
+            Debug.LogError($"Error parsing JSON: {jsonEx.Message}");
+            return false;
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError($"Error posting data: {ex.Message}");
+            return false;
+        }
+
+    }
+    public async Task<bool> DeleteJBData(string url)
+    {
+        try
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                HttpResponseMessage response = await client.DeleteAsync(url);
+                return response.IsSuccessStatusCode;
+            }
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError($"Error deleting data: {ex.Message}");
+            return false;
+        }
+    }
+
+
+    // public async Task GetAllJBsByGrapper(string url, int grapperId)
+    // {
+    //     using UnityWebRequest webRequest = UnityWebRequest.Get(url);
+    //     {
+    //         if (!await SendWebRequestAsync(webRequest))
+    //         {
+    //             HandleRequestError(webRequest.error);
+    //             return;
+    //         }
+
+    //         try
+    //         {
+    //             var list_JBInformationModel = JsonConvert.DeserializeObject<List<JBInformationModel>>(webRequest.downloadHandler.text);
+    //             if (list_JBInformationModel != null && list_JBInformationModel.Count > 0)
+    //             {
+    //                 GlobalVariable_Search_Devices.temp_ListJBInformationModel = list_JBInformationModel;
+    //                 Debug.Log("GlobalVariable_Search_Devices.temp_ListJBInformationModel_From_Module.Count: " + GlobalVariable_Search_Devices.temp_ListJBInformationModel.Count);
+    //                 Dic_JBInformationModels.Clear();
+
+    //                 foreach (var JB in list_JBInformationModel)
+    //                 {
+    //                     Dic_JBInformationModels.TryAdd(JB.Name, JB);
+    //                 }
+    //                 GlobalVariable.temp_Dictionary_JBInformationModel = Dic_JBInformationModels;
+
+    //             }
+
+    //         }
+    //         catch (JsonException jsonEx)
+    //         {
+    //             HandleRequestError(jsonEx.Message);
+    //             return;
+    //         }
+    //         catch (Exception ex)
+    //         {
+    //             HandleRequestError(ex.Message);
+    //             return;
+    //         }
+    //     }}
+
 
     // Create New Device
     /* public async Task CreateNewDevice(string url, DeviceInformationModel device, string sceneName)

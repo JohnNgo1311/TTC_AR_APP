@@ -34,9 +34,8 @@ public class Get_List_Modules_By_Grapper : MonoBehaviour
                           Show_Toast.Instance.ShowToast("loading", "Đang tải dữ liệu...");
                       });
 
-            await APIManager.Instance.GetListModuleInformation(
-                url: GlobalVariable.baseUrl + $"Grappers/{GlobalVariable.GrapperId}/modules",
-                grapperId: GlobalVariable.GrapperId
+            await APIManager.Instance.GetListModuleData(
+                url: GlobalVariable.baseUrl + $"Grappers/{GlobalVariable.GrapperId}/modules"
             );
             await Move_On_Main_Thread.RunOnMainThread(() =>
                {

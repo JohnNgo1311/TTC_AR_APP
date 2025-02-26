@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -14,11 +15,15 @@ public class Get_List_JBs_Setting : MonoBehaviour
     public ScrollRect scrollView;
     public GameObject DialogOneButton;
     public GameObject DialogTwoButton;
-
+    private IJBUseCase _jbInformationUseCase;
     private List<string> ListJBsName = new List<string>();
     private List<GameObject> listJBItems = new List<GameObject>();
 
-
+    private void Awake()
+    {   // Khởi tạo dependency injection đơn giản
+        IJBRepository repository = new JBRepository();
+        _jbInformationUseCase = new JBUseCase(repository);
+    }
     private void Start()
     {
         if (GlobalVariable.list_jBName != null && GlobalVariable.list_jBName.Count > 0)
@@ -45,14 +50,14 @@ public class Get_List_JBs_Setting : MonoBehaviour
             listJBItems.Add(newJBItem);
 
             newJBItemPreviewButtonGroup.Find("Group/Edit_Button").GetComponent<Button>().onClick.AddListener(EditJBItem);
-            newJBItemPreviewButtonGroup.Find("Group/Delete_Button").GetComponent<Button>().onClick.AddListener(() => DeleJBItem(newJBItem, jbName, 1));
+            newJBItemPreviewButtonGroup.Find("Group/Delete_Button").GetComponent<Button>().onClick.AddListener(() => DeleJBItem(newJBItem, jbName));
         }
         JB_Item_Prefab.SetActive(false);
     }
 
-    private void DeleJBItem(GameObject JBItem, string JbName, int ItemId = 1)
+    private void DeleJBItem(GameObject JBItem, string JbName)
     {
-        OpenDeleteWarningPanel(JBItem, JbName, ItemId);
+        OpenDeleteWarningPanel(JBItem, JbName);
     }
 
     private void EditJBItem()
@@ -80,7 +85,7 @@ public class Get_List_JBs_Setting : MonoBehaviour
     }
 
 
-    private void OpenDeleteWarningPanel(GameObject JBItem, string JbName, int ItemId = 1)
+    private void OpenDeleteWarningPanel(GameObject JBItem, string JbName)
     {
         DialogTwoButton.SetActive(true);
         var Horizontal_Group = DialogTwoButton.transform.Find("Background/Horizontal_Group").gameObject.transform;
@@ -89,12 +94,14 @@ public class Get_List_JBs_Setting : MonoBehaviour
         var dialog_Title = DialogTwoButton.transform.Find("Background/Dialog_Title").GetComponent<TMP_Text>().text = "Xóa tủ JB/TSD khỏi hệ thống?";
         var confirmButton = Horizontal_Group.transform.Find("Confirm_Button").GetComponent<Button>();
         var backButton = Horizontal_Group.transform.Find("Back_Button").GetComponent<Button>();
+        var jbId = GlobalVariable.temp_ListJBInformationModel.Find(x => x.Name == JbName).Id;
         confirmButton.onClick.RemoveAllListeners();
         backButton.onClick.RemoveAllListeners();
         confirmButton.onClick.AddListener(() =>
         {
             Destroy(JBItem);
             listJBItems.Remove(JBItem);
+            OnSubmitDeleteJB(jbId);
             DialogTwoButton.SetActive(false);
         });
 
@@ -102,5 +109,24 @@ public class Get_List_JBs_Setting : MonoBehaviour
         {
             DialogTwoButton.SetActive(false);
         });
+    }
+    private async void OnSubmitDeleteJB(int JBId)
+    {
+        try
+        {
+            bool success = await _jbInformationUseCase.DeleteJBModel(JBId);
+            if (success)
+            {
+                Debug.Log("Delete JB success");
+            }
+            else
+            {
+                Debug.Log("Delete JB failed");
+            }
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError($"Error: {ex.Message}");
+        }
     }
 }

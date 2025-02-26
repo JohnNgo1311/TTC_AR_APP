@@ -8931,6 +8931,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   initialize_List_Option_Selection: {fileID: 908920699}
+  submitButton: {fileID: 1604988599}
   scrollRect: {fileID: 487383195}
   viewPortTransform: {fileID: 776135689}
   parent_Content_Vertical_Group: {fileID: 2134443532}
@@ -8938,6 +8939,8 @@ MonoBehaviour:
   - {fileID: 1314522388}
   - {fileID: 185526098}
   - {fileID: 1119644658}
+  JBName_Textfield: {fileID: 2093404269}
+  JBLocation_Textfield: {fileID: 1921970726}
   Device_Parent_GridLayout_Group: {fileID: 1222320409}
   ModuleIO_Parent_GridLayout_Group: {fileID: 826978348}
   Location_Image_Parent_VerticalLayout_Group: {fileID: 583858732}
@@ -11716,6 +11719,7 @@ GameObject:
   - component: {fileID: 1604988596}
   - component: {fileID: 1604988598}
   - component: {fileID: 1604988597}
+  - component: {fileID: 1604988599}
   m_Layer: 5
   m_Name: Confirm_Button
   m_TagString: Untagged
@@ -11782,6 +11786,50 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1604988595}
   m_CullTransparentMesh: 1
+--- !u!114 &1604988599
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1604988595}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 3
+    m_WrapAround: 0
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 1604988597}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1620953294
 GameObject:
   m_ObjectHideFlags: 0
@@ -14039,6 +14087,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   initialize_List_Option_Selection: {fileID: 908920699}
+  submitButton: {fileID: 1170560094}
   parent_Content_Vertical_Group: {fileID: 38645096}
   scrollRect: {fileID: 830241549}
   viewPortTransform: {fileID: 1663313892}
@@ -14048,7 +14097,6 @@ MonoBehaviour:
   - {fileID: 1010079021}
   JBName_TextValue: {fileID: 341235531}
   JBLocation_Textfield: {fileID: 884247191}
-  ConfirmDiaglog: {fileID: 0}
   Device_Parent_GridLayout_Group: {fileID: 1869021921}
   ModuleIO_Parent_GridLayout_Group: {fileID: 600967689}
   Location_Image_Parent_VerticalLayout_Group: {fileID: 807158465}
@@ -15581,7 +15629,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.02050845, y: 0.046339653}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -22, y: -55.08471}
+  m_AnchoredPosition: {x: -22, y: -55.051514}
   m_SizeDelta: {x: -22, y: -430.78244}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2134443535

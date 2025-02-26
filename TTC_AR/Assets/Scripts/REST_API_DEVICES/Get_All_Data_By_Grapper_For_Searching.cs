@@ -53,7 +53,7 @@ public class Get_All_Data_By_Grapper_For_Searching : MonoBehaviour
             await Task.WhenAll(
             //GlobalVariable.temp_GrapperBasicModel.Id
             APIManager.Instance.GetAllDevicesByGrapper(url: $"{GlobalVariable.baseUrl}Grappers/{grapperId}/devices", grapperId: grapperId),
-            APIManager.Instance.GetAllJBsByGrapper(url: $"{GlobalVariable.baseUrl}Grappers/{grapperId}/jbs", grapperId: grapperId)
+            APIManager.Instance.GetListJBData(url: $"{GlobalVariable.baseUrl}Grappers/{grapperId}/jbs")
                               );
             GlobalVariable.ready_To_Nav_New_Scene = true;
         }

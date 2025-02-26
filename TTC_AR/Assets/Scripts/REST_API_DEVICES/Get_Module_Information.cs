@@ -66,9 +66,8 @@ public class Get_Module_Information : MonoBehaviour
                           Show_Toast.Instance.ShowToast("loading", "Đang tải dữ liệu...");
                       });
 
-            await APIManager.Instance.GetModuleInformation(
-                url: $"{GlobalVariable.baseUrl}Modules/{module.Id}",
-                moduleId: 1
+            await APIManager.Instance.GetModuleData(
+                url: $"{GlobalVariable.baseUrl}Modules/{module.Id}"
             );
             await APIManager.Instance.DownloadImagesAsync();
 
