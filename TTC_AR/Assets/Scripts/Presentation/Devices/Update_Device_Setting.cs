@@ -6,13 +6,14 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
-public class Add_Device_Setting : MonoBehaviour
+public class Update_Device_Setting : MonoBehaviour
 {
     // Interfaces and Models
     [Header("General")]
     private IDeviceUseCase _deviceUseCase;
-    [SerializeField] private DevicePostGeneralModel _devicePostGeneralModel;
+    [SerializeField] private DeviceGeneralModel _UpdateDeviceGeneralModel;
     public Initialize_Device_List_Option_Selection initialize_Device_List_Option_Selection;
+    public DeviceInformationModel deviceInformationModel;
 
     // UI Components
     [Header("UI Elements")]
@@ -31,7 +32,7 @@ public class Add_Device_Setting : MonoBehaviour
 
     // Input Fields
     [Header("Input Fields")]
-    [SerializeField] private TMP_InputField deviceCode_TextField;
+    [SerializeField] private TMP_Text deviceCode_TextValue;
     [SerializeField] private TMP_InputField deviceFunction_TextField;
     [SerializeField] private TMP_InputField deviceRange_TextField;
     [SerializeField] private TMP_InputField deviceUnit_TextField;
@@ -77,6 +78,47 @@ public class Add_Device_Setting : MonoBehaviour
     {
         SetupButtonListeners();
         SetupSelectionOptionListeners();
+
+        if (deviceInformationModel == null)
+        {
+            Debug.LogError("device Information Model is null");
+        }
+        else
+        {
+            deviceCode_TextValue.text = deviceInformationModel.Code;
+            deviceFunction_TextField.text = deviceInformationModel.Function;
+            deviceRange_TextField.text = deviceInformationModel.Range;
+            deviceUnit_TextField.text = deviceInformationModel.Unit;
+            deviceIOAddress_TextField.text = deviceInformationModel.IOAddress;
+
+            if (deviceInformationModel.ModuleBasicModel != null)
+            {
+                moduleObject.SetActive(true);
+                addModuleIOButton.gameObject.SetActive(false);
+                moduleObject.GetComponentInChildren<TMP_Text>().text = deviceInformationModel.ModuleBasicModel.Name;
+                AddButtonListener(GetButton(moduleObject), () => DeselectItem(moduleObject, MODULE_IO));
+            }
+            if (deviceInformationModel.JBInformationModel != null)
+            {
+                jbObject.SetActive(true);
+                addJBButton.gameObject.SetActive(false);
+                jbObject.GetComponentInChildren<TMP_Text>().text = deviceInformationModel.JBInformationModel.Name;
+                AddButtonListener(GetButton(jbObject), () => DeselectItem(jbObject, JB));
+            }
+            if (deviceInformationModel.AdditionalConnectionImages != null && deviceInformationModel.AdditionalConnectionImages.Count > 0)
+            {
+                foreach (var image in deviceInformationModel.AdditionalConnectionImages)
+                {
+                    var item = Instantiate(additionalImageItemPrefab, additionalImageLayoutGroup.transform);
+                    item.GetComponentInChildren<TMP_Text>().text = image.Name;
+                    _selectedGameObjects[ADDITIONAL_IMAGE].Add(item);
+                    _selectedCounts[ADDITIONAL_IMAGE]++;
+                    var removeButton = GetButton(item);
+                    AddButtonListener(removeButton, () => RemoveAdditionalImageItem(item));
+                }
+            }
+        }
+
     }
 
     private void OnDisable()
@@ -159,7 +201,7 @@ public class Add_Device_Setting : MonoBehaviour
     }
     private void SetupButtonListeners()
     {
-        AddButtonListener(submitButton, OnSubmitAddDevice);
+        AddButtonListener(submitButton, OnSubmitUpdateDevice);
         AddButtonListener(addModuleIOButton, () => OpenListSelection(MODULE_IO));
         AddButtonListener(addJBButton, () => OpenListSelection(JB));
         AddButtonListener(addAdditionalImageButton, () => OpenListSelection(ADDITIONAL_IMAGE));
@@ -295,10 +337,11 @@ public class Add_Device_Setting : MonoBehaviour
 
     #region Submit Add New Device
 
-    private async void OnSubmitAddDevice()
+    private async void OnSubmitUpdateDevice()
     {
-        _devicePostGeneralModel = new DevicePostGeneralModel(
-            deviceCode_TextField.text,
+        _UpdateDeviceGeneralModel = new DeviceGeneralModel(
+            deviceInformationModel.Id,
+            deviceCode_TextValue.text,
             deviceFunction_TextField.text,
             deviceRange_TextField.text,
             deviceUnit_TextField.text,
@@ -311,22 +354,22 @@ public class Add_Device_Setting : MonoBehaviour
         var moduleName = moduleObject.GetComponentInChildren<TMP_Text>().text;
         var jbName = jbObject.GetComponentInChildren<TMP_Text>().text;
 
-        _devicePostGeneralModel.ModuleBasicModel = GlobalVariable.temp_Dictionary_ModuleBasicModel.TryGetValue(moduleName, out var moduleBasicModel) ? moduleBasicModel : null;
-        _devicePostGeneralModel.JBBasicModel = GlobalVariable.temp_Dictionary_JBBasicModel.TryGetValue(jbName, out var jbBasicModel) ? jbBasicModel : null;
+        _UpdateDeviceGeneralModel.ModuleBasicModel = GlobalVariable.temp_Dictionary_ModuleBasicModel.TryGetValue(moduleName, out var moduleBasicModel) ? moduleBasicModel : null;
+        _UpdateDeviceGeneralModel.JBBasicModel = GlobalVariable.temp_Dictionary_JBBasicModel.TryGetValue(jbName, out var jbBasicModel) ? jbBasicModel : null;
 
-        _devicePostGeneralModel.AdditionalConnectionBasicModel.Clear();
+        _UpdateDeviceGeneralModel.AdditionalImageModels.Clear();
         foreach (var item in _selectedGameObjects[ADDITIONAL_IMAGE])
         {
             var text = item.GetComponentInChildren<TMP_Text>().text;
             if (GlobalVariable.temp_Dictionary_ImageBasicModel.TryGetValue(text, out var imageBasicModel))
             {
-                _devicePostGeneralModel.AdditionalConnectionBasicModel.Add(imageBasicModel);
+                _UpdateDeviceGeneralModel.AdditionalImageModels.Add(imageBasicModel);
             }
         }
         try
         {
             Debug.Log("Try to Add Device");
-            bool success = await _deviceUseCase.AddNewDeviceModel(_devicePostGeneralModel);
+            bool success = await _deviceUseCase.UpdateDeviceModel(_UpdateDeviceGeneralModel);
             Debug.Log(success ? "Add Device Success" : "Add Device Fail");
         }
         catch (Exception ex)

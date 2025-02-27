@@ -7,7 +7,7 @@ public interface IDeviceRepository
 {
     Task<List<DeviceInformationModel>> GetListDevice(int grapperId);
     Task<DeviceInformationModel> GetDevice(int DeviceId);
-    Task<bool> UpdateDevice(DeviceInformationModel model);
+    Task<bool> UpdateDevice(DeviceGeneralModel model);
     Task<bool> AddDevice(DevicePostGeneralModel model);
     Task<bool> DeleteDevice(int DeviceId);
 
@@ -28,7 +28,7 @@ public class DeviceRepository : IDeviceRepository
         return await APIManager.Instance.GetListDeviceData($"{_apiUrl}/Grapper/{grapperId}/Devices");
     }
 
-    public async Task<bool> UpdateDevice(DeviceInformationModel model)
+    public async Task<bool> UpdateDevice(DeviceGeneralModel model)
     {
         return await APIManager.Instance.UpdateDeviceDataAsync(model, $"{_apiUrl}");
     }

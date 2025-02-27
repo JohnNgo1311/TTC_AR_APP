@@ -632,11 +632,19 @@ public class APIManager : MonoBehaviour
                     if (listModuleInformationModel != null && listModuleInformationModel.Count > 0)
                     {
                         GlobalVariable.temp_ListModuleInformationModel = listModuleInformationModel;
+                        GlobalVariable.temp_Dictionary_ModuleBasicModel.Clear();
                         Dic_ModuleInformationModels.Clear();
                         foreach (var Module in listModuleInformationModel)
                         {
                             Dic_ModuleInformationModels.TryAdd(Module.Name, Module);
+                            var moduleBasicModel = new ModuleBasicModel(
+                         Module.Id,
+                         Module.Name
+                     );
+                            GlobalVariable.temp_Dictionary_ModuleBasicModel.TryAdd("Module", moduleBasicModel);
+
                         }
+
                         GlobalVariable.temp_Dictionary_ModuleInformationModel = Dic_ModuleInformationModels;
                         Debug.Log("Dic_ModuleInformationModels.Count: " + Dic_ModuleInformationModels.Count);
                         return listModuleInformationModel;
@@ -816,7 +824,7 @@ public class APIManager : MonoBehaviour
             return null;
         }
     }
-    public async Task<bool> UpdateDeviceDataAsync(DeviceInformationModel DeviceInformationModel, string url)
+    public async Task<bool> UpdateDeviceDataAsync(DeviceGeneralModel DeviceInformationModel, string url)
     {
         try
         {
@@ -895,13 +903,20 @@ public class APIManager : MonoBehaviour
 
                     if (listJBInformationModel != null && listJBInformationModel.Count > 0)
                     {
-                        GlobalVariable_Search_Devices.temp_ListJBInformationModel = listJBInformationModel;
+                        //  GlobalVariable_Search_Devices.temp_ListJBInformationModel
+                        GlobalVariable.temp_ListJBInformationModel = listJBInformationModel;
                         Dic_JBInformationModels.Clear();
                         GlobalVariable.list_jBName.Clear();
+                        GlobalVariable.temp_Dictionary_JBBasicModel.Clear();
                         foreach (var JB in listJBInformationModel)
                         {
                             Dic_JBInformationModels.TryAdd(JB.Name, JB);
                             GlobalVariable.list_jBName.Add(JB.Name);
+                            var jbBasicModel = new JBBasicModel(
+                                JB.Id,
+                                JB.Name
+                            );
+                            GlobalVariable.temp_Dictionary_JBBasicModel.TryAdd(JB.Name, jbBasicModel);
                         }
                         GlobalVariable.temp_Dictionary_JBInformationModel = Dic_JBInformationModels;
                         Debug.Log("Dic_JBInformationModels.Count: " + Dic_JBInformationModels.Count);

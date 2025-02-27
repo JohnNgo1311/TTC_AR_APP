@@ -77,6 +77,7 @@ public class Add_JB_TSD_Setting : MonoBehaviour
         if (!string.IsNullOrEmpty(JBLocation_Textfield.text))
             NewJBGeneralModel.Location = JBLocation_Textfield.text;
         NewJBGeneralModel = new JBPostGeneralModel(
+            JBName_Textfield.text,
            JBLocation_Textfield.text,
            temp_Dictionary_DeviceBasicModel.Values.ToList(),
            temp_Dictionary_ModuleBasicModel.Values.ToList(),

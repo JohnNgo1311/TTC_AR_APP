@@ -7,7 +7,7 @@ public interface IDeviceUseCase
 {
     Task<List<DeviceInformationModel>> GetListDeviceModel(int grapperId);
     Task<DeviceInformationModel> GetDeviceModel(int DeviceId);
-    Task<bool> UpdateDeviceModel(DeviceInformationModel model);
+    Task<bool> UpdateDeviceModel(DeviceGeneralModel model);
     Task<bool> AddNewDeviceModel(DevicePostGeneralModel model);
     Task<bool> DeleteDeviceModel(int DeviceId);
 }
@@ -30,7 +30,7 @@ public class DeviceUseCase : IDeviceUseCase
     {
         return await _repository.GetListDevice(grapperId);
     }
-    public async Task<bool> UpdateDeviceModel(DeviceInformationModel model)
+    public async Task<bool> UpdateDeviceModel(DeviceGeneralModel model)
     {
         if (string.IsNullOrEmpty(model.Code))
         {

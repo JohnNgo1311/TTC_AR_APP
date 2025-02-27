@@ -15,14 +15,14 @@ public class Get_List_Devices_Setting : MonoBehaviour
     public ScrollRect scrollView;
     public GameObject DialogOneButton;
     public GameObject DialogTwoButton;
-    private IDeviceUseCase _DeviceInformationUseCase;
+    private IDeviceUseCase _DeviceUseCase;
     private List<string> ListDeviceCode = new List<string>();
     private List<GameObject> listDeviceItems = new List<GameObject>();
 
     private void Awake()
     {   // Khởi tạo dependency injection đơn giản
         IDeviceRepository repository = new DeviceRepository();
-        _DeviceInformationUseCase = new DeviceUseCase(repository);
+        _DeviceUseCase = new DeviceUseCase(repository);
     }
     private void Start()
     {
@@ -137,7 +137,7 @@ public class Get_List_Devices_Setting : MonoBehaviour
     {
         try
         {
-            bool success = await _DeviceInformationUseCase.DeleteDeviceModel(DeviceId);
+            bool success = await _DeviceUseCase.DeleteDeviceModel(DeviceId);
             if (success)
             {
                 Debug.Log("Delete Device success");

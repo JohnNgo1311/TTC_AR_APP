@@ -85,6 +85,7 @@ public class GlobalVariable : MonoBehaviour
     public static ModuleInformationModel temp_ModuleInformationModel;
     public static int ModuleId = 1;
     public static Dictionary<string, ModuleInformationModel> temp_Dictionary_ModuleInformationModel = new Dictionary<string, ModuleInformationModel>();
+    public static Dictionary<string, ModuleBasicModel> temp_Dictionary_ModuleBasicModel = new Dictionary<string, ModuleBasicModel>();
     //! Device
     public static List<DeviceInformationModel> temp_ListDeviceInformationModel = new List<DeviceInformationModel>();
     public static DeviceInformationModel temp_DeviceInformationModel;
@@ -99,7 +100,7 @@ public class GlobalVariable : MonoBehaviour
     public static int JBId = 1;
     public static bool ActiveCloseCanvasButton = false;
     public static Dictionary<string, JBInformationModel> temp_Dictionary_JBInformationModel = new Dictionary<string, JBInformationModel>();
-
+    public static Dictionary<string, JBBasicModel> temp_Dictionary_JBBasicModel = new Dictionary<string, JBBasicModel>();
     //! Mccs
     public static List<MccInformationModel> temp_ListMCCInformationModel = new List<MccInformationModel>();
     public static MccInformationModel temp_MCCInformationModel;
@@ -124,6 +125,7 @@ public class GlobalVariable : MonoBehaviour
     public static ImageInformationModel temp_ImageInformationModel;
     public static int ImageInformationId = 1;
     public static Dictionary<string, ImageInformationModel> temp_Dictionary_ImageInformationModel = new Dictionary<string, ImageInformationModel>();
+    public static Dictionary<string, ImageBasicModel> temp_Dictionary_ImageBasicModel = new Dictionary<string, ImageBasicModel>();
     public static List<ImageInformationModel> temp_ListImageInformationModel = new List<ImageInformationModel>();
 
 

@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class Get_List_JBs_Setting : MonoBehaviour
 {
+    public Update_JB_TSD_Setting update_JB_TSD_Setting;
     public GameObject List_JB_Canvas;
     public GameObject Add_New_JB_Canvas;
     public GameObject Update_JB_Canvas;
@@ -49,7 +50,9 @@ public class Get_List_JBs_Setting : MonoBehaviour
 
             listJBItems.Add(newJBItem);
 
-            newJBItemPreviewButtonGroup.Find("Group/Edit_Button").GetComponent<Button>().onClick.AddListener(EditJBItem);
+            var jBInformationModel = GlobalVariable.temp_ListJBInformationModel.Find(x => x.Name == jbName);
+
+            newJBItemPreviewButtonGroup.Find("Group/Edit_Button").GetComponent<Button>().onClick.AddListener(() => EditJBItem(jBInformationModel));
             newJBItemPreviewButtonGroup.Find("Group/Delete_Button").GetComponent<Button>().onClick.AddListener(() => DeleJBItem(newJBItem, jbName));
         }
         JB_Item_Prefab.SetActive(false);
@@ -60,9 +63,9 @@ public class Get_List_JBs_Setting : MonoBehaviour
         OpenDeleteWarningPanel(JBItem, JbName);
     }
 
-    private void EditJBItem()
+    private void EditJBItem(JBInformationModel jBInformationModel)
     {
-        OpenUpdateCanvas();
+        OpenUpdateCanvas(jBInformationModel);
     }
 
     public void OpenAddNewCanvas()
@@ -71,7 +74,7 @@ public class Get_List_JBs_Setting : MonoBehaviour
         List_JB_Canvas.SetActive(false);
         Update_JB_Canvas.SetActive(false);
     }
-    private void OpenUpdateCanvas()
+    private void OpenUpdateCanvas(JBInformationModel jBInformationModel)
     {
         Update_JB_Canvas.SetActive(true);
         List_JB_Canvas.SetActive(false);
