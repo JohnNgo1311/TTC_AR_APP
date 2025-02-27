@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 public class Add_JB_TSD_Setting : MonoBehaviour
 {
-    public Initialize_List_Option_Selection initialize_List_Option_Selection;
+    public Initialize_JB_List_Option_Selection initialize_JB_List_Option_Selection;
 
     [SerializeField] private Button submitButton;
     private IJBUseCase _jbPostGeneralUseCase;
@@ -77,7 +77,6 @@ public class Add_JB_TSD_Setting : MonoBehaviour
         if (!string.IsNullOrEmpty(JBLocation_Textfield.text))
             NewJBGeneralModel.Location = JBLocation_Textfield.text;
         NewJBGeneralModel = new JBPostGeneralModel(
-           JBName_Textfield.text,
            JBLocation_Textfield.text,
            temp_Dictionary_DeviceBasicModel.Values.ToList(),
            temp_Dictionary_ModuleBasicModel.Values.ToList(),
@@ -103,8 +102,7 @@ public class Add_JB_TSD_Setting : MonoBehaviour
     }
     public void UpdateJBInformation()
     {
-        if (!string.IsNullOrEmpty(JBName_Textfield.text))
-            NewJBGeneralModel.Name = JBName_Textfield.text;
+
         if (!string.IsNullOrEmpty(JBLocation_Textfield.text))
             NewJBGeneralModel.Location = JBLocation_Textfield.text;
         NewJBGeneralModel.ListDevices = temp_Dictionary_DeviceBasicModel.Values.ToList();
@@ -123,10 +121,10 @@ public class Add_JB_TSD_Setting : MonoBehaviour
     private void OnEnable()
     {
         submitButton.onClick.AddListener(OnSubmitAddJB);
-        AddButtonListeners(initialize_List_Option_Selection.Device_List_Selection_Option_Content_Transform, "Device");
-        AddButtonListeners(initialize_List_Option_Selection.ModuleIO_List_Selection_Option_Content_Transform, "ModuleIO");
-        AddButtonListeners(initialize_List_Option_Selection.Location_Image_List_Selection_Option_Content_Transform, "Location_Image");
-        AddButtonListeners(initialize_List_Option_Selection.Connection_Image_List_Selection_Option_Content_Transform, "Connection_Image");
+        AddButtonListeners(initialize_JB_List_Option_Selection.Device_List_Selection_Option_Content_Transform, "Device");
+        AddButtonListeners(initialize_JB_List_Option_Selection.ModuleIO_List_Selection_Option_Content_Transform, "ModuleIO");
+        AddButtonListeners(initialize_JB_List_Option_Selection.Location_Image_List_Selection_Option_Content_Transform, "Location_Image");
+        AddButtonListeners(initialize_JB_List_Option_Selection.Connection_Image_List_Selection_Option_Content_Transform, "Connection_Image");
     }
     private void OnDisable()
     {
@@ -140,7 +138,6 @@ public class Add_JB_TSD_Setting : MonoBehaviour
             AddButtonListener(optionChild.gameObject, () => SelectItem(optionChild.gameObject.GetComponentInChildren<TMP_Text>().text, field));
         }
     }
-
 
     private void AddButtonListener(GameObject item, UnityEngine.Events.UnityAction action)
     {
@@ -214,7 +211,7 @@ public class Add_JB_TSD_Setting : MonoBehaviour
 
     public void OpenListSelection(string field, GameObject itemPrefab, GameObject parentGroup)
     {
-        if (!initialize_List_Option_Selection.Selection_Option_Canvas.activeSelf) initialize_List_Option_Selection.Selection_Option_Canvas.SetActive(true);
+        if (!initialize_JB_List_Option_Selection.Selection_Option_Canvas.activeSelf) initialize_JB_List_Option_Selection.Selection_Option_Canvas.SetActive(true);
         GameObject newItem = Instantiate(itemPrefab, parentGroup.transform);
         temp_Item_Transform = newItem.transform;
         temp_Item_Transform.GetChild(1).gameObject.GetComponent<Button>().onClick.AddListener(() => DeselectItem(temp_Item_Transform.gameObject, field));
@@ -234,11 +231,11 @@ public class Add_JB_TSD_Setting : MonoBehaviour
     {
         //LayoutRebuilder.ForceRebuildLayoutImmediate(parent_Content_Vertical_Group.GetComponent<RectTransform>());
         // Canvas.ForceUpdateCanvases();
-        if (initialize_List_Option_Selection.selection_List_Device_Panel.activeSelf) initialize_List_Option_Selection.selection_List_Device_Panel.SetActive(false);
-        if (initialize_List_Option_Selection.selection_List_ModuleIO_Panel.activeSelf) initialize_List_Option_Selection.selection_List_ModuleIO_Panel.SetActive(false);
-        if (initialize_List_Option_Selection.selection_List_Location_Image_Panel.activeSelf) initialize_List_Option_Selection.selection_List_Location_Image_Panel.SetActive(false);
-        if (initialize_List_Option_Selection.selection_List_Connection_Image_Panel.activeSelf) initialize_List_Option_Selection.selection_List_Connection_Image_Panel.SetActive(false);
-        if (initialize_List_Option_Selection.Selection_Option_Canvas.activeSelf) initialize_List_Option_Selection.Selection_Option_Canvas.SetActive(false);
+        if (initialize_JB_List_Option_Selection.selection_List_Device_Panel.activeSelf) initialize_JB_List_Option_Selection.selection_List_Device_Panel.SetActive(false);
+        if (initialize_JB_List_Option_Selection.selection_List_ModuleIO_Panel.activeSelf) initialize_JB_List_Option_Selection.selection_List_ModuleIO_Panel.SetActive(false);
+        if (initialize_JB_List_Option_Selection.selection_List_Location_Image_Panel.activeSelf) initialize_JB_List_Option_Selection.selection_List_Location_Image_Panel.SetActive(false);
+        if (initialize_JB_List_Option_Selection.selection_List_Connection_Image_Panel.activeSelf) initialize_JB_List_Option_Selection.selection_List_Connection_Image_Panel.SetActive(false);
+        if (initialize_JB_List_Option_Selection.Selection_Option_Canvas.activeSelf) initialize_JB_List_Option_Selection.Selection_Option_Canvas.SetActive(false);
     }
     public void CloseListSelectionFromBackButton()
     {
@@ -249,11 +246,11 @@ public class Add_JB_TSD_Setting : MonoBehaviour
         ClearInactiveChildren(Location_Image_Parent_VerticalLayout_Group);
         ClearInactiveChildren(Connection_Image_Parent_VerticalLayout_Group);
         temp_Item_Transform.gameObject.SetActive(false);
-        if (initialize_List_Option_Selection.selection_List_Device_Panel.activeSelf) initialize_List_Option_Selection.selection_List_Device_Panel.SetActive(false);
-        if (initialize_List_Option_Selection.selection_List_ModuleIO_Panel.activeSelf) initialize_List_Option_Selection.selection_List_ModuleIO_Panel.SetActive(false);
-        if (initialize_List_Option_Selection.selection_List_Location_Image_Panel.activeSelf) initialize_List_Option_Selection.selection_List_Location_Image_Panel.SetActive(false);
-        if (initialize_List_Option_Selection.selection_List_Connection_Image_Panel.activeSelf) initialize_List_Option_Selection.selection_List_Connection_Image_Panel.SetActive(false);
-        if (initialize_List_Option_Selection.Selection_Option_Canvas.activeSelf) initialize_List_Option_Selection.Selection_Option_Canvas.SetActive(false);
+        if (initialize_JB_List_Option_Selection.selection_List_Device_Panel.activeSelf) initialize_JB_List_Option_Selection.selection_List_Device_Panel.SetActive(false);
+        if (initialize_JB_List_Option_Selection.selection_List_ModuleIO_Panel.activeSelf) initialize_JB_List_Option_Selection.selection_List_ModuleIO_Panel.SetActive(false);
+        if (initialize_JB_List_Option_Selection.selection_List_Location_Image_Panel.activeSelf) initialize_JB_List_Option_Selection.selection_List_Location_Image_Panel.SetActive(false);
+        if (initialize_JB_List_Option_Selection.selection_List_Connection_Image_Panel.activeSelf) initialize_JB_List_Option_Selection.selection_List_Connection_Image_Panel.SetActive(false);
+        if (initialize_JB_List_Option_Selection.Selection_Option_Canvas.activeSelf) initialize_JB_List_Option_Selection.Selection_Option_Canvas.SetActive(false);
     }
     private void ClearInactiveChildren(GameObject parentGroup)
     {
@@ -269,16 +266,16 @@ public class Add_JB_TSD_Setting : MonoBehaviour
     {
         return field switch
         {
-            "Device" => initialize_List_Option_Selection.selection_List_Device_Panel,
-            "ModuleIO" => initialize_List_Option_Selection.selection_List_ModuleIO_Panel,
-            "Location_Image" => initialize_List_Option_Selection.selection_List_Location_Image_Panel,
-            "Connection_Image" => initialize_List_Option_Selection.selection_List_Connection_Image_Panel,
+            "Device" => initialize_JB_List_Option_Selection.selection_List_Device_Panel,
+            "ModuleIO" => initialize_JB_List_Option_Selection.selection_List_ModuleIO_Panel,
+            "Location_Image" => initialize_JB_List_Option_Selection.selection_List_Location_Image_Panel,
+            "Connection_Image" => initialize_JB_List_Option_Selection.selection_List_Connection_Image_Panel,
             _ => throw new ArgumentException("Invalid field name")
         };
     }
     private void Update()
     {
-        if (initialize_List_Option_Selection.selection_List_Device_Panel.activeSelf || initialize_List_Option_Selection.selection_List_ModuleIO_Panel.activeSelf || initialize_List_Option_Selection.selection_List_Location_Image_Panel.activeSelf || initialize_List_Option_Selection.selection_List_Connection_Image_Panel.activeSelf)
+        if (initialize_JB_List_Option_Selection.selection_List_Device_Panel.activeSelf || initialize_JB_List_Option_Selection.selection_List_ModuleIO_Panel.activeSelf || initialize_JB_List_Option_Selection.selection_List_Location_Image_Panel.activeSelf || initialize_JB_List_Option_Selection.selection_List_Connection_Image_Panel.activeSelf)
         {
             if (Input.GetKeyDown(KeyCode.Escape) || (Gamepad.current != null && Gamepad.current.buttonEast != null && Gamepad.current.buttonEast.wasPressedThisFrame) || (Keyboard.current != null && Keyboard.current.escapeKey.wasPressedThisFrame))
             {

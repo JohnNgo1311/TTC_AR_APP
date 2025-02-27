@@ -5,24 +5,20 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
-public class Initialize_List_Option_Selection : MonoBehaviour
+public class Initialize_Device_List_Option_Selection : MonoBehaviour
 {
     [Header("Basic")]
     public GameObject Selection_Option_Canvas;
 
     [Header("List Selection Panels")]
-    public GameObject selection_List_Device_Panel;
+    public GameObject selection_List_JB_Panel;
     public GameObject selection_List_ModuleIO_Panel;
-    public GameObject selection_List_Location_Image_Panel;
-    public GameObject selection_List_Connection_Image_Panel;
+    public GameObject selection_List_Additional_Image_Panel;
 
     [Header("List Selection Option Contents")]
-    public Transform Device_List_Selection_Option_Content_Transform;
+    public Transform JB_List_Selection_Option_Content_Transform;
     public Transform ModuleIO_List_Selection_Option_Content_Transform;
-    public Transform Location_Image_List_Selection_Option_Content_Transform;
-    public Transform Connection_Image_List_Selection_Option_Content_Transform;
-
-    //public Get_List_JBs_Setting get_List_JBs_Setting;
+    public Transform Additional_Image_List_Selection_Option_Content_Transform;
 
     public Dictionary<string, GameObject> initialSelectionOptions = new Dictionary<string, GameObject>();
 
@@ -34,21 +30,17 @@ public class Initialize_List_Option_Selection : MonoBehaviour
     private void Start()
     {
     }
-
     private void InitializeItemOptions()
     {
-        initialSelectionOptions["Device"] = Device_List_Selection_Option_Content_Transform.GetChild(0).gameObject;
+        initialSelectionOptions["JB"] = JB_List_Selection_Option_Content_Transform.GetChild(0).gameObject;
         initialSelectionOptions["ModuleIO"] = ModuleIO_List_Selection_Option_Content_Transform.GetChild(0).gameObject;
-        initialSelectionOptions["Location_Image"] = Location_Image_List_Selection_Option_Content_Transform.GetChild(0).gameObject;
-        initialSelectionOptions["Connection_Image"] = Connection_Image_List_Selection_Option_Content_Transform.GetChild(0).gameObject;
+        initialSelectionOptions["Additional_Image"] = Additional_Image_List_Selection_Option_Content_Transform.GetChild(0).gameObject;
     }
-
     private void PopulateListSelection()
     {
-        PopulateSelectionPanel("Device", GlobalVariable.list_DeviceName, selection_List_Device_Panel, Device_List_Selection_Option_Content_Transform);
+        PopulateSelectionPanel("JB", GlobalVariable.list_jBName, selection_List_JB_Panel, JB_List_Selection_Option_Content_Transform);
         PopulateSelectionPanel("ModuleIO", GlobalVariable.list_ModuleIOName, selection_List_ModuleIO_Panel, ModuleIO_List_Selection_Option_Content_Transform);
-        PopulateSelectionPanel("Location_Image", GlobalVariable.list_ImageName, selection_List_Location_Image_Panel, Location_Image_List_Selection_Option_Content_Transform);
-        PopulateSelectionPanel("Connection_Image", GlobalVariable.list_ImageName, selection_List_Connection_Image_Panel, Connection_Image_List_Selection_Option_Content_Transform);
+        PopulateSelectionPanel("Additional_Image", GlobalVariable.list_ImageName, selection_List_Additional_Image_Panel, Additional_Image_List_Selection_Option_Content_Transform);
     }
     private void PopulateSelectionPanel(string field, List<string> optionList, GameObject list_Option_Panel, Transform list_Option_Content_Transform)
     {
@@ -57,8 +49,8 @@ public class Initialize_List_Option_Selection : MonoBehaviour
             if (optionList.Count == 1)
             {
                 AddOption(initialSelectionOptions[field], optionList[0], field);
-                //! Ví dụ: AddOption(initialSelectionOptions["Device"], "02LT002", "Device");
-                //! initialSelectionOptions["Device"] => Initial Option
+                //! Ví dụ: AddOption(initialSelectionOptions["JB"], "02LT002", "JB");
+                //! initialSelectionOptions["JB"] => Initial Option
             }
             else
             {

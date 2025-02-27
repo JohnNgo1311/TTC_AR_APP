@@ -49,6 +49,47 @@ public class DeviceInformationModel
 }
 
 [Preserve]
+public class DevicePostGeneralModel
+{
+
+  [JsonProperty("function")]
+  public string Function { get; set; }
+
+  [JsonProperty("range")]
+  public string Range { get; set; }
+
+  [JsonProperty("unit")]
+  public string Unit { get; set; }
+
+  [JsonProperty("ioAddress")]
+  public string IOAddress { get; set; }
+
+  [JsonProperty("module")]
+  public ModuleBasicModel ModuleBasicModel { get; set; }
+
+  [JsonProperty("jb")]
+  public JBBasicModel JBBasicModel { get; set; }
+
+  [JsonProperty("additionalConnectionImages")]
+  public List<ImageBasicModel> AdditionalConnectionBasicModel { get; set; }
+
+  [Preserve]
+  [JsonConstructor]
+  public DevicePostGeneralModel(string function, string range, string unit, string ioAddress, ModuleBasicModel moduleBasicModel, JBBasicModel jbBasicModel, List<ImageBasicModel> additionalConnectionBasicModel)
+  {
+    Function = function;
+    Range = range;
+    Unit = unit;
+    IOAddress = ioAddress;
+    ModuleBasicModel = moduleBasicModel;
+    JBBasicModel = jbBasicModel;
+    AdditionalConnectionBasicModel = additionalConnectionBasicModel;
+  }
+
+}
+
+
+[Preserve]
 public class DeviceBasicModel
 {
   [JsonProperty("id")]

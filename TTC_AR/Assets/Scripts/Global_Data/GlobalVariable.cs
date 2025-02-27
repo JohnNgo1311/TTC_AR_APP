@@ -90,7 +90,7 @@ public class GlobalVariable : MonoBehaviour
     public static DeviceInformationModel temp_DeviceInformationModel;
     public static Dictionary<string, DeviceBasicModel> temp_Dictionary_DeviceBasicModel = new Dictionary<string, DeviceBasicModel>();
     public static Dictionary<string, DeviceInformationModel> temp_Dictionary_DeviceInformationModel = new Dictionary<string, DeviceInformationModel>();
-
+    public static Dictionary<string, string> temp_Dictionary_DeviceIOAddress = new Dictionary<string, string>();
     public static int DeviceId = 1;
     //! JBS
     public static List<JBInformationModel> temp_ListJBInformationModel_FromModule = new List<JBInformationModel>();
@@ -217,7 +217,7 @@ public class GlobalVariable : MonoBehaviour
              "D2.6.I",
              "D2.7.I"
     };
-    public static List<string> list_DeviceName = new List<string>(){
+    public static List<string> list_DeviceCode = new List<string>(){
         "01TT005","01TT007","01TT008","01TT012","01TT009","01TT010","01TT011","01TT015","02TT045",
         "02TT002","02TT003A","02TT003B","09LDT016","02LT002","02LT004","03LT001","02LT003","09LT019","02TT020","02TT018","02TT004","02TT007","02TT009","02TT011","02TT013","02TT016",
         "02TT023","02TT024","02TT025","02TT026","02TT027"

@@ -512,48 +512,48 @@ public class APIManager : MonoBehaviour
             return false;
         }
     }
-    public async Task GetAllDevicesByGrapper(string url, int grapperId)
-    {
-        using UnityWebRequest webRequest = UnityWebRequest.Get(url);
-        {
-            if (!await SendWebRequestAsync(webRequest))
-            {
-                HandleRequestError(webRequest.error);
-                return;
-            }
-            try
-            {
-                var list_DeviceInformationModel = JsonConvert.DeserializeObject<List<DeviceInformationModel>>(webRequest.downloadHandler.text);
-                if (list_DeviceInformationModel != null && list_DeviceInformationModel.Count > 0)
-                {
-                    GlobalVariable_Search_Devices.temp_ListDeviceInformationModel = list_DeviceInformationModel;
-                    GlobalVariable_Search_Devices.temp_List_Device_For_Fitler = FilterListDevicesForSearching(list_DeviceInformationModel);
+    // public async Task GetAllDevicesByGrapper(string url, int grapperId)
+    // {
+    //     using UnityWebRequest webRequest = UnityWebRequest.Get(url);
+    //     {
+    //         if (!await SendWebRequestAsync(webRequest))
+    //         {
+    //             HandleRequestError(webRequest.error);
+    //             return;
+    //         }
+    //         try
+    //         {
+    //             var list_DeviceInformationModel = JsonConvert.DeserializeObject<List<DeviceInformationModel>>(webRequest.downloadHandler.text);
+    //             if (list_DeviceInformationModel != null && list_DeviceInformationModel.Count > 0)
+    //             {
+    //                 GlobalVariable_Search_Devices.temp_ListDeviceInformationModel = list_DeviceInformationModel;
+    //                 GlobalVariable_Search_Devices.temp_List_Device_For_Fitler = FilterListDevicesForSearching(list_DeviceInformationModel);
 
-                    Dic_DeviceInformationModels.Clear();
+    //                 Dic_DeviceInformationModels.Clear();
 
-                    foreach (var device in list_DeviceInformationModel)
-                    {
-                        Dic_DeviceInformationModels.TryAdd(device.Code, device);
-                    }
-                    GlobalVariable.temp_Dictionary_DeviceInformationModel = Dic_DeviceInformationModels;
-                }
-                else
-                {
-                    Debug.Log("list_DeviceInformationModel is null");
-                }
-            }
-            catch (JsonException jsonEx)
-            {
-                HandleRequestError(jsonEx.Message);
-                return;
-            }
-            catch (Exception ex)
-            {
-                HandleRequestError(ex.Message);
-                return;
-            }
-        }
-    }
+    //                 foreach (var device in list_DeviceInformationModel)
+    //                 {
+    //                     Dic_DeviceInformationModels.TryAdd(device.Code, device);
+    //                 }
+    //                 GlobalVariable.temp_Dictionary_DeviceInformationModel = Dic_DeviceInformationModels;
+    //             }
+    //             else
+    //             {
+    //                 Debug.Log("list_DeviceInformationModel is null");
+    //             }
+    //         }
+    //         catch (JsonException jsonEx)
+    //         {
+    //             HandleRequestError(jsonEx.Message);
+    //             return;
+    //         }
+    //         catch (Exception ex)
+    //         {
+    //             HandleRequestError(ex.Message);
+    //             return;
+    //         }
+    //     }
+    // }
 
     private List<string> FilterListDevicesForSearching(List<DeviceInformationModel> DeviceInformationModels)
     {
@@ -728,6 +728,154 @@ public class APIManager : MonoBehaviour
             HandleRequestError(ex.Message);
             return null;
 
+        }
+    }
+
+
+    //! Device
+    public async Task<List<DeviceInformationModel>> GetListDeviceData(string url)
+    {
+        try
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                HttpResponseMessage response = await client.GetAsync(url);
+                if (response.IsSuccessStatusCode)
+                {
+                    string json = await response.Content.ReadAsStringAsync();
+                    var list_DeviceInformationModel = JsonConvert.DeserializeObject<List<DeviceInformationModel>>(json);
+                    if (list_DeviceInformationModel != null && list_DeviceInformationModel.Count > 0)
+                    {
+                        GlobalVariable_Search_Devices.temp_ListDeviceInformationModel = list_DeviceInformationModel;
+                        GlobalVariable_Search_Devices.temp_List_Device_For_Fitler = FilterListDevicesForSearching(list_DeviceInformationModel);
+
+                        Dic_DeviceInformationModels.Clear();
+                        GlobalVariable.list_DeviceCode.Clear();
+                        GlobalVariable.temp_Dictionary_DeviceIOAddress.Clear();
+                        foreach (var device in list_DeviceInformationModel)
+                        {
+                            Dic_DeviceInformationModels.TryAdd(device.Code, device);
+                            GlobalVariable.temp_Dictionary_DeviceIOAddress.TryAdd(device.Code, device.IOAddress);
+                            GlobalVariable.list_DeviceCode.Add(device.Code);
+                        }
+                        GlobalVariable.temp_Dictionary_DeviceInformationModel = Dic_DeviceInformationModels;
+                        return list_DeviceInformationModel;
+                    }
+                    else
+                    {
+                        Debug.Log("list_DeviceInformationModel is null");
+                        return null;
+                    }
+                }
+                else
+                {
+                    HandleRequestError($"Failed to get device information. Status code: {response.StatusCode}");
+                    return null;
+                }
+            }
+        }
+        catch (JsonException jsonEx)
+        {
+            HandleRequestError(jsonEx.Message);
+            return null;
+        }
+        catch (Exception ex)
+        {
+            HandleRequestError(ex.Message);
+            return null;
+        }
+    }
+    public async Task<DeviceInformationModel> GetDeviceData(string url)
+    {
+        try
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                HttpResponseMessage response = await client.GetAsync(url);
+                if (response.IsSuccessStatusCode)
+                {
+                    string json = await response.Content.ReadAsStringAsync();
+                    var DeviceInformationModel = JsonConvert.DeserializeObject<DeviceInformationModel>(json);
+
+                    if (DeviceInformationModel != null)
+                    {
+                        GlobalVariable.temp_DeviceInformationModel = DeviceInformationModel;
+                    }
+                    return DeviceInformationModel;
+                }
+                else
+                {
+                    HandleRequestError($"Failed to get JB information. Status code: {response.StatusCode}");
+                    return null;
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            HandleRequestError($"Unexpected error: {ex.Message}");
+            return null;
+        }
+    }
+    public async Task<bool> UpdateDeviceDataAsync(DeviceInformationModel DeviceInformationModel, string url)
+    {
+        try
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                string json = JsonConvert.SerializeObject(DeviceInformationModel);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+                HttpResponseMessage response = await client.PostAsync(url, content);
+                return response.IsSuccessStatusCode;
+            }
+        }
+        catch (JsonException jsonEx)
+        {
+            Debug.LogError($"Error parsing JSON: {jsonEx.Message}");
+            return false;
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError($"Error posting data: {ex.Message}");
+            return false;
+        }
+    }
+    public async Task<bool> AddNewDeviceAsync(DevicePostGeneralModel devicePostGeneralModel, string url)
+    {
+        try
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                string json = JsonConvert.SerializeObject(devicePostGeneralModel);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+                HttpResponseMessage response = await client.PutAsync(url, content);
+                return response.IsSuccessStatusCode;
+            }
+        }
+        catch (JsonException jsonEx)
+        {
+            Debug.LogError($"Error parsing JSON: {jsonEx.Message}");
+            return false;
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError($"Error posting data: {ex.Message}");
+            return false;
+        }
+    }
+    public async Task<bool> DeleteDeviceData(string url)
+    {
+        try
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                HttpResponseMessage response = await client.DeleteAsync(url);
+                return response.IsSuccessStatusCode;
+            }
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError($"Error deleting data: {ex.Message}");
+            return false;
         }
     }
 

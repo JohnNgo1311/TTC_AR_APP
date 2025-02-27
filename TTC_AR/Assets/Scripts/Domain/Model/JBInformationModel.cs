@@ -87,9 +87,6 @@ public class JBPostGeneralModel
 {
 #nullable enable
 
-  [JsonProperty("name")]
-  public string Name { get; set; }
-
   [JsonProperty("location")]
   public string? Location { get; set; }
 
@@ -107,9 +104,8 @@ public class JBPostGeneralModel
 
   [Preserve]
   [JsonConstructor]
-  public JBPostGeneralModel(string name, string? location, List<DeviceBasicModel> listDevices, List<ModuleBasicModel> listModules, ImageBasicModel outdoorImage, List<ImageBasicModel> listConnectionImages)
+  public JBPostGeneralModel(string? location, List<DeviceBasicModel> listDevices, List<ModuleBasicModel> listModules, ImageBasicModel outdoorImage, List<ImageBasicModel> listConnectionImages)
   {
-    Name = name;
     Location = location;
     ListDevices = listDevices;
     ListModules = listModules;

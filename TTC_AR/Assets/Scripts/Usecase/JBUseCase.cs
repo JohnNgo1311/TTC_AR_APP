@@ -44,11 +44,7 @@ public class JBUseCase : IJBUseCase
     public async Task<bool> AddNewJBModel(JBPostGeneralModel model)
     {
         // Business logic nếu cần
-        if (string.IsNullOrEmpty(model.Name))
-        {
-            throw new ArgumentException("Name cannot be empty");
-        }
-
+       
         return await _repository.AddJB(model);
     }
     public async Task<bool> DeleteJBModel(int JBId)
