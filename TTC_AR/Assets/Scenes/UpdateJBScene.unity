@@ -3579,7 +3579,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!222 &487176143
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4315,7 +4315,7 @@ PrefabInstance:
     - target: {fileID: 1685662170610096498, guid: 445729c6077a8a54a82f3ea9a6d97b1f,
         type: 3}
       propertyPath: m_RootOrder
-      value: 5
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1685662170610096498, guid: 445729c6077a8a54a82f3ea9a6d97b1f,
         type: 3}
@@ -4848,7 +4848,7 @@ PrefabInstance:
     - target: {fileID: 1685662170610096498, guid: 445729c6077a8a54a82f3ea9a6d97b1f,
         type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1685662170610096498, guid: 445729c6077a8a54a82f3ea9a6d97b1f,
         type: 3}
@@ -7029,7 +7029,7 @@ PrefabInstance:
     - target: {fileID: 1685662170610096498, guid: 445729c6077a8a54a82f3ea9a6d97b1f,
         type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1685662170610096498, guid: 445729c6077a8a54a82f3ea9a6d97b1f,
         type: 3}
@@ -15116,7 +15116,7 @@ PrefabInstance:
     - target: {fileID: 1685662170610096498, guid: 445729c6077a8a54a82f3ea9a6d97b1f,
         type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1685662170610096498, guid: 445729c6077a8a54a82f3ea9a6d97b1f,
         type: 3}
@@ -15629,7 +15629,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.02050845, y: 0.046339653}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -22, y: -55.051514}
+  m_AnchoredPosition: {x: -22, y: -55.049194}
   m_SizeDelta: {x: -22, y: -430.78244}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2134443535
@@ -15639,7 +15639,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2134443532}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 

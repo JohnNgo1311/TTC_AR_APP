@@ -11,7 +11,7 @@ public class Add_JB_TSD_Setting : MonoBehaviour
     public Initialize_JB_List_Option_Selection initialize_JB_List_Option_Selection;
 
     [SerializeField] private Button submitButton;
-    private IJBUseCase _jbPostGeneralUseCase;
+    // private IJBUseCase _jbPostGeneralUseCase;
 
     [SerializeField]
     private JBPostGeneralModel NewJBGeneralModel;
@@ -63,8 +63,8 @@ public class Add_JB_TSD_Setting : MonoBehaviour
 
     private void Awake()
     {   // Khởi tạo dependency injection đơn giản
-        IJBRepository repository = new JBRepository();
-        _jbPostGeneralUseCase = new JBUseCase(repository);
+        // IJBRepository repository = new JBRepository();
+        // _jbPostGeneralUseCase = new JBUseCase(repository);
     }
     private void Start()
     {
@@ -86,15 +86,15 @@ public class Add_JB_TSD_Setting : MonoBehaviour
            );
         try
         {
-            bool success = await _jbPostGeneralUseCase.AddNewJBModel(NewJBGeneralModel);
-            if (success)
-            {
-                Debug.Log("Add JB Success");
-            }
-            else
-            {
-                Debug.Log("Add JB Fail");
-            }
+            // bool success = await _jbPostGeneralUseCase.AddNewJBModel(NewJBGeneralModel);
+            // if (success)
+            // {
+            //     Debug.Log("Add JB Success");
+            // }
+            // else
+            // {
+            //     Debug.Log("Add JB Fail");
+            // }
         }
         catch (Exception ex)
         {

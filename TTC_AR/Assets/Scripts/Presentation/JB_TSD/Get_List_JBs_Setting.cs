@@ -16,14 +16,14 @@ public class Get_List_JBs_Setting : MonoBehaviour
     public ScrollRect scrollView;
     public GameObject DialogOneButton;
     public GameObject DialogTwoButton;
-    private IJBUseCase _jbInformationUseCase;
+    // private IJBUseCase _jbInformationUseCase;
     private List<string> ListJBsName = new List<string>();
     private List<GameObject> listJBItems = new List<GameObject>();
 
     private void Awake()
     {   // Khởi tạo dependency injection đơn giản
-        IJBRepository repository = new JBRepository();
-        _jbInformationUseCase = new JBUseCase(repository);
+        // IJBRepository repository = new JBRepository();
+        // _jbInformationUseCase = new JBUseCase(repository);
     }
     private void Start()
     {
@@ -115,21 +115,21 @@ public class Get_List_JBs_Setting : MonoBehaviour
     }
     private async void OnSubmitDeleteJB(int JBId)
     {
-        try
-        {
-            bool success = await _jbInformationUseCase.DeleteJBModel(JBId);
-            if (success)
-            {
-                Debug.Log("Delete JB success");
-            }
-            else
-            {
-                Debug.Log("Delete JB failed");
-            }
-        }
-        catch (Exception ex)
-        {
-            Debug.LogError($"Error: {ex.Message}");
-        }
+        // try
+        // {
+        //     bool success = await _jbInformationUseCase.DeleteJBModel(JBId);
+        //     if (success)
+        //     {
+        //         Debug.Log("Delete JB success");
+        //     }
+        //     else
+        //     {
+        //         Debug.Log("Delete JB failed");
+        //     }
+        // }
+        // catch (Exception ex)
+        // {
+        //     Debug.LogError($"Error: {ex.Message}");
+        // }
     }
 }

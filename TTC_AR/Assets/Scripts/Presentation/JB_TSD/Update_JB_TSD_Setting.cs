@@ -12,7 +12,7 @@ public class Update_JB_TSD_Setting : MonoBehaviour
 
 
     [SerializeField] private Button submitButton;
-    private IJBUseCase _jbGeneralUseCase;
+    // private IJBUseCase _jbGeneralUseCase;
 
     [SerializeField]
     private JBGeneralModel UpdatedJBGeneralModel;
@@ -62,8 +62,8 @@ public class Update_JB_TSD_Setting : MonoBehaviour
 
     private void Awake()
     {   // Khởi tạo dependency injection đơn giản
-        IJBRepository repository = new JBRepository();
-        _jbGeneralUseCase = new JBUseCase(repository);
+        // IJBRepository repository = new JBRepository();
+        // _jbGeneralUseCase = new JBUseCase(repository);
     }
     private void Start()
     {
@@ -88,8 +88,8 @@ public class Update_JB_TSD_Setting : MonoBehaviour
 
         try
         {
-            bool success = await _jbGeneralUseCase.UpdateJBModel(UpdatedJBGeneralModel);
-            Debug.Log(success ? "Data posted successfully" : "Failed to post data");
+            // bool success = await _jbGeneralUseCase.UpdateJBModel(UpdatedJBGeneralModel);
+            //Debug.Log(success ? "Data posted successfully" : "Failed to post data");
         }
         catch (Exception ex)
         {

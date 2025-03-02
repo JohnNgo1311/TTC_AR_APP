@@ -62,6 +62,7 @@ public class Login_Btn_On_Click : MonoBehaviour
             (Gamepad.current != null && Gamepad.current.buttonEast != null && Gamepad.current.buttonEast.wasPressedThisFrame) ||
             (Keyboard.current != null && Keyboard.current.escapeKey.wasPressedThisFrame))
         {
+            
             Application.Quit();
         }
     }

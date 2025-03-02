@@ -129,11 +129,12 @@ namespace Google.Android.AppBundle.Editor.Internal.PlayServices
             Dictionary<string, string> envVars = null,
             IOHandler ioHandler = null)
         {
-            Thread thread = new Thread(new ThreadStart(() => {
-                    Result result = Run(toolPath, arguments, workingDirectory, envVars: envVars,
-                                        ioHandler: ioHandler);
-                    completionDelegate(result);
-                }));
+            Thread thread = new Thread(new ThreadStart(() =>
+            {
+                Result result = Run(toolPath, arguments, workingDirectory, envVars: envVars,
+                                    ioHandler: ioHandler);
+                completionDelegate(result);
+            }));
             thread.Start();
         }
 
@@ -204,7 +205,8 @@ namespace Google.Android.AppBundle.Editor.Internal.PlayServices
                 while (!complete)
                 {
                     stream.BeginRead(
-                        buffer, 0, buffer.Length, (asyncResult) => {
+                        buffer, 0, buffer.Length, (asyncResult) =>
+                        {
                             int bytesRead = stream.EndRead(asyncResult);
                             if (!complete)
                             {
@@ -322,7 +324,7 @@ namespace Google.Android.AppBundle.Editor.Internal.PlayServices
                         StreamData data = (StreamData)queue.Dequeue();
                         if (data.end)
                         {
-                            lock(activeStreams)
+                            lock (activeStreams)
                             {
                                 activeStreams.Remove(data.handle);
                             }
@@ -500,7 +502,8 @@ namespace Google.Android.AppBundle.Editor.Internal.PlayServices
         /// possible to execute the tool.</returns>
         public static Result Run(string toolPath, string arguments, string workingDirectory = null,
                                  Dictionary<string, string> envVars = null,
-                                 IOHandler ioHandler = null) {
+                                 IOHandler ioHandler = null)
+        {
             return RunViaShell(toolPath, arguments, workingDirectory: workingDirectory,
                                envVars: envVars, ioHandler: ioHandler, useShellExecution: false);
         }
@@ -530,7 +533,8 @@ namespace Google.Android.AppBundle.Editor.Internal.PlayServices
                 string toolPath, string arguments, string workingDirectory = null,
                 Dictionary<string, string> envVars = null,
                 IOHandler ioHandler = null, bool useShellExecution = false,
-                bool stdoutRedirectionInShellMode = true) {
+                bool stdoutRedirectionInShellMode = true)
+        {
             var inputEncoding = Console.InputEncoding;
             var outputEncoding = Console.OutputEncoding;
             // Set encoderShouldEmitUTF8Identifier to false to prevent writing a Byte Order Marker (BOM).
@@ -550,30 +554,36 @@ namespace Google.Android.AppBundle.Editor.Internal.PlayServices
 
         private static Result RunViaShellInternal(
             string toolPath, string arguments, string workingDirectory, Dictionary<string, string> envVars,
-            IOHandler ioHandler, bool useShellExecution, bool stdoutRedirectionInShellMode) {
+            IOHandler ioHandler, bool useShellExecution, bool stdoutRedirectionInShellMode)
+        {
             // Mono 3.x on Windows can't execute tools with single quotes (apostrophes) in the path.
             // The following checks for this condition and forces shell execution of tools in these
             // paths which works fine as the shell tool should be in the system PATH.
             if (UnityEngine.RuntimePlatform.WindowsEditor == UnityEngine.Application.platform &&
-                toolPath.Contains("\'")) {
+                toolPath.Contains("\'"))
+            {
                 useShellExecution = true;
                 stdoutRedirectionInShellMode = true;
             }
 
             string stdoutFileName = null;
             string stderrFileName = null;
-            if (useShellExecution && stdoutRedirectionInShellMode) {
+            if (useShellExecution && stdoutRedirectionInShellMode)
+            {
                 stdoutFileName = Path.GetTempFileName();
                 stderrFileName = Path.GetTempFileName();
-                string shellCmd ;
+                string shellCmd;
                 string shellArgPrefix;
                 string shellArgPostfix;
                 string escapedToolPath = toolPath;
-                if (UnityEngine.RuntimePlatform.WindowsEditor == UnityEngine.Application.platform) {
+                if (UnityEngine.RuntimePlatform.WindowsEditor == UnityEngine.Application.platform)
+                {
                     shellCmd = "cmd.exe";
                     shellArgPrefix = "/c \"";
                     shellArgPostfix = "\"";
-                } else {
+                }
+                else
+                {
                     shellCmd = "bash";
                     shellArgPrefix = "-l -c '";
                     shellArgPostfix = "'";
@@ -588,16 +598,21 @@ namespace Google.Android.AppBundle.Editor.Internal.PlayServices
             Process process = new Process();
             process.StartInfo.UseShellExecute = useShellExecution;
             process.StartInfo.Arguments = arguments;
-            if (useShellExecution) {
+            if (useShellExecution)
+            {
                 process.StartInfo.CreateNoWindow = false;
                 process.StartInfo.RedirectStandardOutput = false;
                 process.StartInfo.RedirectStandardError = false;
-            } else {
+            }
+            else
+            {
                 process.StartInfo.CreateNoWindow = true;
                 process.StartInfo.RedirectStandardOutput = true;
                 process.StartInfo.RedirectStandardError = true;
-                if (envVars != null) {
-                    foreach (var env in envVars) {
+                if (envVars != null)
+                {
+                    foreach (var env in envVars)
+                    {
                         process.StartInfo.EnvironmentVariables[env.Key] = env.Value;
                     }
                 }
@@ -607,9 +622,10 @@ namespace Google.Android.AppBundle.Editor.Internal.PlayServices
             process.StartInfo.WorkingDirectory = workingDirectory ?? Environment.CurrentDirectory;
 
             var started = process.Start();
-            if (!started) {
+            if (!started)
+            {
                 UnityEngine.Debug.LogErrorFormat("Failed to start {0}", process);
-                return new Result {exitCode = -1};
+                return new Result { exitCode = -1 };
             }
 
             // If an I/O handler was specified, call it with no data to provide a process and stdin
@@ -619,15 +635,19 @@ namespace Google.Android.AppBundle.Editor.Internal.PlayServices
             List<string>[] stdouterr = new List<string>[] {
                 new List<string>(), new List<string>() };
 
-            if (useShellExecution) {
+            if (useShellExecution)
+            {
                 process.WaitForExit();
-                if (stdoutRedirectionInShellMode) {
+                if (stdoutRedirectionInShellMode)
+                {
                     stdouterr[0].Add(File.ReadAllText(stdoutFileName));
                     stdouterr[1].Add(File.ReadAllText(stderrFileName));
                     File.Delete(stdoutFileName);
                     File.Delete(stderrFileName);
                 }
-            } else {
+            }
+            else
+            {
                 AutoResetEvent complete = new AutoResetEvent(false);
                 // Read raw output from the process.
                 AsyncStreamReader[] readers = AsyncStreamReader.CreateFromStreams(
@@ -635,7 +655,8 @@ namespace Google.Android.AppBundle.Editor.Internal.PlayServices
                                    process.StandardError.BaseStream }, 1);
                 new AsyncStreamReaderMultiplexer(
                     readers,
-                    (StreamData data) => {
+                    (StreamData data) =>
+                    {
                         stdouterr[data.handle].Add(data.text);
                         if (ioHandler != null) ioHandler(process, process.StandardInput, data);
                     },
@@ -675,7 +696,8 @@ namespace Google.Android.AppBundle.Editor.Internal.PlayServices
         /// <param name="exitCode">Result of the tool.</param>
         private static string FormatResultMessage(string toolPath, string arguments,
                                                   string stdout, string stderr,
-                                                  int exitCode) {
+                                                  int exitCode)
+        {
             return String.Format(
                 "{0} '{1} {2}'\n" +
                 "stdout:\n" +

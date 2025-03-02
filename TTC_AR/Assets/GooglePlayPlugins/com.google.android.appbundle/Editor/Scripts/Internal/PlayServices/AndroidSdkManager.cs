@@ -27,7 +27,8 @@ namespace Google.Android.AppBundle.Editor.Internal.PlayServices
     /// <summary>
     /// Subset of Android SDK package metadata required for installation.
     /// </summary>
-    public class AndroidSdkPackageNameVersion {
+    public class AndroidSdkPackageNameVersion
+    {
         /// Converts and old "android" package manager package name to a new "sdkmanager" package
         /// name.
         private static Dictionary<string, string> OLD_TO_NEW_PACKAGE_NAME_PREFIX =
@@ -70,10 +71,13 @@ namespace Google.Android.AppBundle.Editor.Internal.PlayServices
         /// Escape components that should not be converted by LegacyName.
         /// </summary>
         /// <returns>Escaped package name.</returns>
-        private string EscapeComponents(string packageName) {
-            foreach (var componentRegex in PRESERVED_PACKAGE_NAME_COMPONENTS) {
+        private string EscapeComponents(string packageName)
+        {
+            foreach (var componentRegex in PRESERVED_PACKAGE_NAME_COMPONENTS)
+            {
                 var match = componentRegex.Match(packageName);
-                if (match.Success) {
+                if (match.Success)
+                {
                     var prefix = packageName.Substring(0, match.Index);
                     var postfix = packageName.Substring(match.Index + match.Length);
                     // Exclaimation marks are guaranteed - at the moment - to not be
@@ -88,18 +92,23 @@ namespace Google.Android.AppBundle.Editor.Internal.PlayServices
         /// Un-escaped components that should not be converted by LegacyName.
         /// </summary>
         /// <returns>Un-escaped package name.</returns>
-        private string UnescapeComponents(string packageName) {
+        private string UnescapeComponents(string packageName)
+        {
             return packageName.Replace("!", "-");
         }
 
         /// <summary>
         /// Convert to / from a legacy package name.
         /// </summary>
-        public string LegacyName {
-            set {
+        public string LegacyName
+        {
+            set
+            {
                 var packageName = UnescapeComponents(EscapeComponents(value).Replace("-", ";"));
-                foreach (var kv in OLD_TO_NEW_PACKAGE_NAME_PREFIX) {
-                    if (packageName.StartsWith(kv.Key)) {
+                foreach (var kv in OLD_TO_NEW_PACKAGE_NAME_PREFIX)
+                {
+                    if (packageName.StartsWith(kv.Key))
+                    {
                         packageName = kv.Value + packageName.Substring(kv.Key.Length);
                         break;
                     }
@@ -107,10 +116,13 @@ namespace Google.Android.AppBundle.Editor.Internal.PlayServices
                 Name = packageName;
             }
 
-            get {
+            get
+            {
                 var packageName = Name;
-                foreach (var kv in OLD_TO_NEW_PACKAGE_NAME_PREFIX) {
-                    if (packageName.StartsWith(kv.Value)) {
+                foreach (var kv in OLD_TO_NEW_PACKAGE_NAME_PREFIX)
+                {
+                    if (packageName.StartsWith(kv.Value))
+                    {
                         packageName = kv.Key + packageName.Substring(kv.Value.Length);
                         break;
                     }
@@ -123,11 +135,14 @@ namespace Google.Android.AppBundle.Editor.Internal.PlayServices
         /// Convert to / from a package path to name.
         /// </summary>
         /// Android SDK package names are derived from their path relative to the SDK directory.
-        public string Path {
-            set {
+        public string Path
+        {
+            set
+            {
                 Name = value.Replace("\\", "/").Replace("/", ";");
             }
-            get {
+            get
+            {
                 return Name.Replace(";", System.IO.Path.PathSeparator.ToString());
             }
         }
@@ -145,14 +160,16 @@ namespace Google.Android.AppBundle.Editor.Internal.PlayServices
         /// <summary>
         /// Get a string representation of this object.
         /// </summary>
-        public override string ToString() {
+        public override string ToString()
+        {
             return String.Format("{0} ({1})", Name, VersionString);
         }
 
         /// <summary>
         /// Hash the name of this package.
         /// </summary>
-        public override int GetHashCode() {
+        public override int GetHashCode()
+        {
             return Name.GetHashCode();
         }
 
@@ -161,7 +178,8 @@ namespace Google.Android.AppBundle.Editor.Internal.PlayServices
         /// </summary>
         /// <param name="obj">Object to compare with.</param>
         /// <returns>true if both objects have the same name, false otherwise.</returns>
-        public override bool Equals(System.Object obj) {
+        public override bool Equals(System.Object obj)
+        {
             var pkg = obj as AndroidSdkPackageNameVersion;
             return pkg != null && pkg.Name == Name;
         }
@@ -173,17 +191,22 @@ namespace Google.Android.AppBundle.Editor.Internal.PlayServices
         /// <param name="componentMultiplier">Value to multiply each component by.</param>
         /// <returns>An integer representation of the version string.</returns>
         public static long ConvertVersionStringToInteger(string versionString,
-                                                         long componentMultiplier = 1000000) {
+                                                         long componentMultiplier = 1000000)
+        {
             if (String.IsNullOrEmpty(versionString)) return 0;
-            var components = versionString.Split(new [] { '.' });
+            var components = versionString.Split(new[] { '.' });
             long versionInteger = 0;
             long currentMultiplier = 1;
             Array.Reverse(components);
-            foreach (var component in components) {
+            foreach (var component in components)
+            {
                 long componentInteger = 0;
-                try {
+                try
+                {
                     componentInteger = Convert.ToInt64(component);
-                } catch (FormatException) {
+                }
+                catch (FormatException)
+                {
                     PlayServicesResolver.Log(
                         String.Format("Unable to convert version string {0} to " +
                                       "integer value", versionString),
@@ -202,9 +225,11 @@ namespace Google.Android.AppBundle.Editor.Internal.PlayServices
         /// <param name="packages">List of packages to write to a string.</param>
         /// <returns>Bulleted list of package name / versions.</returns>
         public static string ListToString(
-                IEnumerable<AndroidSdkPackageNameVersion> packages) {
+                IEnumerable<AndroidSdkPackageNameVersion> packages)
+        {
             var packageAndVersion = new List<string>();
-            foreach (var pkg in packages) {
+            foreach (var pkg in packages)
+            {
                 packageAndVersion.Add(String.Format(
                     "* {0} {1}", pkg.Name,
                     !String.IsNullOrEmpty(pkg.VersionString) ?
@@ -217,7 +242,8 @@ namespace Google.Android.AppBundle.Editor.Internal.PlayServices
     /// <summary>
     /// Describes an Android SDK package.
     /// </summary>
-    public class AndroidSdkPackage : AndroidSdkPackageNameVersion {
+    public class AndroidSdkPackage : AndroidSdkPackageNameVersion
+    {
 
         /// <summary>
         /// Human readable description of the package.
@@ -236,13 +262,17 @@ namespace Google.Android.AppBundle.Editor.Internal.PlayServices
         /// <param name="packageDirectory">Directory containing the package relative to
         /// sdkDirectory.</param>
         public static AndroidSdkPackage ReadFromSourceProperties(string sdkDirectory,
-                                                                 string packageDirectory) {
+                                                                 string packageDirectory)
+        {
             var propertiesPath = System.IO.Path.Combine(
                 sdkDirectory, System.IO.Path.Combine(packageDirectory, "source.properties"));
             string propertiesText = null;
-            try {
+            try
+            {
                 propertiesText = File.ReadAllText(propertiesPath);
-            } catch (Exception e) {
+            }
+            catch (Exception e)
+            {
                 PlayServicesResolver.Log(String.Format("Unable to read {0}\n{1}\n",
                                                       propertiesPath, e.ToString()),
                                          level: LogLevel.Verbose);
@@ -252,14 +282,18 @@ namespace Google.Android.AppBundle.Editor.Internal.PlayServices
             var sdkPackage = new AndroidSdkPackage { Path = packageDirectory };
             const string VERSION_FIELD_NAME = "Pkg.Revision=";
             const string DESCRIPTION_FIELD_NAME = "Pkg.Desc=";
-            foreach (var rawLine in CommandLine.SplitLines(propertiesText)) {
+            foreach (var rawLine in CommandLine.SplitLines(propertiesText))
+            {
                 var line = rawLine.Trim();
                 // Ignore comments.
                 if (line.StartsWith("#")) continue;
                 // Parse fields
-                if (line.StartsWith(VERSION_FIELD_NAME)) {
+                if (line.StartsWith(VERSION_FIELD_NAME))
+                {
                     sdkPackage.VersionString = line.Substring(VERSION_FIELD_NAME.Length);
-                } else if (line.StartsWith(DESCRIPTION_FIELD_NAME)) {
+                }
+                else if (line.StartsWith(DESCRIPTION_FIELD_NAME))
+                {
                     sdkPackage.Description = line.Substring(DESCRIPTION_FIELD_NAME.Length);
                 }
             }
@@ -270,14 +304,16 @@ namespace Google.Android.AppBundle.Editor.Internal.PlayServices
     /// <summary>
     /// Collection of AndroidSdkPackage instances indexed by package name.
     /// </summary>
-    public class AndroidSdkPackageCollection {
+    public class AndroidSdkPackageCollection
+    {
         private Dictionary<string, List<AndroidSdkPackage>> packages =
             new Dictionary<string, List<AndroidSdkPackage>>();
 
         /// <summary>
         /// Get the set of package names in the collection.
         /// </summary>
-        public List<string> PackageNames {
+        public List<string> PackageNames
+        {
             get { return new List<string>(packages.Keys); }
         }
 
@@ -285,10 +321,13 @@ namespace Google.Android.AppBundle.Editor.Internal.PlayServices
         /// Get the list of package metadata by package name.
         /// </summary>
         /// <returns>List of package metadata.</returns>
-        public List<AndroidSdkPackage> this[string packageName] {
-            get {
+        public List<AndroidSdkPackage> this[string packageName]
+        {
+            get
+            {
                 List<AndroidSdkPackage> packageList = null;
-                if (!packages.TryGetValue(packageName, out packageList)) {
+                if (!packages.TryGetValue(packageName, out packageList))
+                {
                     packageList = new List<AndroidSdkPackage>();
                     packages[packageName] = packageList;
                 }
@@ -300,15 +339,19 @@ namespace Google.Android.AppBundle.Editor.Internal.PlayServices
         /// Get the most recent available version of a specified package, prefering installed.
         /// </summary>
         /// <returns>The package if it's available, null otherwise.</returns>
-        public AndroidSdkPackage GetMostRecentAvailablePackage(string packageName) {
+        public AndroidSdkPackage GetMostRecentAvailablePackage(string packageName)
+        {
             var list = this[packageName];
-            if (list == null || !list.Any()) {
+            if (list == null || !list.Any())
+            {
                 return null;
             }
             var maxVersion = list.Max(p => p.Version);
             AndroidSdkPackage mostRecentPackage = null;
-            foreach (var package in list) {
-                if (package.Version == maxVersion && (mostRecentPackage == null || !mostRecentPackage.Installed)) {
+            foreach (var package in list)
+            {
+                if (package.Version == maxVersion && (mostRecentPackage == null || !mostRecentPackage.Installed))
+                {
                     mostRecentPackage = package;
                 }
             }
@@ -319,8 +362,10 @@ namespace Google.Android.AppBundle.Editor.Internal.PlayServices
         /// Get installed package metadata by package name.
         /// </summary>
         /// <returns>The package if it's installed, null otherwise.</returns>
-        public AndroidSdkPackage GetInstalledPackage(string packageName) {
-            foreach (var sdkPackage in this[packageName]) {
+        public AndroidSdkPackage GetInstalledPackage(string packageName)
+        {
+            foreach (var sdkPackage in this[packageName])
+            {
                 if (sdkPackage.Installed) return sdkPackage;
             }
             return null;
@@ -330,7 +375,8 @@ namespace Google.Android.AppBundle.Editor.Internal.PlayServices
     /// <summary>
     /// Interface used to interact with Android SDK managers.
     /// </summary>
-    public interface IAndroidSdkManager {
+    public interface IAndroidSdkManager
+    {
         /// <summary>
         /// Use the package manager to retrieve the set of installed and available packages.
         /// </summary>
@@ -347,7 +393,8 @@ namespace Google.Android.AppBundle.Editor.Internal.PlayServices
     }
 
     // Answers Android SDK manager license questions.
-    internal class LicenseResponder : CommandLine.LineReader {
+    internal class LicenseResponder : CommandLine.LineReader
+    {
         // String to match in order to respond.
         private string question;
         // Response to provide to the question.
@@ -358,7 +405,8 @@ namespace Google.Android.AppBundle.Editor.Internal.PlayServices
         /// </summary>
         /// <param name="question">Question to respond to.</param>
         /// <param name="response">Response to provide.</param>
-        public LicenseResponder(string question, string response) {
+        public LicenseResponder(string question, string response)
+        {
             this.question = question;
             this.response = response;
             LineHandler += CheckAndRespond;
@@ -366,20 +414,26 @@ namespace Google.Android.AppBundle.Editor.Internal.PlayServices
 
         // Respond license questions with the "response".
         public void CheckAndRespond(Process process, StreamWriter stdin,
-                                    CommandLine.StreamData data) {
+                                    CommandLine.StreamData data)
+        {
             if (process.HasExited) return;
 
             if ((data.data != null && data.text.Contains(question)) ||
-                CommandLine.LineReader.Aggregate(GetBufferedData(0)).text.Contains(question)) {
+                CommandLine.LineReader.Aggregate(GetBufferedData(0)).text.Contains(question))
+            {
                 Flush();
                 // Ignore I/O exceptions as this could race with the process exiting.
-                try {
+                try
+                {
                     foreach (byte b in System.Text.Encoding.UTF8.GetBytes(
-                                 response + System.Environment.NewLine)) {
+                                 response + System.Environment.NewLine))
+                    {
                         stdin.BaseStream.WriteByte(b);
                     }
                     stdin.BaseStream.Flush();
-                } catch (System.IO.IOException) {
+                }
+                catch (System.IO.IOException)
+                {
                 }
             }
         }
@@ -388,7 +442,8 @@ namespace Google.Android.AppBundle.Editor.Internal.PlayServices
     /// <summary>
     /// Utility methods for implementations of IAndroidSdkManager.
     /// </summary>
-    internal class SdkManagerUtil {
+    internal class SdkManagerUtil
+    {
 
         /// <summary>
         /// Message displayed if a package query operation fails.
@@ -408,7 +463,8 @@ namespace Google.Android.AppBundle.Editor.Internal.PlayServices
         /// <param name="toolArguments">Arguments to pass to the tool.</param>
         /// <param name="complete">Called when the query is complete.</param>
         public static void QueryPackages(string toolPath, string toolArguments,
-                                         Action<CommandLine.Result> complete) {
+                                         Action<CommandLine.Result> complete)
+        {
             var window = CommandLineDialog.CreateCommandLineDialog(
                 "Querying Android SDK packages");
             PlayServicesResolver.Log(String.Format("Query Android SDK packages\n" +
@@ -422,7 +478,8 @@ namespace Google.Android.AppBundle.Editor.Internal.PlayServices
             window.autoScrollToBottom = true;
             window.RunAsync(
                 toolPath, toolArguments,
-                (CommandLine.Result result) => {
+                (CommandLine.Result result) =>
+                {
                     HandleProcessExited(result, window);
                     complete(result);
                 },
@@ -446,7 +503,8 @@ namespace Google.Android.AppBundle.Editor.Internal.PlayServices
                 string toolPath, string toolArguments,
                 HashSet<AndroidSdkPackageNameVersion> packages,
                 string licenseQuestion, string licenseAgree, string licenseDecline,
-                Regex licenseTextHeader, Action<bool> complete) {
+                Regex licenseTextHeader, Action<bool> complete)
+        {
             PlayServicesResolver.Log(String.Format("Install Android SDK packages\n" +
                                                    "\n" +
                                                    "{0} {1}\n",
@@ -456,19 +514,23 @@ namespace Google.Android.AppBundle.Editor.Internal.PlayServices
             DisplayInstallLicenseDialog(
                 toolPath, toolArguments, true,
                 new LicenseResponder(licenseQuestion, licenseDecline), packages,
-                (CommandLine.Result licensesResult) => {
-                    if (licensesResult.exitCode != 0) {
+                (CommandLine.Result licensesResult) =>
+                {
+                    if (licensesResult.exitCode != 0)
+                    {
                         complete(false);
                         return;
                     }
                     // Get the license text.
                     var licensesLines = new List<string>();
                     bool foundLicenses = false;
-                    foreach (var line in CommandLine.SplitLines(licensesResult.stdout)) {
+                    foreach (var line in CommandLine.SplitLines(licensesResult.stdout))
+                    {
                         foundLicenses = foundLicenses || licenseTextHeader.Match(line).Success;
                         if (foundLicenses) licensesLines.Add(line);
                     }
-                    if (licensesLines.Count == 0) {
+                    if (licensesLines.Count == 0)
+                    {
                         LogInstallLicenseResult(toolPath, toolArguments, false, packages,
                                                 licensesResult);
                         complete(true);
@@ -477,8 +539,10 @@ namespace Google.Android.AppBundle.Editor.Internal.PlayServices
                     // Display the license agreement dialog.
                     DisplayLicensesDialog(
                         String.Join("\n", licensesLines.ToArray()),
-                        (bool agreed) => {
-                            if (!agreed) {
+                        (bool agreed) =>
+                        {
+                            if (!agreed)
+                            {
                                 complete(false);
                                 return;
                             }
@@ -486,7 +550,8 @@ namespace Google.Android.AppBundle.Editor.Internal.PlayServices
                             DisplayInstallLicenseDialog(
                                 toolPath, toolArguments, false,
                                 new LicenseResponder(licenseQuestion, licenseAgree), packages,
-                                (CommandLine.Result installResult) => {
+                                (CommandLine.Result installResult) =>
+                                {
                                     complete(installResult.exitCode == 0);
                                 });
                         });
@@ -504,9 +569,11 @@ namespace Google.Android.AppBundle.Editor.Internal.PlayServices
         private static void LogInstallLicenseResult(
                 string toolPath, string toolArguments, bool retrievingLicenses,
                 IEnumerable<AndroidSdkPackageNameVersion> packages,
-                CommandLine.Result toolResult) {
+                CommandLine.Result toolResult)
+        {
             bool succeeded = toolResult.exitCode == 0;
-            if (!retrievingLicenses || !succeeded) {
+            if (!retrievingLicenses || !succeeded)
+            {
                 var failedMessage = retrievingLicenses ?
                     "Failed to retrieve Android SDK package licenses.\n\n" +
                     "Aborted installation of the following packages:\n" :
@@ -537,7 +604,8 @@ namespace Google.Android.AppBundle.Editor.Internal.PlayServices
                 string toolPath, string toolArguments, bool retrievingLicenses,
                 LicenseResponder licenseResponder,
                 IEnumerable<AndroidSdkPackageNameVersion> packages,
-                Action<CommandLine.Result> complete) {
+                Action<CommandLine.Result> complete)
+        {
             var summary = retrievingLicenses ?
                 "Attempting Android SDK package installation..." : DIALOG_TITLE + "...";
             var window = CommandLineDialog.CreateCommandLineDialog(DIALOG_TITLE);
@@ -552,7 +620,8 @@ namespace Google.Android.AppBundle.Editor.Internal.PlayServices
                                      level: LogLevel.Verbose);
             window.RunAsync(
                 toolPath, toolArguments,
-                (CommandLine.Result result) => {
+                (CommandLine.Result result) =>
+                {
                     HandleProcessExited(result, window);
                     LogInstallLicenseResult(toolPath, toolArguments, retrievingLicenses, packages,
                                             result);
@@ -569,10 +638,14 @@ namespace Google.Android.AppBundle.Editor.Internal.PlayServices
         /// </summary>
         /// <param name="result">The result of the process execution.</param>
         /// <param name="window">The window that should be adjusted based on the process execution result.</param>
-        private static void HandleProcessExited(CommandLine.Result result, CommandLineDialog window) {
-            if (result.exitCode == 0) {
+        private static void HandleProcessExited(CommandLine.Result result, CommandLineDialog window)
+        {
+            if (result.exitCode == 0)
+            {
                 window.Close();
-            } else {
+            }
+            else
+            {
                 PlayServicesResolver.Log(string.Format(PACKAGES_MISSING, result.message));
                 window.noText = "Close";
                 // After adding the button we need to scroll down a little more.
@@ -586,7 +659,8 @@ namespace Google.Android.AppBundle.Editor.Internal.PlayServices
         /// </summary>
         /// <param name="licenses">String containing the licenses to display.</param>
         /// <param name="complete">Called when the user agrees / disagrees to the licenses.</param>
-        private static void DisplayLicensesDialog(string licenses, Action<bool> complete) {
+        private static void DisplayLicensesDialog(string licenses, Action<bool> complete)
+        {
             var window = CommandLineDialog.CreateCommandLineDialog(DIALOG_TITLE);
             window.summaryText = "License agreement(s) required to install Android SDK packages";
             window.modal = false;
@@ -595,9 +669,11 @@ namespace Google.Android.AppBundle.Editor.Internal.PlayServices
             window.noText = "decline";
             window.result = false;
             window.Repaint();
-            window.buttonClicked = (TextAreaDialog dialog) => {
+            window.buttonClicked = (TextAreaDialog dialog) =>
+            {
                 window.Close();
-                if (!dialog.result) {
+                if (!dialog.result)
+                {
                     complete(false);
                     return;
                 }
@@ -610,7 +686,8 @@ namespace Google.Android.AppBundle.Editor.Internal.PlayServices
     /// <summary>
     /// Interacts with the legacy Android SDK manager "android".
     /// </summary>
-    internal class AndroidToolSdkManager : IAndroidSdkManager {
+    internal class AndroidToolSdkManager : IAndroidSdkManager
+    {
         /// Name of the SDK manager command line tool.
         public const string TOOL_NAME = "android";
 
@@ -642,7 +719,8 @@ namespace Google.Android.AppBundle.Editor.Internal.PlayServices
         /// </summary>
         /// <param name="toolPath">Path of the android tool.</param>
         /// <param name="sdkPath">Required to validate that a package is really installed.</param>
-        public AndroidToolSdkManager(string toolPath, string sdkPath) {
+        public AndroidToolSdkManager(string toolPath, string sdkPath)
+        {
             this.toolPath = toolPath;
             this.sdkPath = sdkPath;
         }
@@ -650,15 +728,18 @@ namespace Google.Android.AppBundle.Editor.Internal.PlayServices
         /// <summary>
         /// Determines whether this is the legacy tool or the sdkmanager wrapper.
         /// </summary>
-        public bool IsWrapper {
-            get {
+        public bool IsWrapper
+        {
+            get
+            {
                 // It's only possible to differentiate between the "android" package manager or
                 // sdkmanager wrapper by searching the output string for "deprecated" which is
                 // present in the wrapper.
                 var result = CommandLine.Run(
                     toolPath, "list sdk",
                     envVars: new Dictionary<string, string> { { "USE_SDK_WRAPPER", "1" } });
-                if (result.stdout.IndexOf("deprecated") >= 0) {
+                if (result.stdout.IndexOf("deprecated") >= 0)
+                {
                     return true;
                 }
                 return false;
@@ -669,19 +750,23 @@ namespace Google.Android.AppBundle.Editor.Internal.PlayServices
         /// Parse "android list sdk -u -e -a" output.
         /// </summary>
         private AndroidSdkPackageCollection ParseAndroidListSdkOutput(
-                string androidListSdkOutput) {
+                string androidListSdkOutput)
+        {
             var packages = new AndroidSdkPackageCollection();
             AndroidSdkPackage currentPackage = null;
-            foreach (string line in CommandLine.SplitLines(androidListSdkOutput)) {
+            foreach (string line in CommandLine.SplitLines(androidListSdkOutput))
+            {
                 // Check for the start of a new package entry.
-                if (line.StartsWith("---")) {
+                if (line.StartsWith("---"))
+                {
                     currentPackage = null;
                     continue;
                 }
                 Match match;
                 // If this is the start of a package description, add a package.
                 match = PACKAGE_ID_REGEX.Match(line);
-                if (match.Success) {
+                if (match.Success)
+                {
                     // TODO(smiles): Convert the legacy package name to a new package name.
                     currentPackage = new AndroidSdkPackage { LegacyName = match.Groups[1].Value };
                     packages[currentPackage.Name].Add(currentPackage);
@@ -691,13 +776,15 @@ namespace Google.Android.AppBundle.Editor.Internal.PlayServices
 
                 // Add a package description.
                 match = PACKAGE_DESCRIPTION_REGEX.Match(line);
-                if (match.Success) {
+                if (match.Success)
+                {
                     currentPackage.Description = match.Groups[1].Value;
                     continue;
                 }
                 // Parse the install path and record whether the package is installed.
                 match = PACKAGE_INSTALL_LOCATION_REGEX.Match(line);
-                if (match.Success) {
+                if (match.Success)
+                {
                     currentPackage.Installed = File.Exists(
                         Path.Combine(Path.Combine(sdkPath, match.Groups[1].Value),
                                      "source.properties"));
@@ -710,10 +797,12 @@ namespace Google.Android.AppBundle.Editor.Internal.PlayServices
         /// Use the package manager to retrieve the set of installed and available packages.
         /// </summary>
         /// <param name="complete">Called when the query is complete.</param>
-        public void QueryPackages(Action<AndroidSdkPackageCollection> complete) {
+        public void QueryPackages(Action<AndroidSdkPackageCollection> complete)
+        {
             SdkManagerUtil.QueryPackages(
                 toolPath, "list sdk -u -e -a",
-                (CommandLine.Result result) => {
+                (CommandLine.Result result) =>
+                {
                     complete(result.exitCode == 0 ?
                              ParseAndroidListSdkOutput(result.stdout) : null);
                 });
@@ -725,7 +814,8 @@ namespace Google.Android.AppBundle.Editor.Internal.PlayServices
         /// <param name="packages">List of package versions to install / upgrade.</param>
         /// <param name="complete">Called when installation is complete.</param>
         public void InstallPackages(HashSet<AndroidSdkPackageNameVersion> packages,
-                                    Action<bool> complete) {
+                                    Action<bool> complete)
+        {
             var packageNames = new List<string>();
             foreach (var pkg in packages) packageNames.Add(pkg.LegacyName);
             SdkManagerUtil.InstallPackages(
@@ -739,7 +829,8 @@ namespace Google.Android.AppBundle.Editor.Internal.PlayServices
     /// <summary>
     /// Interacts with the Android SDK manager "sdkmanager".
     /// </summary>
-    internal class SdkManager : IAndroidSdkManager {
+    internal class SdkManager : IAndroidSdkManager
+    {
         /// Name of the SDK manager command line tool.
         public const string TOOL_NAME = "sdkmanager";
 
@@ -763,7 +854,8 @@ namespace Google.Android.AppBundle.Editor.Internal.PlayServices
         /// Initialize this instance.
         /// </summary>
         /// <param name="toolPath">Path of the android tool.</param>
-        public SdkManager(string toolPath) {
+        public SdkManager(string toolPath)
+        {
             this.toolPath = toolPath;
             var toolsDir = Path.GetDirectoryName(Path.GetDirectoryName(toolPath));
             var sdkDir = Path.GetDirectoryName(toolsDir);
@@ -781,7 +873,8 @@ namespace Google.Android.AppBundle.Editor.Internal.PlayServices
         /// NOTE: The --verbose output format is only reported by sdkmanager 26.0.2 and above.
         /// </summary>
         private AndroidSdkPackageCollection ParseListVerboseOutput(
-                string sdkManagerListVerboseOutput) {
+                string sdkManagerListVerboseOutput)
+        {
             var packages = new AndroidSdkPackageCollection();
             // Whether we're parsing a set of packages.
             bool parsingPackages = false;
@@ -789,52 +882,71 @@ namespace Google.Android.AppBundle.Editor.Internal.PlayServices
             bool parsingInstalledPackages = false;
             // Fields of the package being parsed.
             AndroidSdkPackage currentPackage = null;
-            foreach (var rawLine in CommandLine.SplitLines(sdkManagerListVerboseOutput)) {
+            foreach (var rawLine in CommandLine.SplitLines(sdkManagerListVerboseOutput))
+            {
                 var line = rawLine.Trim();
                 var lowerCaseLine = line.ToLower();
-                if (lowerCaseLine == AVAILABLE_UPDATES_HEADER) {
+                if (lowerCaseLine == AVAILABLE_UPDATES_HEADER)
+                {
                     parsingPackages = false;
                     continue;
                 }
                 bool installedPackagesLine = lowerCaseLine == INSTALLED_PACKAGES_HEADER;
                 bool availablePackagesLine = lowerCaseLine == AVAILABLE_PACKAGES_HEADER;
-                if (installedPackagesLine || availablePackagesLine) {
+                if (installedPackagesLine || availablePackagesLine)
+                {
                     parsingPackages = true;
                     parsingInstalledPackages = installedPackagesLine;
                     continue;
-                } else if (line.StartsWith("---")) {
+                }
+                else if (line.StartsWith("---"))
+                {
                     // Ignore section separators.
                     continue;
-                } else if (String.IsNullOrEmpty(line)) {
+                }
+                else if (String.IsNullOrEmpty(line))
+                {
                     if (currentPackage != null &&
                         !(String.IsNullOrEmpty(currentPackage.Name) ||
-                          String.IsNullOrEmpty(currentPackage.VersionString))) {
+                          String.IsNullOrEmpty(currentPackage.VersionString)))
+                    {
                         packages[currentPackage.Name].Add(currentPackage);
                     }
                     currentPackage = null;
                     continue;
-                } else if (!parsingPackages) {
+                }
+                else if (!parsingPackages)
+                {
                     continue;
                 }
                 // Fields of the package are indented.
                 bool indentedLine = rawLine.StartsWith("    ");
-                if (!indentedLine) {
+                if (!indentedLine)
+                {
                     // If this isn't an indented line it should be a package name.
-                    if (currentPackage == null) {
-                        currentPackage = new AndroidSdkPackage {
+                    if (currentPackage == null)
+                    {
+                        currentPackage = new AndroidSdkPackage
+                        {
                             Name = line,
                             Installed = parsingInstalledPackages
                         };
                     }
-                } else if (currentPackage != null) {
+                }
+                else if (currentPackage != null)
+                {
                     // Parse the package field.
                     var fieldSeparatorIndex = line.IndexOf(":");
-                    if (fieldSeparatorIndex >= 0) {
+                    if (fieldSeparatorIndex >= 0)
+                    {
                         var fieldName = line.Substring(0, fieldSeparatorIndex).Trim().ToLower();
                         var fieldValue = line.Substring(fieldSeparatorIndex + 1).Trim();
-                        if (fieldName == "description") {
+                        if (fieldName == "description")
+                        {
                             currentPackage.Description = fieldValue;
-                        } else if (fieldName == "version") {
+                        }
+                        else if (fieldName == "version")
+                        {
                             currentPackage.VersionString = fieldValue;
                         }
                     }
@@ -848,7 +960,8 @@ namespace Google.Android.AppBundle.Editor.Internal.PlayServices
         /// </summary>
         /// <returns>Dictionary of packages bucketed by package name</returns>
         private AndroidSdkPackageCollection ParseListOutput(
-                string sdkManagerListOutput) {
+                string sdkManagerListOutput)
+        {
             var packages = new AndroidSdkPackageCollection();
             // Whether we're parsing a set of packages.
             bool parsingPackages = false;
@@ -856,48 +969,56 @@ namespace Google.Android.AppBundle.Editor.Internal.PlayServices
             bool parsingInstalledPackages = false;
             // Whether we're parsing the contents of the package table vs. the header.
             bool inPackageTable = false;
-            foreach (var rawLine in CommandLine.SplitLines(sdkManagerListOutput)) {
+            foreach (var rawLine in CommandLine.SplitLines(sdkManagerListOutput))
+            {
                 var line = rawLine.Trim();
                 var lowerCaseLine = line.ToLower();
-                if (lowerCaseLine == AVAILABLE_UPDATES_HEADER) {
+                if (lowerCaseLine == AVAILABLE_UPDATES_HEADER)
+                {
                     parsingPackages = false;
                     continue;
                 }
                 bool installedPackagesLine = lowerCaseLine == INSTALLED_PACKAGES_HEADER;
                 bool availablePackagesLine = lowerCaseLine == AVAILABLE_PACKAGES_HEADER;
-                if (installedPackagesLine || availablePackagesLine) {
+                if (installedPackagesLine || availablePackagesLine)
+                {
                     parsingPackages = true;
                     parsingInstalledPackages = installedPackagesLine;
                     inPackageTable = false;
                     continue;
                 }
                 if (!parsingPackages) continue;
-                if (!inPackageTable) {
+                if (!inPackageTable)
+                {
                     // If we've reached end of the table header, start parsing the set of packages.
-                    if (line.StartsWith("----")) {
+                    if (line.StartsWith("----"))
+                    {
                         inPackageTable = true;
                     }
                     continue;
                 }
                 // Split into the fields package_name|version|description|location.
                 // Where "location" is an optional field that contains the install path.
-                var rawTokens = line.Split(new [] { '|' });
-                if (rawTokens.Length < 3 || String.IsNullOrEmpty(line)) {
+                var rawTokens = line.Split(new[] { '|' });
+                if (rawTokens.Length < 3 || String.IsNullOrEmpty(line))
+                {
                     parsingPackages = false;
                     continue;
                 }
                 // Each field is surrounded by whitespace so trim the fields.
                 string[] tokens = new string[rawTokens.Length];
-                for (int i = 0; i < rawTokens.Length; ++i) {
+                for (int i = 0; i < rawTokens.Length; ++i)
+                {
                     tokens[i] = rawTokens[i].Trim();
                 }
                 var packageName = tokens[0];
-                packages[packageName].Add(new AndroidSdkPackage {
-                        Name = packageName,
-                        Description = tokens[2],
-                        VersionString = tokens[1],
-                        Installed = parsingInstalledPackages
-                    });
+                packages[packageName].Add(new AndroidSdkPackage
+                {
+                    Name = packageName,
+                    Description = tokens[2],
+                    VersionString = tokens[1],
+                    Installed = parsingInstalledPackages
+                });
             }
             return packages;
         }
@@ -906,12 +1027,14 @@ namespace Google.Android.AppBundle.Editor.Internal.PlayServices
         /// Use the package manager to retrieve the set of installed and available packages.
         /// </summary>
         /// <param name="complete">Called when the query is complete.</param>
-        public void QueryPackages(Action<AndroidSdkPackageCollection> complete) {
+        public void QueryPackages(Action<AndroidSdkPackageCollection> complete)
+        {
             bool useVerbose = Package != null &&
                 Package.Version >= MINIMUM_VERSION_FOR_VERBOSE_OUTPUT;
             SdkManagerUtil.QueryPackages(
                 toolPath, "--list" + (useVerbose ? " --verbose" : ""),
-                (CommandLine.Result result) => {
+                (CommandLine.Result result) =>
+                {
                     complete(result.exitCode == 0 ?
                                 useVerbose ? ParseListVerboseOutput(result.stdout) :
                                    ParseListOutput(result.stdout) :
@@ -938,7 +1061,8 @@ namespace Google.Android.AppBundle.Editor.Internal.PlayServices
     /// <summary>
     /// Interacts with the available Android SDK package manager.
     /// </summary>
-    public class AndroidSdkManager {
+    public class AndroidSdkManager
+    {
         /// <summary>
         /// Find a tool in the Android SDK.
         /// </summary>
@@ -946,22 +1070,30 @@ namespace Google.Android.AppBundle.Editor.Internal.PlayServices
         /// <param name="sdkPath">SDK path to search for the tool.  If this is null or empty, the
         // system path is searched instead.</param>
         /// <returns>String with the path to the tool if found, null otherwise.</returns>
-        private static string FindAndroidSdkTool(string toolName, string sdkPath = null) {
-            if (String.IsNullOrEmpty(sdkPath)) {
+        private static string FindAndroidSdkTool(string toolName, string sdkPath = null)
+        {
+            if (String.IsNullOrEmpty(sdkPath))
+            {
                 PlayServicesResolver.Log(String.Format(
                     "Falling back to searching for the Android SDK tool {0} in the system path.",
                     toolName));
-            } else {
+            }
+            else
+            {
                 var extensions = new List<string> { CommandLine.GetExecutableExtension() };
                 if (UnityEngine.RuntimePlatform.WindowsEditor ==
-                    UnityEngine.Application.platform) {
-                    extensions.AddRange(new [] { ".bat", ".cmd" });
+                    Application.platform)
+                {
+                    extensions.AddRange(new[] { ".bat", ".cmd" });
                 }
-                foreach (var dir in new [] { "tools", Path.Combine("tools", "bin") }) {
-                    foreach (var extension in extensions) {
+                foreach (var dir in new[] { "tools", Path.Combine("tools", "bin") })
+                {
+                    foreach (var extension in extensions)
+                    {
                         var currentPath = Path.Combine(sdkPath,
                                                        Path.Combine(dir, toolName + extension));
-                        if (File.Exists(currentPath)) {
+                        if (File.Exists(currentPath))
+                        {
                             return currentPath;
                         }
                     }
@@ -975,7 +1107,8 @@ namespace Google.Android.AppBundle.Editor.Internal.PlayServices
         /// Log an error and complete a Create() operation.
         /// </summary>
         /// <param name="complete">Action called with null.</param>
-        private static void CreateFailed(Action<IAndroidSdkManager> complete) {
+        private static void CreateFailed(Action<IAndroidSdkManager> complete)
+        {
             PlayServicesResolver.Log(String.Format(
                 "Unable to find either the {0} or {1} command line tool.\n\n" +
                 "It is not possible to query or install Android SDK packages.\n" +
@@ -993,31 +1126,42 @@ namespace Google.Android.AppBundle.Editor.Internal.PlayServices
         /// <param name="androidSdkRoot">The path to the Android SDK root folder.</param>
         /// <param name="complete">Used to report a AndroidSdkManager instance if a SDK manager is
         /// available, returns null otherwise.</param>
-        public static void Create(string androidSdkRoot, Action<IAndroidSdkManager> complete) {
+        public static void Create(string androidSdkRoot, Action<IAndroidSdkManager> complete)
+        {
             // Search for the new package manager
             var sdkManagerTool = FindAndroidSdkTool(SdkManager.TOOL_NAME, androidSdkRoot);
-            if (sdkManagerTool != null) {
+            if (sdkManagerTool != null)
+            {
                 var sdkManager = new SdkManager(sdkManagerTool);
                 var sdkManagerPackage = sdkManager.Package;
-                if (sdkManagerPackage != null) {
+                if (sdkManagerPackage != null)
+                {
                     // If the package manager is out of date, try updating it.
-                    if (sdkManagerPackage.Version < SdkManager.MINIMUM_VERSION_FOR_VERBOSE_OUTPUT) {
+                    if (sdkManagerPackage.Version < SdkManager.MINIMUM_VERSION_FOR_VERBOSE_OUTPUT)
+                    {
                         sdkManager.QueryPackages(
-                            (AndroidSdkPackageCollection packages) => {
+                            (AndroidSdkPackageCollection packages) =>
+                            {
                                 sdkManagerPackage = packages.GetMostRecentAvailablePackage(
                                     sdkManagerPackage.Name);
-                                if (sdkManagerPackage != null) {
+                                if (sdkManagerPackage != null)
+                                {
                                     sdkManager.InstallPackages(
                                         new HashSet<AndroidSdkPackageNameVersion>(
-                                            new [] { sdkManagerPackage }),
-                                        (bool success) => {
+                                            new[] { sdkManagerPackage }),
+                                        (bool success) =>
+                                        {
                                             complete(success ? sdkManager : null);
                                         });
-                                } else {
+                                }
+                                else
+                                {
                                     CreateFailed(complete);
                                 }
                             });
-                    } else {
+                    }
+                    else
+                    {
                         complete(sdkManager);
                     }
                     return;
@@ -1026,9 +1170,11 @@ namespace Google.Android.AppBundle.Editor.Internal.PlayServices
 
             // Search for the legacy package manager.
             var androidTool = FindAndroidSdkTool("android", androidSdkRoot);
-            if (androidTool != null) {
+            if (androidTool != null)
+            {
                 var sdkManager = new AndroidToolSdkManager(androidTool, androidSdkRoot);
-                if (!sdkManager.IsWrapper) {
+                if (!sdkManager.IsWrapper)
+                {
                     complete(sdkManager);
                     return;
                 }
