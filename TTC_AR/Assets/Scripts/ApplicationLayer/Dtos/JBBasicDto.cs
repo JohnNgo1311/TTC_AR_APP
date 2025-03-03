@@ -1,6 +1,7 @@
 // Application/Dtos/JBDto.cs (chỉ phần liên quan)
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Domain.Entities;
 using Newtonsoft.Json;
 using UnityEngine.Scripting;
@@ -38,13 +39,25 @@ namespace ApplicationLayer.Dtos
         [JsonConstructor]
         public JBRequestDto(string name, string location, List<DeviceBasicDto> deviceBasicDtos, List<ModuleBasicDto> moduleBasicDtos, ImageBasicDto outdoorImageBasicDto, List<ImageBasicDto> connectionImageBasicDtos)
         {
-            Name = name ?? throw new System.ArgumentException(nameof(name));
-            Location = location == "" ? string.Empty : location;
-            DeviceBasicDtos = deviceBasicDtos ?? new List<DeviceBasicDto>();
-            ModuleBasicDtos = moduleBasicDtos ?? new List<ModuleBasicDto>();
+            Name = name;
+            Location = location;
+            DeviceBasicDtos = deviceBasicDtos;
+            ModuleBasicDtos = moduleBasicDtos;
             OutdoorImageBasicDto = outdoorImageBasicDto;
-            ConnectionImageBasicDtos = connectionImageBasicDtos ?? new List<ImageBasicDto>();
+            ConnectionImageBasicDtos = connectionImageBasicDtos;
         }
+
+        // [Preserve]
+        // [JsonConstructor]
+        // public JBRequestDto(string name, string location, List<DeviceBasicDto> deviceBasicDtos, List<ModuleBasicDto> moduleBasicDtos, ImageBasicDto outdoorImageBasicDto, List<ImageBasicDto> connectionImageBasicDtos)
+        // {
+        //     Name = name ?? throw new ArgumentException(nameof(name));
+        //     Location = location == "" ? string.Empty : location;
+        //     DeviceBasicDtos = deviceBasicDtos.Any() ? deviceBasicDtos : new List<DeviceBasicDto>();
+        //     ModuleBasicDtos = moduleBasicDtos.Any() ? moduleBasicDtos : new List<ModuleBasicDto>();
+        //     OutdoorImageBasicDto = outdoorImageBasicDto;
+        //     ConnectionImageBasicDtos = connectionImageBasicDtos.Any() ? connectionImageBasicDtos : new List<ImageBasicDto>();
+        // }
     }
 
     // DTO cho response (GET), có Id
@@ -61,12 +74,22 @@ namespace ApplicationLayer.Dtos
         [JsonConstructor]
         public JBResponseDto(int id, string name, string location, List<DeviceBasicDto> deviceBasicDtos, List<ModuleBasicDto> moduleBasicDtos, ImageResponseDto outdoorImageResponseDto, List<ImageResponseDto> connectionImageResponseDtos) : base(id, name)
         {
-            Location = location == "" ? string.Empty : location;
-            DeviceBasicDtos = deviceBasicDtos ?? new List<DeviceBasicDto>();
-            ModuleBasicDtos = moduleBasicDtos ?? new List<ModuleBasicDto>();
+            Location = location;
+            DeviceBasicDtos = deviceBasicDtos;
+            ModuleBasicDtos = moduleBasicDtos;
             OutdoorImageResponseDto = outdoorImageResponseDto;
-            ConnectionImageResponseDtos = connectionImageResponseDtos ?? new List<ImageResponseDto>();
+            ConnectionImageResponseDtos = connectionImageResponseDtos;
         }
+        // [Preserve]
+        // [JsonConstructor]
+        // public JBResponseDto(int id, string name, string location, List<DeviceBasicDto> deviceBasicDtos, List<ModuleBasicDto> moduleBasicDtos, ImageResponseDto outdoorImageResponseDto, List<ImageResponseDto> connectionImageResponseDtos) : base(id, name)
+        // {
+        //     Location = location == "" ? string.Empty : location;
+        //     DeviceBasicDtos = deviceBasicDtos.Any() ? deviceBasicDtos : new List<DeviceBasicDto>();
+        //     ModuleBasicDtos = moduleBasicDtos.Any() ? moduleBasicDtos : new List<ModuleBasicDto>();
+        //     OutdoorImageResponseDto = outdoorImageResponseDto;
+        //     ConnectionImageResponseDtos = connectionImageResponseDtos.Any() ? connectionImageResponseDtos : new List<ImageResponseDto>();
+        // }
     }
 
     [Preserve]
@@ -80,12 +103,21 @@ namespace ApplicationLayer.Dtos
         [JsonConstructor]
         public JBGeneralDto(int id, string name, string location, ImageResponseDto outdoorImageResponseDto, List<ImageResponseDto> connectionImageResponseDtos) : base(id, name)
         {
-            Location = location == "" ? string.Empty : location;
+            Id = id;
+            Location = location;
             OutdoorImageResponseDto = outdoorImageResponseDto;
-            ConnectionImageResponseDtos = connectionImageResponseDtos ?? new List<ImageResponseDto>();
+            ConnectionImageResponseDtos = connectionImageResponseDtos;
         }
 
-
+        // [Preserve]
+        // [JsonConstructor]
+        // public JBGeneralDto(int id, string name, string location, ImageResponseDto outdoorImageResponseDto, List<ImageResponseDto> connectionImageResponseDtos) : base(id, name)
+        // {
+        //     Id = id;
+        //     Location = location == "" ? string.Empty : location;
+        //     OutdoorImageResponseDto = outdoorImageResponseDto;
+        //     ConnectionImageResponseDtos = connectionImageResponseDtos.Any() ? connectionImageResponseDtos : new List<ImageResponseDto>();
+        // }
     };
 
 }

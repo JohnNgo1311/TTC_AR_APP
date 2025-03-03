@@ -30,6 +30,10 @@ namespace Domain.Entities
       Id = id;
       Name = name == "" ? throw new ArgumentNullException(nameof(name)) : name;
     }
+    public ModuleEntity(string name)
+    {
+      Name = name == "" ? throw new ArgumentNullException(nameof(name)) : name;
+    }
     // [Preserve]
     // [JsonConstructor]
     // public ModuleEntity(int id, string name, int rackId, RackEntity rack, List<DeviceEntity> devices, List<JBEntity> jbs, ModuleSpecificationEntity? moduleSpecification, AdapterSpecificationEntity? adapterSpecification)

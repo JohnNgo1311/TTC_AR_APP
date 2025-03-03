@@ -19,19 +19,23 @@ namespace Domain.Entities
       Id = id;
       Name = name == "" ? throw new ArgumentNullException(nameof(name)) : name;
     }
+
+    public ImageEntity(string name)
+    {
+      Name = name == "" ? throw new ArgumentNullException(nameof(name)) : name;
+    }
     [Preserve]
     [JsonConstructor]
     public ImageEntity()
     {
     }
 
-    // public ImageEntity(int id, string name, byte[] byteString, string url)
-    // {
-    //   Id = id;
-    //   Name = name == "" ? throw new ArgumentNullException(nameof(name)) : name;
-    //   ByteString = byteString;
-    //   Url = url;
-    // }
+    public ImageEntity(int id, string name, string url)
+    {
+      Id = id;
+      Name = name == "" ? throw new ArgumentNullException(nameof(name)) : name;
+      Url = url;
+    }
 
   }
 }

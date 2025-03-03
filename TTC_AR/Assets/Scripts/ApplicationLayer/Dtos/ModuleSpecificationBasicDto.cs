@@ -38,19 +38,37 @@ namespace ApplicationLayer.Dtos
 
     [Preserve]
     [JsonConstructor]
-    public ModuleSpecificationResponseDto(int id, string name, string type, string numOfIO, string signalType, string compatibleTBUs, string operatingVoltage, string operatingCurrent, string flexbusCurrent, string alarm, string note, string pdfManual) : base(id, name)
+    public ModuleSpecificationResponseDto(int id, string code, string type, string numOfIO, string signalType, string compatibleTBUs, string operatingVoltage, string operatingCurrent, string flexbusCurrent, string alarm, string note, string pdfManual) : base(id, code)
     {
-      Type = type == "" ? string.Empty : type;
-      NumOfIO = numOfIO == "" ? string.Empty : numOfIO;
-      SignalType = signalType == "" ? string.Empty : signalType;
-      CompatibleTBUs = compatibleTBUs == "" ? string.Empty : compatibleTBUs;
-      OperatingVoltage = operatingVoltage == "" ? string.Empty : operatingVoltage;
-      OperatingCurrent = operatingCurrent == "" ? string.Empty : operatingCurrent;
-      FlexbusCurrent = flexbusCurrent == "" ? string.Empty : flexbusCurrent;
-      Alarm = alarm == "" ? string.Empty : alarm;
-      Note = note == "" ? string.Empty : note;
-      PdfManual = pdfManual == "" ? string.Empty : pdfManual;
+      Type = type;
+      NumOfIO = numOfIO;
+      SignalType = signalType;
+      CompatibleTBUs = compatibleTBUs;
+      OperatingVoltage = operatingVoltage;
+      OperatingCurrent = operatingCurrent;
+      FlexbusCurrent = flexbusCurrent;
+      Alarm = alarm;
+      Note = note;
+      PdfManual = pdfManual;
     }
+
+    // [Preserve]
+    // [JsonConstructor]
+    // public ModuleSpecificationResponseDto(int id, string code, string type, string numOfIO, string signalType, string compatibleTBUs, string operatingVoltage, string operatingCurrent, string flexbusCurrent, string alarm, string note, string pdfManual) : base(id, name)
+    // {
+    //   Id = id
+    //       Code = code == "" ? throw new System.ArgumentException(nameof(code)) : code;
+    //   Type = type == "" ? string.Empty : type;
+    //   NumOfIO = numOfIO == "" ? string.Empty : numOfIO;
+    //   SignalType = signalType == "" ? string.Empty : signalType;
+    //   CompatibleTBUs = compatibleTBUs == "" ? string.Empty : compatibleTBUs;
+    //   OperatingVoltage = operatingVoltage == "" ? string.Empty : operatingVoltage;
+    //   OperatingCurrent = operatingCurrent == "" ? string.Empty : operatingCurrent;
+    //   FlexbusCurrent = flexbusCurrent == "" ? string.Empty : flexbusCurrent;
+    //   Alarm = alarm == "" ? string.Empty : alarm;
+    //   Note = note == "" ? string.Empty : note;
+    //   PdfManual = pdfManual == "" ? string.Empty : pdfManual;
+    // }
 
   }
 
@@ -78,16 +96,16 @@ namespace ApplicationLayer.Dtos
     {
       Code = code == "" ? throw new System.ArgumentException(nameof(code)) : code;
 
-      Type = type == "" ? string.Empty : type;
-      NumOfIO = numOfIO == "" ? string.Empty : numOfIO;
-      SignalType = signalType == "" ? string.Empty : signalType;
-      CompatibleTBUs = compatibleTBUs == "" ? string.Empty : compatibleTBUs;
-      OperatingVoltage = operatingVoltage == "" ? string.Empty : operatingVoltage;
-      OperatingCurrent = operatingCurrent == "" ? string.Empty : operatingCurrent;
-      FlexbusCurrent = flexbusCurrent == "" ? string.Empty : flexbusCurrent;
-      Alarm = alarm == "" ? string.Empty : alarm;
-      Note = note == "" ? string.Empty : note;
-      PdfManual = pdfManual == "" ? string.Empty : pdfManual;
+      Type = type;
+      NumOfIO = numOfIO;
+      SignalType = signalType;
+      CompatibleTBUs = compatibleTBUs;
+      OperatingVoltage = operatingVoltage;
+      OperatingCurrent = operatingCurrent;
+      FlexbusCurrent = flexbusCurrent;
+      Alarm = alarm;
+      Note = note;
+      PdfManual = pdfManual;
     }
   }
 }

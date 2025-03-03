@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Newtonsoft.Json;
 using UnityEngine.Scripting;
 
@@ -26,21 +27,49 @@ namespace Domain.Entities
 
     //! Constructor tối thiểu để đảm bảo Name không rỗng (yêu cầu nghiệp vụ cơ bản)
     [Preserve]
+    public JBEntity(int id, string name)
+    {
+      Id = id;
+      Name = string.IsNullOrEmpty(name) ? throw new ArgumentNullException(nameof(name)) : name;
+    }
     public JBEntity(string name)
     {
       Name = string.IsNullOrEmpty(name) ? throw new ArgumentNullException(nameof(name)) : name;
     }
-
     //! Constructor đầy đủ (tùy chọn, để hỗ trợ ánh xạ từ DTO nếu cần)
     [Preserve]
     public JBEntity(string name, string location, List<DeviceEntity> devices, List<ModuleEntity> modules, ImageEntity? outdoorImage, List<ImageEntity> connectionImages)
     {
       Name = string.IsNullOrEmpty(name) ? throw new ArgumentNullException(nameof(name)) : name;
       Location = string.IsNullOrEmpty(location) ? string.Empty : location;
-      DeviceEntities = devices;
-      ModuleEntities = modules;
+      DeviceEntities = devices.Any() ? devices : new List<DeviceEntity>();
+      ModuleEntities = modules.Any() ? modules : new List<ModuleEntity>();
       OutdoorImageEntity = outdoorImage;
-      ConnectionImageEntities = connectionImages;
+      ConnectionImageEntities = connectionImages.Any() ? connectionImages : new List<ImageEntity>();
     }
+
+    //! Constructor đầy đủ (tùy chọn, để hỗ trợ ánh xạ từ DTO nếu cần)
+    [Preserve]
+    public JBEntity(int id, string name, string location, List<DeviceEntity> devices, List<ModuleEntity> modules, ImageEntity? outdoorImage, List<ImageEntity> connectionImages)
+    {
+      Id = id;
+      Name = string.IsNullOrEmpty(name) ? throw new ArgumentNullException(nameof(name)) : name;
+      Location = string.IsNullOrEmpty(location) ? string.Empty : location;
+      DeviceEntities = devices.Any() ? devices : new List<DeviceEntity>();
+      ModuleEntities = modules.Any() ? modules : new List<ModuleEntity>();
+      OutdoorImageEntity = outdoorImage;
+      ConnectionImageEntities = connectionImages.Any() ? connectionImages : new List<ImageEntity>();
+    }
+
+    [Preserve]
+    public JBEntity(int id, string name, string location, ImageEntity? outdoorImage, List<ImageEntity> connectionImages)
+    {
+      Id = id;
+      Name = string.IsNullOrEmpty(name) ? throw new ArgumentNullException(nameof(name)) : name;
+      Location = string.IsNullOrEmpty(location) ? string.Empty : location;
+      OutdoorImageEntity = outdoorImage;
+      ConnectionImageEntities = connectionImages.Any() ? connectionImages : new List<ImageEntity>();
+    }
+
   }
 }

@@ -1,17 +1,45 @@
 
-// using System.Collections.Generic;
-// using System.Threading.Tasks;
-// using ApplicationLayer.Dtos;
-// using Domain.Entities;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using ApplicationLayer.Dtos;
+using ApplicationLayer.Interfaces;
+using ApplicationLayer.UseCases;
 
-// namespace ApplicationLayer.Services
-// {
-//     public class AdapterSpecificationService : IAdapterSpecificationService
-//     {
-//         Task<AdapterSpecificationResponseDto> GetAdapterSpecificationByIdAsync(int adapterSpecificationId);
-//         Task<List<AdapterSpecificationResponseDto>> GetListAdapterSpecificationAsync(int companyId);
-//         Task<bool> CreateNewAdapterSpecificationAsync(int companyId, AdapterSpecificationRequestDto adapterSpecificationRequestDto);
-//         Task<bool> UpdateAdapterSpecificationAsync(int adapterSpecificationId, AdapterSpecificationRequestDto adapterSpecificationRequestDto);
-//         Task<bool> DeleteAdapterSpecificationAsync(int adapterSpecificationId);
-//     }
-// }
+namespace ApplicationLayer.Services
+{  
+    //! Không bắt lỗi tại đây
+    public class AdapterSpecificationService : IAdapterSpecificationService
+    {
+        private readonly AdapterSpecificationUseCase _AdapterSpecificationUseCase;
+        public AdapterSpecificationService(AdapterSpecificationUseCase adapterSpecificationUseCase)
+        {
+            _AdapterSpecificationUseCase = adapterSpecificationUseCase;
+        }
+
+        //! Dữ liệu trả về là Dto
+
+        public async Task<AdapterSpecificationResponseDto> GetAdapterSpecificationByIdAsync(int adapterSpecificationId)
+        {
+            return await _AdapterSpecificationUseCase.GetAdapterSpecificationByIdAsync(adapterSpecificationId);
+        }
+
+        public async Task<List<AdapterSpecificationResponseDto>> GetListAdapterSpecificationAsync(int grapperId)
+        {
+            return await _AdapterSpecificationUseCase.GetListAdapterSpecificationAsync(grapperId);
+        }
+
+        public async Task<bool> CreateNewAdapterSpecificationAsync(int grapperId, AdapterSpecificationRequestDto adapterSpecificationRequestDto)
+        {
+            return await _AdapterSpecificationUseCase.CreateNewAdapterSpecificationAsync(grapperId, adapterSpecificationRequestDto);
+        }
+        public async Task<bool> UpdateAdapterSpecificationAsync(int adapterSpecificationId, AdapterSpecificationRequestDto adapterSpecificationRequestDto)
+        {
+            return await _AdapterSpecificationUseCase.UpdateAdapterSpecificationAsync(adapterSpecificationId, adapterSpecificationRequestDto);
+        }
+        public async Task<bool> DeleteAdapterSpecificationAsync(int adapterSpecificationId)
+        {
+            return await _AdapterSpecificationUseCase.DeleteAdapterSpecificationAsync(adapterSpecificationId);
+        }
+    }
+
+}

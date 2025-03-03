@@ -13,9 +13,9 @@ namespace Domain.Entities
     public string Range { get; set; } = string.Empty;
     public string Unit { get; set; } = string.Empty;
     public string IOAddress { get; set; } = string.Empty;
-    public ModuleEntity? Module { get; set; }
-    public JBEntity? JB { get; set; }
-    public List<ImageEntity> AdditionalConnectionImages { get; set; } = new();
+    public ModuleEntity? ModuleEntity { get; set; }
+    public JBEntity? JBEntity { get; set; }
+    public List<ImageEntity> AdditionalConnectionImageEntities { get; set; } = new();
 
     [Preserve]
     [JsonConstructor]
@@ -24,22 +24,49 @@ namespace Domain.Entities
       Id = id;
       Code = code == "" ? throw new ArgumentNullException(nameof(code)) : code;
     }
+
+    [Preserve]
+    [JsonConstructor]
+    public DeviceEntity(string code)
+    {
+      Code = code == "" ? throw new ArgumentNullException(nameof(code)) : code;
+    }
+
     [Preserve]
     [JsonConstructor]
     public DeviceEntity()
     {
     }
-    // public DeviceEntity(int id, string code, string function, string range, string unit, string ioAddress, ModuleEntity module, JBEntity jb, List<ImageEntity> additionalConnectionImages)
-    // {
-    //   Id = id;
-    //   Code = code == "" ? throw new ArgumentNullException(nameof(code)) : code;
-    //   Function = function;
-    //   Range = range;
-    //   Unit = unit;
-    //   IOAddress = ioAddress;
-    //   Module = module;
-    //   JB = jb;
-    //   AdditionalConnectionImages = additionalConnectionImages;
-    // }
+
+    [Preserve]
+    [JsonConstructor]
+    public DeviceEntity(int id, string code, string function, string range, string unit, string ioAddress, ModuleEntity moduleEntity, JBEntity jbEntity, List<ImageEntity> additionalConnectionImageEntities)
+    {
+      Id = id;
+      Code = code == "" ? throw new ArgumentNullException(nameof(code)) : code;
+      Function = function == "" ? string.Empty : function;
+      Range = range == "" ? string.Empty : range;
+      Unit = unit == "" ? string.Empty : unit;
+      IOAddress = ioAddress == "" ? string.Empty : ioAddress;
+      ModuleEntity = moduleEntity ?? throw new ArgumentException(nameof(moduleEntity));
+      JBEntity = jbEntity ?? throw new ArgumentException(nameof(jbEntity));
+      AdditionalConnectionImageEntities = additionalConnectionImageEntities ?? new List<ImageEntity>();
+    }
+
+
+    [Preserve]
+    [JsonConstructor]
+    public DeviceEntity(string code, string function, string range, string unit, string ioAddress, ModuleEntity moduleEntity, JBEntity jbEntity, List<ImageEntity> additionalConnectionImageEntities)
+    {
+
+      Code = code == "" ? throw new ArgumentNullException(nameof(code)) : code;
+      Function = function == "" ? string.Empty : function;
+      Range = range == "" ? string.Empty : range;
+      Unit = unit == "" ? string.Empty : unit;
+      IOAddress = ioAddress == "" ? string.Empty : ioAddress;
+      ModuleEntity = moduleEntity ?? throw new ArgumentException(nameof(moduleEntity));
+      JBEntity = jbEntity ?? throw new ArgumentException(nameof(jbEntity));
+      AdditionalConnectionImageEntities = additionalConnectionImageEntities ?? new List<ImageEntity>();
+    }
   }
 }

@@ -8,10 +8,11 @@ namespace Domain.Interfaces
 {
     public interface IModuleSpecificationRepository
     {
-        Task<ModuleSpecificationEntity> GetModuleSpecificationByIdAsync(int moduleSpecificationId);
+        //! Trả về Entity
+        Task<ModuleSpecificationEntity> GetModuleSpecificationByIdAsync(int ModuleSpecificationId);
         Task<List<ModuleSpecificationEntity>> GetListModuleSpecificationAsync(int companyId);
-        Task<bool> CreateNewModuleSpecificationAsync(int companyId, ModuleSpecificationEntity moduleSpecificationEntity);
-        Task<bool> UpdateModuleSpecificationAsync(int moduleSpecificationId, ModuleSpecificationEntity moduleSpecificationEntity);
-        Task<bool> DeleteModuleSpecificationAsync(int moduleSpecificationId);
+        Task<bool> CreateNewModuleSpecificationAsync(int companyId, ModuleSpecificationEntity ModuleSpecificationEntity);
+        Task<bool> UpdateModuleSpecificationAsync(int ModuleSpecificationId, ModuleSpecificationEntity ModuleSpecificationEntity);
+        Task<bool> DeleteModuleSpecificationAsync(int ModuleSpecificationId);
     }
 }

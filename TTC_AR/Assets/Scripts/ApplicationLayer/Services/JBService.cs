@@ -6,7 +6,7 @@ using ApplicationLayer.Interfaces;
 using ApplicationLayer.UseCases;
 
 namespace ApplicationLayer.Services
-{
+{  //! Không bắt lỗi tại đây
     public class JBService : IJBService
     {
         private readonly JBUseCase _JBUseCase;
@@ -14,6 +14,9 @@ namespace ApplicationLayer.Services
         {
             _JBUseCase = JBUseCase;
         }
+
+
+        //! Dữ liệu trả về là Dto
         public async Task<JBResponseDto> GetJBByIdAsync(int id)
         {
             return await _JBUseCase.GetJBByIdAsync(id);

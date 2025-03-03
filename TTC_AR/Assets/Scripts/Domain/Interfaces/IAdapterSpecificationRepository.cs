@@ -7,7 +7,8 @@ using Domain.Entities;
 namespace Domain.Interfaces
 {
     public interface IAdapterSpecificationRepository
-    {
+    { 
+         //! Trả về Entity
         Task<AdapterSpecificationEntity> GetAdapterSpecificationByIdAsync(int adapterSpecificationId);
         Task<List<AdapterSpecificationEntity>> GetListAdapterSpecificationAsync(int companyId);
         Task<bool> CreateNewAdapterSpecificationAsync(int companyId, AdapterSpecificationEntity adapterSpecificationEntity);

@@ -28,21 +28,31 @@ namespace Domain.Entities
     {
       Code = code == "" ? throw new ArgumentNullException(nameof(code)) : code;
     }
-    // public ModuleSpecificationEntity(int id,
-    //  string code, string type, string numOfIO, string signalType, string compatibleTBUs, string operatingVoltage, string operatingCurrent, string flexbusCurrent, string alarm, string note, string pdfManual)
-    // {
-    //   Id = id;
-    //   Code = code == "" ? throw new ArgumentNullException(nameof(code)) : code;
-    //   Type = type;
-    //   NumOfIO = numOfIO;
-    //   SignalType = signalType;
-    //   CompatibleTBUs = compatibleTBUs;
-    //   OperatingVoltage = operatingVoltage;
-    //   OperatingCurrent = operatingCurrent;
-    //   FlexbusCurrent = flexbusCurrent;
-    //   Alarm = alarm;
-    //   Note = note;
-    //   PdfManual = pdfManual;
-    // }
+    [Preserve]
+    [JsonConstructor]
+    public ModuleSpecificationEntity(int id, string code)
+    {
+      Id = id;
+      Code = code == "" ? throw new ArgumentNullException(nameof(code)) : code;
+    }
+
+    [Preserve]
+    [JsonConstructor]
+    public ModuleSpecificationEntity(int id,
+     string code, string type, string numOfIO, string signalType, string compatibleTBUs, string operatingVoltage, string operatingCurrent, string flexbusCurrent, string alarm, string note, string pdfManual)
+    {
+      Id = id;
+      Code = code == "" ? throw new ArgumentNullException(nameof(code)) : code;
+      Type = type;
+      NumOfIO = numOfIO;
+      SignalType = signalType;
+      CompatibleTBUs = compatibleTBUs;
+      OperatingVoltage = operatingVoltage;
+      OperatingCurrent = operatingCurrent;
+      FlexbusCurrent = flexbusCurrent;
+      Alarm = alarm;
+      Note = note;
+      PdfManual = pdfManual;
+    }
   }
 }

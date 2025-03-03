@@ -16,7 +16,7 @@ namespace ApplicationLayer.Dtos
     public AdapterSpecificationBasicDto(int id, string code)
     {
       Id = id;
-      Code = code == "" ? throw new ArgumentNullException(nameof(code)) : code;
+      Code = string.IsNullOrEmpty(code) ? throw new ArgumentException(nameof(code)) : code;
     }
   }
   [Preserve]
@@ -42,17 +42,33 @@ namespace ApplicationLayer.Dtos
     [JsonConstructor]
     public AdapterSpecificationResponseDto(int id, string code, string type, string communication, string numOfModulesAllowed, string commSpeed, string inputSupply, string outputSupply, string inrushCurrent, string alarm, string note, string pdfManual) : base(id, code)
     {
-      Type = type == " " ? string.Empty : type;
-      Communication = communication == " " ? string.Empty : communication;
-      NumOfModulesAllowed = numOfModulesAllowed == " " ? string.Empty : numOfModulesAllowed;
-      CommSpeed = commSpeed == " " ? string.Empty : commSpeed;
-      InputSupply = inputSupply == " " ? string.Empty : inputSupply;
-      OutputSupply = outputSupply == " " ? string.Empty : outputSupply;
-      InrushCurrent = inrushCurrent == " " ? string.Empty : inrushCurrent;
-      Alarm = alarm == " " ? string.Empty : alarm;
-      Noted = note == " " ? string.Empty : note;
-      PdfManual = pdfManual == " " ? string.Empty : pdfManual;
+      Type = type;
+      Communication = communication;
+      NumOfModulesAllowed = numOfModulesAllowed;
+      CommSpeed = commSpeed;
+      InputSupply = inputSupply;
+      OutputSupply = outputSupply;
+      InrushCurrent = inrushCurrent;
+      Alarm = alarm;
+      Noted = note;
+      PdfManual = pdfManual;
     }
+
+    // [Preserve]
+    // [JsonConstructor]
+    // public AdapterSpecificationResponseDto(int id, string code, string type, string communication, string numOfModulesAllowed, string commSpeed, string inputSupply, string outputSupply, string inrushCurrent, string alarm, string note, string pdfManual) : base(id, code)
+    // {
+    //   Type = type == " " ? string.Empty : type;
+    //   Communication = communication == " " ? string.Empty : communication;
+    //   NumOfModulesAllowed = numOfModulesAllowed == " " ? string.Empty : numOfModulesAllowed;
+    //   CommSpeed = commSpeed == " " ? string.Empty : commSpeed;
+    //   InputSupply = inputSupply == " " ? string.Empty : inputSupply;
+    //   OutputSupply = outputSupply == " " ? string.Empty : outputSupply;
+    //   InrushCurrent = inrushCurrent == " " ? string.Empty : inrushCurrent;
+    //   Alarm = alarm == " " ? string.Empty : alarm;
+    //   Noted = note == " " ? string.Empty : note;
+    //   PdfManual = pdfManual == " " ? string.Empty : pdfManual;
+    // }
 
   }
 
@@ -81,18 +97,35 @@ namespace ApplicationLayer.Dtos
     [JsonConstructor]
     public AdapterSpecificationRequestDto(string code, string type, string communication, string numOfModulesAllowed, string commSpeed, string inputSupply, string outputSupply, string inrushCurrent, string alarm, string note, string pdfManual)
     {
-      Code = code ?? throw new ArgumentException(nameof(code));
-      Type = type == " " ? string.Empty : type;
-      Communication = communication == " " ? string.Empty : communication;
-      NumOfModulesAllowed = numOfModulesAllowed == " " ? string.Empty : numOfModulesAllowed;
-      CommSpeed = commSpeed == " " ? string.Empty : commSpeed;
-      InputSupply = inputSupply == " " ? string.Empty : inputSupply;
-      OutputSupply = outputSupply == " " ? string.Empty : outputSupply;
-      InrushCurrent = inrushCurrent == " " ? string.Empty : inrushCurrent;
-      Alarm = alarm == " " ? string.Empty : alarm;
-      Noted = note == " " ? string.Empty : note;
-      PdfManual = pdfManual == " " ? string.Empty : pdfManual;
+      Code = string.IsNullOrEmpty(code) ? throw new ArgumentException(nameof(code)) : code;
+      Type = type;
+      Communication = communication;
+      NumOfModulesAllowed = numOfModulesAllowed;
+      CommSpeed = commSpeed;
+      InputSupply = inputSupply;
+      OutputSupply = outputSupply;
+      InrushCurrent = inrushCurrent;
+      Alarm = alarm;
+      Noted = note;
+      PdfManual = pdfManual;
     }
+
+    // [Preserve]
+    // [JsonConstructor]
+    // public AdapterSpecificationRequestDto(string code, string type, string communication, string numOfModulesAllowed, string commSpeed, string inputSupply, string outputSupply, string inrushCurrent, string alarm, string note, string pdfManual)
+    // {
+    //   Code = code ?? throw new ArgumentException(nameof(code));
+    //   Type = type == " " ? string.Empty : type;
+    //   Communication = communication == " " ? string.Empty : communication;
+    //   NumOfModulesAllowed = numOfModulesAllowed == " " ? string.Empty : numOfModulesAllowed;
+    //   CommSpeed = commSpeed == " " ? string.Empty : commSpeed;
+    //   InputSupply = inputSupply == " " ? string.Empty : inputSupply;
+    //   OutputSupply = outputSupply == " " ? string.Empty : outputSupply;
+    //   InrushCurrent = inrushCurrent == " " ? string.Empty : inrushCurrent;
+    //   Alarm = alarm == " " ? string.Empty : alarm;
+    //   Noted = note == " " ? string.Empty : note;
+    //   PdfManual = pdfManual == " " ? string.Empty : pdfManual;
+    // }
   }
 }
 

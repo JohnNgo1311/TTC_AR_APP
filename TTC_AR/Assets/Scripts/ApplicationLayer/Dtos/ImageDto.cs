@@ -30,7 +30,7 @@ namespace ApplicationLayer.Dtos
     [JsonConstructor]
     public ImageResponseDto(int id, string name, string url) : base(id, name)
     {
-      this.url = url ?? throw new System.ArgumentException(nameof(url));
+      this.url = url;
     }
   }
 

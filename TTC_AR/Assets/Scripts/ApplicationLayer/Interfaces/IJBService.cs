@@ -8,6 +8,7 @@ namespace ApplicationLayer.Interfaces
 {
     public interface IJBService
     {
+        //! Tham số là Dto, tả về Dto
         Task<JBResponseDto> GetJBByIdAsync(int JBId);
         Task<List<JBResponseDto>> GetListJBAsync(int grapperId);
         Task<bool> CreateNewJBAsync(int grapperId, JBRequestDto JBRequestDto);

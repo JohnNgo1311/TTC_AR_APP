@@ -7,7 +7,7 @@ using Domain.Entities;
 namespace ApplicationLayer.Interfaces
 {
     public interface IDeviceService
-    {
+    {   //! Tham số là Dto, tả về Dto
         Task<DeviceResponseDto> GetDeviceByIdAsync(int deviceId);
         Task<List<DeviceResponseDto>> GetListDeviceAsync(int grapperId);
         Task<bool> CreateNewDeviceAsync(int grapperId, DeviceRequestDto deviceRequestDto);

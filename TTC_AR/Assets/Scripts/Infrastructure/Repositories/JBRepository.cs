@@ -6,12 +6,17 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using UnityEngine.Networking;
+using Infrastructure.Dtos;
+using System.Linq;
+using ApplicationLayer.Dtos;
 
 namespace Infrastructure.Repositories
 {
     public class JBRepository : IJBRepository
     {
         private readonly HttpClient _httpClient;
+
         private const string BaseUrl = "https://external-server-api.com"; // URL server ngoài thực tế
 
         public JBRepository(HttpClient httpClient)
@@ -20,47 +25,163 @@ namespace Infrastructure.Repositories
             _httpClient.BaseAddress = new Uri(BaseUrl);
             _httpClient.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
         }
-
-        public async Task<JBEntity> GetByIdAsync(int jbId)
+        
+        //! TRả về JBResponseDto
+        public async Task<JBResponseDto> GetJBByIdAsync(int jbId)
         {
-            var response = await _httpClient.GetAsync($"/api/jb/{jbId}");
-            if (!response.IsSuccessStatusCode)
-                return null; // Hoặc ném exception tùy yêu cầu
-
-            var content = await response.Content.ReadAsStringAsync();
-            return JsonConvert.DeserializeObject<JBEntity>(content);
+            try
+            {
+                var response = await _httpClient.GetAsync($"/api/jb/{jbId}");
+                if (!response.IsSuccessStatusCode)
+                {
+                    throw new HttpRequestException($"Failed to get JB. Status: {response.StatusCode}");
+                }
+                else
+                {
+                    var content = await response.Content.ReadAsStringAsync();
+                    return JsonConvert.DeserializeObject<JBResponseDto>(content);
+                }
+            }
+            catch (HttpRequestException ex)
+            {
+                throw ex; // Ném lỗi HTTP lên UseCase
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Unexpected error during HTTP request", ex); // Bao bọc lỗi khác
+            }
         }
 
-        public async Task<List<JBEntity>> GetListJBAsync(int grapperId)
+        //! Trả về List<JBResponseDto>
+        public async Task<List<JBResponseDto>> GetListJBAsync(int grapperId)
         {
-            var response = await _httpClient.GetAsync($"/api/jb/grapper/{grapperId}");
-            if (!response.IsSuccessStatusCode)
-                return new List<JBEntity>();
+            try
+            {
+                var response = await _httpClient.GetAsync($"/api/jb/grapper/{grapperId}");
+                if (!response.IsSuccessStatusCode)
+                    throw new HttpRequestException($"Failed to get JB list. Status: {response.StatusCode}");
+                else
+                {
+                    var content = await response.Content.ReadAsStringAsync();
+                    return JsonConvert.DeserializeObject<List<JBResponseDto>>(content);
+                }
 
-            var content = await response.Content.ReadAsStringAsync();
-            return JsonConvert.DeserializeObject<List<JBEntity>>(content);
+            }
+            catch (HttpRequestException ex)
+            {
+                throw ex;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Unexpected error during HTTP request", ex);
+            }
         }
 
         public async Task<bool> CreateNewJBAsync(int grapperId, JBEntity jbEntity)
         {
-            var json = JsonConvert.SerializeObject(jbEntity);
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
-            var response = await _httpClient.PostAsync($"/api/jb/grapper/{grapperId}", content);
-            return response.IsSuccessStatusCode; // Trả về true nếu thành công
+            try
+            {
+                // Tạo dữ liệu tối giản gửi lên server với tên property khớp yêu cầu
+                var jbRequestData = new
+                {
+                    name = jbEntity.Name, // Mandatory field
+                    Location = jbEntity.Location ?? "", // Nullable, default ""
+                    ListDevices = jbEntity.DeviceEntities?
+                        .Where(d => d != null)
+                        .Select(d => new DeviceBasicDto(d.Id, d.Code))
+                        .ToList() ?? new List<DeviceBasicDto>(), // Empty list nếu null
+                    ListModules = jbEntity.ModuleEntities
+                        .Where(m => m != null)
+                        .Select(m => new ModuleBasicDto(m.Id, m.Name))
+                        .ToList() ?? new List<ModuleBasicDto>(), // Empty list nếu null
+                    OutdoorImage = jbEntity.OutdoorImageEntity != null
+                        ? new ImageBasicDto(jbEntity.OutdoorImageEntity.Id, jbEntity.OutdoorImageEntity.Name)
+                        : null, // Null nếu không có
+                    ListConnectionImages = jbEntity.ConnectionImageEntities?
+                        .Where(i => i != null)
+                        .Select(i => new ImageBasicDto(i.Id, i.Name))
+                        .ToList() ?? new List<ImageBasicDto>() // Empty list nếu null
+                };
+
+                var json = JsonConvert.SerializeObject(jbRequestData);
+
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                var response = await _httpClient.PostAsync($"/api/jb/grapper/{grapperId}", content);
+
+                if (!response.IsSuccessStatusCode)
+                    throw new HttpRequestException($"Failed to create JB. Status: {response.StatusCode}");
+
+                return true;
+            }
+            catch (HttpRequestException ex)
+            {
+                throw ex; // Ném lỗi HTTP lên UseCase
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Unexpected error during HTTP request", ex); // Bao bọc lỗi khác
+            }
         }
 
         public async Task<bool> UpdateJBAsync(int jbId, JBEntity jbEntity)
         {
-            var json = JsonConvert.SerializeObject(jbEntity);
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
-            var response = await _httpClient.PutAsync($"/api/jb/{jbId}", content);
-            return response.IsSuccessStatusCode;
+            try
+            {
+                // Tạo dữ liệu tối giản gửi lên server với tên property khớp yêu cầu
+                var jbRequestData = new
+                {
+                    name = jbEntity.Name, // Mandatory field
+                    Location = jbEntity.Location ?? "", // Nullable, default ""
+                    ListDevices = jbEntity.DeviceEntities?
+                        .Where(d => d != null)
+                        .Select(d => new DeviceBasicDto(d.Id, d.Code))
+                        .ToList() ?? new List<DeviceBasicDto>(), // Empty list nếu null
+                    ListModules = jbEntity.ModuleEntities
+                        .Where(m => m != null)
+                        .Select(m => new ModuleBasicDto(m.Id, m.Name))
+                        .ToList() ?? new List<ModuleBasicDto>(), // Empty list nếu null
+                    OutdoorImage = jbEntity.OutdoorImageEntity != null
+                        ? new ImageBasicDto(jbEntity.OutdoorImageEntity.Id, jbEntity.OutdoorImageEntity.Name)
+                        : null, // Null nếu không có
+                    ListConnectionImages = jbEntity.ConnectionImageEntities?
+                        .Where(i => i != null)
+                        .Select(i => new ImageBasicDto(i.Id, i.Name))
+                        .ToList() ?? new List<ImageBasicDto>() // Empty list nếu null
+                };
+
+                var json = JsonConvert.SerializeObject(jbRequestData);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+                var response = await _httpClient.PutAsync($"/api/jb/{jbId}", content);
+                return response.IsSuccessStatusCode;
+            }
+            catch (HttpRequestException ex)
+            {
+                throw ex; // Ném lỗi HTTP lên UseCase
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Unexpected error during HTTP request", ex); // Bao bọc lỗi khác
+            }
         }
 
         public async Task<bool> DeleteJBAsync(int jbId)
         {
-            var response = await _httpClient.DeleteAsync($"/api/jb/{jbId}");
-            return response.IsSuccessStatusCode;
+            try
+            {
+                var response = await _httpClient.DeleteAsync($"/api/jb/{jbId}");
+                return response.IsSuccessStatusCode;
+            }
+            catch (HttpRequestException ex)
+            {
+                throw ex; // Ném lỗi HTTP lên UseCase
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Unexpected error during HTTP request", ex); // Bao bọc lỗi khác
+            }
+
+
         }
     }
 }

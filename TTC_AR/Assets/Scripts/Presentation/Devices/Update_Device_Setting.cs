@@ -10,7 +10,7 @@ public class Update_Device_Setting : MonoBehaviour
 {
     // Interfaces and Models
     [Header("General")]
-    private IDeviceUseCase _deviceUseCase;
+    // private IDeviceUseCase _deviceUseCase;
     [SerializeField] private DeviceGeneralModel _UpdateDeviceGeneralModel;
     public Initialize_Device_List_Option_Selection initialize_Device_List_Option_Selection;
     public DeviceInformationModel deviceInformationModel;
@@ -62,8 +62,8 @@ public class Update_Device_Setting : MonoBehaviour
     #region Initialization
     private void Awake()
     {
-        IDeviceRepository repository = new DeviceRepository();
-        _deviceUseCase = new DeviceUseCase(repository);
+        // IDeviceRepository repository = new DeviceRepository();
+        // _deviceUseCase = new DeviceUseCase(repository);
     }
 
     private void Start()
@@ -339,43 +339,43 @@ public class Update_Device_Setting : MonoBehaviour
 
     private async void OnSubmitUpdateDevice()
     {
-        _UpdateDeviceGeneralModel = new DeviceGeneralModel(
-            deviceInformationModel.Id,
-            deviceCode_TextValue.text,
-            deviceFunction_TextField.text,
-            deviceRange_TextField.text,
-            deviceUnit_TextField.text,
-            deviceIOAddress_TextField.text,
-            null,
-            null,
-            new List<ImageBasicModel>()
-        );
+        // _UpdateDeviceGeneralModel = new DeviceGeneralModel(
+        //     deviceInformationModel.Id,
+        //     deviceCode_TextValue.text,
+        //     deviceFunction_TextField.text,
+        //     deviceRange_TextField.text,
+        //     deviceUnit_TextField.text,
+        //     deviceIOAddress_TextField.text,
+        //     null,
+        //     null,
+        //     new List<ImageBasicModel>()
+        // );
 
-        var moduleName = moduleObject.GetComponentInChildren<TMP_Text>().text;
-        var jbName = jbObject.GetComponentInChildren<TMP_Text>().text;
+        // var moduleName = moduleObject.GetComponentInChildren<TMP_Text>().text;
+        // var jbName = jbObject.GetComponentInChildren<TMP_Text>().text;
 
-        _UpdateDeviceGeneralModel.ModuleBasicModel = GlobalVariable.temp_Dictionary_ModuleBasicModel.TryGetValue(moduleName, out var moduleBasicModel) ? moduleBasicModel : null;
-        _UpdateDeviceGeneralModel.JBBasicModel = GlobalVariable.temp_Dictionary_JBBasicModel.TryGetValue(jbName, out var jbBasicModel) ? jbBasicModel : null;
+        // _UpdateDeviceGeneralModel.ModuleBasicModel = GlobalVariable.temp_Dictionary_ModuleBasicModel.TryGetValue(moduleName, out var moduleBasicModel) ? moduleBasicModel : null;
+        // _UpdateDeviceGeneralModel.JBBasicModel = GlobalVariable.temp_Dictionary_JBBasicModel.TryGetValue(jbName, out var jbBasicModel) ? jbBasicModel : null;
 
-        _UpdateDeviceGeneralModel.AdditionalImageModels.Clear();
-        foreach (var item in _selectedGameObjects[ADDITIONAL_IMAGE])
-        {
-            var text = item.GetComponentInChildren<TMP_Text>().text;
-            if (GlobalVariable.temp_Dictionary_ImageBasicModel.TryGetValue(text, out var imageBasicModel))
-            {
-                _UpdateDeviceGeneralModel.AdditionalImageModels.Add(imageBasicModel);
-            }
-        }
-        try
-        {
-            Debug.Log("Try to Add Device");
-            bool success = await _deviceUseCase.UpdateDeviceModel(_UpdateDeviceGeneralModel);
-            Debug.Log(success ? "Add Device Success" : "Add Device Fail");
-        }
-        catch (Exception ex)
-        {
-            Debug.LogError($"Error: {ex.Message}");
-        }
+        // _UpdateDeviceGeneralModel.AdditionalImageModels.Clear();
+        // foreach (var item in _selectedGameObjects[ADDITIONAL_IMAGE])
+        // {
+        //     var text = item.GetComponentInChildren<TMP_Text>().text;
+        //     if (GlobalVariable.temp_Dictionary_ImageBasicModel.TryGetValue(text, out var imageBasicModel))
+        //     {
+        //         _UpdateDeviceGeneralModel.AdditionalImageModels.Add(imageBasicModel);
+        //     }
+        // }
+        // try
+        // {
+        //     Debug.Log("Try to Add Device");
+        //     bool success = await _deviceUseCase.UpdateDeviceModel(_UpdateDeviceGeneralModel);
+        //     Debug.Log(success ? "Add Device Success" : "Add Device Fail");
+        // }
+        // catch (Exception ex)
+        // {
+        //     Debug.LogError($"Error: {ex.Message}");
+        // }
     }
     #endregion
 }
