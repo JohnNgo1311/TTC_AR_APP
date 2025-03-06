@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ApplicationLayer.Dtos;
+using ApplicationLayer.Dtos.Device;
+using ApplicationLayer.Dtos.Image;
+using ApplicationLayer.Dtos.JB;
+using ApplicationLayer.Dtos.Module;
 using Domain.Entities;
 using Domain.Interfaces;
 
@@ -16,44 +20,39 @@ namespace ApplicationLayer.UseCases
         {
             _IJBRepository = IjbRepository;
         }
-        public async Task<List<JBResponseDto>> GetListJBAsync(int grapperId)
+        public async Task<List<JBGeneralDto>> GetListJBAsync(int grapperId)
         {
             try
             {
-                var jbListDtos = await _IJBRepository.GetListJBAsync(grapperId);
+                var jBEntities = await _IJBRepository.GetListJBAsync(grapperId);
 
-                if (jbListDtos == null)
+                if (jBEntities == null)
                 {
                     throw new ApplicationException("Failed to get JB list");
                 }
                 else
                 {  // Ánh xạ từ JBResponseDto sang JBEntity (nếu cần logic nghiệp vụ) rồi sang JBResponseDto
-                    var jbEntities = jbListDtos.Select(dto => new JBEntity(dto.Name)
-                    {
-                        Id = dto.Id,
+                   // var jbEntities = jbListDtos.Select(dto => new JBEntity(dto.Name)
+                   // {
+                   //     Id = dto.Id,
 
-                        Location = dto.Location,
+                    //     Location = dto.Location,
 
-                        DeviceEntities = dto.DeviceBasicDtos.Select(d => new DeviceEntity(d.Id, d.Code)).ToList(),
+                    //     DeviceEntities = dto.DeviceBasicDtos.Select(d => new DeviceEntity(d.Id, d.Code)).ToList(),
 
-                        ModuleEntities = dto.ModuleBasicDtos.Select(m => new ModuleEntity(m.Id, m.Name)).ToList(),
+                    //     ModuleEntities = dto.ModuleBasicDtos.Select(m => new ModuleEntity(m.Id, m.Name)).ToList(),
 
-                        OutdoorImageEntity = dto.OutdoorImageResponseDto != null
-                            ? new ImageEntity(dto.OutdoorImageResponseDto.Id, dto.OutdoorImageResponseDto.Name, dto.OutdoorImageResponseDto.url)
-                            : null,
+                    //     OutdoorImageEntity = dto.OutdoorImageResponseDto != null
+                    //         ? new ImageEntity(dto.OutdoorImageResponseDto.Id, dto.OutdoorImageResponseDto.Name, dto.OutdoorImageResponseDto.Url)
+                    //         : null,
 
-                        ConnectionImageEntities = dto.ConnectionImageResponseDtos.Select(i => new ImageEntity(i.Id, i.Name, i.url)).ToList()
+                    //     ConnectionImageEntities = dto.ConnectionImageResponseDtos.Select(i => new ImageEntity(i.Id, i.Name, i.Url)).ToList()
 
-                    }).ToList();
+                    // }).ToList();
 
-                    // Ánh xạ từ JBEntity sang JBResponseDto
-                    return jbEntities.Select(jb => new JBResponseDto(
-                        jb.Id, jb.Name, jb.Location,
-                        jb.DeviceEntities.Select(d => new DeviceBasicDto(d.Id, d.Code)).ToList(),
-                        jb.ModuleEntities.Select(m => new ModuleBasicDto(m.Id, m.Name)).ToList(),
-                        jb.OutdoorImageEntity != null ? new ImageResponseDto(jb.OutdoorImageEntity.Id, jb.OutdoorImageEntity.Name, jb.OutdoorImageEntity.Url) : null!,
-                        jb.ConnectionImageEntities.Select(i => new ImageResponseDto(i.Id, i.Name, i.Url)).ToList()
-                    )).ToList();
+                    // // Ánh xạ từ JBEntity sang JBResponseDto
+                    var jbResponseDtos = jBEntities.Select(jbEntity => MapToGeneralDto(jbEntity)).ToList();
+                    return jbResponseDtos;
                 }
 
             }
@@ -70,17 +69,18 @@ namespace ApplicationLayer.UseCases
         {
             try
             {
-                var jBDto = await _IJBRepository.GetJBByIdAsync(JBId);
-                if (jBDto == null)
+                var jbEntity = await _IJBRepository.GetJBByIdAsync(JBId);
+
+                if (jbEntity == null)
                 {
                     throw new ApplicationException("Failed to get JB");
                 }
                 else
                 {
-                    // Ánh xạ từ JBResponseDto sang JBEntity để check các lỗi nghiệp vụ
-                    var jbEntity = MapToResponseEntity(jBDto);
+                    // Ánh xạ từ jbEntity sang JBEntity để check các lỗi nghiệp vụ
+                    var jbResponseDto = MapToResponseDto(jbEntity);
                     // Ánh xạ từ JBEntity sang JBResponseDto để đưa giá trị trả về
-                    return MapToResponseDto(jbEntity);
+                    return jbResponseDto;
                 }
             }
             catch (ArgumentException)
@@ -101,18 +101,10 @@ namespace ApplicationLayer.UseCases
                 {
                     throw new ArgumentException("Name cannot be empty");
                 }
-
                 // Ánh xạ từ JBRequestDto sang JBEntity để check các nghiệp vụ
-                var jbEntity = new JBEntity(requestDto.Name) // Validation Name trong constructor
-                {
-                    Location = requestDto.Location, // Có thể "" nếu null
-                    DeviceEntities = requestDto.DeviceBasicDtos?.Select(dto => new DeviceEntity(dto.Id, dto.Code)).ToList() ?? new List<DeviceEntity>(),
-                    ModuleEntities = requestDto.ModuleBasicDtos?.Select(dto => new ModuleEntity(dto.Id, dto.Name)).ToList() ?? new List<ModuleEntity>(),
-                    OutdoorImageEntity = requestDto.OutdoorImageBasicDto != null
-                        ? new ImageEntity(requestDto.OutdoorImageBasicDto.Id, requestDto.OutdoorImageBasicDto.Name)
-                        : null,
-                    ConnectionImageEntities = requestDto.ConnectionImageBasicDtos?.Select(dto => new ImageEntity(dto.Id, dto.Name)).ToList() ?? new List<ImageEntity>()
-                };
+                var jbEntity = MapRequestToEntity(requestDto);
+
+                // var requestData = MapToRequestDto(jbEntity);
 
                 if (jbEntity == null)
                 {
@@ -134,28 +126,30 @@ namespace ApplicationLayer.UseCases
                 throw new ApplicationException("Failed to create JB", ex); // Bao bọc lỗi từ Repository
             }
         }
-        public async Task<bool> UpdateJBAsync(int JBId, JBRequestDto requestDto)
+        public async Task<bool> UpdateJBAsync(int grapperId, JBRequestDto requestDto)
         {
-            // Validate
             try
             {
+                // Validate
                 if (string.IsNullOrEmpty(requestDto.Name))
-                    throw new ArgumentException("Name cannot be empty");
-
-                // Ánh xạ từ JBRequestDto sang JBEntity để check các nghiệp vụ
-                var jbEntity = new JBEntity(requestDto.Name) // Validation Name trong constructor
                 {
-                    Location = requestDto.Location, // Có thể "" nếu null
-                    DeviceEntities = requestDto.DeviceBasicDtos?.Select(dto => new DeviceEntity(dto.Id, dto.Code)).ToList() ?? new List<DeviceEntity>(),
-                    ModuleEntities = requestDto.ModuleBasicDtos?.Select(dto => new ModuleEntity(dto.Id, dto.Name)).ToList() ?? new List<ModuleEntity>(),
-                    OutdoorImageEntity = requestDto.OutdoorImageBasicDto != null
-                        ? new ImageEntity(requestDto.OutdoorImageBasicDto.Id, requestDto.OutdoorImageBasicDto.Name)
-                        : null,
-                    ConnectionImageEntities = requestDto.ConnectionImageBasicDtos?.Select(dto => new ImageEntity(dto.Id, dto.Name)).ToList() ?? new List<ImageEntity>()
-                };
+                    throw new ArgumentException("Name cannot be empty");
+                }
+                // Ánh xạ từ JBRequestDto sang JBEntity để check các nghiệp vụ
+                var jbEntity = MapRequestToEntity(requestDto);
 
-                var createdJBResult = await _IJBRepository.UpdateJBAsync(JBId, jbEntity);
-                return createdJBResult;
+                // var requestData = MapToRequestDto(jbEntity);
+
+                if (jbEntity == null)
+                {
+                    throw new ApplicationException("Failed to update JB cause jbEntity is Null");
+                }
+
+                else
+                {
+                    return await _IJBRepository.UpdateJBAsync(grapperId, jbEntity);
+                }
+
             }
             catch (ArgumentException)
             {
@@ -163,7 +157,7 @@ namespace ApplicationLayer.UseCases
             }
             catch (Exception ex)
             {
-                throw new ApplicationException("Failed to update JB", ex); // Bao bọc lỗi từ Repository
+                throw new ApplicationException("Failed to create JB", ex); // Bao bọc lỗi từ Repository
             }
         }
         public async Task<bool> DeleteJBAsync(int JBId)
@@ -183,15 +177,8 @@ namespace ApplicationLayer.UseCases
             }
         }
 
-        private JBResponseDto MapToResponseDto(JBEntity jbEntity)
-        {
-            return new JBResponseDto(jbEntity.Id, jbEntity.Name, jbEntity.Location,
-                jbEntity.DeviceEntities.Select(d => new DeviceBasicDto(d.Id, d.Code)).ToList(),
-                jbEntity.ModuleEntities.Select(m => new ModuleBasicDto(m.Id, m.Name)).ToList(),
-                jbEntity.OutdoorImageEntity != null ? new ImageResponseDto(jbEntity.OutdoorImageEntity.Id, jbEntity.OutdoorImageEntity.Name, jbEntity.OutdoorImageEntity.Url) : null!,
-                jbEntity.ConnectionImageEntities.Select(i => new ImageResponseDto(i.Id, i.Name, i.Url)).ToList()
-            );
-        }
+
+        //! Dto => Entity
         private JBEntity MapToResponseEntity(JBResponseDto jBResponseDto)
         {
             return new JBEntity(
@@ -200,20 +187,65 @@ namespace ApplicationLayer.UseCases
                 jBResponseDto.Location,
                 jBResponseDto.DeviceBasicDtos.Select(d => new DeviceEntity(d.Id, d.Code)).ToList(),
                 jBResponseDto.ModuleBasicDtos.Select(m => new ModuleEntity(m.Id, m.Name)).ToList(),
-                jBResponseDto.OutdoorImageResponseDto != null ? new ImageEntity(jBResponseDto.OutdoorImageResponseDto.Id, jBResponseDto.OutdoorImageResponseDto.Name, jBResponseDto.OutdoorImageResponseDto.url) : null!,
-                jBResponseDto.ConnectionImageResponseDtos.Select(i => new ImageEntity(i.Id, i.Name, i.url)).ToList()
+                jBResponseDto.OutdoorImageResponseDto != null ? new ImageEntity(jBResponseDto.OutdoorImageResponseDto.Id, jBResponseDto.OutdoorImageResponseDto.Name, jBResponseDto.OutdoorImageResponseDto.Url) : null!,
+               jBResponseDto.ConnectionImageResponseDtos.Select(i => new ImageEntity(i.Id, i.Name, i.Url)).ToList()
             );
         }
-        private JBEntity MapToEntity(JBRequestDto requestDto)
+        private JBEntity MapRequestToEntity(JBRequestDto jBRequestDto)
         {
-            return new JBEntity(requestDto.Name)
-            {
-                Location = requestDto.Location,
-                DeviceEntities = requestDto.DeviceBasicDtos.Select(dto => new DeviceEntity(dto.Id, dto.Code)).ToList(),
-                ModuleEntities = requestDto.ModuleBasicDtos.Select(dto => new ModuleEntity(dto.Id, dto.Name)).ToList(),
-                OutdoorImageEntity = new ImageEntity(requestDto.OutdoorImageBasicDto.Id, requestDto.OutdoorImageBasicDto.Name),
-                ConnectionImageEntities = requestDto.ConnectionImageBasicDtos.Select(dto => new ImageEntity(dto.Id, dto.Name)).ToList()
-            };
+            return new JBEntity(
+                jBRequestDto.Name,
+                jBRequestDto.Location,
+                jBRequestDto.DeviceBasicDtos == null ? null : jBRequestDto.DeviceBasicDtos.Select(d => new DeviceEntity(d.Id, d.Code)).ToList(),
+                jBRequestDto.ModuleBasicDtos == null ? null : jBRequestDto.ModuleBasicDtos.Select(m => new ModuleEntity(m.Id, m.Name)).ToList(),
+                jBRequestDto.OutdoorImageBasicDto == null ? null : new ImageEntity(jBRequestDto.OutdoorImageBasicDto.Id, jBRequestDto.OutdoorImageBasicDto.Name),
+                jBRequestDto.ConnectionImageBasicDtos == null ? null : jBRequestDto.ConnectionImageBasicDtos.Select(i => new ImageEntity(i.Id, i.Name)).ToList()
+            );
         }
+
+
+        //! Entity => Dto
+        private JBResponseDto MapToResponseDto(JBEntity jBEntity)
+        {
+            return new JBResponseDto(
+                jBEntity.Id,
+                jBEntity.Name,
+                jBEntity.Location,
+                jBEntity.DeviceEntities == null ? null
+                : jBEntity.DeviceEntities.Select(d => new DeviceBasicDto(d.Id, d.Code)).ToList(),
+                jBEntity.ModuleEntities == null ? null
+                : jBEntity.ModuleEntities.Select(m => new ModuleBasicDto(m.Id, m.Name)).ToList(),
+                jBEntity.OutdoorImageEntity == null ? null
+                : new ImageResponseDto(jBEntity.OutdoorImageEntity.Id, jBEntity.OutdoorImageEntity.Name, jBEntity.OutdoorImageEntity.Url),
+                jBEntity.ConnectionImageEntities == null ? null
+                : jBEntity.ConnectionImageEntities.Select(i => new ImageResponseDto(i.Id, i.Name, i.Url)).ToList()
+            );
+        }
+
+        private JBGeneralDto MapToGeneralDto(JBEntity jBEntity)
+        {
+            return new JBGeneralDto(
+                jBEntity.Id,
+                jBEntity.Name,
+                jBEntity.Location,
+                jBEntity.OutdoorImageEntity == null ? null
+                : new ImageResponseDto(jBEntity.OutdoorImageEntity.Id, jBEntity.OutdoorImageEntity.Name, jBEntity.OutdoorImageEntity.Url),
+                jBEntity.ConnectionImageEntities == null ? null
+                : jBEntity.ConnectionImageEntities.Select(i => new ImageResponseDto(i.Id, i.Name, i.Url)).ToList()
+            );
+        }
+        private JBRequestDto MapToRequestDto(JBEntity jBEntity)
+        {
+            return new JBRequestDto(
+                jBEntity.Name,
+                jBEntity.Location,
+                jBEntity.DeviceEntities.Select(d => new DeviceBasicDto(d.Id, d.Code)).ToList(),
+                jBEntity.ModuleEntities.Select(m => new ModuleBasicDto(m.Id, m.Name)).ToList(),
+                jBEntity.OutdoorImageEntity != null ? new ImageBasicDto(jBEntity.OutdoorImageEntity.Id, jBEntity.OutdoorImageEntity.Name) : null!,
+                jBEntity.ConnectionImageEntities.Select(i => new ImageBasicDto(i.Id, i.Name)).ToList()
+            );
+        }
+
+
     }
 }

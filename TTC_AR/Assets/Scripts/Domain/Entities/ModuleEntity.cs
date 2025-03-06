@@ -1,51 +1,79 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using Newtonsoft.Json;
 using UnityEngine.Scripting;
+
 #nullable enable
+//Các kiểu tham chiếu không được chú thích với ? (nullable) được coi là non-nullable (không thể là null).
 namespace Domain.Entities
 {
   public class ModuleEntity
   {
-    public int Id { get; set; }
-    public string Name { get; set; } = string.Empty;
-    public string RackName { get; set; } = string.Empty;
-    public RackEntity? Rack { get; set; }
-    public List<DeviceEntity> Devices { get; set; } = new();
-    public List<JBEntity> JBs { get; set; } = new();
-    public ModuleSpecificationEntity? ModuleSpecification { get; set; }
-    public AdapterSpecificationEntity? AdapterSpecification { get; set; }
+    [JsonProperty("Id")]
+    public int Id { get; set; } // non-nullable
+
+    [JsonProperty("Name")]
+    public string Name { get; set; } = string.Empty; // non-nullable
+
+    [JsonProperty("Rack", NullValueHandling = NullValueHandling.Ignore)]
+    public RackEntity? RackEntity { get; set; }
+    [JsonProperty("Devices", NullValueHandling = NullValueHandling.Ignore)]
+    public List<DeviceEntity>? DeviceEntities { get; set; }
+    [JsonProperty("JBs", NullValueHandling = NullValueHandling.Ignore)]
+    public List<JBEntity>? JBEntities { get; set; }
+    [JsonProperty("ModuleSpecification", NullValueHandling = NullValueHandling.Ignore)]
+    public ModuleSpecificationEntity? ModuleSpecificationEntity { get; set; }
+    [JsonProperty("AdapterSpecification", NullValueHandling = NullValueHandling.Ignore)]
+    public AdapterSpecificationEntity? AdapterSpecificationEntity { get; set; }
 
     [Preserve]
-    [JsonConstructor]
-    public ModuleEntity(string name, string rackName, RackEntity rack)
+    public ModuleEntity()
     {
-      Name = name == "" ? throw new ArgumentNullException(nameof(name)) : name;
-      RackName = rackName == "" ? throw new ArgumentNullException(nameof(rackName)) : rackName;
-      Rack = rack;
-
+      // DeviceEntities = new List<DeviceEntity>();
+      // JBEntities = new List<JBEntity>();
     }
+    [Preserve]
     public ModuleEntity(int id, string name)
     {
       Id = id;
-      Name = name == "" ? throw new ArgumentNullException(nameof(name)) : name;
+      Name = string.IsNullOrEmpty(name) ? throw new ArgumentNullException(nameof(name)) : name;
     }
+
+    [Preserve]
+    public ModuleEntity(string name, RackEntity rack)
+    {
+      Name = string.IsNullOrEmpty(name) ? throw new ArgumentNullException(nameof(name)) : name;
+      RackEntity = rack;
+    }
+    [Preserve]
     public ModuleEntity(string name)
     {
-      Name = name == "" ? throw new ArgumentNullException(nameof(name)) : name;
+      Name = string.IsNullOrEmpty(name) ? throw new ArgumentNullException(nameof(name)) : name;
     }
-    // [Preserve]
-    // [JsonConstructor]
-    // public ModuleEntity(int id, string name, int rackId, RackEntity rack, List<DeviceEntity> devices, List<JBEntity> jbs, ModuleSpecificationEntity? moduleSpecification, AdapterSpecificationEntity? adapterSpecification)
-    // {
-    //   Id = id;
-    //   Name = name == "" ? throw new ArgumentNullException(nameof(name)) : name;
-    //   RackId = rackId;
-    //   Rack = rack;
-    //   Devices = devices;
-    //   JBs = jbs;
-    //   ModuleSpecification = moduleSpecification;
-    //   AdapterSpecification = adapterSpecification;
-    // }
+
+    [Preserve]
+    public ModuleEntity(int id, string name, RackEntity rack, List<DeviceEntity> deviceEntities, List<JBEntity> jbEntities, ModuleSpecificationEntity moduleSpecificationEntity, AdapterSpecificationEntity adapterSpecificationEntity)
+    {
+      Id = id;
+      Name = string.IsNullOrEmpty(name) ? throw new ArgumentNullException(nameof(name)) : name;
+      RackEntity = rack ?? null;
+      DeviceEntities = !deviceEntities.Any() ? new List<DeviceEntity>() : deviceEntities;
+      JBEntities = !jbEntities.Any() ? new List<JBEntity>() : jbEntities;
+      ModuleSpecificationEntity = moduleSpecificationEntity ?? null;
+      AdapterSpecificationEntity = adapterSpecificationEntity ?? null;
+    }
+
+    [Preserve]
+    public ModuleEntity(string name, RackEntity rack, List<DeviceEntity> deviceEntities, List<JBEntity> jbEntities, ModuleSpecificationEntity moduleSpecificationEntity, AdapterSpecificationEntity adapterSpecificationEntity)
+    {
+      Name = string.IsNullOrEmpty(name) ? throw new ArgumentNullException(nameof(name)) : name;
+      RackEntity = rack ?? null;
+      DeviceEntities = !deviceEntities.Any() ? new List<DeviceEntity>() : deviceEntities;
+      JBEntities = !jbEntities.Any() ? new List<JBEntity>() : jbEntities;
+      ModuleSpecificationEntity = moduleSpecificationEntity ?? null;
+      AdapterSpecificationEntity = adapterSpecificationEntity ?? null;
+    }
   }
 }

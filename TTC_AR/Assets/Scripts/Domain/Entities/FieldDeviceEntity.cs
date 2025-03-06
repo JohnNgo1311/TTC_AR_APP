@@ -1,46 +1,203 @@
 
+// using System;
+// using System.Collections.Generic;
+// using System.Linq;
+// using ApplicationLayer.Dtos;
+// using Domain.Entities;
+// using Newtonsoft.Json;
+// using UnityEngine.Scripting;
+
+// [Preserve]
+// public class FieldDeviceEntity
+// {
+
+//   public int id { get; set; }
+//   public string Name { get; set; } = string.Empty;
+//   public MccEntity MccEntity { get; set; }
+
+//   public string RatedPower { get; set; } = string.Empty;
+
+//   public string RatedCurrent { get; set; } = string.Empty;
+
+//   public string ActiveCurrent { get; set; } = string.Empty;
+
+//   public List<ImageEntity> ListConnectionImageEntities { get; set; } = new();
+
+//   public string Note { get; set; }
+
+//   [Preserve]
+//   
+//   public FieldDeviceEntity(string name)
+//   {
+//     Name = string.IsNullOrEmpty(name) ? throw new ArgumentNullException(nameof(name)) : name;
+//   }
+
+//   [Preserve]
+//   
+//   public FieldDeviceEntity(int id, string name)
+//   {
+//     Id = id;
+//     Name = string.IsNullOrEmpty(name) ? throw new ArgumentNullException(nameof(name)) : name;
+//   }
+//   public FieldDeviceEntity(int id, string name, MccEntity mccEntity, string ratedPower, string ratedCurrent, string activeCurrent, List<ImageEntity> listConnectionImageEntities, string note)
+//   {
+//     Id = id;
+//     Name = string.IsNullOrEmpty(name) ? throw new ArgumentNullException(nameof(name)) : name;
+//     Mcc = mcc ?? throw new ArgumentNullException(nameof(mccEntity));
+//     RatedPower = string.IsNullOrEmpty(ratedPower) ? string.Empty : ratedPower;
+//     RatedCurrent = string.IsNullOrEmpty(ratedCurrent) ? string.Empty : ratedCurrent;
+//     ActiveCurrent = string.IsNullOrEmpty(activeCurrent) ? string.Empty : activeCurrent;
+//     ListConnectionImageEntities = !listConnectionImageEntities.Any() ? new List<ImageEntity>() : listConnectionImageEntities;
+//     Note = string.IsNullOrEmpty(note) ? string.Empty : note;
+//   }
+
+// }
+
+
+// using System;
+// using System.Collections.Generic;
+// using Newtonsoft.Json;
+// using UnityEngine.Scripting;
+
+// namespace Domain.Entities
+// {
+//   [Preserve]
+//   public class FieldDeviceBaseEntity
+//   {
+//     [JsonProperty("Name")]
+//     public string Name { get; set; }
+
+//     [JsonProperty("mcc")]
+//     public MccEntity MccEntity { get; set; }
+
+//     [Preserve]
+//     
+//     public FieldDeviceBaseEntity(string name, MccEntity mccEntity)
+//     {
+//       Name = string.IsNullOrEmpty(name) ? throw new ArgumentNullException(nameof(name), "Name is required") : name;
+//       MccEntity = mccEntity ?? throw new ArgumentNullException(nameof(mccEntity), "MccEntity is required");
+//     }
+//   }
+
+//   [Preserve]
+//   public class FieldDeviceEntity : FieldDeviceBaseEntity
+//   {
+//     [JsonProperty("id", NullValueHandling = NullValueHandling.Ignore)] // Không gửi Id khi POST
+//     public int id { get; set; }
+
+//     [JsonProperty("ratedPower")]
+//     public string RatedPower { get; set; }
+
+//     [JsonProperty("ratedCurrent")]
+//     public string RatedCurrent { get; set; }
+
+//     [JsonProperty("activeCurrent")]
+//     public string ActiveCurrent { get; set; }
+
+//     [JsonProperty("connectionImages")]
+//     public List<ImageEntity> ListConnectionImageEntities { get; set; }
+
+//     [JsonProperty("note")]
+//     public string Note { get; set; }
+
+//     // Constructor cho POST
+//     [Preserve]
+//     public FieldDeviceEntity(string name, MccEntity mccEntity, string ratedPower = "", string ratedCurrent = "", string activeCurrent = "", List<ImageEntity> listConnectionImageEntities = null, string note = "")
+//         : base(name, mccEntity)
+//     {
+//       Id = 0; // Không gửi khi POST
+//       RatedPower = ratedPower ?? "";
+//       RatedCurrent = ratedCurrent ?? "";
+//       ActiveCurrent = activeCurrent ?? "";
+//       ListConnectionImageEntities = listConnectionImageEntities != null ? listConnectionImageEntities : new List<ImageEntity>();
+//       Note = note ?? "";
+//     }
+
+//     // Constructor cho GET/PUT
+//     [Preserve]
+//     
+//     public FieldDeviceEntity(int id, string name, MccEntity mccEntity, string ratedPower, string ratedCurrent, string activeCurrent, List<ImageEntity> listConnectionImageEntities, string note)
+//         : base(name, mccEntity)
+//     {
+//       Id = id;
+//       RatedPower = ratedPower ?? "";
+//       RatedCurrent = ratedCurrent ?? "";
+//       ActiveCurrent = activeCurrent ?? "";
+//       ListConnectionImageEntities = listConnectionImageEntities != null ? listConnectionImageEntities : new List<ImageEntity>();
+//       Note = note ?? "";
+//     }
+//   }
+// }
 using System;
 using System.Collections.Generic;
-using Domain.Entities;
 using Newtonsoft.Json;
 using UnityEngine.Scripting;
 
-[Preserve]
-public class FieldDeviceEntity
+#nullable enable
+namespace Domain.Entities
 {
-
-  public int Id { get; set; }
-  public string Name { get; set; }
-  public string CabinetCode { get; set; }
-
-  public string RatedPower { get; set; } = string.Empty;
-
-  public string RatedCurrent { get; set; } = string.Empty;
-
-  public string ActiveCurrent { get; set; } = string.Empty;
-
-  public List<ImageEntity> ListConnectionImages { get; set; } = new();
-
-  public List<string> Note { get; set; } = new();
-
   [Preserve]
-  [JsonConstructor]
-  public FieldDeviceEntity(string name, string cabinetCode)
+  public class FieldDeviceEntity
   {
-    Name = name == "" ? throw new ArgumentNullException(nameof(name)) : name;
-    CabinetCode = cabinetCode == "" ? throw new ArgumentNullException(nameof(cabinetCode)) : cabinetCode;
+    [JsonProperty("Id")]
+    public int Id { get; set; }
+
+    [JsonProperty("Name")]
+    public string Name { get; set; } = string.Empty;
+
+    [JsonProperty("Mcc", NullValueHandling = NullValueHandling.Ignore)]
+    public MccEntity? MccEntity { get; set; }
+
+    [JsonProperty("ratedPower", NullValueHandling = NullValueHandling.Ignore)]
+    public string? RatedPower { get; set; }
+
+    [JsonProperty("ratedCurrent", NullValueHandling = NullValueHandling.Ignore)]
+    public string? RatedCurrent { get; set; }
+
+    [JsonProperty("activeCurrent", NullValueHandling = NullValueHandling.Ignore)]
+    public string? ActiveCurrent { get; set; }
+
+    [JsonProperty("connectionImages", NullValueHandling = NullValueHandling.Ignore)]
+    public List<ImageEntity>? ConnectionImageEntities { get; set; }
+
+    [JsonProperty("Note", NullValueHandling = NullValueHandling.Ignore)]
+    public string? Note { get; set; } = string.Empty;
+
+    [Preserve]
+
+    public FieldDeviceEntity()
+    {
+      ConnectionImageEntities = new List<ImageEntity>();
+    }
+
+
+    [Preserve]  //! Dùng khi FieldDeviceEntity được dùng làm Field để Post cho Mcc
+    public FieldDeviceEntity(int id, string name)
+    {
+      Id = id;
+      Name = string.IsNullOrEmpty(name) ? throw new ArgumentNullException(nameof(name)) : name;
+    }
+
+    [Preserve]
+    public FieldDeviceEntity(string name, MccEntity mccEntity, List<ImageEntity> connectionImages)
+    {
+      Name = string.IsNullOrEmpty(name) ? throw new ArgumentNullException(nameof(name)) : name;
+      MccEntity = mccEntity ?? throw new ArgumentNullException(nameof(mccEntity));
+      ConnectionImageEntities = connectionImages ?? new List<ImageEntity>();
+    }
+
+    [Preserve]
+    //! Dùng khi Get FieldDeviceEntity từ Grapper
+    public FieldDeviceEntity(int id, string name, MccEntity mccEntity, List<ImageEntity> connectionImageEntities, string ratedPower = "", string ratedCurrent = "", string activeCurrent = "", string note = "")
+    {
+      Id = id;
+      Name = string.IsNullOrEmpty(name) ? throw new ArgumentNullException(nameof(name)) : name;
+      MccEntity = mccEntity ?? throw new ArgumentNullException(nameof(mccEntity));
+      RatedPower = ratedPower ?? string.Empty;
+      RatedCurrent = ratedCurrent ?? string.Empty;
+      ActiveCurrent = activeCurrent ?? string.Empty;
+      ConnectionImageEntities = connectionImageEntities ?? new List<ImageEntity>();
+      Note = note ?? string.Empty;
+    }
   }
-
-  // public FieldDeviceEntity(int id, string name, string cabinetCode, string? ratedPower, string? ratedCurrent, string? activeCurrent, List<ImageEntity> listConnectionImages, List<string> note)
-  // {
-  //   Id = id;
-  //   Name = name == "" ? throw new ArgumentNullException(nameof(name)) : name;
-  //   CabinetCode = cabinetCode;
-  //   RatedPower = ratedPower;
-  //   RatedCurrent = ratedCurrent;
-  //   ActiveCurrent = activeCurrent;
-  //   ListConnectionImages = listConnectionImages;
-  //   Note = note;
-  // }
-
 }

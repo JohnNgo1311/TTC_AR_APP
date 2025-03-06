@@ -2,66 +2,91 @@ using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using UnityEngine.Scripting;
-
+#nullable enable
 namespace Domain.Entities
 {
   [Preserve]
   public class AdapterSpecificationEntity
   {
-    public int Id { get; set; }
+    [JsonProperty("Id")]
+    public string Id { get; set; } = string.Empty;
+    [JsonProperty("Code")]
+    public string Code { get; set; } = string.Empty;
 
-    public string Code { get; set; }
+    [JsonProperty("Type", NullValueHandling = NullValueHandling.Ignore)]
+    public string? Type { get; set; }
+    [JsonProperty("Communication", NullValueHandling = NullValueHandling.Ignore)]
+    public string? Communication { get; set; }
+    [JsonProperty("NumOfModulesAllowed", NullValueHandling = NullValueHandling.Ignore)]
+    public string? NumOfModulesAllowed { get; set; }
+    [JsonProperty("CommSpeed", NullValueHandling = NullValueHandling.Ignore)]
+    public string? CommSpeed { get; set; }
+    [JsonProperty("InputSupply", NullValueHandling = NullValueHandling.Ignore)]
+    public string? InputSupply { get; set; }
+    [JsonProperty("OutputSupply", NullValueHandling = NullValueHandling.Ignore)]
+    public string? OutputSupply { get; set; }
+    [JsonProperty("InrushCurrent", NullValueHandling = NullValueHandling.Ignore)]
+    public string? InrushCurrent { get; set; }
+    [JsonProperty("Alarm", NullValueHandling = NullValueHandling.Ignore)]
+    public string? Alarm { get; set; }
+    [JsonProperty("Note", NullValueHandling = NullValueHandling.Ignore)]
+    public string? Note { get; set; }
 
-    public string Type { get; set; } = string.Empty;
-
-    public string Communication { get; set; } = string.Empty;
-
-    public string NumOfModulesAllowed { get; set; } = string.Empty;
-
-    public string CommSpeed { get; set; } = string.Empty;
-
-    public string InputSupply { get; set; } = string.Empty;
-    public string OutputSupply { get; set; } = string.Empty;
-
-    public string InrushCurrent { get; set; } = string.Empty;
-    public string Alarm { get; set; } = string.Empty;
-    public string Noted { get; set; } = string.Empty;
-    public string PdfManual { get; set; } = string.Empty;
-
+    [JsonProperty("PdfManual", NullValueHandling = NullValueHandling.Ignore)]
+    public string? PdfManual { get; set; }
 
     [Preserve]
-    [JsonConstructor]
+    public AdapterSpecificationEntity()
+    {
+
+    }
+
+    [Preserve]
     public AdapterSpecificationEntity(string code)
     {
-      Code = code == "" ? throw new ArgumentNullException(nameof(code)) : code;
+      Code = string.IsNullOrEmpty(code) ? throw new ArgumentNullException(nameof(code)) : code;
     }
 
     [Preserve]
-    [JsonConstructor]
-    public AdapterSpecificationEntity(int id, string code)
+    public AdapterSpecificationEntity(string id, string code)
     {
       Id = id;
-      Code = code == "" ? throw new ArgumentNullException(nameof(code)) : code;
+      Code = code;
+      // Code = string.IsNullOrEmpty(code) ? throw new ArgumentNullException(nameof(code)) : code;
     }
 
     [Preserve]
-    [JsonConstructor]
-    public AdapterSpecificationEntity(int id, string code, string type, string communication, string numOfModulesAllowed, string commSpeed, string inputSupply, string outputSupply, string inrushCurrent, string alarm, string note, string pdfManual)
+    public AdapterSpecificationEntity(string id, string code, string type, string communication, string numOfModulesAllowed, string commSpeed, string inputSupply, string outputSupply, string inrushCurrent, string alarm, string note, string pdfManual)
     {
       Id = id;
-      Code = code == "" ? throw new ArgumentNullException(nameof(code)) : code;
-      Type = type;
-      Communication = communication;
-      NumOfModulesAllowed = numOfModulesAllowed;
-      CommSpeed = commSpeed;
-      InputSupply = inputSupply;
-      OutputSupply = outputSupply;
-      InrushCurrent = inrushCurrent;
-      Alarm = alarm;
-      Noted = note;
-      PdfManual = pdfManual;
+      Code = string.IsNullOrEmpty(code) ? throw new ArgumentNullException(nameof(code)) : code;
+      Type = string.IsNullOrEmpty(type) ? string.Empty : type;
+      Communication = string.IsNullOrEmpty(communication) ? string.Empty : communication;
+      NumOfModulesAllowed = string.IsNullOrEmpty(numOfModulesAllowed) ? string.Empty : numOfModulesAllowed;
+      CommSpeed = string.IsNullOrEmpty(commSpeed) ? string.Empty : commSpeed;
+      InputSupply = string.IsNullOrEmpty(inputSupply) ? string.Empty : inputSupply;
+      OutputSupply = string.IsNullOrEmpty(outputSupply) ? string.Empty : outputSupply;
+      InrushCurrent = string.IsNullOrEmpty(inrushCurrent) ? string.Empty : inrushCurrent;
+      Alarm = string.IsNullOrEmpty(alarm) ? string.Empty : alarm;
+      Note = string.IsNullOrEmpty(note) ? string.Empty : note;
+      PdfManual = string.IsNullOrEmpty(pdfManual) ? string.Empty : pdfManual;
     }
 
+    [Preserve]
+    public AdapterSpecificationEntity(string code, string type, string communication, string numOfModulesAllowed, string commSpeed, string inputSupply, string outputSupply, string inrushCurrent, string alarm, string note, string pdfManual)
+    {
+      Code = string.IsNullOrEmpty(code) ? throw new ArgumentNullException(nameof(code)) : code;
+      Type = type == string.Empty ? "Chưa cập nhật" : type;
+      Communication = communication == string.Empty ? "Chưa cập nhật" : communication;
+      NumOfModulesAllowed = numOfModulesAllowed == string.Empty ? "Chưa cập nhật" : numOfModulesAllowed;
+      CommSpeed = commSpeed == string.Empty ? "Chưa cập nhật" : commSpeed;
+      InputSupply = inputSupply == string.Empty ? "Chưa cập nhật" : inputSupply;
+      OutputSupply = outputSupply == string.Empty ? "Chưa cập nhật" : outputSupply;
+      InrushCurrent = inrushCurrent == string.Empty ? "Chưa cập nhật" : inrushCurrent;
+      Alarm = alarm == string.Empty ? "Chưa cập nhật" : alarm;
+      Note = note == string.Empty ? "Chưa cập nhật" : note;
+      PdfManual = pdfManual == string.Empty ? "Chưa cập nhật" : pdfManual;
+    }
   }
 }
 

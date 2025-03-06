@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using ApplicationLayer.Dtos;
+using ApplicationLayer.Dtos.JB;
 using ApplicationLayer.Interfaces;
 using ApplicationLayer.UseCases;
 
@@ -17,12 +18,12 @@ namespace ApplicationLayer.Services
 
 
         //! Dữ liệu trả về là Dto
-        public async Task<JBResponseDto> GetJBByIdAsync(int id)
+        public async Task<JBResponseDto> GetJBByIdAsync(int JBid)
         {
-            return await _JBUseCase.GetJBByIdAsync(id);
+            return await _JBUseCase.GetJBByIdAsync(JBid);
         }
 
-        public async Task<List<JBResponseDto>> GetListJBAsync(int grapperId)
+        public async Task<List<JBGeneralDto>> GetListJBAsync(int grapperId)
         {
             return await _JBUseCase.GetListJBAsync(grapperId);
         }

@@ -1,7 +1,7 @@
 
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using ApplicationLayer.Dtos;
+using ApplicationLayer.Dtos.Grapper;
 using Domain.Entities;
 
 namespace ApplicationLayer.Interfaces

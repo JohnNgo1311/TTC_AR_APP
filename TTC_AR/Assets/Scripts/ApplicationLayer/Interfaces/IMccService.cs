@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using ApplicationLayer.Dtos;
+using ApplicationLayer.Dtos.Mcc;
 using Domain.Entities;
 
 namespace ApplicationLayer.Interfaces

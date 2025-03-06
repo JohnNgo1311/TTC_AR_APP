@@ -2,8 +2,7 @@
 // Domain/Repositories/IRackRepository.cs
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using ApplicationLayer.Dtos;
-using Domain.Entities;
+using ApplicationLayer.Dtos.Rack;
 
 namespace ApplicationLayer.Interfaces
 {

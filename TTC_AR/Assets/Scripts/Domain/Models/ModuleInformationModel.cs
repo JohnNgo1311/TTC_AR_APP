@@ -8,9 +8,9 @@ public class ModuleInformationModel
 {
 #nullable enable
 
-  [JsonProperty("id")] public int Id { get; set; }
+  [JsonProperty("Id")] public int Id { get; set; }
 
-  [JsonProperty("name")] public string Name { get; set; }
+  [JsonProperty("Name")] public string Name { get; set; }
   [JsonProperty("rack")] public RackBasicModel Rack { get; set; }
 
   [JsonProperty("listDevices")] public List<DeviceInformationModel> ListDeviceInformationModel_FromModule { get; set; }
@@ -23,7 +23,7 @@ public class ModuleInformationModel
 
 
   [Preserve]
-  [JsonConstructor]
+
   public ModuleInformationModel(int id, string name, RackBasicModel rack, List<DeviceInformationModel> listDeviceInformationModel_FromModule, List<JBInformationModel> listJBInformationModel, ModuleSpecificationModel? moduleSpecificationModel, AdapterSpecificationModel? adapterSpecificationModel)
   {
     Id = id;
@@ -68,7 +68,7 @@ public class ModuleGeneralModel //! Module Module có Id, Name và Rack tương 
   [JsonProperty("AdapterSpecification")] public AdapterSpecificationBasicModel? AdapterSpecificationBasicModel { get; set; }
 
   [Preserve]
-  [JsonConstructor]
+
   public ModuleGeneralModel(int id, string name, RackBasicModel rackBasicModel, List<DeviceBasicModel> listDeviceBasicModel, List<JBBasicModel> listJBBasicModel, ModuleSpecificationBasicModel? moduleSpecificationBasicModel, AdapterSpecificationBasicModel? adapterSpecificationBasicModel)
   {
     Id = id;

@@ -7,9 +7,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using UnityEngine.Networking;
-using Infrastructure.Dtos;
 using System.Linq;
 using ApplicationLayer.Dtos;
+using ApplicationLayer.Dtos.ModuleSpecification;
 
 namespace Infrastructure.Repositories
 {
@@ -17,7 +17,7 @@ namespace Infrastructure.Repositories
     {
         private readonly HttpClient _httpClient;
 
-        private const string BaseUrl = "https://external-server-api.com"; // URL server ngoài thực tế
+        private const string BaseUrl = "https://6776bd1c12a55a9a7d0cbc42.mockapi.io/api/v2/Company"; // URL server ngoài thực tế
 
         public ModuleSpecificationRepository(HttpClient httpClient)
         {
@@ -26,12 +26,14 @@ namespace Infrastructure.Repositories
             _httpClient.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
         }
 
-        //! Trả về Entity
+        //! Trả về Entity do kết quả server trả về hoàn toàn giống hoặc gần giống với Entity
         public async Task<ModuleSpecificationEntity> GetModuleSpecificationByIdAsync(int ModuleSpecificationId)
         {
             try
             {
-                var response = await _httpClient.GetAsync($"/api/ModuleSpecification/{ModuleSpecificationId}");
+                // var response = await _httpClient.GetAsync($"/api/ModuleSpecification/{ModuleSpecificationId}");
+                var response = await _httpClient.GetAsync($"{BaseUrl}/{ModuleSpecificationId}");
+
                 if (!response.IsSuccessStatusCode)
                 {
                     throw new HttpRequestException($"Failed to get ModuleSpecification. Status: {response.StatusCode}");
@@ -52,12 +54,14 @@ namespace Infrastructure.Repositories
             }
         }
 
-        //! Trả về List<Entity>
-        public async Task<List<ModuleSpecificationEntity>> GetListModuleSpecificationAsync(int grapperId)
+        //! Trả về List<Entity> do kết quả server trả về hoàn toàn giống hoặc gần giống với Entity
+        public async Task<List<ModuleSpecificationEntity>> GetListModuleSpecificationAsync(int companyId)
         {
             try
             {
-                var response = await _httpClient.GetAsync($"/api/ModuleSpecification/grapper/{grapperId}");
+                // var response = await _httpClient.GetAsync($"/api/ModuleSpecification/grapper/{companyId}");
+                var response = await _httpClient.GetAsync($"{BaseUrl}");
+
                 if (!response.IsSuccessStatusCode)
                     throw new HttpRequestException($"Failed to get ModuleSpecification list. Status: {response.StatusCode}");
                 else
@@ -76,34 +80,20 @@ namespace Infrastructure.Repositories
             }
         }
 
-        public async Task<bool> CreateNewModuleSpecificationAsync(int grapperId, ModuleSpecificationEntity ModuleSpecificationEntity)
+        public async Task<bool> CreateNewModuleSpecificationAsync(int companyId, ModuleSpecificationEntity moduleSpecificationEntity)
         {
             try
             {
-
-                if (ModuleSpecificationEntity == null)
-                    throw new ArgumentNullException(nameof(ModuleSpecificationEntity), "Entity cannot be null");
+                if (moduleSpecificationEntity == null)
+                    throw new ArgumentNullException(nameof(moduleSpecificationEntity), "Entity cannot be null");
                 // Tạo dữ liệu tối giản gửi lên server
                 else
                 {
-                    var ModuleSpecificationRequestData = new
-                    {
-                        code = ModuleSpecificationEntity.Code, // Mandatory
-                        Type = ModuleSpecificationEntity.Type ?? "", // Nullable/Empty
-                        NumOfIO = ModuleSpecificationEntity.NumOfIO ?? "",
-                        SignalType = ModuleSpecificationEntity.SignalType ?? "",
-                        CompatibleTBUs = ModuleSpecificationEntity.CompatibleTBUs ?? "",
-                        OperatingVoltage = ModuleSpecificationEntity.OperatingVoltage ?? "",
-                        OperatingCurrent = ModuleSpecificationEntity.OperatingCurrent ?? "",
-                        FlexbusCurrent = ModuleSpecificationEntity.FlexbusCurrent ?? "",
-                        Alarm = ModuleSpecificationEntity.Alarm ?? "",
-                        Note = ModuleSpecificationEntity.Note ?? "",
-                        PDFManual = ModuleSpecificationEntity.PdfManual ?? ""
-                    };
-
-                    var json = JsonConvert.SerializeObject(ModuleSpecificationRequestData);
+                    //  var ModuleSpecificationEntity = ConvertModuleSpecificationEntity(ModuleSpecificationEntity);
+                    var json = JsonConvert.SerializeObject(moduleSpecificationEntity);
                     var content = new StringContent(json, Encoding.UTF8, "application/json");
-                    var response = await _httpClient.PostAsync($"/api/ModuleSpecification/grapper/{grapperId}", content);
+                    // var response = await _httpClient.PostAsync($"/api/ModuleSpecification/grapper/{companyId}", content);
+                    var response = await _httpClient.PostAsync($"{BaseUrl}", content);
 
                     if (!response.IsSuccessStatusCode)
                         throw new HttpRequestException($"Failed to create ModuleSpecification. Status: {response.StatusCode}");
@@ -121,32 +111,20 @@ namespace Infrastructure.Repositories
             }
         }
 
-        public async Task<bool> UpdateModuleSpecificationAsync(int ModuleSpecificationId, ModuleSpecificationEntity ModuleSpecificationEntity)
+        public async Task<bool> UpdateModuleSpecificationAsync(int ModuleSpecificationId, ModuleSpecificationEntity moduleSpecificationEntity)
         {
             try
             {
-                if (ModuleSpecificationEntity == null)
-                    throw new ArgumentNullException(nameof(ModuleSpecificationEntity), "Entity cannot be null");
+                if (moduleSpecificationEntity == null)
+                    throw new ArgumentNullException(nameof(moduleSpecificationEntity), "Entity cannot be null");
                 else
                 {
-                    var ModuleSpecificationRequestData = new
-                    {
-                        code = ModuleSpecificationEntity.Code, // Mandatory
-                        Type = ModuleSpecificationEntity.Type ?? "", // Nullable/Empty
-                        NumOfIO = ModuleSpecificationEntity.NumOfIO ?? "",
-                        SignalType = ModuleSpecificationEntity.SignalType ?? "",
-                        CompatibleTBUs = ModuleSpecificationEntity.CompatibleTBUs ?? "",
-                        OperatingVoltage = ModuleSpecificationEntity.OperatingVoltage ?? "",
-                        OperatingCurrent = ModuleSpecificationEntity.OperatingCurrent ?? "",
-                        FlexbusCurrent = ModuleSpecificationEntity.FlexbusCurrent ?? "",
-                        Alarm = ModuleSpecificationEntity.Alarm ?? "",
-                        Note = ModuleSpecificationEntity.Note ?? "",
-                        PDFManual = ModuleSpecificationEntity.PdfManual ?? ""
-                    };
+                    //var ModuleSpecificationEntity = ConvertModuleSpecificationEntity(ModuleSpecificationEntity);
 
-                    var json = JsonConvert.SerializeObject(ModuleSpecificationRequestData);
+                    var json = JsonConvert.SerializeObject(moduleSpecificationEntity);
                     var content = new StringContent(json, Encoding.UTF8, "application/json");
-                    var response = await _httpClient.PutAsync($"/api/ModuleSpecification/{ModuleSpecificationId}", content);
+                    // var response = await _httpClient.PutAsync($"/api/ModuleSpecification/{ModuleSpecificationId}", content);
+                    var response = await _httpClient.PutAsync($"{BaseUrl}/{ModuleSpecificationId}", content);
 
                     if (!response.IsSuccessStatusCode)
                         throw new HttpRequestException($"Failed to update ModuleSpecification. Status: {response.StatusCode}");
@@ -168,7 +146,7 @@ namespace Infrastructure.Repositories
         {
             try
             {
-                var response = await _httpClient.DeleteAsync($"/api/ModuleSpecification/{ModuleSpecificationId}");
+                var response = await _httpClient.DeleteAsync($"{BaseUrl}/{ModuleSpecificationId}");
 
                 if (!response.IsSuccessStatusCode)
                     throw new HttpRequestException($"Failed to create ModuleSpecification. Status: {response.StatusCode}");
@@ -185,6 +163,23 @@ namespace Infrastructure.Repositories
             }
 
         }
+        // private object ConvertModuleSpecificationEntity(ModuleSpecificationEntity ModuleSpecificationEntity)
+        // {
+        //     return new
+        //     {
+        //         code = ModuleSpecificationEntity.Code,
+        //         ModuleSpecificationEntity.Type,
+        //         ModuleSpecificationEntity.NumOfIO,
+        //         ModuleSpecificationEntity.SignalType,
+        //         ModuleSpecificationEntity.CompatibleTBUs,
+        //         ModuleSpecificationEntity.OperatingVoltage,
+        //         ModuleSpecificationEntity.OperatingCurrent,
+        //         ModuleSpecificationEntity.FlexbusCurrent,
+        //         ModuleSpecificationEntity.Alarm,
+        //         ModuleSpecificationEntity.Note,
+        //         PDFManual = ModuleSpecificationEntity.PdfManual
+        //     };
+        // }
 
     }
 }

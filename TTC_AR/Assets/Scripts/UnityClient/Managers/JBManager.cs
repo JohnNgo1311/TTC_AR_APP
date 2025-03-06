@@ -13,6 +13,7 @@ using System.Linq;
 using System.Net.Http;
 using ApplicationLayer.Interfaces;
 using ApplicationLayer.Dtos;
+using ApplicationLayer.Dtos.JB;
 
 public class JBManager : MonoBehaviour
 {
@@ -70,14 +71,14 @@ public class JBManager : MonoBehaviour
     {
         try
         {
-            var jb = await _IJBService.GetJBByIdAsync(jBId); // Gọi Service
-            if (jb != null)
+            var jBResponseDto = await _IJBService.GetJBByIdAsync(jBId); // Gọi Service
+            if (jBResponseDto != null)
             {
-                Debug.Log($"JB: {jb.Name}, Location: {jb.Location}");
+                Debug.Log($"jBResponseDto: {jBResponseDto.Name}, Location: {jBResponseDto.Location}");
             }
             else
             {
-                Debug.Log("JB not found");
+                Debug.Log("jBResponseDto not found");
             }
         }
 

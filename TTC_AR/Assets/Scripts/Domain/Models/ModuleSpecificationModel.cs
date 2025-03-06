@@ -10,11 +10,11 @@ using UnityEngine.Scripting;
 public class ModuleSpecificationModel
 {
 #nullable enable
-  [JsonProperty("id")]
+  [JsonProperty("Id")]
   public int Id { get; set; }
   // [JsonProperty("adapterSpecification")]
   // public AdapterSpecificationModel? Adapter { get; set; }
-  [JsonProperty("code")]
+  [JsonProperty("Code")]
   public string Code { get; set; }
   [JsonProperty("type")]
   public string Type { get; set; }
@@ -42,7 +42,7 @@ public class ModuleSpecificationModel
   public string? PdfManual { get; set; }
 
   [Preserve]
-  [JsonConstructor]
+
   public ModuleSpecificationModel(int id,
    // AdapterSpecificationModel? adapter,
    string code, string type, string? numOfIO, string? signalType, string? compatibleTBUs, string? operatingVoltage, string? operatingCurrent, string? flexbusCurrent, string? alarm, string? note, string? pdfManual)
@@ -69,7 +69,7 @@ public class ModuleSpecificationPostModel
 #nullable enable
   // [JsonProperty("adapterSpecification")]
   // public AdapterSpecificationModel? Adapter { get; set; }
-  [JsonProperty("code")]
+  [JsonProperty("Code")]
   public string Code { get; set; }
   [JsonProperty("type")]
   public string Type { get; set; }
@@ -97,7 +97,7 @@ public class ModuleSpecificationPostModel
   public string? PdfManual { get; set; }
 
   [Preserve]
-  [JsonConstructor]
+
   public ModuleSpecificationPostModel(
    // AdapterSpecificationModel? adapter,
    string code, string type, string? numOfIO, string? signalType, string? compatibleTBUs, string? operatingVoltage, string? operatingCurrent, string? flexbusCurrent, string? alarm, string? note, string? pdfManual)
@@ -120,13 +120,13 @@ public class ModuleSpecificationPostModel
 [Preserve]
 public class ModuleSpecificationBasicModel
 {
-  [JsonProperty("id")]
+  [JsonProperty("Id")]
   public int Id { get; set; }
 
-  [JsonProperty("code")]
+  [JsonProperty("Code")]
   public string Code { get; set; }
   [Preserve]
-  [JsonConstructor]
+
   public ModuleSpecificationBasicModel(int id, string code)
   {
     Id = id;

@@ -5,10 +5,10 @@ using UnityEngine.Scripting;
 [Preserve]
 public class DeviceInformationModel
 {
-  [JsonProperty("id")]
+  [JsonProperty("Id")]
   public int Id { get; set; }
 
-  [JsonProperty("code")]
+  [JsonProperty("Code")]
   public string Code { get; set; }
 
   [JsonProperty("function")]
@@ -33,7 +33,7 @@ public class DeviceInformationModel
   public List<ImageInformationModel> AdditionalConnectionImages { get; set; }
 
   [Preserve]
-  [JsonConstructor]
+
   public DeviceInformationModel(int id, string code, string function, string range, string unit, string ioAddress, ModuleBasicModel moduleBasicModel, JBInformationModel jbInformationModel, List<ImageInformationModel> additionalConnectionImages)
   {
     Id = id;
@@ -52,10 +52,10 @@ public class DeviceInformationModel
 [Preserve]
 public class DeviceGeneralModel
 {
-  [JsonProperty("id")]
+  [JsonProperty("Id")]
   public int Id { get; set; }
 
-  [JsonProperty("code")]
+  [JsonProperty("Code")]
   public string Code { get; set; }
 
   [JsonProperty("function")]
@@ -80,7 +80,7 @@ public class DeviceGeneralModel
   public List<ImageBasicModel> AdditionalImageModels { get; set; }
 
   [Preserve]
-  [JsonConstructor]
+
   public DeviceGeneralModel(int id, string code, string function, string range, string unit, string ioAddress, ModuleBasicModel moduleBasicModel, JBBasicModel jbBasicModel, List<ImageBasicModel> additionalImageModels)
   {
     Id = id;
@@ -99,7 +99,7 @@ public class DeviceGeneralModel
 [Preserve]
 public class DevicePostGeneralModel
 {
-  [JsonProperty("code")]
+  [JsonProperty("Code")]
   public string Code { get; set; }
   [JsonProperty("function")]
   public string Function { get; set; }
@@ -123,7 +123,7 @@ public class DevicePostGeneralModel
   public List<ImageBasicModel> AdditionalConnectionBasicModel { get; set; }
 
   [Preserve]
-  [JsonConstructor]
+
   public DevicePostGeneralModel(string code, string function, string range, string unit, string ioAddress, ModuleBasicModel moduleBasicModel, JBBasicModel jbBasicModel, List<ImageBasicModel> additionalConnectionBasicModel)
   {
     Code = code;
@@ -143,12 +143,12 @@ public class DevicePostGeneralModel
 [Preserve]
 public class DeviceBasicModel
 {
-  [JsonProperty("id")]
+  [JsonProperty("Id")]
   public int Id { get; set; }
-  [JsonProperty("code")]
+  [JsonProperty("Code")]
   public string Code { get; set; }
   [Preserve]
-  [JsonConstructor]
+
   public DeviceBasicModel(int id, string code)
   {
     Id = id;

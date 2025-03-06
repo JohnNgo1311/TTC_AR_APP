@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ApplicationLayer.Dtos;
+using ApplicationLayer.Dtos.ModuleSpecification;
 using Domain.Entities;
 using Domain.Interfaces;
 
@@ -16,11 +17,11 @@ namespace ApplicationLayer.UseCases
         {
             _IModuleSpecificationRepository = IModuleSpecificationRepository;
         }
-        public async Task<List<ModuleSpecificationResponseDto>> GetListModuleSpecificationAsync(int grapperId)
+        public async Task<List<ModuleSpecificationResponseDto>> GetListModuleSpecificationAsync(int companyId)
         {
             try
             {
-                var ModuleSpecificationEntities = await _IModuleSpecificationRepository.GetListModuleSpecificationAsync(grapperId);
+                var ModuleSpecificationEntities = await _IModuleSpecificationRepository.GetListModuleSpecificationAsync(companyId);
 
                 if (ModuleSpecificationEntities == null)
                 {
@@ -65,7 +66,7 @@ namespace ApplicationLayer.UseCases
                 throw new ApplicationException("Failed to get ModuleSpecification", ex); // Bao bọc lỗi từ Repository
             }
         }
-        public async Task<bool> CreateNewModuleSpecificationAsync(int grapperId, ModuleSpecificationRequestDto requestDto)
+        public async Task<bool> CreateNewModuleSpecificationAsync(int companyId, ModuleSpecificationRequestDto requestDto)
         {
             try
             {
@@ -75,13 +76,14 @@ namespace ApplicationLayer.UseCases
                     throw new ArgumentException("Code cannot be empty");
                 }
                 var createNewModuleSpecificationEntity = MapRequestToEntity(requestDto);
+                //   var requestData = MapToRequestDto(createNewModuleSpecificationEntity);
                 if (createNewModuleSpecificationEntity == null)
                 {
                     throw new ApplicationException("Failed to create ModuleSpecification cause ModuleSpecificationEntity is Null");
                 }
                 else
                 {
-                    return await _IModuleSpecificationRepository.CreateNewModuleSpecificationAsync(grapperId, createNewModuleSpecificationEntity);
+                    return await _IModuleSpecificationRepository.CreateNewModuleSpecificationAsync(companyId, createNewModuleSpecificationEntity);
                 }
             }
             catch (ArgumentException)
@@ -93,9 +95,8 @@ namespace ApplicationLayer.UseCases
                 throw new ApplicationException("Failed to create ModuleSpecification", ex); // Bao bọc lỗi từ Repository
             }
         }
-        public async Task<bool> UpdateModuleSpecificationAsync(int ModuleSpecificationId, ModuleSpecificationRequestDto requestDto)
+        public async Task<bool> UpdateModuleSpecificationAsync(int moduleSpecificationId, ModuleSpecificationRequestDto requestDto)
         {
-            // Validate
             try
             {
                 // Validate
@@ -103,20 +104,18 @@ namespace ApplicationLayer.UseCases
                 {
                     throw new ArgumentException("Code cannot be empty");
                 }
-                var updateNewModuleSpecificationEntity = MapRequestToEntity(requestDto);
-
-                if (updateNewModuleSpecificationEntity == null)
+                var updateModuleSpecificationEntity = MapRequestToEntity(requestDto);
+                //  var requestData = MapToRequestDto(updateModuleSpecificationEntity);
+                if (updateModuleSpecificationEntity == null)
                 {
                     throw new ApplicationException("Failed to update ModuleSpecification cause ModuleSpecificationEntity is Null");
                 }
                 else
                 {
-                    var updatedModuleSpecificationResult = await _IModuleSpecificationRepository.UpdateModuleSpecificationAsync(ModuleSpecificationId, updateNewModuleSpecificationEntity);
-                    return updatedModuleSpecificationResult;
+                    return await _IModuleSpecificationRepository.UpdateModuleSpecificationAsync(moduleSpecificationId, updateModuleSpecificationEntity);
                 }
-
-
             }
+
             catch (ArgumentException)
             {
                 throw; // Ném lại lỗi validation cho Unity xử lý
@@ -143,6 +142,8 @@ namespace ApplicationLayer.UseCases
             }
         }
 
+
+        //! Entity => Dto
         private ModuleSpecificationResponseDto MapToResponseDto(ModuleSpecificationEntity ModuleSpecificationEntity)
         {
             return new ModuleSpecificationResponseDto(
@@ -173,21 +174,53 @@ namespace ApplicationLayer.UseCases
                 PdfManual = ModuleSpecificationEntity.PdfManual
             };
         }
+        private ModuleSpecificationRequestDto MapToRequestDto(ModuleSpecificationEntity ModuleSpecificationEntity)
+        {
+            return new ModuleSpecificationRequestDto(
+                ModuleSpecificationEntity.Code,
+                ModuleSpecificationEntity.Type,
+                ModuleSpecificationEntity.NumOfIO,
+                ModuleSpecificationEntity.SignalType,
+                ModuleSpecificationEntity.CompatibleTBUs,
+                ModuleSpecificationEntity.OperatingVoltage,
+                ModuleSpecificationEntity.OperatingCurrent,
+                ModuleSpecificationEntity.FlexbusCurrent,
+                ModuleSpecificationEntity.Alarm,
+                ModuleSpecificationEntity.Note,
+                ModuleSpecificationEntity.PdfManual
+            )
+            {
+                Code = ModuleSpecificationEntity.Code,
+                Type = ModuleSpecificationEntity.Type,
+                SignalType = ModuleSpecificationEntity.SignalType,
+                CompatibleTBUs = ModuleSpecificationEntity.CompatibleTBUs,
+                OperatingVoltage = ModuleSpecificationEntity.OperatingVoltage,
+                OperatingCurrent = ModuleSpecificationEntity.OperatingCurrent,
+                FlexbusCurrent = ModuleSpecificationEntity.FlexbusCurrent,
+                Alarm = ModuleSpecificationEntity.Alarm,
+                Note = ModuleSpecificationEntity.Note,
+                PdfManual = ModuleSpecificationEntity.PdfManual
+            };
+        }
 
+        //! Dto => Entity
         private ModuleSpecificationEntity MapRequestToEntity(ModuleSpecificationRequestDto requestDto)
         {
-            return new ModuleSpecificationEntity(requestDto.Code)
-            {
-                Type = requestDto.Type,
-                SignalType = requestDto.SignalType,
-                CompatibleTBUs = requestDto.CompatibleTBUs,
-                OperatingVoltage = requestDto.OperatingVoltage,
-                OperatingCurrent = requestDto.OperatingCurrent,
-                FlexbusCurrent = requestDto.FlexbusCurrent,
-                Alarm = requestDto.Alarm,
-                Note = requestDto.Note,
-                PdfManual = requestDto.PdfManual
-            };
+            return new ModuleSpecificationEntity(
+                code: requestDto.Code,
+                type: requestDto.Type,
+                numOfIO: requestDto.NumOfIO,
+                signalType: requestDto.SignalType,
+                compatibleTBUs: requestDto.CompatibleTBUs,
+                operatingVoltage: requestDto.OperatingVoltage,
+                operatingCurrent: requestDto.OperatingCurrent,
+                flexbusCurrent: requestDto.FlexbusCurrent,
+                alarm: requestDto.Alarm,
+                note: requestDto.Note,
+                pdfManual: requestDto.PdfManual
+                );
+
+
         }
         private ModuleSpecificationEntity MapToResponseEntity(ModuleSpecificationResponseDto ModuleSpecificationResponseDto)
         {
@@ -205,8 +238,6 @@ namespace ApplicationLayer.UseCases
                 PdfManual = ModuleSpecificationResponseDto.PdfManual
 
             };
-
-
         }
     }
 }

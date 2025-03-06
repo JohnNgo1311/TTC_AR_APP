@@ -8,10 +8,10 @@ using UnityEngine.Scripting;
 public class AdapterSpecificationModel
 {
 #nullable enable
-  [JsonProperty("id")]
+  [JsonProperty("Id")]
   public int Id { get; set; }
 
-  [JsonProperty("code")]
+  [JsonProperty("Code")]
   public string? Code { get; set; }
 
   [JsonProperty("type")]
@@ -40,7 +40,7 @@ public class AdapterSpecificationModel
   [JsonProperty("pdfManual")]
   public string? PdfManual { get; set; }
   [Preserve]
-  [JsonConstructor]
+
   public AdapterSpecificationModel(int id, string? code, string? type, string? communication, string? numOfModulesAllowed, string? commSpeed, string? inputSupply, string? outputSupply, string? inrushCurrent, string? alarm, string? note, string? pdfManual)
   {
     Id = id;
@@ -60,12 +60,12 @@ public class AdapterSpecificationModel
 }
 public class AdapterSpecificationBasicModel
 {
-  [JsonProperty("id")]
+  [JsonProperty("Id")]
   public int Id { get; set; }
-  [JsonProperty("code")]
+  [JsonProperty("Code")]
   public string Code { get; set; }
   [Preserve]
-  [JsonConstructor]
+
   public AdapterSpecificationBasicModel(int id, string code)
   {
     Id = id;

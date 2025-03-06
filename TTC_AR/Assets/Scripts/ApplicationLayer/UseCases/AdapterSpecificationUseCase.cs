@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ApplicationLayer.Dtos;
+using ApplicationLayer.Dtos.AdapterSpecification;
 using Domain.Entities;
 using Domain.Interfaces;
 
@@ -42,7 +43,7 @@ namespace ApplicationLayer.UseCases
                 throw new ApplicationException("Failed to get AdapterSpecification list", ex);
             }
         }
-        public async Task<AdapterSpecificationResponseDto> GetAdapterSpecificationByIdAsync(int adapterSpecificationId)
+        public async Task<AdapterSpecificationResponseDto> GetAdapterSpecificationByIdAsync(string adapterSpecificationId)
         {
             try
             {
@@ -65,7 +66,7 @@ namespace ApplicationLayer.UseCases
                 throw new ApplicationException("Failed to get AdapterSpecification", ex); // Bao bọc lỗi từ Repository
             }
         }
-        public async Task<bool> CreateNewAdapterSpecificationAsync(int grapperId, AdapterSpecificationRequestDto requestDto)
+        public async Task<bool> CreateNewAdapterSpecificationAsync(int companyId, AdapterSpecificationRequestDto requestDto)
         {
             try
             {
@@ -75,13 +76,14 @@ namespace ApplicationLayer.UseCases
                     throw new ArgumentException("Code cannot be empty");
                 }
                 var createNewAdapterSpecificationEntity = MapRequestToEntity(requestDto);
+                // var requestData = adapterSpecificationRequestDto(createNewAdapterSpecificationEntity);
                 if (createNewAdapterSpecificationEntity == null)
                 {
                     throw new ApplicationException("Failed to create AdapterSpecification cause AdapterSpecificationEntity is Null");
                 }
                 else
                 {
-                    return await _IAdapterSpecificationRepository.CreateNewAdapterSpecificationAsync(grapperId, createNewAdapterSpecificationEntity);
+                    return await _IAdapterSpecificationRepository.CreateNewAdapterSpecificationAsync(companyId, createNewAdapterSpecificationEntity);
                 }
             }
             catch (ArgumentException)
@@ -93,9 +95,8 @@ namespace ApplicationLayer.UseCases
                 throw new ApplicationException("Failed to create AdapterSpecification", ex); // Bao bọc lỗi từ Repository
             }
         }
-        public async Task<bool> UpdateAdapterSpecificationAsync(int AdapterSpecificationId, AdapterSpecificationRequestDto requestDto)
+        public async Task<bool> UpdateAdapterSpecificationAsync(int adapterSpecificationId, AdapterSpecificationRequestDto requestDto)
         {
-            // Validate
             try
             {
                 // Validate
@@ -103,18 +104,18 @@ namespace ApplicationLayer.UseCases
                 {
                     throw new ArgumentException("Code cannot be empty");
                 }
-                var updateNewAdapterSpecificationEntity = MapRequestToEntity(requestDto);
+                var updateAdapterSpecificationEntity = MapRequestToEntity(requestDto);
 
-                if (updateNewAdapterSpecificationEntity == null)
+                //var requestData = adapterSpecificationRequestDto(updateAdapterSpecificationEntity);
+
+                if (updateAdapterSpecificationEntity == null)
                 {
                     throw new ApplicationException("Failed to update AdapterSpecification cause AdapterSpecificationEntity is Null");
                 }
                 else
                 {
-                    var updatedAdapterSpecificationResult = await _IAdapterSpecificationRepository.UpdateAdapterSpecificationAsync(AdapterSpecificationId, updateNewAdapterSpecificationEntity);
-                    return updatedAdapterSpecificationResult;
+                    return await _IAdapterSpecificationRepository.UpdateAdapterSpecificationAsync(adapterSpecificationId, updateAdapterSpecificationEntity);
                 }
-
 
             }
             catch (ArgumentException)
@@ -142,7 +143,7 @@ namespace ApplicationLayer.UseCases
                 throw new ApplicationException("Failed to delete AdapterSpecification", ex); // Bao bọc lỗi từ Repository
             }
         }
-
+        //! Dto => Entity
         private AdapterSpecificationResponseDto MapToResponseDto(AdapterSpecificationEntity AdapterSpecificationEntity)
         {
             return new AdapterSpecificationResponseDto(
@@ -156,7 +157,7 @@ namespace ApplicationLayer.UseCases
                 AdapterSpecificationEntity.OutputSupply,
                 AdapterSpecificationEntity.InrushCurrent,
                 AdapterSpecificationEntity.Alarm,
-                AdapterSpecificationEntity.Noted,
+                AdapterSpecificationEntity.Note,
                 AdapterSpecificationEntity.PdfManual
             )
             {
@@ -170,31 +171,57 @@ namespace ApplicationLayer.UseCases
                 OutputSupply = AdapterSpecificationEntity.OutputSupply,
                 InrushCurrent = AdapterSpecificationEntity.InrushCurrent,
                 Alarm = AdapterSpecificationEntity.Alarm,
-                Noted = AdapterSpecificationEntity.Noted,
+                Note = AdapterSpecificationEntity.Note,
                 PdfManual = AdapterSpecificationEntity.PdfManual
 
             };
-
         }
-
+        private AdapterSpecificationRequestDto adapterSpecificationRequestDto(AdapterSpecificationEntity adapterSpecificationEntity)
+        {
+            return new AdapterSpecificationRequestDto
+            (
+            adapterSpecificationEntity.Code,
+            adapterSpecificationEntity.Type,
+            adapterSpecificationEntity.Communication,
+            adapterSpecificationEntity.NumOfModulesAllowed,
+            adapterSpecificationEntity.CommSpeed,
+            adapterSpecificationEntity.InputSupply,
+            adapterSpecificationEntity.OutputSupply,
+            adapterSpecificationEntity.InrushCurrent,
+            adapterSpecificationEntity.Alarm,
+            adapterSpecificationEntity.Note,
+            adapterSpecificationEntity.PdfManual
+            )
+            {
+                Code = adapterSpecificationEntity.Code,
+                Type = adapterSpecificationEntity.Type,
+                Communication = adapterSpecificationEntity.Communication,
+                NumOfModulesAllowed = adapterSpecificationEntity.NumOfModulesAllowed,
+                CommSpeed = adapterSpecificationEntity.CommSpeed,
+                InputSupply = adapterSpecificationEntity.InputSupply,
+                OutputSupply = adapterSpecificationEntity.OutputSupply,
+                InrushCurrent = adapterSpecificationEntity.InrushCurrent,
+                Alarm = adapterSpecificationEntity.Alarm,
+                Note = adapterSpecificationEntity.Note,
+                PdfManual = adapterSpecificationEntity.PdfManual
+            };
+        }
+        //! Dto => Entity
         private AdapterSpecificationEntity MapRequestToEntity(AdapterSpecificationRequestDto requestDto)
         {
-            return new AdapterSpecificationEntity(requestDto.Code)
-            {
-                Type = requestDto.Type,
-                Communication = requestDto.Communication,
-                NumOfModulesAllowed = requestDto.NumOfModulesAllowed,
-
-                CommSpeed = requestDto.CommSpeed,
-
-                InputSupply = requestDto.InputSupply,
-                OutputSupply = requestDto.OutputSupply,
-
-                InrushCurrent = requestDto.InrushCurrent,
-                Alarm = requestDto.Alarm,
-                Noted = requestDto.Noted,
-                PdfManual = requestDto.PdfManual
-            };
+            return new AdapterSpecificationEntity(
+                requestDto.Code,
+                requestDto.Type,
+                requestDto.Communication,
+                requestDto.NumOfModulesAllowed,
+                requestDto.CommSpeed,
+                requestDto.InputSupply,
+                requestDto.OutputSupply,
+                requestDto.InrushCurrent,
+                requestDto.Alarm,
+                requestDto.Note,
+                requestDto.PdfManual
+            );
         }
         private AdapterSpecificationEntity MapToResponseEntity(AdapterSpecificationResponseDto AdapterSpecificationResponseDto)
         {
@@ -209,11 +236,10 @@ namespace ApplicationLayer.UseCases
                 OutputSupply = AdapterSpecificationResponseDto.OutputSupply,
                 InrushCurrent = AdapterSpecificationResponseDto.InrushCurrent,
                 Alarm = AdapterSpecificationResponseDto.Alarm,
-                Noted = AdapterSpecificationResponseDto.Noted,
+                Note = AdapterSpecificationResponseDto.Note,
                 PdfManual = AdapterSpecificationResponseDto.PdfManual
             };
-
-
         }
+
     }
 }

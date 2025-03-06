@@ -5,6 +5,13 @@ using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
+using ApplicationLayer.Dtos.ModuleSpecification;
+using System.Reflection;
+using UnityEngine.iOS;
+using ApplicationLayer.Dtos.Device;
+using ApplicationLayer.Dtos.Module;
+using ApplicationLayer.Dtos.JB;
+using ApplicationLayer.Dtos.Image;
 
 public class Login_Btn_On_Click : MonoBehaviour
 {
@@ -62,7 +69,7 @@ public class Login_Btn_On_Click : MonoBehaviour
             (Gamepad.current != null && Gamepad.current.buttonEast != null && Gamepad.current.buttonEast.wasPressedThisFrame) ||
             (Keyboard.current != null && Keyboard.current.escapeKey.wasPressedThisFrame))
         {
-            
+
             Application.Quit();
         }
     }
@@ -71,6 +78,133 @@ public class Login_Btn_On_Click : MonoBehaviour
 
     private void HandleLogin()
     {
+        // FieldDeviceManager fieldDeviceManager = FindObjectOfType<FieldDeviceManager>();
+        // fieldDeviceManager.GetFieldDeviceById(1);
+        // CompanyManager CompanyManager = FindObjectOfType<CompanyManager>();
+        // CompanyManager.GetCompanyById("3");
+        JBManager jBManager = FindObjectOfType<JBManager>();
+        jBManager.CreateNewJB(
+            1,
+            new JBRequestDto(
+                name: "JBName44",
+                location: "JBLocation",
+                deviceBasicDtos: new List<DeviceBasicDto>()
+                {
+                    new DeviceBasicDto(
+                        id: "55",
+                        code: "DeviceCode11"
+                    ),
+                    new DeviceBasicDto(
+                        id: "56",
+                        code: "DeviceCode12"
+                    )
+                },
+                moduleBasicDtos: new List<ModuleBasicDto>()
+                {
+                    new ModuleBasicDto(
+                        id: 44,
+                        name: "ModuleName44"
+                    ),
+                    new ModuleBasicDto(
+                        id: 45,
+                        name: "ModuleName45"
+                    )
+                },
+                outdoorImageBasicDto: new ImageBasicDto(
+                    id: 23,
+                    name: "OutdoorImageName23"
+                ),
+                connectionImageBasicDtos: new List<ImageBasicDto>()
+                {
+                    new ImageBasicDto(
+                        id: 24,
+                        name: "ConnectionImageName24"
+                    ),
+                    new ImageBasicDto(
+                        id: 25,
+                        name: "ConnectionImageName25"
+                    )
+                }
+            )
+        );
+        // jBManager.GetJBList(1);
+        // jBManager.GetJBById(1);
+
+
+
+        //!  DeviceManager DeviceManager = FindObjectOfType<DeviceManager>();
+        //?DeviceManager.GetDeviceById(1);
+        //?DeviceManager.GetDeviceList(1);
+        // DeviceManager.DeleteDevice(1);
+        // DeviceManager.UpdateDevice(
+
+        //     new DeviceRequestDto(
+        //         code: "DeviceCode",
+        //         function: "DeviceFunction",
+        //         range: "hoho",
+        //         unit: "hello",
+        //         ioAddress: "alibabababa",
+        //         moduleBasicDto: null,
+        //         jbBasicDto: null,
+        //         additionalImageBasicDtos: null
+        //     )
+        // );
+
+
+        //! ModuleSpecificationManager ModuleSpecificationManager = FindObjectOfType<ModuleSpecificationManager>();
+        // ModuleSpecificationManager.DeleteModuleSpecification(2);
+        //ModuleSpecificationManager.GetModuleSpecificationById(2);
+        //ModuleSpecificationManager.GetModuleSpecificationList(1);
+        //    ModuleSpecificationManager.UpdateModuleSpecification(
+        //              new ModuleSpecificationRequestDto(
+        //                   code: "Hello world",
+        //                   type: "hello",
+        //                   numOfIO: "kitty",
+        //                   signalType: "ModuleSpecificationSignsdadsaasalType",
+        //                   compatibleTBUs: "ModuleSpecificationdsadasdasCompatibleTBUs",
+        //                   operatingVoltage: "ModuleSpecificationsdadsadasdOperatingVoltage",
+        //                   operatingCurrent: "ModuleSpecificatiodsadsanOperatingCurrent",
+        //                   flexbusCurrent: "ModuleSpecificationFlexsdadsadbusCurrent",
+        //                    alarm: "",
+        //                   note: "",
+        //                   pdfManual: ""
+        //              )
+        //          );
+        //! AdapterSpecificationManager AdapterSpecificationManager = FindObjectOfType<AdapterSpecificationManager>();
+        //? AdapterSpecificationManager.GetAdapterSpecificationList(1);
+        //?AdapterSpecificationManager.GetAdapterSpecificationById("12345");
+        //? AdapterSpecificationManager.UpdateAdapterSpecification(
+        //     new AdapterSpecificationRequestDto(
+        //         code: "adaadadada",
+        //         type: "Hello World",
+        //         communication: "AdapterSpecificationCommunication",
+        //         numOfModulesAllowed: "AdapterSpecificationNumOfModulesAllowed",
+        //         commSpeed: "",
+        //         inputSupply: "AdapterSpecificationInputSupply",
+        //         outputSupply: "AdapterSpecificationOutputSupply",
+        //         inrushCurrent: "AdapterSpecificationInrushCurrent",
+        //         alarm: "AdapterSpecificationAlarm",
+        //         note: "",
+        //         pdfManual: "AdapterSpecificationPdfManual"
+        //     )
+        // );
+        //? AdapterSpecificationManager.CreateNewAdapterSpecification(
+        //     1,
+        //     new AdapterSpecificationRequestDto(
+        //     code: "AdapterSpecificationName",
+        //     type: "AdapterSpecificationType",
+        //     communication: "AdapterSpecificationCommunication",
+        //     numOfModulesAllowed: "AdapterSpecificationNumOfModulesAllowed",
+        //     commSpeed: "AdapterSpecificationCommSpeed",
+        //     inputSupply: "AdapterSpecificationInputSupply",
+        //     outputSupply: "AdapterSpecificationOutputSupply",
+        //     inrushCurrent: "AdapterSpecificationInrushCurrent",
+        //     alarm: "AdapterSpecificationAlarm",
+        //     note: "AdapterSpecificationNote",
+        //     pdfManual: "AdapterSpecificationPdfManual"
+        //     )
+        // );
+
         userName = userNameField.text;
         password = passwordField.text;
 

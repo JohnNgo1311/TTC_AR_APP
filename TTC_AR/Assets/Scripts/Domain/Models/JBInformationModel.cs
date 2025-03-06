@@ -9,9 +9,9 @@ using UnityEngine.Scripting;
 public class JBInformationModel
 {
 #nullable enable
-  [JsonProperty("id")]
+  [JsonProperty("Id")]
   public int Id { get; set; }
-  [JsonProperty("name")]
+  [JsonProperty("Name")]
   public string Name { get; set; }
 
   [JsonProperty("location")]
@@ -30,7 +30,7 @@ public class JBInformationModel
   public List<ImageInformationModel> ListConnectionImages { get; set; }
 
   [Preserve]
-  [JsonConstructor]
+
   public JBInformationModel(int id, string name, string location, List<DeviceBasicModel> listDeviceInformation, List<ModuleBasicModel> listModuleInformation, ImageInformationModel outdoorImage, List<ImageInformationModel> listConnectionImages)
   {
     Id = id;
@@ -47,9 +47,9 @@ public class JBInformationModel
 public class JBGeneralModel
 {
 #nullable enable
-  [JsonProperty("id")]
+  [JsonProperty("Id")]
   public int Id { get; set; }
-  [JsonProperty("name")]
+  [JsonProperty("Name")]
   public string Name { get; set; }
 
   [JsonProperty("location")]
@@ -68,7 +68,7 @@ public class JBGeneralModel
   public List<ImageBasicModel> ListConnectionImages { get; set; }
 
   [Preserve]
-  [JsonConstructor]
+
   public JBGeneralModel(int id, string name, string? location, List<DeviceBasicModel> listDevices, List<ModuleBasicModel> listModules, ImageBasicModel outdoorImage, List<ImageBasicModel> listConnectionImages)
   {
     Id = id;
@@ -86,7 +86,7 @@ public class JBGeneralModel
 public class JBPostGeneralModel
 {
 #nullable enable
-  [JsonProperty("name")]
+  [JsonProperty("Name")]
   public string Name { get; set; }
   [JsonProperty("location")]
   public string? Location { get; set; }
@@ -104,7 +104,7 @@ public class JBPostGeneralModel
   public List<ImageBasicModel> ListConnectionImages { get; set; }
 
   [Preserve]
-  [JsonConstructor]
+
   public JBPostGeneralModel(string name, string? location, List<DeviceBasicModel> listDevices, List<ModuleBasicModel> listModules, ImageBasicModel outdoorImage, List<ImageBasicModel> listConnectionImages)
   {
     Name = name;
@@ -120,13 +120,13 @@ public class JBPostGeneralModel
 
 public class JBBasicModel
 {
-  [JsonProperty("id")]
+  [JsonProperty("Id")]
   public int Id { get; set; }
-  [JsonProperty("name")]
+  [JsonProperty("Name")]
   public string Name { get; set; }
 
   [Preserve]
-  [JsonConstructor]
+
   public JBBasicModel(int id, string name)
   {
     Id = id;

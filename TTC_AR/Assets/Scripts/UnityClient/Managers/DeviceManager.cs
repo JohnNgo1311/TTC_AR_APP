@@ -14,6 +14,7 @@ using System.Linq;
 using System.Net.Http;
 using ApplicationLayer.Interfaces;
 using ApplicationLayer.Dtos;
+using ApplicationLayer.Dtos.Device;
 public class DeviceManager : MonoBehaviour
 {
 

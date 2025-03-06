@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using ApplicationLayer.Dtos;
+using ApplicationLayer.Dtos.ModuleSpecification;
 using ApplicationLayer.Interfaces;
 using ApplicationLayer.UseCases;
 
@@ -23,14 +24,14 @@ namespace ApplicationLayer.Services
             return await _ModuleSpecificationUseCase.GetModuleSpecificationByIdAsync(ModuleSpecificationId);
         }
 
-        public async Task<List<ModuleSpecificationResponseDto>> GetListModuleSpecificationAsync(int grapperId)
+        public async Task<List<ModuleSpecificationResponseDto>> GetListModuleSpecificationAsync(int companyId)
         {
-            return await _ModuleSpecificationUseCase.GetListModuleSpecificationAsync(grapperId);
+            return await _ModuleSpecificationUseCase.GetListModuleSpecificationAsync(companyId);
         }
 
-        public async Task<bool> CreateNewModuleSpecificationAsync(int grapperId, ModuleSpecificationRequestDto ModuleSpecificationRequestDto)
+        public async Task<bool> CreateNewModuleSpecificationAsync(int companyId, ModuleSpecificationRequestDto ModuleSpecificationRequestDto)
         {
-            return await _ModuleSpecificationUseCase.CreateNewModuleSpecificationAsync(grapperId, ModuleSpecificationRequestDto);
+            return await _ModuleSpecificationUseCase.CreateNewModuleSpecificationAsync(companyId, ModuleSpecificationRequestDto);
         }
         public async Task<bool> UpdateModuleSpecificationAsync(int ModuleSpecificationId, ModuleSpecificationRequestDto ModuleSpecificationRequestDto)
         {

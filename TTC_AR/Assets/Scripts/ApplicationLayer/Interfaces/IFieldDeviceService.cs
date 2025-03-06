@@ -1,8 +1,7 @@
 
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using ApplicationLayer.Dtos;
-using Domain.Entities;
+using ApplicationLayer.Dtos.FieldDevice;
 
 namespace ApplicationLayer.Interfaces
 {

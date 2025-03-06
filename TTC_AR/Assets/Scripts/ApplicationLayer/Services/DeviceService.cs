@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using ApplicationLayer.Dtos;
+using ApplicationLayer.Dtos.Device;
 using ApplicationLayer.Interfaces;
 using ApplicationLayer.UseCases;
 
@@ -21,18 +22,15 @@ namespace ApplicationLayer.Services
             _DeviceUseCase = DeviceUseCase;
         }
 
-
-        //! Dữ liệu trả về là Dto
+        //! Tham số là Dto, Dữ liệu trả về là Dto
         public async Task<DeviceResponseDto> GetDeviceByIdAsync(int id)
         {
             return await _DeviceUseCase.GetDeviceByIdAsync(id);
         }
-
         public async Task<List<DeviceResponseDto>> GetListDeviceAsync(int grapperId)
         {
             return await _DeviceUseCase.GetListDeviceAsync(grapperId);
         }
-
         public async Task<bool> CreateNewDeviceAsync(int grapperId, DeviceRequestDto DeviceRequestDto)
         {
             return await _DeviceUseCase.CreateNewDeviceAsync(grapperId, DeviceRequestDto);

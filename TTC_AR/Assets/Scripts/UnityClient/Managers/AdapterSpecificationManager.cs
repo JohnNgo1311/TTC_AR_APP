@@ -13,6 +13,7 @@ using System.Linq;
 using System.Net.Http;
 using ApplicationLayer.Interfaces;
 using ApplicationLayer.Dtos;
+using ApplicationLayer.Dtos.AdapterSpecification;
 
 public class AdapterSpecificationManager : MonoBehaviour
 {
@@ -31,11 +32,11 @@ public class AdapterSpecificationManager : MonoBehaviour
         //! Dependency Injection
         _IAdapterSpecificationService = ServiceLocator.Instance.AdapterSpecificationService;
     }
-    public async void GetAdapterSpecificationList(int grapperId)
+    public async void GetAdapterSpecificationList(int companyId)
     {
         try
         {
-            var AdapterSpecificationList = await _IAdapterSpecificationService.GetListAdapterSpecificationAsync(grapperId); //! Gọi _IAdapterSpecificationService từ Application Layer
+            var AdapterSpecificationList = await _IAdapterSpecificationService.GetListAdapterSpecificationAsync(companyId); //! Gọi _IAdapterSpecificationService từ Application Layer
             if (AdapterSpecificationList != null && AdapterSpecificationList.Count > 0)
             {
                 foreach (var AdapterSpecification in AdapterSpecificationList)
@@ -66,7 +67,7 @@ public class AdapterSpecificationManager : MonoBehaviour
         }
     }
 
-    public async void GetAdapterSpecificationById(int AdapterSpecificationId)
+    public async void GetAdapterSpecificationById(string AdapterSpecificationId)
     {
         try
         {
@@ -101,11 +102,11 @@ public class AdapterSpecificationManager : MonoBehaviour
         }
     }
 
-    public async void CreateNewAdapterSpecification(int grapperId, AdapterSpecificationRequestDto AdapterSpecificationRequestDto)
+    public async void CreateNewAdapterSpecification(int companyId, AdapterSpecificationRequestDto AdapterSpecificationRequestDto)
     {
         try
         {
-            bool result = await _IAdapterSpecificationService.CreateNewAdapterSpecificationAsync(grapperId, AdapterSpecificationRequestDto);
+            bool result = await _IAdapterSpecificationService.CreateNewAdapterSpecificationAsync(companyId, AdapterSpecificationRequestDto);
             Debug.Log(result ? "AdapterSpecification created successfully" : "Failed to create AdapterSpecification");
             //? hiển thị Dialog hoặc showToast tại đây
         }
@@ -134,7 +135,7 @@ public class AdapterSpecificationManager : MonoBehaviour
     {
         try
         {
-            bool result = await _IAdapterSpecificationService.UpdateAdapterSpecificationAsync(GlobalVariable.GrapperId, AdapterSpecificationRequestDto);
+            bool result = await _IAdapterSpecificationService.UpdateAdapterSpecificationAsync(GlobalVariable.AdapterSpecificationId, AdapterSpecificationRequestDto);
             Debug.Log(result ? "AdapterSpecification updated successfully" : "Failed to update AdapterSpecification");
         }
 

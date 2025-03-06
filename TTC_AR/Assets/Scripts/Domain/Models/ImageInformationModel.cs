@@ -15,7 +15,7 @@ public class ImageInformationModel
   [JsonProperty("Url")]
   public string url { get; set; }
   [Preserve]
-  [JsonConstructor]
+
   public ImageInformationModel(int id, string name, string url)
   {
     Id = id;
@@ -35,7 +35,7 @@ public class ImageBasicModel
   public string Name { get; set; }
 
   [Preserve]
-  [JsonConstructor]
+
   public ImageBasicModel(int id, string name)
   {
     Id = id;

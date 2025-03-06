@@ -7,9 +7,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using UnityEngine.Networking;
-using Infrastructure.Dtos;
 using System.Linq;
 using ApplicationLayer.Dtos;
+using ApplicationLayer.Dtos.AdapterSpecification;
 
 namespace Infrastructure.Repositories
 {
@@ -17,7 +17,7 @@ namespace Infrastructure.Repositories
     {
         private readonly HttpClient _httpClient;
 
-        private const string BaseUrl = "https://external-server-api.com"; // URL server ngoài thực tế
+        private const string BaseUrl = "https://6776bd1c12a55a9a7d0cbc42.mockapi.io/api/v2/Company"; // URL server ngoài thực tế
 
         public AdapterSpecificationRepository(HttpClient httpClient)
         {
@@ -27,11 +27,12 @@ namespace Infrastructure.Repositories
         }
 
         //! Trả về Entity
-        public async Task<AdapterSpecificationEntity> GetAdapterSpecificationByIdAsync(int AdapterSpecificationId)
+        public async Task<AdapterSpecificationEntity> GetAdapterSpecificationByIdAsync(string AdapterSpecificationId)
         {
             try
             {
-                var response = await _httpClient.GetAsync($"/api/AdapterSpecification/{AdapterSpecificationId}");
+                var response = await _httpClient.GetAsync($"{BaseUrl}/{AdapterSpecificationId}");
+
                 if (!response.IsSuccessStatusCode)
                 {
                     throw new HttpRequestException($"Failed to get AdapterSpecification. Status: {response.StatusCode}");
@@ -39,7 +40,12 @@ namespace Infrastructure.Repositories
                 else
                 {
                     var content = await response.Content.ReadAsStringAsync();
-                    return JsonConvert.DeserializeObject<AdapterSpecificationEntity>(content);
+
+                    UnityEngine.Debug.Log(content);
+
+                    var entity = JsonConvert.DeserializeObject<AdapterSpecificationEntity>(content);
+
+                    return entity;
                 }
             }
             catch (HttpRequestException ex)
@@ -53,11 +59,13 @@ namespace Infrastructure.Repositories
         }
 
         //! Trả về List<Entity>
-        public async Task<List<AdapterSpecificationEntity>> GetListAdapterSpecificationAsync(int grapperId)
+        public async Task<List<AdapterSpecificationEntity>> GetListAdapterSpecificationAsync(int companyId)
         {
             try
             {
-                var response = await _httpClient.GetAsync($"/api/AdapterSpecification/grapper/{grapperId}");
+                // var response = await _httpClient.GetAsync($"{BaseUrl}/{companyId}");
+                var response = await _httpClient.GetAsync($"{BaseUrl}");
+
                 if (!response.IsSuccessStatusCode)
                     throw new HttpRequestException($"Failed to get AdapterSpecification list. Status: {response.StatusCode}");
                 else
@@ -76,7 +84,7 @@ namespace Infrastructure.Repositories
             }
         }
 
-        public async Task<bool> CreateNewAdapterSpecificationAsync(int grapperId, AdapterSpecificationEntity adapterSpecificationEntity)
+        public async Task<bool> CreateNewAdapterSpecificationAsync(int companyId, AdapterSpecificationEntity adapterSpecificationEntity)
         {
             try
             {
@@ -86,25 +94,17 @@ namespace Infrastructure.Repositories
                 // Tạo dữ liệu tối giản gửi lên server
                 else
                 {
-                    var adapterSpecificationRequestData = new
+                    // var adapterSpecificationadapterSpecificationEntity = ConvertAdapterSpecificationEntity(adapterSpecificationEntity);
+                    var json = JsonConvert.SerializeObject(adapterSpecificationEntity, new JsonSerializerSettings
                     {
-                        code = adapterSpecificationEntity.Code, // Mandatory
-                        Type = adapterSpecificationEntity.Type ?? "", // Nullable/Empty
-                        Communication = adapterSpecificationEntity.Communication ?? "",
-                        NumOfModulesAllowed = adapterSpecificationEntity.NumOfModulesAllowed ?? "",
-                        CommSpeed = adapterSpecificationEntity.CommSpeed ?? "",
-                        InputSupply = adapterSpecificationEntity.InputSupply ?? "",
-                        OutputSupply = adapterSpecificationEntity.OutputSupply ?? "",
-                        InrushCurrent = adapterSpecificationEntity.InrushCurrent ?? "",
-                        Alarm = adapterSpecificationEntity.Alarm ?? "",
-                        Note = adapterSpecificationEntity.Noted ?? "", // Chú ý tên field "Note" thay vì "Noted"
-                        PDFManual = adapterSpecificationEntity.PdfManual ?? "" // Chú ý tên field "PDFManual"
-                    };
+                        NullValueHandling = NullValueHandling.Ignore
+                    });
 
-                    var json = JsonConvert.SerializeObject(adapterSpecificationRequestData);
                     var content = new StringContent(json, Encoding.UTF8, "application/json");
-                    var response = await _httpClient.PostAsync($"/api/AdapterSpecification/grapper/{grapperId}", content);
 
+                    var response = await _httpClient.PostAsync($"{BaseUrl}", content);
+
+                    //! var response = await _httpClient.PostAsync($"{BaseUrl}/{companyId}", content);
                     if (!response.IsSuccessStatusCode)
                         throw new HttpRequestException($"Failed to create AdapterSpecification. Status: {response.StatusCode}");
                     else { return true; }
@@ -121,32 +121,26 @@ namespace Infrastructure.Repositories
             }
         }
 
-        public async Task<bool> UpdateAdapterSpecificationAsync(int AdapterSpecificationId, AdapterSpecificationEntity adapterSpecificationEntity)
+
+        public async Task<bool> UpdateAdapterSpecificationAsync(int adapterSpecificationId, AdapterSpecificationEntity adapterSpecificationEntity)
         {
             try
             {
                 if (adapterSpecificationEntity == null)
                     throw new ArgumentNullException(nameof(adapterSpecificationEntity), "Entity cannot be null");
+                // Tạo dữ liệu tối giản gửi lên server
                 else
                 {
-                    var adapterSpecificationRequestData = new
-                    {
-                        code = adapterSpecificationEntity.Code, // Mandatory
-                        Type = adapterSpecificationEntity.Type ?? "", // Nullable/Empty
-                        Communication = adapterSpecificationEntity.Communication ?? "",
-                        NumOfModulesAllowed = adapterSpecificationEntity.NumOfModulesAllowed ?? "",
-                        CommSpeed = adapterSpecificationEntity.CommSpeed ?? "",
-                        InputSupply = adapterSpecificationEntity.InputSupply ?? "",
-                        OutputSupply = adapterSpecificationEntity.OutputSupply ?? "",
-                        InrushCurrent = adapterSpecificationEntity.InrushCurrent ?? "",
-                        Alarm = adapterSpecificationEntity.Alarm ?? "",
-                        Note = adapterSpecificationEntity.Noted ?? "", // Chú ý tên field "Note" thay vì "Noted"
-                        PDFManual = adapterSpecificationEntity.PdfManual ?? "" // Chú ý tên field "PDFManual"
-                    };
+                    //var adapterSpecificationadapterSpecificationEntity = ConvertAdapterSpecificationadapterSpecificationEntity(adapterSpecificationEntity);
 
-                    var json = JsonConvert.SerializeObject(adapterSpecificationRequestData);
+                    var json = JsonConvert.SerializeObject(adapterSpecificationEntity, new JsonSerializerSettings
+                    {
+                        NullValueHandling = NullValueHandling.Ignore
+                    });
+
                     var content = new StringContent(json, Encoding.UTF8, "application/json");
-                    var response = await _httpClient.PutAsync($"/api/AdapterSpecification/{AdapterSpecificationId}", content);
+                    var response = await _httpClient.PutAsync($"{BaseUrl}/{adapterSpecificationId}", content);
+                    // var response = await _httpClient.PutAsync($"/api/AdapterSpecification/{adapterSpecificationId}", content);
 
                     if (!response.IsSuccessStatusCode)
                         throw new HttpRequestException($"Failed to update AdapterSpecification. Status: {response.StatusCode}");
@@ -168,8 +162,8 @@ namespace Infrastructure.Repositories
         {
             try
             {
-                var response = await _httpClient.DeleteAsync($"/api/AdapterSpecification/{adapterSpecificationId}");
-
+                //! var response = await _httpClient.DeleteAsync($"/api/AdapterSpecification/{adapterSpecificationId}");
+                var response = await _httpClient.DeleteAsync($"{BaseUrl}/{adapterSpecificationId}");
                 if (!response.IsSuccessStatusCode)
                     throw new HttpRequestException($"Failed to create AdapterSpecification. Status: {response.StatusCode}");
                 else return true;
@@ -185,6 +179,22 @@ namespace Infrastructure.Repositories
             }
 
         }
-
+        // private object ConvertAdapterSpecificationRequestData(AdapterSpecificationEntity adapterSpecificationEntity)
+        // {
+        //     return new
+        //     {
+        //         code = adapterSpecificationEntity.Code,
+        //         Type = adapterSpecificationEntity.Type ?? "",
+        //         Communication = adapterSpecificationEntity.Communication ?? "",
+        //         NumOfModulesAllowed = adapterSpecificationEntity.NumOfModulesAllowed ?? "",
+        //         CommSpeed = adapterSpecificationEntity.CommSpeed ?? "",
+        //         InputSupply = adapterSpecificationEntity.InputSupply ?? "",
+        //         OutputSupply = adapterSpecificationEntity.OutputSupply ?? "",
+        //         InrushCurrent = adapterSpecificationEntity.InrushCurrent ?? "",
+        //         Alarm = adapterSpecificationEntity.Alarm ?? "",
+        //         Note = adapterSpecificationEntity.Note ?? "",
+        //         PDFManual = adapterSpecificationEntity.PdfManual ?? ""
+        //     };
+        // }
     }
 }

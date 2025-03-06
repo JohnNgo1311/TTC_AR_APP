@@ -9,7 +9,7 @@ using UnityEngine.Scripting;
 public class MccInformationModel
 {
 
-  [JsonProperty("id")]
+  [JsonProperty("Id")]
   public int Id { get; set; }
   [JsonProperty("cabinetCode")]
   public string CabinetCode { get; set; }
@@ -23,7 +23,7 @@ public class MccInformationModel
   public string? Note { get; set; }
 
   [Preserve]
-  [JsonConstructor]
+
   public MccInformationModel(int id, string cabinetCode, string? brand, List<FieldDeviceInformationModel> listFieldDeviceInformation, string? note)
   {
     Id = id;

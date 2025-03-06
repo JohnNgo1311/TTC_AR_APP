@@ -1,18 +1,11 @@
 
 using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.Networking;
-using System.Threading;
-using UnityEngine.SceneManagement;
-using System.Linq;
 using System.Net.Http;
 using ApplicationLayer.Interfaces;
-using ApplicationLayer.Dtos;
+using ApplicationLayer.Dtos.ModuleSpecification;
+using Domain.Entities;
+
 
 public class ModuleSpecificationManager : MonoBehaviour
 {
@@ -31,11 +24,11 @@ public class ModuleSpecificationManager : MonoBehaviour
         //! Dependency Injection
         _IModuleSpecificationService = ServiceLocator.Instance.ModuleSpecificationService;
     }
-    public async void GetModuleSpecificationList(int grapperId)
+    public async void GetModuleSpecificationList(int companyId)
     {
         try
         {
-            var ModuleSpecificationList = await _IModuleSpecificationService.GetListModuleSpecificationAsync(grapperId); //! Gọi _IModuleSpecificationService từ Application Layer
+            var ModuleSpecificationList = await _IModuleSpecificationService.GetListModuleSpecificationAsync(companyId); //! Gọi _IModuleSpecificationService từ Application Layer
             if (ModuleSpecificationList != null && ModuleSpecificationList.Count > 0)
             {
                 foreach (var ModuleSpecification in ModuleSpecificationList)
@@ -101,11 +94,11 @@ public class ModuleSpecificationManager : MonoBehaviour
         }
     }
 
-    public async void CreateNewModuleSpecification(int grapperId, ModuleSpecificationRequestDto ModuleSpecificationRequestDto)
+    public async void CreateNewModuleSpecification(int companyId, ModuleSpecificationRequestDto ModuleSpecificationRequestDto)
     {
         try
         {
-            bool result = await _IModuleSpecificationService.CreateNewModuleSpecificationAsync(grapperId, ModuleSpecificationRequestDto);
+            bool result = await _IModuleSpecificationService.CreateNewModuleSpecificationAsync(companyId, ModuleSpecificationRequestDto);
             Debug.Log(result ? "ModuleSpecification created successfully" : "Failed to create ModuleSpecification");
             //? hiển thị Dialog hoặc showToast tại đây
         }
@@ -134,7 +127,7 @@ public class ModuleSpecificationManager : MonoBehaviour
     {
         try
         {
-            bool result = await _IModuleSpecificationService.UpdateModuleSpecificationAsync(GlobalVariable.GrapperId, ModuleSpecificationRequestDto);
+            bool result = await _IModuleSpecificationService.UpdateModuleSpecificationAsync(GlobalVariable.ModuleSpecificationId, ModuleSpecificationRequestDto);
             Debug.Log(result ? "ModuleSpecification updated successfully" : "Failed to update ModuleSpecification");
         }
 

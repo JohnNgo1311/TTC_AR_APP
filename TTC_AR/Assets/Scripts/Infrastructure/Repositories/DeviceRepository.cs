@@ -7,16 +7,16 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using UnityEngine.iOS;
-using Infrastructure.Dtos;
 using System.Linq;
 using ApplicationLayer.Dtos;
+using ApplicationLayer.Dtos.Device;
 
 namespace Infrastructure.Repositories
 {
     public class DeviceRepository : IDeviceRepository
     {
         private readonly HttpClient _httpClient;
-        private const string BaseUrl = "https://external-server-api.com"; // URL server ngoài thực tế
+        private const string BaseUrl = "https://6776bd1c12a55a9a7d0cbc42.mockapi.io/api/v2/Company"; // URL server ngoài thực tế
 
         public DeviceRepository(HttpClient httpClient)
         {
@@ -25,16 +25,22 @@ namespace Infrastructure.Repositories
             _httpClient.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
         }
 
-        public async Task<DeviceResponseDto> GetDeviceByIdAsync(int deviceId)
+
+        //!  Do kết quả server trả về là tập hợp con của DeviceEntity nên sẽ lựa chọn hàm trả veỀ DeviceResponseDto
+        public async Task<DeviceEntity> GetDeviceByIdAsync(int deviceId)
         {
             try
             {
-                var response = await _httpClient.GetAsync($"/api/device/{deviceId}");
+                var response = await _httpClient.GetAsync($"{BaseUrl}/{deviceId}");
+
+
                 if (!response.IsSuccessStatusCode)
                     return null; // Hoặc ném exception tùy yêu cầu
 
                 var content = await response.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<DeviceResponseDto>(content);
+                UnityEngine.Debug.Log(content);
+
+                return JsonConvert.DeserializeObject<DeviceEntity>(content);
             }
             catch (HttpRequestException ex)
             {
@@ -46,18 +52,18 @@ namespace Infrastructure.Repositories
             }
         }
 
-        public async Task<List<DeviceResponseDto>> GetListDeviceAsync(int grapperId)
+        //!  Do kết quả server trả về là tập hợp con của DeviceEntity nên sẽ lựa chọn hàm trả veỀ DeviceResponseDto
+        public async Task<List<DeviceEntity>> GetListDeviceAsync(int grapperId)
         {
             try
             {
-                var response = await _httpClient.GetAsync($"/api/device/grapper/{grapperId}");
+                // var response = await _httpClient.GetAsync($"{BaseUrl}/{grapperId}");
+                var response = await _httpClient.GetAsync($"{BaseUrl}");
                 if (!response.IsSuccessStatusCode)
-                    return new List<DeviceResponseDto>();
-
+                    return new List<DeviceEntity>();
                 var content = await response.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<List<DeviceResponseDto>>(content);
+                return JsonConvert.DeserializeObject<List<DeviceEntity>>(content);
             }
-
             catch (HttpRequestException ex)
             {
                 throw ex; // Ném lỗi HTTP lên UseCase
@@ -72,35 +78,23 @@ namespace Infrastructure.Repositories
         {
             try
             {
-                var deviceRequestData = new
-                {
-                    code = deviceEntity.Code,
-                    function = deviceEntity.Function,
-                    range = deviceEntity.Range,
-                    unit = deviceEntity.Unit,
-                    iOAddress = deviceEntity.IOAddress,
-                    JBEntity = new
-                    {
-                        deviceEntity.JBEntity.Id,
-                        deviceEntity.JBEntity.Name
-                    },
-                    Module = new
-                    {
-                        deviceEntity.ModuleEntity.Id,
-                        deviceEntity.ModuleEntity.Name
-                    },
-                    AdditionalImageEntity = deviceEntity.AdditionalConnectionImageEntities.Select
-                    (entity => new
-                    {
-                        entity.Id,
-                        entity.Name
-                    }).ToList()
-                };
+                // var deviceRequestData = ConvertDeviceRequestData(deviceEntity);
 
-                var json = JsonConvert.SerializeObject(deviceRequestData);
+                // var json = JsonConvert.SerializeObject(deviceEntity, new JsonSerializerSettings
+                // {
+                //     NullValueHandling = NullValueHandling.Ignore
+                // });
+
+                var json = JsonConvert.SerializeObject(deviceEntity);
+
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
-                var response = await _httpClient.PostAsync($"/api/device/grapper/{grapperId}", content);
-                return response.IsSuccessStatusCode; // Trả về true nếu thành công
+                // var response = await _httpClient.PostAsync($"{BaseUrl}/{grapperId}", content);
+                var response = await _httpClient.PostAsync($"{BaseUrl}", content);
+
+                if (!response.IsSuccessStatusCode)
+                    throw new HttpRequestException($"Failed to create JB. Status: {response.StatusCode}");
+
+                return true;
             }
 
             catch (HttpRequestException ex)
@@ -118,36 +112,21 @@ namespace Infrastructure.Repositories
             try
             {
 
-                var deviceRequestData = new
-                {
-                    code = deviceEntity.Code,
-                    function = deviceEntity.Function,
-                    range = deviceEntity.Range,
-                    unit = deviceEntity.Unit,
-                    iOAddress = deviceEntity.IOAddress,
-                    JBEntity = new
-                    {
-                        deviceEntity.JBEntity.Id,
-                        deviceEntity.JBEntity.Name
-                    },
-                    Module = new
-                    {
-                        deviceEntity.ModuleEntity.Id,
-                        deviceEntity.ModuleEntity.Name
-                    },
-                    AdditionalImageEntity = deviceEntity.AdditionalConnectionImageEntities.Select
-                    (entity => new
-                    {
-                        entity.Id,
-                        entity.Name
-                    }).ToList()
-                };
+                // var deviceRequestData = ConvertDeviceRequestData(deviceEntity);
+                // var json = JsonConvert.SerializeObject(deviceEntity, new JsonSerializerSettings
+                // {
+                //     NullValueHandling = NullValueHandling.Ignore
+                // });
 
-
-                var json = JsonConvert.SerializeObject(deviceRequestData);
+                var json = JsonConvert.SerializeObject(deviceEntity);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
-                var response = await _httpClient.PutAsync($"/api/device/{deviceId}", content);
-                return response.IsSuccessStatusCode;
+
+                var response = await _httpClient.PutAsync($"{BaseUrl}/{deviceId}", content)
+                ;
+                if (!response.IsSuccessStatusCode)
+                    throw new HttpRequestException($"Failed to create JB. Status: {response.StatusCode}");
+
+                return true;
             }
             catch (HttpRequestException ex)
             {
@@ -163,8 +142,11 @@ namespace Infrastructure.Repositories
         {
             try
             {
-                var response = await _httpClient.DeleteAsync($"/api/device/{deviceId}");
-                return response.IsSuccessStatusCode;
+                var response = await _httpClient.DeleteAsync($"{BaseUrl}/{deviceId}");
+                if (!response.IsSuccessStatusCode)
+                    throw new HttpRequestException($"Failed to create JB. Status: {response.StatusCode}");
+
+                return true;
             }
             catch (HttpRequestException ex)
             {
@@ -176,6 +158,34 @@ namespace Infrastructure.Repositories
             }
 
 
+        }
+
+        private object ConvertDeviceRequestData(DeviceEntity deviceEntity)
+        {
+            return new
+            {
+                code = deviceEntity.Code,
+                function = deviceEntity.Function,
+                range = deviceEntity.Range,
+                unit = deviceEntity.Unit,
+                iOAddress = deviceEntity.IOAddress,
+                JBEntity = new
+                {
+                    deviceEntity.JBEntity.Id,
+                    deviceEntity.JBEntity.Name
+                },
+                Module = new
+                {
+                    deviceEntity.ModuleEntity.Id,
+                    deviceEntity.ModuleEntity.Name
+                },
+                AdditionalImageEntity = deviceEntity.AdditionalConnectionImageEntities.Select
+                (entity => new
+                {
+                    entity.Id,
+                    entity.Name
+                }).ToList()
+            };
         }
 
 

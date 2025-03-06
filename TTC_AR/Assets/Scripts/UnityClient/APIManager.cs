@@ -13,6 +13,7 @@ using System.Linq;
 using System.Net.Http;
 using ApplicationLayer.Interfaces;
 using ApplicationLayer.Dtos;
+using ApplicationLayer.Dtos.JB;
 
 public class APIManager : MonoBehaviour
 {

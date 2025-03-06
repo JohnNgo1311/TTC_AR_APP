@@ -16,7 +16,7 @@ public class CompanyInformationModel
   public List<GrapperInformationModel> ListGrapperInformationModel { get; set; }
 
   [Preserve]
-  [JsonConstructor]
+
   public CompanyInformationModel(int id, string name, List<GrapperInformationModel> listGrapperInformationModel)
   {
     Id = id;

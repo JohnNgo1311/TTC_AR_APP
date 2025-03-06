@@ -14,6 +14,7 @@ public class ServiceLocator
     public static ServiceLocator Instance => _instance ??= new ServiceLocator();
 
     //! Các Service cần được khởi tạo
+    private readonly ICompanyService _companyService;
     private readonly IGrapperService _grapperService;
     private readonly IRackService _rackService;
     private readonly IModuleService _moduleService;
@@ -29,6 +30,14 @@ public class ServiceLocator
     {
         var httpClient = new HttpClient(); //? HttpClient là một service được sử dụng chung bởi các Repository
 
+        ICompanyRepository CompanyRepository = new CompanyRepository(httpClient);
+        _companyService = new CompanyService(
+            new CompanyUseCase(CompanyRepository));
+
+        IModuleRepository moduleRepository = new ModuleRepository(httpClient);
+        _moduleService = new ModuleService(
+            new ModuleUseCase(moduleRepository));
+
         IJBRepository IjbRepository = new JBRepository(httpClient);
         _jbService = new JBService(
             new JBUseCase(IjbRepository)
@@ -37,14 +46,22 @@ public class ServiceLocator
         _deviceService = new DeviceService(
             new DeviceUseCase(deviceRepository)
         );
+        IFieldDeviceRepository fieldDeviceRepository = new FieldDeviceRepository(httpClient);
+        _fieldDeviceService = new FieldDeviceService(
+            new FieldDeviceUseCase(fieldDeviceRepository)
+        );
+        IModuleSpecificationRepository moduleSpecificationRepository = new ModuleSpecificationRepository(httpClient);
+        _moduleSpecificationService = new ModuleSpecificationService(
+            new ModuleSpecificationUseCase(moduleSpecificationRepository)
+        );
         IAdapterSpecificationRepository adapterSpecificationRepository = new AdapterSpecificationRepository(httpClient);
         _adapterSpecificationService = new AdapterSpecificationService(
             new AdapterSpecificationUseCase(adapterSpecificationRepository)
         );
-        ModuleSpecificationRepository moduleSpecificationRepository = new ModuleSpecificationRepository(httpClient);
-        _moduleSpecificationService = new ModuleSpecificationService(
-            new ModuleSpecificationUseCase(moduleSpecificationRepository)
-        );
+        // IMccRepository mccRepository = new MccRepository(httpClient);
+        // _mccService = new MccService(
+        //     new MccUseCase(mccRepository)
+        // );
         // IRackRepository rackRepository = new RackRepository(httpClient);
         // _rackService = new RackService(
         //     new RackUseCase(rackRepository)
@@ -55,13 +72,10 @@ public class ServiceLocator
         //     new GrapperUseCase(grapperRepository)
         // );
 
-        // IMccRepository mccRepository = new MccRepository(httpClient);
-        // _mccService = new MccService(
-        //     new MccUseCase(mccRepository)
-        // );
     }
 
     //? Cung cấp các getter để các script truy cập service thông qua ServiceLocator.Instance.JBService.
+    public ICompanyService CompanyService => _companyService;
     public IRackService RackService => _rackService;
     public IGrapperService GrapperService => _grapperService;
     public IModuleService ModuleService => _moduleService;

@@ -92,7 +92,7 @@ public class GlobalVariable : MonoBehaviour
     public static Dictionary<string, DeviceBasicModel> temp_Dictionary_DeviceBasicModel = new Dictionary<string, DeviceBasicModel>();
     public static Dictionary<string, DeviceInformationModel> temp_Dictionary_DeviceInformationModel = new Dictionary<string, DeviceInformationModel>();
     public static Dictionary<string, string> temp_Dictionary_DeviceIOAddress = new Dictionary<string, string>();
-    public static int DeviceId = 1;
+    public static int DeviceId = 6;
     //! JBS
     public static List<JBInformationModel> temp_ListJBInformationModel_FromModule = new List<JBInformationModel>();
     public static List<JBInformationModel> temp_ListJBInformationModel = new List<JBInformationModel>();
@@ -110,7 +110,7 @@ public class GlobalVariable : MonoBehaviour
     //! Field Device
     public static List<FieldDeviceInformationModel> temp_ListFieldDeviceInformationModel = new List<FieldDeviceInformationModel>();
     public static FieldDeviceInformationModel temp_FieldDeviceInformationModel;
-    public static int FieldDeviceId = 1;
+    public static int FieldDeviceId = 6;
     public static Dictionary<string, FieldDeviceInformationModel> temp_Dictionary_FieldDeviceInformationModel = new Dictionary<string, FieldDeviceInformationModel>();
     //! ModuleSpecification 
     public static ModuleSpecificationModel temp_ModuleSpecificationModel;
@@ -119,7 +119,7 @@ public class GlobalVariable : MonoBehaviour
     public static Dictionary<string, ModuleSpecificationModel> temp_Dictionary_ModuleSpecificationModel = new Dictionary<string, ModuleSpecificationModel>();
     //! AdapterSpecification
     public static AdapterSpecificationModel temp_AdapterSpecificationModel;
-    public static int AdapterSpecificationId = 1;
+    public static int AdapterSpecificationId = 12346;
     public static Dictionary<string, AdapterSpecificationModel> temp_Dictionary_AdapterSpecificationModel = new Dictionary<string, AdapterSpecificationModel>();
     //! ImageInformation
     public static ImageInformationModel temp_ImageInformationModel;

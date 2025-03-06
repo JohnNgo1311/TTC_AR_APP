@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using ApplicationLayer.Dtos;
+using ApplicationLayer.Dtos.AdapterSpecification;
 using ApplicationLayer.Interfaces;
 using ApplicationLayer.UseCases;
 
 namespace ApplicationLayer.Services
-{  
+{
     //! Không bắt lỗi tại đây
     public class AdapterSpecificationService : IAdapterSpecificationService
     {
@@ -18,19 +19,19 @@ namespace ApplicationLayer.Services
 
         //! Dữ liệu trả về là Dto
 
-        public async Task<AdapterSpecificationResponseDto> GetAdapterSpecificationByIdAsync(int adapterSpecificationId)
+        public async Task<AdapterSpecificationResponseDto> GetAdapterSpecificationByIdAsync(string adapterSpecificationId)
         {
             return await _AdapterSpecificationUseCase.GetAdapterSpecificationByIdAsync(adapterSpecificationId);
         }
 
-        public async Task<List<AdapterSpecificationResponseDto>> GetListAdapterSpecificationAsync(int grapperId)
+        public async Task<List<AdapterSpecificationResponseDto>> GetListAdapterSpecificationAsync(int companyId)
         {
-            return await _AdapterSpecificationUseCase.GetListAdapterSpecificationAsync(grapperId);
+            return await _AdapterSpecificationUseCase.GetListAdapterSpecificationAsync(companyId);
         }
 
-        public async Task<bool> CreateNewAdapterSpecificationAsync(int grapperId, AdapterSpecificationRequestDto adapterSpecificationRequestDto)
+        public async Task<bool> CreateNewAdapterSpecificationAsync(int companyId, AdapterSpecificationRequestDto adapterSpecificationRequestDto)
         {
-            return await _AdapterSpecificationUseCase.CreateNewAdapterSpecificationAsync(grapperId, adapterSpecificationRequestDto);
+            return await _AdapterSpecificationUseCase.CreateNewAdapterSpecificationAsync(companyId, adapterSpecificationRequestDto);
         }
         public async Task<bool> UpdateAdapterSpecificationAsync(int adapterSpecificationId, AdapterSpecificationRequestDto adapterSpecificationRequestDto)
         {

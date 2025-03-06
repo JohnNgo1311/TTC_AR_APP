@@ -16,7 +16,7 @@ public class RackInformationModel
   public List<ModuleInformationModel> ListModuleInformationModel { get; set; }
 
   [Preserve]
-  [JsonConstructor]
+
   public RackInformationModel(int id, string name, List<ModuleInformationModel> listModuleInformationModel)
   {
     Id = id;
@@ -28,11 +28,11 @@ public class RackInformationModel
 [Preserve]
 public class RackBasicModel
 {
-  [JsonProperty("id")] public int Id { get; set; }
-  [JsonProperty("name")] public string Name { get; set; }
+  [JsonProperty("Id")] public int Id { get; set; }
+  [JsonProperty("Name")] public string Name { get; set; }
 
   [Preserve]
-  [JsonConstructor]
+
   public RackBasicModel(int id, string name)
   {
     Id = id;

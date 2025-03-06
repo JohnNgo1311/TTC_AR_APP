@@ -9,9 +9,9 @@ using UnityEngine.Scripting;
 public class FieldDeviceInformationModel
 {
 
-  [JsonProperty("id")]
+  [JsonProperty("Id")]
   public int Id { get; set; }
-  [JsonProperty("name")]
+  [JsonProperty("Name")]
   public string Name { get; set; }
 
   [JsonProperty("CabinetCode")]
@@ -33,7 +33,7 @@ public class FieldDeviceInformationModel
   public List<string> Note { get; set; }
 
   [Preserve]
-  [JsonConstructor]
+
   public FieldDeviceInformationModel(int id, string name, string cabinetCode, string? ratedPower, string? ratedCurrent, string? activeCurrent, List<string> listConnectionImages, List<string> note)
   {
     Id = id;
@@ -49,9 +49,9 @@ public class FieldDeviceInformationModel
 
   public class FieldDevice_Basic_Model
   {
-    [JsonProperty("id")]
+    [JsonProperty("Id")]
     public int Id { get; set; }
-    [JsonProperty("name")]
+    [JsonProperty("Name")]
     public string Name { get; set; }
 
     [JsonProperty("CabinetCode")]

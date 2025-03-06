@@ -7,9 +7,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using UnityEngine.Networking;
-using Infrastructure.Dtos;
 using System.Linq;
 using ApplicationLayer.Dtos;
+using ApplicationLayer.Dtos.JB;
 
 namespace Infrastructure.Repositories
 {
@@ -17,7 +17,7 @@ namespace Infrastructure.Repositories
     {
         private readonly HttpClient _httpClient;
 
-        private const string BaseUrl = "https://external-server-api.com"; // URL server ngoài thực tế
+        private const string BaseUrl = "https://6776bd1c12a55a9a7d0cbc42.mockapi.io/api/v2/Company"; // URL server ngoài thực tế
 
         public JBRepository(HttpClient httpClient)
         {
@@ -25,13 +25,14 @@ namespace Infrastructure.Repositories
             _httpClient.BaseAddress = new Uri(BaseUrl);
             _httpClient.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
         }
-        
-        //! TRả về JBResponseDto
-        public async Task<JBResponseDto> GetJBByIdAsync(int jbId)
+
+        //! TRả về JBEntity
+        public async Task<JBEntity> GetJBByIdAsync(int JBId)
         {
             try
             {
-                var response = await _httpClient.GetAsync($"/api/jb/{jbId}");
+                var response = await _httpClient.GetAsync($"{BaseUrl}/{JBId}");
+
                 if (!response.IsSuccessStatusCode)
                 {
                     throw new HttpRequestException($"Failed to get JB. Status: {response.StatusCode}");
@@ -39,7 +40,9 @@ namespace Infrastructure.Repositories
                 else
                 {
                     var content = await response.Content.ReadAsStringAsync();
-                    return JsonConvert.DeserializeObject<JBResponseDto>(content);
+                    UnityEngine.Debug.Log(content);
+                    return JsonConvert.DeserializeObject<JBEntity>(content);
+
                 }
             }
             catch (HttpRequestException ex)
@@ -52,18 +55,18 @@ namespace Infrastructure.Repositories
             }
         }
 
-        //! Trả về List<JBResponseDto>
-        public async Task<List<JBResponseDto>> GetListJBAsync(int grapperId)
+        //! Trả về List<JBEntity>
+        public async Task<List<JBEntity>> GetListJBAsync(int grapperId)
         {
             try
             {
-                var response = await _httpClient.GetAsync($"/api/jb/grapper/{grapperId}");
+                var response = await _httpClient.GetAsync($"{BaseUrl}");
                 if (!response.IsSuccessStatusCode)
                     throw new HttpRequestException($"Failed to get JB list. Status: {response.StatusCode}");
                 else
                 {
                     var content = await response.Content.ReadAsStringAsync();
-                    return JsonConvert.DeserializeObject<List<JBResponseDto>>(content);
+                    return JsonConvert.DeserializeObject<List<JBEntity>>(content);
                 }
 
             }
@@ -77,37 +80,27 @@ namespace Infrastructure.Repositories
             }
         }
 
-        public async Task<bool> CreateNewJBAsync(int grapperId, JBEntity jbEntity)
+
+        public async Task<bool> CreateNewJBAsync(int grapperId, JBEntity jBEntity)
         {
             try
             {
-                // Tạo dữ liệu tối giản gửi lên server với tên property khớp yêu cầu
-                var jbRequestData = new
-                {
-                    name = jbEntity.Name, // Mandatory field
-                    Location = jbEntity.Location ?? "", // Nullable, default ""
-                    ListDevices = jbEntity.DeviceEntities?
-                        .Where(d => d != null)
-                        .Select(d => new DeviceBasicDto(d.Id, d.Code))
-                        .ToList() ?? new List<DeviceBasicDto>(), // Empty list nếu null
-                    ListModules = jbEntity.ModuleEntities
-                        .Where(m => m != null)
-                        .Select(m => new ModuleBasicDto(m.Id, m.Name))
-                        .ToList() ?? new List<ModuleBasicDto>(), // Empty list nếu null
-                    OutdoorImage = jbEntity.OutdoorImageEntity != null
-                        ? new ImageBasicDto(jbEntity.OutdoorImageEntity.Id, jbEntity.OutdoorImageEntity.Name)
-                        : null, // Null nếu không có
-                    ListConnectionImages = jbEntity.ConnectionImageEntities?
-                        .Where(i => i != null)
-                        .Select(i => new ImageBasicDto(i.Id, i.Name))
-                        .ToList() ?? new List<ImageBasicDto>() // Empty list nếu null
-                };
+                if (jBEntity == null)
+                    throw new ArgumentNullException(nameof(jBEntity), "Request data cannot be null");
 
-                var json = JsonConvert.SerializeObject(jbRequestData);
+                // var json = JsonConvert.SerializeObject(jBEntity);
+                // Tạo dữ liệu tối giản gửi lên server với tên property khớp yêu cầu
+                // var jbjBEntity = ConvertJBjBEntity(jbEntity);
+
+              //  var json = JsonConvert.SerializeObject(jBEntity);
+                var json = JsonConvert.SerializeObject(jBEntity, new JsonSerializerSettings
+                {
+                    NullValueHandling = NullValueHandling.Ignore
+                });
 
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-                var response = await _httpClient.PostAsync($"/api/jb/grapper/{grapperId}", content);
+                var response = await _httpClient.PostAsync($"{BaseUrl}", content);
 
                 if (!response.IsSuccessStatusCode)
                     throw new HttpRequestException($"Failed to create JB. Status: {response.StatusCode}");
@@ -124,36 +117,27 @@ namespace Infrastructure.Repositories
             }
         }
 
-        public async Task<bool> UpdateJBAsync(int jbId, JBEntity jbEntity)
+        public async Task<bool> UpdateJBAsync(int JBId, JBEntity jBEntity)
         {
             try
             {
-                // Tạo dữ liệu tối giản gửi lên server với tên property khớp yêu cầu
-                var jbRequestData = new
+                if (jBEntity == null)
+                    throw new ArgumentNullException(nameof(jBEntity), "Request data cannot be null");
+                var json = JsonConvert.SerializeObject(jBEntity, new JsonSerializerSettings
                 {
-                    name = jbEntity.Name, // Mandatory field
-                    Location = jbEntity.Location ?? "", // Nullable, default ""
-                    ListDevices = jbEntity.DeviceEntities?
-                        .Where(d => d != null)
-                        .Select(d => new DeviceBasicDto(d.Id, d.Code))
-                        .ToList() ?? new List<DeviceBasicDto>(), // Empty list nếu null
-                    ListModules = jbEntity.ModuleEntities
-                        .Where(m => m != null)
-                        .Select(m => new ModuleBasicDto(m.Id, m.Name))
-                        .ToList() ?? new List<ModuleBasicDto>(), // Empty list nếu null
-                    OutdoorImage = jbEntity.OutdoorImageEntity != null
-                        ? new ImageBasicDto(jbEntity.OutdoorImageEntity.Id, jbEntity.OutdoorImageEntity.Name)
-                        : null, // Null nếu không có
-                    ListConnectionImages = jbEntity.ConnectionImageEntities?
-                        .Where(i => i != null)
-                        .Select(i => new ImageBasicDto(i.Id, i.Name))
-                        .ToList() ?? new List<ImageBasicDto>() // Empty list nếu null
-                };
+                    NullValueHandling = NullValueHandling.Ignore
+                });
+                // Tạo dữ liệu tối giản gửi lên server với tên property khớp yêu cầu
+                // var jbjBEntity = ConvertJBjBEntity(jbEntity);
 
-                var json = JsonConvert.SerializeObject(jbRequestData);
+                // var json = JsonConvert.SerializeObject(jBEntity);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
-                var response = await _httpClient.PutAsync($"/api/jb/{jbId}", content);
-                return response.IsSuccessStatusCode;
+                var response = await _httpClient.PutAsync($"{BaseUrl}/{JBId}", content);
+
+                if (!response.IsSuccessStatusCode)
+                    throw new HttpRequestException($"Failed to Update JB. Status: {response.StatusCode}");
+
+                return true;
             }
             catch (HttpRequestException ex)
             {
@@ -170,7 +154,10 @@ namespace Infrastructure.Repositories
             try
             {
                 var response = await _httpClient.DeleteAsync($"/api/jb/{jbId}");
-                return response.IsSuccessStatusCode;
+                if (!response.IsSuccessStatusCode)
+                    throw new HttpRequestException($"Failed to delete JB. Status: {response.StatusCode}");
+
+                return true;
             }
             catch (HttpRequestException ex)
             {
@@ -183,5 +170,30 @@ namespace Infrastructure.Repositories
 
 
         }
+        // private object ConvertJBRequestData(JBEntity jbEntity)
+        // {
+        //     return new
+        //     {
+        //         name = jbEntity.Name,
+        //         Location = jbEntity.Location ?? "",
+        //         ListDevices = jbEntity.DeviceEntities?
+        //             .Where(d => d != null)
+        //             .Select(d => new DeviceBasicDto(d.Id, d.Code))
+        //             .ToList() ?? new List<DeviceBasicDto>(),
+        //         ListModules = jbEntity.ModuleEntities
+        //             .Where(m => m != null)
+        //             .Select(m => new ModuleBasicDto(m.Id, m.Name))
+        //             .ToList() ?? new List<ModuleBasicDto>(),
+        //         OutdoorImage = jbEntity.OutdoorImageEntity != null
+        //             ? new ImageBasicDto(jbEntity.OutdoorImageEntity.Id, jbEntity.OutdoorImageEntity.Name)
+        //             : null,
+        //         ListConnectionImages = jbEntity.ConnectionImageEntities?
+        //             .Where(i => i != null)
+        //             .Select(i => new ImageBasicDto(i.Id, i.Name))
+        //             .ToList() ?? new List<ImageBasicDto>()
+        //     };
+        // }
     }
+
+
 }

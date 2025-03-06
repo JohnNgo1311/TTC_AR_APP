@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ApplicationLayer.Dtos;
+using ApplicationLayer.Dtos.Device;
+using ApplicationLayer.Dtos.Image;
+using ApplicationLayer.Dtos.JB;
+using ApplicationLayer.Dtos.Module;
 using Domain.Entities;
 using Domain.Interfaces;
 
@@ -16,22 +20,26 @@ namespace ApplicationLayer.UseCases
         {
             _IDeviceRepository = deviceEntityRepository;
         }
+        #region  GET List Device
         public async Task<List<DeviceResponseDto>> GetListDeviceAsync(int grapperId)
         {
             try
             {
-                var deviceResponseDtos = await _IDeviceRepository.GetListDeviceAsync(grapperId); //! Gọi _IDeviceRepository từ Infrastructure Layer
+                //! Gọi _IDeviceRepository từ Infrastructure Layer
+                var deviceEntities = await _IDeviceRepository.GetListDeviceAsync(grapperId);
 
-                if (deviceResponseDtos == null)
+                if (deviceEntities == null)
                 {
                     throw new ApplicationException("Failed to get Device list");
                 }
                 else
                 {
-                    //! Đưa về Entity để xử lý logic nghiệp vụ
-                    var deviceEntities = deviceResponseDtos.Select(MapResponseToEntity).ToList();
-                    return deviceEntities.Select(MapToResponseDto).ToList();
+                    //! Đưa về Entity để xử lý logic nghiệp vụ 
+                    // var deviceEntities = deviceEntities.Select(MapResponseToEntity).ToList();
+                    var deviceResponseDtos = deviceEntities.Select(MapToResponseDto).ToList();
+                    return deviceResponseDtos;
                 }
+
             }
             catch (ArgumentException)
             {
@@ -41,21 +49,24 @@ namespace ApplicationLayer.UseCases
             {
                 throw new ApplicationException("Failed to get Device list", ex); // Bao bọc lỗi từ Repository
             }
-
         }
+        #endregion
+
+        #region GET Specific Device
         public async Task<DeviceResponseDto> GetDeviceByIdAsync(int DeviceId)
         {
             try
             {
-                var deviceResponseDto = await _IDeviceRepository.GetDeviceByIdAsync(DeviceId);
-                if (deviceResponseDto == null)
+                var deviceEntity = await _IDeviceRepository.GetDeviceByIdAsync(DeviceId);
+                if (deviceEntity == null)
                 {
                     throw new ApplicationException("Failed to get Device");
                 }
                 else
                 {  //! Đưa về Entity để xử lý logic nghiệp vụ
-                    var deviceEntity = MapResponseToEntity(deviceResponseDto);
-                    return MapToResponseDto(deviceEntity);
+                   // var deviceEntity = MapResponseToEntity(deviceEntity);
+                    var deviceResponseDto = MapToResponseDto(deviceEntity);
+                    return deviceResponseDto;
                 }
             }
             catch (ArgumentException)
@@ -67,6 +78,9 @@ namespace ApplicationLayer.UseCases
                 throw new ApplicationException("Failed to get Device", ex); // Bao bọc lỗi từ Repository
             }
         }
+        #endregion
+
+        #region POST New Device
         public async Task<bool> CreateNewDeviceAsync(int grapperId, DeviceRequestDto requestDto)
         {
             try
@@ -75,8 +89,8 @@ namespace ApplicationLayer.UseCases
                 if (string.IsNullOrEmpty(requestDto.Code))
                     throw new ArgumentException("Name cannot be empty");
                 // Map DTO to Entity
-
                 var deviceEntity = MapRequestToEntity(requestDto);
+                //!  var requestData = MapToRequestDto(deviceEntity);
                 // var deviceEntity = new DeviceEntity(requestDto.Code)
                 // {
                 //     Code = requestDto.Code,
@@ -89,9 +103,15 @@ namespace ApplicationLayer.UseCases
                 //     AdditionalConnectionImageEntities = requestDto.AdditionalImageBasicDtos.Select(dto => new ImageEntity(dto.Id, dto.Name)).ToList()
                 // };
 
-                //! Bắt đầu từ Repository thì sẽ chuyển sang tham số là Entity
+                //! Cứ đưa vào Entity, khi sang Repository, tùy vào ngữ cảnh sẽ filter lại dữ liệu để gửi lên server
+                //! Tham số mặc định của Repository sẽ là Entity
                 var createdDeviceResult = await _IDeviceRepository.CreateNewDeviceAsync(grapperId, deviceEntity);
-                return createdDeviceResult;
+
+                if (!createdDeviceResult)
+                {
+                    throw new ApplicationException("Failed to create Device");
+                }
+                return true;
             }
             catch (ArgumentException)
             {
@@ -102,15 +122,19 @@ namespace ApplicationLayer.UseCases
                 throw new ApplicationException("Failed to create Device", ex); // Bao bọc lỗi từ Repository
             }
         }
-        public async Task<bool> UpdateDeviceAsync(int DeviceId, DeviceRequestDto requestDto)
+        #endregion
+
+        #region PUT Device
+        public async Task<bool> UpdateDeviceAsync(int deviceId, DeviceRequestDto requestDto)
         {
-            // Validate
             try
             {
+                // Validate
                 if (string.IsNullOrEmpty(requestDto.Code))
                     throw new ArgumentException("Name cannot be empty");
+                // Map DTO to Entity
                 var deviceEntity = MapRequestToEntity(requestDto);
-
+                // var requestData = MapToRequestDto(deviceEntity);
                 // Map DTO to Entity
                 // var deviceEntity = new DeviceEntity(requestDto.Code)
                 // {
@@ -123,8 +147,16 @@ namespace ApplicationLayer.UseCases
                 //     ModuleEntity = new ModuleEntity(requestDto.ModuleBasicDto.Id, requestDto.ModuleBasicDto.Name),
                 //     AdditionalConnectionImageEntities = requestDto.AdditionalImageBasicDtos.Select(dto => new ImageEntity(dto.Id, dto.Name)).ToList()
                 // };
-                var createdDeviceResult = await _IDeviceRepository.UpdateDeviceAsync(DeviceId, deviceEntity);
-                return createdDeviceResult;
+                //! Cứ đưa vào Entity, khi sang Repository, tùy vào ngữ cảnh sẽ filter lại dữ liệu để gửi lên server
+                //!Tham số mặc định của Repository sẽ là Entity
+                var updatedDeviceResult = await _IDeviceRepository.UpdateDeviceAsync(GlobalVariable.DeviceId, deviceEntity);
+
+
+                if (!updatedDeviceResult)
+                {
+                    throw new ApplicationException("Failed to update Device");
+                }
+                return true;
             }
             catch (ArgumentException)
             {
@@ -135,6 +167,8 @@ namespace ApplicationLayer.UseCases
                 throw new ApplicationException("Failed to update Device", ex); // Bao bọc lỗi từ Repository
             }
         }
+        #endregion
+        #region  DELETE Device
         public async Task<bool> DeleteDeviceAsync(int DeviceId)
         {
             try
@@ -151,7 +185,9 @@ namespace ApplicationLayer.UseCases
                 throw new ApplicationException("Failed to delete Device", ex); // Bao bọc lỗi từ Repository
             }
         }
+        #endregion
 
+        //! Dto => Entity
         private DeviceEntity MapRequestToEntity(DeviceRequestDto requestDto)
         {
             return new DeviceEntity(
@@ -160,16 +196,15 @@ namespace ApplicationLayer.UseCases
                 requestDto.Range,
                 requestDto.Unit,
                 requestDto.IOAddress,
-                new ModuleEntity(requestDto.ModuleBasicDto.Id, requestDto.ModuleBasicDto.Name),
-                new JBEntity(requestDto.JBBasicDto.Id, requestDto.JBBasicDto.Name),
-                requestDto.AdditionalImageBasicDtos.Select(dto => new ImageEntity(dto.Id, dto.Name)).ToList()
+                requestDto.ModuleBasicDto == null ? null : new ModuleEntity(requestDto.ModuleBasicDto.Id, requestDto.ModuleBasicDto.Name),
+                requestDto.JBBasicDto == null ? null : new JBEntity(requestDto.JBBasicDto.Id, requestDto.JBBasicDto.Name),
+                requestDto.AdditionalImageBasicDtos == null ? null : requestDto.AdditionalImageBasicDtos.Select(dto => new ImageEntity(dto.Id, dto.Name)).ToList()
             );
         }
-
         private DeviceEntity MapResponseToEntity(DeviceResponseDto responseDto)
         {
             return new DeviceEntity(
-                responseDto.Id,
+                responseDto.Id.ToString(),
                 responseDto.Code,
                 responseDto.Function,
                 responseDto.Range,
@@ -177,39 +212,59 @@ namespace ApplicationLayer.UseCases
                 responseDto.IOAddress,
                 new ModuleEntity(responseDto.ModuleBasicDto.Id, responseDto.ModuleBasicDto.Name),
                 new JBEntity(responseDto.JBGeneralDto.Id, responseDto.JBGeneralDto.Name, responseDto.JBGeneralDto.Location,
-                new ImageEntity(responseDto.JBGeneralDto.OutdoorImageResponseDto.Id, responseDto.JBGeneralDto.OutdoorImageResponseDto.Name, responseDto.JBGeneralDto.OutdoorImageResponseDto.url),
+                new ImageEntity(responseDto.JBGeneralDto.OutdoorImageResponseDto.Id, responseDto.JBGeneralDto.OutdoorImageResponseDto.Name, responseDto.JBGeneralDto.OutdoorImageResponseDto.Url),
                 responseDto.JBGeneralDto.ConnectionImageResponseDtos.Select(
-                    imageResponseDto => new ImageEntity(imageResponseDto.Id, imageResponseDto.Name, imageResponseDto.url)).ToList()
+                    imageResponseDto => new ImageEntity(imageResponseDto.Id, imageResponseDto.Name, imageResponseDto.Url)).ToList()
                 ),
                 responseDto.AdditionalImageResponseDtos.Select(
-                    imageResponseDto => new ImageEntity(imageResponseDto.Id, imageResponseDto.Name, imageResponseDto.url)).ToList()
+                    imageResponseDto => new ImageEntity(imageResponseDto.Id, imageResponseDto.Name, imageResponseDto.Url)).ToList()
             );
         }
+
+        //! Entity => Dto
         private DeviceResponseDto MapToResponseDto(DeviceEntity deviceEntity)
         {
             return new DeviceResponseDto(
+
                 id: deviceEntity.Id,
+
                 code: deviceEntity.Code,
+
                 function: deviceEntity.Function,
+
                 range: deviceEntity.Range,
+
                 unit: deviceEntity.Unit,
+
                 ioAddress: deviceEntity.IOAddress,
 
                 moduleBasicDto: new ModuleBasicDto(deviceEntity.ModuleEntity.Id, deviceEntity.ModuleEntity.Name),
 
                 jbGeneralDto: new JBGeneralDto
-                (deviceEntity.JBEntity.Id,
+                (
+                deviceEntity.JBEntity.Id,
                 deviceEntity.JBEntity.Name,
-                 deviceEntity.JBEntity.Location,
+                deviceEntity.JBEntity.Location,
                 new ImageResponseDto(deviceEntity.JBEntity.OutdoorImageEntity.Id, deviceEntity.JBEntity.OutdoorImageEntity.Name, deviceEntity.JBEntity.OutdoorImageEntity.Url),
                 deviceEntity.JBEntity.ConnectionImageEntities.Select(
                     imageEntity => new ImageResponseDto(imageEntity.Id, imageEntity.Name, imageEntity.Url)).ToList()
-                 ),
-
+                ),
                 additionalImageResponseDtos: deviceEntity.AdditionalConnectionImageEntities.Select(
                     imageEntity => new ImageResponseDto(imageEntity.Id, imageEntity.Name, imageEntity.Url)).ToList()
-
-
+               );
+        }
+        private DeviceRequestDto MapToRequestDto(DeviceEntity deviceEntity)
+        {
+            return new DeviceRequestDto(
+                code: deviceEntity.Code,
+                function: deviceEntity.Function,
+                range: deviceEntity.Range,
+                unit: deviceEntity.Unit,
+                ioAddress: deviceEntity.IOAddress,
+                moduleBasicDto: new ModuleBasicDto(deviceEntity.ModuleEntity.Id, deviceEntity.ModuleEntity.Name),
+                jbBasicDto: new JBBasicDto(deviceEntity.JBEntity.Id, deviceEntity.JBEntity.Name),
+                additionalImageBasicDtos: deviceEntity.AdditionalConnectionImageEntities.Select(
+                    imageEntity => new ImageBasicDto(imageEntity.Id, imageEntity.Name)).ToList()
             );
         }
     }
