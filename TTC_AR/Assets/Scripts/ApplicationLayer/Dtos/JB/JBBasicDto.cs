@@ -21,7 +21,7 @@ namespace ApplicationLayer.Dtos.JB
         public JBBasicDto(string id, string name)
         {
             Id = id;
-            Name = name == "" ? throw new ArgumentNullException(nameof(name)) : name;
+            Name = string.IsNullOrEmpty(name) ? throw new ArgumentNullException(nameof(name)) : name;
         }
     }
 

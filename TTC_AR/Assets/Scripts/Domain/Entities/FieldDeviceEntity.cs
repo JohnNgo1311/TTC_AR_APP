@@ -102,7 +102,7 @@
 
 //     // Constructor cho POST
 //     [Preserve]
-//     public FieldDeviceEntity(string name, MccEntity mccEntity, string ratedPower = "", string ratedCurrent = "", string activeCurrent = "", List<ImageEntity> listConnectionImageEntities = null, string note = "")
+//     public FieldDeviceEntity(string name, MccEntity mccEntity, string ratedPower , string ratedCurrent , string activeCurrent , List<ImageEntity> listConnectionImageEntities = null, string note )
 //         : base(name, mccEntity)
 //     {
 //       Id = 0; // Không gửi khi POST
@@ -145,29 +145,106 @@ namespace Domain.Entities
     [JsonProperty("Name")]
     public string Name { get; set; } = string.Empty;
 
-    [JsonProperty("Mcc", NullValueHandling = NullValueHandling.Ignore)]
+    // [JsonProperty("Mcc", NullValueHandling = NullValueHandling.Ignore)]
+    [JsonProperty("Mcc")]
     public MccEntity? MccEntity { get; set; }
 
-    [JsonProperty("ratedPower", NullValueHandling = NullValueHandling.Ignore)]
+    // [JsonProperty("ratedPower", NullValueHandling = NullValueHandling.Ignore)]
+    [JsonProperty("RatedPower")]
     public string? RatedPower { get; set; }
 
-    [JsonProperty("ratedCurrent", NullValueHandling = NullValueHandling.Ignore)]
+    // [JsonProperty("RatedCurrent", NullValueHandling = NullValueHandling.Ignore)]
+    [JsonProperty("RatedCurrent")]
     public string? RatedCurrent { get; set; }
 
-    [JsonProperty("activeCurrent", NullValueHandling = NullValueHandling.Ignore)]
+    // [JsonProperty("ActiveCurrent", NullValueHandling = NullValueHandling.Ignore)]
+    [JsonProperty("ActiveCurrent")]
     public string? ActiveCurrent { get; set; }
 
-    [JsonProperty("connectionImages", NullValueHandling = NullValueHandling.Ignore)]
+    // [JsonProperty("ListConnectionImages", NullValueHandling = NullValueHandling.Ignore)]
+    [JsonProperty("ListConnectionImages")]
     public List<ImageEntity>? ConnectionImageEntities { get; set; }
 
-    [JsonProperty("Note", NullValueHandling = NullValueHandling.Ignore)]
+    // [JsonProperty("Note", NullValueHandling = NullValueHandling.Ignore)]
+    [JsonProperty("Note")]
     public string? Note { get; set; } = string.Empty;
 
-    [Preserve]
 
+    public bool ShouldSerializeId()
+    {
+      string apiRequestType = GlobalVariable.APIRequestType;
+      HashSet<string> allowedRequests = new HashSet<string>
+      {
+        HttpMethodTypeEnum.POSTFieldDevice.GetDescription(),
+        HttpMethodTypeEnum.PUTFieldDevice.GetDescription(),
+      };
+      return !allowedRequests.Contains(apiRequestType);
+    }
+
+    public bool ShouldSerializeMccEntity()
+    {
+      string apiRequestType = GlobalVariable.APIRequestType;
+      HashSet<string> allowedRequests = new HashSet<string>
+      {
+        HttpMethodTypeEnum.GETFieldDevice.GetDescription(),
+      };
+      return allowedRequests.Contains(apiRequestType);
+    }
+    public bool ShouldSerializeRatedPower()
+    {
+      string apiRequestType = GlobalVariable.APIRequestType;
+      HashSet<string> allowedRequests = new HashSet<string>
+      {
+        HttpMethodTypeEnum.GETFieldDevice.GetDescription(),
+      };
+      return allowedRequests.Contains(apiRequestType);
+    }
+
+    public bool ShouldSerializeRatedCurrent()
+    {
+      string apiRequestType = GlobalVariable.APIRequestType;
+      HashSet<string> allowedRequests = new HashSet<string>
+      {
+        HttpMethodTypeEnum.GETFieldDevice.GetDescription(),
+      };
+      return allowedRequests.Contains(apiRequestType);
+    }
+
+    public bool ShouldSerializeActiveCurrent()
+    {
+      string apiRequestType = GlobalVariable.APIRequestType;
+      HashSet<string> allowedRequests = new HashSet<string>
+      {
+        HttpMethodTypeEnum.GETFieldDevice.GetDescription(),
+      };
+      return allowedRequests.Contains(apiRequestType);
+    }
+
+    public bool ShouldSerializeConnectionImageEntities()
+    {
+      string apiRequestType = GlobalVariable.APIRequestType;
+      HashSet<string> allowedRequests = new HashSet<string>
+      {
+        HttpMethodTypeEnum.GETFieldDevice.GetDescription(),
+      };
+      return allowedRequests.Contains(apiRequestType);
+    }
+
+    public bool ShouldSerializeNote()
+    {
+      string apiRequestType = GlobalVariable.APIRequestType;
+      HashSet<string> allowedRequests = new HashSet<string>
+      {
+        HttpMethodTypeEnum.GETFieldDevice.GetDescription(),
+      };
+      return allowedRequests.Contains(apiRequestType);
+    }
+
+
+    [Preserve]
     public FieldDeviceEntity()
     {
-      ConnectionImageEntities = new List<ImageEntity>();
+      // ConnectionImageEntities = new List<ImageEntity>();
     }
 
 
@@ -179,25 +256,37 @@ namespace Domain.Entities
     }
 
     [Preserve]
-    public FieldDeviceEntity(string name, MccEntity mccEntity, List<ImageEntity> connectionImages)
+    public FieldDeviceEntity(string name, MccEntity? mccEntity, List<ImageEntity>? connectionImageEntities)
     {
       Name = string.IsNullOrEmpty(name) ? throw new ArgumentNullException(nameof(name)) : name;
       MccEntity = mccEntity ?? throw new ArgumentNullException(nameof(mccEntity));
-      ConnectionImageEntities = connectionImages ?? new List<ImageEntity>();
+      ConnectionImageEntities = (connectionImageEntities == null || (connectionImageEntities != null && connectionImageEntities.Count <= 0)) ? new List<ImageEntity>() : connectionImageEntities;
     }
 
     [Preserve]
     //! Dùng khi Get FieldDeviceEntity từ Grapper
-    public FieldDeviceEntity(int id, string name, MccEntity mccEntity, List<ImageEntity> connectionImageEntities, string ratedPower = "", string ratedCurrent = "", string activeCurrent = "", string note = "")
+    public FieldDeviceEntity(int id, string name, MccEntity? mccEntity, List<ImageEntity>? connectionImageEntities, string? ratedPower, string? ratedCurrent, string? activeCurrent, string? note)
     {
       Id = id;
       Name = string.IsNullOrEmpty(name) ? throw new ArgumentNullException(nameof(name)) : name;
-      MccEntity = mccEntity ?? throw new ArgumentNullException(nameof(mccEntity));
-      RatedPower = ratedPower ?? string.Empty;
-      RatedCurrent = ratedCurrent ?? string.Empty;
-      ActiveCurrent = activeCurrent ?? string.Empty;
-      ConnectionImageEntities = connectionImageEntities ?? new List<ImageEntity>();
-      Note = note ?? string.Empty;
+      MccEntity = mccEntity ?? null;
+      RatedPower = string.IsNullOrEmpty(ratedPower) ? "Chưa cập nhật" : ratedPower;
+      RatedCurrent = string.IsNullOrEmpty(ratedCurrent) ? "Chưa cập nhật" : ratedCurrent;
+      ActiveCurrent = string.IsNullOrEmpty(activeCurrent) ? "Chưa cập nhật" : activeCurrent;
+      ConnectionImageEntities = (connectionImageEntities == null || (connectionImageEntities != null && connectionImageEntities.Count <= 0)) ? new List<ImageEntity>() : connectionImageEntities;
+      Note = string.IsNullOrEmpty(note) ? "Chưa cập nhật" : note;
+    }
+
+
+    [Preserve]
+    public FieldDeviceEntity(string name, List<ImageEntity>? connectionImageEntities, string? ratedPower, string? ratedCurrent, string? activeCurrent, string? note)
+    {
+      Name = string.IsNullOrEmpty(name) ? throw new ArgumentNullException(nameof(name)) : name;
+      RatedPower = string.IsNullOrEmpty(ratedPower) ? "Chưa cập nhật" : ratedPower;
+      RatedCurrent = string.IsNullOrEmpty(ratedCurrent) ? "Chưa cập nhật" : ratedCurrent;
+      ActiveCurrent = string.IsNullOrEmpty(activeCurrent) ? "Chưa cập nhật" : activeCurrent;
+      ConnectionImageEntities = (connectionImageEntities == null || (connectionImageEntities != null && connectionImageEntities.Count <= 0)) ? new List<ImageEntity>() : connectionImageEntities;
+      Note = string.IsNullOrEmpty(note) ? "Chưa cập nhật" : note;
     }
   }
 }

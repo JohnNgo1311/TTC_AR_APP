@@ -16,7 +16,7 @@ namespace ApplicationLayer.Dtos.Rack
         public RackBasicDto(int id, string name)
         {
             Id = id;
-            Name = name == "" ? throw new ArgumentException(nameof(name)) : name;
+            Name = string.IsNullOrEmpty(name) ? throw new ArgumentException(nameof(name)) : name;
         }
     }
 

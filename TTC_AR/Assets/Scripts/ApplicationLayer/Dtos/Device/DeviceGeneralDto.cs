@@ -13,13 +13,13 @@ namespace ApplicationLayer.Dtos.Device
     [Preserve]
     public class DeviceGeneralDto : DeviceBasicDto //! Để GetListDeviceInformation và làm Property cho GetModuleInformation
     {
-        [JsonProperty("Function")] public string Function { get; set; } = string.Empty;
-        [JsonProperty("Range")] public string Range { get; set; } = string.Empty;
-        [JsonProperty("Unit")] public string Unit { get; set; } = string.Empty;
-        [JsonProperty("IOAddress")] public string IOAddress { get; set; } = string.Empty;
+        [JsonProperty("Function")] public string Function { get; set; }
+        [JsonProperty("Range")] public string Range { get; set; }
+        [JsonProperty("Unit")] public string Unit { get; set; }
+        [JsonProperty("IOAddress")] public string IOAddress { get; set; }
         [JsonProperty("Module")] public ModuleBasicDto? ModuleBasicDto { get; set; }
         [JsonProperty("JB")] public JBBasicDto? JBBasicDto { get; set; }
-        [JsonProperty("AdditionalConnectionImages")] public List<ImageResponseDto>? AdditionalImageResponseDtos { get; set; } = new List<ImageResponseDto>();
+        [JsonProperty("AdditionalConnectionImages")] public List<ImageResponseDto>? AdditionalImageResponseDtos { get; set; }
 
         [Preserve]
 

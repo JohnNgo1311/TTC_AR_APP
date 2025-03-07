@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using ApplicationLayer.Dtos.Module;
 using Newtonsoft.Json;
 using UnityEngine.Scripting;
 
@@ -8,15 +9,12 @@ namespace ApplicationLayer.Dtos.Rack
     [Preserve]
     public class RackResponseDto : RackBasicDto
     {
-        [JsonProperty("ListModules")] public List<ModuleGeneralModel> ModuleGeneralModels { get; set; }
-
+        [JsonProperty("ListModules")] public List<ModuleBasicDto> ModuleBasicDtos { get; set; }
 
         [Preserve]
-
-        public RackResponseDto(int id, string name, List<ModuleGeneralModel> moduleGeneralModels) : base(id, name)
+        public RackResponseDto(int id, string name, List<ModuleBasicDto> moduleBasicDtos) : base(id, name)
         {
-            ModuleGeneralModels = moduleGeneralModels ?? new List<ModuleGeneralModel>();
+            ModuleBasicDtos = moduleBasicDtos;
         }
-
     }
 }

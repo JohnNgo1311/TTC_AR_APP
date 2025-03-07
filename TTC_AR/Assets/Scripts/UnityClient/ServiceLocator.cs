@@ -34,6 +34,14 @@ public class ServiceLocator
         _companyService = new CompanyService(
             new CompanyUseCase(CompanyRepository));
 
+        IGrapperRepository GrapperRepository = new GrapperRepository(httpClient);
+        _grapperService = new GrapperService(
+            new GrapperUseCase(GrapperRepository));
+
+        IRackRepository RackRepository = new RackRepository(httpClient);
+        _rackService = new RackService(
+            new RackUseCase(RackRepository));
+
         IModuleRepository moduleRepository = new ModuleRepository(httpClient);
         _moduleService = new ModuleService(
             new ModuleUseCase(moduleRepository));
@@ -42,42 +50,39 @@ public class ServiceLocator
         _jbService = new JBService(
             new JBUseCase(IjbRepository)
         );
+
         IDeviceRepository deviceRepository = new DeviceRepository(httpClient);
         _deviceService = new DeviceService(
             new DeviceUseCase(deviceRepository)
+
         );
+
+        IMccRepository mccRepository = new MccRepository(httpClient);
+        _mccService = new MccService(
+            new MccUseCase(mccRepository)
+        );
+
         IFieldDeviceRepository fieldDeviceRepository = new FieldDeviceRepository(httpClient);
         _fieldDeviceService = new FieldDeviceService(
             new FieldDeviceUseCase(fieldDeviceRepository)
         );
+
         IModuleSpecificationRepository moduleSpecificationRepository = new ModuleSpecificationRepository(httpClient);
         _moduleSpecificationService = new ModuleSpecificationService(
             new ModuleSpecificationUseCase(moduleSpecificationRepository)
         );
+
         IAdapterSpecificationRepository adapterSpecificationRepository = new AdapterSpecificationRepository(httpClient);
         _adapterSpecificationService = new AdapterSpecificationService(
             new AdapterSpecificationUseCase(adapterSpecificationRepository)
         );
-        // IMccRepository mccRepository = new MccRepository(httpClient);
-        // _mccService = new MccService(
-        //     new MccUseCase(mccRepository)
-        // );
-        // IRackRepository rackRepository = new RackRepository(httpClient);
-        // _rackService = new RackService(
-        //     new RackUseCase(rackRepository)
-        // );
-
-        // IGrapperRepository grapperRepository = new GrapperRepository(httpClient);
-        // _grapperService = new GrapperService(
-        //     new GrapperUseCase(grapperRepository)
-        // );
 
     }
 
     //? Cung cấp các getter để các script truy cập service thông qua ServiceLocator.Instance.JBService.
     public ICompanyService CompanyService => _companyService;
-    public IRackService RackService => _rackService;
     public IGrapperService GrapperService => _grapperService;
+    public IRackService RackService => _rackService;
     public IModuleService ModuleService => _moduleService;
     public IJBService JBService => _jbService;
     public IDeviceService DeviceService => _deviceService;

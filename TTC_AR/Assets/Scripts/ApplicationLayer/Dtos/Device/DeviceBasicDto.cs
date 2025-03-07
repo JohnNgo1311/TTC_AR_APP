@@ -19,7 +19,7 @@ namespace ApplicationLayer.Dtos.Device
         public DeviceBasicDto(string id, string code)
         {
             Id = id;
-            Code = code == "" ? throw new System.ArgumentException(nameof(code)) : code;
+            Code = string.IsNullOrEmpty(code) ? throw new System.ArgumentException(nameof(code)) : code;
         }
     }
 

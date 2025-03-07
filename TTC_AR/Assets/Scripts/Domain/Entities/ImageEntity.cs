@@ -107,6 +107,7 @@
 
 
 using System;
+using System.Collections.Generic;
 using Newtonsoft.Json;
 using Unity.VisualScripting;
 using UnityEngine.Scripting;
@@ -122,10 +123,35 @@ namespace Domain.Entities
     [JsonProperty("Name")]
     public string Name { get; set; } = string.Empty;
 
-    [JsonProperty("Url", NullValueHandling = NullValueHandling.Ignore)]
+    [JsonProperty("Url")]
     public string? Url { get; set; }
 
 
+
+    public bool ShouldSerializeId()
+    {
+      string apiRequestType = GlobalVariable.APIRequestType;
+      HashSet<string> allowedRequests = new HashSet<string>
+      {
+        HttpMethodTypeEnum.POSTImage.GetDescription(),
+      };
+      return !allowedRequests.Contains(apiRequestType);
+    }
+
+    public bool ShouldSerializeUrl()
+    {
+      string apiRequestType = GlobalVariable.APIRequestType;
+      HashSet<string> allowedRequests = new HashSet<string>
+      {
+        HttpMethodTypeEnum.GETImage.GetDescription(),
+        HttpMethodTypeEnum.GETJB.GetDescription(),
+        HttpMethodTypeEnum.GETListJB.GetDescription(),
+        HttpMethodTypeEnum.GETDevice.GetDescription(),
+        HttpMethodTypeEnum.GETListDevice.GetDescription(),
+        HttpMethodTypeEnum.GETFieldDevice.GetDescription(),
+      };
+      return allowedRequests.Contains(apiRequestType);
+    }
     [Preserve]
     public ImageEntity()
     {
@@ -143,7 +169,7 @@ namespace Domain.Entities
     {
       Id = id;
       Name = string.IsNullOrEmpty(name) ? throw new ArgumentNullException(nameof(name)) : name;
-      Url = url == string.Empty ? "Chưa cập nhật" : url;
+      Url = string.IsNullOrEmpty(url) ? "Chưa cập nhật" : url;
     }
   }
 }

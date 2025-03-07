@@ -22,7 +22,7 @@ namespace ApplicationLayer.Services
             return await _moduleUseCase.GetModuleByIdAsync(moduleId);
         }
 
-        public async Task<List<ModuleGeneralDto>> GetListModuleAsync(int grapperId)
+        public async Task<List<ModuleBasicDto>> GetListModuleAsync(int grapperId)
         {
             return await _moduleUseCase.GetListModuleAsync(grapperId);
         }

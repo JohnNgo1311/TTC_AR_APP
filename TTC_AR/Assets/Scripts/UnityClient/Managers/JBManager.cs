@@ -40,7 +40,36 @@ public class JBManager : MonoBehaviour
             if (jbList != null && jbList.Count > 0)
             {
                 foreach (var jb in jbList)
-                    Debug.Log($"JB: {jb.Name}, Location: {jb.Location}");
+                {
+                    Debug.Log($"jBResponseDto: {jb.Name}, Location: {jb.Location}");
+                    if (jb.OutdoorImageResponseDto != null)
+                    {
+                        Debug.Log($"OutdoorImage: {jb.OutdoorImageResponseDto.Id}, OutdoorImage: {jb.OutdoorImageResponseDto.Name}, OutdoorImage: {jb.OutdoorImageResponseDto.Url}");
+
+                    }
+                    else
+                    {
+                        Debug.Log("OutdoorImage is null");
+                    }
+                    if (jb.ConnectionImageResponseDtos != null)
+                    {
+                        if (jb.ConnectionImageResponseDtos.Count > 0)
+                        {
+                            foreach (var connectionImage in jb.ConnectionImageResponseDtos)
+                            {
+                                Debug.Log($"ConnectionImage: {connectionImage.Id}, ConnectionImage: {connectionImage.Name}, ConnectionImage: {connectionImage.Url}");
+                            }
+                        }
+                        else
+                        {
+                            Debug.Log("List ConnectionImage is empty");
+                        }
+                    }
+                    else
+                    {
+                        Debug.Log("List ConnectionImage is null");
+                    }
+                }
             }
             else
             {
@@ -67,14 +96,82 @@ public class JBManager : MonoBehaviour
         }
     }
 
-    public async void GetJBById(int jBId)
+    public async void GetJBById(int JBId)
     {
         try
         {
-            var jBResponseDto = await _IJBService.GetJBByIdAsync(jBId); // Gọi Service
+            var jBResponseDto = await _IJBService.GetJBByIdAsync(JBId); // Gọi Service
             if (jBResponseDto != null)
             {
                 Debug.Log($"jBResponseDto: {jBResponseDto.Name}, Location: {jBResponseDto.Location}");
+                if (jBResponseDto.DeviceBasicDtos != null)
+                {
+                    if (jBResponseDto.DeviceBasicDtos.Count > 0)
+                    {
+                        foreach (var device in jBResponseDto.DeviceBasicDtos)
+                        {
+                            Debug.Log($"Device: {device.Id}, Device: {device.Code}");
+                        }
+                    }
+                    else
+                    {
+                        Debug.Log("List Device is empty");
+                    }
+                }
+                else
+                {
+                    Debug.Log("List Device is null");
+                }
+
+                if (jBResponseDto.ModuleBasicDtos != null)
+                {
+                    if (jBResponseDto.ModuleBasicDtos.Count > 0)
+                    {
+                        foreach (var module in jBResponseDto.ModuleBasicDtos)
+                        {
+                            Debug.Log($"Module: {module.Id}, Module: {module.Name}");
+                        }
+                    }
+                    else
+                    {
+                        Debug.Log("List Module is empty");
+                    }
+                }
+                else
+                {
+                    Debug.Log("List Module is null");
+                }
+
+
+                if (jBResponseDto.OutdoorImageResponseDto != null)
+                {
+                    Debug.Log($"OutdoorImage: {jBResponseDto.OutdoorImageResponseDto.Id}, OutdoorImage: {jBResponseDto.OutdoorImageResponseDto.Name}, OutdoorImage: {jBResponseDto.OutdoorImageResponseDto.Url}");
+                }
+                else
+                {
+                    Debug.Log("OutdoorImage is null");
+                }
+
+
+                if (jBResponseDto.ConnectionImageResponseDtos != null)
+                {
+                    if (jBResponseDto.ConnectionImageResponseDtos.Count > 0)
+                    {
+                        foreach (var connectionImage in jBResponseDto.ConnectionImageResponseDtos)
+                        {
+                            Debug.Log($"ConnectionImage: {connectionImage.Id}, ConnectionImage: {connectionImage.Name}, ConnectionImage: {connectionImage.Url}");
+                        }
+                    }
+                    else
+                    {
+                        Debug.Log("List ConnectionImage is empty");
+                    }
+                }
+
+                else
+                {
+                    Debug.Log("List ConnectionImage is null");
+                }
             }
             else
             {
@@ -131,11 +228,12 @@ public class JBManager : MonoBehaviour
 
         }
     }
-    public async void UpdateJB(JBRequestDto jBRequestDto)
+    public async void UpdateJB(int JBId, JBRequestDto jBRequestDto)
     {
+        JBId = GlobalVariable.JBId;
         try
         {
-            bool result = await _IJBService.UpdateJBAsync(GlobalVariable.GrapperId, jBRequestDto);
+            bool result = await _IJBService.UpdateJBAsync(JBId, jBRequestDto);
             Debug.Log(result ? "JB updated successfully" : "Failed to update JB");
         }
 
@@ -158,11 +256,12 @@ public class JBManager : MonoBehaviour
 
         }
     }
-    public async void DeleteJB(int jBId)
+    public async void DeleteJB(int JBId)
     {
+        JBId = GlobalVariable.JBId;
         try
         {
-            bool result = await _IJBService.DeleteJBAsync(jBId);
+            bool result = await _IJBService.DeleteJBAsync(JBId);
             Debug.Log(result ? "JB deleted successfully" : "Failed to delete JB");
         }
 

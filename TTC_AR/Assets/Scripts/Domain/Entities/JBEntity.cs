@@ -4,7 +4,6 @@ using System.Linq;
 using ApplicationLayer.Dtos;
 using Newtonsoft.Json;
 using UnityEngine.Scripting;
-
 #nullable enable
 
 namespace Domain.Entities
@@ -19,18 +18,102 @@ namespace Domain.Entities
 
     [JsonProperty("Location")]
     public string? Location { get; set; }
-    [JsonProperty("Devices")]
+
+    [JsonProperty("ListDevices")]
     public List<DeviceEntity>? DeviceEntities { get; set; }
-    [JsonProperty("Modules")]
+
+    [JsonProperty("ListModules")]
     public List<ModuleEntity>? ModuleEntities { get; set; }
+
     [JsonProperty("OutdoorImage")]
     public ImageEntity? OutdoorImageEntity { get; set; } // Có thể null nếu không có ảnh ngoài trời
-    [JsonProperty("ConnectionImages")]
+
+    [JsonProperty("ListConnectionImages")]
     public List<ImageEntity>? ConnectionImageEntities { get; set; }
+
+    public bool ShouldSerializeId()
+    {
+      string apiRequestType = GlobalVariable.APIRequestType;
+      HashSet<string> allowedRequests = new HashSet<string>
+      {
+        HttpMethodTypeEnum.POSTJB.GetDescription(),
+        HttpMethodTypeEnum.PUTJB.GetDescription(),
+      };
+      return !allowedRequests.Contains(apiRequestType);
+    }
+
+    public bool ShouldSerializeDeviceEntities()
+    {
+      string apiRequestType = GlobalVariable.APIRequestType;
+      HashSet<string> allowedRequests = new HashSet<string>
+     {
+        HttpMethodTypeEnum.GETJB.GetDescription(),
+        HttpMethodTypeEnum.POSTJB.GetDescription(),
+        HttpMethodTypeEnum.PUTJB.GetDescription()     };
+      return allowedRequests.Contains(apiRequestType);
+    }
+
+
+    public bool ShouldSerializeModuleEntities()
+    {
+      string apiRequestType = GlobalVariable.APIRequestType;
+      HashSet<string> allowedRequests = new HashSet<string>
+     {
+        HttpMethodTypeEnum.GETJB.GetDescription(),
+        HttpMethodTypeEnum.POSTJB.GetDescription(),
+        HttpMethodTypeEnum.PUTJB.GetDescription()
+     };
+      return allowedRequests.Contains(apiRequestType);
+    }
+
+
+    public bool ShouldSerializeLocation()
+    {
+      string apiRequestType = GlobalVariable.APIRequestType;
+      HashSet<string> allowedRequests = new HashSet<string>
+     {
+        HttpMethodTypeEnum.GETJB.GetDescription(),
+        HttpMethodTypeEnum.GETListJB.GetDescription(),
+        HttpMethodTypeEnum.GETListDevice.GetDescription(),
+        HttpMethodTypeEnum.GETDevice.GetDescription(),
+        HttpMethodTypeEnum.POSTJB.GetDescription(),
+        HttpMethodTypeEnum.PUTJB.GetDescription()
+     };
+      return allowedRequests.Contains(apiRequestType);
+    }
+
+    public bool ShouldSerializeOutdoorImageEntity()
+    {
+      string apiRequestType = GlobalVariable.APIRequestType;
+      HashSet<string> allowedRequests = new HashSet<string>
+     {
+        HttpMethodTypeEnum.GETJB.GetDescription(),
+        HttpMethodTypeEnum.GETListJB.GetDescription(),
+        HttpMethodTypeEnum.GETListDevice.GetDescription(),
+        HttpMethodTypeEnum.POSTJB.GetDescription(),
+        HttpMethodTypeEnum.PUTJB.GetDescription()
+
+     };
+      return allowedRequests.Contains(apiRequestType);
+    }
+
+
+    public bool ShouldSerializeConnectionImageEntities()
+    {
+      string apiRequestType = GlobalVariable.APIRequestType;
+      HashSet<string> allowedRequests = new HashSet<string>
+     {
+        HttpMethodTypeEnum.GETJB.GetDescription(),
+        HttpMethodTypeEnum.GETListJB.GetDescription(),
+        HttpMethodTypeEnum.GETListDevice.GetDescription(),
+        HttpMethodTypeEnum.POSTJB.GetDescription(),
+        HttpMethodTypeEnum.PUTJB.GetDescription()
+     };
+      return allowedRequests.Contains(apiRequestType);
+    }
 
     // Constructor mặc định để hỗ trợ khởi tạo linh hoạt
     [Preserve]
-
     public JBEntity()
     {
       // DeviceEntities = new List<DeviceEntity>();
@@ -54,11 +137,11 @@ namespace Domain.Entities
     public JBEntity(string name, string location, List<DeviceEntity>? devices, List<ModuleEntity>? modules, ImageEntity? outdoorImage, List<ImageEntity>? connectionImages)
     {
       Name = string.IsNullOrEmpty(name) ? throw new ArgumentNullException(nameof(name)) : name;
-      Location = location == string.Empty ? "chưa cập nhật" : location;
-      DeviceEntities = devices ?? new List<DeviceEntity>();
-      ModuleEntities = modules ?? new List<ModuleEntity>();
+      Location = string.IsNullOrEmpty(location) ? "chưa cập nhật" : location;
+      DeviceEntities = (devices == null || (devices != null && devices.Count <= 0)) ? new List<DeviceEntity>() : devices;
+      ModuleEntities = (modules == null || (modules != null && modules.Count <= 0)) ? new List<ModuleEntity>() : modules;
       OutdoorImageEntity = outdoorImage ?? null;
-      ConnectionImageEntities = connectionImages ?? new List<ImageEntity>();
+      ConnectionImageEntities = (connectionImages == null || (connectionImages != null && connectionImages.Count <= 0)) ? new List<ImageEntity>() : connectionImages;
     }
 
     //! Constructor đầy đủ (tùy chọn, để hỗ trợ ánh xạ từ DTO nếu cần)

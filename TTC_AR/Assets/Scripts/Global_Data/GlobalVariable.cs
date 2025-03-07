@@ -9,6 +9,54 @@ using UnityEngine.UI;
 public class GlobalVariable : MonoBehaviour
 {
     public static string baseUrl = "http://52.230.123.204:81/api/";
+    public static string APIRequestType = "";
+    public static List<string> AllowedRequests = new List<string>()
+    {
+    "GET_Grapper_List",
+    "POST_Grapper",
+    "PUT_Grapper",
+    "DELETE_Grapper",
+
+    "GET_Rack_List",
+    "POST_Rack",
+    "PUT_Rack",
+    "DELETE_Rack",
+
+    "GET_Module_List",
+    "POST_Module",
+    "PUT_Module",
+    "DELETE_Module",
+
+    "GET_JB_List",
+    "POST_JB",
+    "PUT_JB",
+    "DELETE_JB",
+
+    "GET_Device_List",
+    "POST_Device",
+    "PUT_Device",
+    "DELETE_Device",
+
+    "GET_ModuleSpecification_List",
+    "POST_ModuleSpecification",
+    "PUT_ModuleSpecification",
+    "DELETE_ModuleSpecification",
+
+    "GET_AdapterSpecification_List",
+    "POST_AdapterSpecification",
+    "PUT_AdapterSpecification",
+    "DELETE_AdapterSpecification",
+
+    "GET_Mcc_List",
+    "POST_Mcc",
+    "PUT_Mcc",
+    "DELETE_Mcc",
+
+    "GET_FieldDevice_List",
+    "POST_FieldDevice",
+    "PUT_FieldDevice",
+    "DELETE_FieldDevice"
+    };
 
     public static string previousScene;
     public static string recentScene;
@@ -70,6 +118,8 @@ public class GlobalVariable : MonoBehaviour
     //public static List<Texture2D> list_Image_JB_Location = new List<Texture2D>();
     //    public static List<Texture2D> list_Image_JB_TSD_Wiring = new List<Texture2D>();
 
+    //! Company
+    public static int companyId = 1;
     //!Grapper
     public static List<GrapperBasicModel> temp_ListGrapperBasicModels = new List<GrapperBasicModel>(); // Id, Name, List_Rack_Basic_Model
     public static GrapperBasicModel temp_GrapperBasicModel; // Id, Name, List_Rack_Basic_Model
@@ -104,7 +154,7 @@ public class GlobalVariable : MonoBehaviour
     //! Mccs
     public static List<MccInformationModel> temp_ListMCCInformationModel = new List<MccInformationModel>();
     public static MccInformationModel temp_MCCInformationModel;
-    public static int MCCId = 1;
+    public static int MccId = 1;
     public static Dictionary<string, MccInformationModel> temp_Dictionary_MCCInformationModel = new Dictionary<string, MccInformationModel>();
 
     //! Field Device

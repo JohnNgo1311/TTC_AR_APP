@@ -24,7 +24,7 @@ namespace ApplicationLayer.Services
             return await _AdapterSpecificationUseCase.GetAdapterSpecificationByIdAsync(adapterSpecificationId);
         }
 
-        public async Task<List<AdapterSpecificationResponseDto>> GetListAdapterSpecificationAsync(int companyId)
+        public async Task<List<AdapterSpecificationBasicDto>> GetListAdapterSpecificationAsync(int companyId)
         {
             return await _AdapterSpecificationUseCase.GetListAdapterSpecificationAsync(companyId);
         }

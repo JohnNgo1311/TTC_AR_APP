@@ -43,7 +43,7 @@ public class Get_MCC_Information : MonoBehaviour
     }
     public async void GetMCCInformation()
     {
-        MCCId = GlobalVariable.MCCId;
+        MCCId = GlobalVariable.MccId;
         try
         {
             GlobalVariable.ready_To_Nav_New_Scene = false;

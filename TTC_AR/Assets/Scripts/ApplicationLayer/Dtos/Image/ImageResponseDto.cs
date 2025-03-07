@@ -6,14 +6,14 @@ namespace ApplicationLayer.Dtos.Image
     [Preserve]
     public class ImageResponseDto : ImageBasicDto
     {
-        [JsonProperty("url")]
+        [JsonProperty("Url")]
         public string Url { get; set; }
 
         [Preserve]
 
         public ImageResponseDto(int id, string name, string url) : base(id, name)
         {
-            Url = url ?? string.Empty;
+            Url = string.IsNullOrEmpty(url) ? "Chưa cập nhật" : url;
         }
     }
 }

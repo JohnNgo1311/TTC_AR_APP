@@ -17,7 +17,7 @@ namespace ApplicationLayer.UseCases
         {
             _IModuleSpecificationRepository = IModuleSpecificationRepository;
         }
-        public async Task<List<ModuleSpecificationResponseDto>> GetListModuleSpecificationAsync(int companyId)
+        public async Task<List<ModuleSpecificationBasicDto>> GetListModuleSpecificationAsync(int companyId)
         {
             try
             {
@@ -29,10 +29,9 @@ namespace ApplicationLayer.UseCases
                 }
                 else
                 {
-
-                    return ModuleSpecificationEntities.Select(MapToResponseDto).ToList();
+                    var moduleSpecificationBasicDtos = ModuleSpecificationEntities.Select(MapToBasicDto).ToList();
+                    return moduleSpecificationBasicDtos;
                 }
-
             }
             catch (ArgumentException)
             {
@@ -43,18 +42,19 @@ namespace ApplicationLayer.UseCases
                 throw new ApplicationException("Failed to get ModuleSpecification list", ex);
             }
         }
-        public async Task<ModuleSpecificationResponseDto> GetModuleSpecificationByIdAsync(int ModuleSpecificationId)
+        public async Task<ModuleSpecificationResponseDto> GetModuleSpecificationByIdAsync(int moduleSpecificationId)
         {
             try
             {
-                var ModuleSpecificationEntity = await _IModuleSpecificationRepository.GetModuleSpecificationByIdAsync(ModuleSpecificationId);
+                var ModuleSpecificationEntity = await _IModuleSpecificationRepository.GetModuleSpecificationByIdAsync(moduleSpecificationId);
                 if (ModuleSpecificationEntity == null)
                 {
                     throw new ApplicationException("Failed to get ModuleSpecification");
                 }
                 else
                 {
-                    return MapToResponseDto(ModuleSpecificationEntity);
+                    var moduleSpecificationResponseDto = MapToResponseDto(ModuleSpecificationEntity);
+                    return moduleSpecificationResponseDto;
                 }
             }
             catch (ArgumentException)
@@ -68,13 +68,14 @@ namespace ApplicationLayer.UseCases
         }
         public async Task<bool> CreateNewModuleSpecificationAsync(int companyId, ModuleSpecificationRequestDto requestDto)
         {
+            companyId = GlobalVariable.companyId;
             try
             {
-                // Validate
                 if (string.IsNullOrEmpty(requestDto.Code))
                 {
                     throw new ArgumentException("Code cannot be empty");
                 }
+
                 var createNewModuleSpecificationEntity = MapRequestToEntity(requestDto);
                 //   var requestData = MapToRequestDto(createNewModuleSpecificationEntity);
                 if (createNewModuleSpecificationEntity == null)
@@ -97,6 +98,7 @@ namespace ApplicationLayer.UseCases
         }
         public async Task<bool> UpdateModuleSpecificationAsync(int moduleSpecificationId, ModuleSpecificationRequestDto requestDto)
         {
+            moduleSpecificationId = GlobalVariable.ModuleSpecificationId;
             try
             {
                 // Validate
@@ -125,11 +127,13 @@ namespace ApplicationLayer.UseCases
                 throw new ApplicationException("Failed to update ModuleSpecification", ex); // Bao bọc lỗi từ Repository
             }
         }
-        public async Task<bool> DeleteModuleSpecificationAsync(int ModuleSpecificationId)
+        public async Task<bool> DeleteModuleSpecificationAsync(int moduleSpecificationId)
         {
+            moduleSpecificationId = GlobalVariable.ModuleSpecificationId;
+
             try
             {
-                var deleteModuleSpecificationResult = await _IModuleSpecificationRepository.DeleteModuleSpecificationAsync(ModuleSpecificationId);
+                var deleteModuleSpecificationResult = await _IModuleSpecificationRepository.DeleteModuleSpecificationAsync(moduleSpecificationId);
                 return deleteModuleSpecificationResult;
             }
             catch (ArgumentException)
@@ -144,63 +148,31 @@ namespace ApplicationLayer.UseCases
 
 
         //! Entity => Dto
+        private ModuleSpecificationBasicDto MapToBasicDto(ModuleSpecificationEntity ModuleSpecificationEntity)
+        {
+            return new ModuleSpecificationBasicDto(
+                ModuleSpecificationEntity.Id,
+                 ModuleSpecificationEntity.Code);
+        }
+
+
         private ModuleSpecificationResponseDto MapToResponseDto(ModuleSpecificationEntity ModuleSpecificationEntity)
         {
             return new ModuleSpecificationResponseDto(
-                ModuleSpecificationEntity.Id,
-                ModuleSpecificationEntity.Code,
-                ModuleSpecificationEntity.Type,
-                ModuleSpecificationEntity.NumOfIO,
-                ModuleSpecificationEntity.SignalType,
-                ModuleSpecificationEntity.CompatibleTBUs,
-                ModuleSpecificationEntity.OperatingVoltage,
-                ModuleSpecificationEntity.OperatingCurrent,
-                ModuleSpecificationEntity.FlexbusCurrent,
-                ModuleSpecificationEntity.Alarm,
-                ModuleSpecificationEntity.Note,
-                ModuleSpecificationEntity.PdfManual
-            )
-            {
-                Id = ModuleSpecificationEntity.Id,
-                Code = ModuleSpecificationEntity.Code,
-                Type = ModuleSpecificationEntity.Type,
-                SignalType = ModuleSpecificationEntity.SignalType,
-                CompatibleTBUs = ModuleSpecificationEntity.CompatibleTBUs,
-                OperatingVoltage = ModuleSpecificationEntity.OperatingVoltage,
-                OperatingCurrent = ModuleSpecificationEntity.OperatingCurrent,
-                FlexbusCurrent = ModuleSpecificationEntity.FlexbusCurrent,
-                Alarm = ModuleSpecificationEntity.Alarm,
-                Note = ModuleSpecificationEntity.Note,
-                PdfManual = ModuleSpecificationEntity.PdfManual
-            };
-        }
-        private ModuleSpecificationRequestDto MapToRequestDto(ModuleSpecificationEntity ModuleSpecificationEntity)
-        {
-            return new ModuleSpecificationRequestDto(
-                ModuleSpecificationEntity.Code,
-                ModuleSpecificationEntity.Type,
-                ModuleSpecificationEntity.NumOfIO,
-                ModuleSpecificationEntity.SignalType,
-                ModuleSpecificationEntity.CompatibleTBUs,
-                ModuleSpecificationEntity.OperatingVoltage,
-                ModuleSpecificationEntity.OperatingCurrent,
-                ModuleSpecificationEntity.FlexbusCurrent,
-                ModuleSpecificationEntity.Alarm,
-                ModuleSpecificationEntity.Note,
-                ModuleSpecificationEntity.PdfManual
-            )
-            {
-                Code = ModuleSpecificationEntity.Code,
-                Type = ModuleSpecificationEntity.Type,
-                SignalType = ModuleSpecificationEntity.SignalType,
-                CompatibleTBUs = ModuleSpecificationEntity.CompatibleTBUs,
-                OperatingVoltage = ModuleSpecificationEntity.OperatingVoltage,
-                OperatingCurrent = ModuleSpecificationEntity.OperatingCurrent,
-                FlexbusCurrent = ModuleSpecificationEntity.FlexbusCurrent,
-                Alarm = ModuleSpecificationEntity.Alarm,
-                Note = ModuleSpecificationEntity.Note,
-                PdfManual = ModuleSpecificationEntity.PdfManual
-            };
+            id: ModuleSpecificationEntity.Id,
+            code: ModuleSpecificationEntity.Code,
+            type: ModuleSpecificationEntity.Type,
+            signalType: ModuleSpecificationEntity.SignalType,
+            numOfIO: ModuleSpecificationEntity.NumOfIO,
+            compatibleTBUs: ModuleSpecificationEntity.CompatibleTBUs,
+            operatingVoltage: ModuleSpecificationEntity.OperatingVoltage,
+            operatingCurrent: ModuleSpecificationEntity.OperatingCurrent,
+            flexbusCurrent: ModuleSpecificationEntity.FlexbusCurrent,
+            alarm: ModuleSpecificationEntity.Alarm,
+            note: ModuleSpecificationEntity.Note,
+            pdfManual: ModuleSpecificationEntity.PdfManual
+            );
+
         }
 
         //! Dto => Entity
@@ -219,8 +191,6 @@ namespace ApplicationLayer.UseCases
                 note: requestDto.Note,
                 pdfManual: requestDto.PdfManual
                 );
-
-
         }
         private ModuleSpecificationEntity MapToResponseEntity(ModuleSpecificationResponseDto ModuleSpecificationResponseDto)
         {

@@ -17,7 +17,7 @@ namespace ApplicationLayer.Dtos.Mcc
 
         public MccBasicDto(int id, string cabinetCode)
         {
-            Id = id;
+            Id = id == 0 ? throw new ArgumentNullException(nameof(id)) : id;
             CabinetCode = string.IsNullOrEmpty(cabinetCode) ? throw new ArgumentNullException(nameof(cabinetCode)) : cabinetCode;
         }
     }

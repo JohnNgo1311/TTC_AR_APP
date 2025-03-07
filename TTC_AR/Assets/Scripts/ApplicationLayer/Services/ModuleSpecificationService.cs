@@ -24,7 +24,7 @@ namespace ApplicationLayer.Services
             return await _ModuleSpecificationUseCase.GetModuleSpecificationByIdAsync(ModuleSpecificationId);
         }
 
-        public async Task<List<ModuleSpecificationResponseDto>> GetListModuleSpecificationAsync(int companyId)
+        public async Task<List<ModuleSpecificationBasicDto>> GetListModuleSpecificationAsync(int companyId)
         {
             return await _ModuleSpecificationUseCase.GetListModuleSpecificationAsync(companyId);
         }

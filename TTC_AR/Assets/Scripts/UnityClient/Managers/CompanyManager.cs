@@ -32,40 +32,6 @@ public class CompanyManager : MonoBehaviour
         //! Dependency Injection
         _ICompanyService = ServiceLocator.Instance.CompanyService;
     }
-    // public async void GetCompanyList(int grapperId)
-    // {
-    //     try
-    //     {
-    //         var CompanyList = await _ICompanyService.GetListCompanyAsync(grapperId); //! Gọi _ICompanyService từ Application Layer
-    //         if (CompanyList != null && CompanyList.Count > 0)
-    //         {
-    //             foreach (var Company in CompanyList)
-    //                 Debug.Log($"Company: {Company.Name}, Location: {Company.Location}");
-    //         }
-    //         else
-    //         {
-    //             Debug.Log("No Companys found");
-    //         }
-    //     }
-    //     catch (ArgumentException ex) // Lỗi validation
-    //     {
-    //         Debug.LogError($"Validation error: {ex.Message}");
-    //         //? hiển thị Dialog hoặc showToast tại đây
-
-    //     }
-    //     catch (HttpRequestException ex) // Lỗi mạng/HTTP
-    //     {
-    //         Debug.LogError($"Network error: {ex.Message}");
-    //         //? hiển thị Dialog hoặc showToast tại đây
-
-    //     }
-    //     catch (Exception ex) // Lỗi khác
-    //     {
-    //         Debug.LogError($"Unexpected error: {ex.Message}");
-    //         //? hiển thị Dialog hoặc showToast tại đây
-
-    //     }
-    // }
     public async void GetCompanyById(string CompanyId)
     {
         try

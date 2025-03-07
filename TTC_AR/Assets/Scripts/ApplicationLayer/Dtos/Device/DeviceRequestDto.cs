@@ -31,9 +31,9 @@ namespace ApplicationLayer.Dtos.Device
             Range = range;
             Unit = unit;
             IOAddress = ioAddress;
-            ModuleBasicDto = moduleBasicDto ?? null;
-            JBBasicDto = jbBasicDto ?? null;
-            AdditionalImageBasicDtos = additionalImageBasicDtos ?? null;
+            ModuleBasicDto = moduleBasicDto;
+            JBBasicDto = jbBasicDto;
+            AdditionalImageBasicDtos = additionalImageBasicDtos;
         }
 
         // [Preserve]

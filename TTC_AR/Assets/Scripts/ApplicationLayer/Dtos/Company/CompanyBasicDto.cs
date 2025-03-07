@@ -18,7 +18,6 @@ namespace ApplicationLayer.Dtos.Company
       Id = id;
       Name = string.IsNullOrEmpty(name) ? throw new ArgumentNullException(nameof(name)) : name;
     }
-
   }
 
 

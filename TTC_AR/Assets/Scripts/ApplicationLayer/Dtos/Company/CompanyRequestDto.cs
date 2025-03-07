@@ -6,24 +6,25 @@ using ApplicationLayer.Dtos.ModuleSpecification;
 using Newtonsoft.Json;
 using UnityEngine.Scripting;
 
+#nullable enable
 namespace ApplicationLayer.Dtos.Company
 {
     [Preserve]
     public class CompanyRequestDto
     {
         [JsonProperty("Name")] public string Name { get; set; }
-        [JsonProperty("ListGrappers")] public List<GrapperBasicDto> GrapperBasicDtos { get; set; }
-        [JsonProperty("ListModuleSpecifications")] public List<ModuleSpecificationBasicDto> ModuleSpecificationBasicDtos { get; set; }
-        [JsonProperty("ListAdapterSpecifications")] public List<AdapterSpecificationBasicDto> AdapterSpecificationBasicDtos { get; set; }
+        [JsonProperty("ListGrappers")] public List<GrapperBasicDto>? GrapperBasicDtos { get; set; }
+        [JsonProperty("ListModuleSpecifications")] public List<ModuleSpecificationBasicDto>? ModuleSpecificationBasicDtos { get; set; }
+        [JsonProperty("ListAdapterSpecifications")] public List<AdapterSpecificationBasicDto>? AdapterSpecificationBasicDtos { get; set; }
 
         [Preserve]
 
         public CompanyRequestDto(string name, List<GrapperBasicDto> grapperBasicDtos, List<ModuleSpecificationBasicDto> moduleSpecificationBasicDtos, List<AdapterSpecificationBasicDto> adapterSpecificationBasicDtos)
         {
             Name = name ?? throw new ArgumentException(nameof(name));
-            GrapperBasicDtos = grapperBasicDtos ?? new List<GrapperBasicDto>();
-            ModuleSpecificationBasicDtos = moduleSpecificationBasicDtos ?? new List<ModuleSpecificationBasicDto>();
-            AdapterSpecificationBasicDtos = adapterSpecificationBasicDtos ?? new List<AdapterSpecificationBasicDto>();
+            GrapperBasicDtos = grapperBasicDtos;
+            ModuleSpecificationBasicDtos = moduleSpecificationBasicDtos;
+            AdapterSpecificationBasicDtos = adapterSpecificationBasicDtos;
         }
     }
 }

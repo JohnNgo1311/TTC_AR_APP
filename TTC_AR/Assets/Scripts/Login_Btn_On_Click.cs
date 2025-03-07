@@ -81,54 +81,32 @@ public class Login_Btn_On_Click : MonoBehaviour
         // FieldDeviceManager fieldDeviceManager = FindObjectOfType<FieldDeviceManager>();
         // fieldDeviceManager.GetFieldDeviceById(1);
         // CompanyManager CompanyManager = FindObjectOfType<CompanyManager>();
-        // CompanyManager.GetCompanyById("3");
+        GlobalVariable.APIRequestType = "GET_JB";
+
         JBManager jBManager = FindObjectOfType<JBManager>();
+        // jBManager.CreateNewJB(
+        //     1,
+        //     new JBRequestDto(
+        //         name: "JBName49",
+        //         location: "",
+        //         deviceBasicDtos: null,
+        //         moduleBasicDtos: null,
+        //         outdoorImageBasicDto: null,
+        //         connectionImageBasicDtos: null
+        //     )
+        // );
+        // jBManager.GetJBList(1);
         jBManager.CreateNewJB(
             1,
             new JBRequestDto(
-                name: "JBName44",
-                location: "JBLocation",
-                deviceBasicDtos: new List<DeviceBasicDto>()
-                {
-                    new DeviceBasicDto(
-                        id: "55",
-                        code: "DeviceCode11"
-                    ),
-                    new DeviceBasicDto(
-                        id: "56",
-                        code: "DeviceCode12"
-                    )
-                },
-                moduleBasicDtos: new List<ModuleBasicDto>()
-                {
-                    new ModuleBasicDto(
-                        id: 44,
-                        name: "ModuleName44"
-                    ),
-                    new ModuleBasicDto(
-                        id: 45,
-                        name: "ModuleName45"
-                    )
-                },
-                outdoorImageBasicDto: new ImageBasicDto(
-                    id: 23,
-                    name: "OutdoorImageName23"
-                ),
-                connectionImageBasicDtos: new List<ImageBasicDto>()
-                {
-                    new ImageBasicDto(
-                        id: 24,
-                        name: "ConnectionImageName24"
-                    ),
-                    new ImageBasicDto(
-                        id: 25,
-                        name: "ConnectionImageName25"
-                    )
-                }
+                name: "JBName49",
+                location: null,
+                deviceBasicDtos: null,
+                moduleBasicDtos: null,
+                outdoorImageBasicDto: null,
+                connectionImageBasicDtos: null
             )
         );
-        // jBManager.GetJBList(1);
-        // jBManager.GetJBById(1);
 
 
 

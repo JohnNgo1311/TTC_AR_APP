@@ -27,7 +27,6 @@ namespace ApplicationLayer.UseCases
             {
                 //! Gọi _IDeviceRepository từ Infrastructure Layer
                 var deviceEntities = await _IDeviceRepository.GetListDeviceAsync(grapperId);
-
                 if (deviceEntities == null)
                 {
                     throw new ApplicationException("Failed to get Device list");
@@ -127,6 +126,7 @@ namespace ApplicationLayer.UseCases
         #region PUT Device
         public async Task<bool> UpdateDeviceAsync(int deviceId, DeviceRequestDto requestDto)
         {
+            deviceId = GlobalVariable.DeviceId;
             try
             {
                 // Validate
@@ -149,9 +149,7 @@ namespace ApplicationLayer.UseCases
                 // };
                 //! Cứ đưa vào Entity, khi sang Repository, tùy vào ngữ cảnh sẽ filter lại dữ liệu để gửi lên server
                 //!Tham số mặc định của Repository sẽ là Entity
-                var updatedDeviceResult = await _IDeviceRepository.UpdateDeviceAsync(GlobalVariable.DeviceId, deviceEntity);
-
-
+                var updatedDeviceResult = await _IDeviceRepository.UpdateDeviceAsync(deviceId, deviceEntity);
                 if (!updatedDeviceResult)
                 {
                     throw new ApplicationException("Failed to update Device");
@@ -169,11 +167,12 @@ namespace ApplicationLayer.UseCases
         }
         #endregion
         #region  DELETE Device
-        public async Task<bool> DeleteDeviceAsync(int DeviceId)
+        public async Task<bool> DeleteDeviceAsync(int deviceId)
         {
+            deviceId = GlobalVariable.DeviceId;
             try
             {
-                var deletedDeviceResult = await _IDeviceRepository.DeleteDeviceAsync(DeviceId);
+                var deletedDeviceResult = await _IDeviceRepository.DeleteDeviceAsync(deviceId);
                 return deletedDeviceResult;
             }
             catch (ArgumentException)
@@ -198,74 +197,75 @@ namespace ApplicationLayer.UseCases
                 requestDto.IOAddress,
                 requestDto.ModuleBasicDto == null ? null : new ModuleEntity(requestDto.ModuleBasicDto.Id, requestDto.ModuleBasicDto.Name),
                 requestDto.JBBasicDto == null ? null : new JBEntity(requestDto.JBBasicDto.Id, requestDto.JBBasicDto.Name),
-                requestDto.AdditionalImageBasicDtos == null ? null : requestDto.AdditionalImageBasicDtos.Select(dto => new ImageEntity(dto.Id, dto.Name)).ToList()
+                (requestDto.AdditionalImageBasicDtos == null || (requestDto.AdditionalImageBasicDtos != null && requestDto.AdditionalImageBasicDtos.Count <= 0)) ? new List<ImageEntity>()
+                 : requestDto.AdditionalImageBasicDtos.Select(dto => new ImageEntity(dto.Id, dto.Name)).ToList()
             );
         }
-        private DeviceEntity MapResponseToEntity(DeviceResponseDto responseDto)
-        {
-            return new DeviceEntity(
-                responseDto.Id.ToString(),
-                responseDto.Code,
-                responseDto.Function,
-                responseDto.Range,
-                responseDto.Unit,
-                responseDto.IOAddress,
-                new ModuleEntity(responseDto.ModuleBasicDto.Id, responseDto.ModuleBasicDto.Name),
-                new JBEntity(responseDto.JBGeneralDto.Id, responseDto.JBGeneralDto.Name, responseDto.JBGeneralDto.Location,
-                new ImageEntity(responseDto.JBGeneralDto.OutdoorImageResponseDto.Id, responseDto.JBGeneralDto.OutdoorImageResponseDto.Name, responseDto.JBGeneralDto.OutdoorImageResponseDto.Url),
-                responseDto.JBGeneralDto.ConnectionImageResponseDtos.Select(
-                    imageResponseDto => new ImageEntity(imageResponseDto.Id, imageResponseDto.Name, imageResponseDto.Url)).ToList()
-                ),
-                responseDto.AdditionalImageResponseDtos.Select(
-                    imageResponseDto => new ImageEntity(imageResponseDto.Id, imageResponseDto.Name, imageResponseDto.Url)).ToList()
-            );
-        }
+        // private DeviceEntity MapResponseToEntity(DeviceResponseDto responseDto)
+        // {
+        //     return new DeviceEntity(
+        //         responseDto.Id,
+        //         responseDto.Code,
+        //         responseDto.Function,
+        //         responseDto.Range,
+        //         responseDto.Unit,
+        //         responseDto.IOAddress,
+        //         new ModuleEntity(responseDto.ModuleBasicDto.Id, responseDto.ModuleBasicDto.Name),
+        //         new JBEntity(responseDto.JBGeneralDto.Id, responseDto.JBGeneralDto.Name, responseDto.JBGeneralDto.Location,
+        //         new ImageEntity(responseDto.JBGeneralDto.OutdoorImageResponseDto.Id, responseDto.JBGeneralDto.OutdoorImageResponseDto.Name, responseDto.JBGeneralDto.OutdoorImageResponseDto.Url),
+        //         responseDto.JBGeneralDto.ConnectionImageResponseDtos.Select(
+        //             imageResponseDto => new ImageEntity(imageResponseDto.Id, imageResponseDto.Name, imageResponseDto.Url)).ToList()
+        //         ),
+        //         responseDto.AdditionalImageResponseDtos.Select(
+        //             imageResponseDto => new ImageEntity(imageResponseDto.Id, imageResponseDto.Name, imageResponseDto.Url)).ToList()
+        //     );
+        // }
 
         //! Entity => Dto
         private DeviceResponseDto MapToResponseDto(DeviceEntity deviceEntity)
         {
             return new DeviceResponseDto(
-
                 id: deviceEntity.Id,
-
                 code: deviceEntity.Code,
-
                 function: deviceEntity.Function,
-
                 range: deviceEntity.Range,
-
                 unit: deviceEntity.Unit,
-
                 ioAddress: deviceEntity.IOAddress,
-
-                moduleBasicDto: new ModuleBasicDto(deviceEntity.ModuleEntity.Id, deviceEntity.ModuleEntity.Name),
-
-                jbGeneralDto: new JBGeneralDto
-                (
-                deviceEntity.JBEntity.Id,
-                deviceEntity.JBEntity.Name,
-                deviceEntity.JBEntity.Location,
-                new ImageResponseDto(deviceEntity.JBEntity.OutdoorImageEntity.Id, deviceEntity.JBEntity.OutdoorImageEntity.Name, deviceEntity.JBEntity.OutdoorImageEntity.Url),
-                deviceEntity.JBEntity.ConnectionImageEntities.Select(
-                    imageEntity => new ImageResponseDto(imageEntity.Id, imageEntity.Name, imageEntity.Url)).ToList()
+                moduleBasicDto: new ModuleBasicDto(
+                    id: deviceEntity.ModuleEntity.Id,
+                    name: deviceEntity.ModuleEntity.Name),
+                jbGeneralDto: new JBGeneralDto(
+                       id: deviceEntity.JBEntity.Id,
+                       name: deviceEntity.JBEntity.Name,
+                       location: deviceEntity.JBEntity.Location,
+                       outdoorImageResponseDto: new ImageResponseDto(
+                       id: deviceEntity.JBEntity.OutdoorImageEntity.Id,
+                       name: deviceEntity.JBEntity.OutdoorImageEntity.Name,
+                       url: deviceEntity.JBEntity.OutdoorImageEntity.Url),
+                    connectionImageResponseDtos: deviceEntity.JBEntity.ConnectionImageEntities.Select(imageEntity => new ImageResponseDto(
+                        id: imageEntity.Id,
+                        name: imageEntity.Name,
+                        url: imageEntity.Url)).ToList()
                 ),
-                additionalImageResponseDtos: deviceEntity.AdditionalConnectionImageEntities.Select(
-                    imageEntity => new ImageResponseDto(imageEntity.Id, imageEntity.Name, imageEntity.Url)).ToList()
-               );
-        }
-        private DeviceRequestDto MapToRequestDto(DeviceEntity deviceEntity)
-        {
-            return new DeviceRequestDto(
-                code: deviceEntity.Code,
-                function: deviceEntity.Function,
-                range: deviceEntity.Range,
-                unit: deviceEntity.Unit,
-                ioAddress: deviceEntity.IOAddress,
-                moduleBasicDto: new ModuleBasicDto(deviceEntity.ModuleEntity.Id, deviceEntity.ModuleEntity.Name),
-                jbBasicDto: new JBBasicDto(deviceEntity.JBEntity.Id, deviceEntity.JBEntity.Name),
-                additionalImageBasicDtos: deviceEntity.AdditionalConnectionImageEntities.Select(
-                    imageEntity => new ImageBasicDto(imageEntity.Id, imageEntity.Name)).ToList()
+                additionalImageResponseDtos: deviceEntity.AdditionalConnectionImageEntities.Select(imageEntity => new ImageResponseDto(
+                        id: imageEntity.Id,
+                        name: imageEntity.Name,
+                        url: imageEntity.Url)).ToList()
             );
         }
+        // private DeviceRequestDto MapToRequestDto(DeviceEntity deviceEntity)
+        // {
+        //     return new DeviceRequestDto(
+        //         code: deviceEntity.Code,
+        //         function: deviceEntity.Function,
+        //         range: deviceEntity.Range,
+        //         unit: deviceEntity.Unit,
+        //         ioAddress: deviceEntity.IOAddress,
+        //         moduleBasicDto: new ModuleBasicDto(deviceEntity.ModuleEntity.Id, deviceEntity.ModuleEntity.Name),
+        //         jbBasicDto: new JBBasicDto(deviceEntity.JBEntity.Id, deviceEntity.JBEntity.Name),
+        //         additionalImageBasicDtos: deviceEntity.AdditionalConnectionImageEntities.Select(
+        //             imageEntity => new ImageBasicDto(imageEntity.Id, imageEntity.Name)).ToList()
+        //     );
+        // }
     }
 }

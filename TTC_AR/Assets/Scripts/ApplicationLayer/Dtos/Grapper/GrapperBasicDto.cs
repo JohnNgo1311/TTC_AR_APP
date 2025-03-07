@@ -19,7 +19,7 @@ namespace ApplicationLayer.Dtos.Grapper
     public GrapperBasicDto(int id, string name)
     {
       Id = id;
-      Name = name == "" ? throw new ArgumentNullException(nameof(name)) : name;
+      Name = string.IsNullOrEmpty(name) ? throw new ArgumentNullException(nameof(name)) : name;
     }
   }
 

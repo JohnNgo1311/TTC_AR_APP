@@ -131,11 +131,12 @@ public class DeviceManager : MonoBehaviour
 
         }
     }
-    public async void UpdateDevice(DeviceRequestDto DeviceRequestDto)
+    public async void UpdateDevice(int deviceId, DeviceRequestDto DeviceRequestDto)
     {
+        deviceId = GlobalVariable.DeviceId;
         try
         {
-            bool result = await _IDeviceService.UpdateDeviceAsync(GlobalVariable.GrapperId, DeviceRequestDto);
+            bool result = await _IDeviceService.UpdateDeviceAsync(deviceId, DeviceRequestDto);
             Debug.Log(result ? "Device updated successfully" : "Failed to update Device");
         }
 
@@ -158,11 +159,12 @@ public class DeviceManager : MonoBehaviour
 
         }
     }
-    public async void DeleteDevice(int DeviceId)
+    public async void DeleteDevice(int deviceId)
     {
+        deviceId = GlobalVariable.DeviceId;
         try
         {
-            bool result = await _IDeviceService.DeleteDeviceAsync(DeviceId);
+            bool result = await _IDeviceService.DeleteDeviceAsync(deviceId);
             Debug.Log(result ? "Device deleted successfully" : "Failed to delete Device");
         }
 

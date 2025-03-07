@@ -15,18 +15,18 @@ namespace ApplicationLayer.Dtos.Module
     public class ModuleRequestDto
     {
         [JsonProperty("Name")] public string Name { get; set; } = string.Empty;
-        [JsonProperty("Rack")] public RackBasicDto RackBasicDto { get; set; }
-        [JsonProperty("listDevices")] public List<DeviceBasicDto> DeviceBasicDtos { get; set; } = new List<DeviceBasicDto>();
-        [JsonProperty("listJBs")] public List<JBBasicDto> JBBasicDtos { get; set; } = new List<JBBasicDto>();
-        [JsonProperty("moduleSpecification")] public ModuleSpecificationBasicDto? ModuleSpecificationBasicDto { get; set; }
+        [JsonProperty("Rack")] public RackBasicDto? RackBasicDto { get; set; }
+        [JsonProperty("ListDevices")] public List<DeviceBasicDto>? DeviceBasicDtos { get; set; }
+        [JsonProperty("ListJBs")] public List<JBBasicDto>? JBBasicDtos { get; set; }
+        [JsonProperty("ModuleSpecification")] public ModuleSpecificationBasicDto? ModuleSpecificationBasicDto { get; set; }
         [JsonProperty("AdapterSpecification")] public AdapterSpecificationBasicDto? AdapterSpecificationBasicDto { get; set; }
 
         [Preserve]
 
-        public ModuleRequestDto(string name, RackBasicDto rackBasicDto, List<DeviceBasicDto> deviceBasicDtos, List<JBBasicDto> jBBasicDtos, ModuleSpecificationBasicDto? moduleSpecificationBasicDto, AdapterSpecificationBasicDto? adapterSpecificationBasicDto)
+        public ModuleRequestDto(string name, RackBasicDto? rackBasicDto, List<DeviceBasicDto>? deviceBasicDtos, List<JBBasicDto>? jBBasicDtos, ModuleSpecificationBasicDto? moduleSpecificationBasicDto, AdapterSpecificationBasicDto? adapterSpecificationBasicDto)
         {
             Name = string.IsNullOrEmpty(name) ? throw new ArgumentNullException(nameof(name)) : name;
-            RackBasicDto = rackBasicDto ?? throw new ArgumentNullException(nameof(rackBasicDto));
+            RackBasicDto = rackBasicDto;
             DeviceBasicDtos = deviceBasicDtos;
             JBBasicDtos = jBBasicDtos;
             ModuleSpecificationBasicDto = moduleSpecificationBasicDto;

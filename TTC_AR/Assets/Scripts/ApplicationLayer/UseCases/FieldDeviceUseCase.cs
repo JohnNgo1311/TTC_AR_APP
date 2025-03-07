@@ -253,19 +253,13 @@ namespace ApplicationLayer.UseCases
             _fieldDeviceRepository = fieldDeviceRepository;
         }
 
-        public async Task<List<FieldDeviceResponseDto>> GetListFieldDeviceAsync(int grapperId)
+        public async Task<List<FieldDeviceBasicDto>> GetListFieldDeviceAsync(int grapperId)
         {
             var entities = await _fieldDeviceRepository.GetListFieldDeviceAsync(grapperId);
-            return entities.Select(entity => new FieldDeviceResponseDto(
-                entity.Id,
-                entity.Name,
-                new MccBasicDto(entity.MccEntity.Id, entity.MccEntity.CabinetCode),
-                entity.RatedPower,
-                entity.RatedCurrent,
-                entity.ActiveCurrent,
-                entity.ConnectionImageEntities.Select(img => new ImageResponseDto(img.Id, img.Name, img.Url)).ToList(),
-                entity.Note
-            )).ToList();
+
+            var fieldDeviceBasicDtos = entities.Select(entity => MapToBasicDto(entity)).ToList();
+
+            return fieldDeviceBasicDtos;
         }
 
 
@@ -273,17 +267,9 @@ namespace ApplicationLayer.UseCases
         {
             var entity = await _fieldDeviceRepository.GetFieldDeviceByIdAsync(fieldDeviceId);
 
-            return new FieldDeviceResponseDto(
-                entity.Id,
-                entity.Name,
-                new MccBasicDto(entity.MccEntity.Id, entity.MccEntity.CabinetCode),
-                entity.RatedPower,
-                entity.RatedCurrent,
-                entity.ActiveCurrent,
-                entity.ConnectionImageEntities.Select(img => new ImageResponseDto(img.Id, img.Name, img.Url)).ToList(),
-                entity.Note
-            );
+            var fieldDeviceResponseDto = MapToResponseDto(entity);
 
+            return fieldDeviceResponseDto;
         }
 
         public async Task<bool> CreateNewFieldDeviceAsync(int grapperId, FieldDeviceRequestDto requestDto)
@@ -291,21 +277,9 @@ namespace ApplicationLayer.UseCases
             //! Không truyền List<FieldDeviceEntity> fieldDeviceEntities vào MccEntity để cho giá trị bị null
             //! Khi đó MccEntity chỉ có Id và CabinetCode
 
-            var mccEntity = new MccEntity(requestDto.MccBasicDto.CabinetCode) { Id = requestDto.MccBasicDto.Id };
+            var fieldDeviceEntity = MapRequestToEntity(requestDto);
 
-            var entity = new FieldDeviceEntity(
-                name: requestDto.Name,
-                mccEntity: mccEntity,
-                requestDto.ConnectionImageBasicDtos.Select(img => new ImageEntity(img.Id, img.Name)).ToList()
-            )
-            {
-                RatedPower = requestDto.RatedPower,
-                RatedCurrent = requestDto.RatedCurrent,
-                ActiveCurrent = requestDto.ActiveCurrent,
-                Note = requestDto.Note
-            };
-
-            var createdEntity = await _fieldDeviceRepository.CreateNewFieldDeviceAsync(grapperId, entity);
+            var createdEntity = await _fieldDeviceRepository.CreateNewFieldDeviceAsync(grapperId, fieldDeviceEntity);
 
             return createdEntity;
             // return new FieldDeviceResponseDto(
@@ -322,21 +296,14 @@ namespace ApplicationLayer.UseCases
 
         public async Task<bool> UpdateFieldDeviceAsync(int fieldDeviceId, FieldDeviceRequestDto requestDto)
         {
-            var mccEntity = new MccEntity(requestDto.MccBasicDto.CabinetCode) { Id = requestDto.MccBasicDto.Id };
-            var entity = new FieldDeviceEntity(
-                requestDto.Name,
-                mccEntity,
-                requestDto.ConnectionImageBasicDtos.Select(img => new ImageEntity(img.Id, img.Name)).ToList()
-            )
-            {
-                Id = fieldDeviceId,
-                RatedPower = requestDto.RatedPower,
-                RatedCurrent = requestDto.RatedCurrent,
-                ActiveCurrent = requestDto.ActiveCurrent,
-                Note = requestDto.Note
-            };
-            var updatedEntity = await _fieldDeviceRepository.UpdateFieldDeviceAsync(fieldDeviceId, entity);
+            fieldDeviceId = GlobalVariable.FieldDeviceId;
+
+            var fieldDeviceEntity = MapRequestToEntity(requestDto);
+
+            var updatedEntity = await _fieldDeviceRepository.UpdateFieldDeviceAsync(fieldDeviceId, fieldDeviceEntity);
+
             return updatedEntity;
+
             // return new FieldDeviceResponseDto(
             //     updatedEntity.Id,
             //     updatedEntity.Name,
@@ -351,8 +318,46 @@ namespace ApplicationLayer.UseCases
 
         public async Task<bool> DeleteFieldDeviceAsync(int fieldDeviceId)
         {
+            fieldDeviceId = GlobalVariable.FieldDeviceId;
+
             var deletedEntity = await _fieldDeviceRepository.DeleteFieldDeviceAsync(fieldDeviceId);
+            
             return deletedEntity;
+        }
+
+        //! Dto => Entity
+        private FieldDeviceEntity MapRequestToEntity(FieldDeviceRequestDto fieldDeviceRequestDto)
+        {
+            return new FieldDeviceEntity(
+                name: fieldDeviceRequestDto.Name,
+                ratedPower: fieldDeviceRequestDto.RatedPower,
+                ratedCurrent: fieldDeviceRequestDto.RatedCurrent,
+                activeCurrent: fieldDeviceRequestDto.ActiveCurrent,
+                connectionImageEntities: (fieldDeviceRequestDto.ConnectionImageBasicDtos == null || (fieldDeviceRequestDto.ConnectionImageBasicDtos != null && fieldDeviceRequestDto.ConnectionImageBasicDtos.Count <= 0)) ? new List<ImageEntity>() :
+                fieldDeviceRequestDto.ConnectionImageBasicDtos.Select(i => new ImageEntity(i.Id, i.Name)).ToList(),
+                note: fieldDeviceRequestDto.Note
+            );
+        }
+        //! Entity => Dto
+        private FieldDeviceBasicDto MapToBasicDto(FieldDeviceEntity entity)
+        {
+            return new FieldDeviceBasicDto(
+                entity.Id,
+                entity.Name
+            );
+        }
+        private FieldDeviceResponseDto MapToResponseDto(FieldDeviceEntity entity)
+        {
+            return new FieldDeviceResponseDto(
+              id: entity.Id,
+              name: entity.Name,
+              mcc: entity.MccEntity == null ? null : new MccBasicDto(entity.MccEntity.Id, entity.MccEntity.CabinetCode),
+              ratedPower: entity.RatedPower,
+              ratedCurrent: entity.RatedCurrent,
+              activeCurrent: entity.ActiveCurrent,
+              connectionImages: entity.ConnectionImageEntities.Count > 0 ? entity.ConnectionImageEntities.Select(img => new ImageResponseDto(img.Id, img.Name, img.Url)).ToList() : new List<ImageResponseDto>(),
+              note: entity.Note
+            );
         }
     }
 }

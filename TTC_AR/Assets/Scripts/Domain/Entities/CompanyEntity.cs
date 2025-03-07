@@ -14,33 +14,34 @@ namespace Domain.Entities
     [JsonProperty("Name")]
     public string Name { get; set; } = string.Empty;
 
-    [JsonProperty("ListGrappers", NullValueHandling = NullValueHandling.Ignore)]
+    // [JsonProperty("ListGrappers", NullValueHandling = NullValueHandling.Ignore)]
+    [JsonProperty("ListGrappers")]
     public List<GrapperEntity>? GrapperEntities { get; set; }
 
-    [JsonProperty("ListModuleSpecifications", NullValueHandling = NullValueHandling.Ignore)]
+    // [JsonProperty("ListModuleSpecifications", NullValueHandling = NullValueHandling.Ignore)]
+    [JsonProperty("ListModuleSpecifications")]
     public List<ModuleSpecificationEntity>? ModuleSpecificationEntities { get; set; }
 
-    [JsonProperty("ListAdapterSpecifications", NullValueHandling = NullValueHandling.Ignore)]
+    // [JsonProperty("ListAdapterSpecifications", NullValueHandling = NullValueHandling.Ignore)]
+    [JsonProperty("ListAdapterSpecifications")]
     public List<AdapterSpecificationEntity>? AdapterSpecificationEntities { get; set; }
 
     [Preserve]
     public CompanyEntity()
     {
-
-      GrapperEntities = new List<GrapperEntity>();
-      ModuleSpecificationEntities = new List<ModuleSpecificationEntity>();
-      AdapterSpecificationEntities = new List<AdapterSpecificationEntity>();
+      // GrapperEntities = new List<GrapperEntity>();
+      // ModuleSpecificationEntities = new List<ModuleSpecificationEntity>();
+      // AdapterSpecificationEntities = new List<AdapterSpecificationEntity>();
     }
 
     [Preserve]
-    public CompanyEntity(string id, string name, List<GrapperEntity> grapperEntities, List<ModuleSpecificationEntity> moduleSpecificationEntities, List<AdapterSpecificationEntity> adapterSpecificationEntities)
+    public CompanyEntity(string id, string name, List<GrapperEntity>? grapperEntities, List<ModuleSpecificationEntity>? moduleSpecificationEntities, List<AdapterSpecificationEntity>? adapterSpecificationEntities)
     {
       Id = id;
       Name = string.IsNullOrEmpty(name) ? throw new ArgumentNullException(nameof(name)) : name;
-      // Name = name;
       GrapperEntities = grapperEntities;
-      ModuleSpecificationEntities = moduleSpecificationEntities;
-      AdapterSpecificationEntities = adapterSpecificationEntities;
+      ModuleSpecificationEntities = (moduleSpecificationEntities == null || (moduleSpecificationEntities != null && moduleSpecificationEntities.Count <= 0)) ? new List<ModuleSpecificationEntity>() : moduleSpecificationEntities; ;
+      AdapterSpecificationEntities = (adapterSpecificationEntities == null || (adapterSpecificationEntities != null && adapterSpecificationEntities.Count <= 0)) ? new List<AdapterSpecificationEntity>() : adapterSpecificationEntities; ;
     }
   }
 }

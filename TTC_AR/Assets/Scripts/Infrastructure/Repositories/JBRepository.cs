@@ -92,11 +92,7 @@ namespace Infrastructure.Repositories
                 // Tạo dữ liệu tối giản gửi lên server với tên property khớp yêu cầu
                 // var jbjBEntity = ConvertJBjBEntity(jbEntity);
 
-              //  var json = JsonConvert.SerializeObject(jBEntity);
-                var json = JsonConvert.SerializeObject(jBEntity, new JsonSerializerSettings
-                {
-                    NullValueHandling = NullValueHandling.Ignore
-                });
+                var json = JsonConvert.SerializeObject(jBEntity);
 
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
 
@@ -123,10 +119,7 @@ namespace Infrastructure.Repositories
             {
                 if (jBEntity == null)
                     throw new ArgumentNullException(nameof(jBEntity), "Request data cannot be null");
-                var json = JsonConvert.SerializeObject(jBEntity, new JsonSerializerSettings
-                {
-                    NullValueHandling = NullValueHandling.Ignore
-                });
+                var json = JsonConvert.SerializeObject(jBEntity);
                 // Tạo dữ liệu tối giản gửi lên server với tên property khớp yêu cầu
                 // var jbjBEntity = ConvertJBjBEntity(jbEntity);
 

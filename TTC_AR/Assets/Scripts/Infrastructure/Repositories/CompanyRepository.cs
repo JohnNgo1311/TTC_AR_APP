@@ -42,28 +42,7 @@ namespace Infrastructure.Repositories
                 // Xử lý lỗi deserialize
                 throw new Exception($"Failed to deserialize JSON: {ex.Message}");
             }
-            // if (entity != null)
-            // {
-            //     UnityEngine.Debug.Log("Get Company Success");
-            //     return entity;
-            // }
-            // else if (entity == null)
-            // {
-            //     UnityEngine.Debug.LogError("Failed to get Company and entity is null");
-            //     throw new ApplicationException("Failed to get Company");
-
-            // }
-            // else
-            // {
-            //     UnityEngine.Debug.LogError("Failed to get Company ");
-            //     throw new ApplicationException("Failed to get Company");
-            // }
 
         }
-        // public async Task<List<CompanyEntity>> GetListCompanyAsync(int grapperId)
-        // {
-        //     var response = await _httpClient.GetStringAsync($"{BaseUrl}");
-        //     return JsonConvert.DeserializeObject<List<CompanyEntity>>(response);
-        // }
     }
 }

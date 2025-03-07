@@ -33,7 +33,6 @@ namespace Infrastructure.Repositories
             {
                 var response = await _httpClient.GetAsync($"{BaseUrl}/{deviceId}");
 
-
                 if (!response.IsSuccessStatusCode)
                     return null; // Hoặc ném exception tùy yêu cầu
 

@@ -25,7 +25,7 @@ namespace Infrastructure.Repositories
         }
 
         //! TRả về ModuleResponseDto do kết quả server trả chỉ là một tập hợp con của Entity
-        public async Task<ModuleResponseDto> GetModuleByIdAsync(int ModuleId)
+        public async Task<ModuleEntity> GetModuleByIdAsync(int ModuleId)
         {
             try
             {
@@ -37,7 +37,7 @@ namespace Infrastructure.Repositories
                 else
                 {
                     var content = await response.Content.ReadAsStringAsync();
-                    return JsonConvert.DeserializeObject<ModuleResponseDto>(content);
+                    return JsonConvert.DeserializeObject<ModuleEntity>(content);
 
                 }
             }
@@ -52,7 +52,7 @@ namespace Infrastructure.Repositories
         }
 
         //! Trả về List<ModuleGeneralDto> do kết quả server trả chỉ là một tập hợp con của Entity
-        public async Task<List<ModuleGeneralDto>> GetListModuleAsync(int grapperId)
+        public async Task<List<ModuleEntity>> GetListModuleAsync(int grapperId)
         {
             try
             {
@@ -62,7 +62,7 @@ namespace Infrastructure.Repositories
                 else
                 {
                     var content = await response.Content.ReadAsStringAsync();
-                    return JsonConvert.DeserializeObject<List<ModuleGeneralDto>>(content);
+                    return JsonConvert.DeserializeObject<List<ModuleEntity>>(content);
                 }
 
             }
@@ -76,7 +76,7 @@ namespace Infrastructure.Repositories
             }
         }
 
-        public async Task<bool> CreateNewModuleAsync(int grapperId, ModuleRequestDto requestData)
+        public async Task<bool> CreateNewModuleAsync(int grapperId, ModuleEntity requestData)
         {
             try
             {
@@ -104,13 +104,10 @@ namespace Infrastructure.Repositories
             }
         }
 
-        public async Task<bool> UpdateModuleAsync(int ModuleId, ModuleRequestDto requestData)
+        public async Task<bool> UpdateModuleAsync(int ModuleId, ModuleEntity requestData)
         {
             try
             {
-                // Tạo dữ liệu tối giản gửi lên server với tên property khớp yêu cầu
-                // var ModuleRequestData = ConvertModuleRequestData(ModuleEntity);
-
                 var json = JsonConvert.SerializeObject(requestData);
 
                 var content = new StringContent(json, Encoding.UTF8, "application/json");

@@ -15,7 +15,7 @@ namespace ApplicationLayer.Dtos.ModuleSpecification
     public ModuleSpecificationBasicDto(string id, string code)
     {
       Id = id;
-      Code = code == "" ? throw new System.ArgumentException(nameof(code)) : code;
+      Code = string.IsNullOrEmpty(code) ? throw new System.ArgumentException(nameof(code)) : code;
     }
   }
 

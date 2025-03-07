@@ -27,7 +27,7 @@ namespace ApplicationLayer.Services
 
         }
 
-        public async Task<List<FieldDeviceResponseDto>> GetListFieldDeviceAsync(int grapperId)
+        public async Task<List<FieldDeviceBasicDto>> GetListFieldDeviceAsync(int grapperId)
         {
             return await _FieldDeviceUseCase.GetListFieldDeviceAsync(grapperId);
         }

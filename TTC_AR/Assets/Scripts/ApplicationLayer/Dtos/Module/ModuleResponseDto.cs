@@ -17,18 +17,18 @@ namespace ApplicationLayer.Dtos.Module
     public class ModuleResponseDto : ModuleBasicDto
     {
         [JsonProperty("Rack")] public RackBasicDto RackBasicDto { get; set; }
-        [JsonProperty("listDevices")] public List<DeviceGeneralDto> DeviceGeneralDtos { get; set; } = new List<DeviceGeneralDto>();
-        [JsonProperty("listJBs")] public List<JBGeneralDto> JBGeneralDtos { get; set; } = new List<JBGeneralDto>();
-        [JsonProperty("moduleSpecification")] public ModuleSpecificationResponseDto? ModuleSpecificationResponseDto { get; set; }
+        [JsonProperty("ListDevices")] public List<DeviceBasicDto> DeviceBasicDtos { get; set; }
+        [JsonProperty("ListJBs")] public List<JBBasicDto> JBBasicDtos { get; set; }
+        [JsonProperty("ModuleSpecification")] public ModuleSpecificationResponseDto? ModuleSpecificationResponseDto { get; set; }
         [JsonProperty("AdapterSpecification")] public AdapterSpecificationResponseDto? AdapterSpecificationResponseDto { get; set; }
 
         [Preserve]
 
-        public ModuleResponseDto(int id, string name, RackBasicDto rackBasicDto, List<DeviceGeneralDto> deviceGeneralDtos, List<JBGeneralDto> jbGeneralDtos, ModuleSpecificationResponseDto? moduleSpecificationResponseDto, AdapterSpecificationResponseDto? adapterSpecificationResponseDto) : base(id, name)
+        public ModuleResponseDto(int id, string name, RackBasicDto rackBasicDto, List<DeviceBasicDto> deviceBasicDtos, List<JBBasicDto> jbBasicDtos, ModuleSpecificationResponseDto? moduleSpecificationResponseDto, AdapterSpecificationResponseDto? adapterSpecificationResponseDto) : base(id, name)
         {
-            RackBasicDto = rackBasicDto ?? throw new ArgumentNullException(nameof(rackBasicDto));
-            DeviceGeneralDtos = deviceGeneralDtos;
-            JBGeneralDtos = jbGeneralDtos;
+            RackBasicDto = rackBasicDto;
+            DeviceBasicDtos = deviceBasicDtos;
+            JBBasicDtos = jbBasicDtos;
             ModuleSpecificationResponseDto = moduleSpecificationResponseDto;
             AdapterSpecificationResponseDto = adapterSpecificationResponseDto;
         }

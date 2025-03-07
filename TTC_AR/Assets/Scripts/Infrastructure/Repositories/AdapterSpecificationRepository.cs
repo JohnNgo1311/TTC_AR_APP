@@ -94,11 +94,7 @@ namespace Infrastructure.Repositories
                 // Tạo dữ liệu tối giản gửi lên server
                 else
                 {
-                    // var adapterSpecificationadapterSpecificationEntity = ConvertAdapterSpecificationEntity(adapterSpecificationEntity);
-                    var json = JsonConvert.SerializeObject(adapterSpecificationEntity, new JsonSerializerSettings
-                    {
-                        NullValueHandling = NullValueHandling.Ignore
-                    });
+                    var json = JsonConvert.SerializeObject(adapterSpecificationEntity);
 
                     var content = new StringContent(json, Encoding.UTF8, "application/json");
 
@@ -131,12 +127,8 @@ namespace Infrastructure.Repositories
                 // Tạo dữ liệu tối giản gửi lên server
                 else
                 {
-                    //var adapterSpecificationadapterSpecificationEntity = ConvertAdapterSpecificationadapterSpecificationEntity(adapterSpecificationEntity);
 
-                    var json = JsonConvert.SerializeObject(adapterSpecificationEntity, new JsonSerializerSettings
-                    {
-                        NullValueHandling = NullValueHandling.Ignore
-                    });
+                    var json = JsonConvert.SerializeObject(adapterSpecificationEntity);
 
                     var content = new StringContent(json, Encoding.UTF8, "application/json");
                     var response = await _httpClient.PutAsync($"{BaseUrl}/{adapterSpecificationId}", content);
@@ -179,22 +171,6 @@ namespace Infrastructure.Repositories
             }
 
         }
-        // private object ConvertAdapterSpecificationRequestData(AdapterSpecificationEntity adapterSpecificationEntity)
-        // {
-        //     return new
-        //     {
-        //         code = adapterSpecificationEntity.Code,
-        //         Type = adapterSpecificationEntity.Type ?? "",
-        //         Communication = adapterSpecificationEntity.Communication ?? "",
-        //         NumOfModulesAllowed = adapterSpecificationEntity.NumOfModulesAllowed ?? "",
-        //         CommSpeed = adapterSpecificationEntity.CommSpeed ?? "",
-        //         InputSupply = adapterSpecificationEntity.InputSupply ?? "",
-        //         OutputSupply = adapterSpecificationEntity.OutputSupply ?? "",
-        //         InrushCurrent = adapterSpecificationEntity.InrushCurrent ?? "",
-        //         Alarm = adapterSpecificationEntity.Alarm ?? "",
-        //         Note = adapterSpecificationEntity.Note ?? "",
-        //         PDFManual = adapterSpecificationEntity.PdfManual ?? ""
-        //     };
-        // }
+
     }
 }

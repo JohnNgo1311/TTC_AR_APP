@@ -17,7 +17,7 @@ namespace ApplicationLayer.UseCases
         {
             _IAdapterSpecificationRepository = IAdapterSpecificationRepository;
         }
-        public async Task<List<AdapterSpecificationResponseDto>> GetListAdapterSpecificationAsync(int grapperId)
+        public async Task<List<AdapterSpecificationBasicDto>> GetListAdapterSpecificationAsync(int grapperId)
         {
             try
             {
@@ -29,8 +29,8 @@ namespace ApplicationLayer.UseCases
                 }
                 else
                 {
-
-                    return AdapterSpecificationEntities.Select(MapToResponseDto).ToList();
+                    var AdapterSpecificationBasicDtos = AdapterSpecificationEntities.Select(MapToBasicDto).ToList();
+                    return AdapterSpecificationBasicDtos;
                 }
 
             }
@@ -54,7 +54,8 @@ namespace ApplicationLayer.UseCases
                 }
                 else
                 {
-                    return MapToResponseDto(AdapterSpecificationEntity);
+                    var AdapterSpecificationResponseDto = MapToResponseDto(AdapterSpecificationEntity);
+                    return AdapterSpecificationResponseDto;
                 }
             }
             catch (ArgumentException)
@@ -68,6 +69,7 @@ namespace ApplicationLayer.UseCases
         }
         public async Task<bool> CreateNewAdapterSpecificationAsync(int companyId, AdapterSpecificationRequestDto requestDto)
         {
+            companyId = GlobalVariable.companyId;
             try
             {
                 // Validate
@@ -97,6 +99,7 @@ namespace ApplicationLayer.UseCases
         }
         public async Task<bool> UpdateAdapterSpecificationAsync(int adapterSpecificationId, AdapterSpecificationRequestDto requestDto)
         {
+            adapterSpecificationId = GlobalVariable.AdapterSpecificationId;
             try
             {
                 // Validate
@@ -127,11 +130,12 @@ namespace ApplicationLayer.UseCases
                 throw new ApplicationException("Failed to update AdapterSpecification", ex); // Bao bọc lỗi từ Repository
             }
         }
-        public async Task<bool> DeleteAdapterSpecificationAsync(int AdapterSpecificationId)
+        public async Task<bool> DeleteAdapterSpecificationAsync(int adapterSpecificationId)
         {
+            adapterSpecificationId = GlobalVariable.AdapterSpecificationId;
             try
             {
-                var deletedAdapterSpecificationResult = await _IAdapterSpecificationRepository.DeleteAdapterSpecificationAsync(AdapterSpecificationId);
+                var deletedAdapterSpecificationResult = await _IAdapterSpecificationRepository.DeleteAdapterSpecificationAsync(adapterSpecificationId);
                 return deletedAdapterSpecificationResult;
             }
             catch (ArgumentException)
@@ -143,103 +147,52 @@ namespace ApplicationLayer.UseCases
                 throw new ApplicationException("Failed to delete AdapterSpecification", ex); // Bao bọc lỗi từ Repository
             }
         }
-        //! Dto => Entity
+
+
+        //! Entity => Dto
+
+        private AdapterSpecificationBasicDto MapToBasicDto(AdapterSpecificationEntity AdapterSpecificationEntity)
+        {
+            return new AdapterSpecificationBasicDto(AdapterSpecificationEntity.Id, AdapterSpecificationEntity.Code)
+            {
+                Id = AdapterSpecificationEntity.Id,
+                Code = AdapterSpecificationEntity.Code
+            };
+        }
         private AdapterSpecificationResponseDto MapToResponseDto(AdapterSpecificationEntity AdapterSpecificationEntity)
         {
             return new AdapterSpecificationResponseDto(
-                AdapterSpecificationEntity.Id,
-                AdapterSpecificationEntity.Code,
-                AdapterSpecificationEntity.Type,
-                AdapterSpecificationEntity.Communication,
-                AdapterSpecificationEntity.NumOfModulesAllowed,
-                AdapterSpecificationEntity.CommSpeed,
-                AdapterSpecificationEntity.InputSupply,
-                AdapterSpecificationEntity.OutputSupply,
-                AdapterSpecificationEntity.InrushCurrent,
-                AdapterSpecificationEntity.Alarm,
-                AdapterSpecificationEntity.Note,
-                AdapterSpecificationEntity.PdfManual
-            )
-            {
-                Id = AdapterSpecificationEntity.Id,
-                Code = AdapterSpecificationEntity.Code,
-                Type = AdapterSpecificationEntity.Type,
-                Communication = AdapterSpecificationEntity.Communication,
-                NumOfModulesAllowed = AdapterSpecificationEntity.NumOfModulesAllowed,
-                CommSpeed = AdapterSpecificationEntity.CommSpeed,
-                InputSupply = AdapterSpecificationEntity.InputSupply,
-                OutputSupply = AdapterSpecificationEntity.OutputSupply,
-                InrushCurrent = AdapterSpecificationEntity.InrushCurrent,
-                Alarm = AdapterSpecificationEntity.Alarm,
-                Note = AdapterSpecificationEntity.Note,
-                PdfManual = AdapterSpecificationEntity.PdfManual
+               id: AdapterSpecificationEntity.Id,
+             code: AdapterSpecificationEntity.Code,
+              type: AdapterSpecificationEntity.Type,
+             communication: AdapterSpecificationEntity.Communication,
+              numOfModulesAllowed: AdapterSpecificationEntity.NumOfModulesAllowed,
+          commSpeed: AdapterSpecificationEntity.CommSpeed,
+          inputSupply: AdapterSpecificationEntity.InputSupply,
+           outputSupply: AdapterSpecificationEntity.OutputSupply,
+           inrushCurrent: AdapterSpecificationEntity.InrushCurrent,
+           alarm: AdapterSpecificationEntity.Alarm,
+          note: AdapterSpecificationEntity.Note,
+           pdfManual: AdapterSpecificationEntity.PdfManual
+            );
+        }
 
-            };
-        }
-        private AdapterSpecificationRequestDto adapterSpecificationRequestDto(AdapterSpecificationEntity adapterSpecificationEntity)
-        {
-            return new AdapterSpecificationRequestDto
-            (
-            adapterSpecificationEntity.Code,
-            adapterSpecificationEntity.Type,
-            adapterSpecificationEntity.Communication,
-            adapterSpecificationEntity.NumOfModulesAllowed,
-            adapterSpecificationEntity.CommSpeed,
-            adapterSpecificationEntity.InputSupply,
-            adapterSpecificationEntity.OutputSupply,
-            adapterSpecificationEntity.InrushCurrent,
-            adapterSpecificationEntity.Alarm,
-            adapterSpecificationEntity.Note,
-            adapterSpecificationEntity.PdfManual
-            )
-            {
-                Code = adapterSpecificationEntity.Code,
-                Type = adapterSpecificationEntity.Type,
-                Communication = adapterSpecificationEntity.Communication,
-                NumOfModulesAllowed = adapterSpecificationEntity.NumOfModulesAllowed,
-                CommSpeed = adapterSpecificationEntity.CommSpeed,
-                InputSupply = adapterSpecificationEntity.InputSupply,
-                OutputSupply = adapterSpecificationEntity.OutputSupply,
-                InrushCurrent = adapterSpecificationEntity.InrushCurrent,
-                Alarm = adapterSpecificationEntity.Alarm,
-                Note = adapterSpecificationEntity.Note,
-                PdfManual = adapterSpecificationEntity.PdfManual
-            };
-        }
         //! Dto => Entity
         private AdapterSpecificationEntity MapRequestToEntity(AdapterSpecificationRequestDto requestDto)
         {
             return new AdapterSpecificationEntity(
-                requestDto.Code,
-                requestDto.Type,
-                requestDto.Communication,
-                requestDto.NumOfModulesAllowed,
-                requestDto.CommSpeed,
-                requestDto.InputSupply,
-                requestDto.OutputSupply,
-                requestDto.InrushCurrent,
-                requestDto.Alarm,
-                requestDto.Note,
-                requestDto.PdfManual
+            code: requestDto.Code,
+            type: requestDto.Type,
+            communication: requestDto.Communication,
+            numOfModulesAllowed: requestDto.NumOfModulesAllowed,
+            commSpeed: requestDto.CommSpeed,
+            inputSupply: requestDto.InputSupply,
+            outputSupply: requestDto.OutputSupply,
+            inrushCurrent: requestDto.InrushCurrent,
+            alarm: requestDto.Alarm,
+            note: requestDto.Note,
+            pdfManual: requestDto.PdfManual
             );
         }
-        private AdapterSpecificationEntity MapToResponseEntity(AdapterSpecificationResponseDto AdapterSpecificationResponseDto)
-        {
-            return new AdapterSpecificationEntity(AdapterSpecificationResponseDto.Code)
-            {
-                Id = AdapterSpecificationResponseDto.Id,
-                Type = AdapterSpecificationResponseDto.Type,
-                Communication = AdapterSpecificationResponseDto.Communication,
-                NumOfModulesAllowed = AdapterSpecificationResponseDto.NumOfModulesAllowed,
-                CommSpeed = AdapterSpecificationResponseDto.CommSpeed,
-                InputSupply = AdapterSpecificationResponseDto.InputSupply,
-                OutputSupply = AdapterSpecificationResponseDto.OutputSupply,
-                InrushCurrent = AdapterSpecificationResponseDto.InrushCurrent,
-                Alarm = AdapterSpecificationResponseDto.Alarm,
-                Note = AdapterSpecificationResponseDto.Note,
-                PdfManual = AdapterSpecificationResponseDto.PdfManual
-            };
-        }
-
     }
 }

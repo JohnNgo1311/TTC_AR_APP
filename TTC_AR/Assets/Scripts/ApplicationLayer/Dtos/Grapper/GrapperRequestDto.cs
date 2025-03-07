@@ -8,29 +8,19 @@ using ApplicationLayer.Dtos.Rack;
 using Newtonsoft.Json;
 using UnityEngine.Scripting;
 
+#nullable enable
 namespace ApplicationLayer.Dtos.Grapper
 {
     [Preserve]
     public class GrapperRequestDto
     {
-        [JsonProperty("Name")] public string Name { get; set; } = string.Empty;
-        [JsonProperty("ListRacks")] public List<RackBasicDto> RackBasicDtos { get; set; }
-        [JsonProperty("ListDevices")] public List<DeviceBasicDto> DeviceBasicDtos { get; set; }
-        [JsonProperty("ListJBs")] public List<JBBasicDto> JBBasicDtos { get; set; }
-        [JsonProperty("ListMCCs")] public List<MccBasicDto> MccBasicDtos { get; set; }
-        [JsonProperty("ListFieldDevices")] public List<FieldDeviceBasicDto> FieldDeviceBasicDtos { get; set; }
-
-
+        [JsonProperty("Name")] public string Name { get; set; } 
+    
         [Preserve]
 
-        public GrapperRequestDto(string name, List<RackBasicDto> rackBasicDtos, List<DeviceBasicDto> deviceBasicDtos, List<JBBasicDto> jBBasicDtos, List<MccBasicDto> mccBasicDtos, List<FieldDeviceBasicDto> fieldDeviceBasicDtos)
+        public GrapperRequestDto(string name)
         {
-            Name = name ?? throw new ArgumentException(nameof(name));
-            RackBasicDtos = rackBasicDtos ?? throw new ArgumentException(nameof(rackBasicDtos));
-            DeviceBasicDtos = deviceBasicDtos ?? throw new ArgumentException(nameof(deviceBasicDtos));
-            JBBasicDtos = jBBasicDtos ?? throw new ArgumentException(nameof(jBBasicDtos));
-            MccBasicDtos = mccBasicDtos ?? throw new ArgumentException(nameof(mccBasicDtos));
-            FieldDeviceBasicDtos = fieldDeviceBasicDtos ?? throw new ArgumentException(nameof(fieldDeviceBasicDtos));
+            Name = string.IsNullOrEmpty(name) ? throw new ArgumentNullException(nameof(name)) : name;
         }
     }
 }

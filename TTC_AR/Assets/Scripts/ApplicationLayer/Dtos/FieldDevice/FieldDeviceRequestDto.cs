@@ -4,44 +4,44 @@ using ApplicationLayer.Dtos.Image;
 using ApplicationLayer.Dtos.Mcc;
 using Newtonsoft.Json;
 using UnityEngine.Scripting;
-
+#nullable enable
 namespace ApplicationLayer.Dtos.FieldDevice
 {
     [Preserve]
     public class FieldDeviceRequestDto
     {
         [JsonProperty("Name")]
-        public string Name { get; set; } = string.Empty;
+        public string Name { get; set; }
 
-        [JsonProperty("Mcc")]
-        public MccBasicDto MccBasicDto { get; set; }
+        // [JsonProperty("Mcc")]
+        // public MccBasicDto MccBasicDto { get; set; }
 
-        [JsonProperty("ratedPower")]
-        public string RatedPower { get; set; } = string.Empty;
+        [JsonProperty("RatedPower")]
+        public string? RatedPower { get; set; }
 
-        [JsonProperty("ratedCurrent")]
-        public string RatedCurrent { get; set; } = string.Empty;
+        [JsonProperty("RatedCurrent")]
+        public string? RatedCurrent { get; set; }
 
-        [JsonProperty("activeCurrent")]
-        public string ActiveCurrent { get; set; } = string.Empty;
+        [JsonProperty("ActiveCurrent")]
+        public string? ActiveCurrent { get; set; }
 
-        [JsonProperty("connectionImages")]
-        public List<ImageBasicDto> ConnectionImageBasicDtos { get; set; } = new List<ImageBasicDto>();
+        [JsonProperty("ListConnectionImages")]
+        public List<ImageBasicDto>? ConnectionImageBasicDtos { get; set; }
 
         [JsonProperty("Note")]
-        public string Note { get; set; } = string.Empty;
+        public string? Note { get; set; }
 
         [Preserve]
 
-        public FieldDeviceRequestDto(string name, MccBasicDto mccBasicDto, string ratedPower, string ratedCurrent, string activeCurrent, List<ImageBasicDto> connectionImageBasicDtos, string note)
+        public FieldDeviceRequestDto(string? name, string? ratedPower, string? ratedCurrent, string? activeCurrent, List<ImageBasicDto>? connectionImageBasicDtos, string? note)
         {
             Name = string.IsNullOrEmpty(name) ? throw new ArgumentNullException(nameof(name)) : name;
-            MccBasicDto = mccBasicDto ?? throw new ArgumentNullException(nameof(mccBasicDto));
-            RatedPower = ratedPower ?? string.Empty;
-            RatedCurrent = ratedCurrent ?? string.Empty;
-            ActiveCurrent = activeCurrent ?? string.Empty;
-            ConnectionImageBasicDtos = connectionImageBasicDtos ?? new List<ImageBasicDto>();
-            Note = note ?? string.Empty;
+            // MccBasicDto = mccBasicDto ?? throw new ArgumentNullException(nameof(mccBasicDto));
+            RatedPower = ratedPower;
+            RatedCurrent = ratedCurrent;
+            ActiveCurrent = activeCurrent;
+            ConnectionImageBasicDtos = connectionImageBasicDtos;
+            Note = note;
         }
     }
 }

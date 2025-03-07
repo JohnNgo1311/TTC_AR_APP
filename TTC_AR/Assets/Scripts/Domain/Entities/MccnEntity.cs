@@ -12,7 +12,7 @@
 //   public class MccBasicEntity
 //   {
 //     public int Id { get; set; }
-//     public string CabinetCode { get; set; } = string.Empty;
+//     public string CabinetCode { get; set; ;
 
 //     [Preserve]
 //     
@@ -35,10 +35,10 @@
 //   public class MccEntity
 //   {
 //     public int Id { get; set; }
-//     public string CabinetCode { get; set; } = string.Empty;
-//     public string Brand { get; set; } = string.Empty;
+//     public string CabinetCode { get; set; ;
+//     public string Brand { get; set; ;
 //     public List<FieldDeviceEntity> FieldDeviceEntities { get; set; } = new();
-//     public string Note { get; set; } = string.Empty;
+//     public string Note { get; set; ;
 
 //     [Preserve]
 //     
@@ -57,9 +57,9 @@
 //     {
 //       Id = id;
 //       CabinetCode = string.IsNullOrEmpty(cabinetCode) ? throw new ArgumentNullException(nameof(cabinetCode)) : cabinetCode;
-//       Brand = string.IsNullOrEmpty(brand) ? string.Empty : brand;
+//       Brand = string.IsNullOrEmpty(brand : brand;
 //       FieldDeviceEntities = !fieldDeviceEntities.Any() ? new List<FieldDeviceEntity>() : fieldDeviceEntities;
-//       Note = string.IsNullOrEmpty(note) ? string.Empty : note;
+//       Note = string.IsNullOrEmpty(note : note;
 //     }
 //   }
 // }
@@ -80,26 +80,80 @@ namespace Domain.Entities
     [JsonProperty("CabinetCode")]
     public string CabinetCode { get; set; } = string.Empty;
 
-    [JsonProperty("Brand", NullValueHandling = NullValueHandling.Ignore)]
+    // [JsonProperty("Brand", NullValueHandling = NullValueHandling.Ignore)]
+    [JsonProperty("Brand")]
     public string? Brand { get; set; }
 
-    [JsonProperty("FieldDeviceEntities", NullValueHandling = NullValueHandling.Ignore)]
+    // [JsonProperty("FieldDevices", NullValueHandling = NullValueHandling.Ignore)]
+    [JsonProperty("ListFieldDevices")]
     public List<FieldDeviceEntity>? FieldDeviceEntities { get; set; }
 
-    [JsonProperty("Note", NullValueHandling = NullValueHandling.Ignore)]
+    // [JsonProperty("Note", NullValueHandling = NullValueHandling.Ignore)]
+    [JsonProperty("Note")]
     public string? Note { get; set; }
+
+
+    public bool ShouldSerializeId()
+    {
+      string apiRequestType = GlobalVariable.APIRequestType;
+      HashSet<string> allowedRequests = new HashSet<string>
+      {
+        HttpMethodTypeEnum.POSTMcc.GetDescription(),
+        HttpMethodTypeEnum.PUTMcc.GetDescription(),
+      };
+      return !allowedRequests.Contains(apiRequestType);
+    }
+
+    public bool ShouldSerializeBrand()
+    {
+      string apiRequestType = GlobalVariable.APIRequestType;
+      HashSet<string> allowedRequests = new HashSet<string>
+      {
+        HttpMethodTypeEnum.GETMcc.GetDescription(),
+        HttpMethodTypeEnum.PUTMcc.GetDescription(),
+        HttpMethodTypeEnum.POSTMcc.GetDescription(),
+      };
+      return allowedRequests.Contains(apiRequestType);
+    }
+
+    public bool ShouldSerializeFieldDeviceEntities()
+    {
+      string apiRequestType = GlobalVariable.APIRequestType;
+      HashSet<string> allowedRequests = new HashSet<string>
+      {
+        HttpMethodTypeEnum.GETMcc.GetDescription(),
+        HttpMethodTypeEnum.PUTMcc.GetDescription(),
+        HttpMethodTypeEnum.POSTMcc.GetDescription(),
+      };
+      return allowedRequests.Contains(apiRequestType);
+    }
+
+    public bool ShouldSerializeNote()
+    {
+      string apiRequestType = GlobalVariable.APIRequestType;
+      HashSet<string> allowedRequests = new HashSet<string>
+      {
+        HttpMethodTypeEnum.GETMcc.GetDescription(),
+        HttpMethodTypeEnum.PUTMcc.GetDescription(),
+        HttpMethodTypeEnum.POSTMcc.GetDescription(),
+      };
+      return allowedRequests.Contains(apiRequestType);
+    }
+
 
     [Preserve]
     public MccEntity()
     {
-      FieldDeviceEntities = new List<FieldDeviceEntity>();
     }
 
     [Preserve]
-    public MccEntity(string cabinetCode, List<FieldDeviceEntity> fieldDeviceEntities)
+    public MccEntity(string cabinetCode, List<FieldDeviceEntity>? fieldDeviceEntities)
     {
       CabinetCode = string.IsNullOrEmpty(cabinetCode) ? throw new ArgumentNullException(nameof(cabinetCode)) : cabinetCode;
-      FieldDeviceEntities = fieldDeviceEntities;
+
+      FieldDeviceEntities = (fieldDeviceEntities == null
+      || (fieldDeviceEntities != null && fieldDeviceEntities.Count <= 0))
+      ? new List<FieldDeviceEntity>() : fieldDeviceEntities; ;
     }
 
     [Preserve]
@@ -109,14 +163,25 @@ namespace Domain.Entities
     }
 
     [Preserve]
-
-    public MccEntity(int id, string cabinetCode, List<FieldDeviceEntity> fieldDeviceEntities, string brand = "", string note = "")
+    public MccEntity(int id, string cabinetCode, List<FieldDeviceEntity>? fieldDeviceEntities, string? brand, string? note)
     {
       Id = id;
       CabinetCode = string.IsNullOrEmpty(cabinetCode) ? throw new ArgumentNullException(nameof(cabinetCode)) : cabinetCode;
-      Brand = brand ?? string.Empty;
-      FieldDeviceEntities = fieldDeviceEntities;
-      Note = note ?? string.Empty;
+      Brand = string.IsNullOrEmpty(brand) ? "Chưa cập nhật" : brand;
+      FieldDeviceEntities = (fieldDeviceEntities == null
+        || (fieldDeviceEntities != null && fieldDeviceEntities.Count <= 0))
+        ? new List<FieldDeviceEntity>() : fieldDeviceEntities; ;
+      Note = string.IsNullOrEmpty(note) ? "Chưa cập nhật" : note;
+    }
+    [Preserve]
+    public MccEntity(string cabinetCode, string? brand, List<FieldDeviceEntity>? fieldDeviceEntities, string? note)
+    {
+      CabinetCode = string.IsNullOrEmpty(cabinetCode) ? throw new ArgumentNullException(nameof(cabinetCode)) : cabinetCode;
+      Brand = string.IsNullOrEmpty(brand) ? "Chưa cập nhật" : brand;
+      FieldDeviceEntities = (fieldDeviceEntities == null
+        || (fieldDeviceEntities != null && fieldDeviceEntities.Count <= 0))
+        ? new List<FieldDeviceEntity>() : fieldDeviceEntities; ;
+      Note = string.IsNullOrEmpty(note) ? "Chưa cập nhật" : note;
     }
   }
 }

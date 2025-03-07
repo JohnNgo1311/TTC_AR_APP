@@ -24,22 +24,20 @@ namespace ApplicationLayer.UseCases
             _IModuleRepository = IModuleRepository;
         }
         #region GET List Module
-        public async Task<List<ModuleGeneralDto>> GetListModuleAsync(int grapperId)
+        public async Task<List<ModuleBasicDto>> GetListModuleAsync(int grapperId)
         {
             try
             {
-                var ModuleListGeneralDtos = await _IModuleRepository.GetListModuleAsync(grapperId);
+                var moduleEntities = await _IModuleRepository.GetListModuleAsync(grapperId);
 
-                if (ModuleListGeneralDtos == null)
+                if (moduleEntities == null)
                 {
                     throw new ApplicationException("Failed to get Module list");
                 }
                 else
-                {  // Ánh xạ từ ModuleGeneralDto sang ModuleEntity để check các lỗi nghiệp vụ
-                    var ModuleEntities = ModuleListGeneralDtos.Select(dto => MapGeneralToModuleEntity(dto)).ToList();
-                    // Ánh xạ từ ModuleEntity sang ModuleGeneralDto để đưa giá trị trả về
-                    return ModuleListGeneralDtos;
-
+                {
+                    var moduleBasicDtos = moduleEntities.Select(moduleEntity => MapEntityToBasicDto(moduleEntity)).ToList();
+                    return moduleBasicDtos;
                 }
 
             }
@@ -59,15 +57,15 @@ namespace ApplicationLayer.UseCases
         {
             try
             {
-                var ModuleResponseDto = await _IModuleRepository.GetModuleByIdAsync(ModuleId);
-                if (ModuleResponseDto == null)
+                var moduleEntity = await _IModuleRepository.GetModuleByIdAsync(ModuleId);
+                if (moduleEntity == null)
                 {
                     throw new ApplicationException("Failed to get Module");
                 }
                 else
                 {
-                    // Ánh xạ từ ModuleResponseDto sang ModuleEntity để check các lỗi nghiệp vụ
-                    var ModuleEntity = MapResponseToModuleEntity(ModuleResponseDto);
+                    // Ánh xạ từ moduleEntity sang ModuleEntity để check các lỗi nghiệp vụ
+                    var ModuleResponseDto = MapEntityToResponseDto(moduleEntity);
                     // Ánh xạ từ ModuleEntity sang ModuleResponseDto để đưa giá trị trả về
                     return ModuleResponseDto;
                 }
@@ -90,7 +88,6 @@ namespace ApplicationLayer.UseCases
             {
                 // Ánh xạ từ ModuleRequestDto sang ModuleEntity để check các nghiệp vụ
                 var ModuleEntity = MapRequestToModuleEntity(requestDto);
-                var requestData = MapEntityToRequestDto(ModuleEntity);
 
                 if (ModuleEntity == null)
                 {
@@ -98,7 +95,8 @@ namespace ApplicationLayer.UseCases
                 }
                 else
                 {
-                    var createdModuleResult = await _IModuleRepository.CreateNewModuleAsync(grapperId, requestData);
+                    var createdModuleResult = await _IModuleRepository.CreateNewModuleAsync(grapperId, ModuleEntity);
+
                     if (createdModuleResult == false)
                     {
                         throw new ApplicationException("Failed to update Module");
@@ -125,7 +123,6 @@ namespace ApplicationLayer.UseCases
             {
                 // Ánh xạ từ ModuleRequestDto sang ModuleEntity để check các nghiệp vụ
                 var ModuleEntity = MapRequestToModuleEntity(requestDto);
-                var requestData = MapEntityToRequestDto(ModuleEntity);
 
                 if (ModuleEntity == null)
                 {
@@ -133,7 +130,7 @@ namespace ApplicationLayer.UseCases
                 }
                 else
                 {
-                    var updatedModuleResult = await _IModuleRepository.UpdateModuleAsync(moduleId, requestData);
+                    var updatedModuleResult = await _IModuleRepository.UpdateModuleAsync(moduleId, ModuleEntity);
 
                     if (updatedModuleResult == false)
                     {
@@ -172,6 +169,10 @@ namespace ApplicationLayer.UseCases
         #endregion
 
         //! Entity => Dto
+        private ModuleBasicDto MapEntityToBasicDto(ModuleEntity moduleEntity)
+        {
+            return new ModuleBasicDto(moduleEntity.Id, moduleEntity.Name);
+        }
         private ModuleRequestDto MapEntityToRequestDto(ModuleEntity moduleEntity)
         {
             return new ModuleRequestDto(
@@ -182,8 +183,58 @@ namespace ApplicationLayer.UseCases
                 new ModuleSpecificationBasicDto(moduleEntity.ModuleSpecificationEntity.Id, moduleEntity.ModuleSpecificationEntity.Code),
                 new AdapterSpecificationBasicDto(moduleEntity.AdapterSpecificationEntity.Id, moduleEntity.AdapterSpecificationEntity.Code)
             );
-
         }
+
+        private ModuleResponseDto MapEntityToResponseDto(ModuleEntity moduleEntity)
+        {
+            return new ModuleResponseDto(
+            id: moduleEntity.Id,
+            name: moduleEntity.Name,
+            rackBasicDto: new RackBasicDto(moduleEntity.RackEntity.Id, moduleEntity.RackEntity.Name),
+            deviceBasicDtos: moduleEntity.DeviceEntities.Count > 0 ? moduleEntity.DeviceEntities.Select(d => new DeviceBasicDto(d.Id, d.Code)).ToList() : new List<DeviceBasicDto>(),
+            jbBasicDtos: moduleEntity.JBEntities.Count > 0 ? moduleEntity.JBEntities.Select(j => new JBBasicDto(j.Id, j.Name)).ToList() : new List<JBBasicDto>(),
+            moduleSpecificationResponseDto: MapToEntityToModuleSpecificationResponseDto(moduleEntity.ModuleSpecificationEntity),
+            adapterSpecificationResponseDto: MapToEntityToAdapterSpecificationResponseDto(moduleEntity.AdapterSpecificationEntity)
+            );
+        }
+        private ModuleSpecificationResponseDto MapToEntityToModuleSpecificationResponseDto(ModuleSpecificationEntity moduleSpecificationEntity)
+        {
+            return new ModuleSpecificationResponseDto(
+             id: moduleSpecificationEntity.Id,
+             code: moduleSpecificationEntity.Code,
+              type: moduleSpecificationEntity.Type,
+                numOfIO: moduleSpecificationEntity.NumOfIO,
+                signalType: moduleSpecificationEntity.SignalType,
+                compatibleTBUs: moduleSpecificationEntity.CompatibleTBUs,
+                operatingVoltage: moduleSpecificationEntity.OperatingVoltage,
+                operatingCurrent: moduleSpecificationEntity.OperatingCurrent,
+                flexbusCurrent: moduleSpecificationEntity.FlexbusCurrent,
+                alarm: moduleSpecificationEntity.Alarm,
+                note: moduleSpecificationEntity.Note,
+                pdfManual: moduleSpecificationEntity.PdfManual
+
+
+                    );
+        }
+        private AdapterSpecificationResponseDto MapToEntityToAdapterSpecificationResponseDto(AdapterSpecificationEntity adapterSpecificationEntity)
+        {
+            return new AdapterSpecificationResponseDto(
+                   id: adapterSpecificationEntity.Id,
+                    code: adapterSpecificationEntity.Code,
+                    type: adapterSpecificationEntity.Type,
+                    communication: adapterSpecificationEntity.Communication,
+                    numOfModulesAllowed: adapterSpecificationEntity.NumOfModulesAllowed,
+                    commSpeed: adapterSpecificationEntity.CommSpeed,
+                    inputSupply: adapterSpecificationEntity.InputSupply,
+                    outputSupply: adapterSpecificationEntity.OutputSupply,
+                    inrushCurrent: adapterSpecificationEntity.InrushCurrent,
+                    alarm: adapterSpecificationEntity.Alarm,
+                    note: adapterSpecificationEntity.Note,
+                    pdfManual: adapterSpecificationEntity.PdfManual
+                    );
+        }
+
+
 
         //! Dto => Entity
         private ModuleEntity MapResponseToModuleEntity(ModuleResponseDto moduleResponseDto)
@@ -194,9 +245,16 @@ namespace ApplicationLayer.UseCases
             )
             {
                 RackEntity = new RackEntity(moduleResponseDto.RackBasicDto.Id, moduleResponseDto.RackBasicDto.Name),
-                DeviceEntities = moduleResponseDto.DeviceGeneralDtos.Select(d => new DeviceEntity(d.Id, d.Code)).ToList(),
-                JBEntities = moduleResponseDto.JBGeneralDtos.Select(j => new JBEntity(j.Id, j.Name)).ToList(),
-                ModuleSpecificationEntity = new ModuleSpecificationEntity(
+                DeviceEntities = moduleResponseDto.DeviceBasicDtos.Select(d => new DeviceEntity(d.Id, d.Code)).ToList(),
+                JBEntities = moduleResponseDto.JBBasicDtos.Select(j => new JBEntity(j.Id, j.Name)).ToList(),
+                ModuleSpecificationEntity = MapToModuleSpecificationResponseEntity(moduleResponseDto),
+                AdapterSpecificationEntity = MapToAdapterSpecificationResponseEntity(moduleResponseDto)
+            };
+        }
+
+        private ModuleSpecificationEntity MapToModuleSpecificationResponseEntity(ModuleResponseDto moduleResponseDto)
+        {
+            return new ModuleSpecificationEntity(
                     moduleResponseDto.ModuleSpecificationResponseDto.Id,
                     moduleResponseDto.ModuleSpecificationResponseDto.Code,
                     moduleResponseDto.ModuleSpecificationResponseDto.Type,
@@ -209,9 +267,12 @@ namespace ApplicationLayer.UseCases
                     moduleResponseDto.ModuleSpecificationResponseDto.Alarm,
                     moduleResponseDto.ModuleSpecificationResponseDto.Code,
                     moduleResponseDto.ModuleSpecificationResponseDto.PdfManual
+                    );
+        }
 
-                    ),
-                AdapterSpecificationEntity = new AdapterSpecificationEntity(
+        private AdapterSpecificationEntity MapToAdapterSpecificationResponseEntity(ModuleResponseDto moduleResponseDto)
+        {
+            return new AdapterSpecificationEntity(
                     moduleResponseDto.AdapterSpecificationResponseDto.Id,
                     moduleResponseDto.AdapterSpecificationResponseDto.Code,
                     moduleResponseDto.AdapterSpecificationResponseDto.Type,
@@ -224,8 +285,7 @@ namespace ApplicationLayer.UseCases
                     moduleResponseDto.AdapterSpecificationResponseDto.Alarm,
                     moduleResponseDto.AdapterSpecificationResponseDto.Note,
                     moduleResponseDto.AdapterSpecificationResponseDto.PdfManual
-                    )
-            };
+                    );
         }
         private ModuleEntity MapRequestToModuleEntity(ModuleRequestDto moduleRequestDto)
         {
@@ -242,19 +302,12 @@ namespace ApplicationLayer.UseCases
             };
 
         }
-        private ModuleEntity MapGeneralToModuleEntity(ModuleGeneralDto moduleGeneralDto)
+        private ModuleEntity MapBasicToModuleEntity(ModuleBasicDto moduleGeneralDto)
         {
             return new ModuleEntity
             (moduleGeneralDto.Id,
                 moduleGeneralDto.Name
-            )
-            {
-                RackEntity = new RackEntity(moduleGeneralDto.RackBasicDto.Id, moduleGeneralDto.RackBasicDto.Name),
-                DeviceEntities = moduleGeneralDto.DeviceBasicDtos.Select(d => new DeviceEntity(d.Id, d.Code)).ToList(),
-                JBEntities = moduleGeneralDto.JBBasicDtos.Select(j => new JBEntity(j.Id, j.Name)).ToList(),
-                ModuleSpecificationEntity = new ModuleSpecificationEntity(moduleGeneralDto.ModuleSpecificationBasicDto.Id, moduleGeneralDto.ModuleSpecificationBasicDto.Code),
-                AdapterSpecificationEntity = new AdapterSpecificationEntity(moduleGeneralDto.AdapterSpecificationBasicDto.Id, moduleGeneralDto.AdapterSpecificationBasicDto.Code)
-            };
+            );
         }
 
     }

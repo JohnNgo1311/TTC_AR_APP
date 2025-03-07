@@ -1,18 +1,8 @@
 
 using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.Networking;
-using System.Threading;
-using UnityEngine.SceneManagement;
-using System.Linq;
 using System.Net.Http;
 using ApplicationLayer.Interfaces;
-using ApplicationLayer.Dtos;
 using ApplicationLayer.Dtos.AdapterSpecification;
 
 public class AdapterSpecificationManager : MonoBehaviour

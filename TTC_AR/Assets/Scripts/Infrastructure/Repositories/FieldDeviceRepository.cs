@@ -297,6 +297,7 @@ namespace Infrastructure.Repositories
             var response = await _httpClient.GetStringAsync($"{BaseUrl}");
             return JsonConvert.DeserializeObject<List<FieldDeviceEntity>>(response);
         }
+
         public async Task<FieldDeviceEntity> GetFieldDeviceByIdAsync(int fieldDeviceid)
         {
             var response = await _httpClient.GetStringAsync($"{BaseUrl}/{fieldDeviceid}");
@@ -306,29 +307,33 @@ namespace Infrastructure.Repositories
 
         public async Task<bool> CreateNewFieldDeviceAsync(int grapperId, FieldDeviceEntity fieldDeviceEntity)
         {
-            var json = JsonConvert.SerializeObject(fieldDeviceEntity, new JsonSerializerSettings
-            {
-                NullValueHandling = NullValueHandling.Ignore
-            });
+            var json = JsonConvert.SerializeObject(fieldDeviceEntity);
+
             UnityEngine.Debug.Log(json.ToString());
 
             var content = new StringContent(json, Encoding.UTF8, "application/json");
+
             var response = await _httpClient.PostAsync($"{BaseUrl}", content);
+
             response.EnsureSuccessStatusCode();
+
             return response.IsSuccessStatusCode;
+
             // var responseContent = await response.Content.ReadAsStringAsync();
             // return JsonConvert.DeserializeObject<FieldDeviceEntity>(responseContent);
         }
 
         public async Task<bool> UpdateFieldDeviceAsync(int fieldDeviceId, FieldDeviceEntity fieldDeviceEntity)
         {
-            var json = JsonConvert.SerializeObject(fieldDeviceEntity, new JsonSerializerSettings
-            {
-                NullValueHandling = NullValueHandling.Ignore
-            });
+            var json = JsonConvert.SerializeObject(fieldDeviceEntity);
+
             var content = new StringContent(json, Encoding.UTF8, "application/json");
+
             var response = await _httpClient.PutAsync($"{BaseUrl}/{fieldDeviceId}", content);
+
             response.EnsureSuccessStatusCode();
+
+
             return response.IsSuccessStatusCode;
             // var responseContent = await response.Content.ReadAsStringAsync();
             // return JsonConvert.DeserializeObject<FieldDeviceEntity>(responseContent);

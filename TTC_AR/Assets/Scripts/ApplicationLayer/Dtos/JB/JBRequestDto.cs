@@ -25,12 +25,12 @@ namespace ApplicationLayer.Dtos.JB
 
         public JBRequestDto(string name, string location, List<DeviceBasicDto>? deviceBasicDtos, List<ModuleBasicDto>? moduleBasicDtos, ImageBasicDto? outdoorImageBasicDto, List<ImageBasicDto>? connectionImageBasicDtos)
         {
-            Name = name;
+            Name = string.IsNullOrEmpty(name) ? throw new ArgumentNullException(nameof(name)) : name;
             Location = location;
-            DeviceBasicDtos = deviceBasicDtos ?? null;
-            ModuleBasicDtos = moduleBasicDtos ?? null;
-            OutdoorImageBasicDto = outdoorImageBasicDto ?? null;
-            ConnectionImageBasicDtos = connectionImageBasicDtos ?? null;
+            DeviceBasicDtos = deviceBasicDtos;
+            ModuleBasicDtos = moduleBasicDtos;
+            OutdoorImageBasicDto = outdoorImageBasicDto;
+            ConnectionImageBasicDtos = connectionImageBasicDtos;
         }
 
         // [Preserve]

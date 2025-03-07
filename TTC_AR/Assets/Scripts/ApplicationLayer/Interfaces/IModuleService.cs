@@ -11,7 +11,7 @@ namespace ApplicationLayer.Interfaces
     public interface IModuleService
     {
         Task<ModuleResponseDto> GetModuleByIdAsync(int moduleId);
-        Task<List<ModuleGeneralDto>> GetListModuleAsync(int grapperId);
+        Task<List<ModuleBasicDto>> GetListModuleAsync(int grapperId);
         Task<bool> CreateNewModuleAsync(int grapperId, ModuleRequestDto moduleRequestDto);
         Task<bool> UpdateModuleAsync(int moduleId, ModuleRequestDto moduleRequestDto);
         Task<bool> DeleteModuleAsync(int moduleId);

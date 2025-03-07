@@ -84,22 +84,15 @@ namespace Infrastructure.Repositories
         {
             try
             {
-                if (moduleSpecificationEntity == null)
-                    throw new ArgumentNullException(nameof(moduleSpecificationEntity), "Entity cannot be null");
-                // Tạo dữ liệu tối giản gửi lên server
-                else
-                {
-                    //  var ModuleSpecificationEntity = ConvertModuleSpecificationEntity(ModuleSpecificationEntity);
-                    var json = JsonConvert.SerializeObject(moduleSpecificationEntity);
-                    var content = new StringContent(json, Encoding.UTF8, "application/json");
-                    // var response = await _httpClient.PostAsync($"/api/ModuleSpecification/grapper/{companyId}", content);
-                    var response = await _httpClient.PostAsync($"{BaseUrl}", content);
+                //  var ModuleSpecificationEntity = ConvertModuleSpecificationEntity(ModuleSpecificationEntity);
+                var json = JsonConvert.SerializeObject(moduleSpecificationEntity);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+                // var response = await _httpClient.PostAsync($"/api/ModuleSpecification/grapper/{companyId}", content);
+                var response = await _httpClient.PostAsync($"{BaseUrl}", content);
 
-                    if (!response.IsSuccessStatusCode)
-                        throw new HttpRequestException($"Failed to create ModuleSpecification. Status: {response.StatusCode}");
-                    else { return true; }
-
-                }
+                if (!response.IsSuccessStatusCode)
+                    throw new HttpRequestException($"Failed to create ModuleSpecification. Status: {response.StatusCode}");
+                else { return true; }
             }
             catch (HttpRequestException ex)
             {
@@ -115,22 +108,15 @@ namespace Infrastructure.Repositories
         {
             try
             {
-                if (moduleSpecificationEntity == null)
-                    throw new ArgumentNullException(nameof(moduleSpecificationEntity), "Entity cannot be null");
-                else
-                {
-                    //var ModuleSpecificationEntity = ConvertModuleSpecificationEntity(ModuleSpecificationEntity);
+                var json = JsonConvert.SerializeObject(moduleSpecificationEntity);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+                // var response = await _httpClient.PutAsync($"/api/ModuleSpecification/{ModuleSpecificationId}", content);
+                var response = await _httpClient.PutAsync($"{BaseUrl}/{ModuleSpecificationId}", content);
 
-                    var json = JsonConvert.SerializeObject(moduleSpecificationEntity);
-                    var content = new StringContent(json, Encoding.UTF8, "application/json");
-                    // var response = await _httpClient.PutAsync($"/api/ModuleSpecification/{ModuleSpecificationId}", content);
-                    var response = await _httpClient.PutAsync($"{BaseUrl}/{ModuleSpecificationId}", content);
+                if (!response.IsSuccessStatusCode)
+                    throw new HttpRequestException($"Failed to update ModuleSpecification. Status: {response.StatusCode}");
+                else { return true; }
 
-                    if (!response.IsSuccessStatusCode)
-                        throw new HttpRequestException($"Failed to update ModuleSpecification. Status: {response.StatusCode}");
-                    else { return true; }
-
-                }
             }
             catch (HttpRequestException ex)
             {
@@ -163,23 +149,6 @@ namespace Infrastructure.Repositories
             }
 
         }
-        // private object ConvertModuleSpecificationEntity(ModuleSpecificationEntity ModuleSpecificationEntity)
-        // {
-        //     return new
-        //     {
-        //         code = ModuleSpecificationEntity.Code,
-        //         ModuleSpecificationEntity.Type,
-        //         ModuleSpecificationEntity.NumOfIO,
-        //         ModuleSpecificationEntity.SignalType,
-        //         ModuleSpecificationEntity.CompatibleTBUs,
-        //         ModuleSpecificationEntity.OperatingVoltage,
-        //         ModuleSpecificationEntity.OperatingCurrent,
-        //         ModuleSpecificationEntity.FlexbusCurrent,
-        //         ModuleSpecificationEntity.Alarm,
-        //         ModuleSpecificationEntity.Note,
-        //         PDFManual = ModuleSpecificationEntity.PdfManual
-        //     };
-        // }
 
     }
 }

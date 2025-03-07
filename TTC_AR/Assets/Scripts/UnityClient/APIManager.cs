@@ -227,7 +227,7 @@ public class APIManager : MonoBehaviour
                     GlobalVariable.temp_MCCInformationModel = mccModel;
                     //!   GlobalVariable.temp_FieldDeviceInformationModel = mccModel.FieldDeviceInformationModel[0];
                     GlobalVariable.FieldDeviceId = GlobalVariable.temp_FieldDeviceInformationModel.Id;
-                    GlobalVariable.MCCId = MCCId;
+                    GlobalVariable.MccId = MCCId;
                 }
                 Debug.Log("success");
             }
