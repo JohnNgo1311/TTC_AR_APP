@@ -11,7 +11,7 @@ namespace Domain.Interfaces
     public interface IModuleSpecificationRepository
     {
         //! Trả về Entity
-        Task<ModuleSpecificationEntity> GetModuleSpecificationByIdAsync(int ModuleSpecificationId);
+        Task<ModuleSpecificationEntity> GetModuleSpecificationByIdAsync(string ModuleSpecificationId);
         Task<List<ModuleSpecificationEntity>> GetListModuleSpecificationAsync(int companyId);
         Task<bool> CreateNewModuleSpecificationAsync(int companyId, ModuleSpecificationEntity ModuleSpecificationEntity);
         Task<bool> UpdateModuleSpecificationAsync(int ModuleSpecificationId, ModuleSpecificationEntity ModuleSpecificationEntity);

@@ -24,7 +24,7 @@ public class GrapperManager : MonoBehaviour
     //! GrapperService sẽ gọi GrapperRepository thông qua ServiceLocator
 
     #region Services
-    private IGrapperService _IGrapperService;
+    public IGrapperService _IGrapperService;
     #endregion
 
     private void Start()

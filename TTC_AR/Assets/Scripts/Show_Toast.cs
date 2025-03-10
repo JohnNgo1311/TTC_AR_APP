@@ -27,8 +27,9 @@ public class Show_Toast : MonoBehaviour
     private void Awake()
     {
         allObjects = FindObjectsOfType<GameObject>();
+        
         toastParent ??= GetComponent<Canvas>().transform;
-        Debug.Log(toastParent.name);
+
         // Singleton setup
         if (Instance != null && Instance != this)
         {
@@ -136,9 +137,9 @@ public class Show_Toast : MonoBehaviour
         SetInstanceStatus(true);
     }
 
-    public IEnumerator Set_Instance_Status_False()
+    public IEnumerator Set_Instance_Status_False(float time = 1f)
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(time);
         SetInstanceStatus(false);
         Debug.Log("Tắt Toast");
     }

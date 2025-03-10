@@ -23,6 +23,12 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/GrapperAScanScene.unity
     guid: d67a263c2a4aaa648bc2fe27dc66a932
+  - enabled: 1
+    path: Assets/Scenes/UpdateAdapterSpecificationScene.unity
+    guid: a43c1b97d0c52ab419759e2867fb0c1d
+  - enabled: 1
+    path: Assets/Scenes/UpdateModuleSpecificationScene.unity
+    guid: 6d71c1a296eaa484eaea239b718b73c8
   m_configObjects:
     UnityEditor.XR.ARCore.ARCoreSettings: {fileID: 11400000, guid: 4e27cb49c56077a4e9377e67098f2e89,
       type: 2}

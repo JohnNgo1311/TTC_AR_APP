@@ -19,7 +19,7 @@ namespace ApplicationLayer.Services
 
         //! Dữ liệu trả về là Dto
 
-        public async Task<ModuleSpecificationResponseDto> GetModuleSpecificationByIdAsync(int ModuleSpecificationId)
+        public async Task<ModuleSpecificationResponseDto> GetModuleSpecificationByIdAsync(string ModuleSpecificationId)
         {
             return await _ModuleSpecificationUseCase.GetModuleSpecificationByIdAsync(ModuleSpecificationId);
         }

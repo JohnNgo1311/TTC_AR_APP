@@ -81,9 +81,9 @@ public class Login_Btn_On_Click : MonoBehaviour
         // FieldDeviceManager fieldDeviceManager = FindObjectOfType<FieldDeviceManager>();
         // fieldDeviceManager.GetFieldDeviceById(1);
         // CompanyManager CompanyManager = FindObjectOfType<CompanyManager>();
-        GlobalVariable.APIRequestType = "GET_JB";
+        // GlobalVariable.APIRequestType = "GET_JB";
 
-        JBManager jBManager = FindObjectOfType<JBManager>();
+        //! JBManager jBManager = FindObjectOfType<JBManager>();
         // jBManager.CreateNewJB(
         //     1,
         //     new JBRequestDto(
@@ -96,17 +96,17 @@ public class Login_Btn_On_Click : MonoBehaviour
         //     )
         // );
         // jBManager.GetJBList(1);
-        jBManager.CreateNewJB(
-            1,
-            new JBRequestDto(
-                name: "JBName49",
-                location: null,
-                deviceBasicDtos: null,
-                moduleBasicDtos: null,
-                outdoorImageBasicDto: null,
-                connectionImageBasicDtos: null
-            )
-        );
+        // jBManager.CreateNewJB(
+        //     1,
+        //     new JBRequestDto(
+        //         name: "JBName49",
+        //         location: null,
+        //         deviceBasicDtos: null,
+        //         moduleBasicDtos: null,
+        //         outdoorImageBasicDto: null,
+        //         connectionImageBasicDtos: null
+        //     )
+        // );
 
 
 

@@ -2,6 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Reflection;
+using ApplicationLayer.Dtos.AdapterSpecification;
+using ApplicationLayer.Dtos.Company;
+using ApplicationLayer.Dtos.Grapper;
+using ApplicationLayer.Dtos.ModuleSpecification;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -43,6 +47,7 @@ public class GlobalVariable : MonoBehaviour
     "DELETE_ModuleSpecification",
 
     "GET_AdapterSpecification_List",
+    "GET_AdapterSpecification",
     "POST_AdapterSpecification",
     "PUT_AdapterSpecification",
     "DELETE_AdapterSpecification",
@@ -120,10 +125,23 @@ public class GlobalVariable : MonoBehaviour
 
     //! Company
     public static int companyId = 1;
+    public static List<CompanyBasicDto> temp_ListCompanyBasicDto = new List<CompanyBasicDto>();
+    public static CompanyResponseDto temp_CompanyResponseDto;
+    public static CompanyBasicDto temp_CompanyBasicDto;
+    public static CompanyRequestDto temp_CompanyRequestDto;
+    public static Dictionary<string, CompanyBasicDto> temp_Dictionary_CompanyBasicDto = new Dictionary<string, CompanyBasicDto>();
+
     //!Grapper
+    public static int GrapperId = 1;
+    public static List<GrapperBasicDto> temp_ListGrapperBasicDto = new List<GrapperBasicDto>(); // Id, Name, List_Rack_Basic_Dto
+    public static GrapperResponseDto temp_GrapperResponseDto; // Id, Name, List_Rack_Basic_Dto
+    public static GrapperBasicDto temp_GrapperBasicDto; // Id, Name, List_Rack_Basic_Dto
+    public static GrapperRequestDto temp_GrapperRequestDto; // Id, Name, List_Rack_Basic_Dto
+    public static Dictionary<string, GrapperBasicDto> temp_Dictionary_GrapperBasicDto = new Dictionary<string, GrapperBasicDto>();
+
+
     public static List<GrapperBasicModel> temp_ListGrapperBasicModels = new List<GrapperBasicModel>(); // Id, Name, List_Rack_Basic_Model
     public static GrapperBasicModel temp_GrapperBasicModel; // Id, Name, List_Rack_Basic_Model
-    public static int GrapperId = 1;
     //!Rack
     public static List<RackBasicModel> temp_ListRackBasicModels = new List<RackBasicModel>(); // Id, Name, List_ ModuleBasicNonRackModel
     public static RackBasicModel temp_RackBasicModel; // Id, Name, List_ ModuleBasicNonRackModel
@@ -163,13 +181,25 @@ public class GlobalVariable : MonoBehaviour
     public static int FieldDeviceId = 6;
     public static Dictionary<string, FieldDeviceInformationModel> temp_Dictionary_FieldDeviceInformationModel = new Dictionary<string, FieldDeviceInformationModel>();
     //! ModuleSpecification 
+    public static List<ModuleSpecificationBasicDto> temp_ListModuleSpecificationBasicDto = new List<ModuleSpecificationBasicDto>();
+    public static ModuleSpecificationResponseDto temp_ModuleSpecificationResponseDto;
+    public static ModuleSpecificationBasicDto temp_ModuleSpecificationBasicDto;
+    public static ModuleSpecificationRequestDto temp_ModuleSpecificationRequestDto;
+    public static Dictionary<string, ModuleSpecificationBasicDto> temp_Dictionary_ModuleSpecificationBasicDto = new Dictionary<string, ModuleSpecificationBasicDto>();
+
     public static ModuleSpecificationModel temp_ModuleSpecificationModel;
     public static ModuleSpecificationBasicModel temp_ModuleSpecificationBasicModel;
     public static int ModuleSpecificationId = 1;
     public static Dictionary<string, ModuleSpecificationModel> temp_Dictionary_ModuleSpecificationModel = new Dictionary<string, ModuleSpecificationModel>();
     //! AdapterSpecification
+    public static int AdapterSpecificationId = 1;
+    public static List<AdapterSpecificationBasicDto> temp_ListAdapterSpecificationBasicDto = new List<AdapterSpecificationBasicDto>();
+    public static AdapterSpecificationResponseDto temp_AdapterSpecificationResponseDto;
+    public static AdapterSpecificationBasicDto temp_AdapterSpecificationBasicDto;
+    public static AdapterSpecificationRequestDto temp_AdapterSpecificationRequestDto;
+    public static Dictionary<string, AdapterSpecificationBasicDto> temp_Dictionary_AdapterSpecificationBasicDto = new Dictionary<string, AdapterSpecificationBasicDto>();
+
     public static AdapterSpecificationModel temp_AdapterSpecificationModel;
-    public static int AdapterSpecificationId = 12346;
     public static Dictionary<string, AdapterSpecificationModel> temp_Dictionary_AdapterSpecificationModel = new Dictionary<string, AdapterSpecificationModel>();
     //! ImageInformation
     public static ImageInformationModel temp_ImageInformationModel;

@@ -17,7 +17,7 @@ namespace Infrastructure.Repositories
     {
         private readonly HttpClient _httpClient;
 
-        private const string BaseUrl = "https://6776bd1c12a55a9a7d0cbc42.mockapi.io/api/v2/Company"; // URL server ngoài thực tế
+        private const string BaseUrl = "https://67176614b910c6a6e027ebfc.mockapi.io/api/v1/ModuleSpecification"; // URL server ngoài thực tế
 
         public ModuleSpecificationRepository(HttpClient httpClient)
         {
@@ -27,7 +27,7 @@ namespace Infrastructure.Repositories
         }
 
         //! Trả về Entity do kết quả server trả về hoàn toàn giống hoặc gần giống với Entity
-        public async Task<ModuleSpecificationEntity> GetModuleSpecificationByIdAsync(int ModuleSpecificationId)
+        public async Task<ModuleSpecificationEntity> GetModuleSpecificationByIdAsync(string ModuleSpecificationId)
         {
             try
             {

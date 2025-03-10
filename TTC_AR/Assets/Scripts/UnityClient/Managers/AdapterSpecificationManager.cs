@@ -14,7 +14,7 @@ public class AdapterSpecificationManager : MonoBehaviour
     //! AdapterSpecificationService sẽ gọi AdapterSpecificationRepository thông qua ServiceLocator
 
     #region Services
-    private IAdapterSpecificationService _IAdapterSpecificationService;
+    public IAdapterSpecificationService _IAdapterSpecificationService;
     #endregion
 
     private void Start()
@@ -121,11 +121,11 @@ public class AdapterSpecificationManager : MonoBehaviour
 
         }
     }
-    public async void UpdateAdapterSpecification(AdapterSpecificationRequestDto AdapterSpecificationRequestDto)
+    public async void UpdateAdapterSpecification(int adapterSpecificationId, AdapterSpecificationRequestDto AdapterSpecificationRequestDto)
     {
         try
         {
-            bool result = await _IAdapterSpecificationService.UpdateAdapterSpecificationAsync(GlobalVariable.AdapterSpecificationId, AdapterSpecificationRequestDto);
+            bool result = await _IAdapterSpecificationService.UpdateAdapterSpecificationAsync(adapterSpecificationId, AdapterSpecificationRequestDto);
             Debug.Log(result ? "AdapterSpecification updated successfully" : "Failed to update AdapterSpecification");
         }
 

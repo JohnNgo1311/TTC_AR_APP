@@ -42,7 +42,7 @@ namespace ApplicationLayer.UseCases
                 throw new ApplicationException("Failed to get ModuleSpecification list", ex);
             }
         }
-        public async Task<ModuleSpecificationResponseDto> GetModuleSpecificationByIdAsync(int moduleSpecificationId)
+        public async Task<ModuleSpecificationResponseDto> GetModuleSpecificationByIdAsync(string moduleSpecificationId)
         {
             try
             {
@@ -129,7 +129,7 @@ namespace ApplicationLayer.UseCases
         }
         public async Task<bool> DeleteModuleSpecificationAsync(int moduleSpecificationId)
         {
-            moduleSpecificationId = GlobalVariable.ModuleSpecificationId;
+            // moduleSpecificationId = GlobalVariable.ModuleSpecificationId;
 
             try
             {

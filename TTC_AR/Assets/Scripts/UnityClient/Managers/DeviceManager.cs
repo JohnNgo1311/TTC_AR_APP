@@ -24,7 +24,7 @@ public class DeviceManager : MonoBehaviour
     //! DeviceService sẽ gọi DeviceRepository thông qua ServiceLocator
 
     #region Services
-    private IDeviceService _IDeviceService;
+    public IDeviceService _IDeviceService;
     #endregion
 
     private void Start()

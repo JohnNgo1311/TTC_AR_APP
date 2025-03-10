@@ -24,7 +24,7 @@ public class RackManager : MonoBehaviour
     //! RackService sẽ gọi RackRepository thông qua ServiceLocator
 
     #region Services
-    private IRackService _IRackService;
+    public IRackService _IRackService;
     #endregion
 
     private void Start()

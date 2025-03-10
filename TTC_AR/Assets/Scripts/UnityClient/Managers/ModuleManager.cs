@@ -14,7 +14,7 @@ public class ModuleManager : MonoBehaviour
     //! ModuleService sẽ gọi ModuleRepository thông qua ServiceLocator
 
     #region Services
-    private IModuleService _IModuleService;
+    public IModuleService _IModuleService;
     #endregion
 
     private void Start()

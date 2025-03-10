@@ -1,15 +1,6 @@
 
 using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.Networking;
-using System.Threading;
-using UnityEngine.SceneManagement;
-using System.Linq;
 using System.Net.Http;
 using ApplicationLayer.Interfaces;
 using ApplicationLayer.Dtos;
@@ -17,14 +8,11 @@ using ApplicationLayer.Dtos.JB;
 
 public class JBManager : MonoBehaviour
 {
-
-
     //! Tương tác người dùng sẽ gọi trực tiếp JBManager 
     //! JBManager sẽ gọi JBService thông qua ServiceLocator
     //! JBService sẽ gọi JBRepository thông qua ServiceLocator
-
     #region Services
-    private IJBService _IJBService;
+    public IJBService _IJBService;
     #endregion
 
     private void Start()

@@ -67,15 +67,15 @@ namespace EasyUI.Helpers
          progressData = data;
 
          UpdateTheme();
-         UpdateColors();
+         //UpdateColors();
 
          SetTitleText(data.title);
 
          SetDetails(data.detailsEnabled);
          if (data.detailsEnabled)
          {
-            SetDetailsText("");
-            SetProgressValue(0f);
+            // SetDetailsText("");
+            //  SetProgressValue(0f);
          }
 
          Show();
@@ -92,36 +92,36 @@ namespace EasyUI.Helpers
       private void UpdateTheme()
       {
          uiOverlayImage.raycastTarget = true;
-         uiOverlayImage.gameObject.layer = 5;
-         foreach (Transform child in uiOverlayImage.transform)
-         {
-            child.gameObject.layer = 5;
-         }
-         uiOverlayImage.color = settings.theme.OverlayColor;
-         uiPopupImage.color = settings.theme.BackgroundColor;
+         // uiOverlayImage.gameObject.layer = 5;
+         // foreach (Transform child in uiOverlayImage.transform)
+         // {
+         //    child.gameObject.layer = 5;
+         // }
+         //uiOverlayImage.color = settings.theme.OverlayColor;
+         // uiPopupImage.color = settings.theme.BackgroundColor;
       }
 
       private void SetDetails(bool enabled)
       {
-         uiDetailsSection.SetActive(enabled);
+       //  uiDetailsSection.SetActive(enabled);
       }
 
       public void SetTitleText(string text)
       {
-         progressData.title = text;
-         uiTitleText.font = fontAsset;
+         //  progressData.title = text;
+         // uiTitleText.font = fontAsset;
          uiTitleText.ForceMeshUpdate();
-         uiTitleText.fontSize = 30;
-         uiTitleText.fontWeight = FontWeight.Bold;
+         //   uiTitleText.fontSize = 30;
+         // uiTitleText.fontWeight = FontWeight.Bold;
          uiTitleText.text = text;
       }
 
       public void SetDetailsText(string text)
       {
-         progressData.details = text;
-         uiDetailsText.font = fontAsset;
-         uiDetailsText.ForceMeshUpdate();
-         uiDetailsText.text = text;
+         // progressData.details = text;
+         // uiDetailsText.font = fontAsset;
+         // uiDetailsText.ForceMeshUpdate();
+         // uiDetailsText.text = text;
       }
 
       public void SetProgressValue(float progress)
@@ -135,13 +135,13 @@ namespace EasyUI.Helpers
 
       private void UpdateColors()
       {
-         Color c = settings.theme.ProgressColors[(int)progressData.color].value;
+         // Color c = settings.theme.ProgressColors[(int)progressData.color].value;
 
-         uiTitleText.color = settings.theme.TitleTextColor;
-         uiLoadingCircleImage.color = c;
-         uiProgressFillImage.color = c;
-         uiDetailsText.color = settings.theme.DetailsTextColor;
-         uiProgressText.color = settings.theme.DetailsTextColor;
+         // uiTitleText.color = settings.theme.TitleTextColor;
+         // uiLoadingCircleImage.color = c;
+         // uiProgressFillImage.color = c;
+         //   uiDetailsText.color = settings.theme.DetailsTextColor;
+         //  uiProgressText.color = settings.theme.DetailsTextColor;
       }
 
       public void Hide()

@@ -24,7 +24,7 @@ public class CompanyManager : MonoBehaviour
     //! CompanyService sẽ gọi CompanyRepository thông qua ServiceLocator
 
     #region Services
-    private ICompanyService _ICompanyService;
+    public ICompanyService _ICompanyService;
     #endregion
 
     private void Start()

@@ -9,14 +9,11 @@ using Domain.Entities;
 
 public class ModuleSpecificationManager : MonoBehaviour
 {
-
-
     //! Tương tác người dùng sẽ gọi trực tiếp ModuleSpecificationManager 
     //! ModuleSpecificationManager sẽ gọi ModuleSpecificationService thông qua ServiceLocator
     //! ModuleSpecificationService sẽ gọi ModuleSpecificationRepository thông qua ServiceLocator
-
     #region Services
-    private IModuleSpecificationService _IModuleSpecificationService;
+    public IModuleSpecificationService _IModuleSpecificationService;
     #endregion
 
     private void Start()
@@ -31,6 +28,8 @@ public class ModuleSpecificationManager : MonoBehaviour
             var ModuleSpecificationList = await _IModuleSpecificationService.GetListModuleSpecificationAsync(companyId); //! Gọi _IModuleSpecificationService từ Application Layer
             if (ModuleSpecificationList != null && ModuleSpecificationList.Count > 0)
             {
+                GlobalVariable.temp_ListModuleSpecificationBasicDto = ModuleSpecificationList;
+
                 foreach (var ModuleSpecification in ModuleSpecificationList)
                     Debug.Log($"ModuleSpecification: {ModuleSpecification.Code}");
             }
@@ -63,7 +62,7 @@ public class ModuleSpecificationManager : MonoBehaviour
     {
         try
         {
-            var ModuleSpecification = await _IModuleSpecificationService.GetModuleSpecificationByIdAsync(ModuleSpecificationId); // Gọi Service
+            var ModuleSpecification = await _IModuleSpecificationService.GetModuleSpecificationByIdAsync(ModuleSpecificationId.ToString()); // Gọi Service
             if (ModuleSpecification != null)
             {
                 Debug.Log($"ModuleSpecification: {ModuleSpecification.Code}");

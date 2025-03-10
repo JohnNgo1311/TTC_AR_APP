@@ -112,7 +112,7 @@ public class Update_Module_Specification_Screen : MonoBehaviour
             string.IsNullOrEmpty(adapter_Specification_Model.OutputSupply)? "Chưa cập nhật": adapter_Specification_Model.OutputSupply,
             string.IsNullOrEmpty(adapter_Specification_Model.InrushCurrent)? "Chưa cập nhật": adapter_Specification_Model.InrushCurrent,
             string.IsNullOrEmpty(adapter_Specification_Model.Alarm)? "Chưa cập nhật": adapter_Specification_Model.Alarm,
-            string.IsNullOrEmpty(adapter_Specification_Model.Noted)? "Chưa cập nhật": adapter_Specification_Model.Noted
+            string.IsNullOrEmpty(adapter_Specification_Model.Note)? "Chưa cập nhật": adapter_Specification_Model.Note
 
         };
         yield return Update_UI(adapter_Specification_Texts.ToArray(), values);

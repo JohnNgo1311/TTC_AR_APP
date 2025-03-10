@@ -15,7 +15,7 @@ public class FieldDeviceManager : MonoBehaviour
     //! FieldDeviceService sẽ gọi FieldDeviceRepository thông qua ServiceLocator
 
     #region Services
-    private IFieldDeviceService _IFieldDeviceService;
+    public IFieldDeviceService _IFieldDeviceService;
     #endregion
 
     private void Start()

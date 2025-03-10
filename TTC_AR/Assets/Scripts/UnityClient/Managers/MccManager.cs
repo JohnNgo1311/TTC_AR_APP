@@ -14,7 +14,7 @@ public class MccManager : MonoBehaviour
     //! MccService sẽ gọi MccRepository thông qua ServiceLocator
 
     #region Services
-    private IMccService _IMccService;
+    public IMccService _IMccService;
     #endregion
 
     private void Start()

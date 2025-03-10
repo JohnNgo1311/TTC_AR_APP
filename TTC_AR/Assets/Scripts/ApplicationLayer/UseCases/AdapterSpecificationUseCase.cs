@@ -99,7 +99,7 @@ namespace ApplicationLayer.UseCases
         }
         public async Task<bool> UpdateAdapterSpecificationAsync(int adapterSpecificationId, AdapterSpecificationRequestDto requestDto)
         {
-            adapterSpecificationId = GlobalVariable.AdapterSpecificationId;
+            // adapterSpecificationId = GlobalVariable.AdapterSpecificationId;
             try
             {
                 // Validate
@@ -132,7 +132,7 @@ namespace ApplicationLayer.UseCases
         }
         public async Task<bool> DeleteAdapterSpecificationAsync(int adapterSpecificationId)
         {
-            adapterSpecificationId = GlobalVariable.AdapterSpecificationId;
+            //adapterSpecificationId = GlobalVariable.AdapterSpecificationId;
             try
             {
                 var deletedAdapterSpecificationResult = await _IAdapterSpecificationRepository.DeleteAdapterSpecificationAsync(adapterSpecificationId);
