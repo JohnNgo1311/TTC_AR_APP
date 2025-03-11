@@ -4,9 +4,9 @@ using System.Threading.Tasks;
 using ApplicationLayer.Dtos.Mcc;
 using Domain.Entities;
 using ApplicationLayer.Dtos.Image;
-using Domain.Interfaces;
 using System.Collections.Generic;
 using ApplicationLayer.Dtos.FieldDevice;
+using Domain.Interfaces;
 
 namespace ApplicationLayer.UseCases
 {
@@ -19,7 +19,7 @@ namespace ApplicationLayer.UseCases
             _MccRepository = MccRepository;
         }
 
-        public async Task<List<MccBasicDto>> GetListMccAsync(int grapperId)
+        public async Task<List<MccBasicDto>> GetListMccAsync(string grapperId)
         {
             var entities = await _MccRepository.GetListMccAsync(grapperId);
 
@@ -29,7 +29,7 @@ namespace ApplicationLayer.UseCases
         }
 
 
-        public async Task<MccResponseDto> GetMccByIdAsync(int MccId)
+        public async Task<MccResponseDto> GetMccByIdAsync(string MccId)
         {
             var entity = await _MccRepository.GetMccByIdAsync(MccId);
 
@@ -38,7 +38,7 @@ namespace ApplicationLayer.UseCases
             return MccResponseDto;
         }
 
-        public async Task<bool> CreateNewMccAsync(int grapperId, MccRequestDto requestDto)
+        public async Task<bool> CreateNewMccAsync(string grapperId, MccRequestDto requestDto)
         {
             //! Không truyền List<MccEntity> MccEntities vào MccEntity để cho giá trị bị null
             //! Khi đó MccEntity chỉ có Id và CabinetCode
@@ -60,7 +60,7 @@ namespace ApplicationLayer.UseCases
             // );
         }
 
-        public async Task<bool> UpdateMccAsync(int MccId, MccRequestDto requestDto)
+        public async Task<bool> UpdateMccAsync(string MccId, MccRequestDto requestDto)
         {
             MccId = GlobalVariable.MccId;
 
@@ -82,7 +82,7 @@ namespace ApplicationLayer.UseCases
             // );
         }
 
-        public async Task<bool> DeleteMccAsync(int MccId)
+        public async Task<bool> DeleteMccAsync(string MccId)
         {
             MccId = GlobalVariable.MccId;
 
@@ -99,7 +99,7 @@ namespace ApplicationLayer.UseCases
 
             fieldDeviceEntities: (MccRequestDto.FieldDeviceBasicDtos == null || (MccRequestDto.FieldDeviceBasicDtos != null && MccRequestDto.FieldDeviceBasicDtos.Count <= 0)) ?
             new List<FieldDeviceEntity>()
-            : MccRequestDto.FieldDeviceBasicDtos.Select(fd => new FieldDeviceEntity(fd.Id, fd.Name)).ToList(),
+            : MccRequestDto.FieldDeviceBasicDtos.Select(fd => new FieldDeviceEntity(fd.Id.ToString(), fd.Name)).ToList(),
 
             brand: MccRequestDto.Brand,
 

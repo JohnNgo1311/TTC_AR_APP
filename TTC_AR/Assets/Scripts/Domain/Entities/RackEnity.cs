@@ -10,7 +10,7 @@ namespace Domain.Entities
   public class RackEntity
   {
     [JsonProperty("Id")]
-    public int Id { get; set; }
+    public string Id { get; set; } = string.Empty;
 
     [JsonProperty("Name")]
     public string Name { get; set; } = string.Empty;
@@ -51,7 +51,7 @@ namespace Domain.Entities
 
 
     [Preserve]
-    public RackEntity(int id, string name, List<ModuleEntity>? moduleEntities)
+    public RackEntity(string id, string name, List<ModuleEntity>? moduleEntities)
     {
       Id = id;
       Name = string.IsNullOrEmpty(name) ? throw new ArgumentNullException(nameof(name)) : name;
@@ -59,7 +59,7 @@ namespace Domain.Entities
     }
 
     [Preserve]
-    public RackEntity(int id, string name)
+    public RackEntity(string id, string name)
     {
       Id = id;
       Name = string.IsNullOrEmpty(name) ? throw new ArgumentNullException(nameof(name)) : name;

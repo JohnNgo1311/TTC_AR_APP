@@ -12,7 +12,7 @@ namespace ApplicationLayer.Dtos.Rack
         [JsonProperty("ListModules")] public List<ModuleBasicDto> ModuleBasicDtos { get; set; }
 
         [Preserve]
-        public RackResponseDto(int id, string name, List<ModuleBasicDto> moduleBasicDtos) : base(id, name)
+        public RackResponseDto(string id, string name, List<ModuleBasicDto> moduleBasicDtos) : base(id, name)
         {
             ModuleBasicDtos = moduleBasicDtos;
         }

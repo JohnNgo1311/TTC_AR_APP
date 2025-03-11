@@ -6,7 +6,7 @@ using UnityEngine.Scripting;
 [Preserve]
 public class GrapperInformationModel
 {
-  [JsonProperty("Id")] public int Id { get; set; }
+  [JsonProperty("Id")] public string Id { get; set; }
 
   [JsonProperty("Name")] public string Name { get; set; }
 
@@ -25,7 +25,7 @@ public class GrapperInformationModel
 
   [Preserve]
 
-  public GrapperInformationModel(int id, string name, List<RackBasicModel> list_RackBasicModel, List<DeviceInformationModel> listDeviceInformationModel, List<JBInformationModel> listJBInformationModel, List<MccInformationModel> listMccInformationModel, List<ModuleSpecificationModel> listModuleSpecificationModel, List<AdapterSpecificationModel> listAdapterSpecificationModel)
+  public GrapperInformationModel(string id, string name, List<RackBasicModel> list_RackBasicModel, List<DeviceInformationModel> listDeviceInformationModel, List<JBInformationModel> listJBInformationModel, List<MccInformationModel> listMccInformationModel, List<ModuleSpecificationModel> listModuleSpecificationModel, List<AdapterSpecificationModel> listAdapterSpecificationModel)
   {
     Id = id;
     Name = name;
@@ -42,12 +42,12 @@ public class GrapperInformationModel
 [Preserve]
 public class GrapperBasicModel
 {
-  [JsonProperty("Id")] public int Id { get; set; }
+  [JsonProperty("Id")] public string Id { get; set; }
   [JsonProperty("Name")] public string Name { get; set; }
 
   [Preserve]
 
-  public GrapperBasicModel(int id, string name)
+  public GrapperBasicModel(string id, string name)
   {
     Id = id;
     Name = name;

@@ -116,7 +116,7 @@ public class CreateAdapterSpecificationSettingView : MonoBehaviour, IAdapterSpec
 
         confirmButton.GetComponent<Image>().sprite = Resources.Load<Sprite>("images/UIimages/Success_Back_Button_Background");
         confirmButton.transform.Find("Text").GetComponent<TMP_Text>().text = "Tiếp tục thêm mới";
-        backButton.transform.Find("Text").GetComponent<TMP_Text>().text = "Quay lại danh sách";
+        backButton.transform.Find("Text").GetComponent<TMP_Text>().text = "Trở lại danh sách";
 
         confirmButton.onClick.RemoveAllListeners();
         backButton.onClick.RemoveAllListeners();
@@ -163,7 +163,7 @@ public class CreateAdapterSpecificationSettingView : MonoBehaviour, IAdapterSpec
 
 
 
-    public void ShowLoading() => ShowProgressBar("Loading", "Please wait...");
+    public void ShowLoading() => ShowProgressBar("Loading", "Dữ liệu đang được tải...");
     public void HideLoading() => HideProgressBar();
     public void ShowError(string message)
     {

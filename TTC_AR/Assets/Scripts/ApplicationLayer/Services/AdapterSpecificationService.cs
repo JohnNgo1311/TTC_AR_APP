@@ -24,20 +24,20 @@ namespace ApplicationLayer.Services
             return await _AdapterSpecificationUseCase.GetAdapterSpecificationByIdAsync(adapterSpecificationId);
         }
 
-        public async Task<List<AdapterSpecificationBasicDto>> GetListAdapterSpecificationAsync(int companyId)
+        public async Task<List<AdapterSpecificationBasicDto>> GetListAdapterSpecificationAsync(string companyId)
         {
             return await _AdapterSpecificationUseCase.GetListAdapterSpecificationAsync(companyId);
         }
 
-        public async Task<bool> CreateNewAdapterSpecificationAsync(int companyId, AdapterSpecificationRequestDto adapterSpecificationRequestDto)
+        public async Task<bool> CreateNewAdapterSpecificationAsync(string companyId, AdapterSpecificationRequestDto adapterSpecificationRequestDto)
         {
             return await _AdapterSpecificationUseCase.CreateNewAdapterSpecificationAsync(companyId, adapterSpecificationRequestDto);
         }
-        public async Task<bool> UpdateAdapterSpecificationAsync(int adapterSpecificationId, AdapterSpecificationRequestDto adapterSpecificationRequestDto)
+        public async Task<bool> UpdateAdapterSpecificationAsync(string adapterSpecificationId, AdapterSpecificationRequestDto adapterSpecificationRequestDto)
         {
             return await _AdapterSpecificationUseCase.UpdateAdapterSpecificationAsync(adapterSpecificationId, adapterSpecificationRequestDto);
         }
-        public async Task<bool> DeleteAdapterSpecificationAsync(int adapterSpecificationId)
+        public async Task<bool> DeleteAdapterSpecificationAsync(string adapterSpecificationId)
         {
             return await _AdapterSpecificationUseCase.DeleteAdapterSpecificationAsync(adapterSpecificationId);
         }

@@ -8,14 +8,14 @@ namespace ApplicationLayer.Dtos.FieldDevice
     public class FieldDeviceBasicDto
     {
         [JsonProperty("Id")]
-        public int Id { get; set; }
+        public string Id { get; set; }
 
         [JsonProperty("Name")]
         public string Name { get; set; }
 
         [Preserve]
 
-        public FieldDeviceBasicDto(int id, string name)
+        public FieldDeviceBasicDto(string id, string name)
         {
             Id = id;
             Name = string.IsNullOrEmpty(name) ? throw new ArgumentNullException(nameof(name)) : name;

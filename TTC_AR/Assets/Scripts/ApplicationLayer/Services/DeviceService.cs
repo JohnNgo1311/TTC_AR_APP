@@ -23,23 +23,23 @@ namespace ApplicationLayer.Services
         }
 
         //! Tham số là Dto, Dữ liệu trả về là Dto
-        public async Task<DeviceResponseDto> GetDeviceByIdAsync(int id)
+        public async Task<DeviceResponseDto> GetDeviceByIdAsync(string id)
         {
             return await _DeviceUseCase.GetDeviceByIdAsync(id);
         }
-        public async Task<List<DeviceResponseDto>> GetListDeviceAsync(int grapperId)
+        public async Task<List<DeviceResponseDto>> GetListDeviceAsync(string grapperId)
         {
             return await _DeviceUseCase.GetListDeviceAsync(grapperId);
         }
-        public async Task<bool> CreateNewDeviceAsync(int grapperId, DeviceRequestDto DeviceRequestDto)
+        public async Task<bool> CreateNewDeviceAsync(string grapperId, DeviceRequestDto DeviceRequestDto)
         {
             return await _DeviceUseCase.CreateNewDeviceAsync(grapperId, DeviceRequestDto);
         }
-        public async Task<bool> UpdateDeviceAsync(int DeviceId, DeviceRequestDto DeviceRequestDto)
+        public async Task<bool> UpdateDeviceAsync(string DeviceId, DeviceRequestDto DeviceRequestDto)
         {
             return await _DeviceUseCase.UpdateDeviceAsync(DeviceId, DeviceRequestDto);
         }
-        public async Task<bool> DeleteDeviceAsync(int DeviceId)
+        public async Task<bool> DeleteDeviceAsync(string DeviceId)
         {
             return await _DeviceUseCase.DeleteDeviceAsync(DeviceId);
         }

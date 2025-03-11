@@ -10,11 +10,11 @@ namespace ApplicationLayer.Interfaces
     public interface IJBService
     {
         //! Tham số là Dto, tả về Dto
-        Task<JBResponseDto> GetJBByIdAsync(int JBId);
-        Task<List<JBGeneralDto>> GetListJBAsync(int grapperId);
-        Task<bool> CreateNewJBAsync(int grapperId, JBRequestDto JBRequestDto);
-        Task<bool> UpdateJBAsync(int JBId, JBRequestDto JBRequestDto);
-        Task<bool> DeleteJBAsync(int JBId);
+        Task<JBResponseDto> GetJBByIdAsync(string JBId);
+        Task<List<JBGeneralDto>> GetListJBAsync(string grapperId);
+        Task<bool> CreateNewJBAsync(string grapperId, JBRequestDto JBRequestDto);
+        Task<bool> UpdateJBAsync(string JBId, JBRequestDto JBRequestDto);
+        Task<bool> DeleteJBAsync(string JBId);
     }
 
 }

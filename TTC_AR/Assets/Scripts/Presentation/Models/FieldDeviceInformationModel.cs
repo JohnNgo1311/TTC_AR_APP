@@ -10,35 +10,30 @@ public class FieldDeviceInformationModel
 {
 
   [JsonProperty("Id")]
-  public int Id { get; set; }
+  public string Id { get; set; }= string.Empty;
   [JsonProperty("Name")]
-  public string Name { get; set; }
+  public string Name { get; set; } = string.Empty;
 
-  [JsonProperty("CabinetCode")]
-  public string CabinetCode { get; set; }
-
-  [JsonProperty("ratedPower")]
+  [JsonProperty("RatedPower")]
   public string? RatedPower { get; set; }
 
-  [JsonProperty("ratedCurrent")]
+  [JsonProperty("RatedCurrent")]
   public string? RatedCurrent { get; set; }
 
-  [JsonProperty("activeCurrent")]
+  [JsonProperty("ActiveCurrent")]
   public string? ActiveCurrent { get; set; }
 
-  [JsonProperty("connectionImages")]
-  public List<string> ListConnectionImages { get; set; }
+  [JsonProperty("ListConnectionImages")]
+  public List<ImageInformationModel>? ListConnectionImages { get; set; }
 
   [JsonProperty("Note")]
-  public List<string> Note { get; set; }
-
+  public string? Note { get; set; }
   [Preserve]
 
-  public FieldDeviceInformationModel(int id, string name, string cabinetCode, string? ratedPower, string? ratedCurrent, string? activeCurrent, List<string> listConnectionImages, List<string> note)
+  public FieldDeviceInformationModel(string id, string name, string? ratedPower, string? ratedCurrent, string? activeCurrent, List<ImageInformationModel>? listConnectionImages, string? note)
   {
     Id = id;
     Name = name;
-    CabinetCode = cabinetCode;
     RatedPower = ratedPower;
     RatedCurrent = ratedCurrent;
     ActiveCurrent = activeCurrent;
@@ -46,18 +41,32 @@ public class FieldDeviceInformationModel
     Note = note;
   }
 
+  public FieldDeviceInformationModel(string name, string? ratedPower, string? ratedCurrent, string? activeCurrent, List<ImageInformationModel>? listConnectionImages, string? note)
+  {
+    Name = name;
+    RatedPower = ratedPower;
+    RatedCurrent = ratedCurrent;
+    ActiveCurrent = activeCurrent;
+    ListConnectionImages = listConnectionImages;
+    Note = note;
+  }
+  public FieldDeviceInformationModel(string id, string name)
+  {
+    Id = id;
+    Name = name;
+  }
 
   public class FieldDevice_Basic_Model
   {
     [JsonProperty("Id")]
-    public int Id { get; set; }
+    public string Id { get; set; }
     [JsonProperty("Name")]
     public string Name { get; set; }
 
     [JsonProperty("CabinetCode")]
     public string CabinetCode { get; set; }
 
-    public FieldDevice_Basic_Model(int id, string name, string cabinetCode)
+    public FieldDevice_Basic_Model(string id, string name, string cabinetCode)
     {
       Id = id;
       Name = name;

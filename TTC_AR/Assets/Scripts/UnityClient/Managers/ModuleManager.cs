@@ -22,7 +22,7 @@ public class ModuleManager : MonoBehaviour
         //! Dependency Injection
         _IModuleService = ServiceLocator.Instance.ModuleService;
     }
-    public async void GetModuleList(int grapperId)
+    public async void GetModuleList(string grapperId)
     {
         try
         {
@@ -57,7 +57,7 @@ public class ModuleManager : MonoBehaviour
         }
     }
 
-    public async void GetModuleById(int ModuleId)
+    public async void GetModuleById(string ModuleId)
     {
         try
         {
@@ -92,7 +92,7 @@ public class ModuleManager : MonoBehaviour
         }
     }
 
-    public async void CreateNewModule(int grapperId, ModuleRequestDto ModuleRequestDto)
+    public async void CreateNewModule(string grapperId, ModuleRequestDto ModuleRequestDto)
     {
         try
         {
@@ -148,7 +148,7 @@ public class ModuleManager : MonoBehaviour
 
         }
     }
-    public async void DeleteModule(int ModuleId)
+    public async void DeleteModule(string ModuleId)
     {
         try
         {

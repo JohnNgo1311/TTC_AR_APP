@@ -24,20 +24,20 @@ namespace ApplicationLayer.Services
             return await _ModuleSpecificationUseCase.GetModuleSpecificationByIdAsync(ModuleSpecificationId);
         }
 
-        public async Task<List<ModuleSpecificationBasicDto>> GetListModuleSpecificationAsync(int companyId)
+        public async Task<List<ModuleSpecificationBasicDto>> GetListModuleSpecificationAsync(string companyId)
         {
             return await _ModuleSpecificationUseCase.GetListModuleSpecificationAsync(companyId);
         }
 
-        public async Task<bool> CreateNewModuleSpecificationAsync(int companyId, ModuleSpecificationRequestDto ModuleSpecificationRequestDto)
+        public async Task<bool> CreateNewModuleSpecificationAsync(string companyId, ModuleSpecificationRequestDto ModuleSpecificationRequestDto)
         {
             return await _ModuleSpecificationUseCase.CreateNewModuleSpecificationAsync(companyId, ModuleSpecificationRequestDto);
         }
-        public async Task<bool> UpdateModuleSpecificationAsync(int ModuleSpecificationId, ModuleSpecificationRequestDto ModuleSpecificationRequestDto)
+        public async Task<bool> UpdateModuleSpecificationAsync(string ModuleSpecificationId, ModuleSpecificationRequestDto ModuleSpecificationRequestDto)
         {
             return await _ModuleSpecificationUseCase.UpdateModuleSpecificationAsync(ModuleSpecificationId, ModuleSpecificationRequestDto);
         }
-        public async Task<bool> DeleteModuleSpecificationAsync(int ModuleSpecificationId)
+        public async Task<bool> DeleteModuleSpecificationAsync(string ModuleSpecificationId)
         {
             return await _ModuleSpecificationUseCase.DeleteModuleSpecificationAsync(ModuleSpecificationId);
         }

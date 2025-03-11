@@ -1,236 +1,3 @@
-// using System;
-// using System.Collections.Generic;
-// using System.Linq;
-// using System.Threading.Tasks;
-// using ApplicationLayer.Dtos;
-// using ApplicationLayer.Dtos.FieldDevice;
-// using ApplicationLayer.Dtos.Image;
-// using ApplicationLayer.Dtos.Mcc;
-// using Domain.Entities;
-// using Domain.Interfaces;
-
-// namespace ApplicationLayer.UseCases
-// {
-//     public class FieldDeviceUseCase
-//     {
-//         private IFieldDeviceRepository _IFieldDeviceRepository;
-
-//         public FieldDeviceUseCase(IFieldDeviceRepository IFieldDeviceRepository)
-//         {
-//             _IFieldDeviceRepository = IFieldDeviceRepository;
-//         }
-//         #region  Get List
-//         public async Task<List<FieldDeviceResponseDto>> GetListFieldDeviceAsync(int grapperId)
-//         {
-//             try
-//             {
-//                 var fieldDeviceResponseDtos = await _IFieldDeviceRepository.GetListFieldDeviceAsync(grapperId);
-
-//                 if (fieldDeviceResponseDtos == null)
-//                 {
-//                     throw new ApplicationException("Failed to get FieldDevice list");
-//                 }
-//                 else
-//                 {
-//                     return fieldDeviceResponseDtos;
-//                     // var fieldDeviceEntities = fieldDeviceResponseDtos.Select(fd => MapToResponseEntity(fd)).ToList();
-//                     // return fieldDeviceEntities.Select(entity => MapToResponseDto(entity)).ToList();
-//                 }
-
-//             }
-//             catch (ArgumentException)
-//             {
-//                 throw; // Ném lại lỗi validation cho Unity xử lý
-//             }
-//             catch (Exception ex)
-//             {
-//                 throw new ApplicationException("Failed to get FieldDevice list", ex);
-//             }
-//         }
-//         #endregion
-
-//         #region  Get Specific
-//         public async Task<FieldDeviceResponseDto> GetFieldDeviceByIdAsync(int fieldDeviceId)
-//         {
-//             try
-//             {
-//                 var fieldDeviceResponseDto = await _IFieldDeviceRepository.GetFieldDeviceByIdAsync(fieldDeviceId);
-
-//                 if (fieldDeviceResponseDto == null)
-//                 {
-//                     throw new ApplicationException("Failed to get FieldDevice");
-//                 }
-//                 else
-//                 {
-//                     return fieldDeviceResponseDto;
-//                     // var fieldDeviceResponseEntity = MapToResponseEntity(fieldDeviceResponseDto);
-//                     // return MapToResponseDto(fieldDeviceResponseEntity);
-//                 }
-//             }
-//             catch (ArgumentException)
-//             {
-//                 throw; // Ném lại lỗi validation cho Unity xử lý
-//             }
-//             catch (Exception ex)
-//             {
-//                 throw new ApplicationException("Failed to get FieldDevice", ex); // Bao bọc lỗi từ Repository
-//             }
-//         }
-//         #endregion
-
-
-//         #region Create New 
-
-//         public async Task<bool> CreateNewFieldDeviceAsync(int grapperId, FieldDeviceRequestDto requestDto)
-//         {
-//             try
-//             {
-//                 // POST: Không cần Id
-//                 var entity = new FieldDeviceEntity(
-//                     name: requestDto.Name,
-//                     mccEntity: requestDto.MccBasicDto != null ? new MccEntity(requestDto.MccBasicDto.Id, requestDto.MccBasicDto.CabinetCode) : throw new ArgumentException("Mcc cannot be null"),
-//                     ratedPower: requestDto.RatedPower,
-//                     ratedCurrent: requestDto.RatedCurrent,
-//                     activeCurrent: requestDto.ActiveCurrent,
-//                     connectionImageEntities: requestDto.ConnectionImageBasicDtos?
-//                         .Select(i => new ImageEntity(i.Id, i.Name)).ToList(),
-//                     note: requestDto.Note
-//                 );
-//                 return await _IFieldDeviceRepository.CreateNewFieldDeviceAsync(grapperId, entity);
-//             }
-//             catch (ArgumentException ex) { throw ex; }
-//             catch (Exception ex) { throw new ApplicationException("Failed to create FieldDevice", ex); }
-//         }
-//         // public async Task<bool> CreateNewFieldDeviceAsync(int grapperId, FieldDeviceRequestDto requestDto)
-//         // {
-//         //     try
-//         //     {
-
-//         //         // Ánh xạ DTO sang Entity để tận dụng validation
-//         //         var createNewFieldDeviceEntity = MapRequestToEntity(requestDto);
-
-//         //         var requestData = MapToRequestData(createNewFieldDeviceEntity);
-
-//         //         var createdFieldDeviceResult = await _IFieldDeviceRepository.CreateNewFieldDeviceAsync(grapperId, requestData);
-
-//         //         return createdFieldDeviceResult;
-
-//         //     }
-//         //     catch (ArgumentException)
-//         //     {
-//         //         throw; // Ném lại lỗi validation cho Unity xử lý
-//         //     }
-//         //     catch (Exception ex)
-//         //     {
-//         //         throw new ApplicationException("Failed to create FieldDevice", ex); // Bao bọc lỗi từ Repository
-//         //     }
-//         // }
-//         #endregion
-
-//         #region 
-//         public async Task<bool> UpdateFieldDeviceAsync(int FieldDeviceId, FieldDeviceRequestDto requestDto)
-//         {
-//             // Validate
-//             try
-//             {
-//                 // Ánh xạ DTO sang Entity để tận dụng validation
-//                 var updateNewFieldDeviceEntity = MapRequestToEntity(requestDto);
-//                 // var requestData = MapToRequestData(updateNewFieldDeviceEntity);
-//                 var updatedFieldDeviceResult = await _IFieldDeviceRepository.UpdateFieldDeviceAsync(FieldDeviceId, updateNewFieldDeviceEntity);
-
-//                 return updatedFieldDeviceResult;
-//             }
-//             catch (ArgumentException)
-//             {
-//                 throw; // Ném lại lỗi validation cho Unity xử lý
-//             }
-//             catch (Exception ex)
-//             {
-//                 throw new ApplicationException("Failed to update FieldDevice", ex); // Bao bọc lỗi từ Repository
-//             }
-//         }
-//         #endregion
-
-//         #region Delete
-//         public async Task<bool> DeleteFieldDeviceAsync(int FieldDeviceId)
-//         {
-//             try
-//             {
-//                 var deletedFieldDeviceResult = await _IFieldDeviceRepository.DeleteFieldDeviceAsync(FieldDeviceId);
-//                 return deletedFieldDeviceResult;
-//             }
-//             catch (ArgumentException)
-//             {
-//                 throw; // Ném lại lỗi validation cho Unity xử lý
-//             }
-//             catch (Exception ex)
-//             {
-//                 throw new ApplicationException("Failed to delete FieldDevice", ex); // Bao bọc lỗi từ Repository
-//             }
-//         }
-//         #endregion
-
-
-//         //! Dto => Entity
-//         private FieldDeviceEntity MapRequestToEntity(FieldDeviceRequestDto fieldDeviceRequestDto)
-//         {
-//             return new FieldDeviceEntity(
-//                 name: fieldDeviceRequestDto.Name,
-//                 mccEntity: new MccEntity(fieldDeviceRequestDto.MccBasicDto.Id, fieldDeviceRequestDto.MccBasicDto.CabinetCode),
-//                 ratedPower: fieldDeviceRequestDto.RatedPower,
-//                 ratedCurrent: fieldDeviceRequestDto.RatedCurrent,
-//                 activeCurrent: fieldDeviceRequestDto.ActiveCurrent,
-//                 listConnectionImageEntities: fieldDeviceRequestDto.ConnectionImageBasicDtos.Select(i => new ImageEntity(i.Id, i.Name)).ToList(),
-//                 note: fieldDeviceRequestDto.Note
-//                 );
-
-
-//         }
-//         //! Entity => Dto
-//         private FieldDeviceRequestDto MapToRequestData(FieldDeviceEntity entity)
-//         {
-//             return new FieldDeviceRequestDto(
-//                 name: entity.Name,
-//                 mccBasicDto: new MccBasicDto(entity.MccEntity.Id, entity.MccEntity.CabinetCode),
-//                 ratedPower: string.IsNullOrEmpty(entity.RatedPower) ? string.Empty : entity.RatedPower,
-//                 ratedCurrent: string.IsNullOrEmpty(entity.RatedCurrent) ? string.Empty : entity.RatedCurrent,
-//                 activeCurrent: string.IsNullOrEmpty(entity.ActiveCurrent) ? string.Empty : entity.ActiveCurrent,
-//                 connectionImageBasicDtos: entity.ConnectionImageEntities.Select(i => new ImageBasicDto(i.Id, i.Name)).ToList(),
-//                 note: string.IsNullOrEmpty(entity.Note) ? string.Empty : entity.Note
-//             );
-//         }
-
-//         // private FieldDeviceEntity MapToResponseEntity(FieldDeviceResponseDto fieldDeviceResponseDto)
-//         // {
-//         //     return new FieldDeviceEntity(fieldDeviceResponseDto.Name)
-//         //     {
-//         //         Id = fieldDeviceResponseDto.Id,
-//         //         Name = fieldDeviceResponseDto.Name,
-//         //         Mcc = new MccEntity(fieldDeviceResponseDto.MccBasicDto.Id, fieldDeviceResponseDto.MccBasicDto.CabinetCode),
-//         //         RatedPower = fieldDeviceResponseDto.RatedPower,
-//         //         RatedCurrent = fieldDeviceResponseDto.RatedCurrent,
-//         //         ActiveCurrent = fieldDeviceResponseDto.ActiveCurrent,
-//         //         ListConnectionImageEntities = fieldDeviceResponseDto.ConnectionImageResponseDtos.Select(i => new ImageEntity(i.Id, i.Name, i.url)).ToList(),
-//         //         Note = fieldDeviceResponseDto.Note,
-//         //     };
-//         // }
-//         // private FieldDeviceResponseDto MapToResponseDto(FieldDeviceEntity fieldDeviceEntity)
-//         // {
-//         //     return new FieldDeviceResponseDto(
-//         //       id: fieldDeviceEntity.Id,
-//         //       name: fieldDeviceEntity.Name,
-//         //       mcc: new MccBasicDto(fieldDeviceEntity.MccBasicDto.Id, fieldDeviceEntity.MccBasicDto.CabinetCode),
-//         //       ratedPower: fieldDeviceEntity.RatedPower,
-//         //       ratedCurrent: fieldDeviceEntity.RatedCurrent,
-//         //       activeCurrent: fieldDeviceEntity.ActiveCurrent,
-//         //       connectionImageResponseDtos: fieldDeviceEntity.ListConnectionImageEntities.Select(i => new ImageResponseDto(i.Id, i.Name, i.Url)).ToList(),
-//         //       note: fieldDeviceEntity.Note
-//         //     );
-//         // }
-
-//     }
-// }
-
 
 using System.Linq;
 using System.Threading.Tasks;
@@ -239,8 +6,8 @@ using ApplicationLayer.Dtos.FieldDevice;
 using Domain.Entities;
 using ApplicationLayer.Dtos.Mcc;
 using ApplicationLayer.Dtos.Image;
-using Domain.Interfaces;
 using System.Collections.Generic;
+using Domain.Interfaces;
 
 namespace ApplicationLayer.UseCases
 {
@@ -253,7 +20,7 @@ namespace ApplicationLayer.UseCases
             _fieldDeviceRepository = fieldDeviceRepository;
         }
 
-        public async Task<List<FieldDeviceBasicDto>> GetListFieldDeviceAsync(int grapperId)
+        public async Task<List<FieldDeviceBasicDto>> GetListFieldDeviceAsync(string grapperId)
         {
             var entities = await _fieldDeviceRepository.GetListFieldDeviceAsync(grapperId);
 
@@ -263,7 +30,7 @@ namespace ApplicationLayer.UseCases
         }
 
 
-        public async Task<FieldDeviceResponseDto> GetFieldDeviceByIdAsync(int fieldDeviceId)
+        public async Task<FieldDeviceResponseDto> GetFieldDeviceByIdAsync(string fieldDeviceId)
         {
             var entity = await _fieldDeviceRepository.GetFieldDeviceByIdAsync(fieldDeviceId);
 
@@ -272,7 +39,7 @@ namespace ApplicationLayer.UseCases
             return fieldDeviceResponseDto;
         }
 
-        public async Task<bool> CreateNewFieldDeviceAsync(int grapperId, FieldDeviceRequestDto requestDto)
+        public async Task<bool> CreateNewFieldDeviceAsync(string grapperId, FieldDeviceRequestDto requestDto)
         {
             //! Không truyền List<FieldDeviceEntity> fieldDeviceEntities vào MccEntity để cho giá trị bị null
             //! Khi đó MccEntity chỉ có Id và CabinetCode
@@ -294,7 +61,7 @@ namespace ApplicationLayer.UseCases
             // );
         }
 
-        public async Task<bool> UpdateFieldDeviceAsync(int fieldDeviceId, FieldDeviceRequestDto requestDto)
+        public async Task<bool> UpdateFieldDeviceAsync(string fieldDeviceId, FieldDeviceRequestDto requestDto)
         {
             fieldDeviceId = GlobalVariable.FieldDeviceId;
 
@@ -316,12 +83,12 @@ namespace ApplicationLayer.UseCases
             // );
         }
 
-        public async Task<bool> DeleteFieldDeviceAsync(int fieldDeviceId)
+        public async Task<bool> DeleteFieldDeviceAsync(string fieldDeviceId)
         {
             fieldDeviceId = GlobalVariable.FieldDeviceId;
 
             var deletedEntity = await _fieldDeviceRepository.DeleteFieldDeviceAsync(fieldDeviceId);
-            
+
             return deletedEntity;
         }
 
@@ -342,14 +109,14 @@ namespace ApplicationLayer.UseCases
         private FieldDeviceBasicDto MapToBasicDto(FieldDeviceEntity entity)
         {
             return new FieldDeviceBasicDto(
-                entity.Id,
-                entity.Name
+            id: entity.Id,
+              name: entity.Name
             );
         }
         private FieldDeviceResponseDto MapToResponseDto(FieldDeviceEntity entity)
         {
             return new FieldDeviceResponseDto(
-              id: entity.Id,
+               id: entity.Id,
               name: entity.Name,
               mcc: entity.MccEntity == null ? null : new MccBasicDto(entity.MccEntity.Id, entity.MccEntity.CabinetCode),
               ratedPower: entity.RatedPower,

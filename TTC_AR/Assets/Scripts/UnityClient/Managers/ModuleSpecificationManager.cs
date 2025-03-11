@@ -2,9 +2,9 @@
 using System;
 using UnityEngine;
 using System.Net.Http;
-using ApplicationLayer.Interfaces;
 using ApplicationLayer.Dtos.ModuleSpecification;
 using Domain.Entities;
+using ApplicationLayer.Interfaces;
 
 
 public class ModuleSpecificationManager : MonoBehaviour
@@ -21,7 +21,7 @@ public class ModuleSpecificationManager : MonoBehaviour
         //! Dependency Injection
         _IModuleSpecificationService = ServiceLocator.Instance.ModuleSpecificationService;
     }
-    public async void GetModuleSpecificationList(int companyId)
+    public async void GetModuleSpecificationList(string companyId)
     {
         try
         {
@@ -58,7 +58,7 @@ public class ModuleSpecificationManager : MonoBehaviour
         }
     }
 
-    public async void GetModuleSpecificationById(int ModuleSpecificationId)
+    public async void GetModuleSpecificationById(string ModuleSpecificationId)
     {
         try
         {
@@ -93,7 +93,7 @@ public class ModuleSpecificationManager : MonoBehaviour
         }
     }
 
-    public async void CreateNewModuleSpecification(int companyId, ModuleSpecificationRequestDto ModuleSpecificationRequestDto)
+    public async void CreateNewModuleSpecification(string companyId, ModuleSpecificationRequestDto ModuleSpecificationRequestDto)
     {
         try
         {
@@ -149,7 +149,7 @@ public class ModuleSpecificationManager : MonoBehaviour
 
         }
     }
-    public async void DeleteModuleSpecification(int ModuleSpecificationId)
+    public async void DeleteModuleSpecification(string ModuleSpecificationId)
     {
         try
         {

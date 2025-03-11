@@ -1,71 +1,71 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
+//! Tạo List Option, nhưng chưa tạo Button để tương tác
+
 public class Initialize_FieldDevice_List_Option_Selection : MonoBehaviour
 {
-    [Header("Basic")]
+    [Header("Canvas")]
     public GameObject Selection_Option_Canvas;
 
+
     [Header("List Selection Panels")]
-    public GameObject selection_List_Device_Panel;
-    public GameObject selection_List_ModuleIO_Panel;
-    public GameObject selection_List_Location_Image_Panel;
     public GameObject selection_List_Connection_Image_Panel;
 
-    [Header("List Selection Option Contents")]
-    public Transform Device_List_Selection_Option_Content_Transform;
-    public Transform ModuleIO_List_Selection_Option_Content_Transform;
-    public Transform Location_Image_List_Selection_Option_Content_Transform;
-    public Transform Connection_Image_List_Selection_Option_Content_Transform;
 
-    //public Get_List_JBs_Setting get_List_JBs_Setting;
+    [Header("List Selection Option Contents")]
+    public Transform Connection_Image_List_Selection_Option_Content_Transform;
 
     public Dictionary<string, GameObject> initialSelectionOptions = new Dictionary<string, GameObject>();
 
     private void Awake()
     {
         InitializeItemOptions();
-        PopulateListSelection();
     }
     private void Start()
     {
+        StartCoroutine(PopulateListSelection());
     }
 
     private void InitializeItemOptions()
     {
-        initialSelectionOptions["Device"] = Device_List_Selection_Option_Content_Transform.GetChild(0).gameObject;
-        initialSelectionOptions["ModuleIO"] = ModuleIO_List_Selection_Option_Content_Transform.GetChild(0).gameObject;
-        initialSelectionOptions["Location_Image"] = Location_Image_List_Selection_Option_Content_Transform.GetChild(0).gameObject;
         initialSelectionOptions["Connection_Image"] = Connection_Image_List_Selection_Option_Content_Transform.GetChild(0).gameObject;
     }
 
-    private void PopulateListSelection()
+    IEnumerator PopulateListSelection()
     {
-        PopulateSelectionPanel("Device", GlobalVariable.list_DeviceCode, selection_List_Device_Panel, Device_List_Selection_Option_Content_Transform);
-        PopulateSelectionPanel("ModuleIO", GlobalVariable.list_ModuleIOName, selection_List_ModuleIO_Panel, ModuleIO_List_Selection_Option_Content_Transform);
-        PopulateSelectionPanel("Location_Image", GlobalVariable.list_ImageName, selection_List_Location_Image_Panel, Location_Image_List_Selection_Option_Content_Transform);
-        PopulateSelectionPanel("Connection_Image", GlobalVariable.list_ImageName, selection_List_Connection_Image_Panel, Connection_Image_List_Selection_Option_Content_Transform);
-    }
-    private void PopulateSelectionPanel(string field, List<string> optionList, GameObject list_Option_Panel, Transform list_Option_Content_Transform)
-    {
-        if (optionList != null && optionList.Count > 0)
+        while (GlobalVariable.temp_ListImageInformationModel == null)
         {
-            if (optionList.Count == 1)
+            Debug.Log("Waiting for GlobalVariable.temp_ModuleSpecificationModel to be assigned...");
+            yield return null;
+        }
+        PopulateSelectionPanel("Connection_Image", GlobalVariable.temp_ListImageInformationModel, selection_List_Connection_Image_Panel, Connection_Image_List_Selection_Option_Content_Transform);
+    }
+    private void PopulateSelectionPanel(string field, List<ImageInformationModel> imageInformationModels, GameObject list_Option_Panel, Transform list_Option_Content_Transform)
+    {
+        list_Option_Panel.SetActive(true);
+
+        if (imageInformationModels != null && imageInformationModels.Count > 0)
+        {
+            if (imageInformationModels.Count == 1)
             {
-                AddOption(initialSelectionOptions[field], optionList[0], field);
+                SetOptionText(initialSelectionOptions[field], imageInformationModels[0].Name);
+                //  AddOption(initialSelectionOptions[field], imageInformationModels[0].Name, field);
                 //! Ví dụ: AddOption(initialSelectionOptions["Device"], "02LT002", "Device");
                 //! initialSelectionOptions["Device"] => Initial Option
             }
             else
             {
-                foreach (var optionName in optionList)
+                foreach (var optionName in imageInformationModels)
                 {
                     GameObject newOption = Instantiate(initialSelectionOptions[field], list_Option_Content_Transform);
-                    AddOption(newOption, optionName, field);
+                    SetOptionText(newOption, optionName.Name);
+                    //    AddOption(newOption, optionName.Name, field);
                 }
                 initialSelectionOptions[field].SetActive(false); //! Tắt đi Option mặc định
             }

@@ -81,7 +81,7 @@ public class ListAdapterSpecificationSettingView : MonoBehaviour, IAdapterSpecif
 
     }
 
-    private void EditAdapterSpecificationItem(int id)
+    private void EditAdapterSpecificationItem(string id)
     {
 
         GlobalVariable.AdapterSpecificationId = id;

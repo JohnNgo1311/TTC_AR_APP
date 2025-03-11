@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using PimDeWitte.UnityMainThreadDispatcher;
 public class Get_List_Rack : MonoBehaviour
 {
-    public int grapperId = 1;
+    public string grapperId = "1";
     private void Awake()
     {
         grapperId = GlobalVariable.GrapperId;

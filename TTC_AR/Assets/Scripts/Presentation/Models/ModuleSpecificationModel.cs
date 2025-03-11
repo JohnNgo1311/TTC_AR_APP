@@ -10,9 +10,9 @@ public class ModuleSpecificationModel
 {
 #nullable enable
   [JsonProperty("Id")]
-  public int Id { get; set; }
+  public string Id { get; set; } = string.Empty;
   [JsonProperty("Code")]
-  public string Code { get; set; }
+  public string Code { get; set; } = string.Empty;
   [JsonProperty("Type")]
   public string? Type { get; set; }
   [JsonProperty("NumOfIO")]
@@ -40,7 +40,7 @@ public class ModuleSpecificationModel
 
   [Preserve]
 
-  public ModuleSpecificationModel(int id, string code, string? type, string? numOfIO, string? signalType, string? compatibleTBUs, string? operatingVoltage, string? operatingCurrent, string? flexbusCurrent, string? alarm, string? note, string? pdfManual)
+  public ModuleSpecificationModel(string id, string code, string? type, string? numOfIO, string? signalType, string? compatibleTBUs, string? operatingVoltage, string? operatingCurrent, string? flexbusCurrent, string? alarm, string? note, string? pdfManual)
   {
     Id = id;
     Code = code;
@@ -55,7 +55,7 @@ public class ModuleSpecificationModel
     Note = note;
     PdfManual = pdfManual;
   }
-  public ModuleSpecificationModel(int id, string code)
+  public ModuleSpecificationModel(string id, string code)
   {
     Id = id;
     Code = code;
@@ -82,13 +82,13 @@ public class ModuleSpecificationModel
 public class ModuleSpecificationBasicModel
 {
   [JsonProperty("Id")]
-  public int Id { get; set; }
+  public string Id { get; set; }
 
   [JsonProperty("Code")]
   public string Code { get; set; }
   [Preserve]
 
-  public ModuleSpecificationBasicModel(int id, string code)
+  public ModuleSpecificationBasicModel(string id, string code)
   {
     Id = id;
     Code = code;

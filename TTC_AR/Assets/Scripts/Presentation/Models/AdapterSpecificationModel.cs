@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Net.Http.Headers;
 using Newtonsoft.Json;
 using UnityEngine.Scripting;
 
@@ -9,10 +10,10 @@ public class AdapterSpecificationModel
 {
 #nullable enable
   [JsonProperty("Id")]
-  public int Id { get; set; }
+  public string Id { get; set; } = string.Empty;
 
-  [JsonProperty("Code")]
-  public string Code { get; set; }
+  [JsonProperty("Code")]  
+  public string Code { get; set; }= string.Empty;
 
   [JsonProperty("Type")]
   public string? Type { get; set; }
@@ -41,7 +42,7 @@ public class AdapterSpecificationModel
   public string? PdfManual { get; set; }
   [Preserve]
 
-  public AdapterSpecificationModel(int id, string code, string? type, string? communication, string? numOfModulesAllowed, string? commSpeed, string? inputSupply, string? outputSupply, string? inrushCurrent, string? alarm, string? note, string? pdfManual)
+  public AdapterSpecificationModel(string id, string code, string? type, string? communication, string? numOfModulesAllowed, string? commSpeed, string? inputSupply, string? outputSupply, string? inrushCurrent, string? alarm, string? note, string? pdfManual)
   {
     Id = id;
     Code = code;
@@ -56,7 +57,7 @@ public class AdapterSpecificationModel
     Note = note;
     PdfManual = pdfManual;
   }
-  public AdapterSpecificationModel(int id, string code)
+  public AdapterSpecificationModel(string id, string code)
   {
     Id = id;
     Code = code;
@@ -79,12 +80,12 @@ public class AdapterSpecificationModel
 public class AdapterSpecificationBasicModel
 {
   [JsonProperty("Id")]
-  public int Id { get; set; }
+  public string Id { get; set; }
   [JsonProperty("Code")]
   public string Code { get; set; }
   [Preserve]
 
-  public AdapterSpecificationBasicModel(int id, string code)
+  public AdapterSpecificationBasicModel(string id, string code)
   {
     Id = id;
     Code = code;

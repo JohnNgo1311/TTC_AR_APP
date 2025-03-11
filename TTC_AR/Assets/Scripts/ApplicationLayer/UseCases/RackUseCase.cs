@@ -21,7 +21,7 @@ namespace ApplicationLayer.UseCases
             _IRackRepository = IRackRepository;
         }
 
-        public async Task<List<RackBasicDto>> GetListRackAsync(int grapperId)
+        public async Task<List<RackBasicDto>> GetListRackAsync(string grapperId)
         {
             try
             {
@@ -45,7 +45,7 @@ namespace ApplicationLayer.UseCases
             }
         }
 
-        public async Task<RackResponseDto> GetRackByIdAsync(int RackId)
+        public async Task<RackResponseDto> GetRackByIdAsync(string RackId)
         {
             try
             {
@@ -69,7 +69,7 @@ namespace ApplicationLayer.UseCases
             }
         }
 
-        public async Task<bool> CreateNewRackAsync(int grapperId, RackRequestDto requestDto)
+        public async Task<bool> CreateNewRackAsync(string grapperId, RackRequestDto requestDto)
         {
             try
             {
@@ -98,7 +98,7 @@ namespace ApplicationLayer.UseCases
             }
         }
 
-        public async Task<bool> UpdateRackAsync(int RackId, RackRequestDto requestDto)
+        public async Task<bool> UpdateRackAsync(string RackId, RackRequestDto requestDto)
         {
             try
             {
@@ -127,7 +127,7 @@ namespace ApplicationLayer.UseCases
             }
         }
 
-        public async Task<bool> DeleteRackAsync(int RackId)
+        public async Task<bool> DeleteRackAsync(string RackId)
         {
             try
             {
@@ -149,8 +149,8 @@ namespace ApplicationLayer.UseCases
         {
             return new RackEntity(
                 name: RackRequestDto.Name,
-                moduleEntities: (RackRequestDto.ModuleBasicDtos == null || RackRequestDto.ModuleBasicDtos.Count <= 0) 
-                    ? new List<ModuleEntity>() 
+                moduleEntities: (RackRequestDto.ModuleBasicDtos == null || RackRequestDto.ModuleBasicDtos.Count <= 0)
+                    ? new List<ModuleEntity>()
                     : RackRequestDto.ModuleBasicDtos.Select(module => new ModuleEntity(module.Id, module.Name)).ToList()
             );
         }
@@ -161,8 +161,8 @@ namespace ApplicationLayer.UseCases
             return new RackResponseDto(
                 id: RackEntity.Id,
                 name: RackEntity.Name,
-                moduleBasicDtos: RackEntity.ModuleEntities.Count > 0 
-                    ? RackEntity.ModuleEntities.Select(m => new ModuleBasicDto(m.Id, m.Name)).ToList() 
+                moduleBasicDtos: RackEntity.ModuleEntities.Count > 0
+                    ? RackEntity.ModuleEntities.Select(m => new ModuleBasicDto(m.Id, m.Name)).ToList()
                     : new List<ModuleBasicDto>()
             );
         }

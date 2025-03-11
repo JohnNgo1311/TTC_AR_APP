@@ -1,5 +1,4 @@
 using Domain.Entities;
-using Domain.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -10,6 +9,7 @@ using UnityEngine.iOS;
 using System.Linq;
 using ApplicationLayer.Dtos;
 using ApplicationLayer.Dtos.Device;
+using Domain.Interfaces;
 
 namespace Infrastructure.Repositories
 {
@@ -27,7 +27,7 @@ namespace Infrastructure.Repositories
 
 
         //!  Do kết quả server trả về là tập hợp con của DeviceEntity nên sẽ lựa chọn hàm trả veỀ DeviceResponseDto
-        public async Task<DeviceEntity> GetDeviceByIdAsync(int deviceId)
+        public async Task<DeviceEntity> GetDeviceByIdAsync(string deviceId)
         {
             try
             {
@@ -52,7 +52,7 @@ namespace Infrastructure.Repositories
         }
 
         //!  Do kết quả server trả về là tập hợp con của DeviceEntity nên sẽ lựa chọn hàm trả veỀ DeviceResponseDto
-        public async Task<List<DeviceEntity>> GetListDeviceAsync(int grapperId)
+        public async Task<List<DeviceEntity>> GetListDeviceAsync(string grapperId)
         {
             try
             {
@@ -73,7 +73,7 @@ namespace Infrastructure.Repositories
             }
         }
 
-        public async Task<bool> CreateNewDeviceAsync(int grapperId, DeviceEntity deviceEntity)
+        public async Task<bool> CreateNewDeviceAsync(string grapperId, DeviceEntity deviceEntity)
         {
             try
             {
@@ -106,7 +106,7 @@ namespace Infrastructure.Repositories
             }
         }
 
-        public async Task<bool> UpdateDeviceAsync(int deviceId, DeviceEntity deviceEntity)
+        public async Task<bool> UpdateDeviceAsync(string deviceId, DeviceEntity deviceEntity)
         {
             try
             {
@@ -137,7 +137,7 @@ namespace Infrastructure.Repositories
             }
         }
 
-        public async Task<bool> DeleteDeviceAsync(int deviceId)
+        public async Task<bool> DeleteDeviceAsync(string deviceId)
         {
             try
             {

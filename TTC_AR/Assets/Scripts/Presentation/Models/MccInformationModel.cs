@@ -10,7 +10,7 @@ public class MccInformationModel
 {
 
   [JsonProperty("Id")]
-  public int Id { get; set; }
+  public string Id { get; set; }
   [JsonProperty("cabinetCode")]
   public string CabinetCode { get; set; }
 
@@ -24,7 +24,7 @@ public class MccInformationModel
 
   [Preserve]
 
-  public MccInformationModel(int id, string cabinetCode, string? brand, List<FieldDeviceInformationModel> listFieldDeviceInformation, string? note)
+  public MccInformationModel(string id, string cabinetCode, string? brand, List<FieldDeviceInformationModel> listFieldDeviceInformation, string? note)
   {
     Id = id;
     CabinetCode = cabinetCode;

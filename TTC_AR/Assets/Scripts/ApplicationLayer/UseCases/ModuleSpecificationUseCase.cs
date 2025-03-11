@@ -17,7 +17,7 @@ namespace ApplicationLayer.UseCases
         {
             _IModuleSpecificationRepository = IModuleSpecificationRepository;
         }
-        public async Task<List<ModuleSpecificationBasicDto>> GetListModuleSpecificationAsync(int companyId)
+        public async Task<List<ModuleSpecificationBasicDto>> GetListModuleSpecificationAsync(string companyId)
         {
             try
             {
@@ -66,7 +66,7 @@ namespace ApplicationLayer.UseCases
                 throw new ApplicationException("Failed to get ModuleSpecification", ex); // Bao bọc lỗi từ Repository
             }
         }
-        public async Task<bool> CreateNewModuleSpecificationAsync(int companyId, ModuleSpecificationRequestDto requestDto)
+        public async Task<bool> CreateNewModuleSpecificationAsync(string companyId, ModuleSpecificationRequestDto requestDto)
         {
             companyId = GlobalVariable.companyId;
             try
@@ -96,7 +96,7 @@ namespace ApplicationLayer.UseCases
                 throw new ApplicationException("Failed to create ModuleSpecification", ex); // Bao bọc lỗi từ Repository
             }
         }
-        public async Task<bool> UpdateModuleSpecificationAsync(int moduleSpecificationId, ModuleSpecificationRequestDto requestDto)
+        public async Task<bool> UpdateModuleSpecificationAsync(string moduleSpecificationId, ModuleSpecificationRequestDto requestDto)
         {
             moduleSpecificationId = GlobalVariable.ModuleSpecificationId;
             try
@@ -127,7 +127,7 @@ namespace ApplicationLayer.UseCases
                 throw new ApplicationException("Failed to update ModuleSpecification", ex); // Bao bọc lỗi từ Repository
             }
         }
-        public async Task<bool> DeleteModuleSpecificationAsync(int moduleSpecificationId)
+        public async Task<bool> DeleteModuleSpecificationAsync(string moduleSpecificationId)
         {
             // moduleSpecificationId = GlobalVariable.ModuleSpecificationId;
 

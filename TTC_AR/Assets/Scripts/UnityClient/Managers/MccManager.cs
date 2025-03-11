@@ -2,9 +2,9 @@
 using System;
 using UnityEngine;
 using System.Net.Http;
-using ApplicationLayer.Interfaces;
 using ApplicationLayer.Dtos;
 using ApplicationLayer.Dtos.Mcc;
+using ApplicationLayer.Interfaces;
 public class MccManager : MonoBehaviour
 {
 
@@ -22,7 +22,7 @@ public class MccManager : MonoBehaviour
         //! Dependency Injection
         _IMccService = ServiceLocator.Instance.MccService;
     }
-    public async void GetMccList(int grapperId)
+    public async void GetMccList(string grapperId)
     {
         try
         {
@@ -57,7 +57,7 @@ public class MccManager : MonoBehaviour
         }
     }
 
-    public async void GetMccById(int MccId)
+    public async void GetMccById(string MccId)
     {
         try
         {
@@ -92,7 +92,7 @@ public class MccManager : MonoBehaviour
         }
     }
 
-    public async void CreateNewMcc(int grapperId, MccRequestDto MccRequestDto)
+    public async void CreateNewMcc(string grapperId, MccRequestDto MccRequestDto)
     {
         try
         {
@@ -121,7 +121,7 @@ public class MccManager : MonoBehaviour
 
         }
     }
-    public async void UpdateMcc(int MccId, MccRequestDto MccRequestDto)
+    public async void UpdateMcc(string MccId, MccRequestDto MccRequestDto)
     {
         MccId = GlobalVariable.MccId;
         try
@@ -149,7 +149,7 @@ public class MccManager : MonoBehaviour
 
         }
     }
-    public async void DeleteMcc(int MccId)
+    public async void DeleteMcc(string MccId)
     {
         MccId = GlobalVariable.MccId;
         try

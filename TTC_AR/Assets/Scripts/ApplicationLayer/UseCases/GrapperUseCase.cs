@@ -8,11 +8,11 @@ using ApplicationLayer.Dtos.Image;
 using ApplicationLayer.Dtos.Grapper;
 using ApplicationLayer.Dtos.Module;
 using Domain.Entities;
-using Domain.Interfaces;
 using ApplicationLayer.Dtos.Rack;
 using ApplicationLayer.Dtos.JB;
 using ApplicationLayer.Dtos.Mcc;
 using ApplicationLayer.Dtos.FieldDevice;
+using Domain.Interfaces;
 
 namespace ApplicationLayer.UseCases
 {
@@ -24,7 +24,7 @@ namespace ApplicationLayer.UseCases
         {
             _IGrapperRepository = IGrapperRepository;
         }
-        public async Task<List<GrapperBasicDto>> GetListGrapperAsync(int companyId)
+        public async Task<List<GrapperBasicDto>> GetListGrapperAsync(string companyId)
         {
             try
             {
@@ -50,7 +50,7 @@ namespace ApplicationLayer.UseCases
                 throw new ApplicationException("Failed to get Grapper list", ex);
             }
         }
-        public async Task<GrapperResponseDto> GetGrapperByIdAsync(int GrapperId)
+        public async Task<GrapperResponseDto> GetGrapperByIdAsync(string GrapperId)
         {
             try
             {
@@ -75,7 +75,7 @@ namespace ApplicationLayer.UseCases
                 throw new ApplicationException("Failed to get Grapper", ex); // Bao bọc lỗi từ Repository
             }
         }
-        public async Task<bool> CreateNewGrapperAsync(int companyId, GrapperRequestDto requestDto)
+        public async Task<bool> CreateNewGrapperAsync(string companyId, GrapperRequestDto requestDto)
         {
             companyId = GlobalVariable.companyId;
             try
@@ -108,7 +108,7 @@ namespace ApplicationLayer.UseCases
                 throw new ApplicationException("Failed to create Grapper", ex); // Bao bọc lỗi từ Repository
             }
         }
-        public async Task<bool> UpdateGrapperAsync(int GrapperId, GrapperRequestDto requestDto)
+        public async Task<bool> UpdateGrapperAsync(string GrapperId, GrapperRequestDto requestDto)
         {
             GrapperId = GlobalVariable.GrapperId;
             try
@@ -143,7 +143,7 @@ namespace ApplicationLayer.UseCases
                 throw new ApplicationException("Failed to create Grapper", ex); // Bao bọc lỗi từ Repository
             }
         }
-        public async Task<bool> DeleteGrapperAsync(int GrapperId)
+        public async Task<bool> DeleteGrapperAsync(string GrapperId)
         {
             try
             {

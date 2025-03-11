@@ -2,9 +2,9 @@
 using System;
 using UnityEngine;
 using System.Net.Http;
-using ApplicationLayer.Interfaces;
 using ApplicationLayer.Dtos;
 using ApplicationLayer.Dtos.JB;
+using ApplicationLayer.Interfaces;
 
 public class JBManager : MonoBehaviour
 {
@@ -20,7 +20,7 @@ public class JBManager : MonoBehaviour
         //! Dependency Injection
         _IJBService = ServiceLocator.Instance.JBService;
     }
-    public async void GetJBList(int grapperId)
+    public async void GetJBList(string grapperId)
     {
         try
         {
@@ -84,7 +84,7 @@ public class JBManager : MonoBehaviour
         }
     }
 
-    public async void GetJBById(int JBId)
+    public async void GetJBById(string JBId)
     {
         try
         {
@@ -187,7 +187,7 @@ public class JBManager : MonoBehaviour
         }
     }
 
-    public async void CreateNewJB(int grapperId, JBRequestDto jBRequestDto)
+    public async void CreateNewJB(string grapperId, JBRequestDto jBRequestDto)
     {
         try
         {
@@ -216,7 +216,7 @@ public class JBManager : MonoBehaviour
 
         }
     }
-    public async void UpdateJB(int JBId, JBRequestDto jBRequestDto)
+    public async void UpdateJB(string JBId, JBRequestDto jBRequestDto)
     {
         JBId = GlobalVariable.JBId;
         try
@@ -244,7 +244,7 @@ public class JBManager : MonoBehaviour
 
         }
     }
-    public async void DeleteJB(int JBId)
+    public async void DeleteJB(string JBId)
     {
         JBId = GlobalVariable.JBId;
         try

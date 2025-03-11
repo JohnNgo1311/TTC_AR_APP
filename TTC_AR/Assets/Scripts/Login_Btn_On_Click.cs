@@ -5,13 +5,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
-using ApplicationLayer.Dtos.ModuleSpecification;
-using System.Reflection;
-using UnityEngine.iOS;
-using ApplicationLayer.Dtos.Device;
-using ApplicationLayer.Dtos.Module;
-using ApplicationLayer.Dtos.JB;
-using ApplicationLayer.Dtos.Image;
+
 
 public class Login_Btn_On_Click : MonoBehaviour
 {
@@ -20,6 +14,7 @@ public class Login_Btn_On_Click : MonoBehaviour
     [SerializeField] private Button loginButton;
     [SerializeField] private string targetSceneName;
 
+    
     private string userName = "";
     private string password = "";
 
@@ -35,6 +30,8 @@ public class Login_Btn_On_Click : MonoBehaviour
     {
         SetScreenOrientation();
         PopulateFieldsIfLoggedIn();
+
+   
     }
     private void Start()
     {
@@ -182,6 +179,8 @@ public class Login_Btn_On_Click : MonoBehaviour
         //     pdfManual: "AdapterSpecificationPdfManual"
         //     )
         // );
+        ImageManager ImageManager = FindObjectOfType<ImageManager>();
+        ImageManager._IImageService.GetListImageAsync("1");
 
         userName = userNameField.text;
         password = passwordField.text;

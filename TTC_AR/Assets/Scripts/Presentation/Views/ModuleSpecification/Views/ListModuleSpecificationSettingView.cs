@@ -81,7 +81,7 @@ public class ListModuleSpecificationSettingView : MonoBehaviour, IModuleSpecific
 
     }
 
-    private void EditModuleSpecificationItem(int id)
+    private void EditModuleSpecificationItem(string id)
     {
 
         GlobalVariable.ModuleSpecificationId = id;

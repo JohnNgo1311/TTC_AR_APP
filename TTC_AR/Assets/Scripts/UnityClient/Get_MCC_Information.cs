@@ -8,7 +8,7 @@ using System.Collections.Generic;
 public class Get_MCC_Information : MonoBehaviour
 {
     public EventPublisher eventPublisher; // Tham chiếu đến Publisher
-    public int MCCId = 1;
+    public string MCCId = "1";
     private void Awake()
     {
     }

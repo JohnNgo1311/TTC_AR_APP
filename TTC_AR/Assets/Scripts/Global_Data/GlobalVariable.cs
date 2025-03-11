@@ -124,7 +124,7 @@ public class GlobalVariable : MonoBehaviour
     //    public static List<Texture2D> list_Image_JB_TSD_Wiring = new List<Texture2D>();
 
     //! Company
-    public static int companyId = 1;
+    public static string companyId = "1";
     public static List<CompanyBasicDto> temp_ListCompanyBasicDto = new List<CompanyBasicDto>();
     public static CompanyResponseDto temp_CompanyResponseDto;
     public static CompanyBasicDto temp_CompanyBasicDto;
@@ -132,7 +132,7 @@ public class GlobalVariable : MonoBehaviour
     public static Dictionary<string, CompanyBasicDto> temp_Dictionary_CompanyBasicDto = new Dictionary<string, CompanyBasicDto>();
 
     //!Grapper
-    public static int GrapperId = 1;
+    public static string GrapperId = "1";
     public static List<GrapperBasicDto> temp_ListGrapperBasicDto = new List<GrapperBasicDto>(); // Id, Name, List_Rack_Basic_Dto
     public static GrapperResponseDto temp_GrapperResponseDto; // Id, Name, List_Rack_Basic_Dto
     public static GrapperBasicDto temp_GrapperBasicDto; // Id, Name, List_Rack_Basic_Dto
@@ -145,13 +145,13 @@ public class GlobalVariable : MonoBehaviour
     //!Rack
     public static List<RackBasicModel> temp_ListRackBasicModels = new List<RackBasicModel>(); // Id, Name, List_ ModuleBasicNonRackModel
     public static RackBasicModel temp_RackBasicModel; // Id, Name, List_ ModuleBasicNonRackModel
-    public static int RackId = 1;
+    public static string RackId = "1";
     //!Module
     public static List<ModuleBasicModel> temp_ListModuleBasicModels = new List<ModuleBasicModel>(); // Id, Name, Rack_Non_List_Module_Model
     public static ModuleBasicModel temp_ModuleBasicModel; // Id, Name, Rack_Non_List_Module_Model
     public static List<ModuleInformationModel> temp_ListModuleInformationModel = new List<ModuleInformationModel>();
     public static ModuleInformationModel temp_ModuleInformationModel;
-    public static int ModuleId = 1;
+    public static string ModuleId = "1";
     public static Dictionary<string, ModuleInformationModel> temp_Dictionary_ModuleInformationModel = new Dictionary<string, ModuleInformationModel>();
     public static Dictionary<string, ModuleBasicModel> temp_Dictionary_ModuleBasicModel = new Dictionary<string, ModuleBasicModel>();
     //! Device
@@ -160,25 +160,25 @@ public class GlobalVariable : MonoBehaviour
     public static Dictionary<string, DeviceBasicModel> temp_Dictionary_DeviceBasicModel = new Dictionary<string, DeviceBasicModel>();
     public static Dictionary<string, DeviceInformationModel> temp_Dictionary_DeviceInformationModel = new Dictionary<string, DeviceInformationModel>();
     public static Dictionary<string, string> temp_Dictionary_DeviceIOAddress = new Dictionary<string, string>();
-    public static int DeviceId = 6;
+    public static string DeviceId = "`1";
     //! JBS
     public static List<JBInformationModel> temp_ListJBInformationModel_FromModule = new List<JBInformationModel>();
     public static List<JBInformationModel> temp_ListJBInformationModel = new List<JBInformationModel>();
     public static JBInformationModel temp_JBInformationModel;
-    public static int JBId = 1;
+    public static string JBId = "1";
     public static bool ActiveCloseCanvasButton = false;
     public static Dictionary<string, JBInformationModel> temp_Dictionary_JBInformationModel = new Dictionary<string, JBInformationModel>();
     public static Dictionary<string, JBBasicModel> temp_Dictionary_JBBasicModel = new Dictionary<string, JBBasicModel>();
     //! Mccs
     public static List<MccInformationModel> temp_ListMCCInformationModel = new List<MccInformationModel>();
     public static MccInformationModel temp_MCCInformationModel;
-    public static int MccId = 1;
+    public static string MccId = "1";
     public static Dictionary<string, MccInformationModel> temp_Dictionary_MCCInformationModel = new Dictionary<string, MccInformationModel>();
 
     //! Field Device
     public static List<FieldDeviceInformationModel> temp_ListFieldDeviceInformationModel = new List<FieldDeviceInformationModel>();
     public static FieldDeviceInformationModel temp_FieldDeviceInformationModel;
-    public static int FieldDeviceId = 6;
+    public static string FieldDeviceId = "1";
     public static Dictionary<string, FieldDeviceInformationModel> temp_Dictionary_FieldDeviceInformationModel = new Dictionary<string, FieldDeviceInformationModel>();
     //! ModuleSpecification 
     public static List<ModuleSpecificationBasicDto> temp_ListModuleSpecificationBasicDto = new List<ModuleSpecificationBasicDto>();
@@ -189,10 +189,10 @@ public class GlobalVariable : MonoBehaviour
 
     public static ModuleSpecificationModel temp_ModuleSpecificationModel;
     public static ModuleSpecificationBasicModel temp_ModuleSpecificationBasicModel;
-    public static int ModuleSpecificationId = 1;
+    public static string ModuleSpecificationId = "1";
     public static Dictionary<string, ModuleSpecificationModel> temp_Dictionary_ModuleSpecificationModel = new Dictionary<string, ModuleSpecificationModel>();
     //! AdapterSpecification
-    public static int AdapterSpecificationId = 1;
+    public static string AdapterSpecificationId = "1";
     public static List<AdapterSpecificationBasicDto> temp_ListAdapterSpecificationBasicDto = new List<AdapterSpecificationBasicDto>();
     public static AdapterSpecificationResponseDto temp_AdapterSpecificationResponseDto;
     public static AdapterSpecificationBasicDto temp_AdapterSpecificationBasicDto;
@@ -203,10 +203,33 @@ public class GlobalVariable : MonoBehaviour
     public static Dictionary<string, AdapterSpecificationModel> temp_Dictionary_AdapterSpecificationModel = new Dictionary<string, AdapterSpecificationModel>();
     //! ImageInformation
     public static ImageInformationModel temp_ImageInformationModel;
-    public static int ImageInformationId = 1;
+    public static string ImageId = "1";
     public static Dictionary<string, ImageInformationModel> temp_Dictionary_ImageInformationModel = new Dictionary<string, ImageInformationModel>();
     public static Dictionary<string, ImageBasicModel> temp_Dictionary_ImageBasicModel = new Dictionary<string, ImageBasicModel>();
-    public static List<ImageInformationModel> temp_ListImageInformationModel = new List<ImageInformationModel>();
+    public static List<ImageInformationModel> temp_ListImageInformationModel = new List<ImageInformationModel>()
+    {
+
+          new ImageInformationModel("1", "Image1.png", "https://www.google.com.vn/"),
+          new ImageInformationModel("2", "Image2.jpg", "https://www.google.com.vn/"),
+          new ImageInformationModel("3", "Image3.bmp", "https://www.google.com.vn/"),
+          new ImageInformationModel("4", "Image4.gif", "https://www.google.com.vn/"),
+          new ImageInformationModel("5", "Image5.svg", "https://www.google.com.vn/"),
+          new ImageInformationModel("6", "Image6.png", "https://www.google.com.vn/"),
+          new ImageInformationModel("7", "Image7.jpg", "https://www.google.com.vn/"),
+          new ImageInformationModel("8", "Image8.bmp", "https://www.google.com.vn/"),
+          new ImageInformationModel("9", "Image9.gif", "https://www.google.com.vn/"),
+          new ImageInformationModel("10", "Image10.svg", "https://www.google.com.vn/"),
+          new ImageInformationModel("11", "Image11.png", "https://www.google.com.vn/"),
+          new ImageInformationModel("12", "Image12.jpg", "https://www.google.com.vn/"),
+          new ImageInformationModel("13", "Image13.bmp", "https://www.google.com.vn/"),
+          new ImageInformationModel("14", "Image14.gif", "https://www.google.com.vn/"),
+          new ImageInformationModel("15", "Image15.svg", "https://www.google.com.vn/"),
+          new ImageInformationModel("16", "Image16.png", "https://www.google.com.vn/"),
+          new ImageInformationModel("17", "Image17.jpg", "https://www.google.com.vn/"),
+          new ImageInformationModel("18", "Image18.bmp", "https://www.google.com.vn/"),
+          new ImageInformationModel("19", "Image19.gif", "https://www.google.com.vn/"),
+          new ImageInformationModel("20", "Image20.svg", "https://www.google.com.vn/")
+    };
 
 
 

@@ -24,7 +24,7 @@ namespace ApplicationLayer.UseCases
             _IModuleRepository = IModuleRepository;
         }
         #region GET List Module
-        public async Task<List<ModuleBasicDto>> GetListModuleAsync(int grapperId)
+        public async Task<List<ModuleBasicDto>> GetListModuleAsync(string grapperId)
         {
             try
             {
@@ -53,7 +53,7 @@ namespace ApplicationLayer.UseCases
         #endregion
 
         #region GET Specific Module
-        public async Task<ModuleResponseDto> GetModuleByIdAsync(int ModuleId)
+        public async Task<ModuleResponseDto> GetModuleByIdAsync(string ModuleId)
         {
             try
             {
@@ -82,7 +82,7 @@ namespace ApplicationLayer.UseCases
         #endregion
 
         #region POST CREATE Module
-        public async Task<bool> CreateNewModuleAsync(int grapperId, ModuleRequestDto requestDto)
+        public async Task<bool> CreateNewModuleAsync(string grapperId, ModuleRequestDto requestDto)
         {
             try
             {
@@ -117,7 +117,7 @@ namespace ApplicationLayer.UseCases
         #endregion
 
         #region  PUT UPDATE Module
-        public async Task<bool> UpdateModuleAsync(int moduleId, ModuleRequestDto requestDto)
+        public async Task<bool> UpdateModuleAsync(string moduleId, ModuleRequestDto requestDto)
         {
             try
             {
@@ -150,7 +150,7 @@ namespace ApplicationLayer.UseCases
         }
         #endregion
         #region DELETE Module
-        public async Task<bool> DeleteModuleAsync(int ModuleId)
+        public async Task<bool> DeleteModuleAsync(string ModuleId)
         {
             try
             {

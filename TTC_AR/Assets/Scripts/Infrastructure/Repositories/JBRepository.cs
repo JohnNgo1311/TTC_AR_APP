@@ -1,5 +1,4 @@
 using Domain.Entities;
-using Domain.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -10,6 +9,7 @@ using UnityEngine.Networking;
 using System.Linq;
 using ApplicationLayer.Dtos;
 using ApplicationLayer.Dtos.JB;
+using Domain.Interfaces;
 
 namespace Infrastructure.Repositories
 {
@@ -27,7 +27,7 @@ namespace Infrastructure.Repositories
         }
 
         //! TRả về JBEntity
-        public async Task<JBEntity> GetJBByIdAsync(int JBId)
+        public async Task<JBEntity> GetJBByIdAsync(string JBId)
         {
             try
             {
@@ -56,7 +56,7 @@ namespace Infrastructure.Repositories
         }
 
         //! Trả về List<JBEntity>
-        public async Task<List<JBEntity>> GetListJBAsync(int grapperId)
+        public async Task<List<JBEntity>> GetListJBAsync(string grapperId)
         {
             try
             {
@@ -81,7 +81,7 @@ namespace Infrastructure.Repositories
         }
 
 
-        public async Task<bool> CreateNewJBAsync(int grapperId, JBEntity jBEntity)
+        public async Task<bool> CreateNewJBAsync(string grapperId, JBEntity jBEntity)
         {
             try
             {
@@ -113,7 +113,7 @@ namespace Infrastructure.Repositories
             }
         }
 
-        public async Task<bool> UpdateJBAsync(int JBId, JBEntity jBEntity)
+        public async Task<bool> UpdateJBAsync(string JBId, JBEntity jBEntity)
         {
             try
             {
@@ -142,7 +142,7 @@ namespace Infrastructure.Repositories
             }
         }
 
-        public async Task<bool> DeleteJBAsync(int jbId)
+        public async Task<bool> DeleteJBAsync(string jbId)
         {
             try
             {

@@ -11,9 +11,9 @@ using UnityEngine.SceneManagement;
 using PimDeWitte.UnityMainThreadDispatcher;
 using System.Linq;
 using System.Net.Http;
-using ApplicationLayer.Interfaces;
 using ApplicationLayer.Dtos;
 using ApplicationLayer.Dtos.JB;
+using ApplicationLayer.Interfaces;
 
 public class APIManager : MonoBehaviour
 {
@@ -31,14 +31,14 @@ public class APIManager : MonoBehaviour
     private IModuleSpecificationService _moduleSpecificationService;
     #endregion
 
-    public int CompanyId = 1;
-    public int GrapperId = 1;
-    public int RackId = 1;
-    public int ModuleId = 1;
-    public int DeviceId = 1;
-    public int JBId = 1;
-    public int FieldDeviceId = 1;
-    public int MCCId = 1;
+    public string CompanyId = "1";
+    public string GrapperId = "1";
+    public string RackId = "1";
+    public string ModuleId = "1";
+    public string DeviceId = "1";
+    public string JBId = "1";
+    public string FieldDeviceId = "1";
+    public string MCCId = "1";
 
     public List<RackBasicModel> temp_ListRackBasicModels;
     public List<GrapperBasicModel> temp_ListGrapperBasicModels;
@@ -58,7 +58,7 @@ public class APIManager : MonoBehaviour
     public Dictionary<string, Texture2D> list_JBLocationImagesFromModule = new Dictionary<string, Texture2D>();
     public List<string> imageUrls = new List<string>();
     public List<Texture2D> textures = new List<Texture2D>();
-    public Dictionary<string, int> Dic_GrapperBasicNonListRackModels = new Dictionary<string, int>();
+    public Dictionary<string, string> Dic_GrapperBasicNonListRackModels = new Dictionary<string, string>();
 
 
     //! Dictionary
@@ -245,7 +245,7 @@ public class APIManager : MonoBehaviour
     }
 
 
-    // public async Task GetListModuleInformation(string url, int grapperId)
+    // public async Task GetListModuleInformation(string url, string grapperId)
     // {
     //     using UnityWebRequest webRequest = UnityWebRequest.Get(url);
     //     {
@@ -285,7 +285,7 @@ public class APIManager : MonoBehaviour
     // }
 
     // Get list Devices by Grapper ==> Search Devices
-    // public async Task GetModuleInformation(string url, int moduleId)
+    // public async Task GetModuleInformation(string url, string moduleId)
     // {
     //     using UnityWebRequest webRequest = UnityWebRequest.Get(url);
     //     {
@@ -470,9 +470,9 @@ public class APIManager : MonoBehaviour
 
                 foreach (var image_url in temp_FieldDeviceInformationModel.ListConnectionImages)
                 {
-                    if (!string.IsNullOrEmpty(image_url))
+                    if (!string.IsNullOrEmpty(image_url.url))
                     {
-                        downloadTasks.Add(DownloadImageAsync(image_url));
+                        downloadTasks.Add(DownloadImageAsync(image_url.url));
                     }
                 }
                 var downloadedTextures = await Task.WhenAll(downloadTasks);
@@ -548,7 +548,7 @@ public class APIManager : MonoBehaviour
             return false;
         }
     }
-    // public async Task GetAllDevicesByGrapper(string url, int grapperId)
+    // public async Task GetAllDevicesByGrapper(string url, string grapperId)
     // {
     //     using UnityWebRequest webRequest = UnityWebRequest.Get(url);
     //     {
@@ -634,7 +634,7 @@ public class APIManager : MonoBehaviour
     }
 
     //operation.isDone: Đoạn mã này kiểm tra xem tác vụ tải ảnh có hoàn thành chưa.
-    // Điều này là một công việc background — tải ảnh từ internet, không ảnh hưởng đến main thread.
+    // Điều này là một công việc background — tải ảnh từ stringernet, không ảnh hưởng đến main thread.
     // await Task.Yield(): Khi bạn gọi await Task.Yield(), điều này có nghĩa là main thread tạm dừng công việc hiện tại của nó(kiểm tra operation.isDone) 
     //và nhường quyền điều khiển cho hệ thống để thực hiện các tác vụ khác.Main thread không bị block và có thể tiếp tục xử lý các tác vụ khác.
     //hệ thống sẽ trả quyền điều khiển lại cho main thread khi công việc background hoàn thành, 
@@ -719,9 +719,9 @@ public class APIManager : MonoBehaviour
                     var moduleInformationModel = JsonConvert.DeserializeObject<ModuleInformationModel>(json);
                     if (moduleInformationModel != null)
                     {
-                        GlobalVariable.ModuleId = 1;
-                        GlobalVariable.ModuleSpecificationId = 1;
-                        GlobalVariable.AdapterSpecificationId = 1;
+                        GlobalVariable.ModuleId = "1";
+                        GlobalVariable.ModuleSpecificationId = "1";
+                        GlobalVariable.AdapterSpecificationId = "1";
 
                         GlobalVariable.temp_ListJBInformationModel_FromModule.Clear();
                         GlobalVariable.temp_ListDeviceInformationModel_FromModule.Clear();
@@ -1068,7 +1068,7 @@ public class APIManager : MonoBehaviour
     }
 
 
-    // public async Task GetAllJBsByGrapper(string url, int grapperId)
+    // public async Task GetAllJBsByGrapper(string url, string grapperId)
     // {
     //     using UnityWebRequest webRequest = UnityWebRequest.Get(url);
     //     {
@@ -1263,7 +1263,7 @@ public class ApiClient : MonoBehaviour
         _rackService = ServiceLocator.Instance.RackService;
 
     }
-    public async void GetJBList(int grapperId)
+    public async void GetJBList(string grapperId)
     {
         try
         {
@@ -1285,7 +1285,7 @@ public class ApiClient : MonoBehaviour
         }
     }
 
-    public async void GetJBById(int jBId)
+    public async void GetJBById(string jBId)
     {
         try
         {
@@ -1306,7 +1306,7 @@ public class ApiClient : MonoBehaviour
         }
     }
 
-    public async void CreateNewJB(int grapperId, JBRequestDto jBRequestDto)
+    public async void CreateNewJB(string grapperId, JBRequestDto jBRequestDto)
     {
         try
         {
@@ -1332,7 +1332,7 @@ public class ApiClient : MonoBehaviour
             // Có thể hiển thị UI thông báo lỗi cho người chơi
         }
     }
-    public async void DeleteJB(int jBId)
+    public async void DeleteJB(string jBId)
     {
         try
         {

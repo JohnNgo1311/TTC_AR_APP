@@ -17,23 +17,23 @@ namespace ApplicationLayer.Services
         }
 
         //! Tham số là Dto, Dữ liệu trả về là Dto
-        public async Task<RackResponseDto> GetRackByIdAsync(int id)
+        public async Task<RackResponseDto> GetRackByIdAsync(string id)
         {
             return await _RackUseCase.GetRackByIdAsync(id);
         }
-        public async Task<List<RackBasicDto>> GetListRackAsync(int grapperId)
+        public async Task<List<RackBasicDto>> GetListRackAsync(string grapperId)
         {
             return await _RackUseCase.GetListRackAsync(grapperId);
         }
-        public async Task<bool> CreateNewRackAsync(int grapperId, RackRequestDto RackRequestDto)
+        public async Task<bool> CreateNewRackAsync(string grapperId, RackRequestDto RackRequestDto)
         {
             return await _RackUseCase.CreateNewRackAsync(grapperId, RackRequestDto);
         }
-        public async Task<bool> UpdateRackAsync(int RackId, RackRequestDto RackRequestDto)
+        public async Task<bool> UpdateRackAsync(string RackId, RackRequestDto RackRequestDto)
         {
             return await _RackUseCase.UpdateRackAsync(RackId, RackRequestDto);
         }
-        public async Task<bool> DeleteRackAsync(int RackId)
+        public async Task<bool> DeleteRackAsync(string RackId)
         {
             return await _RackUseCase.DeleteRackAsync(RackId);
         }

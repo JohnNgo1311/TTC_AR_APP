@@ -11,7 +11,7 @@ namespace ApplicationLayer.Dtos.Image
 
         [Preserve]
 
-        public ImageResponseDto(int id, string name, string url) : base(id, name)
+        public ImageResponseDto(string id, string name, string url) : base(id, name)
         {
             Url = string.IsNullOrEmpty(url) ? "Chưa cập nhật" : url;
         }

@@ -7,7 +7,7 @@ using UnityEngine.Scripting;
 public class CompanyInformationModel
 {
   [JsonProperty("Id")]
-  public int Id { get; set; }
+  public string Id { get; set; }
 
   [JsonProperty("Name")]
   public string Name { get; set; }
@@ -17,7 +17,7 @@ public class CompanyInformationModel
 
   [Preserve]
 
-  public CompanyInformationModel(int id, string name, List<GrapperInformationModel> listGrapperInformationModel)
+  public CompanyInformationModel(string id, string name, List<GrapperInformationModel> listGrapperInformationModel)
   {
     Id = id;
     Name = name;

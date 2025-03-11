@@ -7,7 +7,7 @@ using UnityEngine.Scripting;
 public class RackInformationModel
 {
   [JsonProperty("Id")]
-  public int Id { get; set; }
+  public string Id { get; set; }
 
   [JsonProperty("Name")]
   public string Name { get; set; }
@@ -17,7 +17,7 @@ public class RackInformationModel
 
   [Preserve]
 
-  public RackInformationModel(int id, string name, List<ModuleInformationModel> listModuleInformationModel)
+  public RackInformationModel(string id, string name, List<ModuleInformationModel> listModuleInformationModel)
   {
     Id = id;
     Name = name;
@@ -28,12 +28,12 @@ public class RackInformationModel
 [Preserve]
 public class RackBasicModel
 {
-  [JsonProperty("Id")] public int Id { get; set; }
+  [JsonProperty("Id")] public string Id { get; set; }
   [JsonProperty("Name")] public string Name { get; set; }
 
   [Preserve]
 
-  public RackBasicModel(int id, string name)
+  public RackBasicModel(string id, string name)
   {
     Id = id;
     Name = name;

@@ -1,5 +1,4 @@
 using Domain.Entities;
-using Domain.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -10,6 +9,7 @@ using UnityEngine.Networking;
 using System.Linq;
 using ApplicationLayer.Dtos;
 using ApplicationLayer.Dtos.Grapper;
+using Domain.Interfaces;
 
 namespace Infrastructure.Repositories
 {
@@ -27,7 +27,7 @@ namespace Infrastructure.Repositories
         }
 
         //! TRả về GrapperEntity
-        public async Task<GrapperEntity> GetGrapperByIdAsync(int GrapperId)
+        public async Task<GrapperEntity> GetGrapperByIdAsync(string GrapperId)
         {
             try
             {
@@ -56,7 +56,7 @@ namespace Infrastructure.Repositories
         }
 
         //! Trả về List<GrapperEntity>
-        public async Task<List<GrapperEntity>> GetListGrapperAsync(int companyId)
+        public async Task<List<GrapperEntity>> GetListGrapperAsync(string companyId)
         {
             try
             {
@@ -81,7 +81,7 @@ namespace Infrastructure.Repositories
         }
 
 
-        public async Task<bool> CreateNewGrapperAsync(int companyId, GrapperEntity grapperEntity)
+        public async Task<bool> CreateNewGrapperAsync(string companyId, GrapperEntity grapperEntity)
         {
             try
             {
@@ -109,7 +109,7 @@ namespace Infrastructure.Repositories
             }
         }
 
-        public async Task<bool> UpdateGrapperAsync(int GrapperId, GrapperEntity grapperEntity)
+        public async Task<bool> UpdateGrapperAsync(string GrapperId, GrapperEntity grapperEntity)
         {
             try
             {
@@ -138,7 +138,7 @@ namespace Infrastructure.Repositories
             }
         }
 
-        public async Task<bool> DeleteGrapperAsync(int GrapperId)
+        public async Task<bool> DeleteGrapperAsync(string GrapperId)
         {
             try
             {

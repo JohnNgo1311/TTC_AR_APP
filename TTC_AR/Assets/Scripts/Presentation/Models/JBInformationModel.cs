@@ -10,7 +10,7 @@ public class JBInformationModel
 {
 #nullable enable
   [JsonProperty("Id")]
-  public int Id { get; set; }
+  public string Id { get; set; }
   [JsonProperty("Name")]
   public string Name { get; set; }
 
@@ -31,7 +31,7 @@ public class JBInformationModel
 
   [Preserve]
 
-  public JBInformationModel(int id, string name, string location, List<DeviceBasicModel> listDeviceInformation, List<ModuleBasicModel> listModuleInformation, ImageInformationModel outdoorImage, List<ImageInformationModel> listConnectionImages)
+  public JBInformationModel(string id, string name, string location, List<DeviceBasicModel> listDeviceInformation, List<ModuleBasicModel> listModuleInformation, ImageInformationModel outdoorImage, List<ImageInformationModel> listConnectionImages)
   {
     Id = id;
     Name = name;
@@ -48,7 +48,7 @@ public class JBGeneralModel
 {
 #nullable enable
   [JsonProperty("Id")]
-  public int Id { get; set; }
+  public string Id { get; set; }
   [JsonProperty("Name")]
   public string Name { get; set; }
 
@@ -69,7 +69,7 @@ public class JBGeneralModel
 
   [Preserve]
 
-  public JBGeneralModel(int id, string name, string? location, List<DeviceBasicModel> listDevices, List<ModuleBasicModel> listModules, ImageBasicModel outdoorImage, List<ImageBasicModel> listConnectionImages)
+  public JBGeneralModel(string id, string name, string? location, List<DeviceBasicModel> listDevices, List<ModuleBasicModel> listModules, ImageBasicModel outdoorImage, List<ImageBasicModel> listConnectionImages)
   {
     Id = id;
     Name = name;
@@ -121,13 +121,13 @@ public class JBPostGeneralModel
 public class JBBasicModel
 {
   [JsonProperty("Id")]
-  public int Id { get; set; }
+  public string Id { get; set; }
   [JsonProperty("Name")]
   public string Name { get; set; }
 
   [Preserve]
 
-  public JBBasicModel(int id, string name)
+  public JBBasicModel(string id, string name)
   {
     Id = id;
     Name = name;

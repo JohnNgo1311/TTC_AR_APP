@@ -6,7 +6,7 @@ using UnityEngine.Scripting;
 public class DeviceInformationModel
 {
   [JsonProperty("Id")]
-  public int Id { get; set; }
+  public string Id { get; set; }
 
   [JsonProperty("Code")]
   public string Code { get; set; }
@@ -34,7 +34,7 @@ public class DeviceInformationModel
 
   [Preserve]
 
-  public DeviceInformationModel(int id, string code, string function, string range, string unit, string ioAddress, ModuleBasicModel moduleBasicModel, JBInformationModel jbInformationModel, List<ImageInformationModel> additionalConnectionImages)
+  public DeviceInformationModel(string id, string code, string function, string range, string unit, string ioAddress, ModuleBasicModel moduleBasicModel, JBInformationModel jbInformationModel, List<ImageInformationModel> additionalConnectionImages)
   {
     Id = id;
     Code = code;
@@ -53,7 +53,7 @@ public class DeviceInformationModel
 public class DeviceGeneralModel
 {
   [JsonProperty("Id")]
-  public int Id { get; set; }
+  public string Id { get; set; }
 
   [JsonProperty("Code")]
   public string Code { get; set; }
@@ -81,7 +81,7 @@ public class DeviceGeneralModel
 
   [Preserve]
 
-  public DeviceGeneralModel(int id, string code, string function, string range, string unit, string ioAddress, ModuleBasicModel moduleBasicModel, JBBasicModel jbBasicModel, List<ImageBasicModel> additionalImageModels)
+  public DeviceGeneralModel(string id, string code, string function, string range, string unit, string ioAddress, ModuleBasicModel moduleBasicModel, JBBasicModel jbBasicModel, List<ImageBasicModel> additionalImageModels)
   {
     Id = id;
     Code = code;
@@ -144,12 +144,12 @@ public class DevicePostGeneralModel
 public class DeviceBasicModel
 {
   [JsonProperty("Id")]
-  public int Id { get; set; }
+  public string Id { get; set; }
   [JsonProperty("Code")]
   public string Code { get; set; }
   [Preserve]
 
-  public DeviceBasicModel(int id, string code)
+  public DeviceBasicModel(string id, string code)
   {
     Id = id;
     Code = code;

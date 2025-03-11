@@ -8,7 +8,7 @@ public class ModuleInformationModel
 {
 #nullable enable
 
-  [JsonProperty("Id")] public int Id { get; set; }
+  [JsonProperty("Id")] public string Id { get; set; }
 
   [JsonProperty("Name")] public string Name { get; set; }
   [JsonProperty("rack")] public RackBasicModel Rack { get; set; }
@@ -24,7 +24,7 @@ public class ModuleInformationModel
 
   [Preserve]
 
-  public ModuleInformationModel(int id, string name, RackBasicModel rack, List<DeviceInformationModel> listDeviceInformationModel_FromModule, List<JBInformationModel> listJBInformationModel, ModuleSpecificationModel? moduleSpecificationModel, AdapterSpecificationModel? adapterSpecificationModel)
+  public ModuleInformationModel(string id, string name, RackBasicModel rack, List<DeviceInformationModel> listDeviceInformationModel_FromModule, List<JBInformationModel> listJBInformationModel, ModuleSpecificationModel? moduleSpecificationModel, AdapterSpecificationModel? adapterSpecificationModel)
   {
     Id = id;
     Name = name;
@@ -40,10 +40,10 @@ public class ModuleInformationModel
 public class ModuleBasicModel//! Module Module có Id, Name và Rack tương ứng (Rack chỉ chứa Id và Name)
 {
   [JsonProperty("Id")]
-  public int Id { get; set; }
+  public string Id { get; set; }
   [JsonProperty("Name")]
   public string Name { get; set; }
-  public ModuleBasicModel(int id, string name)
+  public ModuleBasicModel(string id, string name)
   {
     Id = id;
     Name = name;
@@ -54,7 +54,7 @@ public class ModuleBasicModel//! Module Module có Id, Name và Rack tương ứ
 public class ModuleGeneralModel //! Module Module có Id, Name và Rack tương ứng (Rack chỉ chứa Id và Name)
 {
   [JsonProperty("Id")]
-  public int Id { get; set; }
+  public string Id { get; set; }
   [JsonProperty("Name")]
   public string Name { get; set; }
   [JsonProperty("Rack")]
@@ -69,7 +69,7 @@ public class ModuleGeneralModel //! Module Module có Id, Name và Rack tương 
 
   [Preserve]
 
-  public ModuleGeneralModel(int id, string name, RackBasicModel rackBasicModel, List<DeviceBasicModel> listDeviceBasicModel, List<JBBasicModel> listJBBasicModel, ModuleSpecificationBasicModel? moduleSpecificationBasicModel, AdapterSpecificationBasicModel? adapterSpecificationBasicModel)
+  public ModuleGeneralModel(string id, string name, RackBasicModel rackBasicModel, List<DeviceBasicModel> listDeviceBasicModel, List<JBBasicModel> listJBBasicModel, ModuleSpecificationBasicModel? moduleSpecificationBasicModel, AdapterSpecificationBasicModel? adapterSpecificationBasicModel)
   {
     Id = id;
     Name = name;

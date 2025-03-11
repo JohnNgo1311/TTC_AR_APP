@@ -1,5 +1,4 @@
 using Domain.Entities;
-using Domain.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -10,6 +9,7 @@ using UnityEngine.Networking;
 using System.Linq;
 using ApplicationLayer.Dtos;
 using ApplicationLayer.Dtos.Rack;
+using Domain.Interfaces;
 
 namespace Infrastructure.Repositories
 {
@@ -27,7 +27,7 @@ namespace Infrastructure.Repositories
         }
 
         //! TRả về RackEntity
-        public async Task<RackEntity> GetRackByIdAsync(int RackId)
+        public async Task<RackEntity> GetRackByIdAsync(string RackId)
         {
             try
             {
@@ -56,7 +56,7 @@ namespace Infrastructure.Repositories
         }
 
         //! Trả về List<RackEntity>
-        public async Task<List<RackEntity>> GetListRackAsync(int grapperId)
+        public async Task<List<RackEntity>> GetListRackAsync(string grapperId)
         {
             try
             {
@@ -81,7 +81,7 @@ namespace Infrastructure.Repositories
         }
 
 
-        public async Task<bool> CreateNewRackAsync(int grapperId, RackEntity RackEntity)
+        public async Task<bool> CreateNewRackAsync(string grapperId, RackEntity RackEntity)
         {
             try
             {
@@ -113,7 +113,7 @@ namespace Infrastructure.Repositories
             }
         }
 
-        public async Task<bool> UpdateRackAsync(int RackId, RackEntity RackEntity)
+        public async Task<bool> UpdateRackAsync(string RackId, RackEntity RackEntity)
         {
             try
             {
@@ -142,7 +142,7 @@ namespace Infrastructure.Repositories
             }
         }
 
-        public async Task<bool> DeleteRackAsync(int RackId)
+        public async Task<bool> DeleteRackAsync(string RackId)
         {
             try
             {

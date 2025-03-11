@@ -3,8 +3,8 @@ using System;
 using UnityEngine;
 using System.Linq;
 using System.Net.Http;
-using ApplicationLayer.Interfaces;
 using ApplicationLayer.Dtos.FieldDevice;
+using ApplicationLayer.Interfaces;
 
 public class FieldDeviceManager : MonoBehaviour
 {
@@ -23,7 +23,7 @@ public class FieldDeviceManager : MonoBehaviour
         //! Dependency Injection
         _IFieldDeviceService = ServiceLocator.Instance.FieldDeviceService;
     }
-    public async void GetFieldDeviceList(int grapperId)
+    public async void GetFieldDeviceList(string grapperId)
     {
         try
         {
@@ -58,11 +58,11 @@ public class FieldDeviceManager : MonoBehaviour
         }
     }
 
-    public async void GetFieldDeviceById(int FieldDeviceId)
+    public async void GetFieldDeviceById(string FieldDeviceId)
     {
         try
         {
-            var FieldDevice = await _IFieldDeviceService.GetFieldDeviceByIdAsync(FieldDeviceId); // Gọi Service
+            var FieldDevice = await _IFieldDeviceService.GetFieldDeviceByIdAsync(FieldDeviceId.ToString()); // Gọi Service
             if (FieldDevice != null)
             {
 
@@ -93,7 +93,7 @@ public class FieldDeviceManager : MonoBehaviour
         }
     }
 
-    public async void CreateNewFieldDevice(int grapperId, FieldDeviceRequestDto FieldDeviceRequestDto)
+    public async void CreateNewFieldDevice(string grapperId, FieldDeviceRequestDto FieldDeviceRequestDto)
     {
         try
         {
@@ -149,7 +149,7 @@ public class FieldDeviceManager : MonoBehaviour
 
         }
     }
-    public async void DeleteFieldDevice(int FieldDeviceId)
+    public async void DeleteFieldDevice(string FieldDeviceId)
     {
         try
         {

@@ -17,7 +17,7 @@ namespace ApplicationLayer.UseCases
         {
             _IAdapterSpecificationRepository = IAdapterSpecificationRepository;
         }
-        public async Task<List<AdapterSpecificationBasicDto>> GetListAdapterSpecificationAsync(int grapperId)
+        public async Task<List<AdapterSpecificationBasicDto>> GetListAdapterSpecificationAsync(string grapperId)
         {
             try
             {
@@ -67,7 +67,7 @@ namespace ApplicationLayer.UseCases
                 throw new ApplicationException("Failed to get AdapterSpecification", ex); // Bao bọc lỗi từ Repository
             }
         }
-        public async Task<bool> CreateNewAdapterSpecificationAsync(int companyId, AdapterSpecificationRequestDto requestDto)
+        public async Task<bool> CreateNewAdapterSpecificationAsync(string companyId, AdapterSpecificationRequestDto requestDto)
         {
             companyId = GlobalVariable.companyId;
             try
@@ -97,7 +97,7 @@ namespace ApplicationLayer.UseCases
                 throw new ApplicationException("Failed to create AdapterSpecification", ex); // Bao bọc lỗi từ Repository
             }
         }
-        public async Task<bool> UpdateAdapterSpecificationAsync(int adapterSpecificationId, AdapterSpecificationRequestDto requestDto)
+        public async Task<bool> UpdateAdapterSpecificationAsync(string adapterSpecificationId, AdapterSpecificationRequestDto requestDto)
         {
             // adapterSpecificationId = GlobalVariable.AdapterSpecificationId;
             try
@@ -130,7 +130,7 @@ namespace ApplicationLayer.UseCases
                 throw new ApplicationException("Failed to update AdapterSpecification", ex); // Bao bọc lỗi từ Repository
             }
         }
-        public async Task<bool> DeleteAdapterSpecificationAsync(int adapterSpecificationId)
+        public async Task<bool> DeleteAdapterSpecificationAsync(string adapterSpecificationId)
         {
             //adapterSpecificationId = GlobalVariable.AdapterSpecificationId;
             try

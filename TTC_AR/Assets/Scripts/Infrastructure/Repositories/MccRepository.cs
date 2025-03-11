@@ -21,20 +21,20 @@ namespace Infrastructure.Repositories
         }
 
 
-        public async Task<List<MccEntity>> GetListMccAsync(int grapperId)
+        public async Task<List<MccEntity>> GetListMccAsync(string grapperId)
         {
             var response = await _httpClient.GetStringAsync($"{BaseUrl}");
             return JsonConvert.DeserializeObject<List<MccEntity>>(response);
         }
 
-        public async Task<MccEntity> GetMccByIdAsync(int Mccid)
+        public async Task<MccEntity> GetMccByIdAsync(string Mccid)
         {
             var response = await _httpClient.GetStringAsync($"{BaseUrl}/{Mccid}");
             UnityEngine.Debug.Log(response.ToString());
             return JsonConvert.DeserializeObject<MccEntity>(response);
         }
 
-        public async Task<bool> CreateNewMccAsync(int grapperId, MccEntity MccEntity)
+        public async Task<bool> CreateNewMccAsync(string grapperId, MccEntity MccEntity)
         {
             var json = JsonConvert.SerializeObject(MccEntity);
 
@@ -52,7 +52,7 @@ namespace Infrastructure.Repositories
             // return JsonConvert.DeserializeObject<MccEntity>(responseContent);
         }
 
-        public async Task<bool> UpdateMccAsync(int MccId, MccEntity MccEntity)
+        public async Task<bool> UpdateMccAsync(string MccId, MccEntity MccEntity)
         {
             var json = JsonConvert.SerializeObject(MccEntity);
 
@@ -67,7 +67,7 @@ namespace Infrastructure.Repositories
             // var responseContent = await response.Content.ReadAsStringAsync();
             // return JsonConvert.DeserializeObject<MccEntity>(responseContent);
         }
-        public async Task<bool> DeleteMccAsync(int MccId)
+        public async Task<bool> DeleteMccAsync(string MccId)
         {
             var response = await _httpClient.DeleteAsync($"{BaseUrl}/{MccId}");
             response.EnsureSuccessStatusCode();

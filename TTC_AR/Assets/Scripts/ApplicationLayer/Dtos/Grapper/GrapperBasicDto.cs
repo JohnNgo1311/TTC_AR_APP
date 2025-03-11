@@ -11,12 +11,12 @@ namespace ApplicationLayer.Dtos.Grapper
   [Preserve]
   public class GrapperBasicDto
   {
-    [JsonProperty("Id")] public int Id { get; set; }
+    [JsonProperty("Id")] public string Id { get; set; }
     [JsonProperty("Name")] public string Name { get; set; } = string.Empty;
 
     [Preserve]
 
-    public GrapperBasicDto(int id, string name)
+    public GrapperBasicDto(string id, string name)
     {
       Id = id;
       Name = string.IsNullOrEmpty(name) ? throw new ArgumentNullException(nameof(name)) : name;

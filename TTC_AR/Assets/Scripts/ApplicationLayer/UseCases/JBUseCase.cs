@@ -20,7 +20,7 @@ namespace ApplicationLayer.UseCases
         {
             _IJBRepository = IjbRepository;
         }
-        public async Task<List<JBGeneralDto>> GetListJBAsync(int grapperId)
+        public async Task<List<JBGeneralDto>> GetListJBAsync(string grapperId)
         {
             try
             {
@@ -65,7 +65,7 @@ namespace ApplicationLayer.UseCases
                 throw new ApplicationException("Failed to get JB list", ex);
             }
         }
-        public async Task<JBResponseDto> GetJBByIdAsync(int JBId)
+        public async Task<JBResponseDto> GetJBByIdAsync(string JBId)
         {
             try
             {
@@ -92,7 +92,7 @@ namespace ApplicationLayer.UseCases
                 throw new ApplicationException("Failed to get JB", ex); // Bao bọc lỗi từ Repository
             }
         }
-        public async Task<bool> CreateNewJBAsync(int grapperId, JBRequestDto requestDto)
+        public async Task<bool> CreateNewJBAsync(string grapperId, JBRequestDto requestDto)
         {
             try
             {
@@ -126,7 +126,7 @@ namespace ApplicationLayer.UseCases
                 throw new ApplicationException("Failed to create JB", ex); // Bao bọc lỗi từ Repository
             }
         }
-        public async Task<bool> UpdateJBAsync(int JBId, JBRequestDto requestDto)
+        public async Task<bool> UpdateJBAsync(string JBId, JBRequestDto requestDto)
         {
             try
             {
@@ -160,7 +160,7 @@ namespace ApplicationLayer.UseCases
                 throw new ApplicationException("Failed to create JB", ex); // Bao bọc lỗi từ Repository
             }
         }
-        public async Task<bool> DeleteJBAsync(int JBId)
+        public async Task<bool> DeleteJBAsync(string JBId)
         {
             try
             {

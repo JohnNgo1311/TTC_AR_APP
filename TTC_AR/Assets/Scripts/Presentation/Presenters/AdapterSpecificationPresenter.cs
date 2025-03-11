@@ -17,7 +17,7 @@ public class AdapterSpecificationPresenter
         _service = service;
     }
 
-    public async void LoadListAdapterSpecification(int companyId)
+    public async void LoadListAdapterSpecification(string companyId)
     {
         GlobalVariable.APIRequestType = "GET_AdapterSpecification_List";
         _view.ShowLoading();
@@ -56,7 +56,7 @@ public class AdapterSpecificationPresenter
         }
     }
 
-    public async void LoadDetailById(int adapterId)
+    public async void LoadDetailById(string adapterId)
     {
         GlobalVariable.APIRequestType = "GET_AdapterSpecification";
         _view.ShowLoading();
@@ -83,7 +83,7 @@ public class AdapterSpecificationPresenter
             _view.HideLoading();
         }
     }
-    public async void CreateNewAdapterSpecification(int companyId, AdapterSpecificationModel model)
+    public async void CreateNewAdapterSpecification(string companyId, AdapterSpecificationModel model)
     {
         GlobalVariable.APIRequestType = "POST_AdapterSpecification";
         _view.ShowLoading();
@@ -112,7 +112,7 @@ public class AdapterSpecificationPresenter
     }
 
 
-    public async void UpdateAdapterSpecification(int adapterSpecificationId, AdapterSpecificationModel model)
+    public async void UpdateAdapterSpecification(string adapterSpecificationId, AdapterSpecificationModel model)
     {
         GlobalVariable.APIRequestType = "PUT_AdapterSpecification";
         _view.ShowLoading();
@@ -138,7 +138,7 @@ public class AdapterSpecificationPresenter
             _view.HideLoading();
         }
     }
-    public async void DeleteAdapterSpecification(int adapterSpecificationId)
+    public async void DeleteAdapterSpecification(string adapterSpecificationId)
     {
         GlobalVariable.APIRequestType = "DELETE_AdapterSpecification";
         _view.ShowLoading();
@@ -170,7 +170,7 @@ public class AdapterSpecificationPresenter
     private AdapterSpecificationModel ConvertFromResponseDto(AdapterSpecificationResponseDto dto)
     {
         return new AdapterSpecificationModel(
-            id: int.Parse(dto.Id),
+            id: dto.Id,
             code: dto.Code,
             type: dto.Type,
             communication: dto.Communication,
@@ -187,7 +187,7 @@ public class AdapterSpecificationPresenter
     private AdapterSpecificationModel ConvertFromBasicDto(AdapterSpecificationBasicDto dto)
     {
         return new AdapterSpecificationModel(
-            id: int.Parse(dto.Id),
+            id: dto.Id,
             code: dto.Code
         );
     }

@@ -7,7 +7,7 @@ using UnityEngine.Scripting;
 public class ImageInformationModel
 {
   [JsonProperty("Id")]
-  public int Id { get; set; }
+  public string Id { get; set; }
 
   [JsonProperty("Name")]
   public string Name { get; set; }
@@ -16,11 +16,16 @@ public class ImageInformationModel
   public string url { get; set; }
   [Preserve]
 
-  public ImageInformationModel(int id, string name, string url)
+  public ImageInformationModel(string id, string name, string url)
   {
     Id = id;
     Name = name;
     this.url = url;
+  }
+  public ImageInformationModel(string id, string name)
+  {
+    Id = id;
+    Name = name;
   }
 }
 
@@ -29,14 +34,14 @@ public class ImageInformationModel
 public class ImageBasicModel
 {
   [JsonProperty("Id")]
-  public int Id { get; set; }
+  public string Id { get; set; }
 
   [JsonProperty("Name")]
   public string Name { get; set; }
 
   [Preserve]
 
-  public ImageBasicModel(int id, string name)
+  public ImageBasicModel(string id, string name)
   {
     Id = id;
     Name = name;

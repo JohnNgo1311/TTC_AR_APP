@@ -1,69 +1,4 @@
 
-// using System;
-// using System.Collections.Generic;
-// using System.Linq;
-// using Newtonsoft.Json;
-// using UnityEngine.Scripting;
-// #nullable enable
-
-// namespace Domain.Entities
-// {
-//   [Preserve]
-//   public class MccBasicEntity
-//   {
-//     public int Id { get; set; }
-//     public string CabinetCode { get; set; ;
-
-//     [Preserve]
-//     
-//     public MccBasicEntity(string cabinetCode)
-//     {
-//       CabinetCode = string.IsNullOrEmpty(cabinetCode) ? throw new ArgumentNullException(nameof(cabinetCode)) : cabinetCode;
-//     }
-//     [Preserve]
-//     
-//     public MccBasicEntity(int id, string cabinetCode)
-//     {
-//       Id = id;
-//       CabinetCode = string.IsNullOrEmpty(cabinetCode) ? throw new ArgumentNullException(nameof(cabinetCode)) : cabinetCode;
-//     }
-//   }
-
-
-
-//   [Preserve]
-//   public class MccEntity
-//   {
-//     public int Id { get; set; }
-//     public string CabinetCode { get; set; ;
-//     public string Brand { get; set; ;
-//     public List<FieldDeviceEntity> FieldDeviceEntities { get; set; } = new();
-//     public string Note { get; set; ;
-
-//     [Preserve]
-//     
-//     public MccEntity(string cabinetCode)
-//     {
-//       CabinetCode = string.IsNullOrEmpty(cabinetCode) ? throw new ArgumentNullException(nameof(cabinetCode)) : cabinetCode;
-//     }
-//     [Preserve]
-//     
-//     public MccEntity(int id, string cabinetCode)
-//     {
-//       Id = id;
-//       CabinetCode = string.IsNullOrEmpty(cabinetCode) ? throw new ArgumentNullException(nameof(cabinetCode)) : cabinetCode;
-//     }
-//     public MccEntity(int id, string cabinetCode, string? brand, List<FieldDeviceEntity> fieldDeviceEntities, string? note)
-//     {
-//       Id = id;
-//       CabinetCode = string.IsNullOrEmpty(cabinetCode) ? throw new ArgumentNullException(nameof(cabinetCode)) : cabinetCode;
-//       Brand = string.IsNullOrEmpty(brand : brand;
-//       FieldDeviceEntities = !fieldDeviceEntities.Any() ? new List<FieldDeviceEntity>() : fieldDeviceEntities;
-//       Note = string.IsNullOrEmpty(note : note;
-//     }
-//   }
-// }
-
 using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
@@ -75,7 +10,7 @@ namespace Domain.Entities
   public class MccEntity
   {
     [JsonProperty("Id")]
-    public int Id { get; set; }
+    public string Id { get; set; } = string.Empty;
 
     [JsonProperty("CabinetCode")]
     public string CabinetCode { get; set; } = string.Empty;
@@ -163,7 +98,7 @@ namespace Domain.Entities
     }
 
     [Preserve]
-    public MccEntity(int id, string cabinetCode, List<FieldDeviceEntity>? fieldDeviceEntities, string? brand, string? note)
+    public MccEntity(string id, string cabinetCode, List<FieldDeviceEntity>? fieldDeviceEntities, string? brand, string? note)
     {
       Id = id;
       CabinetCode = string.IsNullOrEmpty(cabinetCode) ? throw new ArgumentNullException(nameof(cabinetCode)) : cabinetCode;

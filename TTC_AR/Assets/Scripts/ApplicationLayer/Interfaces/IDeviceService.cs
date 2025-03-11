@@ -10,10 +10,10 @@ namespace ApplicationLayer.Interfaces
 
     {
         //! Tham số là Dto, Dữ liệu trả về là Dto
-        Task<DeviceResponseDto> GetDeviceByIdAsync(int deviceId);
-        Task<List<DeviceResponseDto>> GetListDeviceAsync(int grapperId);
-        Task<bool> CreateNewDeviceAsync(int grapperId, DeviceRequestDto deviceRequestDto);
-        Task<bool> UpdateDeviceAsync(int deviceId, DeviceRequestDto deviceRequestDto);
-        Task<bool> DeleteDeviceAsync(int deviceId);
+        Task<DeviceResponseDto> GetDeviceByIdAsync(string deviceId);
+        Task<List<DeviceResponseDto>> GetListDeviceAsync(string grapperId);
+        Task<bool> CreateNewDeviceAsync(string grapperId, DeviceRequestDto deviceRequestDto);
+        Task<bool> UpdateDeviceAsync(string deviceId, DeviceRequestDto deviceRequestDto);
+        Task<bool> DeleteDeviceAsync(string deviceId);
     }
 }

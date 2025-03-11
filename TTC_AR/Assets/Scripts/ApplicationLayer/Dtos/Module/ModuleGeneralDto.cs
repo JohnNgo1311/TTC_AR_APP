@@ -15,14 +15,14 @@ namespace ApplicationLayer.Dtos.Module
     public class ModuleGeneralDto : ModuleBasicDto //! Để GetModuleGeneral và GetListModuleInformation
     {
         [JsonProperty("Rack")] public RackBasicDto? RackBasicDto { get; set; }
-        [JsonProperty("ListDevices")] public List<DeviceBasicDto>? DeviceBasicDtos { get; set; } 
-        [JsonProperty("ListJBs")] public List<JBBasicDto>? JBBasicDtos { get; set; } 
+        [JsonProperty("ListDevices")] public List<DeviceBasicDto>? DeviceBasicDtos { get; set; }
+        [JsonProperty("ListJBs")] public List<JBBasicDto>? JBBasicDtos { get; set; }
         [JsonProperty("ModuleSpecification")] public ModuleSpecificationBasicDto? ModuleSpecificationBasicDto { get; set; }
         [JsonProperty("AdapterSpecification")] public AdapterSpecificationBasicDto? AdapterSpecificationBasicDto { get; set; }
 
         [Preserve]
 
-        public ModuleGeneralDto(int id, string name, RackBasicDto? rackBasicDto, List<DeviceBasicDto>? deviceBasicDtos, List<JBBasicDto> jBBasicDtos, ModuleSpecificationBasicDto? moduleSpecificationBasicDto, AdapterSpecificationBasicDto? adapterSpecificationBasicDto) : base(id, name)
+        public ModuleGeneralDto(string id, string name, RackBasicDto? rackBasicDto, List<DeviceBasicDto>? deviceBasicDtos, List<JBBasicDto> jBBasicDtos, ModuleSpecificationBasicDto? moduleSpecificationBasicDto, AdapterSpecificationBasicDto? adapterSpecificationBasicDto) : base(id, name)
         {
             RackBasicDto = rackBasicDto;
             DeviceBasicDtos = deviceBasicDtos;

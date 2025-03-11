@@ -13,9 +13,6 @@ namespace ApplicationLayer.Dtos.FieldDevice
         [JsonProperty("Name")]
         public string Name { get; set; }
 
-        // [JsonProperty("Mcc")]
-        // public MccBasicDto MccBasicDto { get; set; }
-
         [JsonProperty("RatedPower")]
         public string? RatedPower { get; set; }
 
@@ -36,7 +33,6 @@ namespace ApplicationLayer.Dtos.FieldDevice
         public FieldDeviceRequestDto(string? name, string? ratedPower, string? ratedCurrent, string? activeCurrent, List<ImageBasicDto>? connectionImageBasicDtos, string? note)
         {
             Name = string.IsNullOrEmpty(name) ? throw new ArgumentNullException(nameof(name)) : name;
-            // MccBasicDto = mccBasicDto ?? throw new ArgumentNullException(nameof(mccBasicDto));
             RatedPower = ratedPower;
             RatedCurrent = ratedCurrent;
             ActiveCurrent = activeCurrent;

@@ -24,6 +24,7 @@ public class ServiceLocator
     private readonly IFieldDeviceService _fieldDeviceService;
     private readonly IAdapterSpecificationService _adapterSpecificationService;
     private readonly IModuleSpecificationService _moduleSpecificationService;
+    private readonly IImageService _imageService;
 
     //! Khởi tạo Dependencies trong Constructor
     private ServiceLocator()
@@ -77,6 +78,12 @@ public class ServiceLocator
             new AdapterSpecificationUseCase(adapterSpecificationRepository)
         );
 
+        IImageRepository imageRepository = new ImageRepository(httpClient);
+        _imageService = new ImageService(
+            new ImageUseCase(imageRepository)
+        );
+
+
     }
 
     //? Cung cấp các getter để các script truy cập service thông qua ServiceLocator.Instance.JBService.
@@ -90,6 +97,7 @@ public class ServiceLocator
     public IFieldDeviceService FieldDeviceService => _fieldDeviceService;
     public IAdapterSpecificationService AdapterSpecificationService => _adapterSpecificationService;
     public IModuleSpecificationService ModuleSpecificationService => _moduleSpecificationService;
+    public IImageService ImageService => _imageService;
 
 
 }

@@ -11,9 +11,9 @@ using System.Threading;
 using UnityEngine.SceneManagement;
 using System.Linq;
 using System.Net.Http;
-using ApplicationLayer.Interfaces;
 using ApplicationLayer.Dtos;
 using ApplicationLayer.Dtos.Rack;
+using ApplicationLayer.Interfaces;
 
 public class RackManager : MonoBehaviour
 {
@@ -32,7 +32,7 @@ public class RackManager : MonoBehaviour
         //! Dependency Injection
         _IRackService = ServiceLocator.Instance.RackService;
     }
-    public async void GetRackList(int RackId)
+    public async void GetRackList(string RackId)
     {
         try
         {
@@ -67,7 +67,7 @@ public class RackManager : MonoBehaviour
         }
     }
 
-    public async void GetRackById(int RackId)
+    public async void GetRackById(string RackId)
     {
         try
         {
@@ -103,7 +103,7 @@ public class RackManager : MonoBehaviour
         }
     }
 
-    public async void CreateNewRack(int RackId, RackRequestDto RackRequestDto)
+    public async void CreateNewRack(string RackId, RackRequestDto RackRequestDto)
     {
         try
         {
@@ -132,7 +132,7 @@ public class RackManager : MonoBehaviour
 
         }
     }
-    public async void UpdateRack(int RackId, RackRequestDto RackRequestDto)
+    public async void UpdateRack(string RackId, RackRequestDto RackRequestDto)
     {
         RackId = GlobalVariable.RackId;
         try
@@ -160,7 +160,7 @@ public class RackManager : MonoBehaviour
 
         }
     }
-    public async void DeleteRack(int RackId)
+    public async void DeleteRack(string RackId)
     {
         RackId = GlobalVariable.RackId;
         try

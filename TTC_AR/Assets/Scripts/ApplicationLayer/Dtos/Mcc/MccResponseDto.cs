@@ -21,7 +21,7 @@ namespace ApplicationLayer.Dtos.Mcc
 
         [Preserve]
 
-        public MccResponseDto(int id, string cabinetCode, string? brand, List<FieldDeviceBasicDto>? fieldDeviceBasicDtos, string? note) : base(id, cabinetCode)
+        public MccResponseDto(string id, string cabinetCode, string? brand, List<FieldDeviceBasicDto>? fieldDeviceBasicDtos, string? note) : base(id, cabinetCode)
         {
             Brand = brand;
             FieldDeviceBasicDtos = fieldDeviceBasicDtos;

@@ -14,23 +14,22 @@ namespace ApplicationLayer.Dtos.FieldDevice
         public MccBasicDto? Mcc { get; set; }
 
         [JsonProperty("RatedPower")]
-        public string RatedPower { get; set; } = string.Empty;
+        public string? RatedPower { get; set; }
 
         [JsonProperty("RatedCurrent")]
-        public string RatedCurrent { get; set; } = string.Empty;
+        public string? RatedCurrent { get; set; }
 
         [JsonProperty("ActiveCurrent")]
-        public string ActiveCurrent { get; set; } = string.Empty;
+        public string? ActiveCurrent { get; set; }
 
         [JsonProperty("ListConnectionImages")]
-        public List<ImageResponseDto>? ConnectionImages { get; set; } = new List<ImageResponseDto>();
+        public List<ImageResponseDto>? ConnectionImages { get; set; }
 
         [JsonProperty("Note")]
-        public string Note { get; set; } = string.Empty;
-
+        public string? Note { get; set; }
         [Preserve]
 
-        public FieldDeviceResponseDto(int id, string name, MccBasicDto? mcc, string ratedPower, string ratedCurrent, string activeCurrent, List<ImageResponseDto>? connectionImages, string note) : base(id, name)
+        public FieldDeviceResponseDto(string id, string? name, MccBasicDto? mcc, string? ratedPower, string? ratedCurrent, string? activeCurrent, List<ImageResponseDto>? connectionImages, string? note) : base(id, name)
         {
             Mcc = mcc ?? throw new ArgumentNullException(nameof(mcc));
             RatedPower = ratedPower;

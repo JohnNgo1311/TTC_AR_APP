@@ -8,14 +8,14 @@ namespace ApplicationLayer.Dtos.Image
     public class ImageBasicDto
     {
         [JsonProperty("Id")]
-        public int Id { get; set; }
+        public string Id { get; set; }
 
         [JsonProperty("Name")]
         public string Name { get; set; }
 
         [Preserve]
 
-        public ImageBasicDto(int id, string name)
+        public ImageBasicDto(string id, string name)
         {
             Id = id;
             Name = string.IsNullOrEmpty(name) ? throw new ArgumentNullException(nameof(name)) : name;

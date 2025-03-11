@@ -17,6 +17,7 @@ public class ManagerLocator : MonoBehaviour
     public FieldDeviceManager FieldDeviceManager { get; private set; }
     public ModuleSpecificationManager ModuleSpecificationManager { get; private set; }
     public AdapterSpecificationManager adapterSpecificationManager { get; private set; }
+    public ImageManager ImageManager { get; private set; }
 
     void Awake()
     {
@@ -33,6 +34,7 @@ public class ManagerLocator : MonoBehaviour
             FieldDeviceManager = gameObject.AddComponent<FieldDeviceManager>();
             ModuleSpecificationManager = gameObject.AddComponent<ModuleSpecificationManager>();
             adapterSpecificationManager = gameObject.AddComponent<AdapterSpecificationManager>();
+            ImageManager = gameObject.AddComponent<ImageManager>();
             DontDestroyOnLoad(gameObject);
         }
         else

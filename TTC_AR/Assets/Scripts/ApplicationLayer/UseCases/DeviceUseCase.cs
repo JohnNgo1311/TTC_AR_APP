@@ -21,7 +21,7 @@ namespace ApplicationLayer.UseCases
             _IDeviceRepository = deviceEntityRepository;
         }
         #region  GET List Device
-        public async Task<List<DeviceResponseDto>> GetListDeviceAsync(int grapperId)
+        public async Task<List<DeviceResponseDto>> GetListDeviceAsync(string grapperId)
         {
             try
             {
@@ -52,7 +52,7 @@ namespace ApplicationLayer.UseCases
         #endregion
 
         #region GET Specific Device
-        public async Task<DeviceResponseDto> GetDeviceByIdAsync(int DeviceId)
+        public async Task<DeviceResponseDto> GetDeviceByIdAsync(string DeviceId)
         {
             try
             {
@@ -80,7 +80,7 @@ namespace ApplicationLayer.UseCases
         #endregion
 
         #region POST New Device
-        public async Task<bool> CreateNewDeviceAsync(int grapperId, DeviceRequestDto requestDto)
+        public async Task<bool> CreateNewDeviceAsync(string grapperId, DeviceRequestDto requestDto)
         {
             try
             {
@@ -124,7 +124,7 @@ namespace ApplicationLayer.UseCases
         #endregion
 
         #region PUT Device
-        public async Task<bool> UpdateDeviceAsync(int deviceId, DeviceRequestDto requestDto)
+        public async Task<bool> UpdateDeviceAsync(string deviceId, DeviceRequestDto requestDto)
         {
             deviceId = GlobalVariable.DeviceId;
             try
@@ -167,7 +167,7 @@ namespace ApplicationLayer.UseCases
         }
         #endregion
         #region  DELETE Device
-        public async Task<bool> DeleteDeviceAsync(int deviceId)
+        public async Task<bool> DeleteDeviceAsync(string deviceId)
         {
             deviceId = GlobalVariable.DeviceId;
             try

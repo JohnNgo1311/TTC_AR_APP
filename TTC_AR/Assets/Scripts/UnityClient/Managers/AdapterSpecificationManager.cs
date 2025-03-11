@@ -22,7 +22,7 @@ public class AdapterSpecificationManager : MonoBehaviour
         //! Dependency Injection
         _IAdapterSpecificationService = ServiceLocator.Instance.AdapterSpecificationService;
     }
-    public async void GetAdapterSpecificationList(int companyId)
+    public async void GetAdapterSpecificationList(string companyId)
     {
         try
         {
@@ -92,7 +92,7 @@ public class AdapterSpecificationManager : MonoBehaviour
         }
     }
 
-    public async void CreateNewAdapterSpecification(int companyId, AdapterSpecificationRequestDto AdapterSpecificationRequestDto)
+    public async void CreateNewAdapterSpecification(string companyId, AdapterSpecificationRequestDto AdapterSpecificationRequestDto)
     {
         try
         {
@@ -121,7 +121,7 @@ public class AdapterSpecificationManager : MonoBehaviour
 
         }
     }
-    public async void UpdateAdapterSpecification(int adapterSpecificationId, AdapterSpecificationRequestDto AdapterSpecificationRequestDto)
+    public async void UpdateAdapterSpecification(string adapterSpecificationId, AdapterSpecificationRequestDto AdapterSpecificationRequestDto)
     {
         try
         {
@@ -148,7 +148,7 @@ public class AdapterSpecificationManager : MonoBehaviour
 
         }
     }
-    public async void DeleteAdapterSpecification(int AdapterSpecificationId)
+    public async void DeleteAdapterSpecification(string AdapterSpecificationId)
     {
         try
         {

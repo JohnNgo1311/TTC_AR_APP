@@ -1,5 +1,4 @@
 using Domain.Entities;
-using Domain.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -10,6 +9,7 @@ using UnityEngine.Networking;
 using System.Linq;
 using ApplicationLayer.Dtos;
 using ApplicationLayer.Dtos.AdapterSpecification;
+using Domain.Interfaces;
 
 namespace Infrastructure.Repositories
 {
@@ -59,7 +59,7 @@ namespace Infrastructure.Repositories
         }
 
         //! Trả về List<Entity>
-        public async Task<List<AdapterSpecificationEntity>> GetListAdapterSpecificationAsync(int companyId)
+        public async Task<List<AdapterSpecificationEntity>> GetListAdapterSpecificationAsync(string companyId)
         {
             try
             {
@@ -84,7 +84,7 @@ namespace Infrastructure.Repositories
             }
         }
 
-        public async Task<bool> CreateNewAdapterSpecificationAsync(int companyId, AdapterSpecificationEntity adapterSpecificationEntity)
+        public async Task<bool> CreateNewAdapterSpecificationAsync(string companyId, AdapterSpecificationEntity adapterSpecificationEntity)
         {
             try
             {
@@ -118,7 +118,7 @@ namespace Infrastructure.Repositories
         }
 
 
-        public async Task<bool> UpdateAdapterSpecificationAsync(int adapterSpecificationId, AdapterSpecificationEntity adapterSpecificationEntity)
+        public async Task<bool> UpdateAdapterSpecificationAsync(string adapterSpecificationId, AdapterSpecificationEntity adapterSpecificationEntity)
         {
             try
             {
@@ -150,7 +150,7 @@ namespace Infrastructure.Repositories
             }
         }
 
-        public async Task<bool> DeleteAdapterSpecificationAsync(int adapterSpecificationId)
+        public async Task<bool> DeleteAdapterSpecificationAsync(string adapterSpecificationId)
         {
             try
             {

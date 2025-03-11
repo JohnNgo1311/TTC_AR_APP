@@ -1,5 +1,4 @@
 using Domain.Entities;
-using Domain.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -7,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using ApplicationLayer.Dtos.Module;
+using Domain.Interfaces;
 
 
 namespace Infrastructure.Repositories
@@ -25,7 +25,7 @@ namespace Infrastructure.Repositories
         }
 
         //! TRả về ModuleResponseDto do kết quả server trả chỉ là một tập hợp con của Entity
-        public async Task<ModuleEntity> GetModuleByIdAsync(int ModuleId)
+        public async Task<ModuleEntity> GetModuleByIdAsync(string ModuleId)
         {
             try
             {
@@ -52,7 +52,7 @@ namespace Infrastructure.Repositories
         }
 
         //! Trả về List<ModuleGeneralDto> do kết quả server trả chỉ là một tập hợp con của Entity
-        public async Task<List<ModuleEntity>> GetListModuleAsync(int grapperId)
+        public async Task<List<ModuleEntity>> GetListModuleAsync(string grapperId)
         {
             try
             {
@@ -76,7 +76,7 @@ namespace Infrastructure.Repositories
             }
         }
 
-        public async Task<bool> CreateNewModuleAsync(int grapperId, ModuleEntity requestData)
+        public async Task<bool> CreateNewModuleAsync(string grapperId, ModuleEntity requestData)
         {
             try
             {
@@ -104,7 +104,7 @@ namespace Infrastructure.Repositories
             }
         }
 
-        public async Task<bool> UpdateModuleAsync(int ModuleId, ModuleEntity requestData)
+        public async Task<bool> UpdateModuleAsync(string ModuleId, ModuleEntity requestData)
         {
             try
             {
@@ -129,7 +129,7 @@ namespace Infrastructure.Repositories
             }
         }
 
-        public async Task<bool> DeleteModuleAsync(int ModuleId)
+        public async Task<bool> DeleteModuleAsync(string ModuleId)
         {
             try
             {

@@ -1,5 +1,4 @@
 using Domain.Entities;
-using Domain.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -10,6 +9,7 @@ using UnityEngine.Networking;
 using System.Linq;
 using ApplicationLayer.Dtos;
 using ApplicationLayer.Dtos.ModuleSpecification;
+using Domain.Interfaces;
 
 namespace Infrastructure.Repositories
 {
@@ -55,7 +55,7 @@ namespace Infrastructure.Repositories
         }
 
         //! Trả về List<Entity> do kết quả server trả về hoàn toàn giống hoặc gần giống với Entity
-        public async Task<List<ModuleSpecificationEntity>> GetListModuleSpecificationAsync(int companyId)
+        public async Task<List<ModuleSpecificationEntity>> GetListModuleSpecificationAsync(string companyId)
         {
             try
             {
@@ -80,7 +80,7 @@ namespace Infrastructure.Repositories
             }
         }
 
-        public async Task<bool> CreateNewModuleSpecificationAsync(int companyId, ModuleSpecificationEntity moduleSpecificationEntity)
+        public async Task<bool> CreateNewModuleSpecificationAsync(string companyId, ModuleSpecificationEntity moduleSpecificationEntity)
         {
             try
             {
@@ -104,7 +104,7 @@ namespace Infrastructure.Repositories
             }
         }
 
-        public async Task<bool> UpdateModuleSpecificationAsync(int ModuleSpecificationId, ModuleSpecificationEntity moduleSpecificationEntity)
+        public async Task<bool> UpdateModuleSpecificationAsync(string ModuleSpecificationId, ModuleSpecificationEntity moduleSpecificationEntity)
         {
             try
             {
@@ -128,7 +128,7 @@ namespace Infrastructure.Repositories
             }
         }
 
-        public async Task<bool> DeleteModuleSpecificationAsync(int ModuleSpecificationId)
+        public async Task<bool> DeleteModuleSpecificationAsync(string ModuleSpecificationId)
         {
             try
             {

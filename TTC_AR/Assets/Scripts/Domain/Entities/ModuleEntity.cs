@@ -12,7 +12,7 @@ namespace Domain.Entities
   public class ModuleEntity
   {
     [JsonProperty("Id")]
-    public int Id { get; set; } // non-nullable
+    public string Id { get; set; } = string.Empty; // non-nullable
 
     [JsonProperty("Name")]
     public string Name { get; set; } = string.Empty; // non-nullable
@@ -117,7 +117,7 @@ namespace Domain.Entities
 
 
     [Preserve]
-    public ModuleEntity(int id, string name)
+    public ModuleEntity(string id, string name)
     {
       Id = id;
       Name = string.IsNullOrEmpty(name) ? throw new ArgumentNullException(nameof(name)) : name;
@@ -136,7 +136,7 @@ namespace Domain.Entities
     }
 
     [Preserve]
-    public ModuleEntity(int id, string name, RackEntity rack, List<DeviceEntity> deviceEntities, List<JBEntity> jbEntities, ModuleSpecificationEntity moduleSpecificationEntity, AdapterSpecificationEntity adapterSpecificationEntity)
+    public ModuleEntity(string id, string name, RackEntity rack, List<DeviceEntity> deviceEntities, List<JBEntity> jbEntities, ModuleSpecificationEntity moduleSpecificationEntity, AdapterSpecificationEntity adapterSpecificationEntity)
     {
       Id = id;
 

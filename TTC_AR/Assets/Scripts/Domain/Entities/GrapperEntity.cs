@@ -10,7 +10,7 @@ namespace Domain.Entities
   public class GrapperEntity
   {
     [JsonProperty("Id")]
-    public int Id { get; set; }
+    public string Id { get; set; } = string.Empty;
 
     [JsonProperty("Name")]
     public string Name { get; set; } = string.Empty;
@@ -116,7 +116,7 @@ namespace Domain.Entities
 
 
     [Preserve]
-    public GrapperEntity(int id, string name)
+    public GrapperEntity(string id, string name)
     {
       Id = id;
       Name = string.IsNullOrEmpty(name) ? throw new ArgumentNullException(nameof(name)) : name;
@@ -131,7 +131,7 @@ namespace Domain.Entities
     }
 
     [Preserve]
-    public GrapperEntity(int id, string name, List<RackEntity>? rackEntities, List<ModuleEntity>? moduleEntities, List<DeviceEntity>? deviceEntities, List<JBEntity>? jbEntities, List<MccEntity>? mccEntities, List<FieldDeviceEntity>? fieldDeviceEntities)
+    public GrapperEntity(string id, string name, List<RackEntity>? rackEntities, List<ModuleEntity>? moduleEntities, List<DeviceEntity>? deviceEntities, List<JBEntity>? jbEntities, List<MccEntity>? mccEntities, List<FieldDeviceEntity>? fieldDeviceEntities)
     {
       Id = id;
       Name = string.IsNullOrEmpty(name) ? throw new ArgumentNullException(nameof(name)) : name;
@@ -162,7 +162,7 @@ namespace Domain.Entities
       FieldDeviceEntities = (fieldDeviceEntities == null || (fieldDeviceEntities != null && fieldDeviceEntities.Count <= 0))
       ? new List<FieldDeviceEntity>() : fieldDeviceEntities;
     }
-    // public GrapperEntity(int id, string name, List<RackEntity> rackEntities, List<DeviceEntity> deviceEntities, List<JBEntity> jbEntities, List<MccEntity> mccEntities, List<ModuleSpecificationEntity> moduleSpecificationEntities, List<AdapterSpecificationEntity> adapterSpecificationEntities)
+    // public GrapperEntity(string id, string name, List<RackEntity> rackEntities, List<DeviceEntity> deviceEntities, List<JBEntity> jbEntities, List<MccEntity> mccEntities, List<ModuleSpecificationEntity> moduleSpecificationEntities, List<AdapterSpecificationEntity> adapterSpecificationEntities)
     // {
     //   if (string.IsNullOrWhiteSpace(name)) throw new ArgumentException("Name is required.", nameof(name));
     //   Id = id;

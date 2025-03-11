@@ -24,7 +24,7 @@ namespace ApplicationLayer.Dtos.Module
 
         [Preserve]
 
-        public ModuleResponseDto(int id, string name, RackBasicDto rackBasicDto, List<DeviceBasicDto> deviceBasicDtos, List<JBBasicDto> jbBasicDtos, ModuleSpecificationResponseDto? moduleSpecificationResponseDto, AdapterSpecificationResponseDto? adapterSpecificationResponseDto) : base(id, name)
+        public ModuleResponseDto(string id, string name, RackBasicDto rackBasicDto, List<DeviceBasicDto> deviceBasicDtos, List<JBBasicDto> jbBasicDtos, ModuleSpecificationResponseDto? moduleSpecificationResponseDto, AdapterSpecificationResponseDto? adapterSpecificationResponseDto) : base(id, name)
         {
             RackBasicDto = rackBasicDto;
             DeviceBasicDtos = deviceBasicDtos;

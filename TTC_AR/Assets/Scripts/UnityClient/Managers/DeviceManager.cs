@@ -9,12 +9,11 @@ using UnityEngine.UI;
 using UnityEngine.Networking;
 using System.Threading;
 using UnityEngine.SceneManagement;
-using PimDeWitte.UnityMainThreadDispatcher;
 using System.Linq;
 using System.Net.Http;
-using ApplicationLayer.Interfaces;
 using ApplicationLayer.Dtos;
 using ApplicationLayer.Dtos.Device;
+using ApplicationLayer.Interfaces;
 public class DeviceManager : MonoBehaviour
 {
 
@@ -32,7 +31,7 @@ public class DeviceManager : MonoBehaviour
         //! Dependency Injection
         _IDeviceService = ServiceLocator.Instance.DeviceService;
     }
-    public async void GetDeviceList(int grapperId)
+    public async void GetDeviceList(string grapperId)
     {
         try
         {
@@ -67,11 +66,11 @@ public class DeviceManager : MonoBehaviour
         }
     }
 
-    public async void GetDeviceById(int DeviceId)
+    public async void GetDeviceById(string DeviceId)
     {
         try
         {
-            var Device = await _IDeviceService.GetDeviceByIdAsync(DeviceId); // Gọi Service
+            var Device = await _IDeviceService.GetDeviceByIdAsync(DeviceId.ToString()); // Gọi Service
             if (Device != null)
             {
                 Debug.Log($"Device: {Device.Code}");
@@ -102,7 +101,7 @@ public class DeviceManager : MonoBehaviour
         }
     }
 
-    public async void CreateNewDevice(int grapperId, DeviceRequestDto DeviceRequestDto)
+    public async void CreateNewDevice(string grapperId, DeviceRequestDto DeviceRequestDto)
     {
         try
         {
@@ -131,7 +130,7 @@ public class DeviceManager : MonoBehaviour
 
         }
     }
-    public async void UpdateDevice(int deviceId, DeviceRequestDto DeviceRequestDto)
+    public async void UpdateDevice(string deviceId, DeviceRequestDto DeviceRequestDto)
     {
         deviceId = GlobalVariable.DeviceId;
         try
@@ -159,7 +158,7 @@ public class DeviceManager : MonoBehaviour
 
         }
     }
-    public async void DeleteDevice(int deviceId)
+    public async void DeleteDevice(string deviceId)
     {
         deviceId = GlobalVariable.DeviceId;
         try

@@ -18,7 +18,7 @@ public class ModuleSpecificationPresenter
         _service = service;
     }
 
-    public async void LoadListModuleSpecification(int companyId)
+    public async void LoadListModuleSpecification(string companyId)
     {
         GlobalVariable.APIRequestType = "GET_ModuleSpecification_List";
         _view.ShowLoading();
@@ -58,7 +58,7 @@ public class ModuleSpecificationPresenter
         }
     }
 
-    public async void LoadDetailById(int ModuleId)
+    public async void LoadDetailById(string ModuleId)
     {
         GlobalVariable.APIRequestType = "GET_ModuleSpecification";
         _view.ShowLoading();
@@ -85,7 +85,7 @@ public class ModuleSpecificationPresenter
             _view.HideLoading();
         }
     }
-    public async void CreateNewModuleSpecification(int companyId, ModuleSpecificationModel model)
+    public async void CreateNewModuleSpecification(string companyId, ModuleSpecificationModel model)
     {
         GlobalVariable.APIRequestType = "POST_ModuleSpecification";
         _view.ShowLoading();
@@ -114,7 +114,7 @@ public class ModuleSpecificationPresenter
     }
 
 
-    public async void UpdateModuleSpecification(int ModuleSpecificationId, ModuleSpecificationModel model)
+    public async void UpdateModuleSpecification(string ModuleSpecificationId, ModuleSpecificationModel model)
     {
         GlobalVariable.APIRequestType = "PUT_ModuleSpecification";
         _view.ShowLoading();
@@ -140,7 +140,7 @@ public class ModuleSpecificationPresenter
             _view.HideLoading();
         }
     }
-    public async void DeleteModuleSpecification(int ModuleSpecificationId)
+    public async void DeleteModuleSpecification(string ModuleSpecificationId)
     {
         GlobalVariable.APIRequestType = "DELETE_ModuleSpecification";
         _view.ShowLoading();
@@ -172,7 +172,7 @@ public class ModuleSpecificationPresenter
     private ModuleSpecificationModel ConvertFromResponseDto(ModuleSpecificationResponseDto dto)
     {
         return new ModuleSpecificationModel(
-            id: int.Parse(dto.Id),
+            id: dto.Id,
             code: dto.Code,
             type: dto.Type,
             compatibleTBUs: dto.CompatibleTBUs,
@@ -189,7 +189,7 @@ public class ModuleSpecificationPresenter
     private ModuleSpecificationModel ConvertFromBasicDto(ModuleSpecificationBasicDto dto)
     {
         return new ModuleSpecificationModel(
-            id: int.Parse(dto.Id),
+            id: dto.Id,
             code: dto.Code
         );
     }
