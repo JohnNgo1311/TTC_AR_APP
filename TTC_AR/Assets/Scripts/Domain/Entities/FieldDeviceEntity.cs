@@ -41,15 +41,15 @@ namespace Domain.Entities
     public string? Note { get; set; } = string.Empty;
 
 
-    public bool ShouldSerializeId()
-    {
-      string apiRequestType = GlobalVariable.APIRequestType;
-      HashSet<string> allowedRequests = new HashSet<string>
-      {
-        HttpMethodTypeEnum.PUTFieldDevice.GetDescription(),
-      };
-      return !allowedRequests.Contains(apiRequestType);
-    }
+    // public bool ShouldSerializeId()
+    // {
+    //   string apiRequestType = GlobalVariable.APIRequestType;
+    //   HashSet<string> allowedRequests = new HashSet<string>
+    //   {
+    //     HttpMethodTypeEnum.PUTFieldDevice.GetDescription(),        
+    //   };
+    //   return !allowedRequests.Contains(apiRequestType);
+    // }
 
     public bool ShouldSerializeMccEntity()
     {

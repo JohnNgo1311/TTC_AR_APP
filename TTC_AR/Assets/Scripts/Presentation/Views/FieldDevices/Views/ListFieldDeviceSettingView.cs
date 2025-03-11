@@ -131,10 +131,11 @@ public class ListFieldDeviceSettingView : MonoBehaviour, IFieldDeviceView
 
         confirmButton.onClick.AddListener(() =>
         {
-            Destroy(FieldDeviceItem);
             listFieldDeviceItems.Remove(FieldDeviceItem);
+            Debug.Log(model.Id);
             _presenter.DeleteFieldDevice(model.Id);
             DialogTwoButton.SetActive(false);
+            Destroy(FieldDeviceItem);
         });
         backButton.onClick.AddListener(() =>
         {

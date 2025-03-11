@@ -85,7 +85,6 @@ namespace ApplicationLayer.UseCases
 
         public async Task<bool> DeleteFieldDeviceAsync(string fieldDeviceId)
         {
-            fieldDeviceId = GlobalVariable.FieldDeviceId;
 
             var deletedEntity = await _fieldDeviceRepository.DeleteFieldDeviceAsync(fieldDeviceId);
 
