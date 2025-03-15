@@ -31,14 +31,14 @@ public class DeviceManager : MonoBehaviour
         //! Dependency Injection
         _IDeviceService = ServiceLocator.Instance.DeviceService;
     }
-    public async void GetDeviceList(string grapperId)
+    public async void GetListDeviceGeneral(string grapperId)
     {
         try
         {
-            var DeviceList = await _IDeviceService.GetListDeviceAsync(grapperId); //! Gọi _IDeviceService từ Application Layer
-            if (DeviceList != null && DeviceList.Count > 0)
+            var deviceBasicDtos = await _IDeviceService.GetListDeviceGeneralAsync(grapperId); //! Gọi _IDeviceService từ Application Layer
+            if (deviceBasicDtos != null && deviceBasicDtos.Count > 0)
             {
-                foreach (var Device in DeviceList)
+                foreach (var Device in deviceBasicDtos)
                     Debug.Log($"Device: {Device.Code}");
             }
             else
@@ -65,6 +65,76 @@ public class DeviceManager : MonoBehaviour
 
         }
     }
+    public async void GetDeviceInformationFromGrapperList(string grapperId)
+    {
+        try
+        {
+            var deviceResponseDtos = await _IDeviceService.GetListDeviceInformationFromGrapperAsync(grapperId); //! Gọi _IDeviceService từ Application Layer
+            if (deviceResponseDtos != null && deviceResponseDtos.Count > 0)
+            {
+                foreach (var Device in deviceResponseDtos)
+                    Debug.Log($"Device: {Device.Code}");
+            }
+            else
+            {
+                Debug.Log("No Devices found");
+            }
+        }
+        catch (ArgumentException ex) // Lỗi validation
+        {
+            Debug.LogError($"Validation error: {ex.Message}");
+            //? hiển thị Dialog hoặc showToast tại đây
+
+        }
+        catch (HttpRequestException ex) // Lỗi mạng/HTTP
+        {
+            Debug.LogError($"Network error: {ex.Message}");
+            //? hiển thị Dialog hoặc showToast tại đây
+
+        }
+        catch (Exception ex) // Lỗi khác
+        {
+            Debug.LogError($"Unexpected error: {ex.Message}");
+            //? hiển thị Dialog hoặc showToast tại đây
+
+        }
+    }
+
+    public async void GetDeviceInformationFromModuleList(string moduleId)
+    {
+        try
+        {
+            var deviceResponseDtos = await _IDeviceService.GetListDeviceInformationFromModuleAsync(moduleId); //! Gọi _IDeviceService từ Application Layer
+            if (deviceResponseDtos != null && deviceResponseDtos.Count > 0)
+            {
+                foreach (var Device in deviceResponseDtos)
+                    Debug.Log($"Device: {Device.Code}");
+            }
+            else
+            {
+                Debug.Log("No Devices found");
+            }
+        }
+        catch (ArgumentException ex) // Lỗi validation
+        {
+            Debug.LogError($"Validation error: {ex.Message}");
+            //? hiển thị Dialog hoặc showToast tại đây
+
+        }
+        catch (HttpRequestException ex) // Lỗi mạng/HTTP
+        {
+            Debug.LogError($"Network error: {ex.Message}");
+            //? hiển thị Dialog hoặc showToast tại đây
+
+        }
+        catch (Exception ex) // Lỗi khác
+        {
+            Debug.LogError($"Unexpected error: {ex.Message}");
+            //? hiển thị Dialog hoặc showToast tại đây
+
+        }
+    }
+
 
     public async void GetDeviceById(string DeviceId)
     {

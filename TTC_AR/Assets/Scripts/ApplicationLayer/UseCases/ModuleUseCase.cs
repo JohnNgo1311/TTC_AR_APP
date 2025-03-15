@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using ApplicationLayer.Dtos;
 using ApplicationLayer.Dtos.AdapterSpecification;
 using ApplicationLayer.Dtos.Device;
+using ApplicationLayer.Dtos.Grapper;
 using ApplicationLayer.Dtos.JB;
 using ApplicationLayer.Dtos.Module;
 using ApplicationLayer.Dtos.ModuleSpecification;
@@ -37,6 +38,8 @@ namespace ApplicationLayer.UseCases
                 else
                 {
                     var moduleBasicDtos = moduleEntities.Select(moduleEntity => MapEntityToBasicDto(moduleEntity)).ToList();
+                    GlobalVariable.temp_List_ModuleInformationModel = moduleBasicDtos.Select(dto => new ModuleInformationModel(dto.Id, dto.Name)).ToList();
+                    GlobalVariable.temp_Dictionary_ModuleInformationModel = moduleBasicDtos.ToDictionary(dto => dto.Name, dto => new ModuleInformationModel(dto.Id, dto.Name));
                     return moduleBasicDtos;
                 }
 
@@ -189,7 +192,9 @@ namespace ApplicationLayer.UseCases
         {
             return new ModuleResponseDto(
             id: moduleEntity.Id,
+
             name: moduleEntity.Name,
+            grapperBasicDto: new GrapperBasicDto(moduleEntity.GrapperEntity.Id, moduleEntity.GrapperEntity.Name),
             rackBasicDto: new RackBasicDto(moduleEntity.RackEntity.Id, moduleEntity.RackEntity.Name),
             deviceBasicDtos: moduleEntity.DeviceEntities.Count > 0 ? moduleEntity.DeviceEntities.Select(d => new DeviceBasicDto(d.Id, d.Code)).ToList() : new List<DeviceBasicDto>(),
             jbBasicDtos: moduleEntity.JBEntities.Count > 0 ? moduleEntity.JBEntities.Select(j => new JBBasicDto(j.Id, j.Name)).ToList() : new List<JBBasicDto>(),

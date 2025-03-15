@@ -176,32 +176,30 @@ public class UpdateAdapterSpecificationSettingView : MonoBehaviour, IAdapterSpec
 
 
 
-    public void ShowLoading() => ShowProgressBar("Loading", "Đang tải dữ liệu...");
+    public void ShowLoading(string title) => ShowProgressBar(title, "Đang tải dữ liệu...");
     public void HideLoading() => HideProgressBar();
     public void ShowError(string message)
     {
-        switch (GlobalVariable.APIRequestType)
+        if (GlobalVariable.APIRequestType.Contains("PUT_AdapterSpecification"))
         {
-            case "PUT_AdapterSpecification":
-                OpenErrorUpdateDialog();
-                break;
-            case "GET_AdapterSpecification":
-                OpenErrorGetByIdDialog();
-                break;
+            OpenErrorUpdateDialog();
+        }
+        if (GlobalVariable.APIRequestType.Contains("GET_AdapterSpecification"))
+        {
+            OpenErrorGetByIdDialog();
         }
     }
     public void ShowSuccess()
     {
         Show_Toast.Instance.Set_Instance_Status_True();
-        switch (GlobalVariable.APIRequestType)
+        if (GlobalVariable.APIRequestType.Contains("PUT_AdapterSpecification"))
         {
-            case "PUT_AdapterSpecification":
-                Show_Toast.Instance.ShowToast("success", "Cập nhật dữ liệu thành công");
-                OpenSuccessUpdateDialog(_adapterSpecificationModel);
-                break;
-            case "GET_AdapterSpecification":
-                Show_Toast.Instance.ShowToast("success", "Tải dữ liệu thành công");
-                break;
+            Show_Toast.Instance.ShowToast("success", "Cập nhật dữ liệu thành công");
+            OpenSuccessUpdateDialog(_adapterSpecificationModel);
+        }
+        if (GlobalVariable.APIRequestType.Contains("GET_AdapterSpecification"))
+        {
+            Show_Toast.Instance.ShowToast("success", "Tải dữ liệu thành công");
         }
         StartCoroutine(Show_Toast.Instance.Set_Instance_Status_False(1f));
     }

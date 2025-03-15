@@ -21,12 +21,78 @@ namespace ApplicationLayer.UseCases
             _IDeviceRepository = deviceEntityRepository;
         }
         #region  GET List Device
-        public async Task<List<DeviceResponseDto>> GetListDeviceAsync(string grapperId)
+
+
+
+        //! Get List Device General
+        public async Task<List<DeviceBasicDto>> GetListDeviceGeneralAsync(string grapperId)
         {
             try
             {
                 //! Gọi _IDeviceRepository từ Infrastructure Layer
-                var deviceEntities = await _IDeviceRepository.GetListDeviceAsync(grapperId);
+                var deviceEntities = await _IDeviceRepository.GetListDeviceGeneralAsync(grapperId);
+                if (deviceEntities == null)
+                {
+                    throw new ApplicationException("Failed to get Device list");
+                }
+                else
+                {
+                    //! Đưa về Entity để xử lý logic nghiệp vụ 
+                    var deviceBasicDtos = deviceEntities.Select(MapToBasicDto).ToList();
+                    GlobalVariable.temp_List_DeviceInformationModel = deviceBasicDtos.Select(dto => new DeviceInformationModel(dto.Id, dto.Code)).ToList();
+                    GlobalVariable.temp_Dictionary_DeviceInformationModel = deviceBasicDtos.ToDictionary(dto => dto.Code, dto => new DeviceInformationModel(dto.Id, dto.Code));
+                    return deviceBasicDtos;
+                }
+            }
+            catch (ArgumentException)
+            {
+                throw; // Ném lại lỗi validation cho Unity xử lý
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationException("Failed to get Device list", ex); // Bao bọc lỗi từ Repository
+            }
+        }
+
+
+        //! Get List Device Information từ Grapper
+        public async Task<List<DeviceResponseDto>> GetListDeviceInformationFromGrapperAsync(string grapperId)
+        {
+            try
+            {
+                //! Gọi _IDeviceRepository từ Infrastructure Layer
+                var deviceEntities = await _IDeviceRepository.GetListDeviceInformationFromGrapperAsync(grapperId);
+                if (deviceEntities == null)
+                {
+                    throw new ApplicationException("Failed to get Device list");
+                }
+                else
+                {
+                    //! Đưa về Entity để xử lý logic nghiệp vụ 
+                    // var deviceEntities = deviceEntities.Select(MapResponseToEntity).ToList();
+                    var deviceResponseDtos = deviceEntities.Select(MapToResponseDto).ToList();
+                    return deviceResponseDtos;
+                }
+
+            }
+            catch (ArgumentException)
+            {
+                throw; // Ném lại lỗi validation cho Unity xử lý
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationException("Failed to get Device list", ex); // Bao bọc lỗi từ Repository
+            }
+        }
+
+
+        //! Get List Device Information từ Module
+        public async Task<List<DeviceResponseDto>> GetListDeviceInformationFromModuleAsync(string moduleId)
+        {
+            try
+            {
+                //! Gọi _IDeviceRepository từ Infrastructure Layer
+                var deviceEntities = await _IDeviceRepository.GetListDeviceInformationFromModuleAsync(moduleId);
                 if (deviceEntities == null)
                 {
                     throw new ApplicationException("Failed to get Device list");
@@ -222,6 +288,7 @@ namespace ApplicationLayer.UseCases
         // }
 
         //! Entity => Dto
+
         private DeviceResponseDto MapToResponseDto(DeviceEntity deviceEntity)
         {
             return new DeviceResponseDto(
@@ -253,19 +320,12 @@ namespace ApplicationLayer.UseCases
                         url: imageEntity.Url)).ToList()
             );
         }
-        // private DeviceRequestDto MapToRequestDto(DeviceEntity deviceEntity)
-        // {
-        //     return new DeviceRequestDto(
-        //         code: deviceEntity.Code,
-        //         function: deviceEntity.Function,
-        //         range: deviceEntity.Range,
-        //         unit: deviceEntity.Unit,
-        //         ioAddress: deviceEntity.IOAddress,
-        //         moduleBasicDto: new ModuleBasicDto(deviceEntity.ModuleEntity.Id, deviceEntity.ModuleEntity.Name),
-        //         jbBasicDto: new JBBasicDto(deviceEntity.JBEntity.Id, deviceEntity.JBEntity.Name),
-        //         additionalImageBasicDtos: deviceEntity.AdditionalConnectionImageEntities.Select(
-        //             imageEntity => new ImageBasicDto(imageEntity.Id, imageEntity.Name)).ToList()
-        //     );
-        // }
+        private DeviceBasicDto MapToBasicDto(DeviceEntity deviceEntity)
+        {
+            return new DeviceBasicDto(
+                id: deviceEntity.Id,
+                code: deviceEntity.Code
+            );
+        }
     }
 }

@@ -23,123 +23,130 @@ namespace Domain.Entities
     // [JsonProperty("Unit", NullValueHandling = NullValueHandling.Ignore)]
     [JsonProperty("Unit")]
     public string? Unit { get; set; }
-
     // [JsonProperty("IOAddress", NullValueHandling = NullValueHandling.Ignore)]
-
     [JsonProperty("IOAddress")]
     public string? IOAddress { get; set; }
-
     // [JsonProperty("Module", NullValueHandling = NullValueHandling.Ignore)]
-
     [JsonProperty("Module")]
     public ModuleEntity? ModuleEntity { get; set; }
-
     // [JsonProperty("JB",NullValueHandling = NullValueHandling.Ignore)]
-
     [JsonProperty("JB")]
     public JBEntity? JBEntity { get; set; }
-
     // [JsonProperty("AdditionalConnectionImages", NullValueHandling = NullValueHandling.Ignore)]
     [JsonProperty("AdditionalConnectionImages")]
     public List<ImageEntity>? AdditionalConnectionImageEntities { get; set; }
 
     public bool ShouldSerializeId()
     {
-      string apiRequestType = GlobalVariable.APIRequestType;
+      List<string> apiRequestType = GlobalVariable.APIRequestType;
       HashSet<string> allowedRequests = new HashSet<string>
       {
         HttpMethodTypeEnum.POSTDevice.GetDescription(),
         HttpMethodTypeEnum.PUTDevice.GetDescription(),
       };
-      return !allowedRequests.Contains(apiRequestType);
+      return !apiRequestType.Any(request => allowedRequests.Contains(request));
     }
 
     public bool ShouldSerializeFunction()
     {
-      string apiRequestType = GlobalVariable.APIRequestType;
+      List<string> apiRequestType = GlobalVariable.APIRequestType;
       HashSet<string> allowedRequests = new HashSet<string>
       {
-        HttpMethodTypeEnum.GETListDevice.GetDescription(),
+        HttpMethodTypeEnum.GETListDeviceInformationFromGrapper.GetDescription(),
+        HttpMethodTypeEnum.GETListDeviceInformationFromModule.GetDescription(),
         HttpMethodTypeEnum.GETDevice.GetDescription(),
         HttpMethodTypeEnum.POSTDevice.GetDescription(),
         HttpMethodTypeEnum.PUTDevice.GetDescription()
       };
-      return allowedRequests.Contains(apiRequestType);
+      return apiRequestType.Any(request => allowedRequests.Contains(request));
+
     }
     public bool ShouldSerializeRange()
     {
-      string apiRequestType = GlobalVariable.APIRequestType;
+      List<string> apiRequestType = GlobalVariable.APIRequestType;
       HashSet<string> allowedRequests = new HashSet<string>
       {
-        HttpMethodTypeEnum.GETListDevice.GetDescription(),
+        HttpMethodTypeEnum.GETListDeviceInformationFromGrapper.GetDescription(),
+        HttpMethodTypeEnum.GETListDeviceInformationFromModule.GetDescription(),
         HttpMethodTypeEnum.GETDevice.GetDescription(),
         HttpMethodTypeEnum.POSTDevice.GetDescription(),
         HttpMethodTypeEnum.PUTDevice.GetDescription()
       };
-      return allowedRequests.Contains(apiRequestType);
+      return apiRequestType.Any(request => allowedRequests.Contains(request));
+
     }
     public bool ShouldSerializeUnit()
     {
-      string apiRequestType = GlobalVariable.APIRequestType;
+      List<string> apiRequestType = GlobalVariable.APIRequestType;
       HashSet<string> allowedRequests = new HashSet<string>
       {
-        HttpMethodTypeEnum.GETListDevice.GetDescription(),
+        HttpMethodTypeEnum.GETListDeviceInformationFromGrapper.GetDescription(),
+        HttpMethodTypeEnum.GETListDeviceInformationFromModule.GetDescription(),
         HttpMethodTypeEnum.GETDevice.GetDescription(),
         HttpMethodTypeEnum.POSTDevice.GetDescription(),
         HttpMethodTypeEnum.PUTDevice.GetDescription()
       };
-      return allowedRequests.Contains(apiRequestType);
+      return apiRequestType.Any(request => allowedRequests.Contains(request));
+
     }
     public bool ShouldSerializeIOAddress()
     {
-      string apiRequestType = GlobalVariable.APIRequestType;
+      List<string> apiRequestType = GlobalVariable.APIRequestType;
       HashSet<string> allowedRequests = new HashSet<string>
       {
-        HttpMethodTypeEnum.GETListDevice.GetDescription(),
+        HttpMethodTypeEnum.GETListDeviceInformationFromGrapper.GetDescription(),
+        HttpMethodTypeEnum.GETListDeviceInformationFromModule.GetDescription(),
         HttpMethodTypeEnum.GETDevice.GetDescription(),
         HttpMethodTypeEnum.POSTDevice.GetDescription(),
         HttpMethodTypeEnum.PUTDevice.GetDescription()
       };
-      return allowedRequests.Contains(apiRequestType);
+      return apiRequestType.Any(request => allowedRequests.Contains(request));
+
     }
 
     public bool ShouldSerializeModuleEntity()
     {
-      string apiRequestType = GlobalVariable.APIRequestType;
+      List<string> apiRequestType = GlobalVariable.APIRequestType;
       HashSet<string> allowedRequests = new HashSet<string>
       {
-        HttpMethodTypeEnum.GETListDevice.GetDescription(),
+        HttpMethodTypeEnum.GETListDeviceInformationFromGrapper.GetDescription(),
+        HttpMethodTypeEnum.GETListDeviceInformationFromModule.GetDescription(),
         HttpMethodTypeEnum.GETDevice.GetDescription(),
         HttpMethodTypeEnum.POSTDevice.GetDescription(),
         HttpMethodTypeEnum.PUTDevice.GetDescription()
       };
-      return allowedRequests.Contains(apiRequestType);
+      return apiRequestType.Any(request => allowedRequests.Contains(request));
+
     }
 
     public bool ShouldSerializeJBEntity()
     {
-      string apiRequestType = GlobalVariable.APIRequestType;
+      List<string> apiRequestType = GlobalVariable.APIRequestType;
       HashSet<string> allowedRequests = new HashSet<string>
       {
-        HttpMethodTypeEnum.GETListDevice.GetDescription(),
+        HttpMethodTypeEnum.GETListDeviceInformationFromGrapper.GetDescription(),
+        HttpMethodTypeEnum.GETListDeviceInformationFromModule.GetDescription(),
         HttpMethodTypeEnum.GETDevice.GetDescription(),
         HttpMethodTypeEnum.POSTDevice.GetDescription(),
         HttpMethodTypeEnum.PUTDevice.GetDescription()
       };
-      return allowedRequests.Contains(apiRequestType);
+      return apiRequestType.Any(request => allowedRequests.Contains(request));
+
     }
 
     public bool ShouldSerializeAdditionalConnectionImageEntities()
     {
-      string apiRequestType = GlobalVariable.APIRequestType;
+      List<string> apiRequestType = GlobalVariable.APIRequestType;
       HashSet<string> allowedRequests = new HashSet<string>
       {
-        HttpMethodTypeEnum.GETListDevice.GetDescription(),
+        HttpMethodTypeEnum.GETListDeviceInformationFromGrapper.GetDescription(),
+        HttpMethodTypeEnum.GETListDeviceInformationFromModule.GetDescription(),
         HttpMethodTypeEnum.GETDevice.GetDescription(),
         HttpMethodTypeEnum.POSTDevice.GetDescription(),
         HttpMethodTypeEnum.PUTDevice.GetDescription()
       };
-      return allowedRequests.Contains(apiRequestType);
+      return apiRequestType.Any(request => allowedRequests.Contains(request));
+
     }
 
 

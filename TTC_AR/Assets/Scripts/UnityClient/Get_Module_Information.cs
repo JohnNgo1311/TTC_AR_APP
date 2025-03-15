@@ -45,10 +45,13 @@ public class Get_Module_Information : MonoBehaviour
     {
         try
         {
+            
             GlobalVariable.ready_To_Nav_New_Scene = false;
 
             var moduleName = gameObject.name.Split('_')[0];
+
             var rackName = $"Rack_{gameObject.name.Substring(1, 1)}";
+
             //? Rack tương ứng
             var rack = GlobalVariable.temp_ListRackBasicModels.Find(rack => rack.Name == rackName);
             //? Module tương ứng    

@@ -20,14 +20,14 @@ public class JBManager : MonoBehaviour
         //! Dependency Injection
         _IJBService = ServiceLocator.Instance.JBService;
     }
-    public async void GetJBList(string grapperId)
+    public async void GetListJBInformation(string grapperId)
     {
         try
         {
-            var jbList = await _IJBService.GetListJBAsync(grapperId); //! Gọi _IJBService từ Application Layer
-            if (jbList != null && jbList.Count > 0)
+            var jBGeneralDtos = await _IJBService.GetListJBInformationAsync(grapperId); //! Gọi _IJBService từ Application Layer
+            if (jBGeneralDtos != null && jBGeneralDtos.Count > 0)
             {
-                foreach (var jb in jbList)
+                foreach (var jb in jBGeneralDtos)
                 {
                     Debug.Log($"jBResponseDto: {jb.Name}, Location: {jb.Location}");
                     if (jb.OutdoorImageResponseDto != null)
@@ -58,6 +58,40 @@ public class JBManager : MonoBehaviour
                         Debug.Log("List ConnectionImage is null");
                     }
                 }
+            }
+            else
+            {
+                Debug.Log("No JBs found");
+            }
+        }
+        catch (ArgumentException ex) // Lỗi validation
+        {
+            Debug.LogError($"Validation error: {ex.Message}");
+            //? hiển thị Dialog hoặc showToast tại đây
+
+        }
+        catch (HttpRequestException ex) // Lỗi mạng/HTTP
+        {
+            Debug.LogError($"Network error: {ex.Message}");
+            //? hiển thị Dialog hoặc showToast tại đây
+
+        }
+        catch (Exception ex) // Lỗi khác
+        {
+            Debug.LogError($"Unexpected error: {ex.Message}");
+            //? hiển thị Dialog hoặc showToast tại đây
+
+        }
+    }
+
+    public async void GetListJBGeneral(string grapperId)
+    {
+        try
+        {
+            var jBBasicDtos = await _IJBService.GetListJBGeneralAsync(grapperId); //! Gọi _IJBService từ Application Layer
+            if (jBBasicDtos != null && jBBasicDtos.Count > 0)
+            {
+                Debug.Log($"jBDtos: {jBBasicDtos.Count}");
             }
             else
             {

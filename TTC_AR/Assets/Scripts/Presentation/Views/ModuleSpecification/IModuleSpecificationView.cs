@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 public interface IModuleSpecificationView
 {
-    void ShowLoading();
+    void ShowLoading(string title = "Đang tải dữ liệu");
     void HideLoading();
     void ShowError(string message);
     void ShowSuccess();

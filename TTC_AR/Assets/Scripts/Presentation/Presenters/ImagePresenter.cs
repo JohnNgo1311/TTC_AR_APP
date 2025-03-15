@@ -19,8 +19,9 @@ public class ImagePresenter
 
     public async void LoadListImage(string grapperId)
     {
-        GlobalVariable.APIRequestType = "GET_Image_List";
-        _view.ShowLoading();
+        GlobalVariable.APIRequestType.Add("GET_Image_List");
+                _view.ShowLoading("Đang tải dữ liệu...");
+
         try
         {
             var ImageBasicDto = await _service.GetListImageAsync(grapperId);
@@ -44,6 +45,7 @@ public class ImagePresenter
             else
             {
                 _view.ShowError("No Images found");
+
             }
         }
         catch (Exception ex)
@@ -54,13 +56,15 @@ public class ImagePresenter
         finally
         {
             _view.HideLoading();
+            GlobalVariable.APIRequestType.Remove("GET_Image_List");
         }
     }
 
     public async void LoadDetailById(string ImageId)
     {
-        GlobalVariable.APIRequestType = "GET_Image";
-        _view.ShowLoading();
+        GlobalVariable.APIRequestType.Add("GET_Image");
+                _view.ShowLoading("Đang tải dữ liệu...");
+
         try
         {
             var dto = await _service.GetImageByIdAsync(ImageId.ToString());
@@ -82,12 +86,14 @@ public class ImagePresenter
         finally
         {
             _view.HideLoading();
+            GlobalVariable.APIRequestType.Remove("GET_Image");
         }
     }
     public async void CreateNewImage(string grapperId, ImageInformationModel model)
     {
-        GlobalVariable.APIRequestType = "POST_Image";
-        _view.ShowLoading();
+        GlobalVariable.APIRequestType.Add("POST_Image");
+                _view.ShowLoading("Đang thực hiện...");
+
         try
         {
             var dto = ConvertToRequestDto(model);
@@ -109,12 +115,14 @@ public class ImagePresenter
         finally
         {
             _view.HideLoading();
+            GlobalVariable.APIRequestType.Remove("POST_Image");
         }
     }
     public async void DeleteImage(string ImageId)
     {
-        GlobalVariable.APIRequestType = "DELETE_Image";
-        _view.ShowLoading();
+        GlobalVariable.APIRequestType.Add("DELETE_Image");
+                _view.ShowLoading("Đang thực hiện...");
+
         try
         {
             var result = await _service.DeleteImageAsync(ImageId);
@@ -134,6 +142,7 @@ public class ImagePresenter
         finally
         {
             _view.HideLoading();
+            GlobalVariable.APIRequestType.Remove("DELETE_Image");
 
         }
     }

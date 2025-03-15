@@ -1,6 +1,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Newtonsoft.Json;
 using UnityEngine.Scripting;
 
@@ -43,7 +44,7 @@ namespace Domain.Entities
 
     // public bool ShouldSerializeId()
     // {
-    //   string apiRequestType = GlobalVariable.APIRequestType;
+    //   List<string> apiRequestType = GlobalVariable.APIRequestType;
     //   HashSet<string> allowedRequests = new HashSet<string>
     //   {
     //     HttpMethodTypeEnum.PUTFieldDevice.GetDescription(),        
@@ -53,16 +54,16 @@ namespace Domain.Entities
 
     public bool ShouldSerializeMccEntity()
     {
-      string apiRequestType = GlobalVariable.APIRequestType;
+      List<string> apiRequestType = GlobalVariable.APIRequestType;
       HashSet<string> allowedRequests = new HashSet<string>
       {
         HttpMethodTypeEnum.GETFieldDevice.GetDescription(),
       };
-      return allowedRequests.Contains(apiRequestType);
+      return apiRequestType.Any(request => allowedRequests.Contains(request));
     }
     public bool ShouldSerializeRatedPower()
     {
-      string apiRequestType = GlobalVariable.APIRequestType;
+      List<string> apiRequestType = GlobalVariable.APIRequestType;
       HashSet<string> allowedRequests = new HashSet<string>
       {
         HttpMethodTypeEnum.GETFieldDevice.GetDescription(),
@@ -71,55 +72,55 @@ namespace Domain.Entities
 
 
       };
-      return allowedRequests.Contains(apiRequestType);
+      return apiRequestType.Any(request => allowedRequests.Contains(request));
     }
 
     public bool ShouldSerializeRatedCurrent()
     {
-      string apiRequestType = GlobalVariable.APIRequestType;
+      List<string> apiRequestType = GlobalVariable.APIRequestType;
       HashSet<string> allowedRequests = new HashSet<string>
       {
         HttpMethodTypeEnum.GETFieldDevice.GetDescription(),
               HttpMethodTypeEnum.POSTFieldDevice.GetDescription(),
         HttpMethodTypeEnum.PUTFieldDevice.GetDescription(),
       };
-      return allowedRequests.Contains(apiRequestType);
+      return apiRequestType.Any(request => allowedRequests.Contains(request));
     }
 
     public bool ShouldSerializeActiveCurrent()
     {
-      string apiRequestType = GlobalVariable.APIRequestType;
+      List<string> apiRequestType = GlobalVariable.APIRequestType;
       HashSet<string> allowedRequests = new HashSet<string>
       {
         HttpMethodTypeEnum.GETFieldDevice.GetDescription(),
               HttpMethodTypeEnum.POSTFieldDevice.GetDescription(),
         HttpMethodTypeEnum.PUTFieldDevice.GetDescription(),
       };
-      return allowedRequests.Contains(apiRequestType);
+      return apiRequestType.Any(request => allowedRequests.Contains(request));
     }
 
     public bool ShouldSerializeConnectionImageEntities()
     {
-      string apiRequestType = GlobalVariable.APIRequestType;
+      List<string> apiRequestType = GlobalVariable.APIRequestType;
       HashSet<string> allowedRequests = new HashSet<string>
       {
         HttpMethodTypeEnum.GETFieldDevice.GetDescription(),
         HttpMethodTypeEnum.POSTFieldDevice.GetDescription(),
         HttpMethodTypeEnum.PUTFieldDevice.GetDescription(),
       };
-      return allowedRequests.Contains(apiRequestType);
+      return apiRequestType.Any(request => allowedRequests.Contains(request));
     }
 
     public bool ShouldSerializeNote()
     {
-      string apiRequestType = GlobalVariable.APIRequestType;
+      List<string> apiRequestType = GlobalVariable.APIRequestType;
       HashSet<string> allowedRequests = new HashSet<string>
       {
         HttpMethodTypeEnum.GETFieldDevice.GetDescription(),
          HttpMethodTypeEnum.POSTFieldDevice.GetDescription(),
         HttpMethodTypeEnum.PUTFieldDevice.GetDescription(),
       };
-      return allowedRequests.Contains(apiRequestType);
+      return apiRequestType.Any(request => allowedRequests.Contains(request));
     }
 
 

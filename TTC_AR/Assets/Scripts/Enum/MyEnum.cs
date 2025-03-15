@@ -57,14 +57,17 @@ public enum HttpMethodTypeEnum
     [Description("DELETE_Module")] DELETEModule,
 
     //?JB
-    [Description("GET_JB_List")] GETListJB,
+    [Description("GET_JB_List_General")] GETListJBGeneral,
+    [Description("GET_JB_List_Information")] GETListJBInformation,
     [Description("GET_JB")] GETJB,
     [Description("POST_JB")] POSTJB,
     [Description("PUT_JB")] PUTJB,
     [Description("DELETE_JB")] DELETEJB,
 
     //?Device
-    [Description("GET_Device_List")] GETListDevice,
+    [Description("GET_Device_List_General")] GETListDeviceGeneral,
+    [Description("GET_Device_List_Information_FromModule")] GETListDeviceInformationFromModule,
+    [Description("GET_Device_List_Information_FromGrapper")] GETListDeviceInformationFromGrapper,
     [Description("GET_Device")] GETDevice,
     [Description("POST_Device")] POSTDevice,
     [Description("PUT_Device")] PUTDevice,

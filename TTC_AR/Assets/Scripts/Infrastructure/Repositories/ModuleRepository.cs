@@ -15,7 +15,7 @@ namespace Infrastructure.Repositories
     {
         private readonly HttpClient _httpClient;
 
-        private const string BaseUrl = "https://6776bd1c12a55a9a7d0cbc42.mockapi.io/api/v2/Company"; // URL server ngoài thực tế
+        private const string BaseUrl = "https://6776bd1c12a55a9a7d0cbc42.mockapi.io/api/v2/Module"; // URL server ngoài thực tế
 
         public ModuleRepository(HttpClient httpClient)
         {
@@ -56,7 +56,7 @@ namespace Infrastructure.Repositories
         {
             try
             {
-                var response = await _httpClient.GetAsync($"/api/Module/grapper/{grapperId}");
+                var response = await _httpClient.GetAsync(BaseUrl);
                 if (!response.IsSuccessStatusCode)
                     throw new HttpRequestException($"Failed to get Module list. Status: {response.StatusCode}");
                 else

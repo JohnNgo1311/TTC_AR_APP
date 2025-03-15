@@ -11,8 +11,10 @@ namespace Domain.Interfaces
     public interface IDeviceRepository
     {
         //!  Do kết quả server trả về là tập hợp con của DeviceEntity nên sẽ lựa chọn hàm trả veỀ DeviceResponseDto
+        Task<List<DeviceEntity>> GetListDeviceGeneralAsync(string grapperId);
+        Task<List<DeviceEntity>> GetListDeviceInformationFromGrapperAsync(string grapperId);
+        Task<List<DeviceEntity>> GetListDeviceInformationFromModuleAsync(string moduleId);
         Task<DeviceEntity> GetDeviceByIdAsync(string deviceId);
-        Task<List<DeviceEntity>> GetListDeviceAsync(string grapperId);
         Task<bool> CreateNewDeviceAsync(string grapperId, DeviceEntity deviceEntity);
         Task<bool> UpdateDeviceAsync(string deviceId, DeviceEntity deviceEntity);
         Task<bool> DeleteDeviceAsync(string deviceId);

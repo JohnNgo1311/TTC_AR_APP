@@ -52,7 +52,6 @@ public class UpdateModuleSpecificationSettingView : MonoBehaviour, IModuleSpecif
 
         _presenter.LoadDetailById(GlobalVariable.ModuleSpecificationId);
 
-
         submitButton.onClick.AddListener(() =>
         {
             _ModuleSpecificationModel = new ModuleSpecificationModel(
@@ -177,38 +176,35 @@ public class UpdateModuleSpecificationSettingView : MonoBehaviour, IModuleSpecif
 
 
 
-    public void ShowLoading() => ShowProgressBar("Loading", "Đang tải dữ liệu...");
+    public void ShowLoading(string title) => ShowProgressBar(title, "Đang tải dữ liệu...");
     public void HideLoading() => HideProgressBar();
     public void ShowError(string message)
     {
-        switch (GlobalVariable.APIRequestType)
+        if (GlobalVariable.APIRequestType.Contains("PUT_ModuleSpecification"))
         {
-            case "PUT_ModuleSpecification":
-                OpenErrorUpdateDialog();
-                break;
-            case "GET_ModuleSpecification":
-                OpenErrorGetByIdDialog();
-                break;
+            OpenErrorUpdateDialog();
+        }
+        if (GlobalVariable.APIRequestType.Contains("GET_ModuleSpecification"))
+        {
+            OpenErrorGetByIdDialog();
         }
     }
     public void ShowSuccess()
     {
         Show_Toast.Instance.Set_Instance_Status_True();
-        switch (GlobalVariable.APIRequestType)
+        if (GlobalVariable.APIRequestType.Contains("PUT_ModuleSpecification"))
         {
-            case "PUT_ModuleSpecification":
-                Show_Toast.Instance.ShowToast("success", "Cập nhật dữ liệu thành công");
-                OpenSuccessUpdateDialog(_ModuleSpecificationModel);
-                break;
-            case "GET_ModuleSpecification":
-                Show_Toast.Instance.ShowToast("success", "Tải dữ liệu thành công");
-                break;
+
+            Show_Toast.Instance.ShowToast("success", "Cập nhật dữ liệu thành công");
+            OpenSuccessUpdateDialog(_ModuleSpecificationModel);
+        }
+
+        if (GlobalVariable.APIRequestType.Contains("GET_ModuleSpecification"))
+        {
+            Show_Toast.Instance.ShowToast("success", "Tải dữ liệu thành công");
         }
         StartCoroutine(Show_Toast.Instance.Set_Instance_Status_False(1f));
     }
-
-
-
 
     public void DisplayList(List<ModuleSpecificationModel> models) { }
     public void DisplayUpdateResult(bool success) { }

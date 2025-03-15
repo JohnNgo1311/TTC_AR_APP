@@ -27,9 +27,17 @@ namespace ApplicationLayer.Services
         {
             return await _DeviceUseCase.GetDeviceByIdAsync(id);
         }
-        public async Task<List<DeviceResponseDto>> GetListDeviceAsync(string grapperId)
+        public async Task<List<DeviceBasicDto>> GetListDeviceGeneralAsync(string grapperId)
         {
-            return await _DeviceUseCase.GetListDeviceAsync(grapperId);
+            return await _DeviceUseCase.GetListDeviceGeneralAsync(grapperId);
+        }
+        public async Task<List<DeviceResponseDto>> GetListDeviceInformationFromGrapperAsync(string grapperId)
+        {
+            return await _DeviceUseCase.GetListDeviceInformationFromGrapperAsync(grapperId);
+        }
+        public async Task<List<DeviceResponseDto>> GetListDeviceInformationFromModuleAsync(string moduleId)
+        {
+            return await _DeviceUseCase.GetListDeviceInformationFromModuleAsync(moduleId);
         }
         public async Task<bool> CreateNewDeviceAsync(string grapperId, DeviceRequestDto DeviceRequestDto)
         {

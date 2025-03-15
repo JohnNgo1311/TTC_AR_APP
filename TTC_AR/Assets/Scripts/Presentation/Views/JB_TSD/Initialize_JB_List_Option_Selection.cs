@@ -1,13 +1,15 @@
-using System;
+
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using Microsoft.CSharp;
+using System;
+//! Tạo List Option, nhưng chưa tạo Button để tương tác
 
 public class Initialize_JB_List_Option_Selection : MonoBehaviour
 {
-    [Header("Basic")]
+    [Header("Canvas")]
     public GameObject Selection_Option_Canvas;
 
     [Header("List Selection Panels")]
@@ -18,67 +20,91 @@ public class Initialize_JB_List_Option_Selection : MonoBehaviour
 
     [Header("List Selection Option Contents")]
     public Transform Device_List_Selection_Option_Content_Transform;
-    public Transform ModuleIO_List_Selection_Option_Content_Transform;
+    public Transform Module_List_Selection_Option_Content_Transform;
     public Transform Location_Image_List_Selection_Option_Content_Transform;
     public Transform Connection_Image_List_Selection_Option_Content_Transform;
 
-    //public Get_List_JBs_Setting get_List_JBs_Setting;
-
     public Dictionary<string, GameObject> initialSelectionOptions = new Dictionary<string, GameObject>();
+    private List<DeviceInformationModel> deviceInformationModels = new List<DeviceInformationModel>();
+
+    private List<ModuleInformationModel> moduleInformationModels = new List<ModuleInformationModel>();
+    private List<ImageInformationModel> locationImageInformationModels = new List<ImageInformationModel>();
+    private List<ImageInformationModel> connectionImageInformationModels = new List<ImageInformationModel>();
+
 
     private void Awake()
     {
         InitializeItemOptions();
-        PopulateListSelection();
+        deviceInformationModels = GlobalVariable.temp_List_DeviceInformationModel;
+        moduleInformationModels = GlobalVariable.temp_List_ModuleInformationModel;
+        locationImageInformationModels = GlobalVariable.temp_List_ImageInformationModel;
+        connectionImageInformationModels = GlobalVariable.temp_List_ImageInformationModel;
     }
     private void Start()
     {
+        PopulateListSelection();
     }
 
     private void InitializeItemOptions()
     {
-        initialSelectionOptions["Device"] = Device_List_Selection_Option_Content_Transform.GetChild(0).gameObject;
-        initialSelectionOptions["ModuleIO"] = ModuleIO_List_Selection_Option_Content_Transform.GetChild(0).gameObject;
+        initialSelectionOptions["Devices"] = Device_List_Selection_Option_Content_Transform.GetChild(0).gameObject;
+        initialSelectionOptions["Modules"] = Module_List_Selection_Option_Content_Transform.GetChild(0).gameObject;
         initialSelectionOptions["Location_Image"] = Location_Image_List_Selection_Option_Content_Transform.GetChild(0).gameObject;
-        initialSelectionOptions["Connection_Image"] = Connection_Image_List_Selection_Option_Content_Transform.GetChild(0).gameObject;
+        initialSelectionOptions["Connection_Images"] = Connection_Image_List_Selection_Option_Content_Transform.GetChild(0).gameObject;
+    }
+    void PopulateListSelection()
+    {
+        PopulateSelectionPanel("Devices", deviceInformationModels, selection_List_Device_Panel,
+            Device_List_Selection_Option_Content_Transform, device => device.Code); // Lấy Code cho Device
+
+        PopulateSelectionPanel("Modules", moduleInformationModels, selection_List_ModuleIO_Panel,
+            Module_List_Selection_Option_Content_Transform, module => module.Name); // Lấy Name cho Module
+
+        PopulateSelectionPanel("Location_Image", locationImageInformationModels, selection_List_Location_Image_Panel,
+            Location_Image_List_Selection_Option_Content_Transform, image => image.Name); // Lấy Name cho Location Image
+
+        PopulateSelectionPanel("Connection_Images", connectionImageInformationModels, selection_List_Connection_Image_Panel,
+            Connection_Image_List_Selection_Option_Content_Transform, image => image.Name); // Lấy Name cho Connection Image
     }
 
-    private void PopulateListSelection()
+
+    private void PopulateSelectionPanel<T>(
+      string field,
+      List<T> models,
+      GameObject list_Option_Panel,
+      Transform list_Option_Content_Transform,
+      Func<T, string> getValue)
     {
-        PopulateSelectionPanel("Device", GlobalVariable.list_DeviceCode, selection_List_Device_Panel, Device_List_Selection_Option_Content_Transform);
-        PopulateSelectionPanel("ModuleIO", GlobalVariable.list_ModuleIOName, selection_List_ModuleIO_Panel, ModuleIO_List_Selection_Option_Content_Transform);
-        PopulateSelectionPanel("Location_Image", GlobalVariable.list_ImageName, selection_List_Location_Image_Panel, Location_Image_List_Selection_Option_Content_Transform);
-        PopulateSelectionPanel("Connection_Image", GlobalVariable.list_ImageName, selection_List_Connection_Image_Panel, Connection_Image_List_Selection_Option_Content_Transform);
-    }
-    private void PopulateSelectionPanel(string field, List<string> optionList, GameObject list_Option_Panel, Transform list_Option_Content_Transform)
-    {
-        if (optionList != null && optionList.Count > 0)
+        if (models == null || models.Count == 0) return;
+
+        list_Option_Panel.SetActive(true);
+        Debug.Log($"{field}s: {models.Count}");
+
+        if (models.Count == 1)
         {
-            if (optionList.Count == 1)
-            {
-                AddOption(initialSelectionOptions[field], optionList[0], field);
-                //! Ví dụ: AddOption(initialSelectionOptions["Device"], "02LT002", "Device");
-                //! initialSelectionOptions["Device"] => Initial Option
-            }
-            else
-            {
-                foreach (var optionName in optionList)
-                {
-                    GameObject newOption = Instantiate(initialSelectionOptions[field], list_Option_Content_Transform);
-                    AddOption(newOption, optionName, field);
-                }
-                initialSelectionOptions[field].SetActive(false); //! Tắt đi Option mặc định
-            }
+            SetOptionText(initialSelectionOptions[field], getValue(models[0]));
         }
-        var Back_Button = list_Option_Panel.transform.Find("Background/Appbar/Back_Button").gameObject.GetComponent<Button>();
-        Back_Button.onClick.RemoveAllListeners();
+        else
+        {
+            foreach (var option in models)
+            {
+                GameObject newOption = Instantiate(initialSelectionOptions[field], list_Option_Content_Transform);
+                SetOptionText(newOption, getValue(option));
+            }
+            initialSelectionOptions[field].SetActive(false); // Tắt option mặc định
+        }
+
+        var backButton = list_Option_Panel.transform.Find("Background/Appbar/Back_Button")?.GetComponent<Button>();
+        if (backButton != null) backButton.onClick.RemoveAllListeners();
+
         list_Option_Panel.SetActive(false);
     }
 
-    private void AddOption(GameObject option, string text, string field)
-    {
-        SetOptionText(option, text);
-    }
+
+    // private void AddOption(GameObject option, string text, string field)
+    // {
+    //     SetOptionText(option, text);
+    // }
 
     private void SetOptionText(GameObject option, string text)
     {

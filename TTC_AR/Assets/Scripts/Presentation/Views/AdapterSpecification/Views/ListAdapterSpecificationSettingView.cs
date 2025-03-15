@@ -230,32 +230,33 @@ public class ListAdapterSpecificationSettingView : MonoBehaviour, IAdapterSpecif
 
 
 
-    public void ShowLoading() => ShowProgressBar("Loading", "Đang tải dữ liệu...");
+    public void ShowLoading(string title) => ShowProgressBar(title, "Đang tải dữ liệu...");
     public void HideLoading() => HideProgressBar();
     public void ShowError(string message)
     {
-        switch (GlobalVariable.APIRequestType)
+        if (GlobalVariable.APIRequestType.Contains("GET_AdapterSpecification_List"))
         {
-            case "GET_AdapterSpecification_List":
-                OpenErrorGetListDialog();
-                break;
-            case "DELETE_AdapterSpecification":
-                OpenErrorDeletingDialog();
-                break;
+            OpenErrorGetListDialog();
         }
+        else if (GlobalVariable.APIRequestType.Contains("DELETE_AdapterSpecification"))
+        {
+            OpenErrorDeletingDialog();
+        }
+
     }
     public void ShowSuccess()
     {
         Show_Toast.Instance.Set_Instance_Status_True();
-        switch (GlobalVariable.APIRequestType)
+        if (GlobalVariable.APIRequestType.Contains("GET_AdapterSpecification_List"))
         {
-            case "GET_AdapterSpecification_List":
-                Show_Toast.Instance.ShowToast("success", "Tải danh sách thành công");
-                break;
-            case "DELETE_AdapterSpecification":
-                Show_Toast.Instance.ShowToast("success", "Xóa loại Adapter thành công");
-                break;
+            Show_Toast.Instance.ShowToast("success", "Tải danh sách thành công");
         }
+        if (GlobalVariable.APIRequestType.Contains("DELETE_AdapterSpecification"))
+        {
+            Show_Toast.Instance.ShowToast("success", "Xóa loại Adapter thành công");
+
+        }
+
         StartCoroutine(Show_Toast.Instance.Set_Instance_Status_False(1f));
     }
 

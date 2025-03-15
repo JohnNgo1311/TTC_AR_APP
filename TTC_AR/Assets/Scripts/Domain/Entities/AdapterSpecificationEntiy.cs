@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Newtonsoft.Json;
 using UnityEngine.Scripting;
 #nullable enable
@@ -48,7 +49,7 @@ namespace Domain.Entities
 
     public bool ShouldSerializeType()
     {
-      string apiRequestType = GlobalVariable.APIRequestType;
+      List<string> apiRequestType = GlobalVariable.APIRequestType;
       HashSet<string> allowedRequests = new HashSet<string>
       {
         HttpMethodTypeEnum.GETAdapterSpecification.GetDescription(),
@@ -56,11 +57,11 @@ namespace Domain.Entities
         HttpMethodTypeEnum.POSTAdapterSpecification.GetDescription(),
         HttpMethodTypeEnum.PUTAdapterSpecification.GetDescription()
       };
-      return allowedRequests.Contains(apiRequestType);
+      return apiRequestType.Any(request => allowedRequests.Contains(request));
     }
     public bool ShouldSerializeCommunication()
     {
-      string apiRequestType = GlobalVariable.APIRequestType;
+      List<string> apiRequestType = GlobalVariable.APIRequestType;
       HashSet<string> allowedRequests = new HashSet<string>
       {
         HttpMethodTypeEnum.GETAdapterSpecification.GetDescription(),
@@ -68,11 +69,11 @@ namespace Domain.Entities
         HttpMethodTypeEnum.POSTAdapterSpecification.GetDescription(),
         HttpMethodTypeEnum.PUTAdapterSpecification.GetDescription()
       };
-      return allowedRequests.Contains(apiRequestType);
+      return apiRequestType.Any(request => allowedRequests.Contains(request));
     }
     public bool ShouldSerializeNumOfModulesAllowed()
     {
-      string apiRequestType = GlobalVariable.APIRequestType;
+      List<string> apiRequestType = GlobalVariable.APIRequestType;
       HashSet<string> allowedRequests = new HashSet<string>
       {
         HttpMethodTypeEnum.GETAdapterSpecification.GetDescription(),
@@ -80,11 +81,11 @@ namespace Domain.Entities
         HttpMethodTypeEnum.POSTAdapterSpecification.GetDescription(),
         HttpMethodTypeEnum.PUTAdapterSpecification.GetDescription()
       };
-      return allowedRequests.Contains(apiRequestType);
+      return apiRequestType.Any(request => allowedRequests.Contains(request));
     }
     public bool ShouldSerializeCommSpeed()
     {
-      string apiRequestType = GlobalVariable.APIRequestType;
+      List<string> apiRequestType = GlobalVariable.APIRequestType;
       HashSet<string> allowedRequests = new HashSet<string>
       {
         HttpMethodTypeEnum.GETAdapterSpecification.GetDescription(),
@@ -92,11 +93,11 @@ namespace Domain.Entities
         HttpMethodTypeEnum.POSTAdapterSpecification.GetDescription(),
         HttpMethodTypeEnum.PUTAdapterSpecification.GetDescription()
       };
-      return allowedRequests.Contains(apiRequestType);
+      return apiRequestType.Any(request => allowedRequests.Contains(request));
     }
     public bool ShouldSerializeInputSupply()
     {
-      string apiRequestType = GlobalVariable.APIRequestType;
+      List<string> apiRequestType = GlobalVariable.APIRequestType;
       HashSet<string> allowedRequests = new HashSet<string>
       {
         HttpMethodTypeEnum.GETAdapterSpecification.GetDescription(),
@@ -104,11 +105,11 @@ namespace Domain.Entities
         HttpMethodTypeEnum.POSTAdapterSpecification.GetDescription(),
         HttpMethodTypeEnum.PUTAdapterSpecification.GetDescription()
       };
-      return allowedRequests.Contains(apiRequestType);
+      return apiRequestType.Any(request => allowedRequests.Contains(request));
     }
     public bool ShouldSerializeOutputSupply()
     {
-      string apiRequestType = GlobalVariable.APIRequestType;
+      List<string> apiRequestType = GlobalVariable.APIRequestType;
       HashSet<string> allowedRequests = new HashSet<string>
       {
         HttpMethodTypeEnum.GETAdapterSpecification.GetDescription(),
@@ -116,11 +117,11 @@ namespace Domain.Entities
         HttpMethodTypeEnum.POSTAdapterSpecification.GetDescription(),
         HttpMethodTypeEnum.PUTAdapterSpecification.GetDescription()
       };
-      return allowedRequests.Contains(apiRequestType);
+      return apiRequestType.Any(request => allowedRequests.Contains(request));
     }
     public bool ShouldSerializeInrushCurrent()
     {
-      string apiRequestType = GlobalVariable.APIRequestType;
+      List<string> apiRequestType = GlobalVariable.APIRequestType;
       HashSet<string> allowedRequests = new HashSet<string>
       {
         HttpMethodTypeEnum.GETAdapterSpecification.GetDescription(),
@@ -128,11 +129,11 @@ namespace Domain.Entities
         HttpMethodTypeEnum.POSTAdapterSpecification.GetDescription(),
         HttpMethodTypeEnum.PUTAdapterSpecification.GetDescription()
       };
-      return allowedRequests.Contains(apiRequestType);
+      return apiRequestType.Any(request => allowedRequests.Contains(request));
     }
     public bool ShouldSerializeAlarm()
     {
-      string apiRequestType = GlobalVariable.APIRequestType;
+      List<string> apiRequestType = GlobalVariable.APIRequestType;
       HashSet<string> allowedRequests = new HashSet<string>
       {
         HttpMethodTypeEnum.GETAdapterSpecification.GetDescription(),
@@ -140,11 +141,11 @@ namespace Domain.Entities
         HttpMethodTypeEnum.POSTAdapterSpecification.GetDescription(),
         HttpMethodTypeEnum.PUTAdapterSpecification.GetDescription()
       };
-      return allowedRequests.Contains(apiRequestType);
+      return apiRequestType.Any(request => allowedRequests.Contains(request));
     }
     public bool ShouldSerializeNote()
     {
-      string apiRequestType = GlobalVariable.APIRequestType;
+      List<string> apiRequestType = GlobalVariable.APIRequestType;
       HashSet<string> allowedRequests = new HashSet<string>
       {
         HttpMethodTypeEnum.GETAdapterSpecification.GetDescription(),
@@ -152,11 +153,11 @@ namespace Domain.Entities
         HttpMethodTypeEnum.POSTAdapterSpecification.GetDescription(),
         HttpMethodTypeEnum.PUTAdapterSpecification.GetDescription()
       };
-      return allowedRequests.Contains(apiRequestType);
+      return apiRequestType.Any(request => allowedRequests.Contains(request));
     }
     public bool ShouldSerializePdfManual()
     {
-      string apiRequestType = GlobalVariable.APIRequestType;
+      List<string> apiRequestType = GlobalVariable.APIRequestType;
       HashSet<string> allowedRequests = new HashSet<string>
       {
         HttpMethodTypeEnum.GETAdapterSpecification.GetDescription(),
@@ -164,7 +165,7 @@ namespace Domain.Entities
         HttpMethodTypeEnum.POSTAdapterSpecification.GetDescription(),
         HttpMethodTypeEnum.PUTAdapterSpecification.GetDescription()
       };
-      return allowedRequests.Contains(apiRequestType);
+      return apiRequestType.Any(request => allowedRequests.Contains(request));
     }
 
 

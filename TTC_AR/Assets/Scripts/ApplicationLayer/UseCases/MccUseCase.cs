@@ -84,7 +84,7 @@ namespace ApplicationLayer.UseCases
 
         public async Task<bool> DeleteMccAsync(string MccId)
         {
-            MccId = GlobalVariable.MccId;
+            // MccId = GlobalVariable.MccId;
 
             var deletedEntity = await _MccRepository.DeleteMccAsync(MccId);
 

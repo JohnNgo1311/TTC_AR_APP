@@ -2,6 +2,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using System.Collections;
+using Unity.VisualScripting;
 
 public class Show_Toast : MonoBehaviour
 {
@@ -26,8 +27,11 @@ public class Show_Toast : MonoBehaviour
 
     private void Awake()
     {
+
+    }
+    void OnEnable()
+    {
         allObjects = FindObjectsOfType<GameObject>();
-        
         toastParent ??= GetComponent<Canvas>().transform;
 
         // Singleton setup
@@ -57,6 +61,12 @@ public class Show_Toast : MonoBehaviour
             }
         }
     }
+
+    void OnDisable()
+    {
+        Instance = null;
+    }
+
     void Start()
     {
     }
@@ -74,8 +84,11 @@ public class Show_Toast : MonoBehaviour
         {
             existingToast = Instantiate(toastPrefab, toastParent).transform;
             var layoutToast = existingToast.transform.GetChild(0);
+            
             toastText = layoutToast.GetComponentInChildren<TMP_Text>();
+
             toastBackground = layoutToast.GetComponentInChildren<Image>();
+
             existingToast.gameObject.SetActive(true);
         }
         else
@@ -117,10 +130,9 @@ public class Show_Toast : MonoBehaviour
                 Debug.LogError("existingToast is null. Make sure it is assigned properly.");
                 return;
             }
-
             existingToast.gameObject.SetActive(status);
         }
-
+        
         foreach (GameObject obj in allObjects)
         {
             if (obj != null && obj.name == "LeanTouch")

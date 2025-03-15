@@ -53,6 +53,9 @@ namespace ApplicationLayer.UseCases
                     // // Ánh xạ từ ImageEntity sang ImageResponseDto
                     var ImageBasicDtos = ImageEntities.Select(ImageEntity => MapToBasicDto(ImageEntity)).ToList();
                     GlobalVariable.temp_Dictionary_ImageInformationModel = ImageBasicDtos.ToDictionary(dto => dto.Name, dto => new ImageInformationModel(id: dto.Id, name: dto.Name, url: ""));
+
+                    GlobalVariable.temp_List_ImageInformationModel = ImageBasicDtos.Select(dto => new ImageInformationModel(dto.Id, dto.Name, "")).ToList();
+
                     foreach (var item in GlobalVariable.temp_Dictionary_ImageInformationModel)
                     {
                         UnityEngine.Debug.Log("Key: " + item.Key + " Value: " + item.Value.Id + " " + item.Value.Name);

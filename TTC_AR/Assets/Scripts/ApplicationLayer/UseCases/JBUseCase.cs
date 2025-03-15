@@ -20,37 +20,48 @@ namespace ApplicationLayer.UseCases
         {
             _IJBRepository = IjbRepository;
         }
-        public async Task<List<JBGeneralDto>> GetListJBAsync(string grapperId)
+
+        //! GetListJB chỉ có Id và Name
+        public async Task<List<JBBasicDto>> GetListJBGeneralAsync(string grapperId)
         {
             try
             {
-                var jBEntities = await _IJBRepository.GetListJBAsync(grapperId);
+                var jBEntities = await _IJBRepository.GetListJBGeneralAsync(grapperId);
 
                 if (jBEntities == null)
                 {
                     throw new ApplicationException("Failed to get JB list");
                 }
                 else
-                {  // Ánh xạ từ JBResponseDto sang JBEntity (nếu cần logic nghiệp vụ) rồi sang JBResponseDto
-                   // var jbEntities = jbListDtos.Select(dto => new JBEntity(dto.Name)
-                   // {
-                   //     Id = dto.Id,
+                {
+                    var jbBasicDtos = jBEntities.Select(jbEntity => MapToBasicDto(jbEntity)).ToList();
+                    return jbBasicDtos;
+                }
 
-                    //     Location = dto.Location,
+            }
+            catch (ArgumentException)
+            {
+                throw; // Ném lại lỗi validation cho Unity xử lý
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationException("Failed to get JB list", ex);
+            }
+        }
 
-                    //     DeviceEntities = dto.DeviceBasicDtos.Select(d => new DeviceEntity(d.Id, d.Code)).ToList(),
+        //! GetListJB Không có List Device và List Module
+        public async Task<List<JBGeneralDto>> GetListJBInforAsync(string grapperId)
+        {
+            try
+            {
+                var jBEntities = await _IJBRepository.GetListJBInformationAsync(grapperId);
 
-                    //     ModuleEntities = dto.ModuleBasicDtos.Select(m => new ModuleEntity(m.Id, m.Name)).ToList(),
-
-                    //     OutdoorImageEntity = dto.OutdoorImageResponseDto != null
-                    //         ? new ImageEntity(dto.OutdoorImageResponseDto.Id, dto.OutdoorImageResponseDto.Name, dto.OutdoorImageResponseDto.Url)
-                    //         : null,
-
-                    //     ConnectionImageEntities = dto.ConnectionImageResponseDtos.Select(i => new ImageEntity(i.Id, i.Name, i.Url)).ToList()
-
-                    // }).ToList();
-
-                    // // Ánh xạ từ JBEntity sang JBResponseDto
+                if (jBEntities == null)
+                {
+                    throw new ApplicationException("Failed to get JB list");
+                }
+                else
+                {
                     var jbResponseDtos = jBEntities.Select(jbEntity => MapToGeneralDto(jbEntity)).ToList();
                     return jbResponseDtos;
                 }
@@ -65,6 +76,7 @@ namespace ApplicationLayer.UseCases
                 throw new ApplicationException("Failed to get JB list", ex);
             }
         }
+
         public async Task<JBResponseDto> GetJBByIdAsync(string JBId)
         {
             try
@@ -191,19 +203,6 @@ namespace ApplicationLayer.UseCases
             );
         }
 
-        // private JBEntity MapToResponseEntity(JBResponseDto jBResponseDto)
-        // {
-        //     return new JBEntity(
-        //         jBResponseDto.Id,
-        //         jBResponseDto.Name,
-        //         jBResponseDto.Location,
-        //         jBResponseDto.DeviceBasicDtos.Select(d => new DeviceEntity(d.Id, d.Code)).ToList(),
-        //         jBResponseDto.ModuleBasicDtos.Select(m => new ModuleEntity(m.Id, m.Name)).ToList(),
-        //         jBResponseDto.OutdoorImageResponseDto != null ? new ImageEntity(jBResponseDto.OutdoorImageResponseDto.Id, jBResponseDto.OutdoorImageResponseDto.Name, jBResponseDto.OutdoorImageResponseDto.Url) : null!,
-        //        jBResponseDto.ConnectionImageResponseDtos.Select(i => new ImageEntity(i.Id, i.Name, i.Url)).ToList()
-        //     );
-        // }
-
 
         //! Entity => Dto
         private JBResponseDto MapToResponseDto(JBEntity jBEntity)
@@ -228,7 +227,6 @@ namespace ApplicationLayer.UseCases
                  new List<ImageResponseDto>() : jBEntity.ConnectionImageEntities.Select(i => new ImageResponseDto(i.Id, i.Name, i.Url)).ToList()
             );
         }
-
         private JBGeneralDto MapToGeneralDto(JBEntity jBEntity)
         {
             return new JBGeneralDto(
@@ -244,6 +242,14 @@ namespace ApplicationLayer.UseCases
                 (jBEntity.ConnectionImageEntities == null || (jBEntity.ConnectionImageEntities != null && jBEntity.ConnectionImageEntities.Count <= 0)) ?
                  new List<ImageResponseDto>() : jBEntity.ConnectionImageEntities.Select(i => new ImageResponseDto(i.Id, i.Name, i.Url)).ToList()
              );
+        }
+        private JBBasicDto MapToBasicDto(JBEntity jBEntity)
+        {
+            return new JBBasicDto(
+                jBEntity.Id,
+
+                jBEntity.Name
+                   );
         }
         // private JBRequestDto MapToRequestDto(JBEntity jBEntity)
         // {

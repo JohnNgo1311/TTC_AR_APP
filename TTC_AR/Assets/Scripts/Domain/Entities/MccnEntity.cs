@@ -1,6 +1,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Newtonsoft.Json;
 using UnityEngine.Scripting;
 #nullable enable
@@ -30,49 +31,49 @@ namespace Domain.Entities
 
     public bool ShouldSerializeId()
     {
-      string apiRequestType = GlobalVariable.APIRequestType;
+      List<string> apiRequestType = GlobalVariable.APIRequestType;
       HashSet<string> allowedRequests = new HashSet<string>
       {
         HttpMethodTypeEnum.POSTMcc.GetDescription(),
         HttpMethodTypeEnum.PUTMcc.GetDescription(),
       };
-      return !allowedRequests.Contains(apiRequestType);
+      return !apiRequestType.Any(request => allowedRequests.Contains(request));
     }
 
     public bool ShouldSerializeBrand()
     {
-      string apiRequestType = GlobalVariable.APIRequestType;
+      List<string> apiRequestType = GlobalVariable.APIRequestType;
       HashSet<string> allowedRequests = new HashSet<string>
       {
         HttpMethodTypeEnum.GETMcc.GetDescription(),
         HttpMethodTypeEnum.PUTMcc.GetDescription(),
         HttpMethodTypeEnum.POSTMcc.GetDescription(),
       };
-      return allowedRequests.Contains(apiRequestType);
+      return apiRequestType.Any(request => allowedRequests.Contains(request));
     }
 
     public bool ShouldSerializeFieldDeviceEntities()
     {
-      string apiRequestType = GlobalVariable.APIRequestType;
+      List<string> apiRequestType = GlobalVariable.APIRequestType;
       HashSet<string> allowedRequests = new HashSet<string>
       {
         HttpMethodTypeEnum.GETMcc.GetDescription(),
         HttpMethodTypeEnum.PUTMcc.GetDescription(),
         HttpMethodTypeEnum.POSTMcc.GetDescription(),
       };
-      return allowedRequests.Contains(apiRequestType);
+      return apiRequestType.Any(request => allowedRequests.Contains(request));
     }
 
     public bool ShouldSerializeNote()
     {
-      string apiRequestType = GlobalVariable.APIRequestType;
+      List<string> apiRequestType = GlobalVariable.APIRequestType;
       HashSet<string> allowedRequests = new HashSet<string>
       {
         HttpMethodTypeEnum.GETMcc.GetDescription(),
         HttpMethodTypeEnum.PUTMcc.GetDescription(),
         HttpMethodTypeEnum.POSTMcc.GetDescription(),
       };
-      return allowedRequests.Contains(apiRequestType);
+      return apiRequestType.Any(request => allowedRequests.Contains(request));
     }
 
 

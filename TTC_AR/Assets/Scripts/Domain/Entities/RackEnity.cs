@@ -21,26 +21,26 @@ namespace Domain.Entities
 
     public bool ShouldSerializeId()
     {
-      string apiRequestType = GlobalVariable.APIRequestType;
+      List<string> apiRequestType = GlobalVariable.APIRequestType;
       HashSet<string> allowedRequests = new HashSet<string>
       {
         HttpMethodTypeEnum.POSTRack.GetDescription(),
         HttpMethodTypeEnum.PUTRack.GetDescription(),
       };
-      return !allowedRequests.Contains(apiRequestType);
+      return !apiRequestType.Any(request => allowedRequests.Contains(request));
     }
 
 
     public bool ShouldSerializeModuleEntities()
     {
-      string apiRequestType = GlobalVariable.APIRequestType;
+      List<string> apiRequestType = GlobalVariable.APIRequestType;
       HashSet<string> allowedRequests = new HashSet<string>
       {
         HttpMethodTypeEnum.GETRack.GetDescription(),
         HttpMethodTypeEnum.PUTRack.GetDescription(),
         HttpMethodTypeEnum.POSTRack.GetDescription()
       };
-      return allowedRequests.Contains(apiRequestType);
+      return apiRequestType.Any(request => allowedRequests.Contains(request));
     }
 
     [Preserve]

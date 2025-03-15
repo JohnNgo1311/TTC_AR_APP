@@ -8,6 +8,7 @@ using ApplicationLayer.Dtos.Mcc;
 using ApplicationLayer.Dtos.Image;
 using System.Collections.Generic;
 using Domain.Interfaces;
+using System.Diagnostics;
 
 namespace ApplicationLayer.UseCases
 {
@@ -25,6 +26,14 @@ namespace ApplicationLayer.UseCases
             var entities = await _fieldDeviceRepository.GetListFieldDeviceAsync(grapperId);
 
             var fieldDeviceBasicDtos = entities.Select(entity => MapToBasicDto(entity)).ToList();
+
+            GlobalVariable.temp_Dictionary_FieldDeviceInformationModel =
+            fieldDeviceBasicDtos.ToDictionary(dto => dto.Name, dto => new FieldDeviceInformationModel(dto.Id, dto.Name));
+
+            GlobalVariable.temp_List_FieldDeviceInformationModel = fieldDeviceBasicDtos.Select(dto => new FieldDeviceInformationModel(dto.Id, dto.Name)).ToList();
+
+            UnityEngine.Debug.Log(GlobalVariable.temp_Dictionary_FieldDeviceInformationModel.Count);
+            UnityEngine.Debug.Log(GlobalVariable.temp_List_FieldDeviceInformationModel.Count);
 
             return fieldDeviceBasicDtos;
         }

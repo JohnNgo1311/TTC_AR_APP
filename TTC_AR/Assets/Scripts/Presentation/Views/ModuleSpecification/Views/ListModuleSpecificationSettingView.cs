@@ -228,31 +228,33 @@ public class ListModuleSpecificationSettingView : MonoBehaviour, IModuleSpecific
 
 
 
-    public void ShowLoading() => ShowProgressBar("Loading", "Đang tải dữ liệu...");
+    public void ShowLoading(string title) => ShowProgressBar(title, "Đang tải dữ liệu...");
     public void HideLoading() => HideProgressBar();
     public void ShowError(string message)
     {
-        switch (GlobalVariable.APIRequestType)
+
+        if (GlobalVariable.APIRequestType.Contains("GET_ModuleSpecification_List"))
         {
-            case "GET_ModuleSpecification_List":
-                OpenErrorGetListDialog();
-                break;
-            case "DELETE_ModuleSpecification":
-                OpenErrorDeletingDialog();
-                break;
+            OpenErrorGetListDialog();
         }
+        if (GlobalVariable.APIRequestType.Contains("DELETE_ModuleSpecification"))
+        {
+            OpenErrorDeletingDialog();
+        }
+
     }
     public void ShowSuccess()
     {
         Show_Toast.Instance.Set_Instance_Status_True();
-        switch (GlobalVariable.APIRequestType)
+
+        if (GlobalVariable.APIRequestType.Contains("GET_ModuleSpecification_List"))
         {
-            case "GET_ModuleSpecification_List":
-                Show_Toast.Instance.ShowToast("success", "Tải danh sách thành công");
-                break;
-            case "DELETE_ModuleSpecification":
-                Show_Toast.Instance.ShowToast("success", "Xóa loại Module thành công");
-                break;
+            Show_Toast.Instance.ShowToast("success", "Tải danh sách thành công");
+        }
+        if (GlobalVariable.APIRequestType.Contains("DELETE_ModuleSpecification"))
+        {
+            Show_Toast.Instance.ShowToast("success", "Xóa loại Module thành công");
+
         }
         StartCoroutine(Show_Toast.Instance.Set_Instance_Status_False(1f));
     }

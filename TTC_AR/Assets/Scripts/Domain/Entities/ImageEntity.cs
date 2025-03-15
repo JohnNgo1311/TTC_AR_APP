@@ -1,6 +1,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Newtonsoft.Json;
 using UnityEngine.Scripting;
 #nullable enable
@@ -20,28 +21,29 @@ namespace Domain.Entities
 
     public bool ShouldSerializeId()
     {
-      string apiRequestType = GlobalVariable.APIRequestType;
+      List<string> apiRequestType = GlobalVariable.APIRequestType;
       HashSet<string> allowedRequests = new HashSet<string>
       {
         HttpMethodTypeEnum.POSTImage.GetDescription(),
         HttpMethodTypeEnum.GETListImage.GetDescription(),
       };
-      return !allowedRequests.Contains(apiRequestType);
+      return !apiRequestType.Any(request => allowedRequests.Contains(request));
     }
 
     public bool ShouldSerializeUrl()
     {
-      string apiRequestType = GlobalVariable.APIRequestType;
+      List<string> apiRequestType = GlobalVariable.APIRequestType;
       HashSet<string> allowedRequests = new HashSet<string>
       {
         HttpMethodTypeEnum.GETImage.GetDescription(),
         HttpMethodTypeEnum.GETJB.GetDescription(),
-        HttpMethodTypeEnum.GETListJB.GetDescription(),
+        HttpMethodTypeEnum.GETListJBInformation.GetDescription(),
         HttpMethodTypeEnum.GETDevice.GetDescription(),
-        HttpMethodTypeEnum.GETListDevice.GetDescription(),
+        HttpMethodTypeEnum.GETListDeviceInformationFromGrapper.GetDescription(),
+        HttpMethodTypeEnum.GETListDeviceInformationFromModule.GetDescription(),
         HttpMethodTypeEnum.GETFieldDevice.GetDescription(),
       };
-      return allowedRequests.Contains(apiRequestType);
+      return apiRequestType.Any(request => allowedRequests.Contains(request));
     }
     [Preserve]
     public ImageEntity()

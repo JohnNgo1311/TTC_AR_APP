@@ -1267,7 +1267,7 @@ public class ApiClient : MonoBehaviour
     {
         try
         {
-            var jbList = await _jbService.GetListJBAsync(grapperId); // Gọi Service
+            var jbList = await _jbService.GetListJBInformationAsync(grapperId); // Gọi Service
             if (jbList != null && jbList.Count > 0)
             {
                 foreach (var jb in jbList)

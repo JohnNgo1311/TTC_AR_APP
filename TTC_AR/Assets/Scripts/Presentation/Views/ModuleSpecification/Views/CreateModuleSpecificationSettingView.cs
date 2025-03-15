@@ -162,29 +162,29 @@ public class CreateModuleSpecificationSettingView : MonoBehaviour, IModuleSpecif
 
 
 
-    public void ShowLoading() => ShowProgressBar("Loading", "Dữ liệu đang được tải...");
+    public void ShowLoading(string title) => ShowProgressBar(title, "Dữ liệu đang được tải...");
     public void HideLoading() => HideProgressBar();
     public void ShowError(string message)
     {
-        switch (GlobalVariable.APIRequestType)
+        if (GlobalVariable.APIRequestType.Contains("POST_ModuleSpecification"))
         {
-            case "POST_ModuleSpecification":
-                OpenErrorCreateDialog();
-                break;
-        }
-    }
-    public void ShowSuccess()
-    {
-        Show_Toast.Instance.Set_Instance_Status_True();
-        switch (GlobalVariable.APIRequestType)
-        {
-            case "POST_ModuleSpecification":
-                Show_Toast.Instance.ShowToast("success", "Thêm loại Module mới thành công");
-                OpenSuccessCreateDialog(_ModuleSpecificationModel);
-                break;
+            OpenErrorCreateDialog();
         }
         StartCoroutine(Show_Toast.Instance.Set_Instance_Status_False(1f));
     }
+
+    public void ShowSuccess()
+    {
+        Show_Toast.Instance.Set_Instance_Status_True();
+        if (GlobalVariable.APIRequestType.Contains("POST_ModuleSpecification"))
+        {
+
+            Show_Toast.Instance.ShowToast("success", "Thêm loại Module mới thành công");
+            OpenSuccessCreateDialog(_ModuleSpecificationModel);
+        }
+        StartCoroutine(Show_Toast.Instance.Set_Instance_Status_False(1f));
+    }
+
 
     public void DisplayList(List<ModuleSpecificationModel> models) { }
     public void DisplayCreateResult(bool success) { }

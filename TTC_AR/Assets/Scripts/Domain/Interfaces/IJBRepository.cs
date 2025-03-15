@@ -12,8 +12,9 @@ namespace Domain.Interfaces
         //!  Do kết quả server trả về là tập hợp con của DeviceEntity nên sẽ lựa chọn hàm trả veỀ DeviceResponseDto
         //! Tham số là Entity
         Task<JBEntity> GetJBByIdAsync(string JBId);
-        Task<List<JBEntity>> GetListJBAsync(string grapperId);
-        //  Task<List<JBEntity>> GetListJBAsync(string grapperId);
+        Task<List<JBEntity>> GetListJBGeneralAsync(string grapperId);
+        Task<List<JBEntity>> GetListJBInformationAsync(string grapperId);
+
         Task<bool> CreateNewJBAsync(string grapperId, JBEntity jBEntity);
         Task<bool> UpdateJBAsync(string JBId, JBEntity jBEntity);
         Task<bool> DeleteJBAsync(string JBId);

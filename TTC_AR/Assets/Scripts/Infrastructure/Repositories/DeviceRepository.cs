@@ -16,7 +16,7 @@ namespace Infrastructure.Repositories
     public class DeviceRepository : IDeviceRepository
     {
         private readonly HttpClient _httpClient;
-        private const string BaseUrl = "https://6776bd1c12a55a9a7d0cbc42.mockapi.io/api/v2/Company"; // URL server ngoài thực tế
+        private const string BaseUrl = "https://67176614b910c6a6e027ebfc.mockapi.io/api/v1/Device"; // URL server ngoài thực tế
 
         public DeviceRepository(HttpClient httpClient)
         {
@@ -51,8 +51,47 @@ namespace Infrastructure.Repositories
             }
         }
 
-        //!  Do kết quả server trả về là tập hợp con của DeviceEntity nên sẽ lựa chọn hàm trả veỀ DeviceResponseDto
-        public async Task<List<DeviceEntity>> GetListDeviceAsync(string grapperId)
+        public async Task<List<DeviceEntity>> GetListDeviceInformationFromGrapperAsync(string grapperId)
+        {
+            try
+            {
+                // var response = await _httpClient.GetAsync($"{BaseUrl}/{grapperId}");
+                var response = await _httpClient.GetAsync($"{BaseUrl}");
+                if (!response.IsSuccessStatusCode)
+                    return new List<DeviceEntity>();
+                var content = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<List<DeviceEntity>>(content);
+            }
+            catch (HttpRequestException ex)
+            {
+                throw ex; // Ném lỗi HTTP lên UseCase
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Unexpected error during HTTP request", ex); // Bao bọc lỗi khác
+            }
+        }
+        public async Task<List<DeviceEntity>> GetListDeviceInformationFromModuleAsync(string moduleId)
+        {
+            try
+            {
+                // var response = await _httpClient.GetAsync($"{BaseUrl}/{grapperId}");
+                var response = await _httpClient.GetAsync($"{BaseUrl}");
+                if (!response.IsSuccessStatusCode)
+                    return new List<DeviceEntity>();
+                var content = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<List<DeviceEntity>>(content);
+            }
+            catch (HttpRequestException ex)
+            {
+                throw ex; // Ném lỗi HTTP lên UseCase
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Unexpected error during HTTP request", ex); // Bao bọc lỗi khác
+            }
+        }
+        public async Task<List<DeviceEntity>> GetListDeviceGeneralAsync(string grapperId)
         {
             try
             {

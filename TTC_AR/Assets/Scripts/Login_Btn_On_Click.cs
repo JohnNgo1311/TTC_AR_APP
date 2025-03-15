@@ -5,6 +5,9 @@ using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
+using System.Threading.Tasks;
+using UnityEngine.XR;
+using System.Runtime.InteropServices;
 
 
 public class Login_Btn_On_Click : MonoBehaviour
@@ -14,7 +17,7 @@ public class Login_Btn_On_Click : MonoBehaviour
     [SerializeField] private Button loginButton;
     [SerializeField] private string targetSceneName;
 
-    
+
     private string userName = "";
     private string password = "";
 
@@ -31,7 +34,7 @@ public class Login_Btn_On_Click : MonoBehaviour
         SetScreenOrientation();
         PopulateFieldsIfLoggedIn();
 
-   
+
     }
     private void Start()
     {
@@ -80,7 +83,8 @@ public class Login_Btn_On_Click : MonoBehaviour
         // CompanyManager CompanyManager = FindObjectOfType<CompanyManager>();
         // GlobalVariable.APIRequestType = "GET_JB";
 
-        //! JBManager jBManager = FindObjectOfType<JBManager>();
+
+
         // jBManager.CreateNewJB(
         //     1,
         //     new JBRequestDto(
@@ -179,8 +183,29 @@ public class Login_Btn_On_Click : MonoBehaviour
         //     pdfManual: "AdapterSpecificationPdfManual"
         //     )
         // );
-        ImageManager ImageManager = FindObjectOfType<ImageManager>();
-        ImageManager._IImageService.GetListImageAsync("1");
+
+
+        // FieldDeviceManager FieldDeviceManager = FindObjectOfType<FieldDeviceManager>();
+        // FieldDeviceManager._IFieldDeviceService.GetListFieldDeviceAsync("1");
+        GlobalVariable.APIRequestType.Clear();
+        GlobalVariable.APIRequestType.Add("GET_JB_List_General");
+        GlobalVariable.APIRequestType.Add("GET_Device_List_General");
+        GlobalVariable.APIRequestType.Add("GET_Module_List");
+
+
+        JBManager jBManager = FindObjectOfType<JBManager>();
+        ImageManager imageManager = FindObjectOfType<ImageManager>();
+        ModuleManager moduleManager = FindObjectOfType<ModuleManager>();
+        DeviceManager deviceManager = FindObjectOfType<DeviceManager>();
+
+        jBManager.GetListJBGeneral("1");
+        imageManager._IImageService.GetListImageAsync("1");
+        moduleManager._IModuleService.GetListModuleAsync("1");
+        deviceManager._IDeviceService.GetListDeviceGeneralAsync("1");
+
+
+        GlobalVariable.APIRequestType.Clear();
+
 
         userName = userNameField.text;
         password = passwordField.text;
@@ -222,11 +247,19 @@ public class Login_Btn_On_Click : MonoBehaviour
 
     private IEnumerator LoadSceneAsync(string sceneName)
     {
-        Show_Toast.Instance.Set_Instance_Status_True();
+        //  Show_Toast.Instance.Set_Instance_Status_True();
         Show_Toast.Instance.ShowToast("loading", "Đang đăng nhập...");
+
         GlobalVariable.ready_To_Nav_New_Scene = true;
+
+        yield return new WaitUntil(() =>
+            GlobalVariable.temp_List_DeviceInformationModel.Count > 0 &&
+            GlobalVariable.temp_List_ImageInformationModel.Count > 0 &&
+            GlobalVariable.temp_List_ModuleInformationModel.Count > 0
+        );
+
         yield return Show_Toast.Instance.Set_Instance_Status_False();
 
-        SceneManager.LoadScene(sceneName);
+        SceneManager.LoadSceneAsync(sceneName);
     }
 }

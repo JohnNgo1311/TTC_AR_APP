@@ -17,6 +17,10 @@ namespace Domain.Entities
     [JsonProperty("Name")]
     public string Name { get; set; } = string.Empty; // non-nullable
 
+    // [JsonProperty("Grapper", NullValueHandling = NullValueHandling.Ignore)]
+    [JsonProperty("Grapper")]
+    public GrapperEntity? GrapperEntity { get; set; }
+
     // [JsonProperty("Rack", NullValueHandling = NullValueHandling.Ignore)]
     [JsonProperty("Rack")]
     public RackEntity? RackEntity { get; set; }
@@ -37,80 +41,91 @@ namespace Domain.Entities
 
     public bool ShouldSerializeId()
     {
-      string apiRequestType = GlobalVariable.APIRequestType;
+      List<string> apiRequestType = GlobalVariable.APIRequestType;
       HashSet<string> allowedRequests = new HashSet<string>
       {
         HttpMethodTypeEnum.POSTModule.GetDescription(),
         HttpMethodTypeEnum.PUTModule.GetDescription(),
       };
-      return
-      !allowedRequests.Contains(apiRequestType);
+
+      return !apiRequestType.Any(request => allowedRequests.Contains(request));
     }
 
     public bool ShouldSerializeRackEntity()
     {
-      string apiRequestType = GlobalVariable.APIRequestType;
+      List<string> apiRequestType = GlobalVariable.APIRequestType;
       HashSet<string> allowedRequests = new HashSet<string>
       {
         HttpMethodTypeEnum.GETModule.GetDescription(),
         HttpMethodTypeEnum.POSTModule.GetDescription(),
         HttpMethodTypeEnum.PUTModule.GetDescription(),
       };
-      return allowedRequests.Contains(apiRequestType);
+      return apiRequestType.Any(request => allowedRequests.Contains(request));
     }
-
+    public bool ShouldSerializeGrapperEntity()
+    {
+      List<string> apiRequestType = GlobalVariable.APIRequestType;
+      HashSet<string> allowedRequests = new HashSet<string>
+      {
+        HttpMethodTypeEnum.GETModule.GetDescription(),
+        HttpMethodTypeEnum.POSTModule.GetDescription(),
+        HttpMethodTypeEnum.PUTModule.GetDescription(),
+      };
+      return apiRequestType.Any(request => allowedRequests.Contains(request));
+    }
     public bool ShouldSerializeDeviceEntities()
     {
-      string apiRequestType = GlobalVariable.APIRequestType;
+      List<string> apiRequestType = GlobalVariable.APIRequestType;
       HashSet<string> allowedRequests = new HashSet<string>
       {
         HttpMethodTypeEnum.GETModule.GetDescription(),
         HttpMethodTypeEnum.POSTModule.GetDescription(),
         HttpMethodTypeEnum.PUTModule.GetDescription(),
       };
-      return allowedRequests.Contains(apiRequestType);
+      return apiRequestType.Any(request => allowedRequests.Contains(request));
     }
 
     public bool ShouldSerializeJBEntities()
     {
-      string apiRequestType = GlobalVariable.APIRequestType;
+      List<string> apiRequestType = GlobalVariable.APIRequestType;
       HashSet<string> allowedRequests = new HashSet<string>
       {
         HttpMethodTypeEnum.GETModule.GetDescription(),
         HttpMethodTypeEnum.POSTModule.GetDescription(),
         HttpMethodTypeEnum.PUTModule.GetDescription(),
       };
-      return allowedRequests.Contains(apiRequestType);
+      return apiRequestType.Any(request => allowedRequests.Contains(request));
     }
 
     public bool ShouldSerializeModuleSpecificationEntity()
     {
-      string apiRequestType = GlobalVariable.APIRequestType;
+      List<string> apiRequestType = GlobalVariable.APIRequestType;
       HashSet<string> allowedRequests = new HashSet<string>
       {
         HttpMethodTypeEnum.GETModule.GetDescription(),
         HttpMethodTypeEnum.POSTModule.GetDescription(),
         HttpMethodTypeEnum.PUTModule.GetDescription(),
       };
-      return allowedRequests.Contains(apiRequestType);
+      return apiRequestType.Any(request => allowedRequests.Contains(request));
     }
 
     public bool ShouldSerializeAdapterSpecificationEntity()
     {
-      string apiRequestType = GlobalVariable.APIRequestType;
+      List<string> apiRequestType = GlobalVariable.APIRequestType;
       HashSet<string> allowedRequests = new HashSet<string>
       {
         HttpMethodTypeEnum.GETModule.GetDescription(),
         HttpMethodTypeEnum.POSTModule.GetDescription(),
         HttpMethodTypeEnum.PUTModule.GetDescription(),
       };
-      return allowedRequests.Contains(apiRequestType);
+      return apiRequestType.Any(request => allowedRequests.Contains(request));
     }
 
 
     [Preserve]
     public ModuleEntity()
     {
+
       // DeviceEntities = new List<DeviceEntity>();
       // JBEntities = new List<JBEntity>();
     }
@@ -124,9 +139,10 @@ namespace Domain.Entities
     }
 
     [Preserve]
-    public ModuleEntity(string name, RackEntity rack)
+    public ModuleEntity(string name, GrapperEntity grapperEntity, RackEntity rack)
     {
       Name = string.IsNullOrEmpty(name) ? throw new ArgumentNullException(nameof(name)) : name;
+      GrapperEntity = grapperEntity == null ? throw new ArgumentNullException(nameof(grapperEntity)) : grapperEntity;
       RackEntity = rack;
     }
     [Preserve]
@@ -136,11 +152,11 @@ namespace Domain.Entities
     }
 
     [Preserve]
-    public ModuleEntity(string id, string name, RackEntity rack, List<DeviceEntity> deviceEntities, List<JBEntity> jbEntities, ModuleSpecificationEntity moduleSpecificationEntity, AdapterSpecificationEntity adapterSpecificationEntity)
+    public ModuleEntity(string id, GrapperEntity grapperEntity, string name, RackEntity rack, List<DeviceEntity> deviceEntities, List<JBEntity> jbEntities, ModuleSpecificationEntity moduleSpecificationEntity, AdapterSpecificationEntity adapterSpecificationEntity)
     {
       Id = id;
-
       Name = string.IsNullOrEmpty(name) ? throw new ArgumentNullException(nameof(name)) : name;
+      GrapperEntity = grapperEntity == null ? throw new ArgumentNullException(nameof(grapperEntity)) : grapperEntity;
 
       RackEntity = rack ?? null;
 

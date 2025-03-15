@@ -13,7 +13,12 @@ using UnityEngine.UI;
 public class GlobalVariable : MonoBehaviour
 {
     public static string baseUrl = "http://52.230.123.204:81/api/";
-    public static string APIRequestType = "";
+    public static List<string> APIRequestType = new List<string>()
+    {
+
+    };
+
+
     public static List<string> AllowedRequests = new List<string>()
     {
     "GET_Grapper_List",
@@ -31,12 +36,16 @@ public class GlobalVariable : MonoBehaviour
     "PUT_Module",
     "DELETE_Module",
 
-    "GET_JB_List",
+    "GET_JB_List_General",
+    "GET_JB_List_Information",
+    "GET_JB",
     "POST_JB",
     "PUT_JB",
     "DELETE_JB",
 
-    "GET_Device_List",
+   " GET_Device_List_General",
+   "GET_Device_List_Information_FromModule",
+   "GET_Device_List_Information_Grapper",
     "POST_Device",
     "PUT_Device",
     "DELETE_Device",
@@ -60,7 +69,9 @@ public class GlobalVariable : MonoBehaviour
     "GET_FieldDevice_List",
     "POST_FieldDevice",
     "PUT_FieldDevice",
-    "DELETE_FieldDevice"
+    "DELETE_FieldDevice",
+
+    "GET_Image_List"
     };
 
     public static string previousScene;
@@ -138,14 +149,19 @@ public class GlobalVariable : MonoBehaviour
     public static GrapperBasicDto temp_GrapperBasicDto; // Id, Name, List_Rack_Basic_Dto
     public static GrapperRequestDto temp_GrapperRequestDto; // Id, Name, List_Rack_Basic_Dto
     public static Dictionary<string, GrapperBasicDto> temp_Dictionary_GrapperBasicDto = new Dictionary<string, GrapperBasicDto>();
-
-
     public static List<GrapperBasicModel> temp_ListGrapperBasicModels = new List<GrapperBasicModel>(); // Id, Name, List_Rack_Basic_Model
     public static GrapperBasicModel temp_GrapperBasicModel; // Id, Name, List_Rack_Basic_Model
+
+    public static List<GrapperInformationModel> temp_List_GrapperInformationModel = new List<GrapperInformationModel>();
+
     //!Rack
     public static List<RackBasicModel> temp_ListRackBasicModels = new List<RackBasicModel>(); // Id, Name, List_ ModuleBasicNonRackModel
     public static RackBasicModel temp_RackBasicModel; // Id, Name, List_ ModuleBasicNonRackModel
     public static string RackId = "1";
+
+    public static List<RackInformationModel> temp_List_RackInformationModel = new List<RackInformationModel>();
+
+
     //!Module
     public static List<ModuleBasicModel> temp_ListModuleBasicModels = new List<ModuleBasicModel>(); // Id, Name, Rack_Non_List_Module_Model
     public static ModuleBasicModel temp_ModuleBasicModel; // Id, Name, Rack_Non_List_Module_Model
@@ -154,13 +170,21 @@ public class GlobalVariable : MonoBehaviour
     public static string ModuleId = "1";
     public static Dictionary<string, ModuleInformationModel> temp_Dictionary_ModuleInformationModel = new Dictionary<string, ModuleInformationModel>();
     public static Dictionary<string, ModuleBasicModel> temp_Dictionary_ModuleBasicModel = new Dictionary<string, ModuleBasicModel>();
+
+    public static List<ModuleInformationModel> temp_List_ModuleInformationModel = new List<ModuleInformationModel>();
+
     //! Device
     public static List<DeviceInformationModel> temp_ListDeviceInformationModel = new List<DeviceInformationModel>();
     public static DeviceInformationModel temp_DeviceInformationModel;
-    public static Dictionary<string, DeviceBasicModel> temp_Dictionary_DeviceBasicModel = new Dictionary<string, DeviceBasicModel>();
+    // public static Dictionary<string, DeviceBasicModel> temp_Dictionary_DeviceBasicModel = new Dictionary<string, DeviceBasicModel>();
     public static Dictionary<string, DeviceInformationModel> temp_Dictionary_DeviceInformationModel = new Dictionary<string, DeviceInformationModel>();
     public static Dictionary<string, string> temp_Dictionary_DeviceIOAddress = new Dictionary<string, string>();
     public static string DeviceId = "`1";
+    
+    
+    public static List<DeviceInformationModel> temp_List_DeviceInformationModel = new List<DeviceInformationModel>() { };
+
+
     //! JBS
     public static List<JBInformationModel> temp_ListJBInformationModel_FromModule = new List<JBInformationModel>();
     public static List<JBInformationModel> temp_ListJBInformationModel = new List<JBInformationModel>();
@@ -169,17 +193,29 @@ public class GlobalVariable : MonoBehaviour
     public static bool ActiveCloseCanvasButton = false;
     public static Dictionary<string, JBInformationModel> temp_Dictionary_JBInformationModel = new Dictionary<string, JBInformationModel>();
     public static Dictionary<string, JBBasicModel> temp_Dictionary_JBBasicModel = new Dictionary<string, JBBasicModel>();
+
+
+    public static List<JBInformationModel> temp_List_JBInformationModel = new List<JBInformationModel>();
+
     //! Mccs
     public static List<MccInformationModel> temp_ListMCCInformationModel = new List<MccInformationModel>();
     public static MccInformationModel temp_MCCInformationModel;
     public static string MccId = "1";
     public static Dictionary<string, MccInformationModel> temp_Dictionary_MCCInformationModel = new Dictionary<string, MccInformationModel>();
 
+
+    public static List<MccInformationModel> temp_List_MccInformationModel = new List<MccInformationModel>();
+
     //! Field Device
     public static List<FieldDeviceInformationModel> temp_ListFieldDeviceInformationModel = new List<FieldDeviceInformationModel>();
     public static FieldDeviceInformationModel temp_FieldDeviceInformationModel;
     public static string FieldDeviceId = "1";
     public static Dictionary<string, FieldDeviceInformationModel> temp_Dictionary_FieldDeviceInformationModel = new Dictionary<string, FieldDeviceInformationModel>();
+
+
+    public static List<FieldDeviceInformationModel> temp_List_FieldDeviceInformationModel = new List<FieldDeviceInformationModel>();
+
+
     //! ModuleSpecification 
     public static List<ModuleSpecificationBasicDto> temp_ListModuleSpecificationBasicDto = new List<ModuleSpecificationBasicDto>();
     public static ModuleSpecificationResponseDto temp_ModuleSpecificationResponseDto;
@@ -206,7 +242,7 @@ public class GlobalVariable : MonoBehaviour
     public static string ImageId = "1";
     public static Dictionary<string, ImageInformationModel> temp_Dictionary_ImageInformationModel = new Dictionary<string, ImageInformationModel>();
     public static Dictionary<string, ImageBasicModel> temp_Dictionary_ImageBasicModel = new Dictionary<string, ImageBasicModel>();
-    public static List<ImageInformationModel> temp_ListImageInformationModel = new List<ImageInformationModel>()
+    public static List<ImageInformationModel> temp_List_ImageInformationModel = new List<ImageInformationModel>()
     {
 
           new ImageInformationModel("1", "Image1.png", "https://www.google.com.vn/"),

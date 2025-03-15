@@ -15,7 +15,7 @@ namespace ApplicationLayer.Dtos.JB
     public class JBRequestDto
     {
         [JsonProperty("Name")] public string Name { get; set; }
-        [JsonProperty("Location")] public string Location { get; set; }
+        [JsonProperty("Location")] public string? Location { get; set; }
         [JsonProperty("ListDevices")] public List<DeviceBasicDto>? DeviceBasicDtos { get; set; }
         [JsonProperty("ListModules")] public List<ModuleBasicDto>? ModuleBasicDtos { get; set; }
         [JsonProperty("OutdoorImage")] public ImageBasicDto? OutdoorImageBasicDto { get; set; }
@@ -23,7 +23,7 @@ namespace ApplicationLayer.Dtos.JB
 
         [Preserve]
 
-        public JBRequestDto(string name, string location, List<DeviceBasicDto>? deviceBasicDtos, List<ModuleBasicDto>? moduleBasicDtos, ImageBasicDto? outdoorImageBasicDto, List<ImageBasicDto>? connectionImageBasicDtos)
+        public JBRequestDto(string name, string? location, List<DeviceBasicDto>? deviceBasicDtos, List<ModuleBasicDto>? moduleBasicDtos, ImageBasicDto? outdoorImageBasicDto, List<ImageBasicDto>? connectionImageBasicDtos)
         {
             Name = string.IsNullOrEmpty(name) ? throw new ArgumentNullException(nameof(name)) : name;
             Location = location;

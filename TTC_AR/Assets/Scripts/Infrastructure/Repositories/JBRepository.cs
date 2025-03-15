@@ -56,7 +56,31 @@ namespace Infrastructure.Repositories
         }
 
         //! Trả về List<JBEntity>
-        public async Task<List<JBEntity>> GetListJBAsync(string grapperId)
+        public async Task<List<JBEntity>> GetListJBGeneralAsync(string grapperId)
+        {
+            try
+            {
+                var response = await _httpClient.GetAsync($"{BaseUrl}");
+                if (!response.IsSuccessStatusCode)
+                    throw new HttpRequestException($"Failed to get JB list. Status: {response.StatusCode}");
+                else
+                {
+                    var content = await response.Content.ReadAsStringAsync();
+                    return JsonConvert.DeserializeObject<List<JBEntity>>(content);
+                }
+
+            }
+            catch (HttpRequestException ex)
+            {
+                throw ex;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Unexpected error during HTTP request", ex);
+            }
+        }
+        //! Trả về List<JBEntity>
+        public async Task<List<JBEntity>> GetListJBInformationAsync(string grapperId)
         {
             try
             {
@@ -146,7 +170,7 @@ namespace Infrastructure.Repositories
         {
             try
             {
-                var response = await _httpClient.DeleteAsync($"/api/jb/{jbId}");
+                var response = await _httpClient.DeleteAsync($"{BaseUrl}/{jbId}");
                 if (!response.IsSuccessStatusCode)
                     throw new HttpRequestException($"Failed to delete JB. Status: {response.StatusCode}");
 

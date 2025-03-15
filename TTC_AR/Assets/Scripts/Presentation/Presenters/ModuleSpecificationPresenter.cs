@@ -20,8 +20,9 @@ public class ModuleSpecificationPresenter
 
     public async void LoadListModuleSpecification(string companyId)
     {
-        GlobalVariable.APIRequestType = "GET_ModuleSpecification_List";
-        _view.ShowLoading();
+        GlobalVariable.APIRequestType.Add("GET_ModuleSpecification_List");
+        _view.ShowLoading("Đang tải dữ liệu...");
+
         try
         {
             var ModuleSpecificationBasicDto = await _service.GetListModuleSpecificationAsync(companyId);
@@ -55,13 +56,15 @@ public class ModuleSpecificationPresenter
         finally
         {
             _view.HideLoading();
+            GlobalVariable.APIRequestType.Remove("GET_ModuleSpecification_List");
         }
     }
 
     public async void LoadDetailById(string ModuleId)
     {
-        GlobalVariable.APIRequestType = "GET_ModuleSpecification";
-        _view.ShowLoading();
+        GlobalVariable.APIRequestType.Add("GET_ModuleSpecification");
+        _view.ShowLoading("Đang tải dữ liệu...");
+
         try
         {
             var dto = await _service.GetModuleSpecificationByIdAsync(ModuleId.ToString());
@@ -83,12 +86,14 @@ public class ModuleSpecificationPresenter
         finally
         {
             _view.HideLoading();
+            GlobalVariable.APIRequestType.Remove("GET_ModuleSpecification");
         }
     }
     public async void CreateNewModuleSpecification(string companyId, ModuleSpecificationModel model)
     {
-        GlobalVariable.APIRequestType = "POST_ModuleSpecification";
-        _view.ShowLoading();
+        GlobalVariable.APIRequestType.Add("POST_ModuleSpecification");
+        _view.ShowLoading("Đang thực hiện...");
+
         try
         {
             var dto = ConvertToRequestDto(model);
@@ -110,14 +115,16 @@ public class ModuleSpecificationPresenter
         finally
         {
             _view.HideLoading();
+            GlobalVariable.APIRequestType.Remove("POST_ModuleSpecification");
         }
     }
 
 
     public async void UpdateModuleSpecification(string ModuleSpecificationId, ModuleSpecificationModel model)
     {
-        GlobalVariable.APIRequestType = "PUT_ModuleSpecification";
-        _view.ShowLoading();
+        GlobalVariable.APIRequestType.Add("PUT_ModuleSpecification");
+        _view.ShowLoading("Đang thực hiện...");
+
         try
         {
             var dto = ConvertToRequestDto(model);
@@ -138,12 +145,14 @@ public class ModuleSpecificationPresenter
         finally
         {
             _view.HideLoading();
+            GlobalVariable.APIRequestType.Remove("PUT_ModuleSpecification");
         }
     }
     public async void DeleteModuleSpecification(string ModuleSpecificationId)
     {
-        GlobalVariable.APIRequestType = "DELETE_ModuleSpecification";
-        _view.ShowLoading();
+        GlobalVariable.APIRequestType.Add("DELETE_ModuleSpecification");
+        _view.ShowLoading("Đang thực hiện...");
+
         try
         {
             var result = await _service.DeleteModuleSpecificationAsync(ModuleSpecificationId);
@@ -163,10 +172,9 @@ public class ModuleSpecificationPresenter
         finally
         {
             _view.HideLoading();
-
+            GlobalVariable.APIRequestType.Remove("DELETE_ModuleSpecification");
         }
     }
-
 
     //! Dto => Model
     private ModuleSpecificationModel ConvertFromResponseDto(ModuleSpecificationResponseDto dto)

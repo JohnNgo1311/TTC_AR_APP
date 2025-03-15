@@ -23,9 +23,13 @@ namespace ApplicationLayer.Services
             return await _JBUseCase.GetJBByIdAsync(JBid);
         }
 
-        public async Task<List<JBGeneralDto>> GetListJBAsync(string grapperId)
+        public async Task<List<JBGeneralDto>> GetListJBInformationAsync(string grapperId)
         {
-            return await _JBUseCase.GetListJBAsync(grapperId);
+            return await _JBUseCase.GetListJBInforAsync(grapperId);
+        }
+        public async Task<List<JBBasicDto>> GetListJBGeneralAsync(string grapperId)
+        {
+            return await _JBUseCase.GetListJBGeneralAsync(grapperId);
         }
 
         public async Task<bool> CreateNewJBAsync(string grapperId, JBRequestDto JBRequestDto)

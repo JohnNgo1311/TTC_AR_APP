@@ -142,27 +142,24 @@ public class CreateImageSettingView : MonoBehaviour, IImageView
 
 
 
-    public void ShowLoading() => ShowProgressBar("Loading", "Dữ liệu đang được tải...");
+    public void ShowLoading(string title) => ShowProgressBar(title, "Dữ liệu đang được tải...");
     public void HideLoading() => HideProgressBar();
     public void ShowError(string message)
     {
-        switch (GlobalVariable.APIRequestType)
-        {
-            case "POST_Image":
-                OpenErrorCreateDialog();
-                break;
-        }
+        if (GlobalVariable.APIRequestType.Contains("POST_Image"))
+            OpenErrorCreateDialog();
+
+
     }
     public void ShowSuccess()
     {
         Show_Toast.Instance.Set_Instance_Status_True();
-        switch (GlobalVariable.APIRequestType)
+        if (GlobalVariable.APIRequestType.Contains("POST_Image"))
         {
-            case "POST_Image":
-                Show_Toast.Instance.ShowToast("success", "Thêm loại Module mới thành công");
-                OpenSuccessCreateDialog(_ImageInformationModel);
-                break;
+            Show_Toast.Instance.ShowToast("success", "Thêm loại Module mới thành công");
+            OpenSuccessCreateDialog(_ImageInformationModel);
         }
+
         StartCoroutine(Show_Toast.Instance.Set_Instance_Status_False(1f));
     }
 

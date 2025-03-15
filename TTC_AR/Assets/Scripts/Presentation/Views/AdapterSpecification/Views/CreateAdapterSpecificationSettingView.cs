@@ -163,27 +163,26 @@ public class CreateAdapterSpecificationSettingView : MonoBehaviour, IAdapterSpec
 
 
 
-    public void ShowLoading() => ShowProgressBar("Loading", "Dữ liệu đang được tải...");
+    public void ShowLoading(string title) => ShowProgressBar(title, "Dữ liệu đang được tải...");
     public void HideLoading() => HideProgressBar();
     public void ShowError(string message)
     {
-        switch (GlobalVariable.APIRequestType)
+        if (GlobalVariable.APIRequestType.Contains("POST_AdapterSpecification"))
         {
-            case "POST_AdapterSpecification":
-                OpenErrorCreateDialog();
-                break;
+            OpenErrorCreateDialog();
         }
+
     }
     public void ShowSuccess()
     {
         Show_Toast.Instance.Set_Instance_Status_True();
-        switch (GlobalVariable.APIRequestType)
+
+        if (GlobalVariable.APIRequestType.Contains("POST_AdapterSpecification"))
         {
-            case "POST_AdapterSpecification":
-                Show_Toast.Instance.ShowToast("success", "Thêm loại Adapter mới thành công");
-                OpenSuccessCreateDialog(_adapterSpecificationModel);
-                break;
+            Show_Toast.Instance.ShowToast("success", "Thêm loại Adapter mới thành công");
+            OpenSuccessCreateDialog(_adapterSpecificationModel);
         }
+
         StartCoroutine(Show_Toast.Instance.Set_Instance_Status_False(1f));
     }
 

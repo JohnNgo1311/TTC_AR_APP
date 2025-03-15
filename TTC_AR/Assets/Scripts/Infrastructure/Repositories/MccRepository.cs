@@ -13,7 +13,7 @@ namespace Infrastructure.Repositories
     public class MccRepository : IMccRepository
     {
         private readonly HttpClient _httpClient;
-        private const string BaseUrl = "https://6776bd1c12a55a9a7d0cbc42.mockapi.io/api/v2/Mcc";
+        private const string BaseUrl = "https://677ba70820824100c07a4e9f.mockapi.io/api/v3/Mcc";
 
         public MccRepository(HttpClient httpClient)
         {
@@ -27,9 +27,9 @@ namespace Infrastructure.Repositories
             return JsonConvert.DeserializeObject<List<MccEntity>>(response);
         }
 
-        public async Task<MccEntity> GetMccByIdAsync(string Mccid)
+        public async Task<MccEntity> GetMccByIdAsync(string MccId)
         {
-            var response = await _httpClient.GetStringAsync($"{BaseUrl}/{Mccid}");
+            var response = await _httpClient.GetStringAsync($"{BaseUrl}/{MccId}");
             UnityEngine.Debug.Log(response.ToString());
             return JsonConvert.DeserializeObject<MccEntity>(response);
         }
