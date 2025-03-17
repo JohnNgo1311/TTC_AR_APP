@@ -129,7 +129,7 @@ namespace EasyUI.Helpers
          progressData.progress = progress;
          uiProgressSlider.value = progress;
          uiProgressText.font = fontAsset;
-         uiProgressText.ForceMeshUpdate();
+         // uiProgressText.ForceMeshUpdate();
          uiProgressText.text = string.Format("{0} %", Mathf.Clamp(Mathf.Floor(progress), 0f, 100f));
       }
 

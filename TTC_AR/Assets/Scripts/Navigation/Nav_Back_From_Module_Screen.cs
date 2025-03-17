@@ -7,7 +7,7 @@ using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using System.Linq;
 
-//! Script này sử dụng cho JB_TSD_General_Panel trong mỗi module
+//! Script này sử dụng cho JB_TSD_Basic_Panel trong mỗi module
 
 public class Nav_Back_From_Module_Screen : MonoBehaviour
 {
@@ -16,7 +16,7 @@ public class Nav_Back_From_Module_Screen : MonoBehaviour
 
     private void Start()
     {
-      
+
     }
     private void OnEnable()
     {

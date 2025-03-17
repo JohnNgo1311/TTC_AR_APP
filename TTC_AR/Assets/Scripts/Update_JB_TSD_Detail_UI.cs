@@ -59,18 +59,18 @@ public class Update_JB_TSD_Detail_UI : MonoBehaviour
 
     private void UpdateTitle()
     {
-        if (!string.IsNullOrEmpty(GlobalVariable.jb_TSD_Name))
+        if (!string.IsNullOrEmpty(StaticVariable.jb_TSD_Name))
         {
-            jb_name = jB_TSD_Title.text = GlobalVariable.jb_TSD_Name;
-            jb_location_value.text = GlobalVariable.jb_TSD_Location;
+            jb_name = jB_TSD_Title.text = StaticVariable.jb_TSD_Name;
+            jb_location_value.text = StaticVariable.jb_TSD_Location;
         }
     }
 
     private IEnumerator RunApplyFunctions()
     {
         // Chờ cả hai coroutines kết thúc
-        Show_Dialog.Instance.Set_Instance_Status_True();
-        Show_Dialog.Instance.ShowToast("loading", "Đang tải hình ảnh...");
+        Show_Toast.Instance.Set_Instance_Status_True();
+        Show_Toast.Instance.ShowToast("loading", "Đang tải hình ảnh...");
 
         // Chạy song song ApplyLocationSprite và ApplyConnectionSprites
         yield return ApplyConnectionSprites();
@@ -84,7 +84,7 @@ public class Update_JB_TSD_Detail_UI : MonoBehaviour
             scroll_Area_Content.GetComponent<ContentSizeFitter>().gameObject.SetActive(true);
             scroll_Area_Content.GetComponent<ContentSizeFitter>().enabled = true;
         }
-        yield return Show_Dialog.Instance.Set_Instance_Status_False();
+        yield return Show_Toast.Instance.Set_Instance_Status_False();
     }
 
     private IEnumerator ApplyLocationSprite()

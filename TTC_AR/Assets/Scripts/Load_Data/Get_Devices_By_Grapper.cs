@@ -141,7 +141,7 @@
 //         }
 //         if (GlobalVariable_Search_Devices.devices_Model_For_FilterA != null)
 //         {
-//             StartCoroutine(Show_Dialog.Instance.Set_Instance_Status_False());
+//             StartCoroutine(Show_Toast.Instance.Set_Instance_Status_False());
 //         }
 //     }
 

@@ -20,15 +20,15 @@ public class NavigationToPanels : MonoBehaviour
             parentCanvas = GetComponentInParent<Canvas>();
 
         if (initialScreen == null) // Gán initialScreen nếu chưa gán
-            initialScreen = parentCanvas.transform.Find("General_Panel")?.gameObject;
+            initialScreen = parentCanvas.transform.Find("Basic_Panel")?.gameObject;
 
         if (generalModuleTitle == null && initialScreen != null) // Gán tiêu đề nếu chưa gán
             generalModuleTitle = initialScreen.transform.Find("Title")?.GetComponent<TMP_Text>();
 
         GlobalVariable.generalPanel = initialScreen;
 
-        if (generalModuleTitle != null)
-            generalModuleTitle.text = GetModuleTitle(parentCanvas.gameObject.name);
+        // if (generalModuleTitle != null)
+        //     generalModuleTitle.text = GetModuleTitle(parentCanvas.gameObject.name);
 
         SetInitialState();
 

@@ -13,8 +13,8 @@ public class Login_Btn_On_Click : MonoBehaviour
     [SerializeField] private Button loginButton;
     [SerializeField] private string targetSceneName;
 
-    private string userName;
-    private string password;
+    private string userName = "";
+    private string password = "";
 
     private readonly Dictionary<string, string> staffAccounts = new Dictionary<string, string>
     {
@@ -28,6 +28,14 @@ public class Login_Btn_On_Click : MonoBehaviour
     {
         SetScreenOrientation();
         PopulateFieldsIfLoggedIn();
+    }
+    private void Start()
+    {
+        loginButton.onClick.AddListener(HandleLogin);
+    }
+    private void Update()
+    {
+        CheckForExitInput();
     }
 
     private void SetScreenOrientation()
@@ -47,10 +55,6 @@ public class Login_Btn_On_Click : MonoBehaviour
         }
     }
 
-    private void Update()
-    {
-        CheckForExitInput();
-    }
 
     private void CheckForExitInput()
     {
@@ -62,10 +66,7 @@ public class Login_Btn_On_Click : MonoBehaviour
         }
     }
 
-    private void Start()
-    {
-        loginButton.onClick.AddListener(HandleLogin);
-    }
+
 
     private void HandleLogin()
     {
@@ -74,15 +75,15 @@ public class Login_Btn_On_Click : MonoBehaviour
 
         if (staffAccounts.TryGetValue(userName.ToLower(), out string foundPassword) && foundPassword == password)
         {
-            StartCoroutine(ShowToastLoading());
+            StartCoroutine(HandleLoginSuccess());
         }
         else
         {
-            StartCoroutine(ShowToastFailure());
+            StartCoroutine(HandleLoginFailure());
         }
     }
 
-    private IEnumerator ShowToastLoading()
+    private IEnumerator HandleLoginSuccess()
     {
         UpdateGlobalVariables();
         yield return LoadSceneAsync(targetSceneName);
@@ -93,26 +94,26 @@ public class Login_Btn_On_Click : MonoBehaviour
         GlobalVariable.accountModel.userName = userName;
         GlobalVariable.accountModel.password = password;
         GlobalVariable.recentScene = targetSceneName;
-        GlobalVariable.previousScene = "LoginScene";
+        GlobalVariable.previousScene = MyEnum.LoginScene.GetDescription();
         GlobalVariable.loginSuccess = true;
     }
 
-    private IEnumerator ShowToastFailure()
+    private IEnumerator HandleLoginFailure()
     {
-        Show_Dialog.Instance.Set_Instance_Status_True();
-        Show_Dialog.Instance.ShowToast("failure", "Sai tên đăng nhập hoặc mật khẩu!");
-        yield return new WaitForSeconds(1f);
+        Show_Toast.Instance.Set_Instance_Status_True();
+        Show_Toast.Instance.ShowToast("failure", "Sai tên đăng nhập hoặc mật khẩu!");
+        yield return new WaitForSeconds(0.5f);
         Debug.Log("Sai tên đăng nhập hoặc mật khẩu!");
         GlobalVariable.loginSuccess = false;
-        yield return Show_Dialog.Instance.Set_Instance_Status_False();
+        yield return Show_Toast.Instance.Set_Instance_Status_False();
     }
 
     private IEnumerator LoadSceneAsync(string sceneName)
     {
-        Show_Dialog.Instance.Set_Instance_Status_True();
-        Show_Dialog.Instance.ShowToast("loading", "Đang đăng nhập...");
+        Show_Toast.Instance.Set_Instance_Status_True();
+        Show_Toast.Instance.ShowToast("loading", "Đang đăng nhập...");
         GlobalVariable.ready_To_Nav_New_Scene = true;
-        yield return Show_Dialog.Instance.Set_Instance_Status_False();
+        yield return Show_Toast.Instance.Set_Instance_Status_False();
 
         SceneManager.LoadScene(sceneName);
     }

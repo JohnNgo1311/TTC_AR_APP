@@ -48,24 +48,31 @@ public class Get_Module_Specification : MonoBehaviour
             GlobalVariable.ready_To_Nav_New_Scene = false;
             await Move_On_Main_Thread.RunOnMainThread(() =>
                       {
-                          Show_Dialog.Instance.Set_Instance_Status_True();
-                          Show_Dialog.Instance.ShowToast("loading", "Đang tải dữ liệu...");
+                          Show_Toast.Instance.Set_Instance_Status_True();
+                          Show_Toast.Instance.ShowToast("loading", "Đang tải dữ liệu...");
                       });
 
             await APIManager.Instance.GetModuleSpecification(url: $"{GlobalVariable.baseUrl}Modules/{GlobalVariable.ModuleId}/specification");
             await Move_On_Main_Thread.RunOnMainThread(() =>
                {
-                   StartCoroutine(Show_Dialog.Instance.Set_Instance_Status_False());
+                   StartCoroutine(Show_Toast.Instance.Set_Instance_Status_False());
                });
             GlobalVariable.ready_To_Nav_New_Scene = true;
 
         }
-        catch (Exception ex)
+        catch (Exception)
         {
             GlobalVariable.ready_To_Nav_New_Scene = false;
-
-            Debug.Log("Get_ModuleSpecification + lỗi: " + ex.Message);
-            // Show_Dialog.Instance.ShowToast("failure", $"Lỗi: {ex.Message}");
+            // Xử lý lỗi và hiển thị thông báo
+            await Move_On_Main_Thread.RunOnMainThread(() =>
+             {
+                 Show_Toast.Instance.ShowToast("failure", "Đã có lỗi xảy ra");
+             });
+            await Task.Delay(2000);
+            await Move_On_Main_Thread.RunOnMainThread(() =>
+              {
+                  StartCoroutine(Show_Toast.Instance.Set_Instance_Status_False());
+              });
         }
     }
 }

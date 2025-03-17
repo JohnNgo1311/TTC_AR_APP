@@ -11,7 +11,7 @@ public class Resize_Gameobject_Function : MonoBehaviour
   {
   }
 
-  public static void Resize_Parent_GameObject(RectTransform contentTransform)
+  public static void Resize_Parent_GameObject(RectTransform contentTransform, float Multiply = 1.00005f)
   {
     LayoutRebuilder.ForceRebuildLayoutImmediate(contentTransform);
     Canvas.ForceUpdateCanvases();
@@ -23,7 +23,7 @@ public class Resize_Gameobject_Function : MonoBehaviour
         totalHeight += childRect.rect.height;
       }
     }
-    contentTransform.sizeDelta = new Vector2(contentTransform.sizeDelta.x, totalHeight * 1.00005f);
+    contentTransform.sizeDelta = new Vector2(contentTransform.sizeDelta.x, totalHeight * Multiply);
   }
 
   public static IEnumerator Set_NativeSize_For_GameObject(Image imageComponent)

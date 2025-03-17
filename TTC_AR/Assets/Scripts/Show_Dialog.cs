@@ -7,18 +7,17 @@ public class Show_Dialog : MonoBehaviour
 {
     // Singleton Instance
     public static Show_Dialog Instance { get; set; }
-
-    public Transform toastParent;
-    public GameObject toastPrefab;
-    public string toastStatus = "loading";
-    public Transform existingToast;
-    public Image toastBackground;
-    public TMP_Text toastText;
+    public Transform dialogParent;
+    public GameObject dialogPrefab;
+    public string dialogStatus = "loading";
+    public Transform existingdialog;
+    public Image dialogBackground;
+    public TMP_Text dialogText;
     // Tìm tất cả các GameObject trong scene
     public GameObject[] allObjects;
     // Preload Sprites for better performance
-    [SerializeField] private string toastMessageInitial = "";
-    [SerializeField] private bool showToastInitial = false;
+    [SerializeField] private string dialogMessageInitial = "";
+    [SerializeField] private bool showdialogInitial = false;
     private Sprite loadingSprite;
     private Sprite successSprite;
     private Sprite failureSprite;
@@ -27,32 +26,32 @@ public class Show_Dialog : MonoBehaviour
     private void Awake()
     {
         allObjects = FindObjectsOfType<GameObject>();
-        toastParent ??= GetComponent<Canvas>().transform;
-        Debug.Log(toastParent.name);
+        dialogParent ??= GetComponent<Canvas>().transform;
+        Debug.Log(dialogParent.name);
         // Singleton setup
         if (Instance != null && Instance != this)
         {
             Destroy(this);
-            Debug.LogWarning("Multiple instances of Show_Dialog found. Destroying duplicate.");
+            Debug.LogWarning("Multiple instances of Show_dialog found. Destroying duplicate.");
         }
         else
         {
             Instance = this;
-            Debug.Log("Show_Dialog");
+            Debug.Log("Show_dialog");
             PreloadSprites();
         }
-        if (showToastInitial)
+        if (showdialogInitial)
         {
-            if (GlobalVariable.recentScene == "SelectionScene" && GlobalVariable.previousScene != "LoginScene")
+            if (GlobalVariable.recentScene == MyEnum.SelectionsScene.GetDescription() && GlobalVariable.previousScene != MyEnum.LoginScene.GetDescription())
             {
                 return;
             }
             else
             {
                 Set_Instance_Status_True();
-                ShowToast(toastStatus, toastMessageInitial);
+                Showdialog(dialogStatus, dialogMessageInitial);
                 StartCoroutine(Set_Instance_Status_False());
-                showToastInitial = false;
+                showdialogInitial = false;
             }
         }
     }
@@ -67,40 +66,40 @@ public class Show_Dialog : MonoBehaviour
         failureSprite = Resources.Load<Sprite>("images/UIimages/error_notification");
     }
 
-    public void ShowToast(string toastStatus, string message)
+    public void Showdialog(string dialogStatus, string message)
     {
-        if (existingToast == null)
+        if (existingdialog == null)
         {
-            existingToast = Instantiate(toastPrefab, toastParent).transform;
-            var layoutToast = existingToast.transform.GetChild(0);
-            toastText = layoutToast.GetComponentInChildren<TMP_Text>();
-            toastBackground = layoutToast.GetComponentInChildren<Image>();
-            existingToast.gameObject.SetActive(true);
+            existingdialog = Instantiate(dialogPrefab, dialogParent).transform;
+            var layoutdialog = existingdialog.transform.GetChild(0);
+            dialogText = layoutdialog.GetComponentInChildren<TMP_Text>();
+            dialogBackground = layoutdialog.GetComponentInChildren<Image>();
+            existingdialog.gameObject.SetActive(true);
         }
         else
         {
-            existingToast.gameObject.SetActive(true);
+            existingdialog.gameObject.SetActive(true);
         }
 
-        if (toastText != null && toastBackground != null)
+        if (dialogText != null && dialogBackground != null)
         {
-            toastText.text = message;
-            switch (toastStatus.ToLower())
+            dialogText.text = message;
+            switch (dialogStatus.ToLower())
             {
                 case "loading":
-                    toastText.color = new Color32(0x00, 0x96, 0xFF, 0xFF);
-                    toastBackground.sprite = loadingSprite;
+                    dialogText.color = new Color32(0x00, 0x96, 0xFF, 0xFF);
+                    dialogBackground.sprite = loadingSprite;
                     break;
                 case "success":
-                    toastText.color = new Color32(0x27, 0xC8, 0x6F, 0xFF);
-                    toastBackground.sprite = successSprite;
+                    dialogText.color = new Color32(0x27, 0xC8, 0x6F, 0xFF);
+                    dialogBackground.sprite = successSprite;
                     break;
                 case "failure":
-                    toastText.color = new Color32(0xFF, 0x49, 0x39, 0xFF);
-                    toastBackground.sprite = failureSprite;
+                    dialogText.color = new Color32(0xFF, 0x49, 0x39, 0xFF);
+                    dialogBackground.sprite = failureSprite;
                     break;
                 default:
-                    Debug.LogWarning("Unknown toast status: " + toastStatus);
+                    Debug.LogWarning("Unknown dialog status: " + dialogStatus);
                     break;
             }
         }
@@ -111,13 +110,13 @@ public class Show_Dialog : MonoBehaviour
 
         if (status == false)
         {
-            if (existingToast == null)
+            if (existingdialog == null)
             {
-                Debug.LogError("existingToast is null. Make sure it is assigned properly.");
+                Debug.LogError("existingdialog is null. Make sure it is assigned properly.");
                 return;
             }
 
-            existingToast.gameObject.SetActive(status);
+            existingdialog.gameObject.SetActive(status);
         }
 
         foreach (GameObject obj in allObjects)
@@ -140,6 +139,6 @@ public class Show_Dialog : MonoBehaviour
     {
         yield return new WaitForSeconds(1f);
         SetInstanceStatus(false);
-        Debug.Log("Tắt Toast");
+        Debug.Log("Tắt dialog");
     }
 }

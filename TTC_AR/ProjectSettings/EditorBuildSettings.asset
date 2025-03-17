@@ -23,6 +23,18 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/GrapperAScanScene.unity
     guid: d67a263c2a4aaa648bc2fe27dc66a932
+  - enabled: 0
+    path: Assets/OpenCVForUnity/Examples/OpenCVForUnityExample.unity
+    guid: c1089b6c5cb5b0742be92732f5bdc172
+  - enabled: 1
+    path: Assets/OpenCVForUnity/Examples/ShowLicense.unity
+    guid: eb34810e3e19dc345b1f0be0bf793d5f
+  - enabled: 1
+    path: Assets/OpenCVForUnity/Examples/ShowSystemInfo.unity
+    guid: 42ae57bf137440946a42849763a28437
+  - enabled: 1
+    path: Assets/Scenes/NewQrDetectMulti/NewQRCodeDetectorMulti.unity
+    guid: fd0610d1c3970e94c8c3226567f018ec
   m_configObjects:
     UnityEditor.XR.ARCore.ARCoreSettings: {fileID: 11400000, guid: 4e27cb49c56077a4e9377e67098f2e89,
       type: 2}

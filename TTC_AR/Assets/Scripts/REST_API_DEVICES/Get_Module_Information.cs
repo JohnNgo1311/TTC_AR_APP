@@ -50,41 +50,47 @@ public class Get_Module_Information : MonoBehaviour
             var moduleName = gameObject.name.Split('_')[0];
             var rackName = $"Rack_{gameObject.name.Substring(1, 1)}";
             //? Rack tương ứng
-            var rack = GlobalVariable.temp_List_Rack_General_Models.Find(rack => rack.Name == rackName);
+            var rack = GlobalVariable.temp_ListRackBasicModels.Find(rack => rack.Name == rackName);
             //? Module tương ứng    
-            var module = rack.List_Module_General_Non_Rack_Model.Find(module => module.Name == moduleName);
+            var module = GlobalVariable.temp_ListModuleBasicModels.Find(module => module.Name == moduleName);
 
             if (rack == null || module == null)
             {
-                Show_Dialog.Instance.ShowToast("error", "Không tìm thấy thông tin rack hoặc module!");
+                Show_Toast.Instance.ShowToast("error", "Không tìm thấy thông tin rack hoặc module!");
                 return;
             }
 
             await Move_On_Main_Thread.RunOnMainThread(() =>
                       {
-                          Show_Dialog.Instance.Set_Instance_Status_True();
-                          Show_Dialog.Instance.ShowToast("loading", "Đang tải dữ liệu...");
+                          Show_Toast.Instance.Set_Instance_Status_True();
+                          Show_Toast.Instance.ShowToast("loading", "Đang tải dữ liệu...");
                       });
 
-            await APIManager.Instance.GetModuleInformation(
-                url: $"{GlobalVariable.baseUrl}Modules/{module.Id}",
-                moduleId: 1
+            await APIManager.Instance.GetModuleData(
+                url: $"{GlobalVariable.baseUrl}Modules/{module.Id}"
             );
             await APIManager.Instance.DownloadImagesAsync();
 
             await Move_On_Main_Thread.RunOnMainThread(() =>
                {
-                   StartCoroutine(Show_Dialog.Instance.Set_Instance_Status_False());
+                   StartCoroutine(Show_Toast.Instance.Set_Instance_Status_False());
                });
             GlobalVariable.ready_To_Nav_New_Scene = true;
 
         }
-        catch (Exception ex)
+        catch (Exception)
         {
             GlobalVariable.ready_To_Nav_New_Scene = false;
-
-            Debug.Log("Get_ModuleInformationModel + lỗi: " + ex.Message);
-            // Show_Dialog.Instance.ShowToast("failure", $"Lỗi: {ex.Message}");
+            // Xử lý lỗi và hiển thị thông báo
+            await Move_On_Main_Thread.RunOnMainThread(() =>
+             {
+                 Show_Toast.Instance.ShowToast("failure", "Đã có lỗi xảy ra");
+             });
+            await Task.Delay(2000);
+            await Move_On_Main_Thread.RunOnMainThread(() =>
+              {
+                  StartCoroutine(Show_Toast.Instance.Set_Instance_Status_False());
+              });
         }
     }
 }
