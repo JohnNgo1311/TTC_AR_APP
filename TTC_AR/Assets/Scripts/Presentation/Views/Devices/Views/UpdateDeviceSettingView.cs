@@ -88,6 +88,7 @@ public class UpdateDeviceSettingView : MonoBehaviour, IDeviceView
 
     public void LoadDetailById()
     {
+        RenewView();
         _presenter.LoadDetailById(GlobalVariable.DeviceId);
     }
     void OnEnable()
@@ -142,7 +143,7 @@ public class UpdateDeviceSettingView : MonoBehaviour, IDeviceView
             ioAddress: string.IsNullOrEmpty(deviceIOAddress_TextField.text) ? "Chưa cập nhật" : deviceIOAddress_TextField.text,
             jbInformationModel: !addJBItem.activeSelf ? temp_JBModel : null,
             moduleInformationModel: !addModuleItem.activeSelf ? temp_ModuleModel : null,
-            additionalConnectionImages: temp_Dictionary_Additional_ConnectionModel.Count > 0 ? temp_Dictionary_Additional_ConnectionModel.Values.ToList() : new List<ImageInformationModel>()
+            additionalConnectionImages: temp_Dictionary_Additional_ConnectionModel.Any() ? temp_Dictionary_Additional_ConnectionModel.Values.ToList() : new List<ImageInformationModel>()
             );
 
             _presenter.UpdateDevice(GlobalVariable.GrapperId, DeviceInformationModel);
@@ -472,7 +473,7 @@ public class UpdateDeviceSettingView : MonoBehaviour, IDeviceView
     {
         SetInitialInputFields(model);
 
-        if (model.AdditionalConnectionImages != null && model.AdditionalConnectionImages.Count > 0)
+        if (model.AdditionalConnectionImages != null && model.AdditionalConnectionImages.Any())
         {
             var temp_Additional_ConnectionImageNames = model.AdditionalConnectionImages.Select(item => item.Name).ToList();
             PopulateItems(temp_Additional_ConnectionImageNames, ConnectionImage_Item_Prefab, List_Additional_Connection_Image_Parent_Vertical_Group, "Additional_Connection_Images");

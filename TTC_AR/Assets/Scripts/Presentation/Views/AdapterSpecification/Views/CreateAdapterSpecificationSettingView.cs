@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CreateAdapterSpecificationSettingView : MonoBehaviour, IAdapterSpecificationView
+public class CreateAdapterSpecificationSettingView : MonoBehaviour, IAdapterSpecificationView   
 {
     private AdapterSpecificationPresenter _presenter;
 
@@ -38,10 +38,17 @@ public class CreateAdapterSpecificationSettingView : MonoBehaviour, IAdapterSpec
 
     private AdapterSpecificationModel _adapterSpecificationModel;
 
+    // void Awake()
+    // {
+    //     AdapterSpecificationManager AdapterSpecificationManager = FindObjectOfType<AdapterSpecificationManager>();
+    //     _presenter = new AdapterSpecificationPresenter(this, AdapterSpecificationManager._IAdapterSpecificationService);
+    // }
+
     void Awake()
     {
-        AdapterSpecificationManager AdapterSpecificationManager = FindObjectOfType<AdapterSpecificationManager>();
-        _presenter = new AdapterSpecificationPresenter(this, AdapterSpecificationManager._IAdapterSpecificationService);
+        // var DeviceManager = FindObjectOfType<DeviceManager>();
+        _presenter = new AdapterSpecificationPresenter(this, ManagerLocator.Instance.AdapterSpecificationManager._IAdapterSpecificationService);
+        // DeviceManager._IDeviceService
     }
 
     void OnEnable()
@@ -86,21 +93,22 @@ public class CreateAdapterSpecificationSettingView : MonoBehaviour, IAdapterSpec
         if (!List_AdapterSpecification_Canvas.activeSelf) List_AdapterSpecification_Canvas.SetActive(true);
     }
 
-    private void OpenErrorCreateDialog()
+    private void OpenErrorDialog(string title = "Tạo loại Adapter mới thất bại", string content = "Đã có lỗi xảy ra khi tạo loại Adapter mới. Vui lòng thử lại sau.")
     {
         DialogOneButton.SetActive(true);
         var backButton = DialogOneButton.transform.Find("Background/Back_Button").GetComponent<Button>();
         backButton.gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>("images/UIimages/Error_Back_Button_Background");
         var dialog_Icon = DialogOneButton.transform.Find("Background/Dialog_Status_Icon").GetComponent<Image>().sprite = Resources.Load<Sprite>("images/UIimages/Error_Icon_For_Dialog");
-        var dialog_Content = DialogOneButton.transform.Find("Background/Dialog_Content").GetComponent<TMP_Text>().text = $"Đã có lỗi xảy ra khi tạo loại Adapter mới. Vui lòng thử lại sau.";
-        var dialog_Title = DialogOneButton.transform.Find("Background/Dialog_Title").GetComponent<TMP_Text>().text = "Tạo Adapter mới thất bại";
+        var dialog_Content = DialogOneButton.transform.Find("Background/Dialog_Content").GetComponent<TMP_Text>().text = content;
+        var dialog_Title = DialogOneButton.transform.Find("Background/Dialog_Title").GetComponent<TMP_Text>().text = title;
         backButton.onClick.RemoveAllListeners();
         backButton.onClick.AddListener(() =>
         {
             DialogOneButton.SetActive(false);
         });
     }
-    private void OpenSuccessCreateDialog(AdapterSpecificationModel model)
+
+    private void OpenSuccessDialog(AdapterSpecificationModel model)
     {
         DialogTwoButton.SetActive(true);
 
@@ -108,7 +116,7 @@ public class CreateAdapterSpecificationSettingView : MonoBehaviour, IAdapterSpec
         var horizontalGroupTransform = backgroundTransform.Find("Horizontal_Group");
 
         backgroundTransform.Find("Dialog_Status_Icon").GetComponent<Image>().sprite = Resources.Load<Sprite>("images/UIimages/Success_Icon_For_Dialog");
-        backgroundTransform.Find("Dialog_Content").GetComponent<TMP_Text>().text = $"Bạn đã thành công thêm loại Adapter <color=#FF0000><b>{model.Code}</b></color> vào hệ thống";
+        backgroundTransform.Find("Dialog_Content").GetComponent<TMP_Text>().text = $"Bạn đã thành công thêm loại Adapter <b><color =#004C8A>{model.Code}</b></color> vào hệ thống";
         backgroundTransform.Find("Dialog_Title").GetComponent<TMP_Text>().text = "Thêm loại Adapter mới thành công";
 
         var confirmButton = horizontalGroupTransform.Find("Confirm_Button").GetComponent<Button>();
@@ -169,7 +177,7 @@ public class CreateAdapterSpecificationSettingView : MonoBehaviour, IAdapterSpec
     {
         if (GlobalVariable.APIRequestType.Contains("POST_AdapterSpecification"))
         {
-            OpenErrorCreateDialog();
+            OpenErrorDialog();
         }
 
     }
@@ -180,7 +188,7 @@ public class CreateAdapterSpecificationSettingView : MonoBehaviour, IAdapterSpec
         if (GlobalVariable.APIRequestType.Contains("POST_AdapterSpecification"))
         {
             Show_Toast.Instance.ShowToast("success", "Thêm loại Adapter mới thành công");
-            OpenSuccessCreateDialog(_adapterSpecificationModel);
+            OpenSuccessDialog(_adapterSpecificationModel);
         }
 
         StartCoroutine(Show_Toast.Instance.Set_Instance_Status_False(1f));

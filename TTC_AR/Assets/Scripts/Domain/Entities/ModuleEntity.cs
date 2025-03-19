@@ -59,8 +59,6 @@ namespace Domain.Entities
       HashSet<string> allowedRequests = new HashSet<string>
       {
         HttpMethodTypeEnum.GETModule.GetDescription(),
-        HttpMethodTypeEnum.POSTModule.GetDescription(),
-        HttpMethodTypeEnum.PUTModule.GetDescription(),
       };
       return apiRequestType.Any(request => allowedRequests.Contains(request));
     }
@@ -129,8 +127,8 @@ namespace Domain.Entities
     public ModuleEntity()
     {
 
-      // DeviceEntities = new List<DeviceEntity>();
-      // JBEntities = new List<JBEntity>();
+      // DeviceEntities = new List<DeviceEntity>?();
+      // JBEntities = new List<JBEntity>?();
     }
 
 
@@ -142,7 +140,7 @@ namespace Domain.Entities
     }
 
     [Preserve]
-    public ModuleEntity(string name, GrapperEntity grapperEntity, RackEntity rack)
+    public ModuleEntity(string name, GrapperEntity grapperEntity, RackEntity? rack)
     {
       Name = string.IsNullOrEmpty(name) ? throw new ArgumentNullException(nameof(name)) : name;
       GrapperEntity = grapperEntity == null ? throw new ArgumentNullException(nameof(grapperEntity)) : grapperEntity;
@@ -155,7 +153,7 @@ namespace Domain.Entities
     }
 
     [Preserve]
-    public ModuleEntity(string id, GrapperEntity grapperEntity, string name, RackEntity rack, List<DeviceEntity> deviceEntities, List<JBEntity> jbEntities, ModuleSpecificationEntity moduleSpecificationEntity, AdapterSpecificationEntity adapterSpecificationEntity)
+    public ModuleEntity(string id, GrapperEntity grapperEntity, string name, RackEntity? rack, List<DeviceEntity>? deviceEntities, List<JBEntity>? jbEntities, ModuleSpecificationEntity? moduleSpecificationEntity, AdapterSpecificationEntity? adapterSpecificationEntity)
     {
       Id = id;
       Name = string.IsNullOrEmpty(name) ? throw new ArgumentNullException(nameof(name)) : name;
@@ -163,11 +161,11 @@ namespace Domain.Entities
 
       RackEntity = rack ?? null;
 
-      DeviceEntities = (deviceEntities == null || (deviceEntities != null && deviceEntities.Count <= 0))
+      DeviceEntities = (deviceEntities == null || (deviceEntities != null && !deviceEntities.Any()))
 
       ? new List<DeviceEntity>() : deviceEntities;
 
-      JBEntities = (jbEntities == null || (jbEntities != null && jbEntities.Count <= 0))
+      JBEntities = (jbEntities == null || (jbEntities != null && !jbEntities.Any()))
 
       ? new List<JBEntity>() : jbEntities;
 
@@ -177,17 +175,17 @@ namespace Domain.Entities
     }
 
     [Preserve]
-    public ModuleEntity(string name, RackEntity rack, List<DeviceEntity> deviceEntities, List<JBEntity> jbEntities, ModuleSpecificationEntity moduleSpecificationEntity, AdapterSpecificationEntity adapterSpecificationEntity)
+    public ModuleEntity(string name, RackEntity? rack, List<DeviceEntity>? deviceEntities, List<JBEntity>? jbEntities, ModuleSpecificationEntity? moduleSpecificationEntity, AdapterSpecificationEntity? adapterSpecificationEntity)
     {
       Name = string.IsNullOrEmpty(name) ? throw new ArgumentNullException(nameof(name)) : name;
 
       RackEntity = rack ?? null;
 
-      DeviceEntities = (deviceEntities == null || (deviceEntities != null && deviceEntities.Count <= 0))
+      DeviceEntities = (deviceEntities == null || (deviceEntities != null && !deviceEntities.Any()))
 
       ? new List<DeviceEntity>() : deviceEntities;
 
-      JBEntities = (jbEntities == null || (jbEntities != null && jbEntities.Count <= 0))
+      JBEntities = (jbEntities == null || (jbEntities != null && !jbEntities.Any()))
 
       ? new List<JBEntity>() : jbEntities;
 

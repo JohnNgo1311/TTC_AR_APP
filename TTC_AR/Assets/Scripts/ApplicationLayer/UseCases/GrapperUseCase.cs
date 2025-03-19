@@ -183,12 +183,12 @@ namespace ApplicationLayer.UseCases
             return new GrapperResponseDto(
             id: GrapperEntity.Id,
             name: GrapperEntity.Name,
-            rackBasicDtos: GrapperEntity.RackEntities.Count > 0 ? GrapperEntity.RackEntities.Select(r => new RackBasicDto(r.Id, r.Name)).ToList() : new List<RackBasicDto>(),
-            moduleBasicDtos: GrapperEntity.ModuleEntities.Count > 0 ? GrapperEntity.ModuleEntities.Select(m => new ModuleBasicDto(m.Id, m.Name)).ToList() : new List<ModuleBasicDto>(),
-            jBBasicDtos: GrapperEntity.JBEntities.Count > 0 ? GrapperEntity.JBEntities.Select(j => new JBBasicDto(j.Id, j.Name)).ToList() : new List<JBBasicDto>(),
-            mccBasicDtos: GrapperEntity.MccEntities.Count > 0 ? GrapperEntity.MccEntities.Select(m => new MccBasicDto(m.Id, m.CabinetCode)).ToList() : new List<MccBasicDto>(),
-            deviceBasicDtos: GrapperEntity.DeviceEntities.Count > 0 ? GrapperEntity.DeviceEntities.Select(d => new DeviceBasicDto(d.Id, d.Code)).ToList() : new List<DeviceBasicDto>(),
-            fieldDeviceBasicDtos: GrapperEntity.FieldDeviceEntities.Count > 0 ? GrapperEntity.FieldDeviceEntities.Select(fd => new FieldDeviceBasicDto(fd.Id, fd.Name)).ToList() : new List<FieldDeviceBasicDto>()
+            rackBasicDtos: GrapperEntity.RackEntities.Any() ? GrapperEntity.RackEntities.Select(r => new RackBasicDto(r.Id, r.Name)).ToList() : new List<RackBasicDto>(),
+            moduleBasicDtos: GrapperEntity.ModuleEntities.Any() ? GrapperEntity.ModuleEntities.Select(m => new ModuleBasicDto(m.Id, m.Name)).ToList() : new List<ModuleBasicDto>(),
+            jBBasicDtos: GrapperEntity.JBEntities.Any() ? GrapperEntity.JBEntities.Select(j => new JBBasicDto(j.Id, j.Name)).ToList() : new List<JBBasicDto>(),
+            mccBasicDtos: GrapperEntity.MccEntities.Any() ? GrapperEntity.MccEntities.Select(m => new MccBasicDto(m.Id, m.CabinetCode)).ToList() : new List<MccBasicDto>(),
+            deviceBasicDtos: GrapperEntity.DeviceEntities.Any() ? GrapperEntity.DeviceEntities.Select(d => new DeviceBasicDto(d.Id, d.Code)).ToList() : new List<DeviceBasicDto>(),
+            fieldDeviceBasicDtos: GrapperEntity.FieldDeviceEntities.Any() ? GrapperEntity.FieldDeviceEntities.Select(fd => new FieldDeviceBasicDto(fd.Id, fd.Name)).ToList() : new List<FieldDeviceBasicDto>()
             );
         }
 

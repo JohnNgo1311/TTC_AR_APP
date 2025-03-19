@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using System.Linq;
 public class SearchDeviceFromModule : MonoBehaviour
 {
     public List<TMP_Text> deviceInformation = new List<TMP_Text>();
@@ -41,7 +42,7 @@ public class SearchDeviceFromModule : MonoBehaviour
                 listDeviceFromModule = Get_List_Device_By_Module();
                 // Xóa các tùy chọn trước đó
                 dropdown.options.Clear();
-                if (listDeviceFromModule.Count > 0)
+                if (listDeviceFromModule.Any())
                 {
                     // Chuyển đổi danh sách thiết bị thành danh sách tùy chọn cho dropdown
                     foreach (var device in listDeviceFromModule)

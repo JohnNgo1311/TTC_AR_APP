@@ -38,11 +38,18 @@ public class CreateModuleSpecificationSettingView : MonoBehaviour, IModuleSpecif
 
     private ModuleSpecificationModel _ModuleSpecificationModel;
 
+    // void Awake()
+    // {
+    //     ModuleSpecificationManager ModuleSpecificationManager = FindObjectOfType<ModuleSpecificationManager>();
+    //     _presenter = new ModuleSpecificationPresenter(this, ModuleSpecificationManager._IModuleSpecificationService);
+    // }
     void Awake()
     {
-        ModuleSpecificationManager ModuleSpecificationManager = FindObjectOfType<ModuleSpecificationManager>();
-        _presenter = new ModuleSpecificationPresenter(this, ModuleSpecificationManager._IModuleSpecificationService);
+        // var DeviceManager = FindObjectOfType<DeviceManager>();
+        _presenter = new ModuleSpecificationPresenter(this, ManagerLocator.Instance.ModuleSpecificationManager._IModuleSpecificationService);
+        // DeviceManager._IDeviceService
     }
+
 
     void OnEnable()
     {
@@ -51,6 +58,16 @@ public class CreateModuleSpecificationSettingView : MonoBehaviour, IModuleSpecif
 
         submitButton.onClick.AddListener(() =>
         {
+            if (string.IsNullOrEmpty(ModuleSpecificationCode_TextField.text))
+            {
+                OpenErrorDialog("Tạo loại Module mới thất bại", "Vui lòng nhập mã loại Module");
+                return;
+            }
+            if (GlobalVariable.temp_Dictionary_DeviceInformationModel.ContainsKey(ModuleSpecificationCode_TextField.text))
+            {
+                OpenErrorDialog("Tạo loại Module mới thất bại", "Mã loại Module này đã tồn tại");
+                return;
+            }
             _ModuleSpecificationModel = new ModuleSpecificationModel(
                 code: ModuleSpecificationCode_TextField.text,
                 type: Type_TextField.text,
@@ -85,21 +102,21 @@ public class CreateModuleSpecificationSettingView : MonoBehaviour, IModuleSpecif
         if (!List_ModuleSpecification_Canvas.activeSelf) List_ModuleSpecification_Canvas.SetActive(true);
     }
 
-    private void OpenErrorCreateDialog()
+    private void OpenErrorDialog(string title = "Tạo Module mới thất bại", string content = "Đã có lỗi xảy ra khi tạo loại Module mới. Vui lòng thử lại sau.")
     {
         DialogOneButton.SetActive(true);
         var backButton = DialogOneButton.transform.Find("Background/Back_Button").GetComponent<Button>();
         backButton.gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>("images/UIimages/Error_Back_Button_Background");
         var dialog_Icon = DialogOneButton.transform.Find("Background/Dialog_Status_Icon").GetComponent<Image>().sprite = Resources.Load<Sprite>("images/UIimages/Error_Icon_For_Dialog");
-        var dialog_Content = DialogOneButton.transform.Find("Background/Dialog_Content").GetComponent<TMP_Text>().text = $"Đã có lỗi xảy ra khi tạo loại Module mới. Vui lòng thử lại sau.";
-        var dialog_Title = DialogOneButton.transform.Find("Background/Dialog_Title").GetComponent<TMP_Text>().text = "Tạo Module mới thất bại";
+        var dialog_Content = DialogOneButton.transform.Find("Background/Dialog_Content").GetComponent<TMP_Text>().text = content;
+        var dialog_Title = DialogOneButton.transform.Find("Background/Dialog_Title").GetComponent<TMP_Text>().text = title;
         backButton.onClick.RemoveAllListeners();
         backButton.onClick.AddListener(() =>
         {
             DialogOneButton.SetActive(false);
         });
     }
-    private void OpenSuccessCreateDialog(ModuleSpecificationModel model)
+    private void OpenSuccessDialog(ModuleSpecificationModel model)
     {
         DialogTwoButton.SetActive(true);
 
@@ -107,7 +124,7 @@ public class CreateModuleSpecificationSettingView : MonoBehaviour, IModuleSpecif
         var horizontalGroupTransform = backgroundTransform.Find("Horizontal_Group");
 
         backgroundTransform.Find("Dialog_Status_Icon").GetComponent<Image>().sprite = Resources.Load<Sprite>("images/UIimages/Success_Icon_For_Dialog");
-        backgroundTransform.Find("Dialog_Content").GetComponent<TMP_Text>().text = $"Bạn đã thành công thêm loại Module <color=#FF0000><b>{model.Code}</b></color> vào hệ thống";
+        backgroundTransform.Find("Dialog_Content").GetComponent<TMP_Text>().text = $"Bạn đã thành công thêm loại Module <b><color =#004C8A>{model.Code}</b></color> vào hệ thống";
         backgroundTransform.Find("Dialog_Title").GetComponent<TMP_Text>().text = "Thêm loại Module mới thành công";
 
         var confirmButton = horizontalGroupTransform.Find("Confirm_Button").GetComponent<Button>();
@@ -168,7 +185,7 @@ public class CreateModuleSpecificationSettingView : MonoBehaviour, IModuleSpecif
     {
         if (GlobalVariable.APIRequestType.Contains("POST_ModuleSpecification"))
         {
-            OpenErrorCreateDialog();
+            OpenErrorDialog();
         }
         StartCoroutine(Show_Toast.Instance.Set_Instance_Status_False(1f));
     }
@@ -180,7 +197,7 @@ public class CreateModuleSpecificationSettingView : MonoBehaviour, IModuleSpecif
         {
 
             Show_Toast.Instance.ShowToast("success", "Thêm loại Module mới thành công");
-            OpenSuccessCreateDialog(_ModuleSpecificationModel);
+            OpenSuccessDialog(_ModuleSpecificationModel);
         }
         StartCoroutine(Show_Toast.Instance.Set_Instance_Status_False(1f));
     }

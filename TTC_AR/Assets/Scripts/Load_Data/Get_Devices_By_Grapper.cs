@@ -91,7 +91,7 @@
 //         try
 //         {
 //             List<DeviceInformationModel> devices = JsonConvert.DeserializeObject<List<DeviceInformationModel>>(jsonData);
-//             if (devices != null && devices.Count > 0 && !string.IsNullOrWhiteSpace(devices[1].Function))
+//             if (devices != null && devices.Any() && !string.IsNullOrWhiteSpace(devices[1].Function))
 //             {
 //                 GlobalVariable_Search_Devices.temp_ListDeviceInformationModel = devices;
 //                 ProcessAndSaveDevices(devices);
@@ -131,7 +131,7 @@
 //             default:
 //                 break;
 //         }
-//         if (filteredDevices != null && filteredDevices.Count > 0)
+//         if (filteredDevices != null && filteredDevices.Any())
 //         {
 //             Debug.Log($"Filtered devices count: {filteredDevices.Count}");
 //         }

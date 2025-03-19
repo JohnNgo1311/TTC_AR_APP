@@ -25,15 +25,45 @@ namespace ApplicationLayer.UseCases
 
 
         //! Get List Device General
-        public async Task<IEnumerable<DeviceBasicDto>> GetListDeviceGeneralAsync(string grapperId)
+        public async Task<List<DeviceBasicDto>> GetListDeviceGeneralAsync(string grapperId)
         {
+            // try
+            // {
+            // //! Gọi _IDeviceRepository từ Infrastructure Layer
+            // var deviceEntities = await _IDeviceRepository.GetListDeviceGeneralAsync(grapperId)
+            // ?? throw new ApplicationException("Failed to get Device list");
+            // return deviceEntities.Select(MapToBasicDto).ToList();
+
             try
             {
-                //! Gọi _IDeviceRepository từ Infrastructure Layer
-                var deviceEntities = await _IDeviceRepository.GetListDeviceGeneralAsync(grapperId)
-                ?? throw new ApplicationException("Failed to get Device list");
-                return deviceEntities.Select(MapToBasicDto).ToList();
+                var DeviceEntities = await _IDeviceRepository.GetListDeviceGeneralAsync(grapperId) ??
+
+                throw new ApplicationException("Failed to get Device list");
+
+                int count = DeviceEntities.Count;
+
+                var DeviceBasicDtos = new List<DeviceBasicDto>(count);
+
+                var listDeviceInfo = new List<DeviceInformationModel>(count);
+
+                var dictDeviceInfo = new Dictionary<string, DeviceInformationModel>(count);
+
+                foreach (var DeviceEntity in DeviceEntities)
+                {
+                    var dto = MapToBasicDto(DeviceEntity);
+                    var model = new DeviceInformationModel(dto.Id, dto.Code);
+
+                    DeviceBasicDtos.Add(dto);
+                    listDeviceInfo.Add(model);
+                    dictDeviceInfo[dto.Code] = model;
+                }
+
+                GlobalVariable.temp_List_DeviceInformationModel = listDeviceInfo;
+                GlobalVariable.temp_Dictionary_DeviceInformationModel = dictDeviceInfo;
+
+                return DeviceBasicDtos;
             }
+            // }
             catch (ArgumentException)
             {
                 throw; // Ném lại lỗi validation cho Unity xử lý

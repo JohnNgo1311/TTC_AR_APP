@@ -2,15 +2,15 @@ using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using UnityEngine.Scripting;
+#nullable enable
 
 [Preserve]
 public class ModuleInformationModel
 {
-#nullable enable
 
-  [JsonProperty("Id")] public string? Id { get; set; } = string.Empty;
+  [JsonProperty("Id")] public string Id { get; set; } = string.Empty;
 
-  [JsonProperty("Name")] public string? Name { get; set; } = string.Empty;
+  [JsonProperty("Name")] public string Name { get; set; } = string.Empty;
   [JsonProperty("Grapper")] public GrapperInformationModel? Grapper { get; set; }
   [JsonProperty("Rack")] public RackInformationModel? Rack { get; set; }
 

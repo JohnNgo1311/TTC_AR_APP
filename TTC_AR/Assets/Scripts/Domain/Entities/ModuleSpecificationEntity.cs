@@ -70,6 +70,11 @@ namespace Domain.Entities
       return !apiRequestType.Any(request => allowedRequests.Contains(request));
     }
 
+    public bool ShouldSerializeCode()
+    {
+      return true;
+    }
+
     public bool ShouldSerializeType()
     {
       List<string> apiRequestType = GlobalVariable.APIRequestType;

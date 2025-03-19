@@ -77,12 +77,18 @@ public class CreateJBSettingView : MonoBehaviour, IJBView
         { "Connection_Images", 0 }
     };
 
+    // void Awake()
+    // {
+    //     var JBManager = FindObjectOfType<JBManager>();
+    //     _presenter = new JBPresenter(this, JBManager._IJBService);
+    // }
+
     void Awake()
     {
-        var JBManager = FindObjectOfType<JBManager>();
-        _presenter = new JBPresenter(this, JBManager._IJBService);
+        // var DeviceManager = FindObjectOfType<DeviceManager>();
+        _presenter = new JBPresenter(this, ManagerLocator.Instance.JBManager._IJBService);
+        // DeviceManager._IDeviceService
     }
-
     void OnEnable()
     {
         ResetAllInputFields();
@@ -132,6 +138,11 @@ public class CreateJBSettingView : MonoBehaviour, IJBView
             OpenErrorDialog("Vui lòng nhập mã tủ JB");
             return;
         }
+        if (GlobalVariable.temp_Dictionary_JBInformationModel.ContainsKey(JBInformationModel.Name))
+        {
+            OpenErrorDialog("Mã tủ JB đã tồn tại", "Vui lòng nhập mã tủ JB khác");
+            return;
+        }
         else
         {
             _presenter.CreateNewJB(GlobalVariable.GrapperId, JBInformationModel);
@@ -140,6 +151,9 @@ public class CreateJBSettingView : MonoBehaviour, IJBView
 
     private void RenewView()
     {
+        addLocationImageItem.SetActive(true);
+
+
         ClearActiveChildren(List_Devices_Parent_GridLayout_Group);
         ClearActiveChildren(List_Modules_Parent_GridLayout_Group);
         ClearActiveChildren(List_Location_Image_Parent_Vertical_Group);
@@ -351,6 +365,7 @@ public class CreateJBSettingView : MonoBehaviour, IJBView
                 break;
             case "Location_Image":
                 initialize_JB_List_Option_Selection.selection_List_Location_Image_Panel.SetActive(false);
+                addLocationImageItem.SetActive(true);
                 break;
             case "Connection_Images":
                 initialize_JB_List_Option_Selection.selection_List_Connection_Image_Panel.SetActive(false);
@@ -412,7 +427,7 @@ public class CreateJBSettingView : MonoBehaviour, IJBView
         var horizontalGroupTransform = backgroundTransform.Find("Horizontal_Group");
 
         backgroundTransform.Find("Dialog_Status_Icon").GetComponent<Image>().sprite = Resources.Load<Sprite>("images/UIimages/Success_Icon_For_Dialog");
-        backgroundTransform.Find("Dialog_Content").GetComponent<TMP_Text>().text = $"Bạn đã thành công thêm tủ JB <color=#004C8A><b>{model.Name}</b></color> vào hệ thống";
+        backgroundTransform.Find("Dialog_Content").GetComponent<TMP_Text>().text = $"Bạn đã thành công thêm tủ JB <b><color=#004C8A>{model.Name}</b></color> vào hệ thống";
         backgroundTransform.Find("Dialog_Title").GetComponent<TMP_Text>().text = "Thêm tủ JB mới thành công";
 
         var confirmButton = horizontalGroupTransform.Find("Confirm_Button").GetComponent<Button>();

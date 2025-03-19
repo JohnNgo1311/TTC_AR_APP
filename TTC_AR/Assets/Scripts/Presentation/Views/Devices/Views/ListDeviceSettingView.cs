@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using EasyUI.Progress;
 using TMPro;
 using UnityEngine;
@@ -55,7 +56,7 @@ public class ListDeviceSettingView : MonoBehaviour, IDeviceView
     }
     public void DisplayList(List<DeviceInformationModel> models)
     {
-        if (models.Count > 0)
+        if (models.Any())
         {
             foreach (var model in models)
             {
@@ -109,7 +110,7 @@ public class ListDeviceSettingView : MonoBehaviour, IDeviceView
 
         var Horizontal_Group = DialogTwoButton.transform.Find("Background/Horizontal_Group").gameObject.transform;
 
-        var dialog_Content = DialogTwoButton.transform.Find("Background/Dialog_Content").GetComponent<TMP_Text>().text = $"Bạn có chắc chắn muốn xóa thông tin thiết bị <color=#FF0000><b>{model.Code}</b></color> khỏi hệ thống? Hãy kiểm tra kĩ trước khi nhấn nút xác nhận phía dưới";
+        var dialog_Content = DialogTwoButton.transform.Find("Background/Dialog_Content").GetComponent<TMP_Text>().text = $"Bạn có chắc chắn muốn xóa thông tin thiết bị <b><color =#004C8A>{model.Code}</b></color> khỏi hệ thống? Hãy kiểm tra kĩ trước khi nhấn nút xác nhận phía dưới";
 
         var dialog_Title = DialogTwoButton.transform.Find("Background/Dialog_Title").GetComponent<TMP_Text>().text = "Xóa thiết bị khỏi hệ thống?";
 

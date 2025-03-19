@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -50,7 +51,7 @@ public class Initialize_FieldDevice_List_Option_Selection : MonoBehaviour
     {
         list_Option_Panel.SetActive(true);
 
-        if (imageInformationModels != null && imageInformationModels.Count > 0)
+        if (imageInformationModels != null && imageInformationModels.Any())
         {
             if (imageInformationModels.Count == 1)
             {

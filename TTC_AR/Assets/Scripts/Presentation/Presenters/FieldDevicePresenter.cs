@@ -28,7 +28,7 @@ public class FieldDevicePresenter
             var FieldDeviceBasicDto = await _service.GetListFieldDeviceAsync(grapperId);
             if (FieldDeviceBasicDto != null)
             {
-                if (FieldDeviceBasicDto.Count > 0)
+                if (FieldDeviceBasicDto.Any())
                 {
                     var models = FieldDeviceBasicDto.Select(dto => ConvertFromBasicDto(dto)).ToList();
 

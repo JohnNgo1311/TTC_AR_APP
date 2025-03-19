@@ -118,7 +118,7 @@ namespace ApplicationLayer.UseCases
               id: entity.Id,
               cabinetCode: entity.CabinetCode,
               brand: entity.Brand,
-              fieldDeviceBasicDtos: entity.FieldDeviceEntities.Count > 0 ? entity.FieldDeviceEntities.Select(fd => new FieldDeviceBasicDto(fd.Id, fd.Name)).ToList() : new List<FieldDeviceBasicDto>(),
+              fieldDeviceBasicDtos: entity.FieldDeviceEntities.Any() ? entity.FieldDeviceEntities.Select(fd => new FieldDeviceBasicDto(fd.Id, fd.Name)).ToList() : new List<FieldDeviceBasicDto>(),
               note: entity.Note
             );
         }

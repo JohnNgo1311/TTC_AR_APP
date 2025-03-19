@@ -4,6 +4,7 @@ using UnityEngine;
 using System.Net.Http;
 using ApplicationLayer.Interfaces;
 using ApplicationLayer.Dtos.Module;
+using System.Linq;
 
 public class ModuleManager : MonoBehaviour
 {
@@ -27,7 +28,7 @@ public class ModuleManager : MonoBehaviour
         try
         {
             var ModuleList = await _IModuleService.GetListModuleAsync(grapperId); //! Gọi _IModuleService từ Application Layer
-            if (ModuleList != null && ModuleList.Count > 0)
+            if (ModuleList != null && ModuleList.Any())
             {
                 foreach (var Module in ModuleList)
                     Debug.Log($"Module: {Module.Name}");

@@ -83,7 +83,7 @@ public class UpdateJBSettingView : MonoBehaviour, IJBView
 
     void OnEnable()
     {
-        ResetAllInputFields();
+        // ResetAllInputFields();
 
         AddButtonListeners(initialize_JB_List_Option_Selection.Device_List_Selection_Option_Content_Transform, "Devices");
         AddButtonListeners(initialize_JB_List_Option_Selection.Module_List_Selection_Option_Content_Transform, "Modules");
@@ -430,7 +430,7 @@ public class UpdateJBSettingView : MonoBehaviour, IJBView
 
         DialogOneButton.transform.Find("Background/Dialog_Status_Icon").GetComponent<Image>().sprite = Resources.Load<Sprite>("images/UIimages/Success_Icon_For_Dialog");
 
-        DialogOneButton.transform.Find("Background/Dialog_Content").GetComponent<TMP_Text>().text = message + $"<color=#004C8A>{JBInformationModel.Name}";
+        DialogOneButton.transform.Find("Background/Dialog_Content").GetComponent<TMP_Text>().text = message + $"<b><color=#004C8A>{JBInformationModel.Name}</b></color>";
 
         DialogOneButton.transform.Find("Background/Dialog_Title").GetComponent<TMP_Text>().text = title;
 
@@ -502,6 +502,10 @@ public class UpdateJBSettingView : MonoBehaviour, IJBView
         AddButtonListeners(initialize_JB_List_Option_Selection.Module_List_Selection_Option_Content_Transform, "Modules");
         AddButtonListeners(initialize_JB_List_Option_Selection.Location_Image_List_Selection_Option_Content_Transform, "Location_Image");
         AddButtonListeners(initialize_JB_List_Option_Selection.Connection_Image_List_Selection_Option_Content_Transform, "Connection_Images");
+        if (model.OutdoorImage != null && temp_Dictionary_OutDoorModel.Any())
+        {
+            addLocationImageItem.SetActive(false);
+        }
     }
 
     private void PopulateItems(List<string> listItems, GameObject itemPrefab, GameObject parentLayoutGroup, string field)

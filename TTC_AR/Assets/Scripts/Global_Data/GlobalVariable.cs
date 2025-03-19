@@ -161,6 +161,7 @@ public class GlobalVariable : MonoBehaviour
     public static string RackId = "1";
 
     public static List<RackInformationModel> temp_List_RackInformationModel = new List<RackInformationModel>();
+    public static Dictionary<string, RackInformationModel> temp_Dictionary_RackInformationModel = new Dictionary<string, RackInformationModel>();
 
 
     //!Module
@@ -207,6 +208,7 @@ public class GlobalVariable : MonoBehaviour
 
 
     public static List<MccInformationModel> temp_List_MccInformationModel = new List<MccInformationModel>();
+    public static Dictionary<string, MccInformationModel> temp_Dictionary_MccInformationModel = new Dictionary<string, MccInformationModel>();
 
     //! Field Device
     public static List<FieldDeviceInformationModel> temp_ListFieldDeviceInformationModel = new List<FieldDeviceInformationModel>();

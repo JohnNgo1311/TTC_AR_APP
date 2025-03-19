@@ -17,21 +17,47 @@ namespace ApplicationLayer.UseCases
         {
             _IAdapterSpecificationRepository = IAdapterSpecificationRepository;
         }
-        public async Task<List<AdapterSpecificationBasicDto>> GetListAdapterSpecificationAsync(string grapperId)
+        public async Task<List<AdapterSpecificationBasicDto>> GetListAdapterSpecificationAsync(string companyId)
         {
             try
             {
-                var AdapterSpecificationEntities = await _IAdapterSpecificationRepository.GetListAdapterSpecificationAsync(grapperId);
+                // var AdapterSpecificationEntities = await _IAdapterSpecificationRepository.GetListAdapterSpecificationAsync(companyId);
 
-                if (AdapterSpecificationEntities == null)
+                // if (AdapterSpecificationEntities == null)
+                // {
+                //     throw new ApplicationException("Failed to get AdapterSpecification list");
+                // }
+                // else
+                // {
+                //     var AdapterSpecificationBasicDtos = AdapterSpecificationEntities.Select(MapToBasicDto).ToList();
+                //     return AdapterSpecificationBasicDtos;
+                // }
+                var AdapterSpecificationEntities = await _IAdapterSpecificationRepository.GetListAdapterSpecificationAsync(companyId) ??
+
+                                             throw new ApplicationException("Failed to get AdapterSpecification list");
+
+                int count = AdapterSpecificationEntities.Count;
+
+                var AdapterSpecificationBasicDtos = new List<AdapterSpecificationBasicDto>(count);
+
+                var listAdapterSpecificationInfo = new List<AdapterSpecificationModel>(count);
+
+                var dictAdapterSpecificationInfo = new Dictionary<string, AdapterSpecificationModel>(count);
+
+                foreach (var AdapterSpecificationEntity in AdapterSpecificationEntities)
                 {
-                    throw new ApplicationException("Failed to get AdapterSpecification list");
+                    var dto = MapToBasicDto(AdapterSpecificationEntity);
+                    var model = new AdapterSpecificationModel(dto.Id, dto.Code);
+
+                    AdapterSpecificationBasicDtos.Add(dto);
+                    listAdapterSpecificationInfo.Add(model);
+                    dictAdapterSpecificationInfo[dto.Code] = model;
                 }
-                else
-                {
-                    var AdapterSpecificationBasicDtos = AdapterSpecificationEntities.Select(MapToBasicDto).ToList();
-                    return AdapterSpecificationBasicDtos;
-                }
+
+                GlobalVariable.temp_List_AdapterSpecificationModel = listAdapterSpecificationInfo;
+                GlobalVariable.temp_Dictionary_AdapterSpecificationModel = dictAdapterSpecificationInfo;
+
+                return AdapterSpecificationBasicDtos;
 
             }
             catch (ArgumentException)

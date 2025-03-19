@@ -25,9 +25,9 @@ public class ModulePresenter
     }
 
     //! Get list Module chỉ có Id và Code
-    public async void LoadListModuleGeneral(string grapperId)
+    public async void LoadListModule(string grapperId)
     {
-        GlobalVariable.APIRequestType.Add("GET_Module_List_General");
+        GlobalVariable.APIRequestType.Add("GET_Module_List");
         _view.ShowLoading("Đang tải dữ liệu...");
         try
         {
@@ -135,8 +135,12 @@ public class ModulePresenter
         _view.ShowLoading("Đang thực hiện...");
         try
         {
+            UnityEngine.Debug.Log("Run Presenter");
             var dto = ConvertToRequestDto(model);
+            UnityEngine.Debug.Log("Convert to Request DTO Successfully");
             var result = await _service.UpdateModuleAsync(ModuleId, dto);
+            UnityEngine.Debug.Log("Run Service Successfully");
+
             if (result)
             {
                 _view.ShowSuccess(); // Chỉ hiển thị thành công nếu result == true
@@ -190,9 +194,35 @@ public class ModulePresenter
     {
         return new ModuleInformationModel(
             id: dto.Id,
-            name: dto.Name);
-
-
+            name: dto.Name,
+            rack: dto.RackBasicDto != null ? new RackInformationModel(
+                id: dto.RackBasicDto.Id,
+                name: dto.RackBasicDto.Name
+            ) : null,
+            grapper: new GrapperInformationModel(
+                id: dto.GrapperBasicDto.Id,
+                name: dto.GrapperBasicDto.Name
+            ),
+            listJBInformationModel: dto.JBBasicDtos.Any() ? dto.JBBasicDtos.Select(
+                jb => new JBInformationModel(
+                    id: jb.Id,
+                    name: jb.Name
+                )
+            ).ToList() : new List<JBInformationModel>(),
+            listDeviceInformationModel: dto.DeviceBasicDtos.Any() ? dto.DeviceBasicDtos.Select(
+                Device => new DeviceInformationModel(
+                    id: Device.Id,
+                    code: Device.Code
+                )
+            ).ToList() : new List<DeviceInformationModel>(),
+            moduleSpecificationModel: dto.ModuleSpecificationResponseDto != null ? new ModuleSpecificationModel(
+                id: dto.ModuleSpecificationResponseDto.Id,
+                code: dto.ModuleSpecificationResponseDto.Code
+            ) : null,
+            adapterSpecificationModel: dto.AdapterSpecificationResponseDto != null ? new AdapterSpecificationModel(
+                id: dto.AdapterSpecificationResponseDto.Id,
+                code: dto.AdapterSpecificationResponseDto.Code
+            ) : null);
     }
     private ModuleInformationModel ConvertFromBasicDto(ModuleBasicDto dto)
     {
@@ -207,10 +237,10 @@ public class ModulePresenter
         return new ModuleRequestDto
         (
             name: model.Name,
-            rackBasicDto: new RackBasicDto(
+            rackBasicDto: model.Rack != null ? new RackBasicDto(
                 id: model.Rack.Id,
                 name: model.Rack.Name
-            ),
+            ) : null,
             jBBasicDtos: model.ListJBInformationModel.Any() ? model.ListJBInformationModel.Select(
                 jb => new JBBasicDto(
                     id: jb.Id,

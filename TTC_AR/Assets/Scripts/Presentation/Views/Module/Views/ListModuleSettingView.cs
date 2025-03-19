@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using EasyUI.Progress;
 using TMPro;
 using UnityEngine;
@@ -49,11 +50,11 @@ public class ListModuleSettingView : MonoBehaviour, IModuleView
     public void LoadListModule()
     {
         RefreshList();
-        _presenter.LoadListModuleGeneral(GlobalVariable.GrapperId);
+        _presenter.LoadListModule(GlobalVariable.GrapperId);
     }
     public void DisplayList(List<ModuleInformationModel> models)
     {
-        if (models.Count > 0)
+        if (models.Any())
         {
             foreach (var model in models)
             {
@@ -107,7 +108,7 @@ public class ListModuleSettingView : MonoBehaviour, IModuleView
 
         var Horizontal_Group = DialogTwoButton.transform.Find("Background/Horizontal_Group").gameObject.transform;
 
-        var dialog_Content = DialogTwoButton.transform.Find("Background/Dialog_Content").GetComponent<TMP_Text>().text = $"Bạn có chắc chắn muốn xóa thông tin Module IO <color=#FF0000><b>{model.Name}</b></color> khỏi hệ thống? Hãy kiểm tra kĩ trước khi nhấn nút xác nhận phía dưới";
+        var dialog_Content = DialogTwoButton.transform.Find("Background/Dialog_Content").GetComponent<TMP_Text>().text = $"Bạn có chắc chắn muốn xóa thông tin Module IO <b><color =#004C8A>{model.Name}</b></color> khỏi hệ thống? Hãy kiểm tra kĩ trước khi nhấn nút xác nhận phía dưới";
 
         var dialog_Title = DialogTwoButton.transform.Find("Background/Dialog_Title").GetComponent<TMP_Text>().text = "Xóa Module IO khỏi hệ thống?";
 
@@ -172,7 +173,7 @@ public class ListModuleSettingView : MonoBehaviour, IModuleView
 
     public void ShowError(string message)
     {
-        if (GlobalVariable.APIRequestType.Contains("GET_Module_List_General"))
+        if (GlobalVariable.APIRequestType.Contains("GET_Module_List"))
         {
             OpenErrorDialog(title: "Tải danh sách thất bại", message: "Đã có lỗi xảy ra khi tải danh sách. Vui lòng thử lại sau");
         }
@@ -183,7 +184,7 @@ public class ListModuleSettingView : MonoBehaviour, IModuleView
     }
     public void ShowSuccess()
     {
-        if (GlobalVariable.APIRequestType.Contains("GET_Module_List_General"))
+        if (GlobalVariable.APIRequestType.Contains("GET_Module_List"))
         {
             Show_Toast.Instance.ShowToast("success", "Tải danh sách thành công");
         }

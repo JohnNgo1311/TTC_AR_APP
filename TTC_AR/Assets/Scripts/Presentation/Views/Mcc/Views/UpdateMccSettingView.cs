@@ -274,7 +274,7 @@ public class UpdateMccSettingView : MonoBehaviour, IMccView
 
         DialogOneButton.transform.Find("Background/Dialog_Status_Icon").GetComponent<Image>().sprite = Resources.Load<Sprite>("images/UIimages/Success_Icon_For_Dialog");
 
-        DialogOneButton.transform.Find("Background/Dialog_Content").GetComponent<TMP_Text>().text = message + MccInformationModel.CabinetCode;
+        DialogOneButton.transform.Find("Background/Dialog_Content").GetComponent<TMP_Text>().text = message + $"<b><color =#004C8A>{MccInformationModel.CabinetCode}</b></color>";
 
         DialogOneButton.transform.Find("Background/Dialog_Title").GetComponent<TMP_Text>().text = title;
 
@@ -328,6 +328,7 @@ public class UpdateMccSettingView : MonoBehaviour, IMccView
     }
     public void ReloadDetailById()
     {
+        RenewView();
         _presenter.LoadDetailById(GlobalVariable.MccId);
     }
     public void ShowSuccess()
@@ -352,7 +353,7 @@ public class UpdateMccSettingView : MonoBehaviour, IMccView
     public void DisplayDetail(MccInformationModel model)
     {
         SetInitialInputFields(model);
-        if (model.ListFieldDeviceInformation != null && model.ListFieldDeviceInformation.Count > 0)
+        if (model.ListFieldDeviceInformation != null && model.ListFieldDeviceInformation.Any())
         {
             var temp_List_FieldDeviceNames = model.ListFieldDeviceInformation.Select(item => item.Name).ToList();
             PopulateItems(temp_List_FieldDeviceNames, FieldDevice_Item_Prefab, FieldDevice_Parent_GridLayout_Group, "FieldDevices");

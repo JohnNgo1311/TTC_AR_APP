@@ -21,13 +21,42 @@ namespace ApplicationLayer.UseCases
             _IRackRepository = IRackRepository;
         }
 
-        public async Task<IEnumerable<RackBasicDto>> GetListRackAsync(string grapperId)
+        public async Task<List<RackBasicDto>> GetListRackAsync(string grapperId)
         {
             try
             {
+                // var RackEntities = await _IRackRepository.GetListRackAsync(grapperId) ??
+                //     throw new ApplicationException("Failed to get Rack list");
+                // return RackEntities.Select(RackEntity => MapToBasicDto(RackEntity)).ToList();
+
                 var RackEntities = await _IRackRepository.GetListRackAsync(grapperId) ??
-                    throw new ApplicationException("Failed to get Rack list");
-                return RackEntities.Select(RackEntity => MapToBasicDto(RackEntity)).ToList();
+
+                throw new ApplicationException("Failed to get Rack list");
+
+                int count = RackEntities.Count;
+
+                var RackBasicDtos = new List<RackBasicDto>(count);
+
+                var listRackInfo = new List<RackInformationModel>(count);
+
+                var dictRackInfo = new Dictionary<string, RackInformationModel>(count);
+
+                foreach (var RackEntity in RackEntities)
+                {
+                    var dto = MapToBasicDto(RackEntity);
+                    var model = new RackInformationModel(dto.Id, dto.Name);
+
+                    RackBasicDtos.Add(dto);
+                    listRackInfo.Add(model);
+                    dictRackInfo[dto.Name] = model;
+                }
+
+                GlobalVariable.temp_List_RackInformationModel = listRackInfo;
+                GlobalVariable.temp_Dictionary_RackInformationModel = dictRackInfo;
+
+                return RackBasicDtos;
+
+
             }
             catch (ArgumentException)
             {

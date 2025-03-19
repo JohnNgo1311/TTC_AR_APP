@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
+using System.Linq;
 
 public class Update_JB_TSD_Detail_UI : MonoBehaviour
 {
@@ -124,7 +125,7 @@ public class Update_JB_TSD_Detail_UI : MonoBehaviour
         if (GlobalVariable.temp_listJBConnectionImageFromModule != null &&
             GlobalVariable.temp_listJBConnectionImageFromModule.TryGetValue(jb_name, out var list_Texture))
         {
-            if (list_Texture.Count > 0)
+            if (list_Texture.Any())
             {
                 if (list_Texture.Count == 1)
                 {

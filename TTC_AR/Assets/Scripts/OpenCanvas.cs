@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -49,7 +50,7 @@ public class OpenCanvas : MonoBehaviour
             }
 
         }
-        if (targetCanvas.Count > 0 && imageTargets.Count > 0)
+        if (targetCanvas.Any() && imageTargets.Any())
         {
             Debug.Log("targetCanvas.Count: " + targetCanvas.Count);
             Debug.Log("imageTargets.Count: " + imageTargets.Count);
@@ -228,8 +229,8 @@ public class OpenCanvas : MonoBehaviour
         else if (SceneManager.GetActiveScene().name == MyEnum.FieldDevicesScene.GetDescription())
         {
             yield return new WaitUntil(() =>
-            GlobalVariable.temp_ListFieldDeviceConnectionImages.Count > 0
-            && GlobalVariable.temp_ListFieldDeviceConnectionImages.Count > 0);
+            GlobalVariable.temp_ListFieldDeviceConnectionImages.Any()
+            && GlobalVariable.temp_ListFieldDeviceConnectionImages.Any());
             Debug.Log("OnOpenCanvas 2");
 
         }

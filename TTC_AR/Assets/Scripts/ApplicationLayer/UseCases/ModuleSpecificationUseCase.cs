@@ -17,13 +17,41 @@ namespace ApplicationLayer.UseCases
         {
             _IModuleSpecificationRepository = IModuleSpecificationRepository;
         }
-        public async Task<IEnumerable<ModuleSpecificationBasicDto>> GetListModuleSpecificationAsync(string companyId)
+        public async Task<List<ModuleSpecificationBasicDto>> GetListModuleSpecificationAsync(string companyId)
         {
             try
             {
+                // var ModuleSpecificationEntities = await _IModuleSpecificationRepository.GetListModuleSpecificationAsync(companyId) ??
+                // throw new ApplicationException("Failed to get ModuleSpecification list");
+                // return ModuleSpecificationEntities.Select(MapToBasicDto).ToList();
+
                 var ModuleSpecificationEntities = await _IModuleSpecificationRepository.GetListModuleSpecificationAsync(companyId) ??
-                throw new ApplicationException("Failed to get ModuleSpecification list");
-                return ModuleSpecificationEntities.Select(MapToBasicDto).ToList();
+
+                              throw new ApplicationException("Failed to get ModuleSpecification list");
+
+                int count = ModuleSpecificationEntities.Count;
+
+                var ModuleSpecificationBasicDtos = new List<ModuleSpecificationBasicDto>(count);
+
+                var listModuleSpecificationInfo = new List<ModuleSpecificationModel>(count);
+
+                var dictModuleSpecificationInfo = new Dictionary<string, ModuleSpecificationModel>(count);
+
+                foreach (var ModuleSpecificationEntity in ModuleSpecificationEntities)
+                {
+                    var dto = MapToBasicDto(ModuleSpecificationEntity);
+                    var model = new ModuleSpecificationModel(dto.Id, dto.Code);
+
+                    ModuleSpecificationBasicDtos.Add(dto);
+                    listModuleSpecificationInfo.Add(model);
+                    dictModuleSpecificationInfo[dto.Code] = model;
+                }
+
+                GlobalVariable.temp_List_ModuleSpecificationModel = listModuleSpecificationInfo;
+                GlobalVariable.temp_Dictionary_ModuleSpecificationModel = dictModuleSpecificationInfo;
+
+                return ModuleSpecificationBasicDtos;
+
             }
             catch (ArgumentException)
             {

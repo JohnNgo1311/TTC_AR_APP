@@ -6,6 +6,7 @@ using UnityEngine;
 using Newtonsoft.Json;
 using UnityEngine.Networking;
 using System.Collections;
+using System.Linq;
 
 public class Init_Modules_Canvas : MonoBehaviour
 {
@@ -42,7 +43,7 @@ public class Init_Modules_Canvas : MonoBehaviour
             yield return null;
         }
 
-        if (GlobalVariable.temp_ListModuleInformationModel.Count > 0)
+        if (GlobalVariable.temp_ListModuleInformationModel.Any())
         {
             Debug.Log("Data successfully loaded.");
         }

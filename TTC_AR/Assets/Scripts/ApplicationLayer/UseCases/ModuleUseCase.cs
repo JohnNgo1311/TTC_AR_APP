@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -72,9 +73,11 @@ namespace ApplicationLayer.UseCases
         {
             try
             {
+                UnityEngine.Debug.Log("Run UseCase");
                 var moduleEntity = await _IModuleRepository.GetModuleByIdAsync(ModuleId) ??
                     throw new ApplicationException("Failed to get Module");
 
+                UnityEngine.Debug.Log("Let Convert to ResponseDto");
 
                 return MapEntityToResponseDto(moduleEntity);
 
@@ -95,8 +98,11 @@ namespace ApplicationLayer.UseCases
         {
             try
             {
+                UnityEngine.Debug.Log("Run UseCase");
                 // Ánh xạ từ ModuleRequestDto sang ModuleEntity để check các nghiệp vụ
                 var ModuleEntity = MapRequestToModuleEntity(requestDto);
+
+                UnityEngine.Debug.Log("UseCase Send to Repository");
 
                 if (ModuleEntity == null)
                 {
@@ -114,12 +120,14 @@ namespace ApplicationLayer.UseCases
                 }
 
             }
-            catch (ArgumentException)
+            catch (ArgumentException ex)
             {
+                UnityEngine.Debug.Log(ex);
                 throw; // Ném lại lỗi validation cho Unity xử lý
             }
             catch (Exception ex)
             {
+                UnityEngine.Debug.Log(ex);
                 throw new ApplicationException("Failed to create Module", ex); // Bao bọc lỗi từ Repository
             }
         }
@@ -131,8 +139,9 @@ namespace ApplicationLayer.UseCases
             try
             {
                 // Ánh xạ từ ModuleRequestDto sang ModuleEntity để check các nghiệp vụ
+                UnityEngine.Debug.Log("Run UseCase");
                 var ModuleEntity = MapRequestToModuleEntity(requestDto);
-
+                UnityEngine.Debug.Log("Convert to Entity Successfully");
                 if (ModuleEntity == null)
                 {
                     throw new ApplicationException("Failed to create Module cause ModuleEntity is Null");
@@ -210,15 +219,15 @@ namespace ApplicationLayer.UseCases
                 id: moduleEntity.Id,
                 name: moduleEntity.Name,
                 grapperBasicDto: new GrapperBasicDto(moduleEntity.GrapperEntity.Id, moduleEntity.GrapperEntity.Name),
-                rackBasicDto: new RackBasicDto(moduleEntity.RackEntity.Id, moduleEntity.RackEntity.Name),
+                rackBasicDto: moduleEntity.RackEntity != null ? new RackBasicDto(moduleEntity.RackEntity.Id, moduleEntity.RackEntity.Name) : null,
                 deviceBasicDtos: deviceEntities.Any()
                     ? new List<DeviceBasicDto>(deviceEntities.Select(d => new DeviceBasicDto(d.Id, d.Code)))
                     : new List<DeviceBasicDto>(),
                 jbBasicDtos: jbEntities.Any()
                     ? new List<JBBasicDto>(jbEntities.Select(j => new JBBasicDto(j.Id, j.Name)))
                     : new List<JBBasicDto>(),
-                moduleSpecificationResponseDto: MapToEntityToModuleSpecificationResponseDto(moduleEntity.ModuleSpecificationEntity),
-                adapterSpecificationResponseDto: MapToEntityToAdapterSpecificationResponseDto(moduleEntity.AdapterSpecificationEntity)
+                moduleSpecificationResponseDto: moduleEntity.ModuleSpecificationEntity != null ? MapToEntityToModuleSpecificationResponseDto(moduleEntity.ModuleSpecificationEntity) : null,
+                adapterSpecificationResponseDto: moduleEntity.AdapterSpecificationEntity != null ? MapToEntityToAdapterSpecificationResponseDto(moduleEntity.AdapterSpecificationEntity) : null
             );
         }
 
@@ -314,16 +323,14 @@ namespace ApplicationLayer.UseCases
         {
             return new ModuleEntity
             (
-                moduleRequestDto.Name
-            )
-            {
-                RackEntity = new RackEntity(moduleRequestDto.RackBasicDto.Id, moduleRequestDto.RackBasicDto.Name),
-                DeviceEntities = moduleRequestDto.DeviceBasicDtos.Select(d => new DeviceEntity(d.Id, d.Code)).ToList(),
-                JBEntities = moduleRequestDto.JBBasicDtos.Select(j => new JBEntity(j.Id, j.Name)).ToList(),
-                ModuleSpecificationEntity = new ModuleSpecificationEntity(moduleRequestDto.ModuleSpecificationBasicDto.Id, moduleRequestDto.ModuleSpecificationBasicDto.Code),
-                AdapterSpecificationEntity = new AdapterSpecificationEntity(moduleRequestDto.AdapterSpecificationBasicDto.Id, moduleRequestDto.AdapterSpecificationBasicDto.Code)
-            };
-
+              name: moduleRequestDto.Name,
+              rack: moduleRequestDto.RackBasicDto != null ? new RackEntity(
+                id: moduleRequestDto.RackBasicDto.Id,
+                name: moduleRequestDto.RackBasicDto.Name) : null,
+              deviceEntities: moduleRequestDto.DeviceBasicDtos.Select(d => new DeviceEntity(d.Id, d.Code)).ToList(),
+              jbEntities: moduleRequestDto.JBBasicDtos.Select(j => new JBEntity(j.Id, j.Name)).ToList(),
+              moduleSpecificationEntity: moduleRequestDto.ModuleSpecificationBasicDto != null ? new ModuleSpecificationEntity(moduleRequestDto.ModuleSpecificationBasicDto.Id, moduleRequestDto.ModuleSpecificationBasicDto.Code) : null,
+              adapterSpecificationEntity: moduleRequestDto.AdapterSpecificationBasicDto != null ? new AdapterSpecificationEntity(moduleRequestDto.AdapterSpecificationBasicDto.Id, moduleRequestDto.AdapterSpecificationBasicDto.Code) : null);
         }
         private ModuleEntity MapBasicToModuleEntity(ModuleBasicDto moduleGeneralDto)
         {

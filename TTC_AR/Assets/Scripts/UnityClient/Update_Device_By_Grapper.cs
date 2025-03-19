@@ -49,7 +49,7 @@
 
 //     public async void OpenPanelUpdateDevice()
 //     {
-//         if (GlobalVariable_Search_Devices.all_Device_GrapperA != null && GlobalVariable_Search_Devices.all_Device_GrapperA.Count > 0)
+//         if (GlobalVariable_Search_Devices.all_Device_GrapperA != null && GlobalVariable_Search_Devices.all_Device_GrapperA.Any())
 //         {
 //             device = GlobalVariable_Search_Devices.all_Device_GrapperA.Find(d => d.Code == codeText.text);
 //             if (device != null)

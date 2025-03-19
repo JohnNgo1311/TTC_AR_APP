@@ -81,9 +81,9 @@ namespace ApplicationLayer.UseCases
             return new CompanyResponseDto(
                 id: companyEntity.Id,
                 name: companyEntity.Name,
-                grapperBasicDtos: companyEntity.GrapperEntities.Count > 0 ? companyEntity.GrapperEntities.Select(grapperEntity => new GrapperBasicDto(grapperEntity.Id, grapperEntity.Name)).ToList() : new List<GrapperBasicDto>(),
-                moduleSpecificationBasicDtos: companyEntity.ModuleSpecificationEntities.Count > 0 ? companyEntity.ModuleSpecificationEntities.Select(moduleSpecificationEntity => new ModuleSpecificationBasicDto(moduleSpecificationEntity.Id, moduleSpecificationEntity.Code)).ToList() : new List<ModuleSpecificationBasicDto>(),
-                adapterSpecificationBasicDtos: companyEntity.AdapterSpecificationEntities.Count > 0 ? companyEntity.AdapterSpecificationEntities.Select(adapterSpecificationEntity => new AdapterSpecificationBasicDto(adapterSpecificationEntity.Id, adapterSpecificationEntity.Code)).ToList() : new List<AdapterSpecificationBasicDto>()
+                grapperBasicDtos: companyEntity.GrapperEntities.Any() ? companyEntity.GrapperEntities.Select(grapperEntity => new GrapperBasicDto(grapperEntity.Id, grapperEntity.Name)).ToList() : new List<GrapperBasicDto>(),
+                moduleSpecificationBasicDtos: companyEntity.ModuleSpecificationEntities.Any() ? companyEntity.ModuleSpecificationEntities.Select(moduleSpecificationEntity => new ModuleSpecificationBasicDto(moduleSpecificationEntity.Id, moduleSpecificationEntity.Code)).ToList() : new List<ModuleSpecificationBasicDto>(),
+                adapterSpecificationBasicDtos: companyEntity.AdapterSpecificationEntities.Any() ? companyEntity.AdapterSpecificationEntities.Select(adapterSpecificationEntity => new AdapterSpecificationBasicDto(adapterSpecificationEntity.Id, adapterSpecificationEntity.Code)).ToList() : new List<AdapterSpecificationBasicDto>()
             );
         }
 

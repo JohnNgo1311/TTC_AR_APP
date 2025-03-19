@@ -47,6 +47,21 @@ namespace Domain.Entities
     public string? PdfManual { get; set; }
 
 
+    public bool ShouldSerializeId()
+    {
+      List<string> apiRequestType = GlobalVariable.APIRequestType;
+      HashSet<string> allowedRequests = new HashSet<string>
+      {
+        HttpMethodTypeEnum.POSTAdapterSpecification.GetDescription(),
+        HttpMethodTypeEnum.PUTAdapterSpecification.GetDescription(),
+      };
+      return !apiRequestType.Any(request => allowedRequests.Contains(request));
+    }
+
+    public bool ShouldSerializeCode()
+    {
+      return true;
+    }
     public bool ShouldSerializeType()
     {
       List<string> apiRequestType = GlobalVariable.APIRequestType;

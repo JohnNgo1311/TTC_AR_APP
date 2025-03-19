@@ -57,10 +57,16 @@ public class CreateFieldDeviceSettingView : MonoBehaviour, IFieldDeviceView
         { "Connection_Image", 0 }
     };
 
+    // void Awake()
+    // {
+    //     var fieldDeviceManager = FindObjectOfType<FieldDeviceManager>();
+    //     _presenter = new FieldDevicePresenter(this, fieldDeviceManager._IFieldDeviceService);
+    // }
     void Awake()
     {
-        var fieldDeviceManager = FindObjectOfType<FieldDeviceManager>();
-        _presenter = new FieldDevicePresenter(this, fieldDeviceManager._IFieldDeviceService);
+        // var DeviceManager = FindObjectOfType<DeviceManager>();
+        _presenter = new FieldDevicePresenter(this, ManagerLocator.Instance.FieldDeviceManager._IFieldDeviceService);
+        // DeviceManager._IDeviceService
     }
 
     void OnEnable()
@@ -98,6 +104,11 @@ public class CreateFieldDeviceSettingView : MonoBehaviour, IFieldDeviceView
         if (string.IsNullOrEmpty(fieldDeviceInformationModel.Name))
         {
             OpenErrorDialog("Vui lòng nhập tên thiết bị trường");
+            return;
+        }
+        if (GlobalVariable.temp_Dictionary_FieldDeviceInformationModel.ContainsKey(fieldDeviceInformationModel.Name))
+        {
+            OpenErrorDialog("Tên thiết bị trường đã tồn tại", "Vui lòng nhập tên thiết bị trường khác");
             return;
         }
 
@@ -282,7 +293,7 @@ public class CreateFieldDeviceSettingView : MonoBehaviour, IFieldDeviceView
         var horizontalGroupTransform = backgroundTransform.Find("Horizontal_Group");
 
         backgroundTransform.Find("Dialog_Status_Icon").GetComponent<Image>().sprite = Resources.Load<Sprite>("images/UIimages/Success_Icon_For_Dialog");
-        backgroundTransform.Find("Dialog_Content").GetComponent<TMP_Text>().text = $"Bạn đã thành công thêm thiết bị trường <color=#FF0000><b>{model.Name}</b></color> vào hệ thống";
+        backgroundTransform.Find("Dialog_Content").GetComponent<TMP_Text>().text = $"Bạn đã thành công thêm thiết bị trường <b><color =#004C8A>{model.Name}</b></color> vào hệ thống";
         backgroundTransform.Find("Dialog_Title").GetComponent<TMP_Text>().text = "Thêm thiết bị trường mới thành công";
 
         var confirmButton = horizontalGroupTransform.Find("Confirm_Button").GetComponent<Button>();

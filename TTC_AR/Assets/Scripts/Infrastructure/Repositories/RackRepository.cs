@@ -17,7 +17,7 @@ namespace Infrastructure.Repositories
     {
         private readonly HttpClient _httpClient;
 
-        private const string BaseUrl = "https://6776bd1c12a55a9a7d0cbc42.mockapi.io/api/v2/Company"; // URL server ngoài thực tế
+        private const string BaseUrl = "https://677ba70820824100c07a4e9f.mockapi.io/api/v3/Rack"; // URL server ngoài thực tế
 
         public RackRepository(HttpClient httpClient)
         {
@@ -86,12 +86,8 @@ namespace Infrastructure.Repositories
             try
             {
                 if (RackEntity == null)
+
                     throw new ArgumentNullException(nameof(RackEntity), "Request data cannot be null");
-
-                // var json = JsonConvert.SerializeObject(RackEntity);
-                // Tạo dữ liệu tối giản gửi lên server với tên property khớp yêu cầu
-                // var RackRackEntity = ConvertRackRackEntity(RackEntity);
-
                 var json = JsonConvert.SerializeObject(RackEntity);
 
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
@@ -120,10 +116,7 @@ namespace Infrastructure.Repositories
                 if (RackEntity == null)
                     throw new ArgumentNullException(nameof(RackEntity), "Request data cannot be null");
                 var json = JsonConvert.SerializeObject(RackEntity);
-                // Tạo dữ liệu tối giản gửi lên server với tên property khớp yêu cầu
-                // var RackRackEntity = ConvertRackRackEntity(RackEntity);
-
-                // var json = JsonConvert.SerializeObject(RackEntity);
+       
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
                 var response = await _httpClient.PutAsync($"{BaseUrl}/{RackId}", content);
 

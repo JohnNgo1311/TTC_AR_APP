@@ -38,7 +38,6 @@ public class Initialize_Module_List_Option_Selection : MonoBehaviour
         InitializeItemOptions();
         deviceInformationModels = GlobalVariable.temp_List_DeviceInformationModel;
         jbInformationModels = GlobalVariable.temp_List_JBInformationModel;
-        deviceInformationModels = GlobalVariable.temp_List_DeviceInformationModel;
         rackInformationModels = GlobalVariable.temp_List_RackInformationModel;
         moduleSpecificationModels = GlobalVariable.temp_List_ModuleSpecificationModel;
         adapterSpecificationModels = GlobalVariable.temp_List_AdapterSpecificationModel;
@@ -64,11 +63,11 @@ public class Initialize_Module_List_Option_Selection : MonoBehaviour
         PopulateSelectionPanel("Devices", deviceInformationModels, selection_List_Device_Panel,
             Device_List_Selection_Option_Content_Transform, device => device.Code); // Lấy Code cho Device
 
-        PopulateSelectionPanel("Modules", moduleSpecificationModels, selection_List_ModuleSpecification_Panel,
-           ModuleSpecification_List_Selection_Option_Content_Transform, module => module.Code); // Lấy Name cho Module
-
         PopulateSelectionPanel("JBs", jbInformationModels, selection_List_JB_Panel,
             JB_List_Selection_Option_Content_Transform, image => image.Name); // Lấy Name cho Location Image
+
+        PopulateSelectionPanel("ModuleSpecifications", moduleSpecificationModels, selection_List_ModuleSpecification_Panel,
+                 ModuleSpecification_List_Selection_Option_Content_Transform, module => module.Code); // Lấy Name cho Module
 
         PopulateSelectionPanel("AdapterSpecifications", adapterSpecificationModels, selection_List_AdapterSpecification_Panel,
             AdapterSpecification_List_Selection_Option_Content_Transform, image => image.Code); // Lấy Name cho Connection Image

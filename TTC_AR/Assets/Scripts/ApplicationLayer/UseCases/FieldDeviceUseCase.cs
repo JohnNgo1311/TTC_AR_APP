@@ -130,7 +130,7 @@ namespace ApplicationLayer.UseCases
               ratedPower: entity.RatedPower,
               ratedCurrent: entity.RatedCurrent,
               activeCurrent: entity.ActiveCurrent,
-              connectionImages: entity.ConnectionImageEntities.Count > 0 ? entity.ConnectionImageEntities.Select(img => new ImageResponseDto(img.Id, img.Name, img.Url)).ToList() : new List<ImageResponseDto>(),
+              connectionImages: entity.ConnectionImageEntities.Any() ? entity.ConnectionImageEntities.Select(img => new ImageResponseDto(img.Id, img.Name, img.Url)).ToList() : new List<ImageResponseDto>(),
               note: entity.Note
             );
         }

@@ -36,7 +36,7 @@ public class DeviceManager : MonoBehaviour
         try
         {
             var deviceBasicDtos = await _IDeviceService.GetListDeviceGeneralAsync(grapperId); //! Gọi _IDeviceService từ Application Layer
-            if (deviceBasicDtos != null && deviceBasicDtos.ToList().Count > 0)
+            if (deviceBasicDtos != null && deviceBasicDtos.ToList().Any())
             {
                 foreach (var Device in deviceBasicDtos)
                     Debug.Log($"Device: {Device.Code}");
@@ -70,7 +70,7 @@ public class DeviceManager : MonoBehaviour
         try
         {
             var deviceResponseDtos = await _IDeviceService.GetListDeviceInformationFromGrapperAsync(grapperId); //! Gọi _IDeviceService từ Application Layer
-            if (deviceResponseDtos != null && deviceResponseDtos.ToList().Count > 0)
+            if (deviceResponseDtos != null && deviceResponseDtos.ToList().Any())
             {
                 foreach (var Device in deviceResponseDtos)
                     Debug.Log($"Device: {Device.Code}");
@@ -105,7 +105,7 @@ public class DeviceManager : MonoBehaviour
         try
         {
             var deviceResponseDtos = await _IDeviceService.GetListDeviceInformationFromModuleAsync(moduleId); //! Gọi _IDeviceService từ Application Layer
-            if (deviceResponseDtos != null && deviceResponseDtos.ToList().Count > 0)
+            if (deviceResponseDtos != null && deviceResponseDtos.ToList().Any())
             {
                 foreach (var Device in deviceResponseDtos)
                     Debug.Log($"Device: {Device.Code}");

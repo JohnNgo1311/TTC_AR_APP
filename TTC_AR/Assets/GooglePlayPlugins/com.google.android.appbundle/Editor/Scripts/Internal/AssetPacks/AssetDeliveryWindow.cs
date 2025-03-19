@@ -233,7 +233,7 @@ namespace Google.Android.AppBundle.Editor.Internal.AssetPacks
 
             EditorGUI.BeginChangeCheck();
             var newDeliveryMode =
-                (AssetPackDeliveryMode) EditorGUILayout.EnumPopup("Delivery Mode", assetBundlePack.DeliveryMode,
+                (AssetPackDeliveryMode)EditorGUILayout.EnumPopup("Delivery Mode", assetBundlePack.DeliveryMode,
                     GUILayout.Width(300));
             if (EditorGUI.EndChangeCheck())
             {
@@ -248,7 +248,7 @@ namespace Google.Android.AppBundle.Editor.Internal.AssetPacks
             EditorGUILayout.BeginHorizontal();
             EditorGUILayout.PrefixLabel("Dependencies");
             GUILayout.TextArea(
-                directDependencies.Count > 0 ? string.Join(", ", directDependencies.ToArray()) : "None");
+                directDependencies.Any() ? string.Join(", ", directDependencies.ToArray()) : "None");
             EditorGUILayout.EndHorizontal();
 
             EditorGUILayout.LabelField("AssetBundles");
@@ -331,10 +331,10 @@ namespace Google.Android.AppBundle.Editor.Internal.AssetPacks
 #if UNITY_2018_3_OR_NEWER
             var validTextureCompressionFormats = assetDeliveryConfig.GetAllTextureCompressionFormats();
             var newDefaultTextureCompressionFormat =
-                (TextureCompressionFormat) EditorGUILayout.EnumPopup(new GUIContent(label),
+                (TextureCompressionFormat)EditorGUILayout.EnumPopup(new GUIContent(label),
                     assetDeliveryConfig.DefaultTextureCompressionFormat,
                     textureCompressionFormat =>
-                        validTextureCompressionFormats.Contains((TextureCompressionFormat) textureCompressionFormat),
+                        validTextureCompressionFormats.Contains((TextureCompressionFormat)textureCompressionFormat),
                     false, width);
 #else
             var newDefaultTextureCompressionFormat =
@@ -381,7 +381,7 @@ namespace Google.Android.AppBundle.Editor.Internal.AssetPacks
                     : "There are no AssetBundles marked for packaging.";
             }
 
-            if (errorMessages.Count > 0)
+            if (errorMessages.Any())
             {
                 const string separator = "\n\n- ";
                 return "The following error(s) will occur when building an Android App Bundle:" + separator +

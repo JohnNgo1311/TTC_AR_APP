@@ -8,6 +8,7 @@ using TMPro;
 using System.Threading.Tasks;
 using UnityEngine.XR;
 using System.Runtime.InteropServices;
+using System.Linq;
 
 
 public class Login_Btn_On_Click : MonoBehaviour
@@ -250,9 +251,12 @@ public class Login_Btn_On_Click : MonoBehaviour
         GlobalVariable.ready_To_Nav_New_Scene = true;
 
         yield return new WaitUntil(() =>
-            GlobalVariable.temp_List_JBInformationModel.Count > 0 &&
-            GlobalVariable.temp_List_ImageInformationModel.Count > 0 &&
-            GlobalVariable.temp_List_DeviceInformationModel.Count > 0
+            GlobalVariable.temp_List_JBInformationModel.Any() &&
+            GlobalVariable.temp_List_DeviceInformationModel.Any() &&
+            GlobalVariable.temp_List_RackInformationModel.Any() &&
+            GlobalVariable.temp_List_ModuleSpecificationModel.Any() &&
+            GlobalVariable.temp_List_AdapterSpecificationModel.Any()
+
         );
 
         yield return Show_Toast.Instance.Set_Instance_Status_False();
@@ -265,8 +269,10 @@ public class Login_Btn_On_Click : MonoBehaviour
         await Task.WhenAll(
         // DeviceManager deviceManager = FindObjectOfType<DeviceManager>();
         ManagerLocator.Instance.JBManager._IJBService.GetListJBGeneralAsync("1"),
-        ManagerLocator.Instance.ImageManager._IImageService.GetListImageAsync("1"),
-        ManagerLocator.Instance.DeviceManager._IDeviceService.GetListDeviceGeneralAsync("1")
+        ManagerLocator.Instance.DeviceManager._IDeviceService.GetListDeviceGeneralAsync("1"),
+        ManagerLocator.Instance.RackManager._IRackService.GetListRackAsync("1"),
+        ManagerLocator.Instance.ModuleSpecificationManager._IModuleSpecificationService.GetListModuleSpecificationAsync("1"),
+        ManagerLocator.Instance.AdapterSpecificationManager._IAdapterSpecificationService.GetListAdapterSpecificationAsync("1")
         // deviceManager._IDeviceService.GetListDeviceGeneralAsync("1");
         );
 

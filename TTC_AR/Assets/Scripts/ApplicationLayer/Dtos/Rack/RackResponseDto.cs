@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using ApplicationLayer.Dtos.Module;
 using Newtonsoft.Json;
 using UnityEngine.Scripting;
-
+#nullable enable
 namespace ApplicationLayer.Dtos.Rack
 {
     [Preserve]
