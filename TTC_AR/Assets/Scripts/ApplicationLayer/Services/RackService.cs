@@ -21,7 +21,7 @@ namespace ApplicationLayer.Services
         {
             return await _RackUseCase.GetRackByIdAsync(id);
         }
-        public async Task<List<RackBasicDto>> GetListRackAsync(string grapperId)
+        public async Task<IEnumerable<RackBasicDto>> GetListRackAsync(string grapperId)
         {
             return await _RackUseCase.GetListRackAsync(grapperId);
         }

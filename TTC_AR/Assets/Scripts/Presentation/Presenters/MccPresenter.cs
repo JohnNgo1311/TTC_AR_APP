@@ -27,7 +27,7 @@ public class MccPresenter
             var MccBasicDto = await _service.GetListMccAsync(grapperId);
             if (MccBasicDto != null)
             {
-                if (MccBasicDto.Count > 0)
+                if (MccBasicDto.Any())
                 {
                     var models = MccBasicDto.Select(dto => ConvertFromBasicDto(dto)).ToList();
 

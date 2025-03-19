@@ -10,7 +10,7 @@ public class FieldDeviceInformationModel
 {
 
   [JsonProperty("Id")]
-  public string Id { get; set; }= string.Empty;
+  public string Id { get; set; } = string.Empty;
   [JsonProperty("Name")]
   public string Name { get; set; } = string.Empty;
 

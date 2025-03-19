@@ -7,7 +7,7 @@ using UnityEngine.Scripting;
 #nullable enable
 
 namespace ApplicationLayer.Dtos.Device
-{ 
+{
     [Preserve]
     public class DeviceBasicDto
     {

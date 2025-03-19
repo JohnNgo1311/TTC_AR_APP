@@ -7,6 +7,7 @@ using ApplicationLayer.Dtos.Image;
 using System.Collections.Generic;
 using ApplicationLayer.Dtos.FieldDevice;
 using Domain.Interfaces;
+using System;
 
 namespace ApplicationLayer.UseCases
 {
@@ -19,23 +20,20 @@ namespace ApplicationLayer.UseCases
             _MccRepository = MccRepository;
         }
 
-        public async Task<List<MccBasicDto>> GetListMccAsync(string grapperId)
+        public async Task<IEnumerable<MccBasicDto>> GetListMccAsync(string grapperId)
         {
-            var entities = await _MccRepository.GetListMccAsync(grapperId);
+            var entities = await _MccRepository.GetListMccAsync(grapperId)
+                           ?? throw new ApplicationException("Failed to load List MccBasicDtos");
 
-            var MccBasicDtos = entities.Select(entity => MapToBasicDto(entity)).ToList();
-
-            return MccBasicDtos;
+            return entities.Select(entity => MapToBasicDto(entity));
         }
+
 
 
         public async Task<MccResponseDto> GetMccByIdAsync(string MccId)
         {
-            var entity = await _MccRepository.GetMccByIdAsync(MccId);
-
-            var MccResponseDto = MapToResponseDto(entity);
-
-            return MccResponseDto;
+            var entity = await _MccRepository.GetMccByIdAsync(MccId) ?? throw new ApplicationException("Failed to load MccResponseDto"); ;
+            return MapToResponseDto(entity);
         }
 
         public async Task<bool> CreateNewMccAsync(string grapperId, MccRequestDto requestDto)

@@ -29,7 +29,10 @@ namespace Domain.Entities
       };
       return !apiRequestType.Any(request => allowedRequests.Contains(request));
     }
-
+    public bool ShouldSerializeName()
+    {
+      return true;
+    }
     public bool ShouldSerializeUrl()
     {
       List<string> apiRequestType = GlobalVariable.APIRequestType;

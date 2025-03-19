@@ -28,7 +28,7 @@ public class ModuleSpecificationPresenter
             var ModuleSpecificationBasicDto = await _service.GetListModuleSpecificationAsync(companyId);
             if (ModuleSpecificationBasicDto != null)
             {
-                if (ModuleSpecificationBasicDto.Count > 0)
+                if (ModuleSpecificationBasicDto.Any())
                 {
                     var models = ModuleSpecificationBasicDto.Select(dto => ConvertFromBasicDto(dto)).ToList();
 

@@ -41,7 +41,10 @@ namespace Domain.Entities
       };
       return !apiRequestType.Any(request => allowedRequests.Contains(request));
     }
-
+    public bool ShouldSerializeName() //=> Done
+    {
+      return true;
+    }
     public bool ShouldSerializeDeviceEntities() //=> Done
     {
       List<string> apiRequestType = GlobalVariable.APIRequestType;
@@ -94,8 +97,8 @@ namespace Domain.Entities
         HttpMethodTypeEnum.GETListDeviceInformationFromGrapper.GetDescription(),
         HttpMethodTypeEnum.GETListDeviceInformationFromModule.GetDescription(),
         HttpMethodTypeEnum.POSTJB.GetDescription(),
-        HttpMethodTypeEnum.PUTJB.GetDescription()
-
+        HttpMethodTypeEnum.PUTJB.GetDescription(),
+        HttpMethodTypeEnum.GETDevice.GetDescription(),
      };
       return apiRequestType.Any(request => allowedRequests.Contains(request));
       ;
@@ -112,7 +115,8 @@ namespace Domain.Entities
         HttpMethodTypeEnum.GETListDeviceInformationFromGrapper.GetDescription(),
         HttpMethodTypeEnum.GETListDeviceInformationFromModule.GetDescription(),
         HttpMethodTypeEnum.POSTJB.GetDescription(),
-        HttpMethodTypeEnum.PUTJB.GetDescription()
+        HttpMethodTypeEnum.PUTJB.GetDescription(),
+        HttpMethodTypeEnum.GETDevice.GetDescription(),
      };
       return apiRequestType.Any(request => allowedRequests.Contains(request));
       ;

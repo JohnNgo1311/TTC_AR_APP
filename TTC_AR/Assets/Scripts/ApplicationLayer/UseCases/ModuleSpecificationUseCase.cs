@@ -17,21 +17,13 @@ namespace ApplicationLayer.UseCases
         {
             _IModuleSpecificationRepository = IModuleSpecificationRepository;
         }
-        public async Task<List<ModuleSpecificationBasicDto>> GetListModuleSpecificationAsync(string companyId)
+        public async Task<IEnumerable<ModuleSpecificationBasicDto>> GetListModuleSpecificationAsync(string companyId)
         {
             try
             {
-                var ModuleSpecificationEntities = await _IModuleSpecificationRepository.GetListModuleSpecificationAsync(companyId);
-
-                if (ModuleSpecificationEntities == null)
-                {
-                    throw new ApplicationException("Failed to get ModuleSpecification list");
-                }
-                else
-                {
-                    var moduleSpecificationBasicDtos = ModuleSpecificationEntities.Select(MapToBasicDto).ToList();
-                    return moduleSpecificationBasicDtos;
-                }
+                var ModuleSpecificationEntities = await _IModuleSpecificationRepository.GetListModuleSpecificationAsync(companyId) ??
+                throw new ApplicationException("Failed to get ModuleSpecification list");
+                return ModuleSpecificationEntities.Select(MapToBasicDto).ToList();
             }
             catch (ArgumentException)
             {
@@ -46,16 +38,9 @@ namespace ApplicationLayer.UseCases
         {
             try
             {
-                var ModuleSpecificationEntity = await _IModuleSpecificationRepository.GetModuleSpecificationByIdAsync(moduleSpecificationId);
-                if (ModuleSpecificationEntity == null)
-                {
-                    throw new ApplicationException("Failed to get ModuleSpecification");
-                }
-                else
-                {
-                    var moduleSpecificationResponseDto = MapToResponseDto(ModuleSpecificationEntity);
-                    return moduleSpecificationResponseDto;
-                }
+                var ModuleSpecificationEntity = await _IModuleSpecificationRepository.GetModuleSpecificationByIdAsync(moduleSpecificationId)
+                ?? throw new ApplicationException("Failed to get ModuleSpecification");
+                return MapToResponseDto(ModuleSpecificationEntity);
             }
             catch (ArgumentException)
             {

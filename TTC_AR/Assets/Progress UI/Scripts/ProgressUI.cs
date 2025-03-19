@@ -24,7 +24,7 @@ namespace EasyUI.Helpers
    public class ProgressUI : MonoBehaviour
    {
       [Header("UI References :")]
-      [SerializeField] private CanvasGroup uiCanvasGroup;
+      [SerializeField] public CanvasGroup uiCanvasGroup;
       [SerializeField] private Image uiOverlayImage;
       [SerializeField] private Image uiPopupImage;
       [SerializeField] private Image uiLoadingCircleImage;
@@ -35,6 +35,7 @@ namespace EasyUI.Helpers
       [SerializeField] private TextMeshProUGUI uiProgressText;
       [SerializeField] private Slider uiProgressSlider;
       [SerializeField] private Image uiProgressFillImage;
+
 
       [Space]
       [Header("Progress UI Settings :")]
@@ -84,9 +85,11 @@ namespace EasyUI.Helpers
 
       private void Show()
       {
+         uiCanvasGroup.blocksRaycasts = true;
          Dismiss();
          SetLoadingCircleAnimation(true);
          StartCoroutine(Fade(0f, 1f, settings.fadeInDuration));
+
       }
 
       private void UpdateTheme()
@@ -103,7 +106,7 @@ namespace EasyUI.Helpers
 
       private void SetDetails(bool enabled)
       {
-       //  uiDetailsSection.SetActive(enabled);
+         //  uiDetailsSection.SetActive(enabled);
       }
 
       public void SetTitleText(string text)
@@ -149,6 +152,8 @@ namespace EasyUI.Helpers
          SetLoadingCircleAnimation(false);
          StartCoroutine(Fade(uiCanvasGroup.alpha, 0f, settings.fadeOutDuration));
          ResetProgressData();
+         uiCanvasGroup.blocksRaycasts = false;
+
       }
 
       private IEnumerator Fade(float startAlpha, float endAlpha, float fadeDuration)

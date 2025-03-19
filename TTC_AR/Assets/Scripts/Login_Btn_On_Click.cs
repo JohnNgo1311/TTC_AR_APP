@@ -187,29 +187,25 @@ public class Login_Btn_On_Click : MonoBehaviour
 
         // FieldDeviceManager FieldDeviceManager = FindObjectOfType<FieldDeviceManager>();
         // FieldDeviceManager._IFieldDeviceService.GetListFieldDeviceAsync("1");
+
+        // JBManager jBManager = FindObjectOfType<JBManager>();
+        // ImageManager imageManager = FindObjectOfType<ImageManager>();
+        // ModuleManager moduleManager = FindObjectOfType<ModuleManager>();
+
         GlobalVariable.APIRequestType.Clear();
         GlobalVariable.APIRequestType.Add("GET_JB_List_General");
-        GlobalVariable.APIRequestType.Add("GET_Device_List_General");
+        // GlobalVariable.APIRequestType.Add("GET_Device_List_General");
         GlobalVariable.APIRequestType.Add("GET_Module_List");
 
 
-        JBManager jBManager = FindObjectOfType<JBManager>();
-        ImageManager imageManager = FindObjectOfType<ImageManager>();
-        ModuleManager moduleManager = FindObjectOfType<ModuleManager>();
-        DeviceManager deviceManager = FindObjectOfType<DeviceManager>();
-
-        jBManager.GetListJBGeneral("1");
-        imageManager._IImageService.GetListImageAsync("1");
-        moduleManager._IModuleService.GetListModuleAsync("1");
-        deviceManager._IDeviceService.GetListDeviceGeneralAsync("1");
 
 
         GlobalVariable.APIRequestType.Clear();
+        // userName = userNameField.text;
+        // password = passwordField.text;
 
-
-        userName = userNameField.text;
-        password = passwordField.text;
-
+        userName = "admin";
+        password = "123456";
         if (staffAccounts.TryGetValue(userName.ToLower(), out string foundPassword) && foundPassword == password)
         {
             StartCoroutine(HandleLoginSuccess());
@@ -223,6 +219,7 @@ public class Login_Btn_On_Click : MonoBehaviour
     private IEnumerator HandleLoginSuccess()
     {
         UpdateGlobalVariables();
+        yield return GetInitialData();
         yield return LoadSceneAsync(targetSceneName);
     }
 
@@ -253,13 +250,25 @@ public class Login_Btn_On_Click : MonoBehaviour
         GlobalVariable.ready_To_Nav_New_Scene = true;
 
         yield return new WaitUntil(() =>
-            GlobalVariable.temp_List_DeviceInformationModel.Count > 0 &&
+            GlobalVariable.temp_List_JBInformationModel.Count > 0 &&
             GlobalVariable.temp_List_ImageInformationModel.Count > 0 &&
-            GlobalVariable.temp_List_ModuleInformationModel.Count > 0
+            GlobalVariable.temp_List_DeviceInformationModel.Count > 0
         );
 
         yield return Show_Toast.Instance.Set_Instance_Status_False();
 
         SceneManager.LoadSceneAsync(sceneName);
+    }
+
+    private async Task GetInitialData()
+    {
+        await Task.WhenAll(
+        // DeviceManager deviceManager = FindObjectOfType<DeviceManager>();
+        ManagerLocator.Instance.JBManager._IJBService.GetListJBGeneralAsync("1"),
+        ManagerLocator.Instance.ImageManager._IImageService.GetListImageAsync("1"),
+        ManagerLocator.Instance.DeviceManager._IDeviceService.GetListDeviceGeneralAsync("1")
+        // deviceManager._IDeviceService.GetListDeviceGeneralAsync("1");
+        );
+
     }
 }

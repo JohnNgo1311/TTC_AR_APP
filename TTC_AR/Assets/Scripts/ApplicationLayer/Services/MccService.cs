@@ -27,7 +27,7 @@ namespace ApplicationLayer.Services
         {
             return await _MccUseCase.GetMccByIdAsync(id);
         }
-        public async Task<List<MccBasicDto>> GetListMccAsync(string grapperId)
+        public async Task<IEnumerable<MccBasicDto>> GetListMccAsync(string grapperId)
         {
             return await _MccUseCase.GetListMccAsync(grapperId);
         }

@@ -37,9 +37,21 @@ namespace ApplicationLayer.UseCases
                 }
                 else
                 {
-                    var moduleBasicDtos = moduleEntities.Select(moduleEntity => MapEntityToBasicDto(moduleEntity)).ToList();
-                    GlobalVariable.temp_List_ModuleInformationModel = moduleBasicDtos.Select(dto => new ModuleInformationModel(dto.Id, dto.Name)).ToList();
-                    GlobalVariable.temp_Dictionary_ModuleInformationModel = moduleBasicDtos.ToDictionary(dto => dto.Name, dto => new ModuleInformationModel(dto.Id, dto.Name));
+                    int count = moduleEntities.Count;
+                    var listModuleInfo = new List<ModuleInformationModel>(count);
+                    var dictModuleInfo = new Dictionary<string, ModuleInformationModel>(count);
+                    var moduleBasicDtos = new List<ModuleBasicDto>(count);
+                    foreach (var moduleEntity in moduleEntities)
+                    {
+                        var dto = MapEntityToBasicDto(moduleEntity);
+                        var model = new ModuleInformationModel(dto.Id, dto.Name);
+                        moduleBasicDtos.Add(dto);
+                        listModuleInfo.Add(model);
+                        dictModuleInfo[dto.Name] = model;
+                    }
+
+                    GlobalVariable.temp_List_ModuleInformationModel = listModuleInfo;
+                    GlobalVariable.temp_Dictionary_ModuleInformationModel = dictModuleInfo;
                     return moduleBasicDtos;
                 }
 
@@ -60,18 +72,12 @@ namespace ApplicationLayer.UseCases
         {
             try
             {
-                var moduleEntity = await _IModuleRepository.GetModuleByIdAsync(ModuleId);
-                if (moduleEntity == null)
-                {
+                var moduleEntity = await _IModuleRepository.GetModuleByIdAsync(ModuleId) ??
                     throw new ApplicationException("Failed to get Module");
-                }
-                else
-                {
-                    // Ánh xạ từ moduleEntity sang ModuleEntity để check các lỗi nghiệp vụ
-                    var ModuleResponseDto = MapEntityToResponseDto(moduleEntity);
-                    // Ánh xạ từ ModuleEntity sang ModuleResponseDto để đưa giá trị trả về
-                    return ModuleResponseDto;
-                }
+
+
+                return MapEntityToResponseDto(moduleEntity);
+
             }
             catch (ArgumentException)
             {
@@ -178,36 +184,50 @@ namespace ApplicationLayer.UseCases
         }
         private ModuleRequestDto MapEntityToRequestDto(ModuleEntity moduleEntity)
         {
+            var deviceEntities = moduleEntity.DeviceEntities ?? Enumerable.Empty<DeviceEntity>();
+            var jbEntities = moduleEntity.JBEntities ?? Enumerable.Empty<JBEntity>();
+
             return new ModuleRequestDto(
-                moduleEntity.Name,
-                new RackBasicDto(moduleEntity.RackEntity.Id, moduleEntity.RackEntity.Name),
-                moduleEntity.DeviceEntities.Select(d => new DeviceBasicDto(d.Id, d.Code)).ToList(),
-                moduleEntity.JBEntities.Select(j => new JBBasicDto(j.Id, j.Name)).ToList(),
-                new ModuleSpecificationBasicDto(moduleEntity.ModuleSpecificationEntity.Id, moduleEntity.ModuleSpecificationEntity.Code),
-                new AdapterSpecificationBasicDto(moduleEntity.AdapterSpecificationEntity.Id, moduleEntity.AdapterSpecificationEntity.Code)
+          name: moduleEntity.Name,
+          rackBasicDto: new RackBasicDto(moduleEntity.RackEntity.Id, moduleEntity.RackEntity.Name),
+          deviceBasicDtos: deviceEntities.Any()
+          ? moduleEntity.DeviceEntities.Select(d => new DeviceBasicDto(d.Id, d.Code)).ToList()
+          : new List<DeviceBasicDto>(),
+           jBBasicDtos: jbEntities.Any()
+           ? moduleEntity.JBEntities.Select(j => new JBBasicDto(j.Id, j.Name)).ToList()
+           : new List<JBBasicDto>(),
+           moduleSpecificationBasicDto: new ModuleSpecificationBasicDto(moduleEntity.ModuleSpecificationEntity.Id, moduleEntity.ModuleSpecificationEntity.Code),
+           adapterSpecificationBasicDto: new AdapterSpecificationBasicDto(moduleEntity.AdapterSpecificationEntity.Id, moduleEntity.AdapterSpecificationEntity.Code)
             );
         }
 
         private ModuleResponseDto MapEntityToResponseDto(ModuleEntity moduleEntity)
         {
-            return new ModuleResponseDto(
-            id: moduleEntity.Id,
+            var deviceEntities = moduleEntity.DeviceEntities ?? Enumerable.Empty<DeviceEntity>();
+            var jbEntities = moduleEntity.JBEntities ?? Enumerable.Empty<JBEntity>();
 
-            name: moduleEntity.Name,
-            grapperBasicDto: new GrapperBasicDto(moduleEntity.GrapperEntity.Id, moduleEntity.GrapperEntity.Name),
-            rackBasicDto: new RackBasicDto(moduleEntity.RackEntity.Id, moduleEntity.RackEntity.Name),
-            deviceBasicDtos: moduleEntity.DeviceEntities.Count > 0 ? moduleEntity.DeviceEntities.Select(d => new DeviceBasicDto(d.Id, d.Code)).ToList() : new List<DeviceBasicDto>(),
-            jbBasicDtos: moduleEntity.JBEntities.Count > 0 ? moduleEntity.JBEntities.Select(j => new JBBasicDto(j.Id, j.Name)).ToList() : new List<JBBasicDto>(),
-            moduleSpecificationResponseDto: MapToEntityToModuleSpecificationResponseDto(moduleEntity.ModuleSpecificationEntity),
-            adapterSpecificationResponseDto: MapToEntityToAdapterSpecificationResponseDto(moduleEntity.AdapterSpecificationEntity)
+            return new ModuleResponseDto(
+                id: moduleEntity.Id,
+                name: moduleEntity.Name,
+                grapperBasicDto: new GrapperBasicDto(moduleEntity.GrapperEntity.Id, moduleEntity.GrapperEntity.Name),
+                rackBasicDto: new RackBasicDto(moduleEntity.RackEntity.Id, moduleEntity.RackEntity.Name),
+                deviceBasicDtos: deviceEntities.Any()
+                    ? new List<DeviceBasicDto>(deviceEntities.Select(d => new DeviceBasicDto(d.Id, d.Code)))
+                    : new List<DeviceBasicDto>(),
+                jbBasicDtos: jbEntities.Any()
+                    ? new List<JBBasicDto>(jbEntities.Select(j => new JBBasicDto(j.Id, j.Name)))
+                    : new List<JBBasicDto>(),
+                moduleSpecificationResponseDto: MapToEntityToModuleSpecificationResponseDto(moduleEntity.ModuleSpecificationEntity),
+                adapterSpecificationResponseDto: MapToEntityToAdapterSpecificationResponseDto(moduleEntity.AdapterSpecificationEntity)
             );
         }
+
         private ModuleSpecificationResponseDto MapToEntityToModuleSpecificationResponseDto(ModuleSpecificationEntity moduleSpecificationEntity)
         {
             return new ModuleSpecificationResponseDto(
-             id: moduleSpecificationEntity.Id,
-             code: moduleSpecificationEntity.Code,
-              type: moduleSpecificationEntity.Type,
+                id: moduleSpecificationEntity.Id,
+                code: moduleSpecificationEntity.Code,
+                type: moduleSpecificationEntity.Type,
                 numOfIO: moduleSpecificationEntity.NumOfIO,
                 signalType: moduleSpecificationEntity.SignalType,
                 compatibleTBUs: moduleSpecificationEntity.CompatibleTBUs,
@@ -217,9 +237,7 @@ namespace ApplicationLayer.UseCases
                 alarm: moduleSpecificationEntity.Alarm,
                 note: moduleSpecificationEntity.Note,
                 pdfManual: moduleSpecificationEntity.PdfManual
-
-
-                    );
+            );
         }
         private AdapterSpecificationResponseDto MapToEntityToAdapterSpecificationResponseDto(AdapterSpecificationEntity adapterSpecificationEntity)
         {

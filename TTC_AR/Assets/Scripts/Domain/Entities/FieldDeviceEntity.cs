@@ -21,7 +21,7 @@ namespace Domain.Entities
     [JsonProperty("Mcc")]
     public MccEntity? MccEntity { get; set; }
 
-    // [JsonProperty("ratedPower", NullValueHandling = NullValueHandling.Ignore)]
+    // [JsonProperty("RatedPower", NullValueHandling = NullValueHandling.Ignore)]
     [JsonProperty("RatedPower")]
     public string? RatedPower { get; set; }
 

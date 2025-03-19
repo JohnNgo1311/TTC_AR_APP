@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using Newtonsoft.Json;
 using UnityEngine.Scripting;
 
@@ -50,17 +49,9 @@ namespace Domain.Entities
 
       return !apiRequestType.Any(request => allowedRequests.Contains(request));
     }
-
-    public bool ShouldSerializeRackEntity()
+    public bool ShouldSerializeName()
     {
-      List<string> apiRequestType = GlobalVariable.APIRequestType;
-      HashSet<string> allowedRequests = new HashSet<string>
-      {
-        HttpMethodTypeEnum.GETModule.GetDescription(),
-        HttpMethodTypeEnum.POSTModule.GetDescription(),
-        HttpMethodTypeEnum.PUTModule.GetDescription(),
-      };
-      return apiRequestType.Any(request => allowedRequests.Contains(request));
+      return true;
     }
     public bool ShouldSerializeGrapperEntity()
     {
@@ -73,6 +64,18 @@ namespace Domain.Entities
       };
       return apiRequestType.Any(request => allowedRequests.Contains(request));
     }
+    public bool ShouldSerializeRackEntity()
+    {
+      List<string> apiRequestType = GlobalVariable.APIRequestType;
+      HashSet<string> allowedRequests = new HashSet<string>
+      {
+        HttpMethodTypeEnum.GETModule.GetDescription(),
+        HttpMethodTypeEnum.POSTModule.GetDescription(),
+        HttpMethodTypeEnum.PUTModule.GetDescription(),
+      };
+      return apiRequestType.Any(request => allowedRequests.Contains(request));
+    }
+
     public bool ShouldSerializeDeviceEntities()
     {
       List<string> apiRequestType = GlobalVariable.APIRequestType;

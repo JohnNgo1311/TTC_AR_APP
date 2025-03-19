@@ -672,7 +672,7 @@ GameObject:
   - component: {fileID: 84712783}
   - component: {fileID: 84712782}
   - component: {fileID: 84712781}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Toast_Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2237,8 +2237,8 @@ GameObject:
   - component: {fileID: 247797058}
   - component: {fileID: 247797057}
   - component: {fileID: 247797056}
-  m_Layer: 5
-  m_Name: Create_New_JB_Canvas
+  m_Layer: 0
+  m_Name: Create_New_Module_Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7446,7 +7446,7 @@ GameObject:
   m_Component:
   - component: {fileID: 795618547}
   - component: {fileID: 795618548}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Scripts
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7902,7 +7902,7 @@ GameObject:
   - component: {fileID: 839396615}
   - component: {fileID: 839396614}
   m_Layer: 0
-  m_Name: JB_Item
+  m_Name: Module_Item
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8006,7 +8006,7 @@ GameObject:
   - component: {fileID: 848292469}
   - component: {fileID: 848292468}
   - component: {fileID: 848292467}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Confirm_Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8629,7 +8629,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 707d7028d376d0b499cffcc7467a1e2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  previousSceneName: UpdateTempJBScene
+  previousSceneName: UpdateJBScene
   recentSceneName: LoginScene
   isOrientation: 0
   detail_Image: {fileID: 0}
@@ -8822,7 +8822,7 @@ GameObject:
   - component: {fileID: 942829042}
   - component: {fileID: 942829041}
   m_Layer: 0
-  m_Name: JBName
+  m_Name: ModuleName
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9585,7 +9585,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1060228450}
   - component: {fileID: 1060228452}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Scripts
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11184,7 +11184,7 @@ GameObject:
   - component: {fileID: 1314522388}
   - component: {fileID: 1314522389}
   m_Layer: 0
-  m_Name: JBName
+  m_Name: ModuleName
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11684,8 +11684,8 @@ GameObject:
   - component: {fileID: 1487900763}
   - component: {fileID: 1487900762}
   - component: {fileID: 1487900761}
-  m_Layer: 5
-  m_Name: Update_New_JB_Canvas
+  m_Layer: 0
+  m_Name: Update_Module_Canvas
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12091,7 +12091,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Danh s\xE1ch t\u1EE7 JB/TSD"
+  m_text: "Danh s\xE1ch Module IO"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 1526582acaf61a640890decb2b2b149f, type: 2}
   m_sharedMaterial: {fileID: -1870415040321534674, guid: 1526582acaf61a640890decb2b2b149f,
@@ -12119,7 +12119,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 88
+  m_fontSize: 87.7
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -12539,7 +12539,7 @@ GameObject:
   - component: {fileID: 1604988598}
   - component: {fileID: 1604988597}
   - component: {fileID: 1604988599}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Confirm_Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12857,8 +12857,8 @@ MonoBehaviour:
   m_Padding:
     m_Left: 30
     m_Right: 0
-    m_Top: 0
-    m_Bottom: 0
+    m_Top: 30
+    m_Bottom: 25
   m_ChildAlignment: 0
   m_Spacing: 0
   m_ChildForceExpandWidth: 1
@@ -14439,7 +14439,7 @@ GameObject:
   - component: {fileID: 1773699376}
   - component: {fileID: 1773699375}
   m_Layer: 0
-  m_Name: Preview_JB_GrapLocation
+  m_Name: Preview_Module_GrapLocation
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -15681,7 +15681,7 @@ GameObject:
   - component: {fileID: 1991150976}
   - component: {fileID: 1991150975}
   m_Layer: 0
-  m_Name: Preview_JB_Name
+  m_Name: Preview_Module_Name
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -15727,7 +15727,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: JB1
+  m_text: A4.0.I
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 1526582acaf61a640890decb2b2b149f, type: 2}
   m_sharedMaterial: {fileID: -1870415040321534674, guid: 1526582acaf61a640890decb2b2b149f,
@@ -16771,7 +16771,7 @@ GameObject:
   - component: {fileID: 2086710285}
   - component: {fileID: 2086710284}
   m_Layer: 0
-  m_Name: List_JBs_Canvas
+  m_Name: List_Modules_Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

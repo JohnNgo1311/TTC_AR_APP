@@ -10,7 +10,7 @@ namespace ApplicationLayer.Interfaces
     public interface IModuleSpecificationService
     {   //! Tham số là Dto, tả về Dto
         Task<ModuleSpecificationResponseDto> GetModuleSpecificationByIdAsync(string moduleSpecificationId);
-        Task<List<ModuleSpecificationBasicDto>> GetListModuleSpecificationAsync(string companyId);
+        Task<IEnumerable<ModuleSpecificationBasicDto>> GetListModuleSpecificationAsync(string companyId);
         Task<bool> CreateNewModuleSpecificationAsync(string companyId, ModuleSpecificationRequestDto moduleSpecificationRequestDto);
         Task<bool> UpdateModuleSpecificationAsync(string moduleSpecificationId, ModuleSpecificationRequestDto moduleSpecificationRequestDto);
         Task<bool> DeleteModuleSpecificationAsync(string moduleSpecificationId);

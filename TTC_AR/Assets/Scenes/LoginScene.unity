@@ -1696,7 +1696,7 @@ MonoBehaviour:
   userNameField: {fileID: 860194577}
   passwordField: {fileID: 1117824330}
   loginButton: {fileID: 369192254}
-  targetSceneName: UpdateTempJBScene
+  targetSceneName: UpdateDeviceScene
 --- !u!114 &1211525880
 MonoBehaviour:
   m_ObjectHideFlags: 0

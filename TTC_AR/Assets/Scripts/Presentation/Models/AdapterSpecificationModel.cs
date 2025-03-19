@@ -12,8 +12,8 @@ public class AdapterSpecificationModel
   [JsonProperty("Id")]
   public string Id { get; set; } = string.Empty;
 
-  [JsonProperty("Code")]  
-  public string Code { get; set; }= string.Empty;
+  [JsonProperty("Code")]
+  public string Code { get; set; } = string.Empty;
 
   [JsonProperty("Type")]
   public string? Type { get; set; }

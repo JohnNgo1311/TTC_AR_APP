@@ -10,8 +10,8 @@ namespace ApplicationLayer.Dtos.Module
     {
         [JsonProperty("Id")] public string Id { get; set; }
         [JsonProperty("Name")] public string Name { get; set; }
-        [Preserve]
 
+        [Preserve]
         public ModuleBasicDto(string id, string name)
         {
             Id = id;

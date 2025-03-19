@@ -25,7 +25,6 @@ namespace ApplicationLayer.Dtos.Module
         [JsonProperty("AdapterSpecification")] public AdapterSpecificationResponseDto? AdapterSpecificationResponseDto { get; set; }
 
         [Preserve]
-
         public ModuleResponseDto(string id, string name, GrapperBasicDto grapperBasicDto, RackBasicDto rackBasicDto, List<DeviceBasicDto> deviceBasicDtos, List<JBBasicDto> jbBasicDtos, ModuleSpecificationResponseDto? moduleSpecificationResponseDto, AdapterSpecificationResponseDto? adapterSpecificationResponseDto) : base(id, name)
         {
             GrapperBasicDto = grapperBasicDto;

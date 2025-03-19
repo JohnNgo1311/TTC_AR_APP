@@ -1,76 +1,102 @@
-using System;
+
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using System;
+//! Tạo List Option, nhưng chưa tạo Button để tương tác
 
 public class Initialize_Device_List_Option_Selection : MonoBehaviour
 {
-    [Header("Basic")]
+    [Header("Canvas")]
     public GameObject Selection_Option_Canvas;
 
     [Header("List Selection Panels")]
     public GameObject selection_List_JB_Panel;
     public GameObject selection_List_ModuleIO_Panel;
-    public GameObject selection_List_Additional_Image_Panel;
+    public GameObject selection_List_Additional_Connection_Image_Panel;
 
     [Header("List Selection Option Contents")]
     public Transform JB_List_Selection_Option_Content_Transform;
-    public Transform ModuleIO_List_Selection_Option_Content_Transform;
-    public Transform Additional_Image_List_Selection_Option_Content_Transform;
+    public Transform Module_List_Selection_Option_Content_Transform;
+    public Transform Additional_Connection_Image_List_Selection_Option_Content_Transform;
 
     public Dictionary<string, GameObject> initialSelectionOptions = new Dictionary<string, GameObject>();
+
+    private List<JBInformationModel> jBInformationModels = new List<JBInformationModel>();
+    private List<ModuleInformationModel> moduleInformationModels = new List<ModuleInformationModel>();
+    private List<ImageInformationModel> additional_ConnectionImageInformationModels = new List<ImageInformationModel>();
+
 
     private void Awake()
     {
         InitializeItemOptions();
-        PopulateListSelection();
+        jBInformationModels = GlobalVariable.temp_List_JBInformationModel;
+        moduleInformationModels = GlobalVariable.temp_List_ModuleInformationModel;
+        additional_ConnectionImageInformationModels = GlobalVariable.temp_List_ImageInformationModel;
     }
     private void Start()
     {
+        PopulateListSelection();
     }
+
     private void InitializeItemOptions()
     {
         initialSelectionOptions["JB"] = JB_List_Selection_Option_Content_Transform.GetChild(0).gameObject;
-        initialSelectionOptions["ModuleIO"] = ModuleIO_List_Selection_Option_Content_Transform.GetChild(0).gameObject;
-        initialSelectionOptions["Additional_Image"] = Additional_Image_List_Selection_Option_Content_Transform.GetChild(0).gameObject;
+        initialSelectionOptions["Module"] = Module_List_Selection_Option_Content_Transform.GetChild(0).gameObject;
+        initialSelectionOptions["Additional_Connection_Images"] = Additional_Connection_Image_List_Selection_Option_Content_Transform.GetChild(0).gameObject;
     }
-    private void PopulateListSelection()
+    void PopulateListSelection()
     {
-        PopulateSelectionPanel("JB", GlobalVariable.list_jBName, selection_List_JB_Panel, JB_List_Selection_Option_Content_Transform);
-        PopulateSelectionPanel("ModuleIO", GlobalVariable.list_ModuleIOName, selection_List_ModuleIO_Panel, ModuleIO_List_Selection_Option_Content_Transform);
-        PopulateSelectionPanel("Additional_Image", GlobalVariable.list_ImageName, selection_List_Additional_Image_Panel, Additional_Image_List_Selection_Option_Content_Transform);
+        PopulateSelectionPanel("JB", jBInformationModels, selection_List_JB_Panel,
+            JB_List_Selection_Option_Content_Transform, jb => jb.Name);
+
+        PopulateSelectionPanel("Module", moduleInformationModels, selection_List_ModuleIO_Panel,
+            Module_List_Selection_Option_Content_Transform, module => module.Name);
+
+
+        PopulateSelectionPanel("Additional_Connection_Images", additional_ConnectionImageInformationModels, selection_List_Additional_Connection_Image_Panel,
+            Additional_Connection_Image_List_Selection_Option_Content_Transform, image => image.Name);
     }
-    private void PopulateSelectionPanel(string field, List<string> optionList, GameObject list_Option_Panel, Transform list_Option_Content_Transform)
+
+
+    private void PopulateSelectionPanel<T>(
+      string field,
+      List<T> models,
+      GameObject list_Option_Panel,
+      Transform list_Option_Content_Transform,
+      Func<T, string> getValue)
     {
-        if (optionList != null && optionList.Count > 0)
+        if (models == null || models.Count == 0) return;
+
+        list_Option_Panel.SetActive(true);
+        Debug.Log($"{field}s: {models.Count}");
+
+        if (models.Count == 1)
         {
-            if (optionList.Count == 1)
-            {
-                AddOption(initialSelectionOptions[field], optionList[0], field);
-                //! Ví dụ: AddOption(initialSelectionOptions["JB"], "02LT002", "JB");
-                //! initialSelectionOptions["JB"] => Initial Option
-            }
-            else
-            {
-                foreach (var optionName in optionList)
-                {
-                    GameObject newOption = Instantiate(initialSelectionOptions[field], list_Option_Content_Transform);
-                    AddOption(newOption, optionName, field);
-                }
-                initialSelectionOptions[field].SetActive(false); //! Tắt đi Option mặc định
-            }
+            SetOptionText(initialSelectionOptions[field], getValue(models[0]));
         }
-        var Back_Button = list_Option_Panel.transform.Find("Background/Appbar/Back_Button").gameObject.GetComponent<Button>();
-        Back_Button.onClick.RemoveAllListeners();
+        else
+        {
+            foreach (var option in models)
+            {
+                GameObject newOption = Instantiate(initialSelectionOptions[field], list_Option_Content_Transform);
+                SetOptionText(newOption, getValue(option));
+            }
+            initialSelectionOptions[field].SetActive(false); // Tắt option mặc định
+        }
+
+        var backButton = list_Option_Panel.transform.Find("Background/Appbar/Back_Button")?.GetComponent<Button>();
+        if (backButton != null) backButton.onClick.RemoveAllListeners();
+
         list_Option_Panel.SetActive(false);
     }
 
-    private void AddOption(GameObject option, string text, string field)
-    {
-        SetOptionText(option, text);
-    }
+
+    // private void AddOption(GameObject option, string text, string field)
+    // {
+    //     SetOptionText(option, text);
+    // }
 
     private void SetOptionText(GameObject option, string text)
     {
