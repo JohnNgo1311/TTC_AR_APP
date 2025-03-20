@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CreateAdapterSpecificationSettingView : MonoBehaviour, IAdapterSpecificationView   
+public class CreateAdapterSpecificationSettingView : MonoBehaviour, IAdapterSpecificationView
 {
     private AdapterSpecificationPresenter _presenter;
 
@@ -54,38 +54,55 @@ public class CreateAdapterSpecificationSettingView : MonoBehaviour, IAdapterSpec
     void OnEnable()
     {
         ResetAllInputFields();
-        backButton.onClick.AddListener(CloseAddCanvas);
-
-        submitButton.onClick.AddListener(() =>
-        {
-            _adapterSpecificationModel = new AdapterSpecificationModel(
-                  AdapterSpecificationCode_TextField.text,
-                  Type_TextField.text,
-                  Communication_TextField.text,
-                  NumOfAdapterAllowed_TextField.text,
-                  CommSpeed_TextField.text,
-                  InputSupply_TextField.text,
-                  OutputSupply_TextField.text,
-                  InrushCurrent_TextField.text,
-                  Alarm_TextField.text,
-                  Note_TextField.text,
-                  PDFManual_TextField.text
-              );
-            _presenter.CreateNewAdapterSpecification(
-                GlobalVariable.companyId, _adapterSpecificationModel
-           );
-        });
-    }
-    void OnDisable()
-    {
 
         backButton.onClick.RemoveAllListeners();
         submitButton.onClick.RemoveAllListeners();
+
+        backButton.onClick.AddListener(CloseAddCanvas);
+        submitButton.onClick.AddListener(OnSubmitButtonClick);
     }
-    public void DisplayDetail(AdapterSpecificationModel model)
+    void OnDisable()
     {
-        // detailText.text = model.DisplayText;
+        backButton.onClick.RemoveAllListeners();
+        submitButton.onClick.RemoveAllListeners();
     }
+
+
+    private void OnSubmitButtonClick()
+    {
+
+        if (string.IsNullOrEmpty(AdapterSpecificationCode_TextField.text))
+        {
+            OpenErrorDialog("Tạo loại Adapter mới thất bại", "Vui lòng nhập mã loại Adapter");
+            return;
+        }
+        if (GlobalVariable.temp_Dictionary_DeviceInformationModel.ContainsKey(AdapterSpecificationCode_TextField.text))
+        {
+            OpenErrorDialog("Tạo loại Adapter mới thất bại", "Mã loại Adapter này đã tồn tại");
+            return;
+        }
+        _adapterSpecificationModel = new AdapterSpecificationModel(
+                 AdapterSpecificationCode_TextField.text,
+                 Type_TextField.text,
+                 Communication_TextField.text,
+                 NumOfAdapterAllowed_TextField.text,
+                 CommSpeed_TextField.text,
+                 InputSupply_TextField.text,
+                 OutputSupply_TextField.text,
+                 InrushCurrent_TextField.text,
+                 Alarm_TextField.text,
+                 Note_TextField.text,
+                 PDFManual_TextField.text
+             );
+        _presenter.CreateNewAdapterSpecification(
+            GlobalVariable.companyId, _adapterSpecificationModel
+       );
+
+    }
+
+
+
+
     public void CloseAddCanvas()
     {
         if (Add_New_AdapterSpecification_Canvas.activeSelf) Add_New_AdapterSpecification_Canvas.SetActive(false);
@@ -198,4 +215,5 @@ public class CreateAdapterSpecificationSettingView : MonoBehaviour, IAdapterSpec
     public void DisplayCreateResult(bool success) { }
     public void DisplayUpdateResult(bool success) { }
     public void DisplayDeleteResult(bool success) { }
+    public void DisplayDetail(AdapterSpecificationModel model) { }
 }

@@ -40,39 +40,56 @@ public class UpdateAdapterSpecificationSettingView : MonoBehaviour, IAdapterSpec
 
     void Awake()
     {
-        AdapterSpecificationManager AdapterSpecificationManager = FindObjectOfType<AdapterSpecificationManager>();
-        _presenter = new AdapterSpecificationPresenter(this, AdapterSpecificationManager._IAdapterSpecificationService);
+        // var DeviceManager = FindObjectOfType<DeviceManager>();
+        _presenter = new AdapterSpecificationPresenter(this, ManagerLocator.Instance.AdapterSpecificationManager._IAdapterSpecificationService);
+        // DeviceManager._IDeviceService
     }
-
     void OnEnable()
     {
+        backButton.onClick.RemoveAllListeners();
+        submitButton.onClick.RemoveAllListeners();
 
         backButton.onClick.AddListener(CloseUpdateCanvas);
-
         _presenter.LoadDetailById(GlobalVariable.AdapterSpecificationId);
-
-
-        submitButton.onClick.AddListener(() =>
-        {
-            _adapterSpecificationModel = new AdapterSpecificationModel(
-                  AdapterSpecificationCode_TextField.text,
-                  Type_TextField.text,
-                  Communication_TextField.text,
-                  NumOfAdapterAllowed_TextField.text,
-                  CommSpeed_TextField.text,
-                  InputSupply_TextField.text,
-                  OutputSupply_TextField.text,
-                  InrushCurrent_TextField.text,
-                  Alarm_TextField.text,
-                  Note_TextField.text,
-                  PDFManual_TextField.text
-              );
-
-            _presenter.UpdateAdapterSpecification(
-                GlobalVariable.AdapterSpecificationId, _adapterSpecificationModel
-           );
-        });
+        submitButton.onClick.AddListener(OnSubmitButtonClick);
     }
+
+
+    private void OnSubmitButtonClick()
+    {
+
+        if (string.IsNullOrEmpty(AdapterSpecificationCode_TextField.text))
+        {
+            OpenErrorDialog("Tạo loại Adapter mới thất bại", "Vui lòng nhập mã loại Adapter");
+            return;
+        }
+        if (GlobalVariable.temp_Dictionary_DeviceInformationModel.ContainsKey(AdapterSpecificationCode_TextField.text))
+        {
+            OpenErrorDialog("Tạo loại Adapter mới thất bại", "Mã loại Adapter này đã tồn tại");
+            return;
+        }
+        _adapterSpecificationModel = new AdapterSpecificationModel(
+                 AdapterSpecificationCode_TextField.text,
+                 Type_TextField.text,
+                 Communication_TextField.text,
+                 NumOfAdapterAllowed_TextField.text,
+                 CommSpeed_TextField.text,
+                 InputSupply_TextField.text,
+                 OutputSupply_TextField.text,
+                 InrushCurrent_TextField.text,
+                 Alarm_TextField.text,
+                 Note_TextField.text,
+                 PDFManual_TextField.text
+             );
+        _presenter.UpdateAdapterSpecification(
+                 GlobalVariable.AdapterSpecificationId, _adapterSpecificationModel
+            );
+
+    }
+
+
+
+
     void OnDisable()
     {
         backButton.onClick.RemoveAllListeners();
@@ -88,35 +105,23 @@ public class UpdateAdapterSpecificationSettingView : MonoBehaviour, IAdapterSpec
     {
         SetInitialInputFields(model);
     }
-    private void OpenErrorUpdateDialog()
+    private void OpenErrorDialog(string title = "Tạo loại Adapter mới thất bại", string message = "Đã có lỗi xảy ra khi tạo loại Adapter mới. Vui lòng thử lại sau.")
     {
         DialogOneButton.SetActive(true);
         var backButton = DialogOneButton.transform.Find("Background/Back_Button").GetComponent<Button>();
         backButton.gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>("images/UIimages/Error_Back_Button_Background");
         var dialog_Icon = DialogOneButton.transform.Find("Background/Dialog_Status_Icon").GetComponent<Image>().sprite = Resources.Load<Sprite>("images/UIimages/Error_Icon_For_Dialog");
-        var dialog_Content = DialogOneButton.transform.Find("Background/Dialog_Content").GetComponent<TMP_Text>().text = $"Đã có lỗi xảy ra khi cập nhật loại Adapter này. Vui lòng thử lại sau.";
-        var dialog_Title = DialogOneButton.transform.Find("Background/Dialog_Title").GetComponent<TMP_Text>().text = "Cập nhật loại Adapter  thất bại";
+        var dialog_Content = DialogOneButton.transform.Find("Background/Dialog_Content").GetComponent<TMP_Text>().text = message;
+        var dialog_Title = DialogOneButton.transform.Find("Background/Dialog_Title").GetComponent<TMP_Text>().text = title;
         backButton.onClick.RemoveAllListeners();
         backButton.onClick.AddListener(() =>
         {
             DialogOneButton.SetActive(false);
         });
     }
-    private void OpenErrorGetByIdDialog()
-    {
-        DialogOneButton.SetActive(true);
-        var backButton = DialogOneButton.transform.Find("Background/Back_Button").GetComponent<Button>();
-        backButton.gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>("images/UIimages/Error_Back_Button_Background");
-        var dialog_Icon = DialogOneButton.transform.Find("Background/Dialog_Status_Icon").GetComponent<Image>().sprite = Resources.Load<Sprite>("images/UIimages/Error_Icon_For_Dialog");
-        var dialog_Content = DialogOneButton.transform.Find("Background/Dialog_Content").GetComponent<TMP_Text>().text = $"Đã có lỗi xảy ra khi lấy dữ liệu loại Adapter này. Vui lòng thử lại sau.";
-        var dialog_Title = DialogOneButton.transform.Find("Background/Dialog_Title").GetComponent<TMP_Text>().text = "Lấy dữ liệu loại Adapter thất bại";
-        backButton.onClick.RemoveAllListeners();
-        backButton.onClick.AddListener(() =>
-        {
-            DialogOneButton.SetActive(false);
-        });
-    }
-    private void OpenSuccessUpdateDialog(AdapterSpecificationModel model)
+
+
+    private void OpenSuccessDialog(AdapterSpecificationModel model)
     {
         DialogOneButton.SetActive(true);
         var backButton = DialogOneButton.transform.Find("Background/Back_Button").GetComponent<Button>();
@@ -182,11 +187,11 @@ public class UpdateAdapterSpecificationSettingView : MonoBehaviour, IAdapterSpec
     {
         if (GlobalVariable.APIRequestType.Contains("PUT_AdapterSpecification"))
         {
-            OpenErrorUpdateDialog();
+            OpenErrorDialog();
         }
         if (GlobalVariable.APIRequestType.Contains("GET_AdapterSpecification"))
         {
-            OpenErrorGetByIdDialog();
+            OpenErrorDialog(title: "Tải dữ liệu thất bại", message: "Đã có lỗi xảy ra khi tải dữ liệu loại Adapter. Vui lòng thử lại sau");
         }
     }
     public void ShowSuccess()
@@ -195,7 +200,7 @@ public class UpdateAdapterSpecificationSettingView : MonoBehaviour, IAdapterSpec
         if (GlobalVariable.APIRequestType.Contains("PUT_AdapterSpecification"))
         {
             Show_Toast.Instance.ShowToast("success", "Cập nhật dữ liệu thành công");
-            OpenSuccessUpdateDialog(_adapterSpecificationModel);
+            OpenSuccessDialog(_adapterSpecificationModel);
         }
         if (GlobalVariable.APIRequestType.Contains("GET_AdapterSpecification"))
         {

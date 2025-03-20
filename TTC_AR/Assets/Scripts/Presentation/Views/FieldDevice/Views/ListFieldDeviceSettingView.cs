@@ -26,8 +26,9 @@ public class ListFieldDeviceSettingView : MonoBehaviour, IFieldDeviceView
 
     void Awake()
     {
-        FieldDeviceManager FieldDeviceManager = FindObjectOfType<FieldDeviceManager>();
-        _presenter = new FieldDevicePresenter(this, FieldDeviceManager._IFieldDeviceService);
+        // var DeviceManager = FindObjectOfType<DeviceManager>();
+        _presenter = new FieldDevicePresenter(this, ManagerLocator.Instance.FieldDeviceManager._IFieldDeviceService);
+        // DeviceManager._IDeviceService
     }
 
     void OnEnable()
@@ -145,7 +146,7 @@ public class ListFieldDeviceSettingView : MonoBehaviour, IFieldDeviceView
     }
 
 
-    private void OpenErrorDeletingDialog()
+    private void OpenErrorDialog(string title = "Xóa thiết bi trường thất bại", string message = "Đã có lỗi xảy ra khi xóa thiết bi trường khỏi hệ thống. Vui lòng thử lại sau")
     {
         DialogOneButton.SetActive(true);
 
@@ -155,33 +156,9 @@ public class ListFieldDeviceSettingView : MonoBehaviour, IFieldDeviceView
 
         var dialog_Icon = DialogOneButton.transform.Find("Background/Dialog_Status_Icon").GetComponent<Image>().sprite = Resources.Load<Sprite>("images/UIimages/Error_Icon_For_Dialog");
 
+        var dialog_Content = DialogOneButton.transform.Find("Background/Dialog_Content").GetComponent<TMP_Text>().text = message;
 
-        var dialog_Content = DialogOneButton.transform.Find("Background/Dialog_Content").GetComponent<TMP_Text>().text = $"Đã có lỗi xảy ra khi xóa thiết bi trường khỏi hệ thống. Vui lòng thử lại sau";
-
-        var dialog_Title = DialogOneButton.transform.Find("Background/Dialog_Title").GetComponent<TMP_Text>().text = "Xóa thiết bi trường thất bại";
-
-
-        backButton.onClick.RemoveAllListeners();
-
-        backButton.onClick.AddListener(() =>
-        {
-            DialogOneButton.SetActive(false);
-        });
-
-    }
-
-    private void OpenErrorCreateNewDialog()
-    {
-        DialogOneButton.SetActive(true);
-        var backButton = DialogOneButton.transform.Find("Background/Back_Button").GetComponent<Button>();
-
-        backButton.gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>("images/UIimages/Error_Back_Button_Background");
-
-        var dialog_Icon = DialogOneButton.transform.Find("Background/Dialog_Status_Icon").GetComponent<Image>().sprite = Resources.Load<Sprite>("images/UIimages/Error_Icon_For_Dialog");
-
-        var dialog_Content = DialogOneButton.transform.Find("Background/Dialog_Content").GetComponent<TMP_Text>().text = $"Đã có lỗi xảy ra khi thêm thiết bi trường này khỏi hệ thống. Vui lòng thử lại sau";
-
-        var dialog_Title = DialogOneButton.transform.Find("Background/Dialog_Title").GetComponent<TMP_Text>().text = "Thêm thiết bi trường thất bại";
+        var dialog_Title = DialogOneButton.transform.Find("Background/Dialog_Title").GetComponent<TMP_Text>().text = title;
 
 
         backButton.onClick.RemoveAllListeners();
@@ -190,29 +167,7 @@ public class ListFieldDeviceSettingView : MonoBehaviour, IFieldDeviceView
         {
             DialogOneButton.SetActive(false);
         });
-    }
 
-
-    private void OpenErrorGetListDialog()
-    {
-        DialogOneButton.SetActive(true);
-        var backButton = DialogOneButton.transform.Find("Background/Back_Button").GetComponent<Button>();
-
-        backButton.gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>("images/UIimages/Error_Back_Button_Background");
-
-        var dialog_Icon = DialogOneButton.transform.Find("Background/Dialog_Status_Icon").GetComponent<Image>().sprite = Resources.Load<Sprite>("images/UIimages/Error_Icon_For_Dialog");
-
-        var dialog_Content = DialogOneButton.transform.Find("Background/Dialog_Content").GetComponent<TMP_Text>().text = $"Đã có lỗi xảy ra khi tải danh sách. Vui lòng thử lại sau";
-
-        var dialog_Title = DialogOneButton.transform.Find("Background/Dialog_Title").GetComponent<TMP_Text>().text = "Tải danh sách thất bại";
-
-
-        backButton.onClick.RemoveAllListeners();
-
-        backButton.onClick.AddListener(() =>
-        {
-            DialogOneButton.SetActive(false);
-        });
     }
 
 
@@ -234,11 +189,11 @@ public class ListFieldDeviceSettingView : MonoBehaviour, IFieldDeviceView
     {
         if (GlobalVariable.APIRequestType.Contains("GET_FieldDevice_List"))
         {
-            OpenErrorGetListDialog();
+            OpenErrorDialog(title: "Tải danh sách thiết bi trường thất bại", message: "Đã có lỗi xảy ra khi tải danh sách thiết bi trường. Vui lòng thử lại sau");
         }
         if (GlobalVariable.APIRequestType.Contains("DELETE_FieldDevice"))
         {
-            OpenErrorDeletingDialog();
+            OpenErrorDialog();
         }
 
     }

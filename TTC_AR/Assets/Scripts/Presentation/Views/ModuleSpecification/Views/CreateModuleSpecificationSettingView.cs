@@ -54,46 +54,50 @@ public class CreateModuleSpecificationSettingView : MonoBehaviour, IModuleSpecif
     void OnEnable()
     {
         ResetAllInputFields();
-        backButton.onClick.AddListener(CloseAddCanvas);
 
-        submitButton.onClick.AddListener(() =>
-        {
-            if (string.IsNullOrEmpty(ModuleSpecificationCode_TextField.text))
-            {
-                OpenErrorDialog("Tạo loại Module mới thất bại", "Vui lòng nhập mã loại Module");
-                return;
-            }
-            if (GlobalVariable.temp_Dictionary_DeviceInformationModel.ContainsKey(ModuleSpecificationCode_TextField.text))
-            {
-                OpenErrorDialog("Tạo loại Module mới thất bại", "Mã loại Module này đã tồn tại");
-                return;
-            }
-            _ModuleSpecificationModel = new ModuleSpecificationModel(
-                code: ModuleSpecificationCode_TextField.text,
-                type: Type_TextField.text,
-                numOfIO: NumOfIo_TextField.text,
-                signalType: SignalType_TextField.text,
-                compatibleTBUs: CompatibleTBUs_TextField.text,
-                operatingVoltage: OperatingVoltage_TextField.text,
-                operatingCurrent: OperatingCurrent_TextField.text,
-                flexbusCurrent: FlexbusCurrent_TextField.text,
-                alarm: Alarm_TextField.text,
-                note: Note_TextField.text,
-                pdfManual: PdfManual_TextField.text
-              );
-            _presenter.CreateNewModuleSpecification(
-                GlobalVariable.companyId, _ModuleSpecificationModel
-           );
-        });
+        submitButton.onClick.RemoveAllListeners();
+        backButton.onClick.RemoveAllListeners();
+
+        backButton.onClick.AddListener(CloseAddCanvas);
+        submitButton.onClick.AddListener(OnSubmitButtonClick);
     }
+    private void OnSubmitButtonClick()
+    {
+
+        if (string.IsNullOrEmpty(ModuleSpecificationCode_TextField.text))
+        {
+            OpenErrorDialog("Tạo loại Module mới thất bại", "Vui lòng nhập mã loại Module");
+            return;
+        }
+        if (GlobalVariable.temp_Dictionary_DeviceInformationModel.ContainsKey(ModuleSpecificationCode_TextField.text))
+        {
+            OpenErrorDialog("Tạo loại Module mới thất bại", "Mã loại Module này đã tồn tại");
+            return;
+        }
+        _ModuleSpecificationModel = new ModuleSpecificationModel(
+            code: ModuleSpecificationCode_TextField.text,
+            type: Type_TextField.text,
+            numOfIO: NumOfIo_TextField.text,
+            signalType: SignalType_TextField.text,
+            compatibleTBUs: CompatibleTBUs_TextField.text,
+            operatingVoltage: OperatingVoltage_TextField.text,
+            operatingCurrent: OperatingCurrent_TextField.text,
+            flexbusCurrent: FlexbusCurrent_TextField.text,
+            alarm: Alarm_TextField.text,
+            note: Note_TextField.text,
+            pdfManual: PdfManual_TextField.text
+          );
+        _presenter.CreateNewModuleSpecification(
+            GlobalVariable.companyId, _ModuleSpecificationModel
+       );
+    }
+
+
+
     void OnDisable()
     {
         backButton.onClick.RemoveAllListeners();
         submitButton.onClick.RemoveAllListeners();
-    }
-    public void DisplayDetail(ModuleSpecificationModel model)
-    {
-        // detailText.text = model.DisplayText;
     }
     public void CloseAddCanvas()
     {
@@ -102,7 +106,7 @@ public class CreateModuleSpecificationSettingView : MonoBehaviour, IModuleSpecif
         if (!List_ModuleSpecification_Canvas.activeSelf) List_ModuleSpecification_Canvas.SetActive(true);
     }
 
-    private void OpenErrorDialog(string title = "Tạo Module mới thất bại", string content = "Đã có lỗi xảy ra khi tạo loại Module mới. Vui lòng thử lại sau.")
+    private void OpenErrorDialog(string title = "Tạo loại Module mới thất bại", string content = "Đã có lỗi xảy ra khi tạo loại Module mới. Vui lòng thử lại sau.")
     {
         DialogOneButton.SetActive(true);
         var backButton = DialogOneButton.transform.Find("Background/Back_Button").GetComponent<Button>();
@@ -207,4 +211,5 @@ public class CreateModuleSpecificationSettingView : MonoBehaviour, IModuleSpecif
     public void DisplayCreateResult(bool success) { }
     public void DisplayUpdateResult(bool success) { }
     public void DisplayDeleteResult(bool success) { }
+    public void DisplayDetail(ModuleSpecificationModel model) { }
 }

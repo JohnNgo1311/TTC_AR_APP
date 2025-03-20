@@ -23,10 +23,10 @@ public class ListJBSettingView : MonoBehaviour, IJBView
 
     void Awake()
     {
-        JBManager JBManager = FindObjectOfType<JBManager>();
-        _presenter = new JBPresenter(this, JBManager._IJBService);
+        // var DeviceManager = FindObjectOfType<DeviceManager>();
+        _presenter = new JBPresenter(this, ManagerLocator.Instance.JBManager._IJBService);
+        // DeviceManager._IDeviceService
     }
-
     void OnEnable()
     {
         LoadListJB();

@@ -55,8 +55,9 @@ public class UpdateMccSettingView : MonoBehaviour, IMccView
 
     void Awake()
     {
-        var MccManager = FindObjectOfType<MccManager>();
-        _presenter = new MccPresenter(this, MccManager._IMccService);
+        // var DeviceManager = FindObjectOfType<DeviceManager>();
+        _presenter = new MccPresenter(this, ManagerLocator.Instance.MccManager._IMccService);
+        // DeviceManager._IDeviceService
     }
 
     void OnEnable()

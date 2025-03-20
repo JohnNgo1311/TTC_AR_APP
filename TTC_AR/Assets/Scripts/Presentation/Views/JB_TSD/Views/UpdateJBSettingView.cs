@@ -77,8 +77,9 @@ public class UpdateJBSettingView : MonoBehaviour, IJBView
     };
     void Awake()
     {
-        var JBManager = FindObjectOfType<JBManager>();
-        _presenter = new JBPresenter(this, JBManager._IJBService);
+        // var DeviceManager = FindObjectOfType<DeviceManager>();
+        _presenter = new JBPresenter(this, ManagerLocator.Instance.JBManager._IJBService);
+        // DeviceManager._IDeviceService
     }
 
     void OnEnable()

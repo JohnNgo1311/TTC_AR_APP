@@ -7,7 +7,7 @@ public class Get_List_Grapper : MonoBehaviour
 {
     private void Awake()
     {
-        Get_List_Grapper_Models();
+        //Get_List_Grapper_Models();
     }
     private void Start()
     {

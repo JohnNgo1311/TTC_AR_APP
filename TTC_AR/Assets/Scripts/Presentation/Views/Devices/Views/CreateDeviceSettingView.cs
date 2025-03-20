@@ -364,7 +364,7 @@ public class CreateDeviceSettingView : MonoBehaviour, IDeviceView
         };
     }
 
-    private void OpenErrorDialog(string title = "Tạo Device mới thất bại", string message = "Đã có lỗi xảy ra khi tạo Device mới. Vui lòng thử lại sau.")
+    private void OpenErrorDialog(string title = "Tạo thiết bị mới thất bại", string message = "Đã có lỗi xảy ra khi tạo thiết bị mới. Vui lòng thử lại sau.")
     {
         DialogOneButton.SetActive(true);
         var backButton = DialogOneButton.transform.Find("Background/Back_Button").GetComponent<Button>();

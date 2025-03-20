@@ -26,8 +26,9 @@ public class ListAdapterSpecificationSettingView : MonoBehaviour, IAdapterSpecif
 
     void Awake()
     {
-        AdapterSpecificationManager AdapterSpecificationManager = FindObjectOfType<AdapterSpecificationManager>();
-        _presenter = new AdapterSpecificationPresenter(this, AdapterSpecificationManager._IAdapterSpecificationService);
+        // var DeviceManager = FindObjectOfType<DeviceManager>();
+        _presenter = new AdapterSpecificationPresenter(this, ManagerLocator.Instance.AdapterSpecificationManager._IAdapterSpecificationService);
+        // DeviceManager._IDeviceService
     }
 
     void OnEnable()
@@ -148,47 +149,15 @@ public class ListAdapterSpecificationSettingView : MonoBehaviour, IAdapterSpecif
     }
 
 
-    private void OpenErrorDeletingDialog()
-    {
-        DialogOneButton.SetActive(true);
-
-        var backButton = DialogOneButton.transform.Find("Background/Back_Button").GetComponent<Button>();
-
-        backButton.gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>("images/UIimages/Error_Back_Button_Background");
-
-        var dialog_Icon = DialogOneButton.transform.Find("Background/Dialog_Status_Icon").GetComponent<Image>().sprite = Resources.Load<Sprite>("images/UIimages/Error_Icon_For_Dialog");
-
-
-        var dialog_Content = DialogOneButton.transform.Find("Background/Dialog_Content").GetComponent<TMP_Text>().text = $"Đã có lỗi xảy ra khi xóa loại Adapter khỏi hệ thống. Vui lòng thử lại sau";
-
-        var dialog_Title = DialogOneButton.transform.Find("Background/Dialog_Title").GetComponent<TMP_Text>().text = "Xóa loại Adapter thất bại";
-
-
-        backButton.onClick.RemoveAllListeners();
-
-        backButton.onClick.AddListener(() =>
-        {
-            DialogOneButton.SetActive(false);
-        });
-
-    }
-
-    private void OpenErrorCreateNewDialog()
+    private void OpenErrorDialog(string title = "Tạo loại Adapter mới thất bại", string content = "Đã có lỗi xảy ra khi tạo loại Adapter mới. Vui lòng thử lại sau.")
     {
         DialogOneButton.SetActive(true);
         var backButton = DialogOneButton.transform.Find("Background/Back_Button").GetComponent<Button>();
-
         backButton.gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>("images/UIimages/Error_Back_Button_Background");
-
         var dialog_Icon = DialogOneButton.transform.Find("Background/Dialog_Status_Icon").GetComponent<Image>().sprite = Resources.Load<Sprite>("images/UIimages/Error_Icon_For_Dialog");
-
-        var dialog_Content = DialogOneButton.transform.Find("Background/Dialog_Content").GetComponent<TMP_Text>().text = $"Đã có lỗi xảy ra khi thêm loại Adapter này khỏi hệ thống. Vui lòng thử lại sau";
-
-        var dialog_Title = DialogOneButton.transform.Find("Background/Dialog_Title").GetComponent<TMP_Text>().text = "Thêm loại Adapter thất bại";
-
-
+        var dialog_Content = DialogOneButton.transform.Find("Background/Dialog_Content").GetComponent<TMP_Text>().text = content;
+        var dialog_Title = DialogOneButton.transform.Find("Background/Dialog_Title").GetComponent<TMP_Text>().text = title;
         backButton.onClick.RemoveAllListeners();
-
         backButton.onClick.AddListener(() =>
         {
             DialogOneButton.SetActive(false);
@@ -196,27 +165,7 @@ public class ListAdapterSpecificationSettingView : MonoBehaviour, IAdapterSpecif
     }
 
 
-    private void OpenErrorGetListDialog()
-    {
-        DialogOneButton.SetActive(true);
-        var backButton = DialogOneButton.transform.Find("Background/Back_Button").GetComponent<Button>();
 
-        backButton.gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>("images/UIimages/Error_Back_Button_Background");
-
-        var dialog_Icon = DialogOneButton.transform.Find("Background/Dialog_Status_Icon").GetComponent<Image>().sprite = Resources.Load<Sprite>("images/UIimages/Error_Icon_For_Dialog");
-
-        var dialog_Content = DialogOneButton.transform.Find("Background/Dialog_Content").GetComponent<TMP_Text>().text = $"Đã có lỗi xảy ra khi tải danh sách. Vui lòng thử lại sau";
-
-        var dialog_Title = DialogOneButton.transform.Find("Background/Dialog_Title").GetComponent<TMP_Text>().text = "Tải danh sách thất bại";
-
-
-        backButton.onClick.RemoveAllListeners();
-
-        backButton.onClick.AddListener(() =>
-        {
-            DialogOneButton.SetActive(false);
-        });
-    }
 
 
     private void ShowProgressBar(string title, string details)
@@ -237,11 +186,11 @@ public class ListAdapterSpecificationSettingView : MonoBehaviour, IAdapterSpecif
     {
         if (GlobalVariable.APIRequestType.Contains("GET_AdapterSpecification_List"))
         {
-            OpenErrorGetListDialog();
+            OpenErrorDialog(title: "Tải danh sách loại Adapter thất bại", content: "Đã có lỗi xảy ra khi tải danh sách loại Adapter. Vui lòng thử lại sau");
         }
         else if (GlobalVariable.APIRequestType.Contains("DELETE_AdapterSpecification"))
         {
-            OpenErrorDeletingDialog();
+            OpenErrorDialog();
         }
 
     }

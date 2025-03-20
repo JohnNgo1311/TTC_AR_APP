@@ -26,10 +26,10 @@ public class ListMccSettingView : MonoBehaviour, IMccView
 
     void Awake()
     {
-        MccManager MccManager = FindObjectOfType<MccManager>();
-        _presenter = new MccPresenter(this, MccManager._IMccService);
+        // var DeviceManager = FindObjectOfType<DeviceManager>();
+        _presenter = new MccPresenter(this, ManagerLocator.Instance.MccManager._IMccService);
+        // DeviceManager._IDeviceService
     }
-
     void OnEnable()
     {
         LoadListMcc();
@@ -113,9 +113,9 @@ public class ListMccSettingView : MonoBehaviour, IMccView
 
         var Horizontal_Group = DialogTwoButton.transform.Find("Background/Horizontal_Group").gameObject.transform;
 
-        var dialog_Content = DialogTwoButton.transform.Find("Background/Dialog_Content").GetComponent<TMP_Text>().text = $"Bạn có chắc chắn muốn xóa thông tin thiết bi trường <b><color =#004C8A>{model.CabinetCode}</b></color> khỏi hệ thống? Hãy kiểm tra kĩ trước khi nhấn nút xác nhận phía dưới";
+        var dialog_Content = DialogTwoButton.transform.Find("Background/Dialog_Content").GetComponent<TMP_Text>().text = $"Bạn có chắc chắn muốn xóa thông tin tủ Mcc <b><color =#004C8A>{model.CabinetCode}</b></color> khỏi hệ thống? Hãy kiểm tra kĩ trước khi nhấn nút xác nhận phía dưới";
 
-        var dialog_Title = DialogTwoButton.transform.Find("Background/Dialog_Title").GetComponent<TMP_Text>().text = "Xóa thiết bi trường khỏi hệ thống?";
+        var dialog_Title = DialogTwoButton.transform.Find("Background/Dialog_Title").GetComponent<TMP_Text>().text = "Xóa tủ Mcc khỏi hệ thống?";
 
         backgroundTransform.Find("Dialog_Status_Icon").GetComponent<Image>().sprite = Resources.Load<Sprite>("images/UIimages/Warning_Icon_For_Dialog");
 
@@ -145,7 +145,7 @@ public class ListMccSettingView : MonoBehaviour, IMccView
     }
 
 
-    private void OpenErrorDeletingDialog()
+    private void OpenErrorDialog(string title = "Xóa tủ Mcc thất bại", string message = "Đã có lỗi xảy ra khi xóa tủ Mcc khỏi hệ thống. Vui lòng thử lại sau")
     {
         DialogOneButton.SetActive(true);
 
@@ -155,10 +155,9 @@ public class ListMccSettingView : MonoBehaviour, IMccView
 
         var dialog_Icon = DialogOneButton.transform.Find("Background/Dialog_Status_Icon").GetComponent<Image>().sprite = Resources.Load<Sprite>("images/UIimages/Error_Icon_For_Dialog");
 
+        var dialog_Content = DialogOneButton.transform.Find("Background/Dialog_Content").GetComponent<TMP_Text>().text = $"Đã có lỗi xảy ra khi xóa tủ Mcc khỏi hệ thống. Vui lòng thử lại sau";
 
-        var dialog_Content = DialogOneButton.transform.Find("Background/Dialog_Content").GetComponent<TMP_Text>().text = $"Đã có lỗi xảy ra khi xóa thiết bi trường khỏi hệ thống. Vui lòng thử lại sau";
-
-        var dialog_Title = DialogOneButton.transform.Find("Background/Dialog_Title").GetComponent<TMP_Text>().text = "Xóa thiết bi trường thất bại";
+        var dialog_Title = DialogOneButton.transform.Find("Background/Dialog_Title").GetComponent<TMP_Text>().text = "Xóa tủ Mcc thất bại";
 
 
         backButton.onClick.RemoveAllListeners();
@@ -170,50 +169,7 @@ public class ListMccSettingView : MonoBehaviour, IMccView
 
     }
 
-    private void OpenErrorCreateNewDialog()
-    {
-        DialogOneButton.SetActive(true);
-        var backButton = DialogOneButton.transform.Find("Background/Back_Button").GetComponent<Button>();
 
-        backButton.gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>("images/UIimages/Error_Back_Button_Background");
-
-        var dialog_Icon = DialogOneButton.transform.Find("Background/Dialog_Status_Icon").GetComponent<Image>().sprite = Resources.Load<Sprite>("images/UIimages/Error_Icon_For_Dialog");
-
-        var dialog_Content = DialogOneButton.transform.Find("Background/Dialog_Content").GetComponent<TMP_Text>().text = $"Đã có lỗi xảy ra khi thêm thiết bi trường này khỏi hệ thống. Vui lòng thử lại sau";
-
-        var dialog_Title = DialogOneButton.transform.Find("Background/Dialog_Title").GetComponent<TMP_Text>().text = "Thêm thiết bi trường thất bại";
-
-
-        backButton.onClick.RemoveAllListeners();
-
-        backButton.onClick.AddListener(() =>
-        {
-            DialogOneButton.SetActive(false);
-        });
-    }
-
-
-    private void OpenErrorGetListDialog()
-    {
-        DialogOneButton.SetActive(true);
-        var backButton = DialogOneButton.transform.Find("Background/Back_Button").GetComponent<Button>();
-
-        backButton.gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>("images/UIimages/Error_Back_Button_Background");
-
-        var dialog_Icon = DialogOneButton.transform.Find("Background/Dialog_Status_Icon").GetComponent<Image>().sprite = Resources.Load<Sprite>("images/UIimages/Error_Icon_For_Dialog");
-
-        var dialog_Content = DialogOneButton.transform.Find("Background/Dialog_Content").GetComponent<TMP_Text>().text = $"Đã có lỗi xảy ra khi tải danh sách. Vui lòng thử lại sau";
-
-        var dialog_Title = DialogOneButton.transform.Find("Background/Dialog_Title").GetComponent<TMP_Text>().text = "Tải danh sách thất bại";
-
-
-        backButton.onClick.RemoveAllListeners();
-
-        backButton.onClick.AddListener(() =>
-        {
-            DialogOneButton.SetActive(false);
-        });
-    }
 
 
     private void ShowProgressBar(string title, string details)
@@ -234,11 +190,11 @@ public class ListMccSettingView : MonoBehaviour, IMccView
     {
         if (GlobalVariable.APIRequestType.Contains("GET_Mcc_List"))
         {
-            OpenErrorGetListDialog();
+            OpenErrorDialog(title: "Tải danh sách tủ Mcc thất bại", message: "Đã có lỗi xảy ra khi tải danh sách tủ Mcc. Vui lòng thử lại sau.");
         }
         else if (GlobalVariable.APIRequestType.Contains("DELETE_Mcc"))
         {
-            OpenErrorDeletingDialog();
+            OpenErrorDialog();
         }
 
     }
@@ -250,7 +206,7 @@ public class ListMccSettingView : MonoBehaviour, IMccView
         }
         if (GlobalVariable.APIRequestType.Contains("DELETE_Mcc"))
         {
-            Show_Toast.Instance.ShowToast("success", "Xóa thiết bi trường thành công");
+            Show_Toast.Instance.ShowToast("success", "Xóa tủ Mcc thành công");
         }
 
         StartCoroutine(Show_Toast.Instance.Set_Instance_Status_False(1f));

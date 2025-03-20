@@ -9,7 +9,7 @@ public class Get_All_Data_By_Grapper_For_Searching : MonoBehaviour
     public EventPublisher eventPublisher; // Tham chiếu đến Publisher
     private void Awake()
     {
-        if (GlobalVariable.ready_To_Nav_New_Scene) GlobalVariable.ready_To_Nav_New_Scene = false;
+        //   if (GlobalVariable.ready_To_Nav_New_Scene) GlobalVariable.ready_To_Nav_New_Scene = false;
 
     }
     private void OnEnable()

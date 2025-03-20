@@ -41,38 +41,59 @@ public class UpdateModuleSpecificationSettingView : MonoBehaviour, IModuleSpecif
 
     void Awake()
     {
-        ModuleSpecificationManager ModuleSpecificationManager = FindObjectOfType<ModuleSpecificationManager>();
-        _presenter = new ModuleSpecificationPresenter(this, ModuleSpecificationManager._IModuleSpecificationService);
+        // var DeviceManager = FindObjectOfType<DeviceManager>();
+        _presenter = new ModuleSpecificationPresenter(this, ManagerLocator.Instance.ModuleSpecificationManager._IModuleSpecificationService);
+        // DeviceManager._IDeviceService
     }
+
+
 
     void OnEnable()
     {
-
-        backButton.onClick.AddListener(CloseUpdateCanvas);
+        ResetAllInputFields();
 
         _presenter.LoadDetailById(GlobalVariable.ModuleSpecificationId);
 
-        submitButton.onClick.AddListener(() =>
-        {
-            _ModuleSpecificationModel = new ModuleSpecificationModel(
-                code: ModuleSpecificationCode_TextField.text,
-                type: Type_TextField.text,
-                numOfIO: NumOfIo_TextField.text,
-                signalType: SignalType_TextField.text,
-                compatibleTBUs: CompatibleTBUs_TextField.text,
-                operatingVoltage: OperatingVoltage_TextField.text,
-                operatingCurrent: OperatingCurrent_TextField.text,
-                flexbusCurrent: FlexbusCurrent_TextField.text,
-                alarm: Alarm_TextField.text,
-                note: Note_TextField.text,
-                pdfManual: PdfManual_TextField.text
-              );
+        submitButton.onClick.RemoveAllListeners();
+        backButton.onClick.RemoveAllListeners();
 
-            _presenter.UpdateModuleSpecification(
-                GlobalVariable.ModuleSpecificationId, _ModuleSpecificationModel
-           );
-        });
+        backButton.onClick.AddListener(CloseUpdateCanvas);
+
+        submitButton.onClick.AddListener(OnSubmitButtonClick);
     }
+    private void OnSubmitButtonClick()
+    {
+
+        if (string.IsNullOrEmpty(ModuleSpecificationCode_TextField.text))
+        {
+            OpenErrorDialog("loại Module thất bại", "Vui lòng nhập mã loại Module");
+            return;
+        }
+        if (GlobalVariable.temp_Dictionary_DeviceInformationModel.ContainsKey(ModuleSpecificationCode_TextField.text))
+        {
+            OpenErrorDialog("loại Module thất bại", "Mã loại Module này đã tồn tại");
+            return;
+        }
+        _ModuleSpecificationModel = new ModuleSpecificationModel(
+            code: ModuleSpecificationCode_TextField.text,
+            type: Type_TextField.text,
+            numOfIO: NumOfIo_TextField.text,
+            signalType: SignalType_TextField.text,
+            compatibleTBUs: CompatibleTBUs_TextField.text,
+            operatingVoltage: OperatingVoltage_TextField.text,
+            operatingCurrent: OperatingCurrent_TextField.text,
+            flexbusCurrent: FlexbusCurrent_TextField.text,
+            alarm: Alarm_TextField.text,
+            note: Note_TextField.text,
+            pdfManual: PdfManual_TextField.text
+          );
+        _presenter.UpdateModuleSpecification(
+                 GlobalVariable.ModuleSpecificationId, _ModuleSpecificationModel
+            );
+    }
+
+
+
     void OnDisable()
     {
         backButton.onClick.RemoveAllListeners();
@@ -88,35 +109,21 @@ public class UpdateModuleSpecificationSettingView : MonoBehaviour, IModuleSpecif
     {
         SetInitialInputFields(model);
     }
-    private void OpenErrorUpdateDialog()
+    private void OpenErrorDialog(string title = "Cập nhật loại Module thất bại", string content = "Đã có lỗi xảy ra khi cập nhật loại Module này. Vui lòng thử lại sau.")
     {
         DialogOneButton.SetActive(true);
         var backButton = DialogOneButton.transform.Find("Background/Back_Button").GetComponent<Button>();
         backButton.gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>("images/UIimages/Error_Back_Button_Background");
         var dialog_Icon = DialogOneButton.transform.Find("Background/Dialog_Status_Icon").GetComponent<Image>().sprite = Resources.Load<Sprite>("images/UIimages/Error_Icon_For_Dialog");
-        var dialog_Content = DialogOneButton.transform.Find("Background/Dialog_Content").GetComponent<TMP_Text>().text = $"Đã có lỗi xảy ra khi cập nhật loại Module này. Vui lòng thử lại sau.";
-        var dialog_Title = DialogOneButton.transform.Find("Background/Dialog_Title").GetComponent<TMP_Text>().text = "Cập nhật loại Module  thất bại";
+        var dialog_Content = DialogOneButton.transform.Find("Background/Dialog_Content").GetComponent<TMP_Text>().text = content;
+        var dialog_Title = DialogOneButton.transform.Find("Background/Dialog_Title").GetComponent<TMP_Text>().text = title;
         backButton.onClick.RemoveAllListeners();
         backButton.onClick.AddListener(() =>
         {
             DialogOneButton.SetActive(false);
         });
     }
-    private void OpenErrorGetByIdDialog()
-    {
-        DialogOneButton.SetActive(true);
-        var backButton = DialogOneButton.transform.Find("Background/Back_Button").GetComponent<Button>();
-        backButton.gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>("images/UIimages/Error_Back_Button_Background");
-        var dialog_Icon = DialogOneButton.transform.Find("Background/Dialog_Status_Icon").GetComponent<Image>().sprite = Resources.Load<Sprite>("images/UIimages/Error_Icon_For_Dialog");
-        var dialog_Content = DialogOneButton.transform.Find("Background/Dialog_Content").GetComponent<TMP_Text>().text = $"Đã có lỗi xảy ra khi lấy dữ liệu loại Module này. Vui lòng thử lại sau.";
-        var dialog_Title = DialogOneButton.transform.Find("Background/Dialog_Title").GetComponent<TMP_Text>().text = "Lấy dữ liệu loại Module thất bại";
-        backButton.onClick.RemoveAllListeners();
-        backButton.onClick.AddListener(() =>
-        {
-            DialogOneButton.SetActive(false);
-        });
-    }
-    private void OpenSuccessUpdateDialog(ModuleSpecificationModel model)
+    private void OpenSuccessDialog(ModuleSpecificationModel model)
     {
         DialogOneButton.SetActive(true);
         var backButton = DialogOneButton.transform.Find("Background/Back_Button").GetComponent<Button>();
@@ -182,11 +189,11 @@ public class UpdateModuleSpecificationSettingView : MonoBehaviour, IModuleSpecif
     {
         if (GlobalVariable.APIRequestType.Contains("PUT_ModuleSpecification"))
         {
-            OpenErrorUpdateDialog();
+            OpenErrorDialog();
         }
         if (GlobalVariable.APIRequestType.Contains("GET_ModuleSpecification"))
         {
-            OpenErrorGetByIdDialog();
+            OpenErrorDialog(title: "Tải dữ liệu thất bại", content: "Đã có lỗi xảy ra khi tải dữ liệu loại Module. Vui lòng thử lại sau");
         }
     }
     public void ShowSuccess()
@@ -196,7 +203,7 @@ public class UpdateModuleSpecificationSettingView : MonoBehaviour, IModuleSpecif
         {
 
             Show_Toast.Instance.ShowToast("success", "Cập nhật dữ liệu thành công");
-            OpenSuccessUpdateDialog(_ModuleSpecificationModel);
+            OpenSuccessDialog(_ModuleSpecificationModel);
         }
 
         if (GlobalVariable.APIRequestType.Contains("GET_ModuleSpecification"))

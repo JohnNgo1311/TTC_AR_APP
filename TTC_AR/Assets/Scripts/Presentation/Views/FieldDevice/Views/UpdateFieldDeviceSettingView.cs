@@ -58,8 +58,9 @@ public class UpdateFieldDeviceSettingView : MonoBehaviour, IFieldDeviceView
 
     void Awake()
     {
-        var fieldDeviceManager = FindObjectOfType<FieldDeviceManager>();
-        _presenter = new FieldDevicePresenter(this, fieldDeviceManager._IFieldDeviceService);
+        // var DeviceManager = FindObjectOfType<DeviceManager>();
+        _presenter = new FieldDevicePresenter(this, ManagerLocator.Instance.FieldDeviceManager._IFieldDeviceService);
+        // DeviceManager._IDeviceService
     }
 
     void OnEnable()

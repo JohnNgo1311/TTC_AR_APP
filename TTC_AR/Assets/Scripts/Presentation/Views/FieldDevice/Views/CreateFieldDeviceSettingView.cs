@@ -71,7 +71,6 @@ public class CreateFieldDeviceSettingView : MonoBehaviour, IFieldDeviceView
 
     void OnEnable()
     {
-        scrollRect.verticalNormalizedPosition = 1;
         ResetAllInputFields();
         AddButtonListeners(initialize_FieldDevice_List_Option_Selection.Connection_Image_List_Selection_Option_Content_Transform, "Connection_Image");
 
@@ -83,6 +82,8 @@ public class CreateFieldDeviceSettingView : MonoBehaviour, IFieldDeviceView
         backButton.onClick.AddListener(CloseAddCanvas);
 
         submitButton.onClick.AddListener(OnSubmitButtonClick);
+        scrollRect.verticalNormalizedPosition = 1;
+
     }
 
     void OnDisable()
