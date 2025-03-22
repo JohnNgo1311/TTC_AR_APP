@@ -84,12 +84,13 @@ namespace Infrastructure.Repositories
         {
             try
             {
-                var response = await _httpClient.GetAsync($"{BaseUrl}");
+                var response = await _httpClient.GetAsync("https://677ba70820824100c07a4e9f.mockapi.io/api/v3/ListJBInformation");
                 if (!response.IsSuccessStatusCode)
                     throw new HttpRequestException($"Failed to get JB list. Status: {response.StatusCode}");
                 else
                 {
                     var content = await response.Content.ReadAsStringAsync();
+                    UnityEngine.Debug.Log(content);
                     return JsonConvert.DeserializeObject<List<JBEntity>>(content);
                 }
 

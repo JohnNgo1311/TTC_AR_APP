@@ -109,7 +109,7 @@ public class Update_JB_TSD_Detail_UI : MonoBehaviour
                     if (!jb_location_value.gameObject.activeSelf) jb_location_value.gameObject.SetActive(true);
                     if (!jb_location_imagePrefab.gameObject.activeSelf) jb_location_imagePrefab.gameObject.SetActive(true);
                     jb_location_imagePrefab.sprite = Texture_To_Sprite.ConvertTextureToSprite(texture);
-                    yield return Resize_Gameobject_Function.Set_NativeSize_For_GameObject(jb_location_imagePrefab);
+                    yield return Resize_GameObject_Function.Set_NativeSize_For_GameObject(jb_location_imagePrefab);
                     yield return new WaitForSeconds(0.2f);
                 }
             }
@@ -131,7 +131,7 @@ public class Update_JB_TSD_Detail_UI : MonoBehaviour
                 {
                     jb_connection_imagePrefab.sprite = Texture_To_Sprite.ConvertTextureToSprite(list_Texture[0]);
                     jb_connection_imagePrefab.gameObject.SetActive(true);
-                    yield return Resize_Gameobject_Function.Set_NativeSize_For_GameObject(jb_connection_imagePrefab);
+                    yield return Resize_GameObject_Function.Set_NativeSize_For_GameObject(jb_connection_imagePrefab);
                     yield return new WaitForSeconds(0.2f);
                 }
                 else
@@ -144,7 +144,7 @@ public class Update_JB_TSD_Detail_UI : MonoBehaviour
                         imageObject.sprite = Texture_To_Sprite.ConvertTextureToSprite(texture);
                         imageObject.gameObject.SetActive(true);
 
-                        yield return Resize_Gameobject_Function.Set_NativeSize_For_GameObject(imageObject);
+                        yield return Resize_GameObject_Function.Set_NativeSize_For_GameObject(imageObject);
                         yield return new WaitForSeconds(0.2f);
                     }
                     jb_connection_imagePrefab.gameObject.SetActive(false);

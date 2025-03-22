@@ -56,10 +56,13 @@ namespace Infrastructure.Repositories
             try
             {
                 // var response = await _httpClient.GetAsync($"{BaseUrl}/{grapperId}");
-                var response = await _httpClient.GetAsync($"{BaseUrl}");
+                var response = await _httpClient.GetAsync("https://67da8d3b35c87309f52d09f5.mockapi.io/api/v4/ListDeviceFromGrapper");
                 if (!response.IsSuccessStatusCode) return null;
 
                 var content = await response.Content.ReadAsStringAsync();
+
+                UnityEngine.Debug.Log(content);
+
                 return JsonConvert.DeserializeObject<List<DeviceEntity>>(content);
             }
             catch (HttpRequestException ex)

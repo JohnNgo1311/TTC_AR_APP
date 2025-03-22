@@ -45,7 +45,7 @@ public class Open_Detail_Image : MonoBehaviour
 
     public void Open_Detail_Canvas(Image image_To_Watch_Detail)
     {
-        StartCoroutine(Resize_Gameobject_Function.Set_NativeSize_For_GameObject(detail_Image.GetComponent<Image>()));
+        StartCoroutine(Resize_GameObject_Function.Set_NativeSize_For_GameObject(detail_Image.GetComponent<Image>()));
         if (!canvas.gameObject.activeSelf)
         {
             canvas.gameObject.SetActive(true);

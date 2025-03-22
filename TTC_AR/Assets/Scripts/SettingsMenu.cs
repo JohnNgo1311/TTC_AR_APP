@@ -98,8 +98,8 @@ public class SettingsMenu : MonoBehaviour
         //Debug$"ToggleMenu: {isExpanded}");
         menuItems.ForEach(item => item.gameObject.SetActive(isExpanded));
         content.SetActive(isExpanded);
-        // Resize_Gameobject_Function.Resize_Parent_GameObject(content.GetComponent<RectTransform>());
-        //  Resize_Gameobject_Function.Resize_Parent_GameObject(scroll_Area.GetComponent<RectTransform>());
+        // Resize_GameObject_Function.Resize_Parent_GameObject(content.GetComponent<RectTransform>());
+        //  Resize_GameObject_Function.Resize_Parent_GameObject(scroll_Area.GetComponent<RectTransform>());
         scroll_Area.SetActive(isExpanded);
 
     }

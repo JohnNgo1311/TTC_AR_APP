@@ -21,32 +21,32 @@ namespace ApplicationLayer.UseCases
             _ICompanyRepository = ICompanyRepository;
         }
 
-        // public async Task<List<CompanyResponseDto>> GetListCompanyAsync(int grapperId)
-        // {
-        //     try
-        //     {
-        //         var CompanyEntities = await _ICompanyRepository.GetListCompanyAsync(grapperId);
+        public async Task<List<CompanyResponseDto>> GetListCompanyAsync()
+        {
+            try
+            {
+                var CompanyEntities = await _ICompanyRepository.GetListCompanyAsync();
 
-        //         if (CompanyEntities == null)
-        //         {
-        //             throw new ApplicationException("Failed to get Company list");
-        //         }
-        //         else
-        //         {
+                if (CompanyEntities == null)
+                {
+                    throw new ApplicationException("Failed to get Company list");
+                }
+                else
+                {
 
-        //             return CompanyEntities.Select(MapToResponseDto).ToList();
-        //         }
+                    return CompanyEntities.Select(MapToResponseDto).ToList();
+                }
 
-        //     }
-        //     catch (ArgumentException)
-        //     {
-        //         throw; // Ném lại lỗi validation cho Unity xử lý
-        //     }
-        //     catch (Exception ex)
-        //     {
-        //         throw new ApplicationException("Failed to get Company list", ex);
-        //     }
-        // }
+            }
+            catch (ArgumentException)
+            {
+                throw; // Ném lại lỗi validation cho Unity xử lý
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationException("Failed to get Company list", ex);
+            }
+        }
         public async Task<CompanyResponseDto> GetCompanyByIdAsync(string CompanyId)
         {
             try

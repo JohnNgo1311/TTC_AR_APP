@@ -173,7 +173,7 @@ public class Add_Item_For_Update_Optional : MonoBehaviour
 
     public void CloseListSelection()
     {
-        Resize_Gameobject_Function.Resize_Parent_GameObject(parentVerticalObject.GetComponent<RectTransform>());
+        Resize_GameObject_Function.Resize_Parent_GameObject(parentVerticalObject.GetComponent<RectTransform>());
         selectionList.SetActive(false);
     }
 }

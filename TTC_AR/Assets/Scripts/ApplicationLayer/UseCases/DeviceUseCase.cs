@@ -81,13 +81,18 @@ namespace ApplicationLayer.UseCases
             try
             {
                 //! Gọi _IDeviceRepository từ Infrastructure Layer
-                var deviceEntities = await _IDeviceRepository.GetListDeviceInformationFromGrapperAsync(grapperId) ??
-                throw new ApplicationException("Failed to get Device list");
-                return deviceEntities.Select(MapToResponseDto).ToList();
+
+                var deviceEntities = await _IDeviceRepository.GetListDeviceInformationFromGrapperAsync(grapperId);
+
+                IEnumerable<DeviceResponseDto> deviceResponseDtos =
+                    deviceEntities.Select(MapToResponseDto).ToList();
+
+                return deviceResponseDtos;
             }
-            catch (ArgumentException)
+            catch (ArgumentException ex)
             {
-                throw; // Ném lại lỗi validation cho Unity xử lý
+                // UnityEngine.Debug.Log("Error: " + ex.Message);
+                throw new ApplicationException("Failed to get Device list", ex); // Bao bọc lỗi từ Repository
             }
             catch (Exception ex)
             {
@@ -123,22 +128,22 @@ namespace ApplicationLayer.UseCases
         {
             try
             {
-                UnityEngine.Debug.Log("Run UseCase");
+                // UnityEngine.Debug.Log("Run UseCase");
 
                 var deviceEntity = await _IDeviceRepository.GetDeviceByIdAsync(DeviceId);
-                UnityEngine.Debug.Log("DeviceEntity: " + deviceEntity.Code);
+                // UnityEngine.Debug.Log("DeviceEntity: " + deviceEntity.Code);
                 if (deviceEntity == null)
                 {
-                    UnityEngine.Debug.Log("Entity null value");
+                    // UnityEngine.Debug.Log("Entity null value");
                     throw new ApplicationException("Failed to get Device");
                 }
                 else
                 {
                     //! Đưa về Entity để xử lý logic nghiệp vụ
-                    UnityEngine.Debug.Log("DeviceEntity: " + deviceEntity.Id);
+                    // UnityEngine.Debug.Log("DeviceEntity: " + deviceEntity.Id);
                     // var deviceEntity = MapResponseToEntity(deviceEntity);
                     var deviceResponseDto = MapToResponseDto(deviceEntity);
-                    UnityEngine.Debug.Log("DeviceResponseDto: " + deviceResponseDto.Code);
+                    // UnityEngine.Debug.Log("DeviceResponseDto: " + deviceResponseDto.Code);
                     return deviceResponseDto;
                 }
             }
@@ -302,10 +307,10 @@ namespace ApplicationLayer.UseCases
             return new DeviceResponseDto(
                 id: deviceEntity.Id,
                 code: deviceEntity.Code,
-                function: deviceEntity.Function,
-                range: deviceEntity.Range,
-                unit: deviceEntity.Unit,
-                ioAddress: deviceEntity.IOAddress,
+                function: deviceEntity.Function ?? "Chưa cập nhật",
+                range: deviceEntity.Range ?? "Chưa cập nhật",
+                unit: deviceEntity.Unit ?? "Chưa cập nhật",
+                ioAddress: deviceEntity.IOAddress ?? "Chưa cập nhật",
                 moduleBasicDto: deviceEntity.ModuleEntity != null ? new ModuleBasicDto(
                     id: deviceEntity.ModuleEntity.Id,
                     name: deviceEntity.ModuleEntity.Name) : null,

@@ -67,8 +67,11 @@ namespace ApplicationLayer.UseCases
         //! Dùng IEnumerable<JBGeneralDto thay cho List<JBGeneralDto> vì không cần tạo ra List để sử dụng trong hàm ngay
         public async Task<IEnumerable<JBGeneralDto>> GetListJBInforAsync(string grapperId)
         {
-            var jBEntities = await _IJBRepository.GetListJBInformationAsync(grapperId)
-                             ?? throw new ApplicationException("Failed to get JB list");
+            var jBEntities = await _IJBRepository.GetListJBInformationAsync(grapperId);
+            if (jBEntities == null || !jBEntities.Any())
+            {
+                UnityEngine.Debug.LogWarning("No jBEntities found.");
+            }
 
             return jBEntities.Select(MapToGeneralDto);
         }
@@ -225,25 +228,25 @@ namespace ApplicationLayer.UseCases
         private JBGeneralDto MapToGeneralDto(JBEntity jBEntity)
         {
             return new JBGeneralDto(
-                jBEntity.Id,
+                id: jBEntity.Id,
 
-                jBEntity.Name,
+              name: jBEntity.Name,
 
-                jBEntity.Location ?? "chưa cập nhật",
+          location: jBEntity.Location ?? "chưa cập nhật",
 
-                jBEntity.OutdoorImageEntity == null ?
+         outdoorImageResponseDto: jBEntity.OutdoorImageEntity == null ?
                  null : new ImageResponseDto(jBEntity.OutdoorImageEntity.Id, jBEntity.OutdoorImageEntity.Name, jBEntity.OutdoorImageEntity.Url),
 
-                (jBEntity.ConnectionImageEntities == null || (jBEntity.ConnectionImageEntities != null && jBEntity.ConnectionImageEntities.Count <= 0)) ?
+            connectionImageResponseDtos: (jBEntity.ConnectionImageEntities == null || (jBEntity.ConnectionImageEntities != null && jBEntity.ConnectionImageEntities.Count <= 0)) ?
                  new List<ImageResponseDto>() : jBEntity.ConnectionImageEntities.Select(i => new ImageResponseDto(i.Id, i.Name, i.Url)).ToList()
              );
         }
         private JBBasicDto MapToBasicDto(JBEntity jBEntity)
         {
             return new JBBasicDto(
-                jBEntity.Id,
+             id: jBEntity.Id,
 
-                jBEntity.Name
+           name: jBEntity.Name
                    );
         }
         // private JBRequestDto MapToRequestDto(JBEntity jBEntity)

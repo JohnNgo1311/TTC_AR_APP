@@ -90,7 +90,7 @@ public class Update_Field_Device_Connection_Screen : MonoBehaviour
                         instantiatedImages.Add(imageObject.gameObject);
                         imageObject.sprite = Texture_To_Sprite.ConvertTextureToSprite(texture);
                         imageObject.gameObject.SetActive(true);
-                        yield return StartCoroutine(Resize_Gameobject_Function.Set_NativeSize_For_GameObject(imageObject));
+                        yield return StartCoroutine(Resize_GameObject_Function.Set_NativeSize_For_GameObject(imageObject));
 
                     }
                     connection_ImagePrefab.gameObject.SetActive(false);

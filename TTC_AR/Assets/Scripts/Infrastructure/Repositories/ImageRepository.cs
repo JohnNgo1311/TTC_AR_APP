@@ -157,9 +157,9 @@ namespace Infrastructure.Repositories
             {
                 throw new Exception("Unexpected error during HTTP request", ex); // Bao bọc lỗi khác
             }
-
-
         }
+
+        
         // private object ConvertImageRequestData(ImageEntity ImageEntity)
         // {
         //     return new

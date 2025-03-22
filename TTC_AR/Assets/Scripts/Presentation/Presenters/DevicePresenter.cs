@@ -280,11 +280,12 @@ public class DevicePresenter
                            id: dto.JBGeneralDto.OutdoorImageResponseDto.Id,
                            name: dto.JBGeneralDto.OutdoorImageResponseDto.Name,
                            url: dto.JBGeneralDto.OutdoorImageResponseDto.Url) : null,
-            listConnectionImages: dto.AdditionalImageResponseDtos.Any() ? dto.AdditionalImageResponseDtos.Select(
+            listConnectionImages: dto.JBGeneralDto.ConnectionImageResponseDtos.Any() ?
+            dto.JBGeneralDto.ConnectionImageResponseDtos.Select(
             connectionImage => new ImageInformationModel(
-                                   id: dto.JBGeneralDto.OutdoorImageResponseDto.Id,
-                                   name: dto.JBGeneralDto.OutdoorImageResponseDto.Name,
-                                   url: dto.JBGeneralDto.OutdoorImageResponseDto.Url)
+                                   id: connectionImage.Id,
+                                   name: connectionImage.Name,
+                                   url: connectionImage.Url)
             ).ToList() : new List<ImageInformationModel>()
             ) : null,
             moduleInformationModel: dto.ModuleBasicDto != null ? new ModuleInformationModel(

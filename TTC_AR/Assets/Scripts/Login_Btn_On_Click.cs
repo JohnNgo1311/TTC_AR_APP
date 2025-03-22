@@ -193,10 +193,10 @@ public class Login_Btn_On_Click : MonoBehaviour
         // ImageManager imageManager = FindObjectOfType<ImageManager>();
         // ModuleManager moduleManager = FindObjectOfType<ModuleManager>();
 
-        GlobalVariable.APIRequestType.Clear();
-        GlobalVariable.APIRequestType.Add("GET_JB_List_General");
-        // GlobalVariable.APIRequestType.Add("GET_Device_List_General");
-        GlobalVariable.APIRequestType.Add("GET_Module_List");
+        // GlobalVariable.APIRequestType.Clear();
+        // GlobalVariable.APIRequestType.Add("GET_JB_List_General");
+        // // GlobalVariable.APIRequestType.Add("GET_Device_List_General");
+        // GlobalVariable.APIRequestType.Add("GET_Module_List");
 
 
 
@@ -220,7 +220,7 @@ public class Login_Btn_On_Click : MonoBehaviour
     private IEnumerator HandleLoginSuccess()
     {
         UpdateGlobalVariables();
-        yield return GetInitialData();
+        //  yield return GetInitialData();
         yield return LoadSceneAsync(targetSceneName);
     }
 
@@ -250,31 +250,31 @@ public class Login_Btn_On_Click : MonoBehaviour
 
         GlobalVariable.ready_To_Nav_New_Scene = true;
 
-        yield return new WaitUntil(() =>
-            GlobalVariable.temp_List_JBInformationModel.Any() &&
-            GlobalVariable.temp_List_DeviceInformationModel.Any() &&
-            GlobalVariable.temp_List_RackInformationModel.Any() &&
-            GlobalVariable.temp_List_ModuleSpecificationModel.Any() &&
-            GlobalVariable.temp_List_AdapterSpecificationModel.Any()
+        // yield return new WaitUntil(() =>
+        //     GlobalVariable.temp_List_JBInformationModel.Any() &&
+        //     GlobalVariable.temp_List_DeviceInformationModel.Any() &&
+        //     GlobalVariable.temp_List_RackInformationModel.Any() &&
+        //     GlobalVariable.temp_List_ModuleSpecificationModel.Any() &&
+        //     GlobalVariable.temp_List_AdapterSpecificationModel.Any()
 
-        );
+        // );
 
         yield return Show_Toast.Instance.Set_Instance_Status_False();
 
         SceneManager.LoadSceneAsync(sceneName);
     }
 
-    private async Task GetInitialData()
-    {
-        await Task.WhenAll(
-        // DeviceManager deviceManager = FindObjectOfType<DeviceManager>();
-        ManagerLocator.Instance.JBManager._IJBService.GetListJBGeneralAsync("1"),
-        ManagerLocator.Instance.DeviceManager._IDeviceService.GetListDeviceGeneralAsync("1"),
-        ManagerLocator.Instance.RackManager._IRackService.GetListRackAsync("1"),
-        ManagerLocator.Instance.ModuleSpecificationManager._IModuleSpecificationService.GetListModuleSpecificationAsync("1"),
-        ManagerLocator.Instance.AdapterSpecificationManager._IAdapterSpecificationService.GetListAdapterSpecificationAsync("1")
-        // deviceManager._IDeviceService.GetListDeviceGeneralAsync("1");
-        );
+    // private async Task GetInitialData()
+    // {
+    //     await Task.WhenAll(
+    //     // DeviceManager deviceManager = FindObjectOfType<DeviceManager>();
+    //     ManagerLocator.Instance.JBManager._IJBService.GetListJBGeneralAsync("1"),
+    //     ManagerLocator.Instance.DeviceManager._IDeviceService.GetListDeviceGeneralAsync("1"),
+    //     ManagerLocator.Instance.RackManager._IRackService.GetListRackAsync("1"),
+    //     ManagerLocator.Instance.ModuleSpecificationManager._IModuleSpecificationService.GetListModuleSpecificationAsync("1"),
+    //     ManagerLocator.Instance.AdapterSpecificationManager._IAdapterSpecificationService.GetListAdapterSpecificationAsync("1")
+    //     // deviceManager._IDeviceService.GetListDeviceGeneralAsync("1");
+    //     );
 
-    }
+    // }
 }
