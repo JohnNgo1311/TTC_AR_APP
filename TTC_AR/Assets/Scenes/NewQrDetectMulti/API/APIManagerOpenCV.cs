@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using System.Linq;
 using System.Net.Http;
 using System.Threading;
@@ -19,7 +20,10 @@ public class APIManagerOpenCV : MonoBehaviour
     private Dictionary<string, ModuleInformationModel> Dic_ModuleInformationModels = new Dictionary<string, ModuleInformationModel>();
     private Dictionary<string, List<Texture2D>> list_JBConnectionImagesFromModule = new Dictionary<string, List<Texture2D>>();
     private Dictionary<string, Texture2D> list_JBLocationImagesFromModule = new Dictionary<string, Texture2D>();
-    private List<JBInformationModel> temp_ListJBInformationModel_From_Module = new List<JBInformationModel>();
+    private Dictionary<string, List<Texture2D>> list_AdditionalImagesFromDevice = new Dictionary<string, List<Texture2D>>();
+    private List<JBInformationModel> temp_ListJBInformationModel = new List<JBInformationModel>();
+    private List<string> temp_ListAdditionalImages = new List<string>();
+    // private Dictionary<string, List<JBInformationModel>> temp_ListJBInformationModel = new Dictionary<string, List<JBInformationModel>>();
 
     private void Awake()
     {
@@ -40,39 +44,41 @@ public class APIManagerOpenCV : MonoBehaviour
         {
             using (HttpClient client = new HttpClient())
             {
-                HttpResponseMessage response = await client.GetAsync(url);
-                if (response.IsSuccessStatusCode)
-                {
-                    string json = await response.Content.ReadAsStringAsync();
-                    // Debug.Log("json: " + json);
-                    var listModuleInformationModel = JsonConvert.DeserializeObject<List<ModuleInformationModel>>(json);
-                    // Debug.Log("listModuleInformationModel.Count: " + listModuleInformationModel.Count);
+                string response = await client.GetStringAsync(url);
+                // if (response.IsSuccessStatusCode)
+                // {
+                // string json = await response.Content.ReadAsStringAsync();
+                // Debug.Log("json: " + response);
 
-                    if (listModuleInformationModel != null && listModuleInformationModel.Count > 0)
+                var listModuleInformationModel = JsonConvert.DeserializeObject<List<ModuleInformationModel>>(response);
+
+                // Debug.Log("listModuleInformationModel.Count: " + listModuleInformationModel.Count);
+
+                if (listModuleInformationModel != null && listModuleInformationModel.Count > 0)
+                {
+                    StaticVariable.temp_ListModuleInformationModel = listModuleInformationModel;
+                    Dic_ModuleInformationModels.Clear();
+
+                    foreach (var Module in listModuleInformationModel)
                     {
-                        StaticVariable.temp_ListModuleInformationModel = listModuleInformationModel;
-                        Dic_ModuleInformationModels.Clear();
-
-                        foreach (var Module in listModuleInformationModel)
-                        {
-                            Dic_ModuleInformationModels.TryAdd(Module.Name, Module);
-                        }
-
-                        StaticVariable.Dic_ModuleInformationModel = Dic_ModuleInformationModels;
-                        // Debug.Log("Dic_ModuleInformationModels.Count: " + Dic_ModuleInformationModels.Count);
+                        Dic_ModuleInformationModels.TryAdd(Module.Name, Module);
                     }
-                    return listModuleInformationModel;
+
+                    StaticVariable.Dic_ModuleInformationModel = Dic_ModuleInformationModels;
+                    // Debug.Log("Dic_ModuleInformationModels.Count: " + Dic_ModuleInformationModels.Count);
                 }
-                else
-                {
-                    HandleRequestError($"Failed to get JB information. Status code: {response.StatusCode}");
-                    return null;
-                }
+                return listModuleInformationModel;
+                // }
+                // else
+                // {
+                //     HandleRequestError($"Failed to get JB information. Status code: {response.StatusCode}");
+                //     return null;
+                // }
             }
         }
         catch (Exception ex)
         {
-            HandleRequestError($"Unexpected error: {ex.Message}");
+            HandleRequestError($"Unexpected error: {ex.Message + " " + ex.StackTrace + " " + ex.InnerException}");
             return null;
         }
     }
@@ -97,21 +103,21 @@ public class APIManagerOpenCV : MonoBehaviour
                         // StaticVariable.ModuleSpecificationId = moduleInformationModel.ModuleSpecificationModel.Id;
                         // StaticVariable.AdapterSpecificationId = moduleInformationModel.AdapterSpecificationModel.Id;
 
-                        StaticVariable.temp_ListJBInformationModel.Clear();
-                        StaticVariable.temp_ListDeviceInformationModel.Clear();
+                        StaticVariable.temp_ListJBInformationModelFromModule.Clear();
+                        StaticVariable.temp_ListDeviceInformationModelFromModule.Clear();
 
                         StaticVariable.temp_ModuleInformationModel = null;
                         StaticVariable.temp_ModuleSpecificationModel = null;
                         StaticVariable.temp_AdapterSpecificationModel = null;
 
-                        StaticVariable.temp_ListJBInformationModel = moduleInformationModel.ListJBInformationModel;
-                        StaticVariable.temp_ListDeviceInformationModel = moduleInformationModel.ListDeviceInformationModel;
+                        StaticVariable.temp_ListJBInformationModelFromModule = moduleInformationModel.ListJBInformationModel;
+                        StaticVariable.temp_ListDeviceInformationModelFromModule = moduleInformationModel.ListDeviceInformationModel;
 
                         StaticVariable.temp_ModuleSpecificationModel = moduleInformationModel.ModuleSpecificationModel;
                         StaticVariable.temp_AdapterSpecificationModel = moduleInformationModel.AdapterSpecificationModel;
 
-                        // Debug.Log("temp_ListJBInformationModel.Count: " + StaticVariable.temp_ListJBInformationModel.Count);
-                        // Debug.Log("temp_ListDeviceInformationModel.Count: " + StaticVariable.temp_ListDeviceInformationModel.Count);
+                        // Debug.Log("temp_ListJBInformationModelFromModule.Count: " + StaticVariable.temp_ListJBInformationModelFromModule.Count);
+                        // Debug.Log("temp_ListDeviceInformationModelFromModule.Count: " + StaticVariable.temp_ListDeviceInformationModelFromModule.Count);
                         return moduleInformationModel;
                     }
                     else
@@ -147,7 +153,7 @@ public class APIManagerOpenCV : MonoBehaviour
         throw new Exception(error);
     }
 
-    public async Task<DeviceInformationModel> GetDevice(string url)
+    public async Task<List<DeviceInformationModel>> GetListDevice(string url)
     {
         try
         {
@@ -158,24 +164,28 @@ public class APIManagerOpenCV : MonoBehaviour
                 {
                     string json = await response.Content.ReadAsStringAsync();
                     // Debug.Log("json: " + json);
-                    var deviceInformationModel = JsonConvert.DeserializeObject<DeviceInformationModel>(json);
-                    // Debug.Log("deviceInformationModel: " + deviceInformationModel);
+                    var deviceInformationModel = JsonConvert.DeserializeObject<List<DeviceInformationModel>>(json);
 
                     if (deviceInformationModel != null)
                     {
-                        // Debug.Log("deviceInformationModel.Id: " + deviceInformationModel.Id);
-                        var device = StaticVariable.temp_ListDeviceInformationModel.Find(device => device.Id == deviceInformationModel.Id);
 
-                        foreach (var prop in typeof(DeviceInformationModel).GetProperties())
+                        if (StaticVariable.ready_To_Reset_ListDevice)
                         {
-                            var existingValue = prop.GetValue(device);
-                            var newValue = prop.GetValue(deviceInformationModel);
+                            StaticVariable.temp_ListDeviceInformationModelFromDeviceName.Clear();
+                            StaticVariable.temp_ListAdditionalImageFromDevice.Clear();
+                            // Debug.Log("Clear temp_ListDeviceInformationModelFromDeviceName");
+                        }
 
-                            if (existingValue == null || existingValue.Equals(0) || (existingValue is string && existingValue.Equals("")))
+                        foreach (var device in deviceInformationModel)
+                        {
+                            StaticVariable.temp_ListDeviceInformationModelFromDeviceName.Add(device.Code, device);
+
+                            if (device.AdditionalConnectionImages.Count == 0)
                             {
-                                prop.SetValue(device, newValue);
+                                continue;
                             }
-                            // Debug.Log("prop.Name: " + prop.Name + " - newValue: " + newValue);
+                            StaticVariable.temp_ListAdditionalImageFromDevice.Add(device.Code, device.AdditionalConnectionImages.Select(image => image.url).ToList());
+                            Debug.Log("device.Code: " + device.Code + " device.AdditionalConnectionImages.Count: " + device.AdditionalConnectionImages.Count);
                         }
                     }
                     return deviceInformationModel;
@@ -224,66 +234,83 @@ public class APIManagerOpenCV : MonoBehaviour
         try
         {
 
-            // if (SceneManager.GetActiveScene().name == MyEnum.GrapperAScanScene.GetDescription())
-            // {
+            temp_ListJBInformationModel = StaticVariable.temp_ListDeviceInformationModelFromDeviceName.SelectMany(jb => jb.Value.JBInformationModel).ToList();
+            temp_ListAdditionalImages = StaticVariable.temp_ListAdditionalImageFromDevice.SelectMany(image => image.Value).ToList();
 
-            if (temp_ListJBInformationModel_From_Module == null || temp_ListJBInformationModel_From_Module.Count == 0)
+            if (temp_ListJBInformationModel == null || temp_ListJBInformationModel.Count == 0)
             {
                 Debug.LogError("No JB information models available to download images.");
-
             }
             else
             {
-                Debug.Log("temp_ListJBInformationModel_From_Module.Count: " + temp_ListJBInformationModel_From_Module.Count);
-
                 var downloadTasks = new List<Task<Texture2D>>();
 
-                foreach (var jb in temp_ListJBInformationModel_From_Module)
+                if (StaticVariable.temp_ListAdditionalImageFromDevice.ContainsKey(StaticVariable.device_Code))
                 {
-                    // Khởi tạo các danh sách nếu chưa tồn tại
-                    if (!list_JBConnectionImagesFromModule.ContainsKey(jb.Name))
+                    if (!list_AdditionalImagesFromDevice.ContainsKey(StaticVariable.device_Code))
                     {
-                        list_JBConnectionImagesFromModule[jb.Name] = new List<Texture2D>();
+                        list_AdditionalImagesFromDevice[StaticVariable.device_Code] = new List<Texture2D>();
                     }
 
-                    if (!list_JBLocationImagesFromModule.ContainsKey(jb.Name))
+                    foreach (var image in temp_ListAdditionalImages)
                     {
-                        list_JBLocationImagesFromModule[jb.Name] = new Texture2D(2, 2);
+                        // if (!string.IsNullOrEmpty(image.url))
+                        // {
+                        //     downloadTasks.Add(DownloadImageAsync(image.url));
+                        // }
                     }
+                }
 
-                    //? Tải hình ảnh ngoài trời
-                    if (!string.IsNullOrEmpty(jb.OutdoorImage.url))
-                    {
-                        downloadTasks.Add(DownloadImageAsync(jb.OutdoorImage.url));
-                    }
+                foreach (var jb in temp_ListJBInformationModel)
+                {
 
-                    //? Tải danh sách hình ảnh kết nối
-                    foreach (var image in jb.ListConnectionImages)
+                    if (jb.Name == StaticVariable.jb_TSD_Name)
                     {
-                        if (!string.IsNullOrEmpty(image.url))
+                        // Khởi tạo các danh sách nếu chưa tồn tại
+                        if (!list_JBConnectionImagesFromModule.ContainsKey(jb.Name))
                         {
-                            downloadTasks.Add(DownloadImageAsync(image.url));
+                            list_JBConnectionImagesFromModule[jb.Name] = new List<Texture2D>();
                         }
-                    }
 
-                    //? Chờ tất cả hình ảnh kết nối hoàn tất
-                    var downloadedTextures = await Task.WhenAll(downloadTasks);
+                        if (!list_JBLocationImagesFromModule.ContainsKey(jb.Name))
+                        {
+                            list_JBLocationImagesFromModule[jb.Name] = new Texture2D(2, 2);
+                        }
 
-                    //? Cập nhật danh sách hình ảnh kết nối trên Main Thread
-                    UnityMainThreadDispatcher.Instance.Enqueue(() =>
-                    {
+                        //? Tải hình ảnh ngoài trời
                         if (!string.IsNullOrEmpty(jb.OutdoorImage.url))
                         {
-                            list_JBLocationImagesFromModule[jb.Name] = downloadedTextures[0];
-                            list_JBConnectionImagesFromModule[jb.Name].AddRange(downloadedTextures.Skip(1));
+                            downloadTasks.Add(DownloadImageAsync(jb.OutdoorImage.url));
                         }
-                        else
+
+                        //? Tải danh sách hình ảnh kết nối
+                        foreach (var image in jb.ListConnectionImages)
                         {
-                            list_JBConnectionImagesFromModule[jb.Name].AddRange(downloadedTextures);
+                            if (!string.IsNullOrEmpty(image.url))
+                            {
+                                downloadTasks.Add(DownloadImageAsync(image.url));
+                            }
                         }
-                    });
-                    //? Dọn danh sách nhiệm vụ sau mỗi JB
-                    downloadTasks.Clear();
+
+                        //? Chờ tất cả hình ảnh kết nối hoàn tất
+                        var downloadedTextures = await Task.WhenAll(downloadTasks);
+
+                        //? Cập nhật danh sách hình ảnh kết nối trên Main Thread
+                        UnityMainThreadDispatcher.Instance.Enqueue(() =>
+                        {
+                            if (!string.IsNullOrEmpty(jb.OutdoorImage.url))
+                            {
+                                list_JBLocationImagesFromModule[jb.Name] = downloadedTextures[0];
+                                list_JBConnectionImagesFromModule[jb.Name].AddRange(downloadedTextures.Skip(1));
+                            }
+                            else
+                            {
+                                list_JBConnectionImagesFromModule[jb.Name].AddRange(downloadedTextures);
+                            }
+                        });
+                        //? Dọn danh sách nhiệm vụ sau mỗi JB
+                        downloadTasks.Clear();
+                    }
                 }
 
                 // Cập nhật biến toàn cục trên Main Thread
@@ -295,7 +322,7 @@ public class APIManagerOpenCV : MonoBehaviour
                     list_JBConnectionImagesFromModule.Clear();
                     list_JBLocationImagesFromModule.Clear();
                 });
-                // }
+                StaticVariable.ready_To_Update_Images_UI = true;
             }
         }
         catch (Exception ex)
@@ -320,7 +347,7 @@ public class APIManagerOpenCV : MonoBehaviour
                 }
 
                 var texture = DownloadHandlerTexture.GetContent(request);
-                Debug.Log($"Image downloaded from: {url}");
+                // Debug.Log($"Image downloaded from: {url}");
                 return texture;
             }
         }
@@ -337,7 +364,6 @@ public class APIManagerOpenCV : MonoBehaviour
 
     public async Task<JBInformationModel> GetJBInformation(string url)
     {
-        StaticVariable.ActiveCloseCanvasButton = false;
         try
         {
             using (HttpClient client = new HttpClient())
@@ -346,37 +372,30 @@ public class APIManagerOpenCV : MonoBehaviour
                 if (response.IsSuccessStatusCode)
                 {
                     string json = await response.Content.ReadAsStringAsync();
-                    Debug.Log("json: " + json);
-                    var jbInformationModel = JsonConvert.DeserializeObject<JBInformationModel>(json);
+                    // Debug.Log("json: " + json);
+                    var jBInformationModel = JsonConvert.DeserializeObject<JBInformationModel>(json);
 
-                    if (jbInformationModel != null)
+                    // Debug.Log("jBInformationModel: " + jBInformationModel);
+
+                    if (StaticVariable.ready_To_Reset_ListJB)
                     {
-                        StaticVariable.ModuleId = jbInformationModel.Id;
-                        // StaticVariable.ModuleSpecificationId = moduleInformationModel.ModuleSpecificationModel.Id;
-                        // StaticVariable.AdapterSpecificationId = moduleInformationModel.AdapterSpecificationModel.Id;
-
-                        // StaticVariable.temp_ListJBInformationModel.Clear();
-                        // StaticVariable.temp_ListDeviceInformationModel.Clear();
-
-                        // StaticVariable.temp_ModuleInformationModel = null;
-                        // StaticVariable.temp_ModuleSpecificationModel = null;
-                        // StaticVariable.temp_AdapterSpecificationModel = null;
-
-                        // StaticVariable.temp_ListJBInformationModel = moduleInformationModel.ListJBInformationModel;
-                        // StaticVariable.temp_ListDeviceInformationModel = moduleInformationModel.ListDeviceInformationModel;
-
-                        // StaticVariable.temp_ModuleSpecificationModel = moduleInformationModel.ModuleSpecificationModel;
-                        // StaticVariable.temp_AdapterSpecificationModel = moduleInformationModel.AdapterSpecificationModel;
-
-                        // Debug.Log("temp_ListJBInformationModel.Count: " + StaticVariable.temp_ListJBInformationModel.Count);
-                        // Debug.Log("temp_ListDeviceInformationModel.Count: " + StaticVariable.temp_ListDeviceInformationModel.Count);
-                        return jbInformationModel;
+                        StaticVariable.temp_ListJBInformationModel.Clear();
                     }
-                    else
+
+                    if (jBInformationModel != null)
                     {
-                        HandleRequestError("Failed to get JB information.");
-                        return null;
+                        // Debug.Log("jBInformationModel.Id: " + jBInformationModel.Id);
+
+                        if (!StaticVariable.temp_ListJBInformationModel.Contains(jBInformationModel))
+                        {
+                            StaticVariable.temp_ListJBInformationModel.Add(jBInformationModel);
+                        }
+                        else
+                        {
+                            Debug.LogWarning("Device already exists in the list.");
+                        }
                     }
+                    return jBInformationModel;
                 }
                 else
                 {
@@ -385,17 +404,10 @@ public class APIManagerOpenCV : MonoBehaviour
                 }
             }
         }
-        catch (JsonException jsonEx)
-        {
-            HandleRequestError(jsonEx.Message);
-            return null;
-
-        }
         catch (Exception ex)
         {
-            HandleRequestError(ex.Message);
+            HandleRequestError($"Unexpected error: {ex.Message}");
             return null;
-
         }
     }
 }

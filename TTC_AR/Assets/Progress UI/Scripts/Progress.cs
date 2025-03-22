@@ -1,5 +1,5 @@
-﻿using UnityEngine ;
-using EasyUI.Helpers ;
+﻿using UnityEngine;
+using EasyUI.Helpers;
 using UnityEngine.Events;
 
 /* -------------------------------
@@ -7,9 +7,11 @@ using UnityEngine.Events;
      hamza95herbou@gmail.com
    ------------------------------- */
 
-namespace EasyUI.Progress {
+namespace EasyUI.Progress
+{
 
-   public enum ProgressColor {
+   public enum ProgressColor
+   {
       Default,
       Red,
       Purple,
@@ -20,85 +22,101 @@ namespace EasyUI.Progress {
       Orange
    }
 
-   public static class Progress {
-      private static bool isActive = false ;
-      public static bool IsActive {
-         get {return isActive;}
-         private set {isActive = value;}
+   public static class Progress
+   {
+      private static bool isActive = false;
+      public static bool IsActive
+      {
+         get { return isActive; }
+         private set { isActive = value; }
       }
-      
+
       public static UnityAction OnProgressShow;
       public static UnityAction OnProgressHide;
 
-      public static bool __isLoaded = false ;
+      public static bool __isLoaded = false;
 
-      private static ProgressUI progressUI ;
+      private static ProgressUI progressUI;
 
-      private static void Prepare () {
-         if (!__isLoaded) {
-            GameObject instance = MonoBehaviour.Instantiate (Resources.Load<GameObject> ("ProgressUI")) ;
-            instance.name = "[ PROGRESS UI ]" ;
-            progressUI = instance.GetComponent <ProgressUI> () ;
-            __isLoaded = true ;
+      private static void Prepare()
+      {
+         if (!__isLoaded)
+         {
+            GameObject instance = MonoBehaviour.Instantiate(Resources.Load<GameObject>("ProgressUI"));
+            instance.name = "[ PROGRESS UI ]";
+            progressUI = instance.GetComponent<ProgressUI>();
+            __isLoaded = true;
 
          }
          isActive = true;
       }
 
-      public static void Show (string title, ProgressColor color = ProgressColor.Default) {
-         PerformShow(new ProgressData{
-            title=title, 
-            color=color
+      public static void Show(string title, ProgressColor color = ProgressColor.Default)
+      {
+         PerformShow(new ProgressData
+         {
+            title = title,
+            color = color
          });
       }
 
-      public static void Show (string title, ProgressColor color, bool detailsEnabled) {
-         PerformShow(new ProgressData{
-            title=title, 
-            color=color,
-            detailsEnabled=true
+      public static void Show(string title, ProgressColor color, bool detailsEnabled)
+      {
+         PerformShow(new ProgressData
+         {
+            title = title,
+            color = color,
+            detailsEnabled = true
          });
       }
 
-      public static void SetProgressValue (float progress) {
+      public static void SetProgressValue(float progress)
+      {
          progressUI.SetProgressValue(progress);
       }
 
-      public static void SetDetailsText (string text) {
+      public static void SetDetailsText(string text)
+      {
          progressUI.SetDetailsText(text);
       }
 
-      public static void SetTitleText (string text) {
+      public static void SetTitleText(string text)
+      {
          progressUI.SetTitleText(text);
       }
 
-      private static void PerformShow(ProgressData data){
+      private static void PerformShow(ProgressData data)
+      {
          if (AlreadyActive())
-                     return;
+            return;
 
-         Prepare () ;
+         Prepare();
          progressUI.Init(data);
-         if (OnProgressShow != null) 
+         if (OnProgressShow != null)
             OnProgressShow.Invoke();
       }
 
-      public static void Hide () {
-         if (isActive){
+      public static void Hide()
+      {
+         if (isActive)
+         {
             isActive = false;
             progressUI.Hide();
-            if (OnProgressHide != null) 
+            if (OnProgressHide != null)
                OnProgressHide.Invoke();
          }
       }
 
-      private static bool AlreadyActive(){
-         if (isActive){
+      private static bool AlreadyActive()
+      {
+         if (isActive)
+         {
             Debug.Log("Progress UI already active");
             return true;
          }
          return false;
       }
-   
+
    }
 
 }

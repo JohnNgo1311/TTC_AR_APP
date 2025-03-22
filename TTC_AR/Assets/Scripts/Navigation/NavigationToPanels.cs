@@ -25,7 +25,7 @@ public class NavigationToPanels : MonoBehaviour
         if (generalModuleTitle == null && initialScreen != null) // Gán tiêu đề nếu chưa gán
             generalModuleTitle = initialScreen.transform.Find("Title")?.GetComponent<TMP_Text>();
 
-        GlobalVariable.generalPanel = initialScreen;
+        StaticVariable.generalPanel = initialScreen;
 
         // if (generalModuleTitle != null)
         //     generalModuleTitle.text = GetModuleTitle(parentCanvas.gameObject.name);
@@ -46,7 +46,7 @@ public class NavigationToPanels : MonoBehaviour
             button.onClick.RemoveAllListeners();
         }
 
-        GlobalVariable.generalPanel = null;
+        StaticVariable.generalPanel = null;
 
     }
 
@@ -81,6 +81,8 @@ public class NavigationToPanels : MonoBehaviour
 
     public void NavigateNewScreen(int index)
     {
+        // yield return new WaitUntil(() => StaticVariable.ready_To_Update_UI);
+
         if (initialScreen != null)
             initialScreen.SetActive(false);
 

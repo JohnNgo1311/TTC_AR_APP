@@ -26,18 +26,18 @@ public class Update_Module_Specification_Screen : MonoBehaviour
 
     IEnumerator Initial()
     {
-        eventPublisher.TriggerEvent_SpecificationClicked();
+        // eventPublisher.TriggerEvent_SpecificationClicked();
         yield return WaitingDownload();
         yield return AssignVariables();
     }
     IEnumerator AssignVariables()
     {
-        module_Specification_Model = GlobalVariable.temp_ModuleSpecificationModel;
-        adapter_Specification_Model = GlobalVariable.temp_AdapterSpecificationModel;
+        module_Specification_Model = StaticVariable.temp_ModuleSpecificationModel;
+        adapter_Specification_Model = StaticVariable.temp_AdapterSpecificationModel;
         moduleSpecificationCode = module_Specification_Model.Code;
         adapterSpecificationCode = adapter_Specification_Model.Code;
-        Debug.Log("Module Specification Code: " + moduleSpecificationCode);
-        Debug.Log("Adapter Specification Code: " + adapterSpecificationCode);
+        // Debug.Log("Module Specification Code: " + moduleSpecificationCode);
+        // Debug.Log("Adapter Specification Code: " + adapterSpecificationCode);
         yield return null;
         Update_UI();
         module_Specification_Button_PDF.onClick.AddListener(() => Open_Module_Adapter_Online_Catalog(module_Specification_Model.PdfManual));
@@ -45,9 +45,9 @@ public class Update_Module_Specification_Screen : MonoBehaviour
     }
     IEnumerator WaitingDownload()
     {
-        while (GlobalVariable.temp_ModuleSpecificationModel == null || GlobalVariable.temp_AdapterSpecificationModel == null)
+        while (StaticVariable.temp_ModuleSpecificationModel == null || StaticVariable.temp_AdapterSpecificationModel == null)
         {
-            Debug.Log("Waiting for GlobalVariable.temp_ModuleSpecificationModel to be assigned...");
+            Debug.Log("Waiting for StaticVariable.temp_ModuleSpecificationModel to be assigned...");
             yield return null;
         }
         Debug.Log("All variables have been assigned!");
@@ -112,7 +112,7 @@ public class Update_Module_Specification_Screen : MonoBehaviour
             string.IsNullOrEmpty(adapter_Specification_Model.OutputSupply)? "Chưa cập nhật": adapter_Specification_Model.OutputSupply,
             string.IsNullOrEmpty(adapter_Specification_Model.InrushCurrent)? "Chưa cập nhật": adapter_Specification_Model.InrushCurrent,
             string.IsNullOrEmpty(adapter_Specification_Model.Alarm)? "Chưa cập nhật": adapter_Specification_Model.Alarm,
-            string.IsNullOrEmpty(adapter_Specification_Model.Noted)? "Chưa cập nhật": adapter_Specification_Model.Noted
+            string.IsNullOrEmpty(adapter_Specification_Model.Note)? "Chưa cập nhật": adapter_Specification_Model.Note
 
         };
         yield return Update_UI(adapter_Specification_Texts.ToArray(), values);
@@ -126,8 +126,8 @@ public class Update_Module_Specification_Screen : MonoBehaviour
     private void OnDisable()
     {
         StopAllCoroutines();
-        GlobalVariable.temp_ModuleSpecificationModel = null;
-        GlobalVariable.temp_AdapterSpecificationModel = null;
+        StaticVariable.temp_ModuleSpecificationModel = null;
+        StaticVariable.temp_AdapterSpecificationModel = null;
         adapter_Specification_Button_PDF.onClick.RemoveAllListeners();
         module_Specification_Button_PDF.onClick.RemoveAllListeners();
         module_Specification_Model = null;

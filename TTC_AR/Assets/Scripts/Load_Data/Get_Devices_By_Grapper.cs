@@ -93,7 +93,7 @@
 //             List<DeviceInformationModel> devices = JsonConvert.DeserializeObject<List<DeviceInformationModel>>(jsonData);
 //             if (devices != null && devices.Count > 0 && !string.IsNullOrWhiteSpace(devices[1].Function))
 //             {
-//                 GlobalVariable_Search_Devices.temp_ListDeviceInformationModel = devices;
+//                 GlobalVariable_Search_Devices.temp_ListDeviceInformationModelFromModule = devices;
 //                 ProcessAndSaveDevices(devices);
 //             }
 //             else

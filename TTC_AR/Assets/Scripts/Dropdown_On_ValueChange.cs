@@ -96,7 +96,7 @@ public class Dropdown_On_ValueChange : MonoBehaviour
     }
     private void Prepare_Device_Dictionary_For_Searching()
     {
-        var tempListDevice = GlobalVariable_Search_Devices.temp_ListDeviceInformationModel;
+        var tempListDevice = GlobalVariable_Search_Devices.temp_ListDeviceInformationModelFromModule;
 
         deviceDictionary = tempListDevice
             .GroupBy(device => device.Code.ToLower())
@@ -114,7 +114,7 @@ public class Dropdown_On_ValueChange : MonoBehaviour
 
     private void Prepare_JB_Dictionary_For_Searching()
     {
-        var tempListJB = GlobalVariable_Search_Devices.temp_ListJBInformationModel;
+        var tempListJB = GlobalVariable_Search_Devices.temp_ListJBInformationModelFromModule;
 
         jBDictionary = tempListJB
             .GroupBy(jb => jb.Name.ToLower())
@@ -122,8 +122,8 @@ public class Dropdown_On_ValueChange : MonoBehaviour
     }
     // private void Prepare_Device_Dictionary_For_Searching()
     // {
-    //     deviceDictionary = GlobalVariable_Search_Devices.temp_ListDeviceInformationModel.ToDictionary(d => d.Code);
-    //     var functionDictionary = GlobalVariable_Search_Devices.temp_ListDeviceInformationModel.ToDictionary(d => d.Function);
+    //     deviceDictionary = GlobalVariable_Search_Devices.temp_ListDeviceInformationModelFromModule.ToDictionary(d => d.Code);
+    //     var functionDictionary = GlobalVariable_Search_Devices.temp_ListDeviceInformationModelFromModule.ToDictionary(d => d.Function);
     //     foreach (var keyValuePair in functionDictionary)
     //     {
     //         if (deviceDictionary.ContainsKey(keyValuePair.Key))
@@ -190,8 +190,8 @@ public class Dropdown_On_ValueChange : MonoBehaviour
         range_Value_Text.text = device.Range;
         io_Value_Text.text = device.IOAddress;
 
-        jb_Connection_Value_Text.text = $"{device.JBInformationModel.Name}:";
-        jb_Connection_Location_Text.text = device.JBInformationModel.Location;
+        // jb_Connection_Value_Text.text = $"{device.JBInformationModel.Name}:";
+        // jb_Connection_Location_Text.text = device.JBInformationModel.Location;
         _jbName = jb_Connection_Value_Text.text;
         GlobalVariable_Search_Devices.jbName = _jbName;
         // _moduleName = device.ModuleBasicModel.Name;
@@ -200,7 +200,7 @@ public class Dropdown_On_ValueChange : MonoBehaviour
         if (!string.IsNullOrEmpty(_jbName))
         {
             ClearWiringGroupAndCache();
-            LoadDeviceSprites(device.AdditionalConnectionImages, jbInformationModel: device.JBInformationModel);
+            // LoadDeviceSprites(device.AdditionalConnectionImages, jbInformationModel: device.JBInformationModel);
         }
     }
 

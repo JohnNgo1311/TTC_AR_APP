@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 using TMPro;
+using EasyUI.Progress;
 
 public class GetModuleInformation : MonoBehaviour
 {
@@ -28,7 +29,8 @@ public class GetModuleInformation : MonoBehaviour
 
             var moduleName = title.text.Split(' ')[1];
             // Debug.Log("moduleName: " + moduleName);
-            //? Module tương ứng    
+
+            //? Module tương ứng
             var module = StaticVariable.temp_ListModuleInformationModel.Find(module => module.Name == moduleName);
 
             if (module == null)
@@ -39,8 +41,9 @@ public class GetModuleInformation : MonoBehaviour
 
             await Move_On_Main_Thread.RunOnMainThread(() =>
                       {
-                          Show_Toast.Instance.Set_Instance_Status_True();
-                          Show_Toast.Instance.ShowToast("loading", "Đang tải dữ liệu...");
+                          //   Show_Toast.Instance.Set_Instance_Status_True();
+                          //   Show_Toast.Instance.ShowToast("loading", "Đang tải dữ liệu...");
+                          ShowProgressBar("Đang tải dữ liệu...", "Vui lòng chờ...");
                       });
 
             await APIManagerOpenCV.Instance.GetModule(StaticVariable.GetModuleUrl + "/" + module.Id);
@@ -48,7 +51,8 @@ public class GetModuleInformation : MonoBehaviour
 
             await Move_On_Main_Thread.RunOnMainThread(() =>
                {
-                   StartCoroutine(Show_Toast.Instance.Set_Instance_Status_False());
+                   //    StartCoroutine(Show_Toast.Instance.Set_Instance_Status_False());
+                   HideProgressBar();
                });
             StaticVariable.ready_To_Nav_New_Scene = true;
 
@@ -61,11 +65,22 @@ public class GetModuleInformation : MonoBehaviour
              {
                  Show_Toast.Instance.ShowToast("failure", "Đã có lỗi xảy ra");
              });
-            await Task.Delay(2000);
+            await Task.Delay(1000);
             await Move_On_Main_Thread.RunOnMainThread(() =>
               {
-                  StartCoroutine(Show_Toast.Instance.Set_Instance_Status_False());
+                  //   StartCoroutine(Show_Toast.Instance.Set_Instance_Status_False());
               });
         }
+    }
+
+    private void ShowProgressBar(string title, string details)
+    {
+        Progress.Show(title, ProgressColor.Blue, true);
+        Progress.SetDetailsText(details);
+    }
+
+    private void HideProgressBar()
+    {
+        Progress.Hide();
     }
 }

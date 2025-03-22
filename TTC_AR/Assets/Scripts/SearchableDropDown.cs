@@ -41,8 +41,8 @@ public class SearchableDropDown : MonoBehaviour
 
     public void SetInitialTextFieldValue()
     {
-        tempDeviceInfo = GlobalVariable_Search_Devices.temp_ListDeviceInformationModel;
-        tempJBInfo = GlobalVariable_Search_Devices.temp_ListJBInformationModel;
+        tempDeviceInfo = GlobalVariable_Search_Devices.temp_ListDeviceInformationModelFromModule;
+        tempJBInfo = GlobalVariable_Search_Devices.temp_ListJBInformationModelFromModule;
         if (!string.IsNullOrEmpty(tempDeviceInfo[0].Code) && !string.IsNullOrEmpty(tempJBInfo[0].Name))
         {
             inputField.text = tempDeviceInfo[0].Code;
@@ -96,7 +96,7 @@ public class SearchableDropDown : MonoBehaviour
     public void OnJBFilterClicked()
     {
         filter_Type = "JB/TSD";
-        var jbOptions = GlobalVariable_Search_Devices.temp_ListJBInformationModel.Select(jb => jb.Name).ToList();
+        var jbOptions = GlobalVariable_Search_Devices.temp_ListJBInformationModelFromModule.Select(jb => jb.Name).ToList();
         UpdateDropdownOptions(jbOptions);
         ToggleDropdown();
         filterText.text = filter_Type;

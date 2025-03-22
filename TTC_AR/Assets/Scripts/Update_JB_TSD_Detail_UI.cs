@@ -4,6 +4,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
+using System.Linq;
+using System;
+using EasyUI.Progress;
 
 public class Update_JB_TSD_Detail_UI : MonoBehaviour
 {
@@ -34,6 +37,7 @@ public class Update_JB_TSD_Detail_UI : MonoBehaviour
 
         // Chạy hai hàm song song bằng coroutines
         StartCoroutine(RunApplyFunctions());
+        // Debug.Log("Update_JB_TSD_Detail_UI is enabled");
     }
 
     private void OnDisable()
@@ -69,8 +73,12 @@ public class Update_JB_TSD_Detail_UI : MonoBehaviour
     private IEnumerator RunApplyFunctions()
     {
         // Chờ cả hai coroutines kết thúc
-        Show_Toast.Instance.Set_Instance_Status_True();
-        Show_Toast.Instance.ShowToast("loading", "Đang tải hình ảnh...");
+        // Show_Toast.Instance.Set_Instance_Status_True();
+        // Show_Toast.Instance.ShowToast("loading", "Đang tải hình ảnh...");
+        ShowProgressBar("Đang tải hình ảnh...", "Vui lòng chờ...");
+
+        yield return new WaitUntil(() => StaticVariable.ready_To_Update_Images_UI);
+        StaticVariable.ready_To_Update_Images_UI = false;
 
         // Chạy song song ApplyLocationSprite và ApplyConnectionSprites
         yield return ApplyConnectionSprites();
@@ -84,13 +92,14 @@ public class Update_JB_TSD_Detail_UI : MonoBehaviour
             scroll_Area_Content.GetComponent<ContentSizeFitter>().gameObject.SetActive(true);
             scroll_Area_Content.GetComponent<ContentSizeFitter>().enabled = true;
         }
-        yield return Show_Toast.Instance.Set_Instance_Status_False();
+        // yield return Show_Toast.Instance.Set_Instance_Status_False();
+        HideProgressBar();
     }
 
     private IEnumerator ApplyLocationSprite()
     {
-        if (GlobalVariable.temp_listJBLocationImageFromModule != null &&
-            GlobalVariable.temp_listJBLocationImageFromModule.TryGetValue(jb_name, out var texture))
+        if (StaticVariable.temp_listJBLocationImageFromModule != null &&
+            StaticVariable.temp_listJBLocationImageFromModule.TryGetValue(jb_name, out var texture))
         {
             if (texture != null)
             {
@@ -121,10 +130,10 @@ public class Update_JB_TSD_Detail_UI : MonoBehaviour
 
     private IEnumerator ApplyConnectionSprites()
     {
-        if (GlobalVariable.temp_listJBConnectionImageFromModule != null &&
-            GlobalVariable.temp_listJBConnectionImageFromModule.TryGetValue(jb_name, out var list_Texture))
+        if (StaticVariable.temp_listJBConnectionImageFromModule != null &&
+            StaticVariable.temp_listJBConnectionImageFromModule.TryGetValue(jb_name, out var list_Texture))
         {
-            if (list_Texture.Count > 0)
+            if (list_Texture.Any())
             {
                 if (list_Texture.Count == 1)
                 {
@@ -135,7 +144,7 @@ public class Update_JB_TSD_Detail_UI : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log("list_Texture.Count: " + list_Texture.Count);
+                    // Debug.Log("list_Texture.Count: " + list_Texture.Count);
                     foreach (var texture in list_Texture)
                     {
                         var imageObject = Instantiate(jb_connection_imagePrefab, scroll_Area_Content.transform);
@@ -159,5 +168,16 @@ public class Update_JB_TSD_Detail_UI : MonoBehaviour
             Destroy(imageObject);
         }
         instantiatedImages.Clear();
+    }
+
+    private void ShowProgressBar(string title, string details)
+    {
+        Progress.Show(title, ProgressColor.Blue, true);
+        Progress.SetDetailsText(details);
+    }
+
+    private void HideProgressBar()
+    {
+        Progress.Hide();
     }
 }

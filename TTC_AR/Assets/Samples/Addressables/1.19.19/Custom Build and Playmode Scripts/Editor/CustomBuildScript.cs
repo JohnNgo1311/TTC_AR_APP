@@ -298,7 +298,7 @@ public class CustomBuildScript : BuildScriptBase
                 var resultValue = r.Value;
                 m_Linker.AddTypes(resultValue.includedTypes);
 #if UNITY_2021_1_OR_NEWER
-                    m_Linker.AddSerializedClass(resultValue.includedSerializeReferenceFQN);
+                m_Linker.AddSerializedClass(resultValue.includedSerializeReferenceFQN);
 #else
                 if (resultValue.GetType().GetProperty("includedSerializeReferenceFQN") != null)
                     m_Linker.AddSerializedClass(resultValue.GetType().GetProperty("includedSerializeReferenceFQN").GetValue(resultValue) as System.Collections.Generic.IEnumerable<string>);
@@ -977,15 +977,15 @@ public class CustomBuildScript : BuildScriptBase
 
             var remoteHashLoadPath = remoteLoadFolder + versionedFileName + ".hash";
             var remoteHashLoadLocation = new ResourceLocationData(
-                    new[] {dependencyHashes[(int)ContentCatalogProvider.DependencyHashIndex.Remote]},
+                    new[] { dependencyHashes[(int)ContentCatalogProvider.DependencyHashIndex.Remote] },
                     remoteHashLoadPath,
                     typeof(TextDataProvider), typeof(string));
             remoteHashLoadLocation.Data = catalogLoadOptions.Copy();
             locations.Add(remoteHashLoadLocation);
 
-            var cacheLoadPath = "{UnityEngine.Application.persistentDataPath}/com.unity.addressables" + versionedFileName + ".hash";
+            var cacheLoadPath = "{Application.persistentDataPath}/com.unity.addressables" + versionedFileName + ".hash";
             var cacheLoadLocation = new ResourceLocationData(
-                    new[] {dependencyHashes[(int)ContentCatalogProvider.DependencyHashIndex.Cache]},
+                    new[] { dependencyHashes[(int)ContentCatalogProvider.DependencyHashIndex.Cache] },
                     cacheLoadPath,
                     typeof(TextDataProvider), typeof(string));
             cacheLoadLocation.Data = catalogLoadOptions.Copy();
@@ -1143,8 +1143,8 @@ public class CustomBuildScript : BuildScriptBase
         {
             postCatalogUpdates.Add(() =>
             {
-                    //This is where we strip out the temporary hash for the final bundle location and filename
-                    string bundlePathWithoutHash = StripHashFromBundleLocation(targetBundlePath);
+                //This is where we strip out the temporary hash for the final bundle location and filename
+                string bundlePathWithoutHash = StripHashFromBundleLocation(targetBundlePath);
                 if (File.Exists(targetBundlePath))
                 {
                     if (File.Exists(bundlePathWithoutHash))
