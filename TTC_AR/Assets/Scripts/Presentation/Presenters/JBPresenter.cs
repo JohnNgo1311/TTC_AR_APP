@@ -34,7 +34,7 @@ public class JBPresenter
             var jbBasicDtos = await _service.GetListJBGeneralAsync(grapperId);
             if (jbBasicDtos != null)
             {
-                if (jbBasicDtos.Count > 0)
+                if (jbBasicDtos.Any())
                 {
                     var models = jbBasicDtos.Select(dto => ConvertFromBasicDto(dto)).ToList();
                     _view.DisplayList(models);
@@ -73,7 +73,7 @@ public class JBPresenter
             var jbGeneralDtos = await _service.GetListJBInformationAsync(grapperId);
             if (jbGeneralDtos != null)
             {
-                if (jbGeneralDtos.Count > 0)
+                if (jbGeneralDtos.Any())
                 {
                     var models = jbGeneralDtos.Select(dto => ConvertFromGeneralDto(dto)).ToList();
 

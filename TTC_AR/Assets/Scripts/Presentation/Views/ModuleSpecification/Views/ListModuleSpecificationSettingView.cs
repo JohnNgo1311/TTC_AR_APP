@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using EasyUI.Progress;
 using TMPro;
@@ -25,8 +26,9 @@ public class ListModuleSpecificationSettingView : MonoBehaviour, IModuleSpecific
 
     void Awake()
     {
-        ModuleSpecificationManager ModuleSpecificationManager = FindObjectOfType<ModuleSpecificationManager>();
-        _presenter = new ModuleSpecificationPresenter(this, ModuleSpecificationManager._IModuleSpecificationService);
+        // var DeviceManager = FindObjectOfType<DeviceManager>();
+        _presenter = new ModuleSpecificationPresenter(this, ManagerLocator.Instance.ModuleSpecificationManager._IModuleSpecificationService);
+        // DeviceManager._IDeviceService
     }
 
     void OnEnable()
@@ -57,7 +59,7 @@ public class ListModuleSpecificationSettingView : MonoBehaviour, IModuleSpecific
     }
     public void DisplayList(List<ModuleSpecificationModel> models)
     {
-        if (models.Count > 0)
+        if (models.Any())
         {
             foreach (var model in models)
             {
@@ -114,7 +116,7 @@ public class ListModuleSpecificationSettingView : MonoBehaviour, IModuleSpecific
 
         var Horizontal_Group = DialogTwoButton.transform.Find("Background/Horizontal_Group").gameObject.transform;
 
-        var dialog_Content = DialogTwoButton.transform.Find("Background/Dialog_Content").GetComponent<TMP_Text>().text = $"Bạn có chắc chắn muốn xóa thông tin loại Module <color=#FF0000><b>{model.Code}</b></color> khỏi hệ thống? Hãy kiểm tra kĩ trước khi nhấn nút xác nhận phía dưới";
+        var dialog_Content = DialogTwoButton.transform.Find("Background/Dialog_Content").GetComponent<TMP_Text>().text = $"Bạn có chắc chắn muốn xóa thông tin loại Module <b><color =#004C8A>{model.Code}</b></color> khỏi hệ thống? Hãy kiểm tra kĩ trước khi nhấn nút xác nhận phía dưới";
 
         var dialog_Title = DialogTwoButton.transform.Find("Background/Dialog_Title").GetComponent<TMP_Text>().text = "Xóa loại Module khỏi hệ thống?";
 
@@ -145,7 +147,7 @@ public class ListModuleSpecificationSettingView : MonoBehaviour, IModuleSpecific
     }
 
 
-    private void OpenErrorDeletingDialog()
+    private void OpenErrorDialog(string title = "Xóa loại Module thất bại", string content = "Đã có lỗi xảy ra khi xóa loại Module khỏi hệ thống. Vui lòng thử lại sau")
     {
         DialogOneButton.SetActive(true);
 
@@ -156,9 +158,9 @@ public class ListModuleSpecificationSettingView : MonoBehaviour, IModuleSpecific
         var dialog_Icon = DialogOneButton.transform.Find("Background/Dialog_Status_Icon").GetComponent<Image>().sprite = Resources.Load<Sprite>("images/UIimages/Error_Icon_For_Dialog");
 
 
-        var dialog_Content = DialogOneButton.transform.Find("Background/Dialog_Content").GetComponent<TMP_Text>().text = $"Đã có lỗi xảy ra khi xóa loại Module khỏi hệ thống. Vui lòng thử lại sau";
+        var dialog_Content = DialogOneButton.transform.Find("Background/Dialog_Content").GetComponent<TMP_Text>().text = content;
 
-        var dialog_Title = DialogOneButton.transform.Find("Background/Dialog_Title").GetComponent<TMP_Text>().text = "Xóa loại Module thất bại";
+        var dialog_Title = DialogOneButton.transform.Find("Background/Dialog_Title").GetComponent<TMP_Text>().text = title;
 
 
         backButton.onClick.RemoveAllListeners();
@@ -170,50 +172,6 @@ public class ListModuleSpecificationSettingView : MonoBehaviour, IModuleSpecific
 
     }
 
-    private void OpenErrorCreateNewDialog()
-    {
-        DialogOneButton.SetActive(true);
-        var backButton = DialogOneButton.transform.Find("Background/Back_Button").GetComponent<Button>();
-
-        backButton.gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>("images/UIimages/Error_Back_Button_Background");
-
-        var dialog_Icon = DialogOneButton.transform.Find("Background/Dialog_Status_Icon").GetComponent<Image>().sprite = Resources.Load<Sprite>("images/UIimages/Error_Icon_For_Dialog");
-
-        var dialog_Content = DialogOneButton.transform.Find("Background/Dialog_Content").GetComponent<TMP_Text>().text = $"Đã có lỗi xảy ra khi thêm loại Module này khỏi hệ thống. Vui lòng thử lại sau";
-
-        var dialog_Title = DialogOneButton.transform.Find("Background/Dialog_Title").GetComponent<TMP_Text>().text = "Thêm loại Module thất bại";
-
-
-        backButton.onClick.RemoveAllListeners();
-
-        backButton.onClick.AddListener(() =>
-        {
-            DialogOneButton.SetActive(false);
-        });
-    }
-
-
-    private void OpenErrorGetListDialog()
-    {
-        DialogOneButton.SetActive(true);
-        var backButton = DialogOneButton.transform.Find("Background/Back_Button").GetComponent<Button>();
-
-        backButton.gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>("images/UIimages/Error_Back_Button_Background");
-
-        var dialog_Icon = DialogOneButton.transform.Find("Background/Dialog_Status_Icon").GetComponent<Image>().sprite = Resources.Load<Sprite>("images/UIimages/Error_Icon_For_Dialog");
-
-        var dialog_Content = DialogOneButton.transform.Find("Background/Dialog_Content").GetComponent<TMP_Text>().text = $"Đã có lỗi xảy ra khi tải danh sách. Vui lòng thử lại sau";
-
-        var dialog_Title = DialogOneButton.transform.Find("Background/Dialog_Title").GetComponent<TMP_Text>().text = "Tải danh sách thất bại";
-
-
-        backButton.onClick.RemoveAllListeners();
-
-        backButton.onClick.AddListener(() =>
-        {
-            DialogOneButton.SetActive(false);
-        });
-    }
 
 
     private void ShowProgressBar(string title, string details)
@@ -227,7 +185,6 @@ public class ListModuleSpecificationSettingView : MonoBehaviour, IModuleSpecific
     }
 
 
-
     public void ShowLoading(string title) => ShowProgressBar(title, "Đang tải dữ liệu...");
     public void HideLoading() => HideProgressBar();
     public void ShowError(string message)
@@ -235,11 +192,11 @@ public class ListModuleSpecificationSettingView : MonoBehaviour, IModuleSpecific
 
         if (GlobalVariable.APIRequestType.Contains("GET_ModuleSpecification_List"))
         {
-            OpenErrorGetListDialog();
+            OpenErrorDialog(title: "Tải danh sách thất bại", content: "Đã có lỗi xảy ra khi tải danh sách loại Module. Vui lòng thử lại sau");
         }
         if (GlobalVariable.APIRequestType.Contains("DELETE_ModuleSpecification"))
         {
-            OpenErrorDeletingDialog();
+            OpenErrorDialog();
         }
 
     }

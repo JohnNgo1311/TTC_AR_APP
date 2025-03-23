@@ -158,7 +158,7 @@ public class APIManager : MonoBehaviour
             {
                 Debug.Log("GetListRacks:+ " + webRequest.downloadHandler.text);
                 var rack_models = JsonConvert.DeserializeObject<List<RackBasicModel>>(webRequest.downloadHandler.text);
-                if (rack_models != null && rack_models.Count > 0)
+                if (rack_models != null && rack_models.Any())
                 {
                     temp_ListRackBasicModels = rack_models;
                     GlobalVariable.temp_ListRackBasicModels = rack_models;
@@ -561,7 +561,7 @@ public class APIManager : MonoBehaviour
     //         try
     //         {
     //             var list_DeviceInformationModel = JsonConvert.DeserializeObject<List<DeviceInformationModel>>(webRequest.downloadHandler.text);
-    //             if (list_DeviceInformationModel != null && list_DeviceInformationModel.Count > 0)
+    //             if (list_DeviceInformationModel != null && list_DeviceInformationModel.Any())
     //             {
     //                 GlobalVariable_Search_Devices.temp_ListDeviceInformationModelFromModule = list_DeviceInformationModel;
     //                 GlobalVariable_Search_Devices.temp_List_Device_For_Fitler = FilterListDevicesForSearching(list_DeviceInformationModel);
@@ -666,7 +666,7 @@ public class APIManager : MonoBehaviour
                     var listModuleInformationModel = JsonConvert.DeserializeObject<List<ModuleInformationModel>>(json);
                     Debug.Log("listModuleInformationModel.Count: " + listModuleInformationModel.Count);
 
-                    if (listModuleInformationModel != null && listModuleInformationModel.Count > 0)
+                    if (listModuleInformationModel != null && listModuleInformationModel.Any())
                     {
                         GlobalVariable.temp_ListModuleInformationModel = listModuleInformationModel;
                         GlobalVariable.temp_Dictionary_ModuleBasicModel.Clear();
@@ -726,10 +726,10 @@ public class APIManager : MonoBehaviour
                         GlobalVariable.temp_ModuleSpecificationBasicModel = null;
                         GlobalVariable.temp_AdapterSpecificationModel = null;
 
-                        // temp_ModuleInformationModel = moduleInformationModel;
-                        // // temp_ListJBInformationModelFromDevice = temp_ModuleInformationModel.ListJBInformationModel;
-                        // // temp_ListDeviceInformationModelFromModule_FromModule = temp_ModuleInformationModel.ListDeviceInformationModel_FromModule;
-                        // ModuleId = temp_ModuleInformationModel.Id;
+                        temp_ModuleInformationModel = moduleInformationModel;
+                        // temp_ListJBInformationModel_From_Module = temp_ModuleInformationModel.ListJBInformationModel;
+                        // temp_ListDeviceInformationModel_FromModule = temp_ModuleInformationModel.ListDeviceInformationModel;
+                        ModuleId = temp_ModuleInformationModel.Id;
 
                         // GlobalVariable.temp_ModuleInformationModel = temp_ModuleInformationModel;
 
@@ -784,7 +784,7 @@ public class APIManager : MonoBehaviour
                 {
                     string json = await response.Content.ReadAsStringAsync();
                     var list_DeviceInformationModel = JsonConvert.DeserializeObject<List<DeviceInformationModel>>(json);
-                    if (list_DeviceInformationModel != null && list_DeviceInformationModel.Count > 0)
+                    if (list_DeviceInformationModel != null && list_DeviceInformationModel.Any())
                     {
                         GlobalVariable_Search_Devices.temp_ListDeviceInformationModelFromModule = list_DeviceInformationModel;
                         GlobalVariable_Search_Devices.temp_List_Device_For_Fitler = FilterListDevicesForSearching(list_DeviceInformationModel);
@@ -933,7 +933,7 @@ public class APIManager : MonoBehaviour
                     var listJBInformationModel = JsonConvert.DeserializeObject<List<JBInformationModel>>(json);
                     Debug.Log("listJBInformationModel.Count: " + listJBInformationModel.Count);
 
-                    if (listJBInformationModel != null && listJBInformationModel.Count > 0)
+                    if (listJBInformationModel != null && listJBInformationModel.Any())
                     {
                         //  GlobalVariable_Search_Devices.temp_ListJBInformationModelFromModule
                         GlobalVariable.temp_ListJBInformationModelFromModule = listJBInformationModel;
@@ -1077,7 +1077,7 @@ public class APIManager : MonoBehaviour
     //         try
     //         {
     //             var list_JBInformationModel = JsonConvert.DeserializeObject<List<JBInformationModel>>(webRequest.downloadHandler.text);
-    //             if (list_JBInformationModel != null && list_JBInformationModel.Count > 0)
+    //             if (list_JBInformationModel != null && list_JBInformationModel.Any())
     //             {
     //                 GlobalVariable_Search_Devices.temp_ListJBInformationModelFromModule = list_JBInformationModel;
     //                 Debug.Log("GlobalVariable_Search_Devices.temp_ListJBInformationModelFromDevice.Count: " + GlobalVariable_Search_Devices.temp_ListJBInformationModelFromModule.Count);
@@ -1264,7 +1264,7 @@ public class ApiClient : MonoBehaviour
         try
         {
             var jbList = await _jbService.GetListJBInformationAsync(grapperId); // Gọi Service
-            if (jbList != null && jbList.Count > 0)
+            if (jbList != null && jbList.Any())
             {
                 foreach (var jb in jbList)
                     Debug.Log($"JB: {jb.Name}, Location: {jb.Location}");

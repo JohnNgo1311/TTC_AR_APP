@@ -271,6 +271,11 @@ using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
+using System.Threading.Tasks;
+using UnityEngine.XR;
+using System.Runtime.InteropServices;
+using System.Linq;
+
 
 public class Login_Btn_On_Click : MonoBehaviour
 {
@@ -336,8 +341,132 @@ public class Login_Btn_On_Click : MonoBehaviour
 
     private void HandleLogin()
     {
+        // FieldDeviceManager fieldDeviceManager = FindObjectOfType<FieldDeviceManager>();
+        // fieldDeviceManager.GetFieldDeviceById(1);
+        // CompanyManager CompanyManager = FindObjectOfType<CompanyManager>();
+        // GlobalVariable.APIRequestType = "GET_JB";
+
+
+
+        // jBManager.CreateNewJB(
+        //     1,
+        //     new JBRequestDto(
+        //         name: "JBName49",
+        //         location: "",
+        //         deviceBasicDtos: null,
+        //         moduleBasicDtos: null,
+        //         outdoorImageBasicDto: null,
+        //         connectionImageBasicDtos: null
+        //     )
+        // );
+        // jBManager.GetJBList(1);
+        // jBManager.CreateNewJB(
+        //     1,
+        //     new JBRequestDto(
+        //         name: "JBName49",
+        //         location: null,
+        //         deviceBasicDtos: null,
+        //         moduleBasicDtos: null,
+        //         outdoorImageBasicDto: null,
+        //         connectionImageBasicDtos: null
+        //     )
+        // );
+
+
+
+        //!  DeviceManager DeviceManager = FindObjectOfType<DeviceManager>();
+        //?DeviceManager.GetDeviceById(1);
+        //?DeviceManager.GetDeviceList(1);
+        // DeviceManager.DeleteDevice(1);
+        // DeviceManager.UpdateDevice(
+
+        //     new DeviceRequestDto(
+        //         code: "DeviceCode",
+        //         function: "DeviceFunction",
+        //         range: "hoho",
+        //         unit: "hello",
+        //         ioAddress: "alibabababa",
+        //         moduleBasicDto: null,
+        //         jbBasicDto: null,
+        //         additionalImageBasicDtos: null
+        //     )
+        // );
+
+
+        //! ModuleSpecificationManager ModuleSpecificationManager = FindObjectOfType<ModuleSpecificationManager>();
+        // ModuleSpecificationManager.DeleteModuleSpecification(2);
+        //ModuleSpecificationManager.GetModuleSpecificationById(2);
+        //ModuleSpecificationManager.GetModuleSpecificationList(1);
+        //    ModuleSpecificationManager.UpdateModuleSpecification(
+        //              new ModuleSpecificationRequestDto(
+        //                   code: "Hello world",
+        //                   type: "hello",
+        //                   numOfIO: "kitty",
+        //                   signalType: "ModuleSpecificationSignsdadsaasalType",
+        //                   compatibleTBUs: "ModuleSpecificationdsadasdasCompatibleTBUs",
+        //                   operatingVoltage: "ModuleSpecificationsdadsadasdOperatingVoltage",
+        //                   operatingCurrent: "ModuleSpecificatiodsadsanOperatingCurrent",
+        //                   flexbusCurrent: "ModuleSpecificationFlexsdadsadbusCurrent",
+        //                    alarm: "",
+        //                   note: "",
+        //                   pdfManual: ""
+        //              )
+        //          );
+        //! AdapterSpecificationManager AdapterSpecificationManager = FindObjectOfType<AdapterSpecificationManager>();
+        //? AdapterSpecificationManager.GetAdapterSpecificationList(1);
+        //?AdapterSpecificationManager.GetAdapterSpecificationById("12345");
+        //? AdapterSpecificationManager.UpdateAdapterSpecification(
+        //     new AdapterSpecificationRequestDto(
+        //         code: "adaadadada",
+        //         type: "Hello World",
+        //         communication: "AdapterSpecificationCommunication",
+        //         numOfModulesAllowed: "AdapterSpecificationNumOfModulesAllowed",
+        //         commSpeed: "",
+        //         inputSupply: "AdapterSpecificationInputSupply",
+        //         outputSupply: "AdapterSpecificationOutputSupply",
+        //         inrushCurrent: "AdapterSpecificationInrushCurrent",
+        //         alarm: "AdapterSpecificationAlarm",
+        //         note: "",
+        //         pdfManual: "AdapterSpecificationPdfManual"
+        //     )
+        // );
+        //? AdapterSpecificationManager.CreateNewAdapterSpecification(
+        //     1,
+        //     new AdapterSpecificationRequestDto(
+        //     code: "AdapterSpecificationName",
+        //     type: "AdapterSpecificationType",
+        //     communication: "AdapterSpecificationCommunication",
+        //     numOfModulesAllowed: "AdapterSpecificationNumOfModulesAllowed",
+        //     commSpeed: "AdapterSpecificationCommSpeed",
+        //     inputSupply: "AdapterSpecificationInputSupply",
+        //     outputSupply: "AdapterSpecificationOutputSupply",
+        //     inrushCurrent: "AdapterSpecificationInrushCurrent",
+        //     alarm: "AdapterSpecificationAlarm",
+        //     note: "AdapterSpecificationNote",
+        //     pdfManual: "AdapterSpecificationPdfManual"
+        //     )
+        // );
+
+
+        // FieldDeviceManager FieldDeviceManager = FindObjectOfType<FieldDeviceManager>();
+        // FieldDeviceManager._IFieldDeviceService.GetListFieldDeviceAsync("1");
+
+        // JBManager jBManager = FindObjectOfType<JBManager>();
+        // ImageManager imageManager = FindObjectOfType<ImageManager>();
+        // ModuleManager moduleManager = FindObjectOfType<ModuleManager>();
+
+        // GlobalVariable.APIRequestType.Clear();
+        // GlobalVariable.APIRequestType.Add("GET_JB_List_General");
+        // // GlobalVariable.APIRequestType.Add("GET_Device_List_General");
+        // GlobalVariable.APIRequestType.Add("GET_Module_List");
+
+
+
+
+        GlobalVariable.APIRequestType.Clear();
         // userName = userNameField.text;
         // password = passwordField.text;
+
         userName = "admin";
         password = "123456";
         if (staffAccounts.TryGetValue(userName.ToLower(), out string foundPassword) && foundPassword == password)
@@ -353,6 +482,7 @@ public class Login_Btn_On_Click : MonoBehaviour
     private IEnumerator HandleLoginSuccess()
     {
         UpdateGlobalVariables();
+        //  yield return GetInitialData();
         yield return LoadSceneAsync(targetSceneName);
     }
 
@@ -380,8 +510,32 @@ public class Login_Btn_On_Click : MonoBehaviour
         Show_Toast.Instance.Set_Instance_Status_True();
         Show_Toast.Instance.ShowToast("loading", "Đang đăng nhập...");
         GlobalVariable.ready_To_Nav_New_Scene = true;
+
+        // yield return new WaitUntil(() =>
+        //     GlobalVariable.temp_List_JBInformationModel.Any() &&
+        //     GlobalVariable.temp_List_DeviceInformationModel.Any() &&
+        //     GlobalVariable.temp_List_RackInformationModel.Any() &&
+        //     GlobalVariable.temp_List_ModuleSpecificationModel.Any() &&
+        //     GlobalVariable.temp_List_AdapterSpecificationModel.Any()
+
+        // );
+
         yield return Show_Toast.Instance.Set_Instance_Status_False();
 
-        SceneManager.LoadScene(sceneName);
+        SceneManager.LoadSceneAsync(sceneName);
     }
+
+    // private async Task GetInitialData()
+    // {
+    //     await Task.WhenAll(
+    //     // DeviceManager deviceManager = FindObjectOfType<DeviceManager>();
+    //     ManagerLocator.Instance.JBManager._IJBService.GetListJBGeneralAsync("1"),
+    //     ManagerLocator.Instance.DeviceManager._IDeviceService.GetListDeviceGeneralAsync("1"),
+    //     ManagerLocator.Instance.RackManager._IRackService.GetListRackAsync("1"),
+    //     ManagerLocator.Instance.ModuleSpecificationManager._IModuleSpecificationService.GetListModuleSpecificationAsync("1"),
+    //     ManagerLocator.Instance.AdapterSpecificationManager._IAdapterSpecificationService.GetListAdapterSpecificationAsync("1")
+    //     // deviceManager._IDeviceService.GetListDeviceGeneralAsync("1");
+    //     );
+
+    // }
 }

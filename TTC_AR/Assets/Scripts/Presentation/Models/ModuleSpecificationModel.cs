@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Reflection;
 using Newtonsoft.Json;
 using UnityEngine.Scripting;
-
+#nullable enable
 
 [Preserve]
 public class ModuleSpecificationModel
 {
-#nullable enable
+
   [JsonProperty("Id")]
   public string Id { get; set; } = string.Empty;
   [JsonProperty("Code")]

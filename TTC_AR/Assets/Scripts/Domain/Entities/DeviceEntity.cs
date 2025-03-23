@@ -46,7 +46,11 @@ namespace Domain.Entities
       };
       return !apiRequestType.Any(request => allowedRequests.Contains(request));
     }
+    public bool ShouldSerializeCode()
+    {
 
+      return true;
+    }
     public bool ShouldSerializeFunction()
     {
       List<string> apiRequestType = GlobalVariable.APIRequestType;
@@ -184,7 +188,7 @@ namespace Domain.Entities
       ModuleEntity = moduleEntity ?? null;
       JBEntity = jbEntity ?? null;
       AdditionalConnectionImageEntities = (additionalConnectionImageEntities == null
-         || (additionalConnectionImageEntities != null && additionalConnectionImageEntities.Count <= 0))
+         || (additionalConnectionImageEntities != null && !additionalConnectionImageEntities.Any()))
          ? new List<ImageEntity>() : additionalConnectionImageEntities;
     }
     [Preserve]
@@ -205,7 +209,7 @@ namespace Domain.Entities
       JBEntity = jbEntity ?? null;
 
       AdditionalConnectionImageEntities = (additionalConnectionImageEntities == null
-      || (additionalConnectionImageEntities != null && additionalConnectionImageEntities.Count <= 0))
+      || (additionalConnectionImageEntities != null && !additionalConnectionImageEntities.Any()))
       ? new List<ImageEntity>() : additionalConnectionImageEntities;
     }
   }

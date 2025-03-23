@@ -305,7 +305,7 @@ MonoBehaviour:
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 1, g: 1, b: 1, a: 1}
-    m_PressedColor: {r: 1, g: 1, b: 1, a: 1}
+    m_PressedColor: {r: 0.7843138, g: 0.7843138, b: 0.7843138, a: 1}
     m_SelectedColor: {r: 1, g: 1, b: 1, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
@@ -1296,7 +1296,6 @@ GameObject:
   - component: {fileID: 878477615}
   - component: {fileID: 878477616}
   - component: {fileID: 878477617}
-  - component: {fileID: 878477618}
   - component: {fileID: 878477619}
   m_Layer: 0
   m_Name: Scripts
@@ -1341,9 +1340,13 @@ MonoBehaviour:
   recentSceneName:
   - MenuScene
   - FieldDevicesScene
+  - ControlDeviceSelectGrapperSettingScene
+  - FieldDeviceSelectGrapperSettingScene
   listButton:
   - {fileID: 1301962903}
   - {fileID: 1692606981}
+  - {fileID: 1089426654}
+  - {fileID: 288180359}
 --- !u!114 &878477617
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1360,18 +1363,6 @@ MonoBehaviour:
   recentSceneName: LoginScene
   isOrientation: 0
   detail_Image: {fileID: 0}
---- !u!114 &878477618
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 878477614}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d641fb717414ecb429a48659d941b53c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &878477619
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1771,7 +1762,7 @@ MonoBehaviour:
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 1, g: 1, b: 1, a: 1}
-    m_PressedColor: {r: 1, g: 1, b: 1, a: 1}
+    m_PressedColor: {r: 0.7843138, g: 0.7843138, b: 0.7843138, a: 1}
     m_SelectedColor: {r: 1, g: 1, b: 1, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1

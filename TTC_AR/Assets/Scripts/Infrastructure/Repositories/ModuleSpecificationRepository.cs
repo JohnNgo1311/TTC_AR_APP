@@ -17,7 +17,7 @@ namespace Infrastructure.Repositories
     {
         private readonly HttpClient _httpClient;
 
-        private const string BaseUrl = "https://67176614b910c6a6e027ebfc.mockapi.io/api/v1/ModuleSpecification"; // URL server ngoài thực tế
+        private const string BaseUrl = "https://677ba70820824100c07a4e9f.mockapi.io/api/v3/ModuleSpecification"; // URL server ngoài thực tế
 
         public ModuleSpecificationRepository(HttpClient httpClient)
         {

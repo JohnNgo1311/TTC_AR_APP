@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 [System.Serializable]
-public class Resize_Gameobject_Function : MonoBehaviour
+public class Resize_GameObject_Function : MonoBehaviour
 {
 
   //public static bool isResize = false;
@@ -38,7 +38,6 @@ public class Resize_Gameobject_Function : MonoBehaviour
 
 
     yield return new WaitForEndOfFrame();
-    // Lấy kích thước gốc của hình ảnh
     float originalWidth = imageComponent.sprite.rect.width;
     float originalHeight = imageComponent.sprite.rect.height;
 

@@ -18,7 +18,7 @@ namespace ApplicationLayer.Dtos.JB
 
         [Preserve]
 
-        public JBGeneralDto(string id, string name, string location, ImageResponseDto? outdoorImageResponseDto, List<ImageResponseDto>? connectionImageResponseDtos) : base(id, name)
+        public JBGeneralDto(string id, string name, string? location, ImageResponseDto? outdoorImageResponseDto, List<ImageResponseDto>? connectionImageResponseDtos) : base(id, name)
         {
             Id = id;
             Name = string.IsNullOrEmpty(name) ? throw new ArgumentNullException(nameof(name)) : name;

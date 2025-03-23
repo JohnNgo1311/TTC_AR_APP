@@ -21,32 +21,32 @@ namespace ApplicationLayer.UseCases
             _ICompanyRepository = ICompanyRepository;
         }
 
-        // public async Task<List<CompanyResponseDto>> GetListCompanyAsync(int grapperId)
-        // {
-        //     try
-        //     {
-        //         var CompanyEntities = await _ICompanyRepository.GetListCompanyAsync(grapperId);
+        public async Task<List<CompanyResponseDto>> GetListCompanyAsync()
+        {
+            try
+            {
+                var CompanyEntities = await _ICompanyRepository.GetListCompanyAsync();
 
-        //         if (CompanyEntities == null)
-        //         {
-        //             throw new ApplicationException("Failed to get Company list");
-        //         }
-        //         else
-        //         {
+                if (CompanyEntities == null)
+                {
+                    throw new ApplicationException("Failed to get Company list");
+                }
+                else
+                {
 
-        //             return CompanyEntities.Select(MapToResponseDto).ToList();
-        //         }
+                    return CompanyEntities.Select(MapToResponseDto).ToList();
+                }
 
-        //     }
-        //     catch (ArgumentException)
-        //     {
-        //         throw; // Ném lại lỗi validation cho Unity xử lý
-        //     }
-        //     catch (Exception ex)
-        //     {
-        //         throw new ApplicationException("Failed to get Company list", ex);
-        //     }
-        // }
+            }
+            catch (ArgumentException)
+            {
+                throw; // Ném lại lỗi validation cho Unity xử lý
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationException("Failed to get Company list", ex);
+            }
+        }
         public async Task<CompanyResponseDto> GetCompanyByIdAsync(string CompanyId)
         {
             try
@@ -81,9 +81,9 @@ namespace ApplicationLayer.UseCases
             return new CompanyResponseDto(
                 id: companyEntity.Id,
                 name: companyEntity.Name,
-                grapperBasicDtos: companyEntity.GrapperEntities.Count > 0 ? companyEntity.GrapperEntities.Select(grapperEntity => new GrapperBasicDto(grapperEntity.Id, grapperEntity.Name)).ToList() : new List<GrapperBasicDto>(),
-                moduleSpecificationBasicDtos: companyEntity.ModuleSpecificationEntities.Count > 0 ? companyEntity.ModuleSpecificationEntities.Select(moduleSpecificationEntity => new ModuleSpecificationBasicDto(moduleSpecificationEntity.Id, moduleSpecificationEntity.Code)).ToList() : new List<ModuleSpecificationBasicDto>(),
-                adapterSpecificationBasicDtos: companyEntity.AdapterSpecificationEntities.Count > 0 ? companyEntity.AdapterSpecificationEntities.Select(adapterSpecificationEntity => new AdapterSpecificationBasicDto(adapterSpecificationEntity.Id, adapterSpecificationEntity.Code)).ToList() : new List<AdapterSpecificationBasicDto>()
+                grapperBasicDtos: companyEntity.GrapperEntities.Any() ? companyEntity.GrapperEntities.Select(grapperEntity => new GrapperBasicDto(grapperEntity.Id, grapperEntity.Name)).ToList() : new List<GrapperBasicDto>(),
+                moduleSpecificationBasicDtos: companyEntity.ModuleSpecificationEntities.Any() ? companyEntity.ModuleSpecificationEntities.Select(moduleSpecificationEntity => new ModuleSpecificationBasicDto(moduleSpecificationEntity.Id, moduleSpecificationEntity.Code)).ToList() : new List<ModuleSpecificationBasicDto>(),
+                adapterSpecificationBasicDtos: companyEntity.AdapterSpecificationEntities.Any() ? companyEntity.AdapterSpecificationEntities.Select(adapterSpecificationEntity => new AdapterSpecificationBasicDto(adapterSpecificationEntity.Id, adapterSpecificationEntity.Code)).ToList() : new List<AdapterSpecificationBasicDto>()
             );
         }
 

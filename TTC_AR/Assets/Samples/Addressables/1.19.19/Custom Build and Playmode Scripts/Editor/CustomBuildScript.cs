@@ -222,7 +222,7 @@ public class CustomBuildScript : BuildScriptBase
         var tempPath = Path.GetDirectoryName(Application.dataPath) + "/" + Addressables.LibraryPath + PlatformMappingService.GetPlatformPathSubFolder() + "/addressables_content_state.bin";
 
         var playerBuildVersion = builderInput.PlayerVersion;
-        if (m_AllBundleInputDefs.Count > 0)
+        if (m_AllBundleInputDefs.Any())
         {
             if (!BuildUtility.CheckModifiedScenesAndAskToSave())
                 return AddressableAssetBuildResult.CreateResult<TResult>(null, 0, "Unsaved scenes");
@@ -608,7 +608,7 @@ public class CustomBuildScript : BuildScriptBase
         foreach (var loc in assetEntries)
         {
             AddressableAssetEntry processedEntry = loc;
-            if (loc.IsFolder && loc.SubAssets.Count > 0)
+            if (loc.IsFolder && loc.SubAssets.Any())
                 processedEntry = loc.SubAssets[0];
             GUID guid = new GUID(processedEntry.guid);
             //For every entry in the write data we need to ensure the BundleFileId is set so we can save it correctly in the cached state
@@ -917,9 +917,9 @@ public class CustomBuildScript : BuildScriptBase
             else
                 assets.Add(e);
         }
-        if (assets.Count > 0)
+        if (assets.Any())
             buildInputDefs.Add(GenerateBuildInputDefinition(assets, groupGuid + "_assets_" + address + ".bundle"));
-        if (scenes.Count > 0)
+        if (scenes.Any())
             buildInputDefs.Add(GenerateBuildInputDefinition(scenes, groupGuid + "_scenes_" + address + ".bundle"));
     }
 

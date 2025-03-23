@@ -7,6 +7,8 @@ using UnityEngine.SceneManagement;
 using System.Linq;
 using System;
 using EasyUI.Progress;
+using System.Threading.Tasks;
+using OpenCVForUnity.VideoModule;
 
 public class Update_JB_TSD_Detail_UI : MonoBehaviour
 {
@@ -25,18 +27,21 @@ public class Update_JB_TSD_Detail_UI : MonoBehaviour
     private List<GameObject> instantiatedImages = new List<GameObject>();
     private string jb_name;
 
-    private void OnEnable()
+    private void Awake()
     {
         canvas_Parent ??= GetComponentInParent<Canvas>();
         jB_TSD_Detail_Panel_Prefab ??= canvas_Parent.transform.Find("Detail_JB_TSD").gameObject;
         scroll_Area ??= jB_TSD_Detail_Panel_Prefab.transform.Find("Scroll_Area").GetComponent<ScrollRect>();
+        InitializeReferences();
+    }
+
+    private void OnEnable()
+    {
+        UpdateTitle();
+        // Chạy hai hàm song song bằng coroutines
+        RunApplyFunctions();
         scroll_Area.verticalNormalizedPosition = 1f;
 
-        InitializeReferences();
-        UpdateTitle();
-
-        // Chạy hai hàm song song bằng coroutines
-        StartCoroutine(RunApplyFunctions());
         // Debug.Log("Update_JB_TSD_Detail_UI is enabled");
     }
 
@@ -70,95 +75,60 @@ public class Update_JB_TSD_Detail_UI : MonoBehaviour
         }
     }
 
-    private IEnumerator RunApplyFunctions()
+    private async void RunApplyFunctions()
     {
-        // Chờ cả hai coroutines kết thúc
-        // Show_Toast.Instance.Set_Instance_Status_True();
-        // Show_Toast.Instance.ShowToast("loading", "Đang tải hình ảnh...");
         ShowProgressBar("Đang tải hình ảnh...", "Vui lòng chờ...");
 
-        yield return new WaitUntil(() => StaticVariable.ready_To_Update_Images_UI);
-        StaticVariable.ready_To_Update_Images_UI = false;
-
-        // Chạy song song ApplyLocationSprite và ApplyConnectionSprites
-        yield return ApplyConnectionSprites();
-        yield return new WaitForSeconds(2.2f);
-        yield return ApplyLocationSprite();
-        if (SceneManager.GetActiveScene().name == "GrapperAScanScene")
+        //Hàm khác
+        var tasks = new List<Task>
         {
-            jb_Infor_Item_Prefab.GetComponent<ContentSizeFitter>().gameObject.SetActive(true);
-            jb_Infor_Item_Prefab.GetComponent<ContentSizeFitter>().enabled = true;
-            yield return null;
-            scroll_Area_Content.GetComponent<ContentSizeFitter>().gameObject.SetActive(true);
-            scroll_Area_Content.GetComponent<ContentSizeFitter>().enabled = true;
+            LoadImage.Instance.LoadImageFromUrlAsync(StaticVariable.temp_JBInformationModel.OutdoorImage.url, jb_location_imagePrefab)
+        };
+
+        jb_connection_imagePrefab.gameObject.SetActive(true);
+        foreach (var image in StaticVariable.temp_JBInformationModel.ListConnectionImages)
+        {
+            // Debug.Log("image.url: " + image.url);
+            var new_jb_connection_image = Instantiate(jb_connection_imagePrefab, scroll_Area_Content.transform);
+            instantiatedImages.Add(new_jb_connection_image.gameObject);
+            tasks.Add(LoadImage.Instance.LoadImageFromUrlAsync(image.url, new_jb_connection_image));
         }
+
+        if (!StaticVariable.temp_DeviceInformationModel.TryGetValue(StaticVariable.device_Code, out var device))
+        {
+            Debug.Log("device is null");
+        }
+        else
+        {
+            // jb_connection_imagePrefab.gameObject.SetActive(true);
+            foreach (var image in device.AdditionalConnectionImages)
+            {
+                var new_Additional_Image = Instantiate(jb_connection_imagePrefab, scroll_Area_Content.transform);
+                instantiatedImages.Add(new_Additional_Image.gameObject);
+                tasks.Add(LoadImage.Instance.LoadImageFromUrlAsync(image.url, new_Additional_Image));
+            }
+        }
+        jb_connection_imagePrefab.gameObject.SetActive(false);
+
+        await Task.WhenAll(tasks);
+
+        //Resize hình ảnh
+        StartCoroutine(Resize_GameObject_Function.Set_NativeSize_For_GameObject(jb_location_imagePrefab));
+        foreach (var image in instantiatedImages)
+        {
+            StartCoroutine(Resize_GameObject_Function.Set_NativeSize_For_GameObject(image.GetComponent<Image>()));
+        }
+
+        // if (SceneManager.GetActiveScene().name == "GrapperAScanScene")
+        // {
+        //     jb_Infor_Item_Prefab.GetComponent<ContentSizeFitter>().gameObject.SetActive(true);
+        //     jb_Infor_Item_Prefab.GetComponent<ContentSizeFitter>().enabled = true;
+        //     // yield return null;
+        //     scroll_Area_Content.GetComponent<ContentSizeFitter>().gameObject.SetActive(true);
+        //     scroll_Area_Content.GetComponent<ContentSizeFitter>().enabled = true;
+        // }
         // yield return Show_Toast.Instance.Set_Instance_Status_False();
         HideProgressBar();
-    }
-
-    private IEnumerator ApplyLocationSprite()
-    {
-        if (StaticVariable.temp_listJBLocationImageFromModule != null &&
-            StaticVariable.temp_listJBLocationImageFromModule.TryGetValue(jb_name, out var texture))
-        {
-            if (texture != null)
-            {
-                if (texture.width == 2 && texture.height == 2)
-                {
-                    jb_location_title.gameObject.SetActive(false);
-                    jb_location_value.gameObject.SetActive(false);
-                    jb_location_imagePrefab.gameObject.SetActive(false);
-                    jb_Infor_Item_Prefab.SetActive(false);
-                }
-                else
-                {
-                    if (!jb_Infor_Item_Prefab.gameObject.activeSelf) jb_Infor_Item_Prefab.SetActive(true);
-                    if (!jb_location_title.gameObject.activeSelf) jb_location_title.gameObject.SetActive(true);
-                    if (!jb_location_value.gameObject.activeSelf) jb_location_value.gameObject.SetActive(true);
-                    if (!jb_location_imagePrefab.gameObject.activeSelf) jb_location_imagePrefab.gameObject.SetActive(true);
-                    jb_location_imagePrefab.sprite = Texture_To_Sprite.ConvertTextureToSprite(texture);
-                    yield return Resize_Gameobject_Function.Set_NativeSize_For_GameObject(jb_location_imagePrefab);
-                    yield return new WaitForSeconds(0.2f);
-                }
-            }
-            else
-            {
-                Debug.Log("texture is null");
-            }
-        }
-    }
-
-    private IEnumerator ApplyConnectionSprites()
-    {
-        if (StaticVariable.temp_listJBConnectionImageFromModule != null &&
-            StaticVariable.temp_listJBConnectionImageFromModule.TryGetValue(jb_name, out var list_Texture))
-        {
-            if (list_Texture.Any())
-            {
-                if (list_Texture.Count == 1)
-                {
-                    jb_connection_imagePrefab.sprite = Texture_To_Sprite.ConvertTextureToSprite(list_Texture[0]);
-                    jb_connection_imagePrefab.gameObject.SetActive(true);
-                    yield return Resize_Gameobject_Function.Set_NativeSize_For_GameObject(jb_connection_imagePrefab);
-                    yield return new WaitForSeconds(0.2f);
-                }
-                else
-                {
-                    // Debug.Log("list_Texture.Count: " + list_Texture.Count);
-                    foreach (var texture in list_Texture)
-                    {
-                        var imageObject = Instantiate(jb_connection_imagePrefab, scroll_Area_Content.transform);
-                        instantiatedImages.Add(imageObject.gameObject);
-                        imageObject.sprite = Texture_To_Sprite.ConvertTextureToSprite(texture);
-                        imageObject.gameObject.SetActive(true);
-
-                        yield return Resize_Gameobject_Function.Set_NativeSize_For_GameObject(imageObject);
-                        yield return new WaitForSeconds(0.2f);
-                    }
-                    jb_connection_imagePrefab.gameObject.SetActive(false);
-                }
-            }
-        }
     }
 
     private void ClearInstantiatedImageObjects()

@@ -20,14 +20,14 @@ public class ImagePresenter
     public async void LoadListImage(string grapperId)
     {
         GlobalVariable.APIRequestType.Add("GET_Image_List");
-                _view.ShowLoading("Đang tải dữ liệu...");
+        _view.ShowLoading("Đang tải dữ liệu...");
 
         try
         {
             var ImageBasicDto = await _service.GetListImageAsync(grapperId);
             if (ImageBasicDto != null)
             {
-                if (ImageBasicDto.Count > 0)
+                if (ImageBasicDto.Any())
                 {
                     var models = ImageBasicDto.Select(dto => ConvertFromBasicDto(dto)).ToList();
 
@@ -63,7 +63,7 @@ public class ImagePresenter
     public async void LoadDetailById(string ImageId)
     {
         GlobalVariable.APIRequestType.Add("GET_Image");
-                _view.ShowLoading("Đang tải dữ liệu...");
+        _view.ShowLoading("Đang tải dữ liệu...");
 
         try
         {
@@ -92,7 +92,7 @@ public class ImagePresenter
     public async void CreateNewImage(string grapperId, ImageInformationModel model)
     {
         GlobalVariable.APIRequestType.Add("POST_Image");
-                _view.ShowLoading("Đang thực hiện...");
+        _view.ShowLoading("Đang thực hiện...");
 
         try
         {
@@ -121,7 +121,7 @@ public class ImagePresenter
     public async void DeleteImage(string ImageId)
     {
         GlobalVariable.APIRequestType.Add("DELETE_Image");
-                _view.ShowLoading("Đang thực hiện...");
+        _view.ShowLoading("Đang thực hiện...");
 
         try
         {

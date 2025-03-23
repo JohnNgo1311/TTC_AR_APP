@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.Linq;
 
 public class Update_Field_Device_Connection_Screen : MonoBehaviour
 {
@@ -73,7 +74,7 @@ public class Update_Field_Device_Connection_Screen : MonoBehaviour
         if (GlobalVariable.temp_ListFieldDeviceConnectionImages != null)
         {
             var list_Texture = GlobalVariable.temp_ListFieldDeviceConnectionImages;
-            if (list_Texture.Count > 0)
+            if (list_Texture.Any())
             {
                 if (list_Texture.Count == 1)
                 {
@@ -89,7 +90,7 @@ public class Update_Field_Device_Connection_Screen : MonoBehaviour
                         instantiatedImages.Add(imageObject.gameObject);
                         imageObject.sprite = Texture_To_Sprite.ConvertTextureToSprite(texture);
                         imageObject.gameObject.SetActive(true);
-                        yield return StartCoroutine(Resize_Gameobject_Function.Set_NativeSize_For_GameObject(imageObject));
+                        yield return StartCoroutine(Resize_GameObject_Function.Set_NativeSize_For_GameObject(imageObject));
 
                     }
                     connection_ImagePrefab.gameObject.SetActive(false);

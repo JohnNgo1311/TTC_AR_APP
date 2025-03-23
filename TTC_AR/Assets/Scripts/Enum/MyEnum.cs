@@ -51,7 +51,6 @@ public enum HttpMethodTypeEnum
     //?Module
     [Description("GET_Module_List")] GETListModule,
     [Description("GET_Module")] GETModule,
-
     [Description("POST_Module")] POSTModule,
     [Description("PUT_Module")] PUTModule,
     [Description("DELETE_Module")] DELETEModule,

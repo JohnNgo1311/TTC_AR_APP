@@ -10,7 +10,7 @@ namespace ApplicationLayer.Interfaces
     public interface IMccService
     {
         Task<MccResponseDto> GetMccByIdAsync(string MccId);
-        Task<List<MccBasicDto>> GetListMccAsync(string grapperId);
+        Task<IEnumerable<MccBasicDto>> GetListMccAsync(string grapperId);
         Task<bool> CreateNewMccAsync(string grapperId, MccRequestDto mccRequestDto);
         Task<bool> UpdateMccAsync(string mccId, MccRequestDto mccRequestDto);
         Task<bool> DeleteMccAsync(string MccId);

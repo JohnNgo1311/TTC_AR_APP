@@ -29,7 +29,7 @@ namespace Infrastructure.Repositories
         {
             try
             {
-                var response = await _httpClient.GetAsync($"/api/Module/{ModuleId}");
+                var response = await _httpClient.GetAsync($"{BaseUrl}/{ModuleId}");
                 if (!response.IsSuccessStatusCode)
                 {
                     throw new HttpRequestException($"Failed to get Module. Status: {response.StatusCode}");
@@ -38,7 +38,6 @@ namespace Infrastructure.Repositories
                 {
                     var content = await response.Content.ReadAsStringAsync();
                     return JsonConvert.DeserializeObject<ModuleEntity>(content);
-
                 }
             }
             catch (HttpRequestException ex)
@@ -80,6 +79,8 @@ namespace Infrastructure.Repositories
         {
             try
             {
+                UnityEngine.Debug.Log("Run Repository");
+
                 // Tạo dữ liệu tối giản gửi lên server với tên property khớp yêu cầu
                 //  var ModuleRequestData = ConvertModuleRequestData(ModuleEntity);
 
@@ -87,7 +88,7 @@ namespace Infrastructure.Repositories
 
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-                var response = await _httpClient.PostAsync($"/api/Module/grapper/{grapperId}", content);
+                var response = await _httpClient.PostAsync($"{BaseUrl}", content);
 
                 if (!response.IsSuccessStatusCode)
                     throw new HttpRequestException($"Failed to create Module. Status: {response.StatusCode}");
@@ -112,7 +113,7 @@ namespace Infrastructure.Repositories
 
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-                var response = await _httpClient.PutAsync($"/api/Module/{ModuleId}", content);
+                var response = await _httpClient.PutAsync($"{BaseUrl}/{ModuleId}", content);
 
                 if (!response.IsSuccessStatusCode)
                     throw new HttpRequestException($"Failed to update Module. Status: {response.StatusCode}");
@@ -133,7 +134,7 @@ namespace Infrastructure.Repositories
         {
             try
             {
-                var response = await _httpClient.DeleteAsync($"/api/Module/{ModuleId}");
+                var response = await _httpClient.DeleteAsync($"{BaseUrl}/{ModuleId}");
                 if (!response.IsSuccessStatusCode)
                     throw new HttpRequestException($"Failed to Delete Module. Status: {response.StatusCode}");
 

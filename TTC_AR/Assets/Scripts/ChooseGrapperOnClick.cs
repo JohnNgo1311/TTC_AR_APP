@@ -28,22 +28,22 @@ public class ChooseGrapperOnClick : MonoBehaviour
         {
 
         }
-        else StartCoroutine(HandleButtonClick());
+        //! else StartCoroutine(HandleButtonClick());
         // Vô hiệu hóa nút để không thể click lại trong quá trình xử lý
     }
 
-    private IEnumerator HandleButtonClick()
-    {// Vô hiệu hóa nút để không thể click lại trong quá trình xử lý
-        APIManager.Instance.GrapperId = APIManager.Instance.Dic_GrapperBasicNonListRackModels[grapperName];
-        Debug.Log($"Grapper ID: {APIManager.Instance.GrapperId}");
-        getAllDataByGrapperForSearching.grapperId = APIManager.Instance.GrapperId;
-        GlobalVariable.GrapperId = APIManager.Instance.GrapperId;
-        yield return SelectGrapperOnClick();
-        Debug.Log("Button Clicked!" + GlobalVariable.GrapperId);
-        eventPublisher.TriggerEvent_ButtonClicked();
-        yield return new WaitForSeconds(2f);
-        if (!onClickButton.interactable) onClickButton.interactable = true;
-    }
+    // private IEnumerator HandleButtonClick()
+    // {// Vô hiệu hóa nút để không thể click lại trong quá trình xử lý
+    //     APIManager.Instance.GrapperId = APIManager.Instance.Dic_GrapperBasicNonListRackModels[grapperName];
+    //     Debug.Log($"Grapper ID: {APIManager.Instance.GrapperId}");
+    //     getAllDataByGrapperForSearching.grapperId = APIManager.Instance.GrapperId;
+    //     GlobalVariable.GrapperId = APIManager.Instance.GrapperId;
+    //     yield return SelectGrapperOnClick();
+    //     Debug.Log("Button Clicked!" + GlobalVariable.GrapperId);
+    //     eventPublisher.TriggerEvent_ButtonClicked();
+    //     yield return new WaitForSeconds(2f);
+    //     if (!onClickButton.interactable) onClickButton.interactable = true;
+    // }
 
     private IEnumerator SelectGrapperOnClick()
     {

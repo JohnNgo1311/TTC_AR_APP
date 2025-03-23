@@ -5,6 +5,7 @@ using System.Net.Http;
 using ApplicationLayer.Dtos.ModuleSpecification;
 using Domain.Entities;
 using ApplicationLayer.Interfaces;
+using System.Linq;
 
 
 public class ModuleSpecificationManager : MonoBehaviour
@@ -26,10 +27,9 @@ public class ModuleSpecificationManager : MonoBehaviour
         try
         {
             var ModuleSpecificationList = await _IModuleSpecificationService.GetListModuleSpecificationAsync(companyId); //! Gọi _IModuleSpecificationService từ Application Layer
-            if (ModuleSpecificationList != null && ModuleSpecificationList.Count > 0)
+            if (ModuleSpecificationList != null && ModuleSpecificationList.Any())
             {
-                GlobalVariable.temp_ListModuleSpecificationBasicDto = ModuleSpecificationList;
-
+                GlobalVariable.temp_ListModuleSpecificationBasicDto = ModuleSpecificationList.ToList();
                 foreach (var ModuleSpecification in ModuleSpecificationList)
                     Debug.Log($"ModuleSpecification: {ModuleSpecification.Code}");
             }

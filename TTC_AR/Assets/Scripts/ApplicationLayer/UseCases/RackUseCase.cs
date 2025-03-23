@@ -25,15 +25,38 @@ namespace ApplicationLayer.UseCases
         {
             try
             {
-                var RackEntities = await _IRackRepository.GetListRackAsync(grapperId);
+                // var RackEntities = await _IRackRepository.GetListRackAsync(grapperId) ??
+                //     throw new ApplicationException("Failed to get Rack list");
+                // return RackEntities.Select(RackEntity => MapToBasicDto(RackEntity)).ToList();
 
-                if (RackEntities == null)
+                var RackEntities = await _IRackRepository.GetListRackAsync(grapperId) ??
+
+                throw new ApplicationException("Failed to get Rack list");
+
+                int count = RackEntities.Count;
+
+                var RackBasicDtos = new List<RackBasicDto>(count);
+
+                var listRackInfo = new List<RackInformationModel>(count);
+
+                var dictRackInfo = new Dictionary<string, RackInformationModel>(count);
+
+                foreach (var RackEntity in RackEntities)
                 {
-                    throw new ApplicationException("Failed to get Rack list");
+                    var dto = MapToBasicDto(RackEntity);
+                    var model = new RackInformationModel(dto.Id, dto.Name);
+
+                    RackBasicDtos.Add(dto);
+                    listRackInfo.Add(model);
+                    dictRackInfo[dto.Name] = model;
                 }
 
-                var RackResponseDtos = RackEntities.Select(RackEntity => MapToBasicDto(RackEntity)).ToList();
-                return RackResponseDtos;
+                GlobalVariable.temp_List_RackInformationModel = listRackInfo;
+                GlobalVariable.temp_Dictionary_RackInformationModel = dictRackInfo;
+
+                return RackBasicDtos;
+
+
             }
             catch (ArgumentException)
             {
@@ -49,15 +72,10 @@ namespace ApplicationLayer.UseCases
         {
             try
             {
-                var RackEntity = await _IRackRepository.GetRackByIdAsync(RackId);
-
-                if (RackEntity == null)
-                {
+                var RackEntity = await _IRackRepository.GetRackByIdAsync(RackId) ??
                     throw new ApplicationException("Failed to get Rack");
-                }
 
-                var RackResponseDto = MapToResponseDto(RackEntity);
-                return RackResponseDto;
+                return MapToResponseDto(RackEntity);
             }
             catch (ArgumentException)
             {
@@ -79,12 +97,9 @@ namespace ApplicationLayer.UseCases
                     throw new ArgumentException("Name cannot be empty");
                 }
 
-                var RackEntity = MapRequestToEntity(requestDto);
-
-                if (RackEntity == null)
-                {
+                var RackEntity = MapRequestToEntity(requestDto) ??
                     throw new ApplicationException("Failed to create Rack cause RackEntity is Null");
-                }
+
 
                 return await _IRackRepository.CreateNewRackAsync(grapperId, RackEntity);
             }
@@ -108,12 +123,8 @@ namespace ApplicationLayer.UseCases
                     throw new ArgumentException("Name cannot be empty");
                 }
 
-                var RackEntity = MapRequestToEntity(requestDto);
-
-                if (RackEntity == null)
-                {
+                var RackEntity = MapRequestToEntity(requestDto) ??
                     throw new ApplicationException("Failed to update Rack cause RackEntity is Null");
-                }
 
                 return await _IRackRepository.UpdateRackAsync(RackId, RackEntity);
             }
@@ -144,28 +155,33 @@ namespace ApplicationLayer.UseCases
             }
         }
 
-        //! Dto => Entity
         private RackEntity MapRequestToEntity(RackRequestDto RackRequestDto)
         {
+            int count = RackRequestDto.ModuleBasicDtos?.Count ?? 0; // Lấy số lượng phần tử trước
             return new RackEntity(
                 name: RackRequestDto.Name,
-                moduleEntities: (RackRequestDto.ModuleBasicDtos == null || RackRequestDto.ModuleBasicDtos.Count <= 0)
-                    ? new List<ModuleEntity>()
-                    : RackRequestDto.ModuleBasicDtos.Select(module => new ModuleEntity(module.Id, module.Name)).ToList()
+                moduleEntities: count == 0
+                    ? new List<ModuleEntity>() // Nếu không có dữ liệu, trả về danh sách rỗng
+                    : new List<ModuleEntity>(RackRequestDto.ModuleBasicDtos.Select(module => new ModuleEntity(module.Id, module.Name)))
             );
         }
 
+
+
         //! Entity => Dto
-        private RackResponseDto MapToResponseDto(RackEntity RackEntity)
+        private RackResponseDto MapToResponseDto(RackEntity rackEntity)
         {
+            var moduleEntities = rackEntity.ModuleEntities;
+
             return new RackResponseDto(
-                id: RackEntity.Id,
-                name: RackEntity.Name,
-                moduleBasicDtos: RackEntity.ModuleEntities.Count > 0
-                    ? RackEntity.ModuleEntities.Select(m => new ModuleBasicDto(m.Id, m.Name)).ToList()
-                    : new List<ModuleBasicDto>()
+                id: rackEntity.Id,
+                name: rackEntity.Name,
+                moduleBasicDtos: moduleEntities.Any()
+                    ? moduleEntities.Select(m => new ModuleBasicDto(m.Id, m.Name)).ToList()
+                    : new()
             );
         }
+
 
         private RackBasicDto MapToBasicDto(RackEntity RackEntity)
         {

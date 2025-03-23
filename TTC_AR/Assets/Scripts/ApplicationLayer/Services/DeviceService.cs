@@ -25,17 +25,19 @@ namespace ApplicationLayer.Services
         //! Tham số là Dto, Dữ liệu trả về là Dto
         public async Task<DeviceResponseDto> GetDeviceByIdAsync(string id)
         {
+            UnityEngine.Debug.Log("Run Service");
+
             return await _DeviceUseCase.GetDeviceByIdAsync(id);
         }
-        public async Task<List<DeviceBasicDto>> GetListDeviceGeneralAsync(string grapperId)
+        public async Task<IEnumerable<DeviceBasicDto>> GetListDeviceGeneralAsync(string grapperId)
         {
             return await _DeviceUseCase.GetListDeviceGeneralAsync(grapperId);
         }
-        public async Task<List<DeviceResponseDto>> GetListDeviceInformationFromGrapperAsync(string grapperId)
+        public async Task<IEnumerable<DeviceResponseDto>> GetListDeviceInformationFromGrapperAsync(string grapperId)
         {
             return await _DeviceUseCase.GetListDeviceInformationFromGrapperAsync(grapperId);
         }
-        public async Task<List<DeviceResponseDto>> GetListDeviceInformationFromModuleAsync(string moduleId)
+        public async Task<IEnumerable<DeviceResponseDto>> GetListDeviceInformationFromModuleAsync(string moduleId)
         {
             return await _DeviceUseCase.GetListDeviceInformationFromModuleAsync(moduleId);
         }

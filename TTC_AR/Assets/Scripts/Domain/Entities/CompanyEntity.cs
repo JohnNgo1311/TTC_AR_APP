@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Newtonsoft.Json;
 using UnityEngine.Scripting;
 #nullable enable
@@ -40,8 +41,30 @@ namespace Domain.Entities
       Id = id;
       Name = string.IsNullOrEmpty(name) ? throw new ArgumentNullException(nameof(name)) : name;
       GrapperEntities = grapperEntities;
-      ModuleSpecificationEntities = (moduleSpecificationEntities == null || (moduleSpecificationEntities != null && moduleSpecificationEntities.Count <= 0)) ? new List<ModuleSpecificationEntity>() : moduleSpecificationEntities; ;
-      AdapterSpecificationEntities = (adapterSpecificationEntities == null || (adapterSpecificationEntities != null && adapterSpecificationEntities.Count <= 0)) ? new List<AdapterSpecificationEntity>() : adapterSpecificationEntities; ;
+      ModuleSpecificationEntities = (moduleSpecificationEntities == null || (moduleSpecificationEntities != null && !moduleSpecificationEntities.Any())) ? new List<ModuleSpecificationEntity>() : moduleSpecificationEntities; ;
+      AdapterSpecificationEntities = (adapterSpecificationEntities == null || (adapterSpecificationEntities != null && !adapterSpecificationEntities.Any())) ? new List<AdapterSpecificationEntity>() : adapterSpecificationEntities; ;
+    }
+    public bool ShouldSerializeId()
+    {
+      return true;
+    }
+
+    public bool ShouldSerializeName()
+    {
+      return true;
+    }
+    public bool ShouldSerializeGrapperEntities()
+    {
+      return true;
+    }
+    public bool ShouldSerializeModuleSpecificationEntities()
+    {
+      return true;
+    }
+
+    public bool ShouldSerializeAdapterSpecificationEntities()
+    {
+      return true;
     }
   }
 }

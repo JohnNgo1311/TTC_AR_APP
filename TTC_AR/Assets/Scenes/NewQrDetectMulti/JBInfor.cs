@@ -19,14 +19,21 @@ public class JBInfor : MonoBehaviour
     {
         jbButton.gameObject.SetActive(true);
         Name.text = jb.Name;
-        Location.text = jb.Location;
-        Location.alignment = TextAlignmentOptions.Left;
+        if (jb.Location == null)
+        {
+            Location.text = "Chưa cập nhật JB/TSD kết nối";
+        }
+        else
+        {
+            Location.text = jb.Location;
+        }
+        // Location.alignment = TextAlignmentOptions.Left;
     }
 
     public void NoDeviceMessage()
     {
         jbButton.gameObject.SetActive(false);
-        Location.text = "Không có thiết bị nào được kết nối";
-        Location.alignment = TextAlignmentOptions.Center;
+        Location.text = "Chưa cập nhật JB/TSD kết nối";
+        // Location.alignment = TextAlignmentOptions.Center;
     }
 }

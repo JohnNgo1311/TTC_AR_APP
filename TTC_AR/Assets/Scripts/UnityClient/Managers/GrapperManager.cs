@@ -37,7 +37,7 @@ public class GrapperManager : MonoBehaviour
         try
         {
             var GrapperList = await _IGrapperService.GetListGrapperAsync(grapperId); //! Gọi _IGrapperService từ Application Layer
-            if (GrapperList != null && GrapperList.Count > 0)
+            if (GrapperList != null && GrapperList.Any())
             {
                 foreach (var Grapper in GrapperList)
                     Debug.Log($"Grapper: {Grapper.Name}");

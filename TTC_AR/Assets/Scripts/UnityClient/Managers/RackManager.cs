@@ -37,7 +37,7 @@ public class RackManager : MonoBehaviour
         try
         {
             var RackList = await _IRackService.GetListRackAsync(RackId); //! Gọi _IRackService từ Application Layer
-            if (RackList != null && RackList.Count > 0)
+            if (RackList != null && RackList.Any())
             {
                 foreach (var Rack in RackList)
                     Debug.Log($"Rack: {Rack.Name}");

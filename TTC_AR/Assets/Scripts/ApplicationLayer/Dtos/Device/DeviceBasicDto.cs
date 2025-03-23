@@ -7,7 +7,7 @@ using UnityEngine.Scripting;
 #nullable enable
 
 namespace ApplicationLayer.Dtos.Device
-{ 
+{
     [Preserve]
     public class DeviceBasicDto
     {
@@ -19,7 +19,7 @@ namespace ApplicationLayer.Dtos.Device
         public DeviceBasicDto(string id, string code)
         {
             Id = id;
-            Code = string.IsNullOrEmpty(code) ? throw new System.ArgumentException(nameof(code)) : code;
+            Code = string.IsNullOrEmpty(code) ? throw new ArgumentException(nameof(code)) : code;
         }
     }
 

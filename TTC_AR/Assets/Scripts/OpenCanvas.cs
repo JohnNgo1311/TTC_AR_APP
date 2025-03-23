@@ -228,8 +228,8 @@
 //         else if (SceneManager.GetActiveScene().name == MyEnum.FieldDevicesScene.GetDescription())
 //         {
 //             yield return new WaitUntil(() =>
-//             GlobalVariable.temp_ListFieldDeviceConnectionImages.Count > 0
-//             && GlobalVariable.temp_ListFieldDeviceConnectionImages.Count > 0);
+//             GlobalVariable.temp_ListFieldDeviceConnectionImages.Any()
+//             && GlobalVariable.temp_ListFieldDeviceConnectionImages.Any());
 //             Debug.Log("OnOpenCanvas 2");
 
 //         }

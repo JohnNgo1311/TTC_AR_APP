@@ -23,7 +23,7 @@ public class Resize_Images_After_Orientation : MonoBehaviour
 
   IEnumerator CheckOrientationChange()
   {
-    yield return Resize_Gameobject_Function.Set_NativeSize_For_GameObject(imageComponent);
+    yield return Resize_GameObject_Function.Set_NativeSize_For_GameObject(imageComponent);
     Debug.Log("Resize Image");
     lastOrientation = Screen.orientation;
     Debug.Log("Orientation Changed");

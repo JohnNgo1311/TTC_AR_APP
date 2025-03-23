@@ -27,23 +27,43 @@ namespace ApplicationLayer.UseCases
         //! Get List Device General
         public async Task<List<DeviceBasicDto>> GetListDeviceGeneralAsync(string grapperId)
         {
+            // try
+            // {
+            // //! Gọi _IDeviceRepository từ Infrastructure Layer
+            // var deviceEntities = await _IDeviceRepository.GetListDeviceGeneralAsync(grapperId)
+            // ?? throw new ApplicationException("Failed to get Device list");
+            // return deviceEntities.Select(MapToBasicDto).ToList();
+
             try
             {
-                //! Gọi _IDeviceRepository từ Infrastructure Layer
-                var deviceEntities = await _IDeviceRepository.GetListDeviceGeneralAsync(grapperId);
-                if (deviceEntities == null)
+                var DeviceEntities = await _IDeviceRepository.GetListDeviceGeneralAsync(grapperId) ??
+
+                throw new ApplicationException("Failed to get Device list");
+
+                int count = DeviceEntities.Count;
+
+                var DeviceBasicDtos = new List<DeviceBasicDto>(count);
+
+                var listDeviceInfo = new List<DeviceInformationModel>(count);
+
+                var dictDeviceInfo = new Dictionary<string, DeviceInformationModel>(count);
+
+                foreach (var DeviceEntity in DeviceEntities)
                 {
-                    throw new ApplicationException("Failed to get Device list");
+                    var dto = MapToBasicDto(DeviceEntity);
+                    var model = new DeviceInformationModel(dto.Id, dto.Code);
+
+                    DeviceBasicDtos.Add(dto);
+                    listDeviceInfo.Add(model);
+                    dictDeviceInfo[dto.Code] = model;
                 }
-                else
-                {
-                    //! Đưa về Entity để xử lý logic nghiệp vụ 
-                    var deviceBasicDtos = deviceEntities.Select(MapToBasicDto).ToList();
-                    GlobalVariable.temp_List_DeviceInformationModel = deviceBasicDtos.Select(dto => new DeviceInformationModel(dto.Id, dto.Code)).ToList();
-                    GlobalVariable.temp_Dictionary_DeviceInformationModel = deviceBasicDtos.ToDictionary(dto => dto.Code, dto => new DeviceInformationModel(dto.Id, dto.Code));
-                    return deviceBasicDtos;
-                }
+
+                GlobalVariable.temp_List_DeviceInformationModel = listDeviceInfo;
+                GlobalVariable.temp_Dictionary_DeviceInformationModel = dictDeviceInfo;
+
+                return DeviceBasicDtos;
             }
+            // }
             catch (ArgumentException)
             {
                 throw; // Ném lại lỗi validation cho Unity xử lý
@@ -56,28 +76,23 @@ namespace ApplicationLayer.UseCases
 
 
         //! Get List Device Information từ Grapper
-        public async Task<List<DeviceResponseDto>> GetListDeviceInformationFromGrapperAsync(string grapperId)
+        public async Task<IEnumerable<DeviceResponseDto>> GetListDeviceInformationFromGrapperAsync(string grapperId)
         {
             try
             {
                 //! Gọi _IDeviceRepository từ Infrastructure Layer
-                var deviceEntities = await _IDeviceRepository.GetListDeviceInformationFromGrapperAsync(grapperId);
-                if (deviceEntities == null)
-                {
-                    throw new ApplicationException("Failed to get Device list");
-                }
-                else
-                {
-                    //! Đưa về Entity để xử lý logic nghiệp vụ 
-                    // var deviceEntities = deviceEntities.Select(MapResponseToEntity).ToList();
-                    var deviceResponseDtos = deviceEntities.Select(MapToResponseDto).ToList();
-                    return deviceResponseDtos;
-                }
 
+                var deviceEntities = await _IDeviceRepository.GetListDeviceInformationFromGrapperAsync(grapperId);
+
+                IEnumerable<DeviceResponseDto> deviceResponseDtos =
+                    deviceEntities.Select(MapToResponseDto).ToList();
+
+                return deviceResponseDtos;
             }
-            catch (ArgumentException)
+            catch (ArgumentException ex)
             {
-                throw; // Ném lại lỗi validation cho Unity xử lý
+                // UnityEngine.Debug.Log("Error: " + ex.Message);
+                throw new ApplicationException("Failed to get Device list", ex); // Bao bọc lỗi từ Repository
             }
             catch (Exception ex)
             {
@@ -87,24 +102,15 @@ namespace ApplicationLayer.UseCases
 
 
         //! Get List Device Information từ Module
-        public async Task<List<DeviceResponseDto>> GetListDeviceInformationFromModuleAsync(string moduleId)
+        public async Task<IEnumerable<DeviceResponseDto>> GetListDeviceInformationFromModuleAsync(string moduleId)
         {
             try
             {
                 //! Gọi _IDeviceRepository từ Infrastructure Layer
-                var deviceEntities = await _IDeviceRepository.GetListDeviceInformationFromModuleAsync(moduleId);
-                if (deviceEntities == null)
-                {
-                    throw new ApplicationException("Failed to get Device list");
-                }
-                else
-                {
-                    //! Đưa về Entity để xử lý logic nghiệp vụ 
-                    // var deviceEntities = deviceEntities.Select(MapResponseToEntity).ToList();
-                    var deviceResponseDtos = deviceEntities.Select(MapToResponseDto).ToList();
-                    return deviceResponseDtos;
-                }
-
+                var deviceEntities = await _IDeviceRepository.GetListDeviceInformationFromModuleAsync(moduleId)
+                ?? throw new ApplicationException("Failed to get Device list"); ;
+                //! Đưa về Entity để xử lý logic nghiệp vụ 
+                return deviceEntities.Select(MapToResponseDto).ToList();
             }
             catch (ArgumentException)
             {
@@ -122,15 +128,22 @@ namespace ApplicationLayer.UseCases
         {
             try
             {
+                // UnityEngine.Debug.Log("Run UseCase");
+
                 var deviceEntity = await _IDeviceRepository.GetDeviceByIdAsync(DeviceId);
+                // UnityEngine.Debug.Log("DeviceEntity: " + deviceEntity.Code);
                 if (deviceEntity == null)
                 {
+                    // UnityEngine.Debug.Log("Entity null value");
                     throw new ApplicationException("Failed to get Device");
                 }
                 else
-                {  //! Đưa về Entity để xử lý logic nghiệp vụ
-                   // var deviceEntity = MapResponseToEntity(deviceEntity);
+                {
+                    //! Đưa về Entity để xử lý logic nghiệp vụ
+                    // UnityEngine.Debug.Log("DeviceEntity: " + deviceEntity.Id);
+                    // var deviceEntity = MapResponseToEntity(deviceEntity);
                     var deviceResponseDto = MapToResponseDto(deviceEntity);
+                    // UnityEngine.Debug.Log("DeviceResponseDto: " + deviceResponseDto.Code);
                     return deviceResponseDto;
                 }
             }
@@ -294,30 +307,31 @@ namespace ApplicationLayer.UseCases
             return new DeviceResponseDto(
                 id: deviceEntity.Id,
                 code: deviceEntity.Code,
-                function: deviceEntity.Function,
-                range: deviceEntity.Range,
-                unit: deviceEntity.Unit,
-                ioAddress: deviceEntity.IOAddress,
-                moduleBasicDto: new ModuleBasicDto(
+                function: deviceEntity.Function ?? "Chưa cập nhật",
+                range: deviceEntity.Range ?? "Chưa cập nhật",
+                unit: deviceEntity.Unit ?? "Chưa cập nhật",
+                ioAddress: deviceEntity.IOAddress ?? "Chưa cập nhật",
+                moduleBasicDto: deviceEntity.ModuleEntity != null ? new ModuleBasicDto(
                     id: deviceEntity.ModuleEntity.Id,
-                    name: deviceEntity.ModuleEntity.Name),
-                jbGeneralDto: new JBGeneralDto(
+                    name: deviceEntity.ModuleEntity.Name) : null,
+                jbGeneralDto: deviceEntity.JBEntity != null
+                ? new JBGeneralDto(
                        id: deviceEntity.JBEntity.Id,
                        name: deviceEntity.JBEntity.Name,
-                       location: deviceEntity.JBEntity.Location,
-                       outdoorImageResponseDto: new ImageResponseDto(
-                       id: deviceEntity.JBEntity.OutdoorImageEntity.Id,
-                       name: deviceEntity.JBEntity.OutdoorImageEntity.Name,
-                       url: deviceEntity.JBEntity.OutdoorImageEntity.Url),
-                    connectionImageResponseDtos: deviceEntity.JBEntity.ConnectionImageEntities.Select(imageEntity => new ImageResponseDto(
+                   location: deviceEntity.JBEntity.Location,
+                   outdoorImageResponseDto: deviceEntity.JBEntity.OutdoorImageEntity != null ? new ImageResponseDto(
+                   id: deviceEntity.JBEntity.OutdoorImageEntity.Id,
+                   name: deviceEntity.JBEntity.OutdoorImageEntity.Name,
+                   url: deviceEntity.JBEntity.OutdoorImageEntity.Url) : null,
+                connectionImageResponseDtos: deviceEntity.JBEntity.ConnectionImageEntities.Any() ? deviceEntity.JBEntity.ConnectionImageEntities.Select(imageEntity => new ImageResponseDto(
+                    id: imageEntity.Id,
+                    name: imageEntity.Name,
+                    url: imageEntity.Url)).ToList() : new List<ImageResponseDto>()
+                ) : null,
+                additionalImageResponseDtos: deviceEntity.AdditionalConnectionImageEntities.Any() ? deviceEntity.AdditionalConnectionImageEntities.Select(imageEntity => new ImageResponseDto(
                         id: imageEntity.Id,
                         name: imageEntity.Name,
-                        url: imageEntity.Url)).ToList()
-                ),
-                additionalImageResponseDtos: deviceEntity.AdditionalConnectionImageEntities.Select(imageEntity => new ImageResponseDto(
-                        id: imageEntity.Id,
-                        name: imageEntity.Name,
-                        url: imageEntity.Url)).ToList()
+                        url: imageEntity.Url)).ToList() : new List<ImageResponseDto>()
             );
         }
         private DeviceBasicDto MapToBasicDto(DeviceEntity deviceEntity)

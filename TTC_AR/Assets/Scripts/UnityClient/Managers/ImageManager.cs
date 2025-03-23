@@ -4,6 +4,7 @@ using UnityEngine;
 using System.Net.Http;
 using ApplicationLayer.Dtos.Image;
 using ApplicationLayer.Interfaces;
+using System.Linq;
 
 public class ImageManager : MonoBehaviour
 {
@@ -27,7 +28,7 @@ public class ImageManager : MonoBehaviour
         try
         {
             var ImageList = await _IImageService.GetListImageAsync(companyId); //! Gọi _IImageService từ Application Layer
-            if (ImageList != null && ImageList.Count > 0)
+            if (ImageList != null && ImageList.Any())
             {
                 foreach (var Image in ImageList)
                     Debug.Log($"Image: {Image.Name}");

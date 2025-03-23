@@ -97,7 +97,7 @@ public class CreateImageSettingView : MonoBehaviour, IImageView
         var horizontalGroupTransform = backgroundTransform.Find("Horizontal_Group");
 
         backgroundTransform.Find("Dialog_Status_Icon").GetComponent<Image>().sprite = Resources.Load<Sprite>("images/UIimages/Success_Icon_For_Dialog");
-        backgroundTransform.Find("Dialog_Content").GetComponent<TMP_Text>().text = $"Bạn đã thành công thêm loại Module <color=#FF0000><b>{model.Name}</b></color> vào hệ thống";
+        backgroundTransform.Find("Dialog_Content").GetComponent<TMP_Text>().text = $"Bạn đã thành công thêm loại Module <b><color =#004C8A>{model.Name}</b></color> vào hệ thống";
         backgroundTransform.Find("Dialog_Title").GetComponent<TMP_Text>().text = "Thêm loại Module mới thành công";
 
         var confirmButton = horizontalGroupTransform.Find("Confirm_Button").GetComponent<Button>();

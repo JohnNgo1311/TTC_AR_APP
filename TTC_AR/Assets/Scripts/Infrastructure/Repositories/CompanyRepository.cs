@@ -1,6 +1,7 @@
 
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -42,7 +43,30 @@ namespace Infrastructure.Repositories
                 // Xử lý lỗi deserialize
                 throw new Exception($"Failed to deserialize JSON: {ex.Message}");
             }
+        }
 
+        public async Task<List<CompanyEntity>> GetListCompanyAsync()
+        {
+            try
+            {
+                var response = await _httpClient.GetAsync(BaseUrl);
+                if (!response.IsSuccessStatusCode)
+                    throw new HttpRequestException($"Failed to get Company list. Status: {response.StatusCode}");
+                else
+                {
+                    var content = await response.Content.ReadAsStringAsync();
+                    return JsonConvert.DeserializeObject<List<CompanyEntity>>(content);
+                }
+
+            }
+            catch (HttpRequestException ex)
+            {
+                throw ex;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Unexpected error during HTTP request", ex);
+            }
         }
     }
 }

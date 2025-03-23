@@ -24,10 +24,10 @@ namespace ApplicationLayer.Services
             return await _CompanyUseCase.GetCompanyByIdAsync(CompanyId);
         }
 
-        // public async Task<List<CompanyResponseDto>> GetListCompanyAsync(int grapperId)
-        // {
-        //     return await _CompanyUseCase.GetListCompanyAsync(grapperId);
-        // }
+        public async Task<List<CompanyResponseDto>> GetListCompanyAsync()
+        {
+            return await _CompanyUseCase.GetListCompanyAsync();
+        }
 
 
     }

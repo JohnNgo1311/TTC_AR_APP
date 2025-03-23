@@ -27,7 +27,7 @@ public class AdapterSpecificationPresenter
             var adapterSpecificationBasicDto = await _service.GetListAdapterSpecificationAsync(companyId);
             if (adapterSpecificationBasicDto != null)
             {
-                if (adapterSpecificationBasicDto.Count > 0)
+                if (adapterSpecificationBasicDto.Any())
                 {
                     var models = adapterSpecificationBasicDto.Select(dto => ConvertFromBasicDto(dto)).ToList();
 

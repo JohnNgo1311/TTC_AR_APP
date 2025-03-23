@@ -105,7 +105,9 @@ namespace EasyUI.Progress
             if (OnProgressHide != null)
                OnProgressHide.Invoke();
          }
+
       }
+
 
       private static bool AlreadyActive()
       {

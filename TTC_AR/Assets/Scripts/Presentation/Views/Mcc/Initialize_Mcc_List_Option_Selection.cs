@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -48,7 +49,7 @@ public class Initialize_Mcc_List_Option_Selection : MonoBehaviour
         list_Option_Panel.SetActive(true);
         Debug.Log("FieldDevices: " + fieldDeviceInformationModels.Count);
 
-        if (fieldDeviceInformationModels != null && fieldDeviceInformationModels.Count > 0)
+        if (fieldDeviceInformationModels != null && fieldDeviceInformationModels.Any())
         {
             if (fieldDeviceInformationModels.Count == 1)
             {

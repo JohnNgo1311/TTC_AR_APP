@@ -150,7 +150,7 @@
 //                 new_JB_TSD_Connection_Button.onClick.AddListener(() =>
 //                 {
 //                     GlobalVariable.navigate_from_List_Devices = false;
-//                     GlobalVariable.navigate_from_JB_TSD_Basic = true;
+//                     GlobalVariable.navigate_from_JB_TSD_General = true;
 //                     NavigateJBDetailScreen(list_JBInformationModels[currentIndex]);
 //                 });
 //             }
@@ -169,7 +169,7 @@
 //         );
 //         GlobalVariable.jb_TSD_Name = jBInformationModel.Name;
 //         GlobalVariable.jb_TSD_Location = jBInformationModel.Location;
-//         if (GlobalVariable.navigate_from_JB_TSD_Basic)
+//         if (GlobalVariable.navigate_from_JB_TSD_General)
 //         {
 //             jb_TSD_Basic_Transform.gameObject.SetActive(false);
 //             jb_TSD_Detail_Transform.gameObject.SetActive(true);

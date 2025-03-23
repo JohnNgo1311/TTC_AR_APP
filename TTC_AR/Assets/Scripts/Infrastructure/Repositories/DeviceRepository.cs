@@ -25,21 +25,21 @@ namespace Infrastructure.Repositories
             _httpClient.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
         }
 
-
-        //!  Do kết quả server trả về là tập hợp con của DeviceEntity nên sẽ lựa chọn hàm trả veỀ DeviceResponseDto
         public async Task<DeviceEntity> GetDeviceByIdAsync(string deviceId)
         {
             try
             {
-                var response = await _httpClient.GetAsync($"{BaseUrl}/{deviceId}");
+                UnityEngine.Debug.Log("Run Repository");
 
-                if (!response.IsSuccessStatusCode)
-                    return null; // Hoặc ném exception tùy yêu cầu
+                var response = await _httpClient.GetStringAsync($"{BaseUrl}/{deviceId}");
 
-                var content = await response.Content.ReadAsStringAsync();
-                UnityEngine.Debug.Log(content);
+                UnityEngine.Debug.Log(response);
 
-                return JsonConvert.DeserializeObject<DeviceEntity>(content);
+                var entity = JsonConvert.DeserializeObject<DeviceEntity>(response);
+
+                UnityEngine.Debug.Log(entity.Code);
+
+                return entity;
             }
             catch (HttpRequestException ex)
             {
@@ -56,10 +56,13 @@ namespace Infrastructure.Repositories
             try
             {
                 // var response = await _httpClient.GetAsync($"{BaseUrl}/{grapperId}");
-                var response = await _httpClient.GetAsync($"{BaseUrl}");
-                if (!response.IsSuccessStatusCode)
-                    return new List<DeviceEntity>();
+                var response = await _httpClient.GetAsync("https://67da8d3b35c87309f52d09f5.mockapi.io/api/v4/ListDeviceFromGrapper");
+                if (!response.IsSuccessStatusCode) return null;
+
                 var content = await response.Content.ReadAsStringAsync();
+
+                UnityEngine.Debug.Log(content);
+
                 return JsonConvert.DeserializeObject<List<DeviceEntity>>(content);
             }
             catch (HttpRequestException ex)
@@ -77,8 +80,7 @@ namespace Infrastructure.Repositories
             {
                 // var response = await _httpClient.GetAsync($"{BaseUrl}/{grapperId}");
                 var response = await _httpClient.GetAsync($"{BaseUrl}");
-                if (!response.IsSuccessStatusCode)
-                    return new List<DeviceEntity>();
+                if (!response.IsSuccessStatusCode) return null;
                 var content = await response.Content.ReadAsStringAsync();
                 return JsonConvert.DeserializeObject<List<DeviceEntity>>(content);
             }
@@ -96,11 +98,25 @@ namespace Infrastructure.Repositories
             try
             {
                 // var response = await _httpClient.GetAsync($"{BaseUrl}/{grapperId}");
-                var response = await _httpClient.GetAsync($"{BaseUrl}");
-                if (!response.IsSuccessStatusCode)
-                    return new List<DeviceEntity>();
-                var content = await response.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<List<DeviceEntity>>(content);
+
+                var response = await _httpClient.GetStringAsync($"{BaseUrl}");
+
+                if (response == null) return null;
+                // if (!response.IsSuccessStatusCode) return null;
+
+                // var content = await response.Content.ReadAsStringAsync();
+
+                UnityEngine.Debug.Log(response);
+
+                var entities = JsonConvert.DeserializeObject<List<DeviceEntity>>(response);
+
+                UnityEngine.Debug.Log(entities.Count);
+
+                UnityEngine.Debug.Log("Số lượng Request" + GlobalVariable.APIRequestType.Count);
+
+                return entities;
+
+
             }
             catch (HttpRequestException ex)
             {

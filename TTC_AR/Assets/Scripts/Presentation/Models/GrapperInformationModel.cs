@@ -2,25 +2,25 @@ using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using UnityEngine.Scripting;
-
+#nullable  enable
 [Preserve]
 public class GrapperInformationModel
 {
-  [JsonProperty("Id")] public string Id { get; set; }
+  [JsonProperty("Id")] public string Id { get; set; } = string.Empty;
 
-  [JsonProperty("Name")] public string Name { get; set; }
+  [JsonProperty("Name")] public string Name { get; set; } = string.Empty;
 
-  [JsonProperty("ListRacks")] public List<RackBasicModel> List_RackBasicModel { get; set; }
+  [JsonProperty("ListRacks")] public List<RackBasicModel>? List_RackBasicModel { get; set; }
 
-  [JsonProperty("ListDevices")] public List<DeviceInformationModel> ListDeviceInformationModel { get; set; }
+  [JsonProperty("ListDevices")] public List<DeviceInformationModel>? ListDeviceInformationModel { get; set; }
 
-  [JsonProperty("ListJBs")] public List<JBInformationModel> ListJBInformationModel { get; set; }
+  [JsonProperty("ListJBs")] public List<JBInformationModel>? ListJBInformationModel { get; set; }
 
-  [JsonProperty("ListMCCs")] public List<MccInformationModel> ListMccInformationModel { get; set; }
+  [JsonProperty("ListMCCs")] public List<MccInformationModel>? ListMccInformationModel { get; set; }
 
-  [JsonProperty("ListModuleSpecifications")] public List<ModuleSpecificationModel> ListModuleSpecificationModel { get; set; }
+  [JsonProperty("ListModuleSpecifications")] public List<ModuleSpecificationModel>? ListModuleSpecificationModel { get; set; }
 
-  [JsonProperty("ListAdapterSpecifications")] public List<AdapterSpecificationModel> ListAdapterSpecificationModel { get; set; }
+  [JsonProperty("ListAdapterSpecifications")] public List<AdapterSpecificationModel>? ListAdapterSpecificationModel { get; set; }
 
 
   [Preserve]
@@ -36,7 +36,35 @@ public class GrapperInformationModel
     ListModuleSpecificationModel = listModuleSpecificationModel;
     ListAdapterSpecificationModel = listAdapterSpecificationModel;
   }
+  [Preserve]
+  public GrapperInformationModel(string name, List<RackBasicModel>? list_RackBasicModel, List<DeviceInformationModel>? listDeviceInformationModel, List<JBInformationModel>? listJBInformationModel, List<MccInformationModel>? listMccInformationModel, List<ModuleSpecificationModel>? listModuleSpecificationModel, List<AdapterSpecificationModel>? listAdapterSpecificationModel)
+  {
+    Name = name;
+    List_RackBasicModel = list_RackBasicModel;
+    ListDeviceInformationModel = listDeviceInformationModel;
+    ListJBInformationModel = listJBInformationModel;
+    ListMccInformationModel = listMccInformationModel;
+    ListModuleSpecificationModel = listModuleSpecificationModel;
+    ListAdapterSpecificationModel = listAdapterSpecificationModel;
+  }
+  [Preserve]
+  public GrapperInformationModel(string id, string name)
+  {
+    Id = id;
+    Name = name;
+  }
+  [Preserve]
+  public GrapperInformationModel(string name)
+  {
 
+    Name = name;
+  }
+
+    [Preserve]
+  public GrapperInformationModel()
+  {
+
+  }
 }
 
 [Preserve]

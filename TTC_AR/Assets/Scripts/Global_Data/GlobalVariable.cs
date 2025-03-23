@@ -44,9 +44,10 @@ public class GlobalVariable : MonoBehaviour
     "PUT_JB",
     "DELETE_JB",
 
-   " GET_Device_List_General",
+   "GET_Device_List_General",
    "GET_Device_List_Information_FromModule",
    "GET_Device_List_Information_Grapper",
+    "GET_Device",
     "POST_Device",
     "PUT_Device",
     "DELETE_Device",
@@ -82,7 +83,7 @@ public class GlobalVariable : MonoBehaviour
     public static string jb_TSD_Name = "";
     public static List<GameObject> activated_iamgeTargets = new List<GameObject>() { };
     public static bool navigate_from_List_Devices = false;
-    public static bool navigate_from_JB_TSD_Basic = false;
+    public static bool navigate_from_JB_TSD_General = false;
     public static bool navigate_from_JB_TSD_Detail = false;
     public static GameObject generalPanel;
     public static bool loginSuccess = false;
@@ -161,17 +162,19 @@ public class GlobalVariable : MonoBehaviour
     public static string RackId = "1";
 
     public static List<RackInformationModel> temp_List_RackInformationModel = new List<RackInformationModel>();
+    public static Dictionary<string, RackInformationModel> temp_Dictionary_RackInformationModel = new Dictionary<string, RackInformationModel>();
 
 
     //!Module
     public static List<ModuleBasicModel> temp_ListModuleBasicModels = new List<ModuleBasicModel>(); // Id, Name, Rack_Non_List_Module_Model
     public static ModuleBasicModel temp_ModuleBasicModel; // Id, Name, Rack_Non_List_Module_Model
-    public static List<ModuleInformationModel> temp_ListModuleInformationModel = new List<ModuleInformationModel>();
+    public static List<ModuleInformationModel> temp_ListModuleInformationModel = new();
     public static ModuleInformationModel temp_ModuleInformationModel;
     public static string ModuleId = "1";
-    public static Dictionary<string, ModuleInformationModel> temp_Dictionary_ModuleInformationModel = new Dictionary<string, ModuleInformationModel>();
-    public static Dictionary<string, ModuleBasicModel> temp_Dictionary_ModuleBasicModel = new Dictionary<string, ModuleBasicModel>();
+    public static Dictionary<string, ModuleInformationModel> temp_Dictionary_ModuleInformationModel = new();
+    public static Dictionary<string, ModuleBasicModel> temp_Dictionary_ModuleBasicModel = new();
 
+    //? List này chỉ có Id và Name
     public static List<ModuleInformationModel> temp_List_ModuleInformationModel = new List<ModuleInformationModel>();
 
     //! Device
@@ -206,6 +209,7 @@ public class GlobalVariable : MonoBehaviour
 
 
     public static List<MccInformationModel> temp_List_MccInformationModel = new List<MccInformationModel>();
+    public static Dictionary<string, MccInformationModel> temp_Dictionary_MccInformationModel = new Dictionary<string, MccInformationModel>();
 
     //! Field Device
     public static List<FieldDeviceInformationModel> temp_ListFieldDeviceInformationModel = new List<FieldDeviceInformationModel>();
@@ -228,6 +232,8 @@ public class GlobalVariable : MonoBehaviour
     public static ModuleSpecificationBasicModel temp_ModuleSpecificationBasicModel;
     public static string ModuleSpecificationId = "1";
     public static Dictionary<string, ModuleSpecificationModel> temp_Dictionary_ModuleSpecificationModel = new Dictionary<string, ModuleSpecificationModel>();
+    public static List<ModuleSpecificationModel> temp_List_ModuleSpecificationModel = new List<ModuleSpecificationModel>();
+
     //! AdapterSpecification
     public static string AdapterSpecificationId = "1";
     public static List<AdapterSpecificationBasicDto> temp_ListAdapterSpecificationBasicDto = new List<AdapterSpecificationBasicDto>();
@@ -238,6 +244,8 @@ public class GlobalVariable : MonoBehaviour
 
     public static AdapterSpecificationModel temp_AdapterSpecificationModel;
     public static Dictionary<string, AdapterSpecificationModel> temp_Dictionary_AdapterSpecificationModel = new Dictionary<string, AdapterSpecificationModel>();
+    public static List<AdapterSpecificationModel> temp_List_AdapterSpecificationModel = new List<AdapterSpecificationModel>();
+
     //! ImageInformation
     public static ImageInformationModel temp_ImageInformationModel;
     public static string ImageId = "1";

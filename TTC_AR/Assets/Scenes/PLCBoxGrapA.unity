@@ -736,22 +736,26 @@ MonoBehaviour:
   m_GameObject: {fileID: 665309875}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c6bb2f42bf178d54f824b95d81a22503, type: 3}
+  m_Script: {fileID: 11500000, guid: 9517a49242ab4ee4a9a54d17d842473b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  filterDropdownButton: {fileID: 1963225176}
+  filterContent: {fileID: 1888942150}
+  filterText: {fileID: 2007211260}
+  filter_Type: Device
+  isFilterContentActive: 0
   arrowButtonUp: {fileID: 1933421426}
   arrowButtonDown: {fileID: 1892745829}
-  filterDropdownButton: {fileID: 1963225176}
   itemPrefab: {fileID: 6073718245346258994, guid: 892645ba41bc548458c7674ce7b06768,
     type: 3}
   inputField: {fileID: 786136676}
   scrollRect: {fileID: 1467489169}
   content: {fileID: 385985388}
-  filterContent: {fileID: 1888942150}
-  filterText: {fileID: 2007211260}
-  filter_Type: 
+  contentRect: {fileID: 385985390}
   itemGameObjects: []
   availableOptions: []
+  deviceOptions: []
+  jbOptions: []
 --- !u!1 &703875921
 GameObject:
   m_ObjectHideFlags: 0
@@ -796,6 +800,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &717081928 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4847756674804862818, guid: adecf6ceef6bb3a41a9dab5412dbdcc0,
+    type: 3}
+  m_PrefabInstance: {fileID: 1170635801}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &736772810 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4196897974269773481, guid: adecf6ceef6bb3a41a9dab5412dbdcc0,
@@ -1155,13 +1171,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefab_Device: {fileID: 1170635802}
-  searchableDropDown: {fileID: 665309877}
+  searchableDropDownView: {fileID: 665309877}
   open_Detail_Image: {fileID: 473294042}
   eventPublisher: {fileID: 703875922}
   contentTransform: {fileID: 1170635814}
   code_Value_Text: {fileID: 1170635813}
   function_Value_Text: {fileID: 1170635812}
   range_Value_Text: {fileID: 1170635811}
+  unit_Value_Text: {fileID: 717081928}
   io_Value_Text: {fileID: 1170635810}
   jb_Connection_Value_Text: {fileID: 1170635809}
   jb_Connection_Location_Text: {fileID: 1170635808}
@@ -2183,6 +2200,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4196897974269773481, guid: adecf6ceef6bb3a41a9dab5412dbdcc0,
         type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 1131.3188
+      objectReference: {fileID: 0}
+    - target: {fileID: 4196897974269773481, guid: adecf6ceef6bb3a41a9dab5412dbdcc0,
+        type: 3}
       propertyPath: m_AnchoredPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -2361,6 +2383,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5995627373183873287, guid: adecf6ceef6bb3a41a9dab5412dbdcc0,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6145752601712923747, guid: adecf6ceef6bb3a41a9dab5412dbdcc0,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -2437,6 +2464,36 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7717532178693398441, guid: adecf6ceef6bb3a41a9dab5412dbdcc0,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8309155521623274094, guid: adecf6ceef6bb3a41a9dab5412dbdcc0,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8309155521623274094, guid: adecf6ceef6bb3a41a9dab5412dbdcc0,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8309155521623274094, guid: adecf6ceef6bb3a41a9dab5412dbdcc0,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8309155521623274094, guid: adecf6ceef6bb3a41a9dab5412dbdcc0,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8309155521623274094, guid: adecf6ceef6bb3a41a9dab5412dbdcc0,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8309155521623274094, guid: adecf6ceef6bb3a41a9dab5412dbdcc0,
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
@@ -2812,7 +2869,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 665309877}
-        m_TargetAssemblyTypeName: SearchableDropDown, Assembly-CSharp
+        m_TargetAssemblyTypeName: SearchDeviceAndJBView, Assembly-CSharp
         m_MethodName: OnDeviceFilterClicked
         m_Mode: 1
         m_Arguments:
@@ -3813,7 +3870,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 665309877}
-        m_TargetAssemblyTypeName: SearchableDropDown, Assembly-CSharp
+        m_TargetAssemblyTypeName: SearchDeviceAndJBView, Assembly-CSharp
         m_MethodName: OnJBFilterClicked
         m_Mode: 1
         m_Arguments:

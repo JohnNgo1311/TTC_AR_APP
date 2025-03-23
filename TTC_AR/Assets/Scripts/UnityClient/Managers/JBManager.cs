@@ -5,6 +5,7 @@ using System.Net.Http;
 using ApplicationLayer.Dtos;
 using ApplicationLayer.Dtos.JB;
 using ApplicationLayer.Interfaces;
+using System.Linq;
 
 public class JBManager : MonoBehaviour
 {
@@ -25,7 +26,7 @@ public class JBManager : MonoBehaviour
         try
         {
             var jBGeneralDtos = await _IJBService.GetListJBInformationAsync(grapperId); //! Gọi _IJBService từ Application Layer
-            if (jBGeneralDtos != null && jBGeneralDtos.Count > 0)
+            if (jBGeneralDtos != null && jBGeneralDtos.Any())
             {
                 foreach (var jb in jBGeneralDtos)
                 {
@@ -41,7 +42,7 @@ public class JBManager : MonoBehaviour
                     }
                     if (jb.ConnectionImageResponseDtos != null)
                     {
-                        if (jb.ConnectionImageResponseDtos.Count > 0)
+                        if (jb.ConnectionImageResponseDtos.Any())
                         {
                             foreach (var connectionImage in jb.ConnectionImageResponseDtos)
                             {
@@ -89,7 +90,7 @@ public class JBManager : MonoBehaviour
         try
         {
             var jBBasicDtos = await _IJBService.GetListJBGeneralAsync(grapperId); //! Gọi _IJBService từ Application Layer
-            if (jBBasicDtos != null && jBBasicDtos.Count > 0)
+            if (jBBasicDtos != null && jBBasicDtos.Any())
             {
                 Debug.Log($"jBDtos: {jBBasicDtos.Count}");
             }
@@ -128,7 +129,7 @@ public class JBManager : MonoBehaviour
                 Debug.Log($"jBResponseDto: {jBResponseDto.Name}, Location: {jBResponseDto.Location}");
                 if (jBResponseDto.DeviceBasicDtos != null)
                 {
-                    if (jBResponseDto.DeviceBasicDtos.Count > 0)
+                    if (jBResponseDto.DeviceBasicDtos.Any())
                     {
                         foreach (var device in jBResponseDto.DeviceBasicDtos)
                         {
@@ -147,7 +148,7 @@ public class JBManager : MonoBehaviour
 
                 if (jBResponseDto.ModuleBasicDtos != null)
                 {
-                    if (jBResponseDto.ModuleBasicDtos.Count > 0)
+                    if (jBResponseDto.ModuleBasicDtos.Any())
                     {
                         foreach (var module in jBResponseDto.ModuleBasicDtos)
                         {
@@ -177,7 +178,7 @@ public class JBManager : MonoBehaviour
 
                 if (jBResponseDto.ConnectionImageResponseDtos != null)
                 {
-                    if (jBResponseDto.ConnectionImageResponseDtos.Count > 0)
+                    if (jBResponseDto.ConnectionImageResponseDtos.Any())
                     {
                         foreach (var connectionImage in jBResponseDto.ConnectionImageResponseDtos)
                         {

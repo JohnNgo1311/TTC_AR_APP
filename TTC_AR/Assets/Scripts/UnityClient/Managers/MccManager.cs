@@ -5,6 +5,7 @@ using System.Net.Http;
 using ApplicationLayer.Dtos;
 using ApplicationLayer.Dtos.Mcc;
 using ApplicationLayer.Interfaces;
+using System.Linq;
 public class MccManager : MonoBehaviour
 {
 
@@ -27,7 +28,7 @@ public class MccManager : MonoBehaviour
         try
         {
             var MccList = await _IMccService.GetListMccAsync(grapperId); //! Gọi _IMccService từ Application Layer
-            if (MccList != null && MccList.Count > 0)
+            if (MccList != null && MccList.Any())
             {
                 foreach (var Mcc in MccList)
                     Debug.Log($"Mcc: {Mcc.CabinetCode}");

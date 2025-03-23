@@ -8,8 +8,8 @@ using Unity.VisualScripting;
 
 public class Update_Module_Specification_Screen : MonoBehaviour
 {
-    private string moduleSpecificationCode;
-    private string adapterSpecificationCode;
+    // private string moduleSpecificationCode;
+    // private string adapterSpecificationCode;
     public ModuleSpecificationModel module_Specification_Model;
     public AdapterSpecificationModel adapter_Specification_Model;
     public List<TMP_Text> module_Specification_Texts;
@@ -34,8 +34,8 @@ public class Update_Module_Specification_Screen : MonoBehaviour
     {
         module_Specification_Model = StaticVariable.temp_ModuleSpecificationModel;
         adapter_Specification_Model = StaticVariable.temp_AdapterSpecificationModel;
-        moduleSpecificationCode = module_Specification_Model.Code;
-        adapterSpecificationCode = adapter_Specification_Model.Code;
+        // moduleSpecificationCode = module_Specification_Model.Code;
+        // adapterSpecificationCode = adapter_Specification_Model.Code;
         // Debug.Log("Module Specification Code: " + moduleSpecificationCode);
         // Debug.Log("Adapter Specification Code: " + adapterSpecificationCode);
         yield return null;

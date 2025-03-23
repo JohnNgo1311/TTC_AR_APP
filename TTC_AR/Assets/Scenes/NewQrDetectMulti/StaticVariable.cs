@@ -29,19 +29,25 @@ public class StaticVariable
     public static ModuleSpecificationModel temp_ModuleSpecificationModel;
     public static AdapterSpecificationModel temp_AdapterSpecificationModel;
 
+    public static JBInformationModel temp_JBInformationModel;
+
+    public static Dictionary<string, DeviceInformationModel> temp_DeviceInformationModel = new Dictionary<string, DeviceInformationModel>();
+
+
+
     //? navigate from ?
     public static bool navigate_from_List_Devices = false;
-    public static bool navigate_from_JB_TSD_Basic = false;
+    public static bool navigate_from_JB_TSD_General = false;
     public static bool navigate_from_JB_TSD_Detail = false;
 
 
     public static bool ready_To_Update_ListDevices_UI = false;
-    public static bool ready_To_Update_JB_UI = false;
-    public static bool ready_To_Download_Images_UI = false;
-    public static bool ready_To_Update_Images_UI = false;
+    // public static bool ready_To_Update_JB_TSD_Images = false;
+    // public static bool ready_To_Download_Images_UI = false;
+    // public static bool ready_To_Update_Images_UI = false;
 
     public static bool ready_To_Reset_ListDevice = true;
-    public static bool ready_To_Reset_ListJB = true;
+    // public static bool ready_To_Reset_ListJB = true;
 
 
     public static bool is_JB_TSD_Basic_Canvas_Active = false;

@@ -523,7 +523,7 @@ static BOOL pickingMultipleFiles = NO;
 		PHFetchOptions *fetchOptions = [[PHFetchOptions alloc] init];
 		fetchOptions.predicate = [NSPredicate predicateWithFormat:@"localizedTitle = %@", album];
 		PHFetchResult *fetchResult = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeAlbum subtype:PHAssetCollectionSubtypeAny options:fetchOptions];
-		if( fetchResult.count > 0 )
+		if( fetchResult.Any() )
 			saveBlock( fetchResult.firstObject);
 		else
 		{
@@ -538,7 +538,7 @@ static BOOL pickingMultipleFiles = NO;
 				if( success )
 				{
 					PHFetchResult *fetchResult = [PHAssetCollection fetchAssetCollectionsWithLocalIdentifiers:@[albumPlaceholder.localIdentifier] options:nil];
-					if( fetchResult.count > 0 )
+					if( fetchResult.Any() )
 						saveBlock( fetchResult.firstObject);
 					else
 					{

@@ -24,9 +24,7 @@ public class SearchJBFromModule : MonoBehaviour
 
     private void UpdateUI()
     {
-        // yield return new WaitUntil(() => StaticVariable.ready_To_Update_UI);
-
-        jbInformationList = Get_List_JB_By_Module();
+        jbInformationList = StaticVariable.temp_ListJBInformationModelFromModule;
         // Debug.Log("jbInformationList.Count: " + jbInformationList.Count);
 
         foreach (var jb in jbInformationList)
@@ -36,29 +34,24 @@ public class SearchJBFromModule : MonoBehaviour
             jbObject.GetComponentInChildren<Button>().onClick.AddListener(() =>
             {
                 StaticVariable.navigate_from_List_Devices = false;
-                StaticVariable.navigate_from_JB_TSD_Basic = true;
+                StaticVariable.navigate_from_JB_TSD_General = true;
                 NavigateJBDetailScreen(jb);
             });
         }
-
-        StaticVariable.ready_To_Update_JB_UI = false;
-    }
-
-    private List<JBInformationModel> Get_List_JB_By_Module()
-    {
-        return StaticVariable.temp_ListJBInformationModelFromModule;
     }
 
 
-    private void NavigateJBDetailScreen(JBInformationModel jb)
+    private async void NavigateJBDetailScreen(JBInformationModel jb)
     {
-        StaticVariable.jb_TSD_Title = jb.Name;
+        // StaticVariable.temp_JBInformationModel = jb;
 
-        StaticVariable.jb_TSD_Name = jb.Name;
+        await GetJBInformation.Instance.GetJB(jb);
 
-        StaticVariable.jb_TSD_Location = jb.Location;
+        StaticVariable.jb_TSD_Title = StaticVariable.temp_JBInformationModel.Name;
+        StaticVariable.jb_TSD_Name = StaticVariable.temp_JBInformationModel.Name;
+        StaticVariable.jb_TSD_Location = StaticVariable.temp_JBInformationModel.Location;
 
-        if (StaticVariable.navigate_from_JB_TSD_Basic)
+        if (StaticVariable.navigate_from_JB_TSD_General)
         {
             StaticVariable.navigate_from_JB_TSD_Detail = true;
             gameObject.gameObject.SetActive(false);

@@ -21,17 +21,37 @@ namespace ApplicationLayer.UseCases
         {
             try
             {
-                var ModuleSpecificationEntities = await _IModuleSpecificationRepository.GetListModuleSpecificationAsync(companyId);
+                // var ModuleSpecificationEntities = await _IModuleSpecificationRepository.GetListModuleSpecificationAsync(companyId) ??
+                // throw new ApplicationException("Failed to get ModuleSpecification list");
+                // return ModuleSpecificationEntities.Select(MapToBasicDto).ToList();
 
-                if (ModuleSpecificationEntities == null)
+                var ModuleSpecificationEntities = await _IModuleSpecificationRepository.GetListModuleSpecificationAsync(companyId) ??
+
+                              throw new ApplicationException("Failed to get ModuleSpecification list");
+
+                int count = ModuleSpecificationEntities.Count;
+
+                var ModuleSpecificationBasicDtos = new List<ModuleSpecificationBasicDto>(count);
+
+                var listModuleSpecificationInfo = new List<ModuleSpecificationModel>(count);
+
+                var dictModuleSpecificationInfo = new Dictionary<string, ModuleSpecificationModel>(count);
+
+                foreach (var ModuleSpecificationEntity in ModuleSpecificationEntities)
                 {
-                    throw new ApplicationException("Failed to get ModuleSpecification list");
+                    var dto = MapToBasicDto(ModuleSpecificationEntity);
+                    var model = new ModuleSpecificationModel(dto.Id, dto.Code);
+
+                    ModuleSpecificationBasicDtos.Add(dto);
+                    listModuleSpecificationInfo.Add(model);
+                    dictModuleSpecificationInfo[dto.Code] = model;
                 }
-                else
-                {
-                    var moduleSpecificationBasicDtos = ModuleSpecificationEntities.Select(MapToBasicDto).ToList();
-                    return moduleSpecificationBasicDtos;
-                }
+
+                GlobalVariable.temp_List_ModuleSpecificationModel = listModuleSpecificationInfo;
+                GlobalVariable.temp_Dictionary_ModuleSpecificationModel = dictModuleSpecificationInfo;
+
+                return ModuleSpecificationBasicDtos;
+
             }
             catch (ArgumentException)
             {
@@ -46,16 +66,9 @@ namespace ApplicationLayer.UseCases
         {
             try
             {
-                var ModuleSpecificationEntity = await _IModuleSpecificationRepository.GetModuleSpecificationByIdAsync(moduleSpecificationId);
-                if (ModuleSpecificationEntity == null)
-                {
-                    throw new ApplicationException("Failed to get ModuleSpecification");
-                }
-                else
-                {
-                    var moduleSpecificationResponseDto = MapToResponseDto(ModuleSpecificationEntity);
-                    return moduleSpecificationResponseDto;
-                }
+                var ModuleSpecificationEntity = await _IModuleSpecificationRepository.GetModuleSpecificationByIdAsync(moduleSpecificationId)
+                ?? throw new ApplicationException("Failed to get ModuleSpecification");
+                return MapToResponseDto(ModuleSpecificationEntity);
             }
             catch (ArgumentException)
             {

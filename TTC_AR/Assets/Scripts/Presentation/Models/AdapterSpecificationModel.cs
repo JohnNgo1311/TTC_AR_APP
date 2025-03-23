@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Net.Http.Headers;
 using Newtonsoft.Json;
 using UnityEngine.Scripting;
-
+#nullable enable
 
 [Preserve]
 public class AdapterSpecificationModel
 {
-#nullable enable
+
   [JsonProperty("Id")]
   public string Id { get; set; } = string.Empty;
 

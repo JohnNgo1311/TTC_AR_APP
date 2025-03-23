@@ -21,21 +21,21 @@ public class DeviceInformationModel
   [JsonProperty("Unit")]
   public string? Unit { get; set; }
 
-  [JsonProperty("IOAddress")]
+  [JsonProperty("IoAddress")]
   public string? IOAddress { get; set; }
 
   [JsonProperty("Module")]
-  public ModuleInformationModel? ModuleBasicModel { get; set; }
+  public ModuleInformationModel? ModuleInformationModel { get; set; }
 
   [JsonProperty("ListJBs")]
-  public List<JBInformationModel>? JBInformationModel { get; set; }
+  public List<JBInformationModel>? JBInformationModels { get; set; }
 
   [JsonProperty("AdditionalConnectionImages")]
   public List<ImageInformationModel>? AdditionalConnectionImages { get; set; }
 
   [Preserve]
 
-  public DeviceInformationModel(string id, string code, string? function, string? range, string? unit, string? ioAddress, ModuleInformationModel? moduleBasicModel, List<JBInformationModel>? jbInformationModel, List<ImageInformationModel>? additionalConnectionImages)
+  public DeviceInformationModel(string id, string code, string? function, string? range, string? unit, string? ioAddress, ModuleInformationModel? moduleInformationModel, List<JBInformationModel>? jbInformationModels, List<ImageInformationModel>? additionalConnectionImages)
   {
     Id = id;
     Code = code;
@@ -43,11 +43,13 @@ public class DeviceInformationModel
     Range = range;
     Unit = unit;
     IOAddress = ioAddress;
-    ModuleBasicModel = moduleBasicModel;
-    JBInformationModel = jbInformationModel;
+    ModuleInformationModel = moduleInformationModel;
+    JBInformationModels = jbInformationModels;
     AdditionalConnectionImages = additionalConnectionImages;
   }
-  public DeviceInformationModel(string code, string? function, string? range, string? unit, string? ioAddress, ModuleInformationModel? moduleBasicModel, List<JBInformationModel>? jbInformationModel, List<ImageInformationModel>? additionalConnectionImages)
+
+
+  public DeviceInformationModel(string code, string? function, string? range, string? unit, string? ioAddress, ModuleInformationModel? moduleInformationModel, List<JBInformationModel>? jbInformationModels, List<ImageInformationModel>? additionalConnectionImages)
   {
 
     Code = code;
@@ -55,10 +57,11 @@ public class DeviceInformationModel
     Range = range;
     Unit = unit;
     IOAddress = ioAddress;
-    ModuleBasicModel = moduleBasicModel;
-    JBInformationModel = jbInformationModel;
+    ModuleInformationModel = moduleInformationModel;
+    JBInformationModels = jbInformationModels;
     AdditionalConnectionImages = additionalConnectionImages;
   }
+
   public DeviceInformationModel(string id, string code)
   {
     Id = id;
@@ -80,25 +83,25 @@ public class DeviceGeneralModel
   [JsonProperty("Code")]
   public string? Code { get; set; }
 
-  [JsonProperty("function")]
+  [JsonProperty("Function")]
   public string? Function { get; set; }
 
-  [JsonProperty("range")]
+  [JsonProperty("Range")]
   public string? Range { get; set; }
 
-  [JsonProperty("unit")]
+  [JsonProperty("Unit")]
   public string? Unit { get; set; }
 
-  [JsonProperty("ioAddress")]
+  [JsonProperty("IoAddress")]
   public string? IOAddress { get; set; }
 
-  [JsonProperty("module")]
+  [JsonProperty("Module")]
   public ModuleBasicModel? ModuleBasicModel { get; set; }
 
-  [JsonProperty("jb")]
+  [JsonProperty("JB")]
   public JBBasicModel JBBasicModel { get; set; }
 
-  [JsonProperty("additionalConnectionImages")]
+  [JsonProperty("AdditionalConnectionImages")]
   public List<ImageBasicModel> AdditionalImageModels { get; set; }
 
   [Preserve]
@@ -123,25 +126,25 @@ public class DevicePostGeneralModel
 {
   [JsonProperty("Code")]
   public string? Code { get; set; }
-  [JsonProperty("function")]
+  [JsonProperty("Function")]
   public string? Function { get; set; }
 
-  [JsonProperty("range")]
+  [JsonProperty("Range")]
   public string? Range { get; set; }
 
-  [JsonProperty("unit")]
+  [JsonProperty("Unit")]
   public string? Unit { get; set; }
 
-  [JsonProperty("ioAddress")]
+  [JsonProperty("IoAddress")]
   public string? IOAddress { get; set; }
 
-  [JsonProperty("module")]
+  [JsonProperty("Module")]
   public ModuleBasicModel? ModuleBasicModel { get; set; }
 
-  [JsonProperty("jb")]
+  [JsonProperty("JB")]
   public JBBasicModel JBBasicModel { get; set; }
 
-  [JsonProperty("additionalConnectionImages")]
+  [JsonProperty("AdditionalConnectionImages")]
   public List<ImageBasicModel> AdditionalConnectionBasicModel { get; set; }
 
   [Preserve]

@@ -58,8 +58,9 @@ public class UpdateFieldDeviceSettingView : MonoBehaviour, IFieldDeviceView
 
     void Awake()
     {
-        var fieldDeviceManager = FindObjectOfType<FieldDeviceManager>();
-        _presenter = new FieldDevicePresenter(this, fieldDeviceManager._IFieldDeviceService);
+        // var DeviceManager = FindObjectOfType<DeviceManager>();
+        _presenter = new FieldDevicePresenter(this, ManagerLocator.Instance.FieldDeviceManager._IFieldDeviceService);
+        // DeviceManager._IDeviceService
     }
 
     void OnEnable()
@@ -337,6 +338,7 @@ public class UpdateFieldDeviceSettingView : MonoBehaviour, IFieldDeviceView
     }
     public void ReloadDetailById()
     {
+        RenewView();
         _presenter.LoadDetailById(GlobalVariable.FieldDeviceId);
     }
     public void ShowSuccess()
@@ -363,7 +365,7 @@ public class UpdateFieldDeviceSettingView : MonoBehaviour, IFieldDeviceView
     public void DisplayDetail(FieldDeviceInformationModel model)
     {
         SetInitialInputFields(model);
-        if (model.ListConnectionImages != null && model.ListConnectionImages.Count > 0)
+        if (model.ListConnectionImages != null && model.ListConnectionImages.Any())
         {
             var temp_List_ConnectionImageNames = model.ListConnectionImages.Select(item => item.Name).ToList();
             PopulateItems(temp_List_ConnectionImageNames, Connection_Image_Item_Prefab, Connection_Image_Parent_VerticalLayout_Group, "Connection_Image");

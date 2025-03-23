@@ -17,7 +17,7 @@ namespace Infrastructure.Repositories
     {
         private readonly HttpClient _httpClient;
 
-        private const string BaseUrl = "https://6776bd1c12a55a9a7d0cbc42.mockapi.io/api/v2/Company"; // URL server ngoài thực tế
+        private const string BaseUrl = "https://6776bd1c12a55a9a7d0cbc42.mockapi.io/api/v2/JB"; // URL server ngoài thực tế
 
         public JBRepository(HttpClient httpClient)
         {
@@ -84,12 +84,13 @@ namespace Infrastructure.Repositories
         {
             try
             {
-                var response = await _httpClient.GetAsync($"{BaseUrl}");
+                var response = await _httpClient.GetAsync("https://677ba70820824100c07a4e9f.mockapi.io/api/v3/ListJBInformation");
                 if (!response.IsSuccessStatusCode)
                     throw new HttpRequestException($"Failed to get JB list. Status: {response.StatusCode}");
                 else
                 {
                     var content = await response.Content.ReadAsStringAsync();
+                    UnityEngine.Debug.Log(content);
                     return JsonConvert.DeserializeObject<List<JBEntity>>(content);
                 }
 

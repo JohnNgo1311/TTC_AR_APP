@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using UnityEngine.Scripting;
 using static ModuleInformationModel;
-
+#nullable enable
 [Preserve]
 public class JBInformationModel
 {
-#nullable enable
+
   [JsonProperty("Id")]
   public string Id { get; set; } = string.Empty;
   [JsonProperty("Name")]

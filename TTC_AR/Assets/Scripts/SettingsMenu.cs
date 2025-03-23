@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using TMPro;
 using UnityEngine;
@@ -32,7 +33,7 @@ public class SettingsMenu : MonoBehaviour
         // scrollRect = gameObject.GetComponent<ScrollRect>();
         if (SceneManager.GetActiveScene().name == MyEnum.GrapperAScanScene.GetDescription())
         {
-            if (GlobalVariable.temp_ListRackBasicModels.Count > 0)
+            if (GlobalVariable.temp_ListRackBasicModels.Any())
             {
                 for (int i = 1; i < GlobalVariable.temp_ListRackBasicModels.Count; i++)
                 {
@@ -49,7 +50,7 @@ public class SettingsMenu : MonoBehaviour
         }
         else if (SceneManager.GetActiveScene().name == MyEnum.FieldDevicesScene.GetDescription())
         {
-            if (GlobalVariable.temp_ListGrapperBasicModels.Count > 0)
+            if (GlobalVariable.temp_ListGrapperBasicModels.Any())
             {
                 for (int i = 1; i < GlobalVariable.temp_ListGrapperBasicModels.Count; i++)
                 {
@@ -97,8 +98,8 @@ public class SettingsMenu : MonoBehaviour
         //Debug$"ToggleMenu: {isExpanded}");
         menuItems.ForEach(item => item.gameObject.SetActive(isExpanded));
         content.SetActive(isExpanded);
-        // Resize_Gameobject_Function.Resize_Parent_GameObject(content.GetComponent<RectTransform>());
-        //  Resize_Gameobject_Function.Resize_Parent_GameObject(scroll_Area.GetComponent<RectTransform>());
+        // Resize_GameObject_Function.Resize_Parent_GameObject(content.GetComponent<RectTransform>());
+        //  Resize_GameObject_Function.Resize_Parent_GameObject(scroll_Area.GetComponent<RectTransform>());
         scroll_Area.SetActive(isExpanded);
 
     }

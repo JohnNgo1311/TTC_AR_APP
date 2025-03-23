@@ -30,11 +30,11 @@ public class Nav_Back_From_JB_TSD_Detail : MonoBehaviour
 
     public void NavigatePop()
     {
-        if (StaticVariable.navigate_from_JB_TSD_Basic)
+        if (StaticVariable.navigate_from_JB_TSD_General)
         {
             jb_TSD_Detail_Transform.gameObject.SetActive(false);
             jb_TSD_General_Transform.gameObject.SetActive(true);
-            StaticVariable.navigate_from_JB_TSD_Basic = false;
+            StaticVariable.navigate_from_JB_TSD_General = false;
         }
         if (StaticVariable.navigate_from_List_Devices)
         {

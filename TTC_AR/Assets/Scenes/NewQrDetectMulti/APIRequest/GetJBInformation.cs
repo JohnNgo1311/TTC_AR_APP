@@ -7,32 +7,29 @@ using UnityEngine;
 
 public class GetJBInformation : MonoBehaviour
 {
-    private void OnEnable()
-    {
-        if (StaticVariable.navigate_from_JB_TSD_Basic)
-        {
-            // GetJB();
-        }
+    public static GetJBInformation Instance { get; private set; }
 
-        // StaticVariable.navigate_from_JB_TSD_Detail = false;
+    private void Awake()
+    {
+        Instance = this;
     }
 
-    public async void GetJB()
+    private void Destroy()
+    {
+        Instance = null;
+    }
+
+    public async Task GetJB(JBInformationModel jb)
     {
         {
             try
             {
+
                 StaticVariable.ready_To_Nav_New_Scene = false;
-                StaticVariable.ready_To_Reset_ListJB = true;
-                StaticVariable.ready_To_Update_JB_UI = false;
 
-                // foreach (var jb in StaticVariable.temp_ListJBInformationModelFromModule)
-                // {
-                // Debug.Log("jb: " + jb.Name);
+                var jb_FromModule = StaticVariable.temp_ListJBInformationModelFromModule.Find(jb_FromModule => jb_FromModule.Name == jb.Name);
 
-                var jb = StaticVariable.temp_ListJBInformationModelFromModule.Find(jb => jb.Name == StaticVariable.jb_TSD_Name);
-
-                if (jb == null)
+                if (jb_FromModule == null)
                 {
                     Debug.LogWarning("Không tìm thấy thông tin jb!");
                     Show_Toast.Instance.ShowToast("error", "Không tìm thấy thông tin jb!");
@@ -44,21 +41,14 @@ public class GetJBInformation : MonoBehaviour
                               ShowProgressBar("Đang tải dữ liệu...", "Vui lòng chờ...");
                           });
 
-                await APIManagerOpenCV.Instance.GetJBInformation(StaticVariable.GetJBUrl + "/" + jb.Id);
+                await APIManagerOpenCV.Instance.GetJBInformation(StaticVariable.GetJBUrl + "/" + jb_FromModule.Id);
 
-                StaticVariable.ready_To_Reset_ListJB = false;
-
-                // }
-
-                // await APIManagerOpenCV.Instance.DownloadImagesAsync();
                 await Move_On_Main_Thread.RunOnMainThread(() =>
                        {
                            HideProgressBar();
                        });
 
-                StaticVariable.ready_To_Update_JB_UI = true;
                 StaticVariable.ready_To_Nav_New_Scene = true;
-                StaticVariable.ready_To_Reset_ListJB = true;
             }
             catch (Exception e)
             {

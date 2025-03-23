@@ -4,6 +4,7 @@ using UnityEngine;
 using System.Net.Http;
 using ApplicationLayer.Interfaces;
 using ApplicationLayer.Dtos.AdapterSpecification;
+using System.Linq;
 
 public class AdapterSpecificationManager : MonoBehaviour
 {
@@ -27,7 +28,7 @@ public class AdapterSpecificationManager : MonoBehaviour
         try
         {
             var AdapterSpecificationList = await _IAdapterSpecificationService.GetListAdapterSpecificationAsync(companyId); //! Gọi _IAdapterSpecificationService từ Application Layer
-            if (AdapterSpecificationList != null && AdapterSpecificationList.Count > 0)
+            if (AdapterSpecificationList != null && AdapterSpecificationList.Any())
             {
                 foreach (var AdapterSpecification in AdapterSpecificationList)
                     Debug.Log($"AdapterSpecification: {AdapterSpecification.Code}");

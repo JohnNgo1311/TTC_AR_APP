@@ -15,8 +15,9 @@ public class SearchDeviceFromModule : MonoBehaviour
     public TMP_Dropdown dropdown;
     public GameObject contentPanel;
     public Transform jbConnectionParentTransform;
-    private List<JBInformationModel> jBInformationModel_ConnectingToDevice_List;
+    private List<JBInformationModel> listJBInformation_FromDevice = new List<JBInformationModel>();
     public GameObject nav_JB_TSD_Detail_button_Prefab;
+    // public List<GameObject> list_JB_TSD_Detail_Instantiates = new List<GameObject>();
     public Dictionary<string, JBInformationModel> dic_JBInformationModel = new Dictionary<string, JBInformationModel>();
     public Dictionary<string, GameObject> dic_JBInformationModel_Button = new Dictionary<string, GameObject>();
 
@@ -48,16 +49,13 @@ public class SearchDeviceFromModule : MonoBehaviour
     {
         if (module_Canvas.gameObject.activeSelf)
         {
-            // Nếu không có thiết bị nào, thêm tùy chọn mặc định
             dropdown.options.Add(new TMP_Dropdown.OptionData(noDeviceMessage));
             dropdown.value = 0;
             dropdown.RefreshShownValue();
 
             yield return new WaitUntil(() => StaticVariable.ready_To_Update_ListDevices_UI);
+            listDeviceFromModule = StaticVariable.temp_ListDeviceInformationModelFromDeviceName.Values.ToList();
 
-            listDeviceFromModule = Get_List_Device_By_Module();
-
-            // Xóa các tùy chọn trước đó
             dropdown.options.Clear();
 
             // Debug.Log("listDeviceFromModule.Count: " + listDeviceFromModule.Count);
@@ -87,8 +85,9 @@ public class SearchDeviceFromModule : MonoBehaviour
                 dropdown.RefreshShownValue();
 
                 // Ẩn contentPanel và xóa thông tin thiết bị
-                contentPanel.SetActive(false);
                 ClearDeviceInformation();
+
+                contentPanel.SetActive(false);
             }
             StaticVariable.ready_To_Update_ListDevices_UI = false;
         }
@@ -110,132 +109,121 @@ public class SearchDeviceFromModule : MonoBehaviour
             // Xóa danh sách thiết bị
             listDeviceFromModule.Clear();
         }
-        DestroyAllInstancesExceptPrefab(jbConnectionParentTransform);
+        DestroyAllInstancesExceptPrefab(dic_JBInformationModel_Button.Values.ToList());
+        // list_JB_TSD_Detail_Instantiates.Clear();
         dic_JBInformationModel.Clear();
         dic_JBInformationModel_Button.Clear();
     }
 
-    private void DestroyAllInstancesExceptPrefab(Transform contentParent)
+    private void DestroyAllInstancesExceptPrefab(List<GameObject> listInstances)
     {
         // Duyệt qua từng child của contentParent
-        foreach (Transform child in contentParent)
+        foreach (var instance in listInstances)
         {
             // Kiểm tra nếu child đang bị inactive (tức là prefab gốc)
-            if (child.gameObject == nav_JB_TSD_Detail_button_Prefab)
-            {
-                continue; // Bỏ qua không xóa
-            }
+            // if (instance != nav_JB_TSD_Detail_button_Prefab)
+            // {
             // Xóa các child khác
-            Destroy(child.gameObject);
+            Destroy(instance);
+            // }
         }
     }
 
     public void OnValueChange(int value)
     {
-        if (value >= 0 && value < listDeviceFromModule.Count)
+        if (value < listDeviceFromModule.Count)
         {
             deviceInfor = listDeviceFromModule[value];
-            UpdateDeviceInformation(deviceInfor);
 
             if (!contentPanel.activeSelf)
             {
                 contentPanel.SetActive(true);
             }
+            UpdateDeviceInformation(deviceInfor);
+
         }
         else
         {
             // Nếu chọn tùy chọn mặc định "không có thiết bị kết nối"
-            contentPanel.SetActive(false);
             ClearDeviceInformation();
+
+            contentPanel.SetActive(false);
         }
     }
 
-    private List<DeviceInformationModel> Get_List_Device_By_Module()
-    {
-        // Debug.Log("Get_List_Device_By_Module");
-        return StaticVariable.temp_ListDeviceInformationModelFromDeviceName.Values.ToList();
-    }
 
     private void UpdateDeviceInformation(DeviceInformationModel device)
     {
+
+        // xóa các JB đã được tạo trước đó
+        DestroyAllInstancesExceptPrefab(dic_JBInformationModel_Button.Values.ToList());
+
         deviceInformation[0].text = device.Code;
         deviceInformation[1].text = device.Function;
         deviceInformation[2].text = device.Range;
         deviceInformation[3].text = device.Unit;
         deviceInformation[4].text = device.IOAddress;
 
-        jBInformationModel_ConnectingToDevice_List = device.JBInformationModel;
+        listJBInformation_FromDevice = device.JBInformationModels;
 
         StaticVariable.device_Code = device.Code;
 
-        // Disable các JB đã được tạo trước đó
-        DisableAllItem(jbConnectionParentTransform);
+        StaticVariable.temp_DeviceInformationModel[device.Code] = device;
 
-        if (jBInformationModel_ConnectingToDevice_List.Count == 0)
+        dic_JBInformationModel.Clear();
+        dic_JBInformationModel_Button.Clear();
+
+        if (!listJBInformation_FromDevice.Any())
         {
+            nav_JB_TSD_Detail_button_Prefab.SetActive(true);
             nav_JB_TSD_Detail_button_Prefab.GetComponent<JBInfor>().NoDeviceMessage();
             return;
         }
-
-        if (jBInformationModel_ConnectingToDevice_List.Count > 1)
+        else
         {
-            foreach (var jB in jBInformationModel_ConnectingToDevice_List)
+            if (listJBInformation_FromDevice.Count > 1)
             {
-                if (!dic_JBInformationModel.ContainsKey(jB.Name))
+                foreach (var jB in listJBInformation_FromDevice)
                 {
-                    var nav_Btn_Prefab = Instantiate(nav_JB_TSD_Detail_button_Prefab, jbConnectionParentTransform);
-                    nav_Btn_Prefab.GetComponent<JBInfor>().SetJBInfor(jB);
-
-                    // if (!dic_JBInformationModel_Button.ContainsKey(jB.Name))
-                    // {
-                    dic_JBInformationModel.Add(jB.Name, jB);
-                    dic_JBInformationModel_Button.Add(jB.Name, nav_Btn_Prefab);
-                    // }
-                    // else
-                    // {
-                    //     dic_JBInformationModel[jB.Name] = jB;
-                    //     dic_JBInformationModel_Button[jB.Name] = nav_Btn_Prefab;
-                    // }
-
-                    // Đảm bảo không gán nhiều lần
-                    nav_Btn_Prefab.GetComponent<JBInfor>().jbButton.onClick.RemoveAllListeners();
-                    nav_Btn_Prefab.GetComponent<JBInfor>().jbButton.onClick.AddListener(() =>
+                    if (!dic_JBInformationModel.ContainsKey(jB.Name))
                     {
-                        StaticVariable.navigate_from_List_Devices = true;
-                        StaticVariable.navigate_from_JB_TSD_Basic = false;
-                        NavigateJBDetailScreen(jB_Information_Model: jB);
-                    });
+                        var new_Nav_Btn = Instantiate(nav_JB_TSD_Detail_button_Prefab, jbConnectionParentTransform);
+                        var new_Nav_Btn_JBInfor = new_Nav_Btn.GetComponent<JBInfor>();
+                        new_Nav_Btn_JBInfor.SetJBInfor(jB);
+
+                        dic_JBInformationModel.Add(jB.Name, jB);
+                        dic_JBInformationModel_Button.Add(jB.Name, new_Nav_Btn);
+
+                        new_Nav_Btn_JBInfor.jbButton.onClick.RemoveAllListeners();
+                        new_Nav_Btn_JBInfor.jbButton.onClick.AddListener(() =>
+                        {
+                            StaticVariable.navigate_from_List_Devices = true;
+                            StaticVariable.navigate_from_JB_TSD_General = false;
+                            NavigateJBDetailScreen(model: jB);
+                        });
+                    }
+                    dic_JBInformationModel_Button[jB.Name].SetActive(true);
                 }
-                dic_JBInformationModel_Button[jB.Name].SetActive(true);
+                nav_JB_TSD_Detail_button_Prefab.SetActive(false);
+                return;
             }
-            nav_JB_TSD_Detail_button_Prefab.SetActive(false);
-            return;
-        }
-
-        nav_JB_TSD_Detail_button_Prefab.SetActive(true);
-        nav_JB_TSD_Detail_button_Prefab.GetComponent<JBInfor>().SetJBInfor(jBInformationModel_ConnectingToDevice_List[0]);
-
-        // Đảm bảo không gán nhiều lần
-        nav_JB_TSD_Detail_button_Prefab.GetComponent<JBInfor>().jbButton.onClick.RemoveAllListeners();
-        nav_JB_TSD_Detail_button_Prefab.GetComponent<JBInfor>().jbButton.onClick.AddListener(() =>
-        {
-            StaticVariable.navigate_from_List_Devices = true;
-            StaticVariable.navigate_from_JB_TSD_Basic = false;
-            NavigateJBDetailScreen(jB_Information_Model: jBInformationModel_ConnectingToDevice_List[0]);
-        });
-    }
-
-    private void DisableAllItem(Transform contentParent)
-    {
-        foreach (Transform child in contentParent)
-        {
-            if (!child.gameObject.activeSelf)
+            else
             {
-                continue;
+
+                nav_JB_TSD_Detail_button_Prefab.SetActive(true);
+                var jbInfor = nav_JB_TSD_Detail_button_Prefab.GetComponent<JBInfor>();
+                jbInfor.SetJBInfor(listJBInformation_FromDevice[0]);
+                jbInfor.jbButton.onClick.RemoveAllListeners();
+                jbInfor.jbButton.onClick.AddListener(() =>
+                {
+                    StaticVariable.navigate_from_List_Devices = true;
+                    StaticVariable.navigate_from_JB_TSD_General = false;
+                    NavigateJBDetailScreen(model: listJBInformation_FromDevice[0]);
+                });
             }
-            child.gameObject.SetActive(false);
-            nav_JB_TSD_Detail_button_Prefab.SetActive(true);
         }
+
+
     }
 
     private void ClearDeviceInformation()
@@ -246,15 +234,17 @@ public class SearchDeviceFromModule : MonoBehaviour
         }
     }
 
-    public void NavigateJBDetailScreen(JBInformationModel jB_Information_Model)
+    public void NavigateJBDetailScreen(JBInformationModel model)
     {
-        StaticVariable.jb_TSD_Title = jB_Information_Model.Name; // Name_Location of JB
+        StaticVariable.temp_JBInformationModel = model;
 
-        StaticVariable.jb_TSD_Name = jB_Information_Model.Name; // jb_name: JB100
+        StaticVariable.jb_TSD_Title = model.Name; // Name_Location of JB
 
-        StaticVariable.jb_TSD_Location = jB_Information_Model.Location; // jb_location: Hầm Cáp MCC
+        StaticVariable.jb_TSD_Name = model.Name; // jb_name: JB100
 
-        if (StaticVariable.navigate_from_JB_TSD_Basic)
+        StaticVariable.jb_TSD_Location = model.Location; // jb_location: Hầm Cáp MCC
+
+        if (StaticVariable.navigate_from_JB_TSD_General)
         {
             StaticVariable.navigate_from_JB_TSD_Detail = true;
             jb_TSD_Basic_Transform.gameObject.SetActive(false);

@@ -55,11 +55,18 @@ public class CreateMccSettingView : MonoBehaviour, IMccView
         { "FieldDevices", 0 }
     };
 
+    // void Awake()
+    // {
+    //     var MccManager = FindObjectOfType<MccManager>();
+    //     _presenter = new MccPresenter(this, MccManager._IMccService);
+    // }
     void Awake()
     {
-        var MccManager = FindObjectOfType<MccManager>();
-        _presenter = new MccPresenter(this, MccManager._IMccService);
+        // var DeviceManager = FindObjectOfType<DeviceManager>();
+        _presenter = new MccPresenter(this, ManagerLocator.Instance.MccManager._IMccService);
+        // DeviceManager._IDeviceService
     }
+
 
     void OnEnable()
     {
@@ -94,6 +101,11 @@ public class CreateMccSettingView : MonoBehaviour, IMccView
         if (string.IsNullOrEmpty(MccInformationModel.CabinetCode))
         {
             OpenErrorDialog("Vui lòng nhập mã tủ Mcc");
+            return;
+        }
+        if (GlobalVariable.temp_Dictionary_MccInformationModel.ContainsKey(MccInformationModel.CabinetCode))
+        {
+            OpenErrorDialog("Mã tủ Mcc đã tồn tại", "Vui lòng nhập mã tủ Mcc khác");
             return;
         }
 
@@ -276,7 +288,7 @@ public class CreateMccSettingView : MonoBehaviour, IMccView
         var horizontalGroupTransform = backgroundTransform.Find("Horizontal_Group");
 
         backgroundTransform.Find("Dialog_Status_Icon").GetComponent<Image>().sprite = Resources.Load<Sprite>("images/UIimages/Success_Icon_For_Dialog");
-        backgroundTransform.Find("Dialog_Content").GetComponent<TMP_Text>().text = $"Bạn đã thành công thêm tủ Mcc <color=#FF0000><b>{model.CabinetCode}</b></color> vào hệ thống";
+        backgroundTransform.Find("Dialog_Content").GetComponent<TMP_Text>().text = $"Bạn đã thành công thêm tủ Mcc <b><color =#004C8A>{model.CabinetCode}</b></color> vào hệ thống";
         backgroundTransform.Find("Dialog_Title").GetComponent<TMP_Text>().text = "Thêm tủ Mcc mới thành công";
 
         var confirmButton = horizontalGroupTransform.Find("Confirm_Button").GetComponent<Button>();

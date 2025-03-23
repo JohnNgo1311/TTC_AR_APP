@@ -20,24 +20,37 @@ namespace ApplicationLayer.UseCases
         {
             _IJBRepository = IjbRepository;
         }
-
-        //! GetListJB chỉ có Id và Name
+        //! Select(), ToList(), ToDictionary() đề phải duyệt qua toàn bộ danh sách, duyệt tới đâu lưu tới đó 
+        //! => dùng Foreach để chỉ quét 1 lần, tối ưu được thời gian xử lý
         public async Task<List<JBBasicDto>> GetListJBGeneralAsync(string grapperId)
         {
             try
             {
                 var jBEntities = await _IJBRepository.GetListJBGeneralAsync(grapperId);
-
                 if (jBEntities == null)
                 {
                     throw new ApplicationException("Failed to get JB list");
                 }
-                else
+
+                int count = jBEntities.Count;
+                var JBBasicDtos = new List<JBBasicDto>(count);
+                var listJBInfo = new List<JBInformationModel>(count);
+                var dictJBInfo = new Dictionary<string, JBInformationModel>(count);
+
+                foreach (var JBEntity in jBEntities)
                 {
-                    var jbBasicDtos = jBEntities.Select(jbEntity => MapToBasicDto(jbEntity)).ToList();
-                    return jbBasicDtos;
+                    var dto = MapToBasicDto(JBEntity);
+                    var model = new JBInformationModel(dto.Id, dto.Name);
+
+                    JBBasicDtos.Add(dto);
+                    listJBInfo.Add(model);
+                    dictJBInfo[dto.Name] = model;
                 }
 
+                GlobalVariable.temp_List_JBInformationModel = listJBInfo;
+                GlobalVariable.temp_Dictionary_JBInformationModel = dictJBInfo;
+
+                return JBBasicDtos;
             }
             catch (ArgumentException)
             {
@@ -49,33 +62,20 @@ namespace ApplicationLayer.UseCases
             }
         }
 
-        //! GetListJB Không có List Device và List Module
-        public async Task<List<JBGeneralDto>> GetListJBInforAsync(string grapperId)
+
+
+        //! Dùng IEnumerable<JBGeneralDto thay cho List<JBGeneralDto> vì không cần tạo ra List để sử dụng trong hàm ngay
+        public async Task<IEnumerable<JBGeneralDto>> GetListJBInforAsync(string grapperId)
         {
-            try
+            var jBEntities = await _IJBRepository.GetListJBInformationAsync(grapperId);
+            if (jBEntities == null || !jBEntities.Any())
             {
-                var jBEntities = await _IJBRepository.GetListJBInformationAsync(grapperId);
+                UnityEngine.Debug.LogWarning("No jBEntities found.");
+            }
 
-                if (jBEntities == null)
-                {
-                    throw new ApplicationException("Failed to get JB list");
-                }
-                else
-                {
-                    var jbResponseDtos = jBEntities.Select(jbEntity => MapToGeneralDto(jbEntity)).ToList();
-                    return jbResponseDtos;
-                }
-
-            }
-            catch (ArgumentException)
-            {
-                throw; // Ném lại lỗi validation cho Unity xử lý
-            }
-            catch (Exception ex)
-            {
-                throw new ApplicationException("Failed to get JB list", ex);
-            }
+            return jBEntities.Select(MapToGeneralDto);
         }
+
 
         public async Task<JBResponseDto> GetJBByIdAsync(string JBId)
         {
@@ -89,9 +89,7 @@ namespace ApplicationLayer.UseCases
                 }
                 else
                 {
-                    // Ánh xạ từ jbEntity sang JBEntity để check các lỗi nghiệp vụ
                     var jbResponseDto = MapToResponseDto(jbEntity);
-                    // Ánh xạ từ JBEntity sang JBResponseDto để đưa giá trị trả về
                     return jbResponseDto;
                 }
             }
@@ -230,25 +228,25 @@ namespace ApplicationLayer.UseCases
         private JBGeneralDto MapToGeneralDto(JBEntity jBEntity)
         {
             return new JBGeneralDto(
-                jBEntity.Id,
+                id: jBEntity.Id,
 
-                jBEntity.Name,
+              name: jBEntity.Name,
 
-                jBEntity.Location ?? "chưa cập nhật",
+          location: jBEntity.Location ?? "chưa cập nhật",
 
-                jBEntity.OutdoorImageEntity == null ?
+         outdoorImageResponseDto: jBEntity.OutdoorImageEntity == null ?
                  null : new ImageResponseDto(jBEntity.OutdoorImageEntity.Id, jBEntity.OutdoorImageEntity.Name, jBEntity.OutdoorImageEntity.Url),
 
-                (jBEntity.ConnectionImageEntities == null || (jBEntity.ConnectionImageEntities != null && jBEntity.ConnectionImageEntities.Count <= 0)) ?
+            connectionImageResponseDtos: (jBEntity.ConnectionImageEntities == null || (jBEntity.ConnectionImageEntities != null && jBEntity.ConnectionImageEntities.Count <= 0)) ?
                  new List<ImageResponseDto>() : jBEntity.ConnectionImageEntities.Select(i => new ImageResponseDto(i.Id, i.Name, i.Url)).ToList()
              );
         }
         private JBBasicDto MapToBasicDto(JBEntity jBEntity)
         {
             return new JBBasicDto(
-                jBEntity.Id,
+             id: jBEntity.Id,
 
-                jBEntity.Name
+           name: jBEntity.Name
                    );
         }
         // private JBRequestDto MapToRequestDto(JBEntity jBEntity)
