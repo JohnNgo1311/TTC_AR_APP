@@ -79,6 +79,7 @@ public class SearchDeviceAndJBPresenter
                 }
                 GlobalVariable_Search_Devices.temp_ListDeviceInformationModel = models;
 
+
             }
             UnityEngine.Debug.Log("Run Presenter Task Successfully");
 
@@ -141,22 +142,22 @@ public class SearchDeviceAndJBPresenter
             range: dto.Range,
             unit: dto.Unit,
             ioAddress: dto.IOAddress,
-            jbInformationModel: dto.JBGeneralDto != null ? new JBInformationModel(
-                id: dto.JBGeneralDto.Id,
-                name: dto.JBGeneralDto.Name,
-            location: dto.JBGeneralDto?.Location,
-            outdoorImage: dto.JBGeneralDto.OutdoorImageResponseDto != null ? new ImageInformationModel(
-                           id: dto.JBGeneralDto.OutdoorImageResponseDto.Id,
-                           name: dto.JBGeneralDto.OutdoorImageResponseDto.Name,
-                           url: dto.JBGeneralDto.OutdoorImageResponseDto.Url) : null,
-            listConnectionImages: dto.JBGeneralDto.ConnectionImageResponseDtos.Any() ?
-            dto.JBGeneralDto.ConnectionImageResponseDtos.Select(
+            jbInformationModels: dto.JBGeneralDtos.Any() ? dto.JBGeneralDtos.Select(jb => new JBInformationModel(
+                id: jb.Id,
+                name: jb.Name,
+            location: jb?.Location,
+            outdoorImage: jb.OutdoorImageResponseDto != null ? new ImageInformationModel(
+                           id: jb.OutdoorImageResponseDto.Id,
+                           name: jb.OutdoorImageResponseDto.Name,
+                           url: jb.OutdoorImageResponseDto.Url) : null,
+            listConnectionImages: jb.ConnectionImageResponseDtos.Any() ?
+            jb.ConnectionImageResponseDtos.Select(
             connectionImage => new ImageInformationModel(
                                    id: connectionImage.Id,
                                    name: connectionImage.Name,
                                    url: connectionImage.Url)
             ).ToList() : new List<ImageInformationModel>()
-            ) : null,
+            )).ToList() : new List<JBInformationModel>(),
             moduleInformationModel: dto.ModuleBasicDto != null ? new ModuleInformationModel(
                                         dto.ModuleBasicDto.Id,
                                         dto.ModuleBasicDto.Name

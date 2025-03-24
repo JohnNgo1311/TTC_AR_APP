@@ -26,15 +26,15 @@ public class DeviceInformationModel
   [JsonProperty("Module")]
   public ModuleInformationModel? ModuleInformationModel { get; set; }
 
-  [JsonProperty("JB")]
-  public JBInformationModel? JBInformationModel { get; set; }
+  [JsonProperty("JBs")]
+  public List<JBInformationModel>? JBInformationModels { get; set; }
 
   [JsonProperty("AdditionalConnectionImages")]
   public List<ImageInformationModel>? AdditionalConnectionImages { get; set; }
 
   [Preserve]
 
-  public DeviceInformationModel(string id, string code, string? function, string? range, string? unit, string? ioAddress, ModuleInformationModel? moduleInformationModel, JBInformationModel? jbInformationModel, List<ImageInformationModel>? additionalConnectionImages)
+  public DeviceInformationModel(string id, string code, string? function, string? range, string? unit, string? ioAddress, ModuleInformationModel? moduleInformationModel, List<JBInformationModel>? jbInformationModels, List<ImageInformationModel>? additionalConnectionImages)
   {
     Id = id;
     Code = code;
@@ -43,10 +43,10 @@ public class DeviceInformationModel
     Unit = unit;
     IOAddress = ioAddress;
     ModuleInformationModel = moduleInformationModel;
-    JBInformationModel = jbInformationModel;
+    JBInformationModels = jbInformationModels;
     AdditionalConnectionImages = additionalConnectionImages;
   }
-  public DeviceInformationModel(string code, string? function, string? range, string? unit, string? ioAddress, ModuleInformationModel? moduleInformationModel, JBInformationModel? jbInformationModel, List<ImageInformationModel>? additionalConnectionImages)
+  public DeviceInformationModel(string code, string? function, string? range, string? unit, string? ioAddress, ModuleInformationModel? moduleInformationModel, List<JBInformationModel>? jbInformationModels, List<ImageInformationModel>? additionalConnectionImages)
   {
 
     Code = code;
@@ -55,7 +55,7 @@ public class DeviceInformationModel
     Unit = unit;
     IOAddress = ioAddress;
     ModuleInformationModel = moduleInformationModel;
-    JBInformationModel = jbInformationModel;
+    JBInformationModels = jbInformationModels;
     AdditionalConnectionImages = additionalConnectionImages;
   }
   public DeviceInformationModel(string id, string code)

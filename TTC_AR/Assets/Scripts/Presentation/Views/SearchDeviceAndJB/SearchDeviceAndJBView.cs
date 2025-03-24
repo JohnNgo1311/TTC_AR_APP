@@ -48,9 +48,17 @@ public class SearchDeviceAndJBView : MonoBehaviour, ISearchDeviceAndJBView
     }
     private void OnDisable()
     {
-        inputField.onValueChanged.RemoveListener(OnInputValueChange);
+        inputField.onValueChanged.RemoveAllListeners();
         filterDropdownButton.GetComponent<Button>().onClick.RemoveListener(ToggleDropdown);
     }
+    public void SetInit()
+    {
+        contentRect ??= content.GetComponent<RectTransform>();
+        scrollRectInitialSize = scrollRect.gameObject.GetComponent<RectTransform>().sizeDelta;
+        Debug.Log("SearchableDropDown awake");
+        filter_Type = "Device";
+    }
+
     private void LoadData()
     {
         _presenter.LoadDataForSearching(GlobalVariable.GrapperId);
@@ -124,6 +132,7 @@ public class SearchDeviceAndJBView : MonoBehaviour, ISearchDeviceAndJBView
         ToggleDropdown();
         filterText.text = filter_Type;
         inputField.text = deviceOptions[0];
+        Canvas.ForceUpdateCanvases();
     }
 
     public void OnJBFilterClicked()
@@ -133,6 +142,8 @@ public class SearchDeviceAndJBView : MonoBehaviour, ISearchDeviceAndJBView
         ToggleDropdown();
         filterText.text = filter_Type;
         inputField.text = jbOptions[0];
+        Canvas.ForceUpdateCanvases();
+
     }
 
     private void UpdateDropdownOptions(List<string> options)
@@ -374,13 +385,6 @@ public class SearchDeviceAndJBView : MonoBehaviour, ISearchDeviceAndJBView
     public void DisplayCreateResult(bool success)
     {
         throw new NotImplementedException();
-    }
-    public void SetInit()
-    {
-        contentRect ??= content.GetComponent<RectTransform>();
-        scrollRectInitialSize = scrollRect.gameObject.GetComponent<RectTransform>().sizeDelta;
-        Debug.Log("SearchableDropDown awake");
-        filter_Type = "Device";
     }
 
 

@@ -272,22 +272,22 @@ public class DevicePresenter
             range: dto.Range,
             unit: dto.Unit,
             ioAddress: dto.IOAddress,
-            jbInformationModel: dto.JBGeneralDto != null ? new JBInformationModel(
-                id: dto.JBGeneralDto.Id,
-                name: dto.JBGeneralDto.Name,
-            location: dto.JBGeneralDto?.Location,
-            outdoorImage: dto.JBGeneralDto.OutdoorImageResponseDto != null ? new ImageInformationModel(
-                           id: dto.JBGeneralDto.OutdoorImageResponseDto.Id,
-                           name: dto.JBGeneralDto.OutdoorImageResponseDto.Name,
-                           url: dto.JBGeneralDto.OutdoorImageResponseDto.Url) : null,
-            listConnectionImages: dto.JBGeneralDto.ConnectionImageResponseDtos.Any() ?
-            dto.JBGeneralDto.ConnectionImageResponseDtos.Select(
+            jbInformationModels: dto.JBGeneralDtos.Any() ? dto.JBGeneralDtos.Select(jb => new JBInformationModel(
+                id: jb.Id,
+                name: jb.Name,
+            location: jb?.Location,
+            outdoorImage: jb.OutdoorImageResponseDto != null ? new ImageInformationModel(
+                           id: jb.OutdoorImageResponseDto.Id,
+                           name: jb.OutdoorImageResponseDto.Name,
+                           url: jb.OutdoorImageResponseDto.Url) : null,
+            listConnectionImages: jb.ConnectionImageResponseDtos.Any() ?
+            jb.ConnectionImageResponseDtos.Select(
             connectionImage => new ImageInformationModel(
                                    id: connectionImage.Id,
                                    name: connectionImage.Name,
                                    url: connectionImage.Url)
             ).ToList() : new List<ImageInformationModel>()
-            ) : null,
+            )).ToList() : new List<JBInformationModel>(),
             moduleInformationModel: dto.ModuleBasicDto != null ? new ModuleInformationModel(
                                         dto.ModuleBasicDto.Id,
                                         dto.ModuleBasicDto.Name
@@ -317,10 +317,10 @@ public class DevicePresenter
             range: model.Range,
             unit: model.Unit,
             ioAddress: model.IOAddress,
-            jbBasicDto: model.JBInformationModel == null ? null : new JBBasicDto(
-                id: model.JBInformationModel.Id,
-                name: model.JBInformationModel.Name
-            ),
+            jbBasicDtos: model.JBInformationModels.Any() ? model.JBInformationModels.Select(jb => new JBBasicDto(
+                id: jb.Id,
+                name: jb.Name
+            )).ToList() : new List<JBBasicDto>(),
             moduleBasicDto: model.ModuleInformationModel == null ? null : new ModuleBasicDto(
                 id: model.ModuleInformationModel.Id,
                 name: model.ModuleInformationModel.Name

@@ -131,7 +131,7 @@ public class SearchDeviceFromModule : MonoBehaviour
         deviceInformation[2].text = device.Range;
         deviceInformation[3].text = device.IOAddress;
 
-        jBInformationModel_ConnectingToDevice = GlobalVariable.temp_ListJBInformationModel_FromModule.Find(jB => jB.Id == device.JBInformationModel.Id);
+        jBInformationModel_ConnectingToDevice = GlobalVariable.temp_ListJBInformationModel_FromModule.Find(jB => jB.Id == device.JBInformationModels[0].Id);
 
         deviceInformation[4].text = jBInformationModel_ConnectingToDevice.Name;
         deviceInformation[5].text = jBInformationModel_ConnectingToDevice.Location;

@@ -269,13 +269,13 @@ namespace ApplicationLayer.UseCases
         private DeviceEntity MapRequestToEntity(DeviceRequestDto requestDto)
         {
             return new DeviceEntity(
-                requestDto.Code,
-                requestDto.Function,
-                requestDto.Range,
-                requestDto.Unit,
-                requestDto.IOAddress,
-                requestDto.ModuleBasicDto == null ? null : new ModuleEntity(requestDto.ModuleBasicDto.Id, requestDto.ModuleBasicDto.Name),
-                requestDto.JBBasicDto == null ? null : new JBEntity(requestDto.JBBasicDto.Id, requestDto.JBBasicDto.Name),
+              code: requestDto.Code,
+              function: requestDto.Function,
+             range: requestDto.Range,
+            unit: requestDto.Unit,
+            ioAddress: requestDto.IOAddress,
+            moduleEntity: requestDto.ModuleBasicDto == null ? null : new ModuleEntity(requestDto.ModuleBasicDto.Id, requestDto.ModuleBasicDto.Name),
+            jbEntities: requestDto.JBBasicDtos.Any() ? new List<JBEntity>() : requestDto.JBBasicDtos.Select(jbEntity => new JBEntity(jbEntity.Id, jbEntity.Name)).ToList(),
                 (requestDto.AdditionalImageBasicDtos == null || (requestDto.AdditionalImageBasicDtos != null && requestDto.AdditionalImageBasicDtos.Count <= 0)) ? new List<ImageEntity>()
                  : requestDto.AdditionalImageBasicDtos.Select(dto => new ImageEntity(dto.Id, dto.Name)).ToList()
             );
@@ -314,20 +314,20 @@ namespace ApplicationLayer.UseCases
                 moduleBasicDto: deviceEntity.ModuleEntity != null ? new ModuleBasicDto(
                     id: deviceEntity.ModuleEntity.Id,
                     name: deviceEntity.ModuleEntity.Name) : null,
-                jbGeneralDto: deviceEntity.JBEntity != null
-                ? new JBGeneralDto(
-                       id: deviceEntity.JBEntity.Id,
-                       name: deviceEntity.JBEntity.Name,
-                   location: deviceEntity.JBEntity.Location,
-                   outdoorImageResponseDto: deviceEntity.JBEntity.OutdoorImageEntity != null ? new ImageResponseDto(
-                   id: deviceEntity.JBEntity.OutdoorImageEntity.Id,
-                   name: deviceEntity.JBEntity.OutdoorImageEntity.Name,
-                   url: deviceEntity.JBEntity.OutdoorImageEntity.Url) : null,
-                connectionImageResponseDtos: deviceEntity.JBEntity.ConnectionImageEntities.Any() ? deviceEntity.JBEntity.ConnectionImageEntities.Select(imageEntity => new ImageResponseDto(
+                jbGeneralDtos: deviceEntity.JBEntities != null
+                ? deviceEntity.JBEntities.Select(jb => new JBGeneralDto(
+                       id: jb.Id,
+                       name: jb.Name,
+                   location: jb.Location,
+                   outdoorImageResponseDto: jb.OutdoorImageEntity != null ? new ImageResponseDto(
+                   id: jb.OutdoorImageEntity.Id,
+                   name: jb.OutdoorImageEntity.Name,
+                   url: jb.OutdoorImageEntity.Url) : null,
+                connectionImageResponseDtos: jb.ConnectionImageEntities.Any() ? jb.ConnectionImageEntities.Select(imageEntity => new ImageResponseDto(
                     id: imageEntity.Id,
                     name: imageEntity.Name,
                     url: imageEntity.Url)).ToList() : new List<ImageResponseDto>()
-                ) : null,
+                )).ToList() : new List<JBGeneralDto>(),
                 additionalImageResponseDtos: deviceEntity.AdditionalConnectionImageEntities.Any() ? deviceEntity.AdditionalConnectionImageEntities.Select(imageEntity => new ImageResponseDto(
                         id: imageEntity.Id,
                         name: imageEntity.Name,
