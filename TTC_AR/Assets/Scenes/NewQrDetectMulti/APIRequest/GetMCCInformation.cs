@@ -28,8 +28,10 @@ public class GetMCCInformation : MonoBehaviour
             StaticVariable.ready_To_Nav_New_Scene = false;
             StaticVariable.ready_To_Update_MCC_UI = false;
 
+            var firstSpaceIndex = title.text.IndexOf(' ');
+            var mccCabinetCode = title.text.Substring(firstSpaceIndex + 1);
             // var mccCabinetCode = title.text.Split(' ')[1];
-            var mccCabinetCode = title.text;
+            // var mccCabinetCode = title.text;
             // Debug.Log("mccCabinetCode: " + mccCabinetCode);
 
             //? Mcc tương ứng

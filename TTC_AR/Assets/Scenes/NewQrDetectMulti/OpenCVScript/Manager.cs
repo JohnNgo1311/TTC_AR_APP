@@ -22,10 +22,12 @@ public class Manager : MonoBehaviour
 
     public bool isCanvasOpen = false;
     public bool isPaused = false;
+    private string activescene;
 
     // Start is called before the first frame update
     void Start()
     {
+        activescene = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
         backBtn.onClick.AddListener(CloseCanvas);
     }
 
@@ -78,7 +80,15 @@ public class Manager : MonoBehaviour
                 if (key != null)
                 {
                     // Debug.LogWarning("Found QRMarker with key: " + key);
-                    title.text = key;
+                    if (activescene == "NewQRCodeDetectorMulti")
+                    {
+                        title.text = "Module " + key;
+                    }
+                    else
+                    {
+                        title.text = "Tủ " + key;
+                    }
+                    // title.text = "Module " + key;
                     eventPublisher.TriggerEvent_ButtonClicked();
                 }
             }

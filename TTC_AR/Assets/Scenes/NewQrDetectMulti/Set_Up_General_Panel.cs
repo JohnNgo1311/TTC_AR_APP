@@ -14,7 +14,7 @@ public class Set_Up_General_Panel : MonoBehaviour
     private void OnEnable()
     {
         title.text = "Tủ " + StaticVariable.temp_FieldDeviceInformationModel.Mcc.CabinetCode;
-        Debug.Log("CabinetCode: " + StaticVariable.temp_FieldDeviceInformationModel.Mcc.CabinetCode);
+        // Debug.Log("CabinetCode: " + StaticVariable.temp_FieldDeviceInformationModel.Mcc.CabinetCode);
         nav_Back.onClick.AddListener(() => NavigateBack());
     }
 

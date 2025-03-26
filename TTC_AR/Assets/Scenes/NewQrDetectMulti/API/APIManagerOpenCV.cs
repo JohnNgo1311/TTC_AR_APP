@@ -327,7 +327,7 @@ public class APIManagerOpenCV : MonoBehaviour
                 if (response.IsSuccessStatusCode)
                 {
                     string json = await response.Content.ReadAsStringAsync();
-                    Debug.Log("json: " + json);
+                    // Debug.Log("json: " + json);
                     var fieldDeviceInformation = JsonConvert.DeserializeObject<FieldDeviceInformationModel>(json);
 
                     StaticVariable.temp_FieldDeviceInformationModel = fieldDeviceInformation;

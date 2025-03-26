@@ -27,8 +27,8 @@ public class GetModuleInformation : MonoBehaviour
         {
             StaticVariable.ready_To_Nav_New_Scene = false;
 
-            // var moduleName = title.text.Split(' ')[1];
-            var moduleName = title.text;
+            var moduleName = title.text.Split(' ')[1];
+            // var moduleName = title.text;
             // Debug.Log("moduleName: " + moduleName);
 
             //? Module tương ứng
