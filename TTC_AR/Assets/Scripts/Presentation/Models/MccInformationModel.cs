@@ -11,15 +11,15 @@ public class MccInformationModel
 
   [JsonProperty("Id")]
   public string Id { get; set; } = string.Empty;
-  [JsonProperty("cabinetCode")]
+  [JsonProperty("CabinetCode")]
   public string CabinetCode { get; set; } = string.Empty;
 
-  [JsonProperty("brand")]
+  [JsonProperty("Brand")]
   public string? Brand { get; set; }
   [JsonProperty("ListFieldDevices")]
   public List<FieldDeviceInformationModel>? ListFieldDeviceInformation { get; set; }
 
-  [JsonProperty("note")]
+  [JsonProperty("Note")]
   public string? Note { get; set; }
 
   [Preserve]
@@ -43,5 +43,10 @@ public class MccInformationModel
   {
     Id = id;
     CabinetCode = cabinetCode;
+  }
+
+  [Preserve]
+  public MccInformationModel()
+  {
   }
 }

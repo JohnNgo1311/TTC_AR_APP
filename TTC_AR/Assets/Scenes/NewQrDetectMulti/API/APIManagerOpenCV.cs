@@ -18,12 +18,7 @@ public class APIManagerOpenCV : MonoBehaviour
     public static APIManagerOpenCV Instance { get; private set; }
 
     private Dictionary<string, ModuleInformationModel> Dic_ModuleInformationModels = new Dictionary<string, ModuleInformationModel>();
-    // private Dictionary<string, List<Texture2D>> list_JBConnectionImagesFromModule = new Dictionary<string, List<Texture2D>>();
-    // private Dictionary<string, Texture2D> list_JBLocationImagesFromModule = new Dictionary<string, Texture2D>();
-    // private Dictionary<string, List<Texture2D>> list_AdditionalImagesFromDevice = new Dictionary<string, List<Texture2D>>();
-    // private List<JBInformationModel> temp_ListJBInformationModel = new List<JBInformationModel>();
-    // private List<string> temp_ListAdditionalImages = new List<string>();
-    // private Dictionary<string, List<JBInformationModel>> temp_ListJBInformationModel = new Dictionary<string, List<JBInformationModel>>();
+    private Dictionary<string, MccInformationModel> Dic_MccInformationModels = new Dictionary<string, MccInformationModel>();
 
     private void Awake()
     {
@@ -147,6 +142,92 @@ public class APIManagerOpenCV : MonoBehaviour
         }
     }
 
+    public async Task<List<MccInformationModel>> GetListMCCs(string url)
+    {
+        try
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                string response = await client.GetStringAsync(url);
+                // Debug.Log("response: " + response);
+
+                var listMccInformationModel = JsonConvert.DeserializeObject<List<MccInformationModel>>(response);
+
+                if (listMccInformationModel != null && listMccInformationModel.Count > 0)
+                {
+                    StaticVariable.temp_ListMccInformationModel = listMccInformationModel;
+                    Dic_MccInformationModels.Clear();
+
+                    foreach (var Mcc in listMccInformationModel)
+                    {
+                        Dic_MccInformationModels.TryAdd(Mcc.CabinetCode, Mcc);
+                    }
+
+                    StaticVariable.Dic_MccInformationModel = Dic_MccInformationModels;
+                }
+                return listMccInformationModel;
+            }
+        }
+        catch (Exception ex)
+        {
+            HandleRequestError($"Unexpected error: {ex.Message + " " + ex.StackTrace + " " + ex.InnerException}");
+            return null;
+        }
+    }
+
+    public async Task<MccInformationModel> GetMcc(string url)
+    {
+        StaticVariable.ActiveCloseCanvasButton = false;
+        try
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                HttpResponseMessage response = await client.GetAsync(url);
+                if (response.IsSuccessStatusCode)
+                {
+                    string json = await response.Content.ReadAsStringAsync();
+                    // Debug.Log("json: " + json);
+                    var mccInformationModel = JsonConvert.DeserializeObject<MccInformationModel>(json);
+
+                    if (mccInformationModel != null)
+                    {
+                        StaticVariable.MccId = mccInformationModel.Id;
+
+                        StaticVariable.temp_ListFieldDeviceModelFromMCC.Clear();
+                        StaticVariable.temp_MccInformationModel = null;
+
+                        StaticVariable.temp_ListFieldDeviceModelFromMCC = mccInformationModel.ListFieldDeviceInformation;
+                        StaticVariable.temp_MccInformationModel = mccInformationModel;
+
+                        return mccInformationModel;
+                    }
+                    else
+                    {
+                        HandleRequestError("Failed to get JB information.");
+                        return null;
+                    }
+                }
+                else
+                {
+                    HandleRequestError($"Failed to get JB information. Status code: {response.StatusCode}");
+                    return null;
+                }
+            }
+        }
+        catch (JsonException jsonEx)
+        {
+            HandleRequestError(jsonEx.Message);
+            return null;
+
+        }
+        catch (Exception ex)
+        {
+            HandleRequestError(ex.Message);
+            return null;
+
+        }
+    }
+
     private void HandleRequestError(string error)
     {
         Debug.LogError($"Request error: {error}");
@@ -204,28 +285,6 @@ public class APIManagerOpenCV : MonoBehaviour
         }
     }
 
-    private async Task<bool> SendWebRequestAsync(UnityWebRequest request)
-    {
-        try
-        {
-            request.timeout = 20;
-            var operation = request.SendWebRequest();
-            while (!operation.isDone)
-            {
-                await Task.Yield();
-            }
-            bool isSuccess = request.result == UnityWebRequest.Result.Success;
-            StaticVariable.API_Status = isSuccess;
-            return isSuccess;
-        }
-        catch (Exception ex)
-        {
-            Debug.LogError($"Error during web request: {ex}");
-            StaticVariable.API_Status = false;
-            return false;
-        }
-    }
-
     public async Task<JBInformationModel> GetJBInformation(string url)
     {
         try
@@ -242,27 +301,38 @@ public class APIManagerOpenCV : MonoBehaviour
                     StaticVariable.temp_JBInformationModel = jBInformationModel;
                     StaticVariable.device_Code = "1";
 
-                    // Debug.Log("jBInformationModel: " + jBInformationModel);
-
-                    // if (StaticVariable.ready_To_Reset_ListJB)
-                    // {
-                    // StaticVariable.temp_ListJBInformationModel.Clear();
-                    // // }
-
-                    // if (jBInformationModel != null)
-                    // {
-                    //     // Debug.Log("jBInformationModel.Id: " + jBInformationModel.Id);
-
-                    //     if (!StaticVariable.temp_ListJBInformationModel.Contains(jBInformationModel))
-                    //     {
-                    //         StaticVariable.temp_ListJBInformationModel.Add(jBInformationModel);
-                    //     }
-                    //     else
-                    //     {
-                    //         Debug.LogWarning("Device already exists in the list.");
-                    //     }
-                    // }
                     return jBInformationModel;
+                }
+                else
+                {
+                    HandleRequestError($"Failed to get JB information. Status code: {response.StatusCode}");
+                    return null;
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            HandleRequestError($"Unexpected error: {ex.Message}");
+            return null;
+        }
+    }
+
+    public async Task<FieldDeviceInformationModel> GetFieldDeviceInformation(string url)
+    {
+        try
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                HttpResponseMessage response = await client.GetAsync(url);
+                if (response.IsSuccessStatusCode)
+                {
+                    string json = await response.Content.ReadAsStringAsync();
+                    Debug.Log("json: " + json);
+                    var fieldDeviceInformation = JsonConvert.DeserializeObject<FieldDeviceInformationModel>(json);
+
+                    StaticVariable.temp_FieldDeviceInformationModel = fieldDeviceInformation;
+
+                    return fieldDeviceInformation;
                 }
                 else
                 {

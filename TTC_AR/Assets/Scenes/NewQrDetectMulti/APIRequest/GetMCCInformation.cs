@@ -6,56 +6,55 @@ using UnityEngine;
 using TMPro;
 using EasyUI.Progress;
 
-public class GetModuleInformation : MonoBehaviour
+public class GetMCCInformation : MonoBehaviour
 {
     [SerializeField] private TMP_Text title;
     [SerializeField] private EventPublisher eventPublisher;
 
     private void Awake()
     {
-        eventPublisher.OnButtonClicked += GetModuleInformationModel;
+        eventPublisher.OnButtonClicked += GetMCCInformationModel;
     }
 
     private void Destroy()
     {
-        eventPublisher.OnButtonClicked -= GetModuleInformationModel;
+        eventPublisher.OnButtonClicked -= GetMCCInformationModel;
     }
 
-    public async void GetModuleInformationModel()
+    public async void GetMCCInformationModel()
     {
         try
         {
             StaticVariable.ready_To_Nav_New_Scene = false;
+            StaticVariable.ready_To_Update_MCC_UI = false;
 
-            // var moduleName = title.text.Split(' ')[1];
-            var moduleName = title.text;
-            // Debug.Log("moduleName: " + moduleName);
+            // var mccCabinetCode = title.text.Split(' ')[1];
+            var mccCabinetCode = title.text;
+            // Debug.Log("mccCabinetCode: " + mccCabinetCode);
 
-            //? Module tương ứng
-            var module = StaticVariable.temp_ListModuleInformationModel.Find(module => module.Name == moduleName);
+            //? Mcc tương ứng
+            var mcc = StaticVariable.temp_ListMccInformationModel.Find(mcc => mcc.CabinetCode == mccCabinetCode);
 
-            if (module == null)
+            if (mcc == null)
             {
-                Show_Toast.Instance.ShowToast("error", "Không tìm thấy thông tin module!");
+                Show_Toast.Instance.ShowToast("error", "Không tìm thấy thông tin mcc!");
                 return;
             }
 
             await Move_On_Main_Thread.RunOnMainThread(() =>
                       {
-                          //   Show_Toast.Instance.Set_Instance_Status_True();
-                          //   Show_Toast.Instance.ShowToast("loading", "Đang tải dữ liệu...");
                           ShowProgressBar("Đang tải dữ liệu...", "Vui lòng chờ...");
                       });
 
-            await APIManagerOpenCV.Instance.GetModule(StaticVariable.GetModuleUrl + "/" + module.Id);
-            // await APIManagerOpenCV.Instance.DownloadImagesAsync();
+            await APIManagerOpenCV.Instance.GetMcc(StaticVariable.GetMCCUrl + "/" + mcc.Id);
 
             await Move_On_Main_Thread.RunOnMainThread(() =>
                {
-                   //    StartCoroutine(Show_Toast.Instance.Set_Instance_Status_False());
                    HideProgressBar();
                });
+
             StaticVariable.ready_To_Nav_New_Scene = true;
+            StaticVariable.ready_To_Update_MCC_UI = true;
 
         }
         catch (Exception)
@@ -69,7 +68,7 @@ public class GetModuleInformation : MonoBehaviour
             await Task.Delay(1000);
             await Move_On_Main_Thread.RunOnMainThread(() =>
               {
-                  //   StartCoroutine(Show_Toast.Instance.Set_Instance_Status_False());
+                  HideProgressBar();
               });
         }
     }

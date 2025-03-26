@@ -13,6 +13,8 @@ public class FieldDeviceInformationModel
   public string Id { get; set; } = string.Empty;
   [JsonProperty("Name")]
   public string Name { get; set; } = string.Empty;
+  [JsonProperty("Mcc")]
+  public MccInformationModel? Mcc { get; set; }
 
   [JsonProperty("RatedPower")]
   public string? RatedPower { get; set; }
@@ -54,6 +56,12 @@ public class FieldDeviceInformationModel
   {
     Id = id;
     Name = name;
+  }
+
+
+  [Preserve]
+  public FieldDeviceInformationModel()
+  {
   }
 
   public class FieldDevice_Basic_Model

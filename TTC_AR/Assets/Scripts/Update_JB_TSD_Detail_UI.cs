@@ -119,15 +119,6 @@ public class Update_JB_TSD_Detail_UI : MonoBehaviour
             StartCoroutine(Resize_GameObject_Function.Set_NativeSize_For_GameObject(image.GetComponent<Image>()));
         }
 
-        // if (SceneManager.GetActiveScene().name == "GrapperAScanScene")
-        // {
-        //     jb_Infor_Item_Prefab.GetComponent<ContentSizeFitter>().gameObject.SetActive(true);
-        //     jb_Infor_Item_Prefab.GetComponent<ContentSizeFitter>().enabled = true;
-        //     // yield return null;
-        //     scroll_Area_Content.GetComponent<ContentSizeFitter>().gameObject.SetActive(true);
-        //     scroll_Area_Content.GetComponent<ContentSizeFitter>().enabled = true;
-        // }
-        // yield return Show_Toast.Instance.Set_Instance_Status_False();
         HideProgressBar();
     }
 

@@ -1651,7 +1651,7 @@ MonoBehaviour:
   userNameField: {fileID: 860194577}
   passwordField: {fileID: 1117824330}
   loginButton: {fileID: 369192254}
-  targetSceneName: NewQRCodeDetectorMulti
+  targetSceneName: FieldDeviceScene
 --- !u!1 &1410353005
 GameObject:
   m_ObjectHideFlags: 0

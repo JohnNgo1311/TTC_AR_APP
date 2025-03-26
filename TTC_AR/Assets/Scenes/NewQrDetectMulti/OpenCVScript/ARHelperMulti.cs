@@ -431,6 +431,13 @@ namespace OpenCVForUnity.UnityUtils.Helper
                 CalculateARMatrix(ref marker);
                 UpdateTransform(arGameObject);
                 marker.GameObject = arGameObject;
+                // if (!arMatrix.ValidTRS())
+                // {
+                //     Debug.LogError("Invalid transformation matrix detected!");
+                //     return;
+                // }
+                // Debug.Log($"arMatrix: {arMatrix}");
+                // Debug.Log($"Determinant: {arMatrix.determinant}");
                 marker.UpdateArMatrix(arMatrix);
                 index++;
             }

@@ -54,7 +54,7 @@ public class SearchJBFromModule : MonoBehaviour
         if (StaticVariable.navigate_from_JB_TSD_General)
         {
             StaticVariable.navigate_from_JB_TSD_Detail = true;
-            gameObject.gameObject.SetActive(false);
+            gameObject.SetActive(false);
             detail_JB_TSD_Panel.gameObject.SetActive(true);
         }
     }

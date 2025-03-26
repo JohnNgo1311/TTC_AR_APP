@@ -78,7 +78,7 @@ public class Manager : MonoBehaviour
                 if (key != null)
                 {
                     // Debug.LogWarning("Found QRMarker with key: " + key);
-                    title.text = "Module " + key;
+                    title.text = key;
                     eventPublisher.TriggerEvent_ButtonClicked();
                 }
             }

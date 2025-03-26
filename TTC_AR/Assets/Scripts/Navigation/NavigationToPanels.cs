@@ -16,11 +16,11 @@ public class NavigationToPanels : MonoBehaviour
 
     private void OnEnable()
     {
-        if (parentCanvas == null) // Chỉ tìm parentCanvas nếu chưa gán
-            parentCanvas = GetComponentInParent<Canvas>();
+        // if (parentCanvas == null) // Chỉ tìm parentCanvas nếu chưa gán
+        //     parentCanvas = GetComponentInParent<Canvas>();
 
-        if (initialScreen == null) // Gán initialScreen nếu chưa gán
-            initialScreen = parentCanvas.transform.Find("Basic_Panel")?.gameObject;
+        // if (initialScreen == null) // Gán initialScreen nếu chưa gán
+        //     initialScreen = parentCanvas.transform.Find("Basic_Panel")?.gameObject;
 
         if (generalModuleTitle == null && initialScreen != null) // Gán tiêu đề nếu chưa gán
             generalModuleTitle = initialScreen.transform.Find("Title")?.GetComponent<TMP_Text>();
@@ -67,17 +67,17 @@ public class NavigationToPanels : MonoBehaviour
         }
     }
 
-    private string GetModuleTitle(string fullName)
-    {
-        if (isFieldDevice)
-        {
-            return generalModuleTitle.text;
-        }
-        else
-        {
-            return $"Module {fullName.Split('_')[0]}";
-        }
-    }
+    // private string GetModuleTitle(string fullName)
+    // {
+    //     if (isFieldDevice)
+    //     {
+    //         return generalModuleTitle.text;
+    //     }
+    //     else
+    //     {
+    //         return $"Module {fullName.Split('_')[0]}";
+    //     }
+    // }
 
     public void NavigateNewScreen(int index)
     {

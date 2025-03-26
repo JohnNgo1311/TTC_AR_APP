@@ -5,11 +5,11 @@ using System.Threading.Tasks;
 using EasyUI.Progress;
 using UnityEngine;
 
-public class GetListModuleFromGrapper : MonoBehaviour
+public class GetListMCCsFromGrapper : MonoBehaviour
 {
     private void Awake()
     {
-        GetListModuleByGrapper();
+        GetListMCCsByGrapper();
     }
 
     private void Start()
@@ -17,7 +17,7 @@ public class GetListModuleFromGrapper : MonoBehaviour
 
     }
 
-    public async void GetListModuleByGrapper()
+    public async void GetListMCCsByGrapper()
     {
         try
         {
@@ -28,12 +28,13 @@ public class GetListModuleFromGrapper : MonoBehaviour
                           ShowProgressBar("Đang tải dữ liệu...", "Vui lòng chờ...");
                       });
 
-            await APIManagerOpenCV.Instance.GetListModule(StaticVariable.GetListModuleUrl);
+            await APIManagerOpenCV.Instance.GetListMCCs(StaticVariable.GetListMCCsUrl);
 
             await Move_On_Main_Thread.RunOnMainThread(() =>
                {
                    HideProgressBar();
                });
+
             StaticVariable.ready_To_Nav_New_Scene = true;
         }
         catch (Exception)
