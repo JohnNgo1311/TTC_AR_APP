@@ -417,17 +417,17 @@ public class APIManager : MonoBehaviour
                         }
 
                         //? Tải hình ảnh ngoài trời
-                        if (!string.IsNullOrEmpty(jb.OutdoorImage.url))
+                        if (!string.IsNullOrEmpty(jb.OutdoorImage.Url))
                         {
-                            downloadTasks.Add(DownloadImageAsync(jb.OutdoorImage.url));
+                            downloadTasks.Add(DownloadImageAsync(jb.OutdoorImage.Url));
                         }
 
                         //? Tải danh sách hình ảnh kết nối
                         foreach (var image in jb.ListConnectionImages)
                         {
-                            if (!string.IsNullOrEmpty(image.url))
+                            if (!string.IsNullOrEmpty(image.Url))
                             {
-                                downloadTasks.Add(DownloadImageAsync(image.url));
+                                downloadTasks.Add(DownloadImageAsync(image.Url));
                             }
                         }
 
@@ -437,7 +437,7 @@ public class APIManager : MonoBehaviour
                         //? Cập nhật danh sách hình ảnh kết nối trên Main Thread
                         UnityMainThreadDispatcher.Instance.Enqueue(() =>
                         {
-                            if (!string.IsNullOrEmpty(jb.OutdoorImage.url))
+                            if (!string.IsNullOrEmpty(jb.OutdoorImage.Url))
                             {
                                 list_JBLocationImagesFromModule[jb.Name] = downloadedTextures[0];
                                 list_JBConnectionImagesFromModule[jb.Name].AddRange(downloadedTextures.Skip(1));
@@ -470,9 +470,9 @@ public class APIManager : MonoBehaviour
 
                 foreach (var image_url in temp_FieldDeviceInformationModel.ListConnectionImages)
                 {
-                    if (!string.IsNullOrEmpty(image_url.url))
+                    if (!string.IsNullOrEmpty(image_url.Url))
                     {
-                        downloadTasks.Add(DownloadImageAsync(image_url.url));
+                        downloadTasks.Add(DownloadImageAsync(image_url.Url));
                     }
                 }
                 var downloadedTextures = await Task.WhenAll(downloadTasks);

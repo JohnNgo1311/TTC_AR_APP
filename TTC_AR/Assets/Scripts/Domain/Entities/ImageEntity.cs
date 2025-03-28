@@ -61,6 +61,11 @@ namespace Domain.Entities
     }
 
     [Preserve]
+    public ImageEntity(string name)
+    {
+      Name = string.IsNullOrEmpty(name) ? throw new ArgumentNullException(nameof(name)) : name;
+    }
+    [Preserve]
     public ImageEntity(string id, string name, string url)
     {
       Id = id;

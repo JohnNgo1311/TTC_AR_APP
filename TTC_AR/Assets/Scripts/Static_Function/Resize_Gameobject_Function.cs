@@ -47,4 +47,25 @@ public class Resize_GameObject_Function : MonoBehaviour
     LayoutRebuilder.ForceRebuildLayoutImmediate(imageComponent.rectTransform);
 
   }
+  public static IEnumerator Set_NativeSize_For_GameObject(RawImage imageComponent)
+  {
+    Canvas.ForceUpdateCanvases();
+
+    if (imageComponent.texture == null)
+    {
+      Debug.LogWarning("Sprite is null on Image component.");
+      yield break;
+    }
+
+
+    yield return new WaitForEndOfFrame();
+    float originalWidth = imageComponent.texture.width;
+    float originalHeight = imageComponent.texture.height;
+
+    RectTransform rectTransform = imageComponent.rectTransform;
+    float aspectRatio = originalWidth / originalHeight;
+    rectTransform.sizeDelta = new Vector2(rectTransform.sizeDelta.x, rectTransform.sizeDelta.x / aspectRatio);
+    LayoutRebuilder.ForceRebuildLayoutImmediate(imageComponent.rectTransform);
+
+  }
 }

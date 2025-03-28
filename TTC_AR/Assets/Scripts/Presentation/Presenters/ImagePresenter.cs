@@ -1,8 +1,11 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using ApplicationLayer.Dtos.Image;
 using ApplicationLayer.Interfaces;
+using UnityEngine;
+using UnityEngine.UI;
 
 public class ImagePresenter
 {
@@ -21,7 +24,6 @@ public class ImagePresenter
     {
         GlobalVariable.APIRequestType.Add("GET_Image_List");
         _view.ShowLoading("Đang tải dữ liệu...");
-
         try
         {
             var ImageBasicDto = await _service.GetListImageAsync(grapperId);
@@ -31,8 +33,11 @@ public class ImagePresenter
                 {
                     var models = ImageBasicDto.Select(dto => ConvertFromBasicDto(dto)).ToList();
 
-                    _view.DisplayList(models);
+                    GlobalVariable.temp_List_ImageInformationModel = models;
 
+                    GlobalVariable.temp_ListImage_Name = models.Select(m => m.Name).ToList();
+
+                    _view.DisplayList(models);
                 }
                 else
                 {
@@ -40,12 +45,10 @@ public class ImagePresenter
                     _view.DisplayList(models);
                 }
                 _view.ShowSuccess();
-
             }
             else
             {
                 _view.ShowError("No Images found");
-
             }
         }
         catch (Exception ex)
@@ -143,9 +146,71 @@ public class ImagePresenter
         {
             _view.HideLoading();
             GlobalVariable.APIRequestType.Remove("DELETE_Image");
-
         }
     }
+    public async void UploadImageFromGallery(string grapperId, Texture2D image, string fieldName, string fileName, string filePath)
+    {
+        GlobalVariable.APIRequestType.Add("POST_Image");
+        _view.ShowLoading("Đang cập nhật...");
+        try
+        {
+            Debug.Log("Run Presenter");
+            var result = await _service.UploadNewImageFromGallery(grapperId, image, fieldName, fileName, filePath);
+
+            if (result)
+            {
+                _view.ShowSuccess(); // Chỉ hiển thị thành công nếu result == true
+            }
+            else
+            {
+                _view.ShowError("Upload Image failed");
+
+            }
+        }
+        catch (Exception ex)
+        {
+            _view.ShowError($"Error: {ex.Message}");
+
+        }
+        finally
+        {
+            _view.HideLoading();
+            GlobalVariable.APIRequestType.Remove("POST_Image");
+        }
+    }
+    public async void UploadImageFromCamera(string grapperId, Texture2D image, string fieldName, string fileName)
+    {
+        GlobalVariable.APIRequestType.Add("POST_Image");
+        _view.ShowLoading("Đang cập nhật...");
+        try
+
+        {
+            Debug.Log("Run Presenter");
+            Debug.Log("UploadImageFromCamera: " + grapperId + " " + fieldName + " " + fileName);
+
+            var result = await _service.UploadNewImageFromCamera(grapperId, image, fieldName, fileName);
+
+            if (result)
+            {
+                _view.ShowSuccess(); // Chỉ hiển thị thành công nếu result == true
+            }
+            else
+            {
+                _view.ShowError("Upload Image failed");
+            }
+        }
+        catch (Exception ex)
+        {
+            _view.ShowError($"Error: {ex.Message}");
+
+        }
+        finally
+        {
+            _view.HideLoading();
+            GlobalVariable.APIRequestType.Remove("POST_Image");
+        }
+    }
+
 
 
     //! Dto => Model

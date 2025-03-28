@@ -14,7 +14,7 @@ namespace Infrastructure.Repositories
     public class FieldDeviceRepository : IFieldDeviceRepository
     {
         private readonly HttpClient _httpClient;
-        private const string BaseUrl = "https://6776bd1c12a55a9a7d0cbc42.mockapi.io/api/v2/FieldDevice";
+        private const string BaseUrl = "https://677ba70820824100c07a4e9f.mockapi.io/api/v3/ListFieldDevice";
 
         public FieldDeviceRepository(HttpClient httpClient)
         {

@@ -288,10 +288,10 @@ public class Dropdown_On_ValueChange : MonoBehaviour
 
         if (outdoorImage != null)
         {
-            if (!string.IsNullOrEmpty(outdoorImage.url))
+            if (!string.IsNullOrEmpty(outdoorImage.Url))
             {
-                AddButtonListener(JB_Location_Image, outdoorImage.url);
-                tasks.Add(searchableDropDownView._presenter.LoadImageAsync(outdoorImage.url, JB_Location_Image));
+                AddButtonListener(JB_Location_Image, outdoorImage.Url);
+                tasks.Add(searchableDropDownView._presenter.LoadImageAsync(outdoorImage.Url, JB_Location_Image));
             }
         }
         else
@@ -307,7 +307,7 @@ public class Dropdown_On_ValueChange : MonoBehaviour
             {
                 var newImage = Instantiate(JB_Connection_Wiring_Image.gameObject, JB_List_Connection_Group);
                 AddButtonListener(newImage.GetComponent<Image>(), image.Name);
-                tasks.Add(searchableDropDownView._presenter.LoadImageAsync(image.url, newImage.GetComponent<Image>()));
+                tasks.Add(searchableDropDownView._presenter.LoadImageAsync(image.Url, newImage.GetComponent<Image>()));
             }
         }
 

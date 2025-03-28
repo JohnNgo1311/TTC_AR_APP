@@ -2,17 +2,26 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.IO;
 using System.Threading.Tasks;
+using static NativeGallery;
 
-public class SavePhoto : MonoBehaviour
+public class PickPhotoFromGallery : MonoBehaviour
 {
-    public NativeGallery.Permission permission; // Permission to access Camera Roll
+    public Permission permission; // Permission to access Camera Roll
     public string imagePath;
-    public Image image;
+    public RawImage image;
+    public Button Gallery_Option_Btn;
 
+    [Header("Canvas")]
+    public GameObject ConfirmImageCanvas;
+    void Start()
+    {
+        Gallery_Option_Btn.onClick.RemoveAllListeners();
+        Gallery_Option_Btn.onClick.AddListener(() => PickPhoto(image));
+    }
     public async void SavePhotoToCameraRoll(Texture2D myTexture, string albumName, string filename)
     {
-        NativeGallery.Permission result = await Task.Run(() => NativeGallery.SaveImageToGallery(myTexture, albumName, filename));
-        if (result != NativeGallery.Permission.Granted)
+        Permission result = await Task.Run(() => SaveImageToGallery(myTexture, albumName, filename));
+        if (result != Permission.Granted)
         {
             Debug.LogError("Failed to save!");
         }
@@ -23,12 +32,15 @@ public class SavePhoto : MonoBehaviour
         }
     }
 
-    public void PickPhotoCameraRoll(Image imageForUpload)
+    public void PickPhoto(RawImage imageForUpload)
     {
-        if (permission == NativeGallery.Permission.Granted)
+        GlobalVariable.PickPhotoFromCamera = false;
+        image.gameObject.SetActive(false);
+        if (permission == Permission.Granted)
         {
-            //Debug"Permission Granted");
-            NativeGallery.GetImageFromGallery((path) => HandlePickedPhoto(path, imageForUpload), "Select an image", "image/*");
+            GetImageFromGallery((path)
+            => HandlePickedPhoto(path, imageForUpload),
+            "Select an image", "image/*");
         }
         else
         {
@@ -38,30 +50,29 @@ public class SavePhoto : MonoBehaviour
         }
     }
 
-    private async void HandlePickedPhoto(string path, Image imageForUpload)
+    private async void HandlePickedPhoto(string path, RawImage imageForUpload)
     {
         if (string.IsNullOrEmpty(path))
         {
-            //Debug"Pick Photo: Canceled");
             imagePath = null;
-            imageForUpload.sprite = null;
+            imageForUpload.texture = null;
         }
         else
         {
-            //Debug"Pick Photo: Success");
             imagePath = path;
-            Sprite sprite = await LoadSpriteFromPathAsync(path);
-            imageForUpload.sprite = sprite;
+            imageForUpload.texture = await LoadSpriteFromPathAsync(path);
+            image.gameObject.SetActive(true);
+            ConfirmImageCanvas.SetActive(true);
             // Function_onPicked_Return.Invoke(); // Triggered [On Unity Event] in Visual Scripting
         }
     }
 
-    private async Task<Sprite> LoadSpriteFromPathAsync(string path)
+    private async Task<Texture> LoadSpriteFromPathAsync(string path)
     {
         byte[] imageData = await Task.Run(() => File.ReadAllBytes(path));
         Texture2D texture = new Texture2D(2, 2, TextureFormat.RGBA32, false);
         texture.LoadImage(imageData);
-        return Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
+        return texture;
     }
 
     private Texture2D SpriteToTexture2D(Sprite sprite)
@@ -78,12 +89,12 @@ public class SavePhoto : MonoBehaviour
 
     public void AskPermission()
     {
-        NativeGallery.Permission permissionResult = NativeGallery.RequestPermission(NativeGallery.PermissionType.Read, NativeGallery.MediaType.Image);
+        Permission permissionResult = RequestPermission(PermissionType.Read, MediaType.Image);
         permission = permissionResult;
 
-        if (permission == NativeGallery.Permission.Granted)
+        if (permission == Permission.Granted)
         {
-            PickPhotoCameraRoll(image);
+            PickPhoto(image);
         }
     }
 }

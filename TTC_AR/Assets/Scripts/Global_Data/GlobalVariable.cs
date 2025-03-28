@@ -74,6 +74,7 @@ public class GlobalVariable : MonoBehaviour
 
     "GET_Image_List"
     };
+    public static bool requestTimeOut = false;
 
     public static string previousScene;
     public static string recentScene;
@@ -145,6 +146,7 @@ public class GlobalVariable : MonoBehaviour
 
     //!Grapper
     public static string GrapperId = "1";
+    public static string GrapperName = "GrapperA";
     public static List<GrapperBasicDto> temp_ListGrapperBasicDto = new List<GrapperBasicDto>(); // Id, Name, List_Rack_Basic_Dto
     public static GrapperResponseDto temp_GrapperResponseDto; // Id, Name, List_Rack_Basic_Dto
     public static GrapperBasicDto temp_GrapperBasicDto; // Id, Name, List_Rack_Basic_Dto
@@ -250,6 +252,8 @@ public class GlobalVariable : MonoBehaviour
     public static string ImageId = "1";
     public static Dictionary<string, ImageInformationModel> temp_Dictionary_ImageInformationModel = new Dictionary<string, ImageInformationModel>();
     public static Dictionary<string, ImageBasicModel> temp_Dictionary_ImageBasicModel = new Dictionary<string, ImageBasicModel>();
+    public static List<string> temp_ListImage_Name = new List<string>();
+    public static bool PickPhotoFromCamera = false;
     public static List<ImageInformationModel> temp_List_ImageInformationModel = new List<ImageInformationModel>()
     {
 

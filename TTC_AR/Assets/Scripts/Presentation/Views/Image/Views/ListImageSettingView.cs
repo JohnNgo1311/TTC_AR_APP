@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,31 +8,36 @@ using UnityEngine.UI;
 
 public class ListImageSettingView : MonoBehaviour, IImageView
 {
+    private ImagePresenter _presenter;
+
     [Header("Canvas")]
     public GameObject List_Image_Canvas;
     public GameObject Add_New_Image_Canvas;
-    public GameObject Update_Image_Canvas;
 
+    [Header("Prefab & Layout")]
     public GameObject Image_Item_Prefab;
     public GameObject Parent_Vertical_Layout_Group;
     public ScrollRect scrollView;
     private List<GameObject> listImageItems = new List<GameObject>();
 
-
+    [Header("Dialog")]
     public GameObject DialogOneButton;
     public GameObject DialogTwoButton;
-    private ImagePresenter _presenter;
+
+    [Header("Preview")]
+    public GameObject PreviewImageCanvas;
+    public Button BackButtonFromPreviewCanvas;
+    public Image PreviewImage;
+    public TMP_Text PreviewImageName;
 
     void Awake()
     {
-        ImageManager ImageManager = FindObjectOfType<ImageManager>();
-        _presenter = new ImagePresenter(this, ImageManager._IImageService);
+        _presenter = new ImagePresenter(this,
+        ManagerLocator.Instance.ImageManager._IImageService);
     }
-
     void OnEnable()
     {
         LoadListImage();
-
     }
     void OnDisable()
     {
@@ -53,8 +57,7 @@ public class ListImageSettingView : MonoBehaviour, IImageView
     public void LoadListImage()
     {
         RefreshList();
-        _presenter.LoadListImage(GlobalVariable.companyId);
-
+        _presenter.LoadListImage(GlobalVariable.GrapperId);
     }
     public void DisplayList(List<ImageInformationModel> models)
     {
@@ -66,12 +69,12 @@ public class ListImageSettingView : MonoBehaviour, IImageView
                 Debug.Log(ImageIndex);
                 var newImageItem = Instantiate(Image_Item_Prefab, Parent_Vertical_Layout_Group.transform);
                 Transform newImageItemTransform = newImageItem.transform;
-                Transform newImageItemPreviewInforGroup = newImageItemTransform.GetChild(0);
-                newImageItemPreviewInforGroup.Find("Preview_Image_Code").GetComponent<TMP_Text>().text = model.Name;
-                Transform newImageItemPreviewButtonGroup = newImageItemTransform.GetChild(1);
+                var previewButton = newImageItem.GetComponent<Button>();
+                previewButton.onClick.RemoveAllListeners();
+                previewButton.onClick.AddListener(() => OpenPreviewImageCanvas(model));
+                newImageItemTransform.Find("Preview_Image_Name").GetComponent<TMP_Text>().text = model.Name;
+                newImageItemTransform.Find("Delete_Button").GetComponent<Button>().onClick.AddListener(() => DeleImageItem(newImageItem, model));
                 listImageItems.Add(newImageItem);
-                // newImageItemPreviewButtonGroup.Find("Group/Edit_Button").GetComponent<Button>().onClick.AddListener(() => EditImageItem(model.Id));
-                newImageItemPreviewButtonGroup.Find("Group/Delete_Button").GetComponent<Button>().onClick.AddListener(() => DeleImageItem(newImageItem, model));
             }
         }
         else
@@ -79,16 +82,27 @@ public class ListImageSettingView : MonoBehaviour, IImageView
             Debug.Log("No Images found");
         }
         Image_Item_Prefab.SetActive(false);
-
     }
 
-    // private void EditImageItem(int id)
-    // {
+    private async void OpenPreviewImageCanvas(ImageInformationModel model)
+    {
+        ShowProgressBar("Đang tải ảnh...", "...");
+        PreviewImageCanvas.SetActive(true);
+        BackButtonFromPreviewCanvas.onClick.RemoveAllListeners();
+        BackButtonFromPreviewCanvas.onClick.AddListener(() => PreviewImageCanvas.SetActive(false));
+        PreviewImageName.text = model.Name;
 
-    //     GlobalVariable.ImageId = id;
+        await LoadImage.Instance.LoadImageFromUrlAsync(
+                    url: "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_Outdoor_Location%2FJB101_Location.jpg?alt=media&token=98ea4fb2-7093-425a-802e-458579c12fbd",
+                    image: PreviewImage,
+                    true
+                );
+        StartCoroutine(Resize_GameObject_Function.Set_NativeSize_For_GameObject(PreviewImage));
 
-    //     OpenUpdateCanvas();
-    // }
+        await Task.Delay(1000);
+
+        HideProgressBar();
+    }
     private void DeleImageItem(GameObject ImageItem, ImageInformationModel model)
     {
         OpenDeleteWarningDialog(ImageItem, model);
@@ -98,13 +112,6 @@ public class ListImageSettingView : MonoBehaviour, IImageView
     {
         Add_New_Image_Canvas.SetActive(true);
         List_Image_Canvas.SetActive(false);
-        Update_Image_Canvas.SetActive(false);
-    }
-    private void OpenUpdateCanvas()
-    {
-        Update_Image_Canvas.SetActive(true);
-        List_Image_Canvas.SetActive(false);
-        Add_New_Image_Canvas.SetActive(false);
     }
 
     private void OpenDeleteWarningDialog(GameObject ImageItem, ImageInformationModel model)
@@ -115,7 +122,7 @@ public class ListImageSettingView : MonoBehaviour, IImageView
 
         var Horizontal_Group = DialogTwoButton.transform.Find("Background/Horizontal_Group").gameObject.transform;
 
-        var dialog_Content = DialogTwoButton.transform.Find("Background/Dialog_Content").GetComponent<TMP_Text>().text = $"Bạn có chắc chắn muốn xóa thông tin hình ảnh <b><color =#004C8A>{model.Name}</b></color> khỏi hệ thống? Hãy kiểm tra kĩ trước khi nhấn nút xác nhận phía dưới";
+        var dialog_Content = DialogTwoButton.transform.Find("Background/Dialog_Content").GetComponent<TMP_Text>().text = $"Bạn có chắc chắn muốn xóa hình ảnh <b><color=red>{model.Name}</b></color> khỏi hệ thống? Hãy kiểm tra kĩ trước khi nhấn nút xác nhận phía dưới";
 
         var dialog_Title = DialogTwoButton.transform.Find("Background/Dialog_Title").GetComponent<TMP_Text>().text = "Xóa hình ảnh khỏi hệ thống?";
 
@@ -125,7 +132,6 @@ public class ListImageSettingView : MonoBehaviour, IImageView
 
         confirmButton.GetComponent<Image>().sprite = Resources.Load<Sprite>("images/UIimages/Warning_Back_Button_Background");
 
-
         var backButton = Horizontal_Group.transform.Find("Back_Button").GetComponent<Button>();
 
         confirmButton.onClick.RemoveAllListeners();
@@ -134,19 +140,18 @@ public class ListImageSettingView : MonoBehaviour, IImageView
 
         confirmButton.onClick.AddListener(() =>
         {
-            Destroy(ImageItem);
             listImageItems.Remove(ImageItem);
+            Debug.Log(model.Id);
             _presenter.DeleteImage(model.Id);
             DialogTwoButton.SetActive(false);
+            Destroy(ImageItem);
         });
         backButton.onClick.AddListener(() =>
         {
             DialogTwoButton.SetActive(false);
         });
     }
-
-
-    private void OpenErrorDeletingDialog()
+    private void OpenErrorDialog(string title = "Xóa hình ảnh thất bại", string message = "Đã có lỗi xảy ra khi xóa hình ảnh khỏi hệ thống. Vui lòng thử lại sau")
     {
         DialogOneButton.SetActive(true);
 
@@ -156,11 +161,9 @@ public class ListImageSettingView : MonoBehaviour, IImageView
 
         var dialog_Icon = DialogOneButton.transform.Find("Background/Dialog_Status_Icon").GetComponent<Image>().sprite = Resources.Load<Sprite>("images/UIimages/Error_Icon_For_Dialog");
 
+        var dialog_Content = DialogOneButton.transform.Find("Background/Dialog_Content").GetComponent<TMP_Text>().text = message;
 
-        var dialog_Content = DialogOneButton.transform.Find("Background/Dialog_Content").GetComponent<TMP_Text>().text = $"Đã có lỗi xảy ra khi xóa hình ảnh khỏi hệ thống. Vui lòng thử lại sau";
-
-        var dialog_Title = DialogOneButton.transform.Find("Background/Dialog_Title").GetComponent<TMP_Text>().text = "Xóa hình ảnh thất bại";
-
+        var dialog_Title = DialogOneButton.transform.Find("Background/Dialog_Title").GetComponent<TMP_Text>().text = title;
 
         backButton.onClick.RemoveAllListeners();
 
@@ -170,53 +173,6 @@ public class ListImageSettingView : MonoBehaviour, IImageView
         });
 
     }
-
-    private void OpenErrorCreateNewDialog()
-    {
-        DialogOneButton.SetActive(true);
-        var backButton = DialogOneButton.transform.Find("Background/Back_Button").GetComponent<Button>();
-
-        backButton.gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>("images/UIimages/Error_Back_Button_Background");
-
-        var dialog_Icon = DialogOneButton.transform.Find("Background/Dialog_Status_Icon").GetComponent<Image>().sprite = Resources.Load<Sprite>("images/UIimages/Error_Icon_For_Dialog");
-
-        var dialog_Content = DialogOneButton.transform.Find("Background/Dialog_Content").GetComponent<TMP_Text>().text = $"Đã có lỗi xảy ra khi thêm hình ảnh này khỏi hệ thống. Vui lòng thử lại sau";
-
-        var dialog_Title = DialogOneButton.transform.Find("Background/Dialog_Title").GetComponent<TMP_Text>().text = "Thêm hình ảnh thất bại";
-
-
-        backButton.onClick.RemoveAllListeners();
-
-        backButton.onClick.AddListener(() =>
-        {
-            DialogOneButton.SetActive(false);
-        });
-    }
-
-
-    private void OpenErrorGetListDialog()
-    {
-        DialogOneButton.SetActive(true);
-        var backButton = DialogOneButton.transform.Find("Background/Back_Button").GetComponent<Button>();
-
-        backButton.gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>("images/UIimages/Error_Back_Button_Background");
-
-        var dialog_Icon = DialogOneButton.transform.Find("Background/Dialog_Status_Icon").GetComponent<Image>().sprite = Resources.Load<Sprite>("images/UIimages/Error_Icon_For_Dialog");
-
-        var dialog_Content = DialogOneButton.transform.Find("Background/Dialog_Content").GetComponent<TMP_Text>().text = $"Đã có lỗi xảy ra khi tải danh sách. Vui lòng thử lại sau";
-
-        var dialog_Title = DialogOneButton.transform.Find("Background/Dialog_Title").GetComponent<TMP_Text>().text = "Tải danh sách thất bại";
-
-
-        backButton.onClick.RemoveAllListeners();
-
-        backButton.onClick.AddListener(() =>
-        {
-            DialogOneButton.SetActive(false);
-        });
-    }
-
-
     private void ShowProgressBar(string title, string details)
     {
         Progress.Show(title, ProgressColor.Blue, true);
@@ -226,36 +182,32 @@ public class ListImageSettingView : MonoBehaviour, IImageView
     {
         Progress.Hide();
     }
-
-
-
     public void ShowLoading(string title) => ShowProgressBar(title, "Đang tải dữ liệu...");
     public void HideLoading() => HideProgressBar();
+
     public void ShowError(string message)
     {
         if (GlobalVariable.APIRequestType.Contains("GET_Image_List"))
         {
-            OpenErrorGetListDialog();
+            OpenErrorDialog(title: "Tải danh sách thất bại", message: "Đã có lỗi xảy ra khi tải danh sách. Vui lòng thử lại sau");
         }
         else if (GlobalVariable.APIRequestType.Contains("DELETE_Image"))
         {
-            OpenErrorDeletingDialog();
+            OpenErrorDialog();
         }
-
     }
     public void ShowSuccess()
     {
-        Show_Toast.Instance.Set_Instance_Status_True();
         if (GlobalVariable.APIRequestType.Contains("GET_Image_List"))
         {
             Show_Toast.Instance.ShowToast("success", "Tải danh sách thành công");
         }
-        if (GlobalVariable.APIRequestType.Contains("DELETE_Image"))
+        else if (GlobalVariable.APIRequestType.Contains("DELETE_Image"))
         {
             Show_Toast.Instance.ShowToast("success", "Xóa hình ảnh thành công");
         }
 
-        StartCoroutine(Show_Toast.Instance.Set_Instance_Status_False(1f));
+        StartCoroutine(Show_Toast.Instance.Set_Instance_Status_False());
     }
 
     // Không dùng trong ListView

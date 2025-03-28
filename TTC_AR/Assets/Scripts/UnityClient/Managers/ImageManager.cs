@@ -5,6 +5,9 @@ using System.Net.Http;
 using ApplicationLayer.Dtos.Image;
 using ApplicationLayer.Interfaces;
 using System.Linq;
+using System.Threading.Tasks;
+using System.Collections;
+using System.Collections.Generic;
 
 public class ImageManager : MonoBehaviour
 {
@@ -148,6 +151,30 @@ public class ImageManager : MonoBehaviour
             Debug.LogError($"Unexpected error: {ex.Message}");
             //? hiển thị Dialog hoặc showToast tại đây
 
+        }
+    }
+
+    public async void UploadNewImageFromGallery(string grapperId, Texture2D texture, string filePath, string fieldName, string fileName)
+    {
+        try
+        {
+            await _IImageService.UploadNewImageFromGallery(grapperId, texture, filePath, fieldName, fileName);
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError($"Upload error: {ex.Message}");
+        }
+    }
+    public async void UploadNewImageFromCamera(string grapperId, Texture2D texture, string fieldName, string fileName)
+    {
+        try
+        {
+            bool result = await _IImageService.UploadNewImageFromCamera(grapperId, texture, fieldName, fileName);
+            Debug.Log(result ? "Image uploaded successfully" : "Failed to upload Image");
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError($"Upload error: {ex.Message}");
         }
     }
 }

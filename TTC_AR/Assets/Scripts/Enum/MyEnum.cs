@@ -105,6 +105,8 @@ public enum HttpMethodTypeEnum
     [Description("GET_Image_List")] GETListImage,
     [Description("GET_Image")] GETImage,
     [Description("POST_Image")] POSTImage,
+    [Description("DELETE_Image")] DELETEImage,
+
 }
 
 public static class EnumExtensions

@@ -90,6 +90,7 @@ public class LoadImage : MonoBehaviour
     private void HandleRequestError(string error)
     {
         Debug.LogError($"Request error: {error}");
+
         throw new Exception(error);
     }
 }

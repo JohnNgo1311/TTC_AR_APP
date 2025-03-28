@@ -1,8 +1,10 @@
 
 // Domain/Repositories/IImageRepository.cs
+using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Domain.Entities;
+using UnityEngine;
 
 namespace Domain.Interfaces
 {
@@ -13,8 +15,10 @@ namespace Domain.Interfaces
         Task<ImageEntity> GetImageByIdAsync(string ImageId);
         Task<List<ImageEntity>> GetListImageAsync(string grapperId);
         Task<bool> CreateNewImageAsync(string grapperId, ImageEntity ImageEntity);
-        Task<bool> UpdateImageAsync(string ImageId, ImageEntity ImageEntity);
         Task<bool> DeleteImageAsync(string ImageId);
+        Task<bool> UploadNewImageFromGallery(string grapperId, Texture2D texture, string fieldName, string fileName, string filePath, string mimeType);
+        Task<bool> UploadNewImageFromCamera(string grapperId, Texture2D texture, string fieldName, string fileName);
+
     }
     //! Được Implement ở ImageRepository.cs trong Infrastructure Layer
 }

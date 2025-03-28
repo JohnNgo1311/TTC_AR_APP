@@ -13,7 +13,7 @@ namespace Infrastructure.Repositories
     public class DeviceRepository : IDeviceRepository
     {
         private readonly HttpClient _httpClient;
-        private const string BaseUrl = "https://67176614b910c6a6e027ebfc.mockapi.io/api/v1/Device"; // URL server ngoài thực tế
+        private const string BaseUrl = "https://67da8d3b35c87309f52d09f5.mockapi.io/api/v4/ListDevices"; // URL server ngoài thực tế
 
         public DeviceRepository(HttpClient httpClient)
         {

@@ -1,22 +1,40 @@
 using UnityEngine;
 using System.Collections;
-using System;
 using UnityEngine.UI;
+using System.IO;
+
 
 public class WebCamPhotoCamera : MonoBehaviour
 {
     public static WebCamPhotoCamera Instance { get; private set; }
 
-    private WebCamTexture webCamTexture;
-    public GameObject Take_Photo_Module;
-    public RawImage Camera_Screen_For_Take_Photo;
-    public RawImage preview_Image;
-    public Button take_Photo_Button;
-    public Button save_Photo_Button;
-    public Button retake_Photo_Button;
-    public Button cancel_Take_Photo_Button;
+    [SerializeField] private WebCamTexture webCamTexture;
+    [SerializeField] private Texture2D capturedPhoto;
 
-    private Update_Photo_JB currentUpdatePhotoJB; // Đối tượng nhận ảnh hiện tại
+    [Header("Canvas")]
+    public GameObject ConfirmImageCanvas;
+
+
+
+    [Header("Take Photo Module")]
+    public GameObject Take_Photo_Module;
+    public RawImage CameraScreen;
+    public Button TakeButton;
+    public Button cancel_Take_Photo_Button;
+    public AspectRatioFitter aspectRatioFitterForCaptureScreen;
+
+
+
+    [Header("Preview Photo Module")]
+    public GameObject Preview_Photo_Module;
+    public RawImage preview_Image;
+    public Button acceptButton;
+    public Button reTakeButton;
+    public AspectRatioFitter aspectRatioFitterForPreviewImage;
+
+    private PickPhotoFromCamera pickPhotoFromCamera;
+    // public string imagePath;
+    // public string fileName = "captured_image.png";
 
     private void Awake()
     {
@@ -28,122 +46,160 @@ public class WebCamPhotoCamera : MonoBehaviour
         {
             Destroy(gameObject);
         }
-    }
 
+    }
+    void OnEnable()
+    {
+        // Use lambda expressions to reduce overhead and improve performance
+        TakeButton.onClick.AddListener(() => TakePhotoOnClick());
+        acceptButton.onClick.AddListener(() => AcceptPhoto());
+        reTakeButton.onClick.AddListener(() => ReTakePhoto());
+        cancel_Take_Photo_Button.onClick.AddListener(() => Stop_Camera_To_Take_Photo());
+        // Initialize UI elements to inactive state
+        SetDeActiveUIElements(false);
+    }
+    void OnDisable()
+    {
+        // Remove listeners to prevent memory leaks
+        TakeButton.onClick.RemoveAllListeners();
+        acceptButton.onClick.RemoveAllListeners();
+        reTakeButton.onClick.RemoveAllListeners();
+        cancel_Take_Photo_Button.onClick.RemoveAllListeners();
+    }
     void Start()
     {
-        SetActiveUIElements(false);
-        if (take_Photo_Button != null && save_Photo_Button != null && retake_Photo_Button != null && cancel_Take_Photo_Button != null)
-        {
-            take_Photo_Button.onClick.AddListener(Take_Photo_Button_OnClick);
-            save_Photo_Button.onClick.AddListener(SavePhoto);
-            retake_Photo_Button.onClick.AddListener(ReTakePhoto);
-            cancel_Take_Photo_Button.onClick.AddListener(Stop_Camera_To_Take_Photo);
-        }
-        else
-        {
-            Debug.LogError("Some buttons are missing!");
-        }
+
     }
 
-    private void SetActiveUIElements(bool isActive)
+    public void SetDeActiveUIElements(bool isActive)
     {
-        Camera_Screen_For_Take_Photo.gameObject.SetActive(isActive);
-        preview_Image.gameObject.SetActive(isActive);
-        take_Photo_Button.gameObject.SetActive(isActive);
-        save_Photo_Button.gameObject.SetActive(isActive);
-        retake_Photo_Button.gameObject.SetActive(isActive);
-        cancel_Take_Photo_Button.gameObject.SetActive(isActive);
         Take_Photo_Module.SetActive(isActive);
+        Preview_Photo_Module.SetActive(isActive);
     }
 
-    public void Start_Camera_To_Take_Photo(Update_Photo_JB updatePhotoJB)
+
+    //! Bật camera để chụp ảnh
+    public void StartCameraToTakePhoto(PickPhotoFromCamera pickPhotoFromCamera)
     {
         Take_Photo_Module.SetActive(true);
-        cancel_Take_Photo_Button.gameObject.SetActive(true);
-        Camera_Screen_For_Take_Photo.gameObject.SetActive(true);
-        take_Photo_Button.gameObject.SetActive(true);
 
-        currentUpdatePhotoJB = updatePhotoJB; // Lưu đối tượng nhận ảnh hiện tại
+        Preview_Photo_Module.SetActive(false);
+        this.pickPhotoFromCamera = pickPhotoFromCamera;
 
         if (WebCamTexture.devices.Length > 0)
         {
-            WebCamDevice cameraDevice = WebCamTexture.devices[0];
-            webCamTexture = new WebCamTexture(cameraDevice.name);
-            Camera_Screen_For_Take_Photo.texture = webCamTexture;
+            WebCamDevice selectedDevice = WebCamTexture.devices[0];
+            if (Application.platform == RuntimePlatform.Android)
+            {
+                foreach (WebCamDevice device in WebCamTexture.devices)
+                {
+                    if (!device.isFrontFacing)
+                    {
+                        selectedDevice = device; //! chọn camera sau
+                        break;
+                    }
+                }
+            }
+            webCamTexture = new WebCamTexture(selectedDevice.name); //! Khởi tạo WebCamTexture với camera đã chọn
+
+            CameraScreen.texture = webCamTexture; //! Gán texture cho RawImage
+
             webCamTexture.Play();
-            //Debug"Camera detected: " + cameraDevice.name);
+
+            StartCoroutine(AdjustAspectRatio());
         }
         else
         {
-            Debug.LogError("No camera detected!");
+            Debug.LogError("Không tìm thấy camera nào!");
         }
     }
-
+    //! Dừng camera sau khi chụp ảnh
     public void Stop_Camera_To_Take_Photo()
     {
-        SetActiveUIElements(false);
+        SetDeActiveUIElements(false);
         if (webCamTexture != null)
         {
             webCamTexture.Stop();
+            webCamTexture = null;
         }
-        currentUpdatePhotoJB = null; // Xóa đối tượng nhận ảnh hiện tại
+        this.pickPhotoFromCamera = null;
     }
 
-    public void ReTakePhoto()
+
+    //! Chỉnh sửa tỉ lệ khung hình của camera
+    private IEnumerator AdjustAspectRatio()
     {
-        preview_Image.gameObject.SetActive(false);
-        Camera_Screen_For_Take_Photo.gameObject.SetActive(true);
-        take_Photo_Button.gameObject.SetActive(true);
-        retake_Photo_Button.gameObject.SetActive(false);
-        save_Photo_Button.gameObject.SetActive(false);
-        webCamTexture.Play();
+        yield return new WaitUntil(() => webCamTexture.width > 100);
+
+        float videoRatio = (float)webCamTexture.width / webCamTexture.height;
+        aspectRatioFitterForCaptureScreen.aspectRatio = videoRatio;
+        aspectRatioFitterForPreviewImage.aspectRatio = videoRatio;
     }
 
-    public void Take_Photo_Button_OnClick()
+    //! Chụp ảnh
+    public void TakePhotoOnClick()
     {
         StartCoroutine(TakePhoto());
-        Camera_Screen_For_Take_Photo.gameObject.SetActive(false);
-        take_Photo_Button.gameObject.SetActive(false);
-        cancel_Take_Photo_Button.gameObject.SetActive(false);
+
+        Take_Photo_Module.SetActive(false);
+
+        // CameraScreen.gameObject.SetActive(false);
+        // TakeButton.gameObject.SetActive(false);
+        // cancel_Take_Photo_Button.gameObject.SetActive(false);
+
+        Preview_Photo_Module.SetActive(true);
+
+
     }
 
     private IEnumerator TakePhoto()
     {
         yield return new WaitForEndOfFrame();
-        Texture2D photo = new Texture2D(webCamTexture.width, webCamTexture.height);
-        photo.SetPixels(webCamTexture.GetPixels());
-        photo.Apply();
-        StartCoroutine(PreviewPhotoCoroutine(photo, preview_Image));
+        //? Tạo Texture2D mới với kích thước của camera
+        capturedPhoto = new Texture2D(webCamTexture.width, webCamTexture.height);
+        //? Lấy ảnh từ camera và gán vào Texture2D
+        capturedPhoto.SetPixels(webCamTexture.GetPixels());
+        //? Lưu ảnh vào bộ nhớ
+        capturedPhoto.Apply();
+        yield return PreviewPhotoCoroutine(capturedPhoto, preview_Image);
     }
 
-    public void SavePhoto()
+
+
+    public void AcceptPhoto() //! => Gán Image Sau khi đã review vào confirmImage
     {
-        //Debug"Photo saved");
-
-        Texture2D savedPhoto = preview_Image.texture as Texture2D;
-
-        // Kiểm tra xem đối tượng hiện tại có tồn tại không và cập nhật ảnh
-        currentUpdatePhotoJB?.UpdateImage(savedPhoto);
-
-        preview_Image.gameObject.SetActive(false);
-        Camera_Screen_For_Take_Photo.gameObject.SetActive(false);
-        retake_Photo_Button.gameObject.SetActive(false);
-        save_Photo_Button.gameObject.SetActive(false);
-        Take_Photo_Module.SetActive(false);
-
-        if (webCamTexture != null)
+        if (capturedPhoto != null)
         {
-            webCamTexture.Stop();
+            if (pickPhotoFromCamera != null)
+            {
+                ConfirmImageCanvas.SetActive(true);
+                pickPhotoFromCamera.UpdateConfirmImage(capturedPhoto);
+            }
         }
+        Stop_Camera_To_Take_Photo();
     }
 
+
+    //! Hiển thị ảnh đã chụp => gán vào Preview_Image
     private IEnumerator PreviewPhotoCoroutine(Texture2D photo, RawImage previewImage)
     {
         yield return new WaitForEndOfFrame();
         previewImage.texture = photo;
-        preview_Image.gameObject.SetActive(true);
-        save_Photo_Button.gameObject.SetActive(true);
-        retake_Photo_Button.gameObject.SetActive(true);
+        previewImage.gameObject.SetActive(true);
+    }
+
+    public void ReTakePhoto()
+    {
+        Take_Photo_Module.SetActive(true);
+
+        // CameraScreen.gameObject.SetActive(true);
+        // cancel_Take_Photo_Button.gameObject.SetActive(true);
+        // TakeButton.gameObject.SetActive(true);
+
+        Preview_Photo_Module.SetActive(false);
+        // preview_Image.gameObject.SetActive(false);
+        // reTakeButton.gameObject.SetActive(false);
+        // acceptButton.gameObject.SetActive(false);
+        webCamTexture.Play();
     }
 }

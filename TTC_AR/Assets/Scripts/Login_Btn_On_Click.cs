@@ -5,10 +5,10 @@ using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
-using System.Threading.Tasks;
-using UnityEngine.XR;
-using System.Runtime.InteropServices;
 using System.Linq;
+using System;
+using EasyUI.Progress;
+
 
 
 public class Login_Btn_On_Click : MonoBehaviour
@@ -185,22 +185,14 @@ public class Login_Btn_On_Click : MonoBehaviour
         //     )
         // );
 
+        ManagerLocator.Instance.FieldDeviceManager._IFieldDeviceService.GetListFieldDeviceAsync("1");
+        ManagerLocator.Instance.JBManager._IJBService.GetListJBGeneralAsync("1");
+        ManagerLocator.Instance.DeviceManager._IDeviceService.GetListDeviceGeneralAsync("1");
 
-        // FieldDeviceManager FieldDeviceManager = FindObjectOfType<FieldDeviceManager>();
-        // FieldDeviceManager._IFieldDeviceService.GetListFieldDeviceAsync("1");
-
-        // JBManager jBManager = FindObjectOfType<JBManager>();
-        // ImageManager imageManager = FindObjectOfType<ImageManager>();
-        // ModuleManager moduleManager = FindObjectOfType<ModuleManager>();
-
-        // GlobalVariable.APIRequestType.Clear();
-        // GlobalVariable.APIRequestType.Add("GET_JB_List_General");
-        // // GlobalVariable.APIRequestType.Add("GET_Device_List_General");
-        // GlobalVariable.APIRequestType.Add("GET_Module_List");
-
-
-
-
+        GlobalVariable.APIRequestType.Clear();
+        GlobalVariable.APIRequestType.Add("GET_JB_List_General");
+        GlobalVariable.APIRequestType.Add("GET_Device_List_General");
+        GlobalVariable.APIRequestType.Add("GET_FieldDevice_List");
         GlobalVariable.APIRequestType.Clear();
         // userName = userNameField.text;
         // password = passwordField.text;
@@ -243,38 +235,28 @@ public class Login_Btn_On_Click : MonoBehaviour
         yield return Show_Toast.Instance.Set_Instance_Status_False();
     }
 
+    private void ShowProgressBar(string title, string details)
+    {
+        Progress.Show(title, ProgressColor.Blue, true);
+        Progress.SetDetailsText(details);
+    }
+
+    private void HideProgressBar()
+    {
+        Progress.Hide();
+    }
+
     private IEnumerator LoadSceneAsync(string sceneName)
     {
         //  Show_Toast.Instance.Set_Instance_Status_True();
-        Show_Toast.Instance.ShowToast("loading", "Đang đăng nhập...");
-
+        ShowProgressBar("Đang đăng nhập...", "....");
         GlobalVariable.ready_To_Nav_New_Scene = true;
-
-        // yield return new WaitUntil(() =>
-        //     GlobalVariable.temp_List_JBInformationModel.Any() &&
-        //     GlobalVariable.temp_List_DeviceInformationModel.Any() &&
-        //     GlobalVariable.temp_List_RackInformationModel.Any() &&
-        //     GlobalVariable.temp_List_ModuleSpecificationModel.Any() &&
-        //     GlobalVariable.temp_List_AdapterSpecificationModel.Any()
-
-        // );
-
-        yield return Show_Toast.Instance.Set_Instance_Status_False();
-
+        yield return new WaitUntil(() =>
+            GlobalVariable.temp_List_JBInformationModel.Any() &&
+            GlobalVariable.temp_List_DeviceInformationModel.Any() &&
+            GlobalVariable.temp_List_FieldDeviceInformationModel.Any()
+        );
+        HideProgressBar();
         SceneManager.LoadSceneAsync(sceneName);
     }
-
-    // private async Task GetInitialData()
-    // {
-    //     await Task.WhenAll(
-    //     // DeviceManager deviceManager = FindObjectOfType<DeviceManager>();
-    //     ManagerLocator.Instance.JBManager._IJBService.GetListJBGeneralAsync("1"),
-    //     ManagerLocator.Instance.DeviceManager._IDeviceService.GetListDeviceGeneralAsync("1"),
-    //     ManagerLocator.Instance.RackManager._IRackService.GetListRackAsync("1"),
-    //     ManagerLocator.Instance.ModuleSpecificationManager._IModuleSpecificationService.GetListModuleSpecificationAsync("1"),
-    //     ManagerLocator.Instance.AdapterSpecificationManager._IAdapterSpecificationService.GetListAdapterSpecificationAsync("1")
-    //     // deviceManager._IDeviceService.GetListDeviceGeneralAsync("1");
-    //     );
-
-    // }
 }

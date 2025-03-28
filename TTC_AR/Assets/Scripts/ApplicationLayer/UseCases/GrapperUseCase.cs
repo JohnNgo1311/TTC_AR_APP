@@ -30,6 +30,7 @@ namespace ApplicationLayer.UseCases
             {
                 var GrapperEntities = await _IGrapperRepository.GetListGrapperAsync(companyId);
 
+
                 if (GrapperEntities == null)
                 {
                     throw new ApplicationException("Failed to get Grapper list");
@@ -37,6 +38,7 @@ namespace ApplicationLayer.UseCases
                 else
                 {
                     var GrapperResponseDtos = GrapperEntities.Select(GrapperEntity => MapToBasicDto(GrapperEntity)).ToList();
+
                     return GrapperResponseDtos;
                 }
 
