@@ -47,7 +47,8 @@ namespace OpenCVForUnity.UnityUtils.Helper
 
 
         [SerializeField, FormerlySerializedAs("screenWidth"), TooltipAttribute("Set the width of screen.")]
-        protected int _screenWidth = 640;
+        // protected int _screenWidth = 640;
+        protected int _screenWidth = 765;
         public virtual int screenWidth
         {
             get { return _screenWidth; }
@@ -64,7 +65,8 @@ namespace OpenCVForUnity.UnityUtils.Helper
 
 
         [SerializeField, FormerlySerializedAs("screenHeight"), TooltipAttribute("Set the height of screen.")]
-        protected int _screenHeight = 480;
+        // protected int _screenHeight = 480;
+        protected int _screenHeight = 479;
         public virtual int screenHeight
         {
             get { return _screenHeight; }

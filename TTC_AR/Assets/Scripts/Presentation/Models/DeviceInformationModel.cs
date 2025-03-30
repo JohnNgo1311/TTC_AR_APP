@@ -45,6 +45,7 @@ public class DeviceInformationModel
     IOAddress = ioAddress;
     ModuleInformationModel = moduleInformationModel;
     JBInformationModels = jbInformationModels;
+    JBInformationModels = jbInformationModels;
     AdditionalConnectionImages = additionalConnectionImages;
   }
 
@@ -58,6 +59,7 @@ public class DeviceInformationModel
     Unit = unit;
     IOAddress = ioAddress;
     ModuleInformationModel = moduleInformationModel;
+    JBInformationModels = jbInformationModels;
     JBInformationModels = jbInformationModels;
     AdditionalConnectionImages = additionalConnectionImages;
   }

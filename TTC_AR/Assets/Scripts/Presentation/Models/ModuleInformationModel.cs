@@ -13,11 +13,8 @@ public class ModuleInformationModel
   [JsonProperty("Name")] public string Name { get; set; } = string.Empty;
   [JsonProperty("Grapper")] public GrapperInformationModel? Grapper { get; set; }
   [JsonProperty("Rack")] public RackInformationModel? Rack { get; set; }
-
   [JsonProperty("ListDevices")] public List<DeviceInformationModel>? ListDeviceInformationModel { get; set; }
-
   [JsonProperty("ListJBs")] public List<JBInformationModel>? ListJBInformationModel { get; set; }
-
   [JsonProperty("ModuleSpecification")] public ModuleSpecificationModel? ModuleSpecificationModel { get; set; }
   [JsonProperty("AdapterSpecification")] public AdapterSpecificationModel? AdapterSpecificationModel { get; set; }
 

@@ -11,21 +11,25 @@ public class StaticVariable
     public static string GetJBUrl = "https://67d64a84286fdac89bc185e3.mockapi.io/GetJB";
 
     //TODO: API URL MCC
+    public static string GetListGrapperUrl = "https://67e1043658cc6bf78523da45.mockapi.io/TTC/GetListGrapper";
     public static string GetListMCCsUrl = "https://67e0fea158cc6bf78523b874.mockapi.io/TTC/GetListMCCs";
     public static string GetMCCUrl = "https://67e0fea158cc6bf78523b874.mockapi.io/TTC/GetMCC";
     public static string GetFieldDevicesFromMCCUrl = "https://67e1043658cc6bf78523da45.mockapi.io/TTC/GetFieldDevice";
 
 
+
     public static List<ModuleInformationModel> temp_ListModuleInformationModel = new List<ModuleInformationModel>();
     public static List<MccInformationModel> temp_ListMccInformationModel = new List<MccInformationModel>();
+    public static List<GrapperInformationModel> temp_ListGrapperInformationModel = new List<GrapperInformationModel>();
     public static Dictionary<string, ModuleInformationModel> Dic_ModuleInformationModel = new Dictionary<string, ModuleInformationModel>();
     public static Dictionary<string, MccInformationModel> Dic_MccInformationModel = new Dictionary<string, MccInformationModel>();
+    public static Dictionary<string, GrapperInformationModel> Dic_GrapperInformationModel = new Dictionary<string, GrapperInformationModel>();
     public static bool API_Status = false;
     public static bool ready_To_Nav_New_Scene = false;
     public static bool ActiveCloseCanvasButton = false;
 
     //? module
-    public static string ModuleId;
+    // public static string ModuleId;
     public static string ModuleSpecificationId;
     public static string AdapterSpecificationId;
     public static List<JBInformationModel> temp_ListJBInformationModelFromModule = new List<JBInformationModel>();
@@ -38,10 +42,11 @@ public class StaticVariable
     public static AdapterSpecificationModel temp_AdapterSpecificationModel;
 
     //? mcc
-    public static string MccId;
+    // public static string MccId;
     public static List<FieldDeviceInformationModel> temp_ListFieldDeviceModelFromMCC = new List<FieldDeviceInformationModel>();
     public static MccInformationModel temp_MccInformationModel;
     public static FieldDeviceInformationModel temp_FieldDeviceInformationModel;
+    public static GrapperInformationModel temp_GrapperInformationModel;
 
     public static JBInformationModel temp_JBInformationModel;
 
@@ -55,6 +60,7 @@ public class StaticVariable
 
     public static bool ready_To_Update_ListDevices_UI = false;
     public static bool ready_To_Update_MCC_UI = false;
+    public static bool ready_To_Update_Grapper_UI = false;
     // public static bool ready_To_Update_JB_TSD_Images = false;
     // public static bool ready_To_Download_Images_UI = false;
     // public static bool ready_To_Update_Images_UI = false;
@@ -72,7 +78,7 @@ public class StaticVariable
     public static string jb_TSD_Location;
     public static string device_Code;
 
-    public static GameObject generalPanel;
+    // public static GameObject generalPanel;
 
     public static Dictionary<string, List<Texture2D>> temp_listJBConnectionImageFromModule = new Dictionary<string, List<Texture2D>>();
     public static Dictionary<string, Texture2D> temp_listJBLocationImageFromModule = new Dictionary<string, Texture2D>();

@@ -22,10 +22,10 @@ public class NavigationToPanels : MonoBehaviour
         // if (initialScreen == null) // Gán initialScreen nếu chưa gán
         //     initialScreen = parentCanvas.transform.Find("Basic_Panel")?.gameObject;
 
-        if (generalModuleTitle == null && initialScreen != null) // Gán tiêu đề nếu chưa gán
-            generalModuleTitle = initialScreen.transform.Find("Title")?.GetComponent<TMP_Text>();
+        // if (generalModuleTitle == null && initialScreen != null) // Gán tiêu đề nếu chưa gán
+        //     generalModuleTitle = initialScreen.transform.Find("Title")?.GetComponent<TMP_Text>();
 
-        StaticVariable.generalPanel = initialScreen;
+        // StaticVariable.generalPanel = initialScreen;
 
         // if (generalModuleTitle != null)
         //     generalModuleTitle.text = GetModuleTitle(parentCanvas.gameObject.name);
@@ -46,7 +46,7 @@ public class NavigationToPanels : MonoBehaviour
             button.onClick.RemoveAllListeners();
         }
 
-        StaticVariable.generalPanel = null;
+        // StaticVariable.generalPanel = null;
 
     }
 
@@ -57,8 +57,8 @@ public class NavigationToPanels : MonoBehaviour
 
     private void SetInitialState()
     {
-        if (initialScreen != null)
-            initialScreen.SetActive(true);
+        // if (initialScreen != null)
+        //     initialScreen.SetActive(true);
 
         foreach (var screen in destinationScreens)
         {
@@ -106,7 +106,7 @@ public class NavigationToPanels : MonoBehaviour
                 screen.SetActive(false);
         }
 
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.2f);
 
         if (initialScreen != null)
             initialScreen.SetActive(true);

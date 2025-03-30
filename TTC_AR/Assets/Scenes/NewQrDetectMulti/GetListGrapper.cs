@@ -1,45 +1,34 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using EasyUI.Progress;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
-public class GetListMCCsFromGrapper : MonoBehaviour
+public class GetListGrapper : MonoBehaviour
 {
-    [SerializeField] private EventPublisher eventPublisher;
+    private void OnEnable()
+    {
+        GetListGrapperByCompany();
+    }
 
     private void Start()
     {
-        eventPublisher.OnButton_GrapperClicked += GetListMCCsByGrapper;
+
     }
 
-    private void OnDestroy()
-    {
-        eventPublisher.OnButton_GrapperClicked -= GetListMCCsByGrapper;
-    }
-
-    public async void GetListMCCsByGrapper()
+    public async void GetListGrapperByCompany()
     {
         try
         {
             StaticVariable.ready_To_Nav_New_Scene = false;
+            StaticVariable.ready_To_Update_Grapper_UI = false;
 
             await Move_On_Main_Thread.RunOnMainThread(() =>
                       {
                           ShowProgressBar("Đang tải dữ liệu...", "Vui lòng chờ...");
                       });
 
-            if (StaticVariable.temp_GrapperInformationModel.Name == "GrapperA")
-            {
-                await APIManagerOpenCV.Instance.GetListMCCs(StaticVariable.GetListMCCsUrl);
-                Debug.Log("GrapperA: " + StaticVariable.temp_ListMccInformationModel.Count);
-            }
-            else
-            {
-                Debug.LogError("Grapper null");
-            }
+            await APIManagerOpenCV.Instance.GetListGrapper(StaticVariable.GetListGrapperUrl);
 
             await Move_On_Main_Thread.RunOnMainThread(() =>
                {
@@ -47,8 +36,9 @@ public class GetListMCCsFromGrapper : MonoBehaviour
                });
 
             StaticVariable.ready_To_Nav_New_Scene = true;
+            StaticVariable.ready_To_Update_Grapper_UI = true;
         }
-        catch (Exception)
+        catch (System.Exception)
         {
             StaticVariable.ready_To_Nav_New_Scene = false;
             // Xử lý lỗi và hiển thị thông báo

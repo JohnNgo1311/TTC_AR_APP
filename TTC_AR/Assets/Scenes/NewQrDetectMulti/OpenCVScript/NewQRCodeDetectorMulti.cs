@@ -60,10 +60,33 @@ namespace OpenCVForUnityExample
 
         public bool detectionAck { get; private set; } = true;
         public Coroutine coroutine { get; private set; }
+        private bool isChangeOrientation = false;
 
         // Use this for initialization
         void Start()
         {
+            StartCoroutine(NewMethod());
+        }
+
+        private void Awake()
+        {
+            multiSource2MatHelper = gameObject.GetComponent<MultiSource2MatHelper>();
+
+            StartCoroutine(NewMethod1());
+        }
+        private IEnumerator NewMethod1()
+        {
+            if (isChangeOrientation == false)
+            {
+                Screen.orientation = ScreenOrientation.LandscapeLeft;
+                yield return new WaitForSeconds(4f);
+                isChangeOrientation = true;
+            }
+        }
+
+        private IEnumerator NewMethod()
+        {
+            yield return new WaitUntil(() => isChangeOrientation == true);
             //if true, The error log of the Native side OpenCV will be displayed on the Unity Editor Console.
             Utils.setDebugMode(true);
 
@@ -74,20 +97,12 @@ namespace OpenCVForUnityExample
 
             fpsMonitor = GetComponent<FpsMonitor>();
 
-            multiSource2MatHelper = gameObject.GetComponent<MultiSource2MatHelper>();
             multiSource2MatHelper.outputColorFormat = Source2MatHelperColorFormat.RGBA;
 
             InitQrDetector();
             InitWeChatDetector();
-            //var shapes = arHelper.arGameObjectOrigin.GetComponentsInChildren<MeshRenderer>();
-            //foreach (var shape in shapes)
-            //{
-            //    shape.gameObject.SetActive(false);
-            //    Debug.Log($"Disabled {shape.gameObject.name}");
-            //}
             lastFrame = DateTime.Now;
             multiSource2MatHelper.Initialize();
-
         }
 
         [Conditional("STANDARD_DETECTION")]

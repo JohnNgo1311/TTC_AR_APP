@@ -26,7 +26,7 @@ public class Nav_Back_From_Module_Screen : MonoBehaviour
 
     private void NavigatePop()
     {
-        StaticVariable.generalPanel.SetActive(true);
+        // StaticVariable.generalPanel.SetActive(true);
         module_Screen.SetActive(false);
     }
     private void OnDisable()

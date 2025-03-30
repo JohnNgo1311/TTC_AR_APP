@@ -14,11 +14,6 @@ public class GetFieldDeviceInformation : MonoBehaviour
         Instance = this;
     }
 
-    private void Destroy()
-    {
-        Instance = null;
-    }
-
     public async Task GetFieldDevice(FieldDeviceInformationModel fieldDevice)
     {
         {

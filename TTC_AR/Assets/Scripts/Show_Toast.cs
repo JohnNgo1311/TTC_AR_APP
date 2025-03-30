@@ -84,7 +84,7 @@ public class Show_Toast : MonoBehaviour
         {
             existingToast = Instantiate(toastPrefab, toastParent).transform;
             var layoutToast = existingToast.transform.GetChild(0);
-            
+
             toastText = layoutToast.GetComponentInChildren<TMP_Text>();
 
             toastBackground = layoutToast.GetComponentInChildren<Image>();
@@ -132,7 +132,7 @@ public class Show_Toast : MonoBehaviour
             }
             existingToast.gameObject.SetActive(status);
         }
-        
+
         foreach (GameObject obj in allObjects)
         {
             if (obj != null && obj.name == "LeanTouch")
@@ -153,7 +153,6 @@ public class Show_Toast : MonoBehaviour
     {
         yield return new WaitForSeconds(time);
         SetInstanceStatus(false);
-        // Debug.Log("Tắt Toast");
     }
 }
 

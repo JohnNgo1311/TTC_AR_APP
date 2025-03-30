@@ -17,6 +17,7 @@ public class Update_Field_Device_Connection_Screen : MonoBehaviour
     [SerializeField] private Image connection_ImagePrefab;
     [SerializeField] private GameObject scroll_Area_Content;
     [SerializeField] private ScrollRect scroll_Area;
+    [SerializeField] private GameObject gameObject_Empty;
     private List<GameObject> instantiatedImages = new List<GameObject>();
 
     private void OnEnable()
@@ -63,6 +64,7 @@ public class Update_Field_Device_Connection_Screen : MonoBehaviour
         }
 
         connection_ImagePrefab.gameObject.SetActive(false);
+        gameObject_Empty.transform.SetAsLastSibling();
 
         await Task.WhenAll(tasks);
 
@@ -71,6 +73,7 @@ public class Update_Field_Device_Connection_Screen : MonoBehaviour
         {
             StartCoroutine(Resize_GameObject_Function.Set_NativeSize_For_GameObject(image.GetComponent<Image>()));
         }
+        scroll_Area.verticalNormalizedPosition = 1f;
 
         HideProgressBar();
     }

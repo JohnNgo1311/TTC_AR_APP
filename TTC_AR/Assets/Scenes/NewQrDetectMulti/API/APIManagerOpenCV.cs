@@ -19,6 +19,7 @@ public class APIManagerOpenCV : MonoBehaviour
 
     private Dictionary<string, ModuleInformationModel> Dic_ModuleInformationModels = new Dictionary<string, ModuleInformationModel>();
     private Dictionary<string, MccInformationModel> Dic_MccInformationModels = new Dictionary<string, MccInformationModel>();
+    private Dictionary<string, GrapperInformationModel> Dic_GrapperInformationModels = new Dictionary<string, GrapperInformationModel>();
 
     private void Awake()
     {
@@ -63,12 +64,6 @@ public class APIManagerOpenCV : MonoBehaviour
                     // Debug.Log("Dic_ModuleInformationModels.Count: " + Dic_ModuleInformationModels.Count);
                 }
                 return listModuleInformationModel;
-                // }
-                // else
-                // {
-                //     HandleRequestError($"Failed to get JB information. Status code: {response.StatusCode}");
-                //     return null;
-                // }
             }
         }
         catch (Exception ex)
@@ -94,7 +89,7 @@ public class APIManagerOpenCV : MonoBehaviour
 
                     if (moduleInformationModel != null)
                     {
-                        StaticVariable.ModuleId = moduleInformationModel.Id;
+                        // StaticVariable.ModuleId = moduleInformationModel.Id;
                         // StaticVariable.ModuleSpecificationId = moduleInformationModel.ModuleSpecificationModel.Id;
                         // StaticVariable.AdapterSpecificationId = moduleInformationModel.AdapterSpecificationModel.Id;
 
@@ -191,7 +186,7 @@ public class APIManagerOpenCV : MonoBehaviour
 
                     if (mccInformationModel != null)
                     {
-                        StaticVariable.MccId = mccInformationModel.Id;
+                        // StaticVariable.MccId = mccInformationModel.Id;
 
                         StaticVariable.temp_ListFieldDeviceModelFromMCC.Clear();
                         StaticVariable.temp_MccInformationModel = null;
@@ -344,6 +339,40 @@ public class APIManagerOpenCV : MonoBehaviour
         catch (Exception ex)
         {
             HandleRequestError($"Unexpected error: {ex.Message}");
+            return null;
+        }
+    }
+
+    public async Task<List<GrapperInformationModel>> GetListGrapper(string url)
+    {
+        try
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                string response = await client.GetStringAsync(url);
+                Debug.Log("response: " + response);
+
+                var listGrapperInformationModel = JsonConvert.DeserializeObject<List<GrapperInformationModel>>(response);
+
+                if (listGrapperInformationModel != null && listGrapperInformationModel.Count > 0)
+                {
+                    StaticVariable.temp_ListGrapperInformationModel = listGrapperInformationModel;
+                    // Debug.Log("temp_ListGrapperInformationModel.Count: " + StaticVariable.temp_ListGrapperInformationModel.Count);
+                    Dic_GrapperInformationModels.Clear();
+
+                    foreach (var grapper in listGrapperInformationModel)
+                    {
+                        Dic_GrapperInformationModels.TryAdd(grapper.Name, grapper);
+                    }
+
+                    StaticVariable.Dic_GrapperInformationModel = Dic_GrapperInformationModels;
+                }
+                return listGrapperInformationModel;
+            }
+        }
+        catch (Exception ex)
+        {
+            HandleRequestError($"Unexpected error: {ex.Message + " " + ex.StackTrace + " " + ex.InnerException}");
             return null;
         }
     }

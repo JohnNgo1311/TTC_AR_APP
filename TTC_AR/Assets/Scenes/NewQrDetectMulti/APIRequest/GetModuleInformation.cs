@@ -42,9 +42,7 @@ public class GetModuleInformation : MonoBehaviour
 
             await Move_On_Main_Thread.RunOnMainThread(() =>
                       {
-                          //   Show_Toast.Instance.Set_Instance_Status_True();
-                          //   Show_Toast.Instance.ShowToast("loading", "Đang tải dữ liệu...");
-                          ShowProgressBar("Đang tải dữ liệu...", "Vui lòng chờ...");
+                          ShowProgressBar("Đang tải dữ liệu...", "");
                       });
 
             await APIManagerOpenCV.Instance.GetModule(StaticVariable.GetModuleUrl + "/" + module.Id);

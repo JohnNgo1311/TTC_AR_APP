@@ -262,75 +262,75 @@
 
 
 
-//     //! Dto => Model
-//     private DeviceInformationModel ConvertFromResponseDto(DeviceResponseDto dto)
-//     {
-//         return new DeviceInformationModel(
-//             id: dto.Id,
-//             code: dto.Code,
-//             function: dto.Function,
-//             range: dto.Range,
-//             unit: dto.Unit,
-//             ioAddress: dto.IOAddress,
-//             jbInformationModel: dto.JBGeneralDto != null ? new JBInformationModel(
-//                 id: dto.JBGeneralDto.Id,
-//                 name: dto.JBGeneralDto.Name,
-//             location: dto.JBGeneralDto?.Location,
-//             outdoorImage: dto.JBGeneralDto.OutdoorImageResponseDto != null ? new ImageInformationModel(
-//                            id: dto.JBGeneralDto.OutdoorImageResponseDto.Id,
-//                            name: dto.JBGeneralDto.OutdoorImageResponseDto.Name,
-//                            url: dto.JBGeneralDto.OutdoorImageResponseDto.Url) : null,
-//             listConnectionImages: dto.JBGeneralDto.ConnectionImageResponseDtos.Any() ?
-//             dto.JBGeneralDto.ConnectionImageResponseDtos.Select(
-//             connectionImage => new ImageInformationModel(
-//                                    id: connectionImage.Id,
-//                                    name: connectionImage.Name,
-//                                    url: connectionImage.Url)
-//             ).ToList() : new List<ImageInformationModel>()
-//             ) : null,
-//             moduleInformationModel: dto.ModuleBasicDto != null ? new ModuleInformationModel(
-//                                         dto.ModuleBasicDto.Id,
-//                                         dto.ModuleBasicDto.Name
-//             ) : null,
-//             additionalConnectionImages: dto.AdditionalImageResponseDtos.Any() ? dto.AdditionalImageResponseDtos?.Select(
-//                 imageDto => new ImageInformationModel(
-//                                 id: imageDto.Id,
-//                                 name: imageDto.Name,
-//                                 url: imageDto.Url
-//                 )).ToList() : new List<ImageInformationModel>()
-//             );
-//     }
-//     private DeviceInformationModel ConvertFromBasicDto(DeviceBasicDto dto)
-//     {
-//         return new DeviceInformationModel(
-//             id: dto.Id,
-//            code: dto.Code
-//         );
-//     }
+// //     //! Dto => Model
+// //     private DeviceInformationModel ConvertFromResponseDto(DeviceResponseDto dto)
+// //     {
+// //         return new DeviceInformationModel(
+// //             id: dto.Id,
+// //             code: dto.Code,
+// //             function: dto.Function,
+// //             range: dto.Range,
+// //             unit: dto.Unit,
+// //             ioAddress: dto.IOAddress,
+// //             jbInformationModels: dto.JBGeneralDtos.Any() ? dto.JBGeneralDtos.Select(jb => new JBInformationModel(
+// //                 id: jb.Id,
+// //                 name: jb.Name,
+// //             location: jb?.Location,
+// //             outdoorImage: jb.OutdoorImageResponseDto != null ? new ImageInformationModel(
+// //                            id: jb.OutdoorImageResponseDto.Id,
+// //                            name: jb.OutdoorImageResponseDto.Name,
+// //                            url: jb.OutdoorImageResponseDto.Url) : null,
+// //             listConnectionImages: jb.ConnectionImageResponseDtos.Any() ?
+// //             jb.ConnectionImageResponseDtos.Select(
+// //             connectionImage => new ImageInformationModel(
+// //                                    id: connectionImage.Id,
+// //                                    name: connectionImage.Name,
+// //                                    url: connectionImage.Url)
+// //             ).ToList() : new List<ImageInformationModel>()
+// //             )).ToList() : new List<JBInformationModel>(),
+// //             moduleInformationModel: dto.ModuleBasicDto != null ? new ModuleInformationModel(
+// //                                         dto.ModuleBasicDto.Id,
+// //                                         dto.ModuleBasicDto.Name
+// //             ) : null,
+// //             additionalConnectionImages: dto.AdditionalImageResponseDtos.Any() ? dto.AdditionalImageResponseDtos?.Select(
+// //                 imageDto => new ImageInformationModel(
+// //                                 id: imageDto.Id,
+// //                                 name: imageDto.Name,
+// //                                 url: imageDto.Url
+// //                 )).ToList() : new List<ImageInformationModel>()
+// //             );
+// //     }
+// //     private DeviceInformationModel ConvertFromBasicDto(DeviceBasicDto dto)
+// //     {
+// //         return new DeviceInformationModel(
+// //             id: dto.Id,
+// //            code: dto.Code
+// //         );
+// //     }
 
-//     //! Model => Dto
-//     private DeviceRequestDto ConvertToRequestDto(DeviceInformationModel model)
-//     {
-//         return new DeviceRequestDto(
-//             code: model.Code,
-//             function: model.Function,
-//             range: model.Range,
-//             unit: model.Unit,
-//             ioAddress: model.IOAddress,
-//             jbBasicDto: model.JBInformationModel == null ? null : new JBBasicDto(
-//                 id: model.JBInformationModel.Id,
-//                 name: model.JBInformationModel.Name
-//             ),
-//             moduleBasicDto: model.ModuleInformationModel == null ? null : new ModuleBasicDto(
-//                 id: model.ModuleInformationModel.Id,
-//                 name: model.ModuleInformationModel.Name
-//             ),
-//          additionalImageBasicDtos: model.AdditionalConnectionImages.Any() ? model.AdditionalConnectionImages.Select(
-//             imageInfor => new ImageBasicDto(
-//                 id: imageInfor.Id,
-//                 name: imageInfor.Name
-//             )
-//          ).ToList() : new List<ImageBasicDto>()
+// //     //! Model => Dto
+// //     private DeviceRequestDto ConvertToRequestDto(DeviceInformationModel model)
+// //     {
+// //         return new DeviceRequestDto(
+// //             code: model.Code,
+// //             function: model.Function,
+// //             range: model.Range,
+// //             unit: model.Unit,
+// //             ioAddress: model.IOAddress,
+// //             jbBasicDtos: model.JBInformationModels.Any() ? model.JBInformationModels.Select(jb => new JBBasicDto(
+// //                 id: jb.Id,
+// //                 name: jb.Name
+// //             )).ToList() : new List<JBBasicDto>(),
+// //             moduleBasicDto: model.ModuleInformationModel == null ? null : new ModuleBasicDto(
+// //                 id: model.ModuleInformationModel.Id,
+// //                 name: model.ModuleInformationModel.Name
+// //             ),
+// //          additionalImageBasicDtos: model.AdditionalConnectionImages.Any() ? model.AdditionalConnectionImages.Select(
+// //             imageInfor => new ImageBasicDto(
+// //                 id: imageInfor.Id,
+// //                 name: imageInfor.Name
+// //             )
+// //          ).ToList() : new List<ImageBasicDto>()
 
 //         );
 //     }

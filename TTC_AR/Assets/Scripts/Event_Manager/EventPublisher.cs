@@ -11,6 +11,8 @@ public class EventPublisher : MonoBehaviour
 
   [Preserve]
   public event ClickAction OnButtonClicked;
+  [Preserve]
+  public event ClickAction OnButton_GrapperClicked;
 
   [Preserve]
   public event ClickAction onButton_SpecificationClicked;
@@ -41,6 +43,12 @@ public class EventPublisher : MonoBehaviour
   public void TriggerOrientationChange(ScreenOrientation newOrientation)
   {
     OnOrientationChanged?.Invoke(newOrientation);
+  }
+
+  public void TriggerEvent_GrapperClicked()
+  {
+    Debug.Log("Event Triggered in Publisher!"); // Thông báo khi sự kiện được kích hoạt
+    OnButton_GrapperClicked?.Invoke(); // Kích hoạt sự kiện nếu có Subscriber
   }
 
 }

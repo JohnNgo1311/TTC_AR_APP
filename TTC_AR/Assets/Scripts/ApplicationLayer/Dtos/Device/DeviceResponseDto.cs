@@ -20,19 +20,19 @@ namespace ApplicationLayer.Dtos.Device
         [JsonProperty("Unit")] public string? Unit { get; set; }
         [JsonProperty("IOAddress")] public string? IOAddress { get; set; }
         [JsonProperty("Module")] public ModuleBasicDto? ModuleBasicDto { get; set; }
-        [JsonProperty("JB")] public JBGeneralDto? JBGeneralDto { get; set; }
+        [JsonProperty("JBs")] public List<JBGeneralDto>? JBGeneralDtos { get; set; }
         [JsonProperty("AdditionalConnectionImages")] public List<ImageResponseDto>? AdditionalImageResponseDtos { get; set; } = new List<ImageResponseDto>();
 
         [Preserve]
 
-        public DeviceResponseDto(string id, string code, string? function, string? range, string? unit, string? ioAddress, ModuleBasicDto? moduleBasicDto, JBGeneralDto? jbGeneralDto, List<ImageResponseDto>? additionalImageResponseDtos) : base(id, code)
+        public DeviceResponseDto(string id, string code, string? function, string? range, string? unit, string? ioAddress, ModuleBasicDto? moduleBasicDto, List<JBGeneralDto>? jbGeneralDtos, List<ImageResponseDto>? additionalImageResponseDtos) : base(id, code)
         {
             Function = function;
             Range = range;
             Unit = unit;
             IOAddress = ioAddress;
             ModuleBasicDto = moduleBasicDto;
-            JBGeneralDto = jbGeneralDto;
+            JBGeneralDtos = jbGeneralDtos;
             AdditionalImageResponseDtos = additionalImageResponseDtos;
         }
         // [Preserve]

@@ -30,8 +30,8 @@ namespace Domain.Entities
     [JsonProperty("Module")]
     public ModuleEntity? ModuleEntity { get; set; }
     // [JsonProperty("JB",NullValueHandling = NullValueHandling.Ignore)]
-    [JsonProperty("JB")]
-    public JBEntity? JBEntity { get; set; }
+    [JsonProperty("JBs")]
+    public List<JBEntity>? JBEntities { get; set; }
     // [JsonProperty("AdditionalConnectionImages", NullValueHandling = NullValueHandling.Ignore)]
     [JsonProperty("AdditionalConnectionImages")]
     public List<ImageEntity>? AdditionalConnectionImageEntities { get; set; }
@@ -123,7 +123,7 @@ namespace Domain.Entities
 
     }
 
-    public bool ShouldSerializeJBEntity()
+    public bool ShouldSerializeJBEntities()
     {
       List<string> apiRequestType = GlobalVariable.APIRequestType;
       HashSet<string> allowedRequests = new HashSet<string>
@@ -177,7 +177,7 @@ namespace Domain.Entities
 
 
     [Preserve]
-    public DeviceEntity(string id, string code, string function, string range, string unit, string ioAddress, ModuleEntity? moduleEntity, JBEntity? jbEntity, List<ImageEntity>? additionalConnectionImageEntities)
+    public DeviceEntity(string id, string code, string function, string range, string unit, string ioAddress, ModuleEntity? moduleEntity, List<JBEntity>? jbEntities, List<ImageEntity>? additionalConnectionImageEntities)
     {
       Id = id;
       Code = string.IsNullOrEmpty(code) ? throw new ArgumentNullException(nameof(code)) : code;
@@ -186,13 +186,13 @@ namespace Domain.Entities
       Unit = string.IsNullOrEmpty(unit) ? "Chưa cập nhật" : unit;
       IOAddress = string.IsNullOrEmpty(ioAddress) ? "Chưa cập nhật" : ioAddress;
       ModuleEntity = moduleEntity ?? null;
-      JBEntity = jbEntity ?? null;
+      JBEntities = (jbEntities == null || (jbEntities != null && !jbEntities.Any())) ? new List<JBEntity>() : jbEntities;
       AdditionalConnectionImageEntities = (additionalConnectionImageEntities == null
          || (additionalConnectionImageEntities != null && !additionalConnectionImageEntities.Any()))
          ? new List<ImageEntity>() : additionalConnectionImageEntities;
     }
     [Preserve]
-    public DeviceEntity(string code, string function, string range, string unit, string ioAddress, ModuleEntity? moduleEntity, JBEntity? jbEntity, List<ImageEntity>? additionalConnectionImageEntities)
+    public DeviceEntity(string code, string function, string range, string unit, string ioAddress, ModuleEntity? moduleEntity, List<JBEntity>? jbEntities, List<ImageEntity>? additionalConnectionImageEntities)
     {
       Code = string.IsNullOrEmpty(code) ? throw new ArgumentNullException(nameof(code)) : code;
 
@@ -206,7 +206,8 @@ namespace Domain.Entities
 
       ModuleEntity = moduleEntity ?? null;
 
-      JBEntity = jbEntity ?? null;
+      JBEntities = (jbEntities == null || (jbEntities != null && !jbEntities.Any())) ? new List<JBEntity>() : jbEntities;
+
 
       AdditionalConnectionImageEntities = (additionalConnectionImageEntities == null
       || (additionalConnectionImageEntities != null && !additionalConnectionImageEntities.Any()))

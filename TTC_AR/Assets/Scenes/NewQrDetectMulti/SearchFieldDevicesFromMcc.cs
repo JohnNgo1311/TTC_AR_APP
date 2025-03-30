@@ -4,6 +4,7 @@ using UnityEngine;
 using TMPro;
 using System.Linq;
 using System;
+using UnityEngine.UI;
 
 public class SearchFieldDevicesFromMcc : MonoBehaviour
 {
@@ -11,6 +12,8 @@ public class SearchFieldDevicesFromMcc : MonoBehaviour
     [SerializeField] private GameObject nav_Field_Device_Button_Prefab;
     [SerializeField] private Transform parentTransform;
     [SerializeField] private GameObject generalPanel;
+    // [SerializeField] private GameObject gameObject_Empty;
+    [SerializeField] private ScrollRect scroll_Area;
     private Dictionary<string, GameObject> dic_mccInformationModel_Button = new Dictionary<string, GameObject>();
     private List<FieldDeviceInformationModel> listFieldDeviceFromMcc;
 
@@ -19,6 +22,7 @@ public class SearchFieldDevicesFromMcc : MonoBehaviour
     {
         StartCoroutine(UpdateUI());
         nav_Field_Device_Button_Prefab.SetActive(true);
+        scroll_Area.verticalNormalizedPosition = 0f;
     }
 
     private IEnumerator UpdateUI()
@@ -55,11 +59,13 @@ public class SearchFieldDevicesFromMcc : MonoBehaviour
                 fieldDeviceInfor.nav_Btn.onClick.AddListener(() => NavigateGeneralPanel(fieldDevice));
             }
             nav_Field_Device_Button_Prefab.SetActive(false);
+            // gameObject_Empty.transform.SetAsLastSibling();
+            scroll_Area.verticalNormalizedPosition = 1f;
         }
-        else
-        {
-            Debug.Log("No field device found");
-        }
+        // else
+        // {
+        //     Debug.Log("No field device found");
+        // }
     }
 
     private void OnDisable()

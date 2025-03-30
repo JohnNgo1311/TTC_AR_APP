@@ -5,10 +5,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using UnityEngine.iOS;
-using System.Linq;
-using ApplicationLayer.Dtos;
-using ApplicationLayer.Dtos.Device;
+
 using Domain.Interfaces;
 
 namespace Infrastructure.Repositories
@@ -214,34 +211,32 @@ namespace Infrastructure.Repositories
 
         }
 
-        private object ConvertDeviceRequestData(DeviceEntity deviceEntity)
-        {
-            return new
-            {
-                code = deviceEntity.Code,
-                function = deviceEntity.Function,
-                range = deviceEntity.Range,
-                unit = deviceEntity.Unit,
-                iOAddress = deviceEntity.IOAddress,
-                JBEntity = new
-                {
-                    deviceEntity.JBEntity.Id,
-                    deviceEntity.JBEntity.Name
-                },
-                Module = new
-                {
-                    deviceEntity.ModuleEntity.Id,
-                    deviceEntity.ModuleEntity.Name
-                },
-                AdditionalImageEntity = deviceEntity.AdditionalConnectionImageEntities.Select
-                (entity => new
-                {
-                    entity.Id,
-                    entity.Name
-                }).ToList()
-            };
-        }
-
-
+        // private object ConvertDeviceRequestData(DeviceEntity deviceEntity)
+        // {
+        //     return new
+        //     {
+        //         code = deviceEntity.Code,
+        //         function = deviceEntity.Function,
+        //         range = deviceEntity.Range,
+        //         unit = deviceEntity.Unit,
+        //         iOAddress = deviceEntity.IOAddress,
+        //         JBEntity = new
+        //         {
+        //             deviceEntity.JBEntity.Id,
+        //             deviceEntity.JBEntity.Name
+        //         },
+        //         Module = new
+        //         {
+        //             deviceEntity.ModuleEntity.Id,
+        //             deviceEntity.ModuleEntity.Name
+        //         },
+        //         AdditionalImageEntity = deviceEntity.AdditionalConnectionImageEntities.Select
+        //         (entity => new
+        //         {
+        //             entity.Id,
+        //             entity.Name
+        //         }).ToList()
+        //     };
+        // }
     }
 }

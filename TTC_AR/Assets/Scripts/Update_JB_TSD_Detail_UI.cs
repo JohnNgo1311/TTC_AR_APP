@@ -16,16 +16,17 @@ public class Update_JB_TSD_Detail_UI : MonoBehaviour
     [SerializeField] private Canvas canvas_Parent;
     [SerializeField] private TMP_Text jB_TSD_Title;
     [SerializeField] private TMP_Text jb_location_value;
-    [SerializeField] private TMP_Text jb_location_title;
+    // [SerializeField] private TMP_Text jb_location_title;
     [SerializeField] private Image jb_connection_imagePrefab;
 
     [SerializeField] private Image jb_location_imagePrefab;
     [SerializeField] private GameObject jb_Infor_Item_Prefab;
     [SerializeField] private GameObject scroll_Area_Content;
     [SerializeField] private ScrollRect scroll_Area;
+    [SerializeField] private GameObject gameObject_Empty;
 
     private List<GameObject> instantiatedImages = new List<GameObject>();
-    private string jb_name;
+    // private string jb_name;
 
     private void Awake()
     {
@@ -60,7 +61,7 @@ public class Update_JB_TSD_Detail_UI : MonoBehaviour
         jB_TSD_Title = jB_TSD_Detail_Panel_Prefab.transform.Find("Horizontal_JB_TSD_Title/JB_TSD_Title").GetComponent<TMP_Text>();
         scroll_Area_Content = jB_TSD_Detail_Panel_Prefab.transform.Find("Scroll_Area/Content").gameObject;
         jb_Infor_Item_Prefab = scroll_Area_Content.transform.Find("JB_Infor").gameObject;
-        jb_location_title = jb_Infor_Item_Prefab.transform.Find("Text_JB_location_group/Text_Jb_Location_Title").GetComponent<TMP_Text>();
+        // jb_location_title = jb_Infor_Item_Prefab.transform.Find("Text_JB_location_group/Text_Jb_Location_Title").GetComponent<TMP_Text>();
         jb_location_value = jb_Infor_Item_Prefab.transform.Find("Text_JB_location_group/Text_Jb_Location_Value").GetComponent<TMP_Text>();
         jb_location_imagePrefab = jb_Infor_Item_Prefab.transform.Find("JB_location_imagePrefab").GetComponent<Image>();
         jb_connection_imagePrefab = scroll_Area_Content.transform.Find("JB_TSD_connection_imagePrefab").GetComponent<Image>();
@@ -70,7 +71,7 @@ public class Update_JB_TSD_Detail_UI : MonoBehaviour
     {
         if (!string.IsNullOrEmpty(StaticVariable.jb_TSD_Name))
         {
-            jb_name = jB_TSD_Title.text = StaticVariable.jb_TSD_Name;
+            jB_TSD_Title.text = StaticVariable.jb_TSD_Name;
             jb_location_value.text = StaticVariable.jb_TSD_Location;
         }
     }
@@ -96,7 +97,7 @@ public class Update_JB_TSD_Detail_UI : MonoBehaviour
 
         if (!StaticVariable.temp_DeviceInformationModel.TryGetValue(StaticVariable.device_Code, out var device))
         {
-            Debug.Log("device is null");
+            // Debug.Log("device is null");
         }
         else
         {
@@ -111,6 +112,7 @@ public class Update_JB_TSD_Detail_UI : MonoBehaviour
         jb_connection_imagePrefab.gameObject.SetActive(false);
 
         await Task.WhenAll(tasks);
+        gameObject_Empty.transform.SetAsLastSibling();
 
         //Resize hình ảnh
         StartCoroutine(Resize_GameObject_Function.Set_NativeSize_For_GameObject(jb_location_imagePrefab));
@@ -119,6 +121,7 @@ public class Update_JB_TSD_Detail_UI : MonoBehaviour
             StartCoroutine(Resize_GameObject_Function.Set_NativeSize_For_GameObject(image.GetComponent<Image>()));
         }
 
+        scroll_Area.verticalNormalizedPosition = 1f;
         HideProgressBar();
     }
 
