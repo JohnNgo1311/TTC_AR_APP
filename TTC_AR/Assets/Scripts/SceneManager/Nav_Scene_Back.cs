@@ -18,7 +18,7 @@ public class Nav_Scene_Back : MonoBehaviour
     {
         if (IsEscapePressed())
         {
-            if (SceneManager.GetActiveScene().name == "PLCBoxGrapA" && detail_Image.activeSelf)
+            if (SceneManager.GetActiveScene().name.Contains("PLCBox") && detail_Image.activeSelf)
             {
                 detail_Image.gameObject.SetActive(false);
             }
@@ -36,6 +36,16 @@ public class Nav_Scene_Back : MonoBehaviour
     public void NavigatePop()
     {
         GlobalVariable.ready_To_Nav_New_Scene = true;
-        Scene_Manager.Instance.NavigateToScene(recentSceneName, previousSceneName);
+        if (previousSceneName == "UpdateImageScene" || previousSceneName == "UpdateGrapperScene")
+        {
+            var temp = GlobalVariable.previousScene;
+            GlobalVariable.previousScene = previousSceneName;
+            GlobalVariable.recentScene = temp;
+            SceneManager.LoadScene(temp);
+        }
+        else
+        {
+            Scene_Manager.Instance.NavigateToScene(recentSceneName, previousSceneName);
+        }
     }
 }

@@ -93,7 +93,7 @@ public class ListImageSettingView : MonoBehaviour, IImageView
         PreviewImageName.text = model.Name;
 
         await LoadImage.Instance.LoadImageFromUrlAsync(
-                    url: "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_Outdoor_Location%2FJB101_Location.jpg?alt=media&token=98ea4fb2-7093-425a-802e-458579c12fbd",
+                    imageName: "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_Outdoor_Location%2FJB101_Location.jpg?alt=media&token=98ea4fb2-7093-425a-802e-458579c12fbd",
                     image: PreviewImage,
                     true
                 );

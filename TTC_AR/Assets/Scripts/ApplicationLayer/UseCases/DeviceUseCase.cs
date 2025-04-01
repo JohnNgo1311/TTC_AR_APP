@@ -291,12 +291,12 @@ namespace ApplicationLayer.UseCases
         //         responseDto.IOAddress,
         //         new ModuleEntity(responseDto.ModuleBasicDto.Id, responseDto.ModuleBasicDto.Name),
         //         new JBEntity(responseDto.JBGeneralDto.Id, responseDto.JBGeneralDto.Name, responseDto.JBGeneralDto.Location,
-        //         new ImageEntity(responseDto.JBGeneralDto.OutdoorImageResponseDto.Id, responseDto.JBGeneralDto.OutdoorImageResponseDto.Name, responseDto.JBGeneralDto.OutdoorImageResponseDto.Url),
-        //         responseDto.JBGeneralDto.ConnectionImageResponseDtos.Select(
-        //             imageResponseDto => new ImageEntity(imageResponseDto.Id, imageResponseDto.Name, imageResponseDto.Url)).ToList()
+        //         new ImageEntity(responseDto.JBGeneralDto.OutdoorImageBasicDto.Id, responseDto.JBGeneralDto.OutdoorImageBasicDto.Name, responseDto.JBGeneralDto.OutdoorImageBasicDto.Url),
+        //         responseDto.JBGeneralDto.ConnectionImageBasicDtos.Select(
+        //             ImageBasicDto => new ImageEntity(ImageBasicDto.Id, ImageBasicDto.Name, ImageBasicDto.Url)).ToList()
         //         ),
-        //         responseDto.AdditionalImageResponseDtos.Select(
-        //             imageResponseDto => new ImageEntity(imageResponseDto.Id, imageResponseDto.Name, imageResponseDto.Url)).ToList()
+        //         responseDto.AdditionalImageBasicDtos.Select(
+        //             ImageBasicDto => new ImageEntity(ImageBasicDto.Id, ImageBasicDto.Name, ImageBasicDto.Url)).ToList()
         //     );
         // }
 
@@ -319,19 +319,19 @@ namespace ApplicationLayer.UseCases
                        id: jb.Id,
                        name: jb.Name,
                    location: jb.Location,
-                   outdoorImageResponseDto: jb.OutdoorImageEntity != null ? new ImageResponseDto(
+                   outdoorImageBasicDto: jb.OutdoorImageEntity != null ? new ImageBasicDto(
                    id: jb.OutdoorImageEntity.Id,
-                   name: jb.OutdoorImageEntity.Name,
-                   url: jb.OutdoorImageEntity.Url) : null,
-                connectionImageResponseDtos: jb.ConnectionImageEntities.Any() ? jb.ConnectionImageEntities.Select(imageEntity => new ImageResponseDto(
+                   name: jb.OutdoorImageEntity.Name
+                ) : null,
+                connectionImageBasicDtos: jb.ConnectionImageEntities.Any() ? jb.ConnectionImageEntities.Select(imageEntity => new ImageBasicDto(
                     id: imageEntity.Id,
-                    name: imageEntity.Name,
-                    url: imageEntity.Url)).ToList() : new List<ImageResponseDto>()
+                    name: imageEntity.Name
+                   )).ToList() : new List<ImageBasicDto>()
                 )).ToList() : new List<JBGeneralDto>(),
-                additionalImageResponseDtos: deviceEntity.AdditionalConnectionImageEntities.Any() ? deviceEntity.AdditionalConnectionImageEntities.Select(imageEntity => new ImageResponseDto(
+                additionalImageBasicDtos: deviceEntity.AdditionalConnectionImageEntities.Any() ? deviceEntity.AdditionalConnectionImageEntities.Select(imageEntity => new ImageBasicDto(
                         id: imageEntity.Id,
-                        name: imageEntity.Name,
-                        url: imageEntity.Url)).ToList() : new List<ImageResponseDto>()
+                        name: imageEntity.Name
+                      )).ToList() : new List<ImageBasicDto>()
             );
         }
         private DeviceBasicDto MapToBasicDto(DeviceEntity deviceEntity)

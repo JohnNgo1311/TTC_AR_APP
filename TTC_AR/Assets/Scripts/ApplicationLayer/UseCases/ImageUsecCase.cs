@@ -32,7 +32,7 @@ namespace ApplicationLayer.UseCases
                     throw new ApplicationException("Failed to get Image list");
                 }
                 else
-                {  // Ánh xạ từ ImageResponseDto sang ImageEntity (nếu cần logic nghiệp vụ) rồi sang ImageResponseDto
+                {  // Ánh xạ từ ImageBasicDto sang ImageEntity (nếu cần logic nghiệp vụ) rồi sang ImageBasicDto
                    // var ImageEntities = ImageListDtos.Select(dto => new ImageEntity(dto.Name)
                    // {
                    //     Id = dto.Id,
@@ -43,19 +43,23 @@ namespace ApplicationLayer.UseCases
 
                     //     ModuleEntities = dto.ModuleBasicDtos.Select(m => new ModuleEntity(m.Id, m.Name)).ToList(),
 
-                    //     OutdoorImageEntity = dto.OutdoorImageResponseDto != null
-                    //         ? new ImageEntity(dto.OutdoorImageResponseDto.Id, dto.OutdoorImageResponseDto.Name, dto.OutdoorImageResponseDto.Url)
+                    //     OutdoorImageEntity = dto.OutdoorImageBasicDto != null
+                    //         ? new ImageEntity(dto.OutdoorImageBasicDto.Id, dto.OutdoorImageBasicDto.Name, dto.OutdoorImageBasicDto.Url)
                     //         : null,
 
-                    //     ConnectionImageEntities = dto.ConnectionImageResponseDtos.Select(i => new ImageEntity(i.Id, i.Name, i.Url)).ToList()
+                    //     ConnectionImageEntities = dto.ConnectionImageBasicDtos.Select(i => new ImageEntity(i.Id, i.Name, i.Url)).ToList()
 
                     // }).ToList();
 
-                    // // Ánh xạ từ ImageEntity sang ImageResponseDto
+                    // // Ánh xạ từ ImageEntity sang ImageBasicDto
                     var ImageBasicDtos = ImageEntities.Select(ImageEntity => MapToBasicDto(ImageEntity)).ToList();
-                    GlobalVariable.temp_Dictionary_ImageInformationModel = ImageBasicDtos.ToDictionary(dto => dto.Name, dto => new ImageInformationModel(id: dto.Id, name: dto.Name, url: ""));
+                    GlobalVariable.temp_Dictionary_ImageInformationModel = ImageBasicDtos.ToDictionary(dto => dto.Name, dto => new ImageInformationModel(id: dto.Id, name: dto.Name
+                    // , url: ""
+                    ));
 
-                    GlobalVariable.temp_List_ImageInformationModel = ImageBasicDtos.Select(dto => new ImageInformationModel(dto.Id, dto.Name, "")).ToList();
+                    GlobalVariable.temp_List_ImageInformationModel = ImageBasicDtos.Select(dto => new ImageInformationModel(dto.Id, dto.Name
+                    // , ""
+                    )).ToList();
 
                     foreach (var item in GlobalVariable.temp_Dictionary_ImageInformationModel)
                     {
@@ -75,7 +79,7 @@ namespace ApplicationLayer.UseCases
                 throw new ApplicationException("Failed to get Image list", ex);
             }
         }
-        public async Task<ImageResponseDto> GetImageByIdAsync(string ImageId)
+        public async Task<ImageBasicDto> GetImageByIdAsync(string ImageId)
         {
             try
             {
@@ -88,9 +92,9 @@ namespace ApplicationLayer.UseCases
                 else
                 {
                     // Ánh xạ từ ImageEntity sang ImageEntity để check các lỗi nghiệp vụ
-                    var ImageResponseDto = MapToResponseDto(ImageEntity);
-                    // Ánh xạ từ ImageEntity sang ImageResponseDto để đưa giá trị trả về
-                    return ImageResponseDto;
+                    var ImageBasicDto = MapToResponseDto(ImageEntity);
+                    // Ánh xạ từ ImageEntity sang ImageBasicDto để đưa giá trị trả về
+                    return ImageBasicDto;
                 }
             }
             catch (ArgumentException)
@@ -229,12 +233,15 @@ namespace ApplicationLayer.UseCases
         }
 
         //! Entity => Dto
-        private ImageResponseDto MapToResponseDto(ImageEntity ImageEntity)
+        private ImageBasicDto MapToResponseDto(ImageEntity ImageEntity)
         {
-            return new ImageResponseDto(
+            return new ImageBasicDto(
                 ImageEntity.Id,
-                ImageEntity.Name,
-                ImageEntity.Url);
+                ImageEntity.Name
+                // ,
+                //  ImageEntity.Url
+                )
+                ;
         }
 
         private ImageBasicDto MapToBasicDto(ImageEntity ImageEntity)

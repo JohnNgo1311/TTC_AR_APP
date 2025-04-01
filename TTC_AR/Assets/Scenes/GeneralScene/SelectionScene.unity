@@ -255,7 +255,7 @@ GameObject:
   - component: {fileID: 288180360}
   - component: {fileID: 288180359}
   m_Layer: 0
-  m_Name: Setting_Button
+  m_Name: Setting_FieldDevice_Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -322,7 +322,7 @@ MonoBehaviour:
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 288180360}
+  m_TargetGraphic: {fileID: 1435255587}
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
@@ -377,7 +377,7 @@ GameObject:
   - component: {fileID: 406493626}
   - component: {fileID: 406493625}
   m_Layer: 0
-  m_Name: Collapse_Button
+  m_Name: Collapse_ControllerDevice_Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -943,7 +943,7 @@ GameObject:
   - component: {fileID: 676586348}
   - component: {fileID: 676586347}
   m_Layer: 0
-  m_Name: Collapse_Button
+  m_Name: Collapse_FieldDevice_Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1674,7 +1674,7 @@ GameObject:
   - component: {fileID: 1089426653}
   - component: {fileID: 1089426654}
   m_Layer: 0
-  m_Name: Setting_Button
+  m_Name: Setting_ControllerDeice_Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1698,8 +1698,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 1303.3793, y: -194.6657}
-  m_SizeDelta: {x: 319.26007, y: 290.5206}
+  m_AnchoredPosition: {x: 1185.9364, y: -194.6657}
+  m_SizeDelta: {x: 290.49268, y: 290.5206}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1089426652
 CanvasRenderer:
@@ -1779,7 +1779,7 @@ MonoBehaviour:
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 1089426653}
+  m_TargetGraphic: {fileID: 1166958759}
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
@@ -2408,7 +2408,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 143, y: -0.000000046799}
+  m_AnchoredPosition: {x: 143.6, y: -0.000000046799}
   m_SizeDelta: {x: 150, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1553963282

@@ -31,22 +31,22 @@ public class JBManager : MonoBehaviour
                 foreach (var jb in jBGeneralDtos)
                 {
                     Debug.Log($"jBResponseDto: {jb.Name}, Location: {jb.Location}");
-                    if (jb.OutdoorImageResponseDto != null)
+                    if (jb.OutdoorImageBasicDto != null)
                     {
-                        Debug.Log($"OutdoorImage: {jb.OutdoorImageResponseDto.Id}, OutdoorImage: {jb.OutdoorImageResponseDto.Name}, OutdoorImage: {jb.OutdoorImageResponseDto.Url}");
+                        Debug.Log($"OutdoorImage: {jb.OutdoorImageBasicDto.Id}, OutdoorImage: {jb.OutdoorImageBasicDto.Name}");
 
                     }
                     else
                     {
                         Debug.Log("OutdoorImage is null");
                     }
-                    if (jb.ConnectionImageResponseDtos != null)
+                    if (jb.ConnectionImageBasicDtos != null)
                     {
-                        if (jb.ConnectionImageResponseDtos.Any())
+                        if (jb.ConnectionImageBasicDtos.Any())
                         {
-                            foreach (var connectionImage in jb.ConnectionImageResponseDtos)
+                            foreach (var connectionImage in jb.ConnectionImageBasicDtos)
                             {
-                                Debug.Log($"ConnectionImage: {connectionImage.Id}, ConnectionImage: {connectionImage.Name}, ConnectionImage: {connectionImage.Url}");
+                                Debug.Log($"ConnectionImage: {connectionImage.Id}, ConnectionImage: {connectionImage.Name}");
                             }
                         }
                         else
@@ -166,9 +166,9 @@ public class JBManager : MonoBehaviour
                 }
 
 
-                if (jBResponseDto.OutdoorImageResponseDto != null)
+                if (jBResponseDto.OutdoorImageBasicDto != null)
                 {
-                    Debug.Log($"OutdoorImage: {jBResponseDto.OutdoorImageResponseDto.Id}, OutdoorImage: {jBResponseDto.OutdoorImageResponseDto.Name}, OutdoorImage: {jBResponseDto.OutdoorImageResponseDto.Url}");
+                    Debug.Log($"OutdoorImage: {jBResponseDto.OutdoorImageBasicDto.Id}, OutdoorImage: {jBResponseDto.OutdoorImageBasicDto.Name}");
                 }
                 else
                 {
@@ -176,13 +176,13 @@ public class JBManager : MonoBehaviour
                 }
 
 
-                if (jBResponseDto.ConnectionImageResponseDtos != null)
+                if (jBResponseDto.ConnectionImageBasicDtos != null)
                 {
-                    if (jBResponseDto.ConnectionImageResponseDtos.Any())
+                    if (jBResponseDto.ConnectionImageBasicDtos.Any())
                     {
-                        foreach (var connectionImage in jBResponseDto.ConnectionImageResponseDtos)
+                        foreach (var connectionImage in jBResponseDto.ConnectionImageBasicDtos)
                         {
-                            Debug.Log($"ConnectionImage: {connectionImage.Id}, ConnectionImage: {connectionImage.Name}, ConnectionImage: {connectionImage.Url}");
+                            Debug.Log($"ConnectionImage: {connectionImage.Id}, ConnectionImage: {connectionImage.Name}");
                         }
                     }
                     else

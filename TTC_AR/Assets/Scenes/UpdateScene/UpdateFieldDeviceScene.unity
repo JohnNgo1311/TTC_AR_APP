@@ -699,19 +699,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 124045638}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: Get_List_JBs_Setting, Assembly-CSharp
-        m_MethodName: BackToListJb
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &124045638
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3939,7 +3927,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 563929209}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c6f9c0a3e80371a449ec088015691628, type: 3}
+  m_Script: {fileID: 11500000, guid: 7503e37fa8449e74287af74c945b5c95, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   initialize_FieldDevice_List_Option_Selection: {fileID: 908920698}
@@ -4087,7 +4075,7 @@ PrefabInstance:
     - target: {fileID: 1685662170610096501, guid: 445729c6077a8a54a82f3ea9a6d97b1f,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1685662171718035933, guid: 445729c6077a8a54a82f3ea9a6d97b1f,
         type: 3}
@@ -4128,12 +4116,12 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 563929211}
+      objectReference: {fileID: 0}
     - target: {fileID: 4400480199816080768, guid: 445729c6077a8a54a82f3ea9a6d97b1f,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
-      objectReference: {fileID: 563929211}
+      objectReference: {fileID: 0}
     - target: {fileID: 4400480199816080768, guid: 445729c6077a8a54a82f3ea9a6d97b1f,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
@@ -4177,17 +4165,17 @@ PrefabInstance:
     - target: {fileID: 5265998530752520783, guid: 445729c6077a8a54a82f3ea9a6d97b1f,
         type: 3}
       propertyPath: m_text
-      value: "Ch\u1ECDn thi\u1EBFt b\u1ECB tr\u01B0\u1EDDng"
+      value: "Ch\u1ECDn h\xECnh \u1EA3nh"
       objectReference: {fileID: 0}
     - target: {fileID: 5265998530752520783, guid: 445729c6077a8a54a82f3ea9a6d97b1f,
         type: 3}
       propertyPath: m_fontSize
-      value: 96.35
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 6202037190342386461, guid: 445729c6077a8a54a82f3ea9a6d97b1f,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: -1881.7214
+      value: -1835.2908
       objectReference: {fileID: 0}
     - target: {fileID: 6202037190342386461, guid: 445729c6077a8a54a82f3ea9a6d97b1f,
         type: 3}
@@ -4207,12 +4195,12 @@ PrefabInstance:
     - target: {fileID: 7093376416422549505, guid: 445729c6077a8a54a82f3ea9a6d97b1f,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 1074.9188
+      value: 1094.9188
       objectReference: {fileID: 0}
     - target: {fileID: 7093376416422549505, guid: 445729c6077a8a54a82f3ea9a6d97b1f,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 537.4594
+      value: 547.4594
       objectReference: {fileID: 0}
     - target: {fileID: 7093376416422549505, guid: 445729c6077a8a54a82f3ea9a6d97b1f,
         type: 3}
@@ -6422,7 +6410,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   previousSceneName: UpdateFieldDeviceScene
-  recentSceneName: LoginScene
+  recentSceneName: FieldDeviceMenuSettingScene
   isOrientation: 0
   detail_Image: {fileID: 0}
 --- !u!224 &908920697
@@ -6454,7 +6442,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 908920694}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ee27332d2df5e6b49aa4ed6f4daa4de8, type: 3}
+  m_Script: {fileID: 11500000, guid: aee1f1ce65ff3b64eb3653301f09220c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Selection_Option_Canvas: {fileID: 1086656699}
@@ -7490,7 +7478,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1060228450}
-  - component: {fileID: 1060228452}
+  - component: {fileID: 1060228451}
   m_Layer: 5
   m_Name: Scripts
   m_TagString: Untagged
@@ -7518,7 +7506,7 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1060228452
+--- !u!114 &1060228451
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -7527,7 +7515,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1060228449}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3a65288b79b71c74e9822f982f3f0e63, type: 3}
+  m_Script: {fileID: 11500000, guid: 98ef6525e003e1e429b9745b45708297, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   initialize_FieldDevice_List_Option_Selection: {fileID: 908920698}
@@ -7627,7 +7615,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!222 &1086656701
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -10113,10 +10101,10 @@ RectTransform:
   m_Father: {fileID: 1127237710}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.17922223, y: 0.051841546}
-  m_AnchorMax: {x: 0.818, y: 0.75329703}
-  m_AnchoredPosition: {x: 2, y: -1.3900757}
-  m_SizeDelta: {x: -7.3101196, y: -1.2859039}
+  m_AnchorMin: {x: 0.16030557, y: 0.055000003}
+  m_AnchorMax: {x: 0.8366945, y: 0.753}
+  m_AnchoredPosition: {x: 0, y: 0.1428833}
+  m_SizeDelta: {x: -0.23379898, y: -0.28590012}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1524574726
 MonoBehaviour:
@@ -10138,7 +10126,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Danh s\xE1ch c\xE1c lo\u1EA1i Module"
+  m_text: "Danh s\xE1ch thi\u1EBFt b\u1ECB tr\u01B0\u1EDDng"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 1526582acaf61a640890decb2b2b149f, type: 2}
   m_sharedMaterial: {fileID: -1870415040321534674, guid: 1526582acaf61a640890decb2b2b149f,
@@ -10166,7 +10154,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 69.65
+  m_fontSize: 77.55
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -10837,7 +10825,7 @@ MonoBehaviour:
   m_Padding:
     m_Left: 30
     m_Right: 0
-    m_Top: 0
+    m_Top: 25
     m_Bottom: 0
   m_ChildAlignment: 0
   m_Spacing: 0
@@ -11534,7 +11522,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1715748379}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2090129c59f228e44a81bfabd14ce3dc, type: 3}
+  m_Script: {fileID: 11500000, guid: b14d0faf50ee41c41b098bc62490bb6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   List_FieldDevice_Canvas: {fileID: 2086710283}
@@ -11650,7 +11638,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1060228452}
+      - m_Target: {fileID: 1060228451}
         m_TargetAssemblyTypeName: CreateFieldDeviceSettingView, Assembly-CSharp
         m_MethodName: OpenListImageConnectionSelection
         m_Mode: 1

@@ -138,11 +138,14 @@ public class GlobalVariable : MonoBehaviour
 
     //! Company
     public static string companyId = "1";
-    public static List<CompanyBasicDto> temp_ListCompanyBasicDto = new List<CompanyBasicDto>();
     public static CompanyResponseDto temp_CompanyResponseDto;
     public static CompanyBasicDto temp_CompanyBasicDto;
     public static CompanyRequestDto temp_CompanyRequestDto;
+    public static CompanyInformationModel temp_CompanyInformationModel;
+    public static List<CompanyBasicDto> temp_ListCompanyBasicDto = new List<CompanyBasicDto>();
     public static Dictionary<string, CompanyBasicDto> temp_Dictionary_CompanyBasicDto = new Dictionary<string, CompanyBasicDto>();
+    public static List<CompanyInformationModel> temp_List_CompanyInformationModel = new List<CompanyInformationModel>();
+    public static Dictionary<string, CompanyInformationModel> temp_Dictionary_CompanyInformationModel = new Dictionary<string, CompanyInformationModel>();
 
     //!Grapper
     public static string GrapperId = "1";
@@ -257,26 +260,26 @@ public class GlobalVariable : MonoBehaviour
     public static List<ImageInformationModel> temp_List_ImageInformationModel = new List<ImageInformationModel>()
     {
 
-          new ImageInformationModel("1", "Image1.png", "https://www.google.com.vn/"),
-          new ImageInformationModel("2", "Image2.jpg", "https://www.google.com.vn/"),
-          new ImageInformationModel("3", "Image3.bmp", "https://www.google.com.vn/"),
-          new ImageInformationModel("4", "Image4.gif", "https://www.google.com.vn/"),
-          new ImageInformationModel("5", "Image5.svg", "https://www.google.com.vn/"),
-          new ImageInformationModel("6", "Image6.png", "https://www.google.com.vn/"),
-          new ImageInformationModel("7", "Image7.jpg", "https://www.google.com.vn/"),
-          new ImageInformationModel("8", "Image8.bmp", "https://www.google.com.vn/"),
-          new ImageInformationModel("9", "Image9.gif", "https://www.google.com.vn/"),
-          new ImageInformationModel("10", "Image10.svg", "https://www.google.com.vn/"),
-          new ImageInformationModel("11", "Image11.png", "https://www.google.com.vn/"),
-          new ImageInformationModel("12", "Image12.jpg", "https://www.google.com.vn/"),
-          new ImageInformationModel("13", "Image13.bmp", "https://www.google.com.vn/"),
-          new ImageInformationModel("14", "Image14.gif", "https://www.google.com.vn/"),
-          new ImageInformationModel("15", "Image15.svg", "https://www.google.com.vn/"),
-          new ImageInformationModel("16", "Image16.png", "https://www.google.com.vn/"),
-          new ImageInformationModel("17", "Image17.jpg", "https://www.google.com.vn/"),
-          new ImageInformationModel("18", "Image18.bmp", "https://www.google.com.vn/"),
-          new ImageInformationModel("19", "Image19.gif", "https://www.google.com.vn/"),
-          new ImageInformationModel("20", "Image20.svg", "https://www.google.com.vn/")
+          new ImageInformationModel("1", "Image1.png"),
+          new ImageInformationModel("2", "Image2.jpg"),
+          new ImageInformationModel("3", "Image3.bmp"),
+          new ImageInformationModel("4", "Image4.gif"),
+          new ImageInformationModel("5", "Image5.svg"),
+          new ImageInformationModel("6", "Image6.png"),
+          new ImageInformationModel("7", "Image7.jpg"),
+          new ImageInformationModel("8", "Image8.bmp"),
+          new ImageInformationModel("9", "Image9.gif"),
+          new ImageInformationModel("10", "Image10.svg"),
+          new ImageInformationModel("11", "Image11.png"),
+          new ImageInformationModel("12", "Image12.jpg"),
+          new ImageInformationModel("13", "Image13.bmp"),
+          new ImageInformationModel("14", "Image14.gif"),
+          new ImageInformationModel("15", "Image15.svg"),
+          new ImageInformationModel("16", "Image16.png"),
+          new ImageInformationModel("17", "Image17.jpg"),
+          new ImageInformationModel("18", "Image18.bmp"),
+          new ImageInformationModel("19", "Image19.gif"),
+          new ImageInformationModel("20", "Image20.svg")
     };
 
 

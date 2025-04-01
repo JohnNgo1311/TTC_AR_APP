@@ -65,7 +65,7 @@ namespace ApplicationLayer.UseCases
             //     createdEntity.RatedPower,
             //     createdEntity.RatedCurrent,
             //     createdEntity.ActiveCurrent,
-            //     createdEntity.ConnectionImages.Select(img => new ImageResponseDto(img.Id, img.Name, img.Url)).ToList(),
+            //     createdEntity.ConnectionImages.Select(img => new ImageBasicDto(img.Id, img.Name, img.Url)).ToList(),
             //     createdEntity.Note
             // );
         }
@@ -87,7 +87,7 @@ namespace ApplicationLayer.UseCases
             //     updatedEntity.RatedPower,
             //     updatedEntity.RatedCurrent,
             //     updatedEntity.ActiveCurrent,
-            //     updatedEntity.ConnectionImages.Select(img => new ImageResponseDto(img.Id, img.Name, img.Url)).ToList(),
+            //     updatedEntity.ConnectionImages.Select(img => new ImageBasicDto(img.Id, img.Name, img.Url)).ToList(),
             //     updatedEntity.Note
             // );
         }
@@ -130,7 +130,7 @@ namespace ApplicationLayer.UseCases
               ratedPower: entity.RatedPower,
               ratedCurrent: entity.RatedCurrent,
               activeCurrent: entity.ActiveCurrent,
-              connectionImages: entity.ConnectionImageEntities.Any() ? entity.ConnectionImageEntities.Select(img => new ImageResponseDto(img.Id, img.Name, img.Url)).ToList() : new List<ImageResponseDto>(),
+              connectionImages: entity.ConnectionImageEntities.Any() ? entity.ConnectionImageEntities.Select(img => new ImageBasicDto(img.Id, img.Name)).ToList() : new List<ImageBasicDto>(),
               note: entity.Note
             );
         }

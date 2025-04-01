@@ -65,6 +65,9 @@ public class CreateAdapterSpecificationSettingView : MonoBehaviour, IAdapterSpec
     {
         backButton.onClick.RemoveAllListeners();
         submitButton.onClick.RemoveAllListeners();
+
+        StopAllCoroutines();
+
     }
 
 

@@ -33,6 +33,9 @@ public enum MyEnum
 
 public enum HttpMethodTypeEnum
 {
+    //?Company
+    [Description("GET_Company_List")] GETListCompany,
+    [Description("GET_Company")] GETCompany,
     //?Grapper
     [Description("GET_Grapper_List")] GETListGrapper,
     [Description("GET_Grapper")] GETGrapper,

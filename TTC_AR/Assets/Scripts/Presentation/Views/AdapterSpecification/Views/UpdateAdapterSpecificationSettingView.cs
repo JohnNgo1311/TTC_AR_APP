@@ -88,12 +88,16 @@ public class UpdateAdapterSpecificationSettingView : MonoBehaviour, IAdapterSpec
     }
 
 
-
+    public void PreloadDetailById()
+    {
+        _presenter.LoadDetailById(GlobalVariable.AdapterSpecificationId);
+    }
 
     void OnDisable()
     {
         backButton.onClick.RemoveAllListeners();
         submitButton.onClick.RemoveAllListeners();
+        StopAllCoroutines();
     }
     public void CloseUpdateCanvas()
     {

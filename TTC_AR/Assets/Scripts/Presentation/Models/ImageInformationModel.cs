@@ -12,21 +12,19 @@ public class ImageInformationModel
   [JsonProperty("Name")]
   public string Name { get; set; } = string.Empty;
 
-  [JsonProperty("Url")]
-  public string? Url { get; set; }
-  [Preserve]
+  // [JsonProperty("Url")]
+  // public string? Url { get; set; }
 
-  public ImageInformationModel(string id, string name, string url)
+  [Preserve]
+  public ImageInformationModel(string id, string name
+  // string url
+  )
   {
     Id = id;
     Name = name;
-    Url = url;
+    // Url = url;
   }
-  public ImageInformationModel(string id, string name)
-  {
-    Id = id;
-    Name = name;
-  }
+
   public ImageInformationModel(string name)
   {
 

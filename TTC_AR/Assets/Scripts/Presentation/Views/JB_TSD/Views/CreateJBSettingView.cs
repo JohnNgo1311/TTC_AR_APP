@@ -475,7 +475,7 @@ public class CreateJBSettingView : MonoBehaviour, IJBView
     {
         if (GlobalVariable.APIRequestType.Contains("POST_JB"))
         {
-            OpenErrorDialog();
+            OpenErrorDialog(message: message);
         }
     }
 

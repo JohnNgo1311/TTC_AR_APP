@@ -48,13 +48,13 @@ public class JBPresenter
             }
             else
             {
-                _view.ShowError("No JBs found");
+                _view.ShowError("Đã có lỗi xảy ra khi tải danh sách. Vui lòng thử lại sau");
             }
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            _view.ShowError($"Error: {ex.Message}");
-            UnityEngine.Debug.Log("Error: " + ex.Message);
+            _view.ShowError("Đã có lỗi xảy ra khi tải danh sách. Vui lòng thử lại sau");
+            _view.HideLoading();
         }
         finally
         {
@@ -76,9 +76,7 @@ public class JBPresenter
                 if (jbGeneralDtos.Any())
                 {
                     var models = jbGeneralDtos.Select(dto => ConvertFromGeneralDto(dto)).ToList();
-
                     _view.DisplayList(models);
-
                 }
                 else
                 {
@@ -90,13 +88,12 @@ public class JBPresenter
             }
             else
             {
-                _view.ShowError("No JBs found");
+                _view.ShowError("Đã có lỗi xảy ra khi tải danh sách. Vui lòng thử lại sau");
             }
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            _view.ShowError($"Error: {ex.Message}");
-            UnityEngine.Debug.Log("Error: " + ex.Message);
+            _view.ShowError("Đã có lỗi xảy ra khi tải danh sách. Vui lòng thử lại sau");
         }
         finally
         {
@@ -121,12 +118,13 @@ public class JBPresenter
             }
             else
             {
-                _view.ShowError("JB not found");
+                _view.ShowError("Đã có lỗi xảy ra khi tải dữ liệu");
             }
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            _view.ShowError($"Error: {ex.Message}");
+            _view.ShowError("Đã có lỗi xảy ra khi tải dữ liệu");
+            _view.HideLoading();
         }
         finally
         {
@@ -148,7 +146,7 @@ public class JBPresenter
             }
             else
             {
-                _view.ShowError("Create New JB failed");
+                _view.ShowError("Đã có lỗi xảy ra khi tạo tủ JB mới. Vui lòng thử lại sau.");
             }
         }
         catch (Exception ex)
@@ -176,7 +174,7 @@ public class JBPresenter
             }
             else
             {
-                _view.ShowError("Update JB failed");
+                _view.ShowError("Đã có lỗi xảy ra khi Cập nhật tủ JB. Vui lòng thử lại sau.");
             }
         }
         catch (Exception ex)
@@ -202,7 +200,7 @@ public class JBPresenter
             }
             else
             {
-                _view.ShowError("Delete JB failed");
+                _view.ShowError("Đã có lỗi xảy ra khi xóa tủ JB. Vui lòng thử lại sau.");
             }
         }
         catch (Exception ex)
@@ -233,16 +231,18 @@ public class JBPresenter
             listModuleInformation: dto.ModuleBasicDtos?.Select(moduleDto => new ModuleInformationModel(
                 id: moduleDto.Id,
                 name: moduleDto.Name)).ToList(),
-            outdoorImage: dto.OutdoorImageResponseDto != null ? new ImageInformationModel(
-                 id: dto.OutdoorImageResponseDto.Id,
-               name: dto.OutdoorImageResponseDto.Name,
-                url: dto.OutdoorImageResponseDto.Url
+            outdoorImage: dto.OutdoorImageBasicDto != null ? new ImageInformationModel(
+                 id: dto.OutdoorImageBasicDto.Id,
+               name: dto.OutdoorImageBasicDto.Name
+            //    ,
+            //     url: dto.OutdoorImageBasicDto.Url
             ) : null,
 
-            listConnectionImages: dto.ConnectionImageResponseDtos?.Select(imageDto => new ImageInformationModel(
+            listConnectionImages: dto.ConnectionImageBasicDtos?.Select(imageDto => new ImageInformationModel(
                 id: imageDto.Id,
-               name: imageDto.Name,
-                url: imageDto.Url
+               name: imageDto.Name
+            //    ,
+            //     url: imageDto.Url
             )).ToList()
         );
     }
@@ -252,16 +252,18 @@ public class JBPresenter
             id: dto.Id,
             name: dto.Name,
             location: dto.Location,
-            outdoorImage: dto.OutdoorImageResponseDto != null ? new ImageInformationModel(
-                 id: dto.OutdoorImageResponseDto.Id,
-               name: dto.OutdoorImageResponseDto.Name,
-                url: dto.OutdoorImageResponseDto.Url
+            outdoorImage: dto.OutdoorImageBasicDto != null ? new ImageInformationModel(
+                 id: dto.OutdoorImageBasicDto.Id,
+               name: dto.OutdoorImageBasicDto.Name
+            //    ,
+            //     url: dto.OutdoorImageBasicDto.Url
             ) : null,
 
-            listConnectionImages: dto.ConnectionImageResponseDtos?.Select(imageDto => new ImageInformationModel(
+            listConnectionImages: dto.ConnectionImageBasicDtos?.Select(imageDto => new ImageInformationModel(
                 id: imageDto.Id,
-               name: imageDto.Name,
-                url: imageDto.Url
+               name: imageDto.Name
+            //    ,
+            //     url: imageDto.Url
             )).ToList()
 
         );

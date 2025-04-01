@@ -19,7 +19,7 @@ namespace ApplicationLayer.Services
 
 
         //! Dữ liệu trả về là Dto
-        public async Task<ImageResponseDto> GetImageByIdAsync(string imageId)
+        public async Task<ImageBasicDto> GetImageByIdAsync(string imageId)
         {
             return await _ImageUseCase.GetImageByIdAsync(imageId);
         }

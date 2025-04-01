@@ -276,27 +276,31 @@ public class DevicePresenter
                 id: jb.Id,
                 name: jb.Name,
             location: jb?.Location,
-            outdoorImage: jb.OutdoorImageResponseDto != null ? new ImageInformationModel(
-                           id: jb.OutdoorImageResponseDto.Id,
-                           name: jb.OutdoorImageResponseDto.Name,
-                           url: jb.OutdoorImageResponseDto.Url) : null,
-            listConnectionImages: jb.ConnectionImageResponseDtos.Any() ?
-            jb.ConnectionImageResponseDtos.Select(
+            outdoorImage: jb.OutdoorImageBasicDto != null ? new ImageInformationModel(
+                           id: jb.OutdoorImageBasicDto.Id,
+                           name: jb.OutdoorImageBasicDto.Name
+                           //    ,url: jb.OutdoorImageBasicDto.Url
+                           ) : null,
+            listConnectionImages: jb.ConnectionImageBasicDtos.Any() ?
+            jb.ConnectionImageBasicDtos.Select(
             connectionImage => new ImageInformationModel(
                                    id: connectionImage.Id,
-                                   name: connectionImage.Name,
-                                   url: connectionImage.Url)
+                                   name: connectionImage.Name
+                                   //    ,
+                                   //    url: connectionImage.Url
+                                   )
             ).ToList() : new List<ImageInformationModel>()
             )).ToList() : new List<JBInformationModel>(),
             moduleInformationModel: dto.ModuleBasicDto != null ? new ModuleInformationModel(
                                         dto.ModuleBasicDto.Id,
                                         dto.ModuleBasicDto.Name
             ) : null,
-            additionalConnectionImages: dto.AdditionalImageResponseDtos.Any() ? dto.AdditionalImageResponseDtos?.Select(
+            additionalConnectionImages: dto.AdditionalImageBasicDtos.Any() ? dto.AdditionalImageBasicDtos?.Select(
                 imageDto => new ImageInformationModel(
                                 id: imageDto.Id,
-                                name: imageDto.Name,
-                                url: imageDto.Url
+                                name: imageDto.Name
+                // ,
+                // url: imageDto.Url
                 )).ToList() : new List<ImageInformationModel>()
             );
     }

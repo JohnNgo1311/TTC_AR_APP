@@ -8,17 +8,17 @@ using UnityEngine.Scripting;
 public class CompanyInformationModel
 {
   [JsonProperty("Id")]
-  public string Id { get; set; }
+  public string Id { get; set; } = string.Empty;
 
   [JsonProperty("Name")]
-  public string Name { get; set; }
+  public string Name { get; set; } = string.Empty;
 
   [JsonProperty("ListGrappers")]
-  public List<GrapperInformationModel> ListGrapperInformationModel { get; set; }
+  public List<GrapperInformationModel>? ListGrapperInformationModel { get; set; }
   [JsonProperty("ListModuleSpecifications")]
-  public List<ModuleSpecificationModel> ListModuleSpecificationModel { get; set; }
+  public List<ModuleSpecificationModel>? ListModuleSpecificationModel { get; set; }
   [JsonProperty("ListAdapterSpecifications")]
-  public List<AdapterSpecificationModel> ListAdapterSpecificationModel { get; set; }
+  public List<AdapterSpecificationModel>? ListAdapterSpecificationModel { get; set; }
   [Preserve]
 
   public CompanyInformationModel(string id, string name, List<GrapperInformationModel> listGrapperInformationModel, List<ModuleSpecificationModel> listModuleSpecificationModel, List<AdapterSpecificationModel> listAdapterSpecificationModel)
@@ -28,6 +28,11 @@ public class CompanyInformationModel
     ListGrapperInformationModel = listGrapperInformationModel.Any() ? listGrapperInformationModel : new List<GrapperInformationModel>();
     ListModuleSpecificationModel = listModuleSpecificationModel.Any() ? listModuleSpecificationModel : new List<ModuleSpecificationModel>();
     ListAdapterSpecificationModel = listAdapterSpecificationModel.Any() ? listAdapterSpecificationModel : new List<AdapterSpecificationModel>();
+  }
+  public CompanyInformationModel(string id, string name)
+  {
+    Id = id;
+    Name = string.IsNullOrEmpty(name) ? throw new ArgumentNullException(nameof(name)) : name;
   }
 
 }

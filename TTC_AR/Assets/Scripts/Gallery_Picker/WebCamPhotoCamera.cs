@@ -1,205 +1,194 @@
 using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
-using System.IO;
-
+using UnityEngine.Events;
 
 public class WebCamPhotoCamera : MonoBehaviour
 {
     public static WebCamPhotoCamera Instance { get; private set; }
 
+    [Header("Camera Settings")]
     [SerializeField] private WebCamTexture webCamTexture;
     [SerializeField] private Texture2D capturedPhoto;
 
     [Header("Canvas")]
     public GameObject ConfirmImageCanvas;
 
-
-
     [Header("Take Photo Module")]
-    public GameObject Take_Photo_Module;
+    public GameObject TakePhotoModule;
     public RawImage CameraScreen;
     public Button TakeButton;
-    public Button cancel_Take_Photo_Button;
-    public AspectRatioFitter aspectRatioFitterForCaptureScreen;
-
-
+    public Button CancelTakePhotoButton;
+    public AspectRatioFitter CaptureScreenAspectRatioFitter;
 
     [Header("Preview Photo Module")]
-    public GameObject Preview_Photo_Module;
-    public RawImage preview_Image;
-    public Button acceptButton;
-    public Button reTakeButton;
-    public AspectRatioFitter aspectRatioFitterForPreviewImage;
+    public GameObject PreviewPhotoModule;
+    public RawImage PreviewImage;
+    public Button AcceptButton;
+    public Button RetakeButton;
+    public AspectRatioFitter PreviewImageAspectRatioFitter;
 
+    // [Header("Flash Control")]
+    // [SerializeField] private Button FlashToggleButton;
+    // [SerializeField] private Sprite FlashOnSprite;
+    // [SerializeField] private Sprite FlashOffSprite;
+
+    [Header("Brightness Control")]
+    public Slider BrightnessSlider;
+    public float BrightnessValue = 1.5f; // Default brightness value
     private PickPhotoFromCamera pickPhotoFromCamera;
-    // public string imagePath;
-    // public string fileName = "captured_image.png";
 
     private void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
+        if (Instance == null) Instance = this;
+        else Destroy(gameObject);
+    }
 
-    }
-    void OnEnable()
+    private void OnEnable()
     {
-        // Use lambda expressions to reduce overhead and improve performance
-        TakeButton.onClick.AddListener(() => TakePhotoOnClick());
-        acceptButton.onClick.AddListener(() => AcceptPhoto());
-        reTakeButton.onClick.AddListener(() => ReTakePhoto());
-        cancel_Take_Photo_Button.onClick.AddListener(() => Stop_Camera_To_Take_Photo());
-        // Initialize UI elements to inactive state
-        SetDeActiveUIElements(false);
+        RegisterUIEvents();
+        InitializeBrightnessSlider();
+        SetUIElementsActive(false);
     }
-    void OnDisable()
+
+    private void OnDisable()
     {
-        // Remove listeners to prevent memory leaks
+        UnregisterUIEvents();
+    }
+
+    private void RegisterUIEvents()
+    {
+        TakeButton.onClick.AddListener(TakePhoto);
+        AcceptButton.onClick.AddListener(AcceptPhoto);
+        RetakeButton.onClick.AddListener(RetakePhoto);
+        CancelTakePhotoButton.onClick.AddListener(StopCamera);
+        BrightnessSlider.onValueChanged.AddListener(OnBrightnessChanged);
+    }
+
+    private void UnregisterUIEvents()
+    {
         TakeButton.onClick.RemoveAllListeners();
-        acceptButton.onClick.RemoveAllListeners();
-        reTakeButton.onClick.RemoveAllListeners();
-        cancel_Take_Photo_Button.onClick.RemoveAllListeners();
+        AcceptButton.onClick.RemoveAllListeners();
+        RetakeButton.onClick.RemoveAllListeners();
+        CancelTakePhotoButton.onClick.RemoveAllListeners();
+        // FlashToggleButton.onClick.RemoveAllListeners();
+        BrightnessSlider.onValueChanged.RemoveAllListeners();
     }
-    void Start()
+
+    private void InitializeBrightnessSlider()
     {
-
+        BrightnessSlider.maxValue = 3f;
+        BrightnessSlider.minValue = 0f;
+        BrightnessSlider.value = BrightnessValue;
     }
 
-    public void SetDeActiveUIElements(bool isActive)
+    public void SetUIElementsActive(bool isActive)
     {
-        Take_Photo_Module.SetActive(isActive);
-        Preview_Photo_Module.SetActive(isActive);
+        TakePhotoModule.SetActive(isActive);
+        PreviewPhotoModule.SetActive(isActive);
     }
 
-
-    //! Bật camera để chụp ảnh
     public void StartCameraToTakePhoto(PickPhotoFromCamera pickPhotoFromCamera)
     {
-        Take_Photo_Module.SetActive(true);
-
-        Preview_Photo_Module.SetActive(false);
         this.pickPhotoFromCamera = pickPhotoFromCamera;
+        SetUIElementsActive(true);
 
         if (WebCamTexture.devices.Length > 0)
         {
-            WebCamDevice selectedDevice = WebCamTexture.devices[0];
-            if (Application.platform == RuntimePlatform.Android)
-            {
-                foreach (WebCamDevice device in WebCamTexture.devices)
-                {
-                    if (!device.isFrontFacing)
-                    {
-                        selectedDevice = device; //! chọn camera sau
-                        break;
-                    }
-                }
-            }
-            webCamTexture = new WebCamTexture(selectedDevice.name); //! Khởi tạo WebCamTexture với camera đã chọn
-
-            CameraScreen.texture = webCamTexture; //! Gán texture cho RawImage
-
+            WebCamDevice selectedDevice = SelectCameraDevice();
+            webCamTexture = new WebCamTexture(selectedDevice.name, 1440, 3088, 30);
+            CameraScreen.texture = webCamTexture;
             webCamTexture.Play();
-
-            StartCoroutine(AdjustAspectRatio());
+            // StartCoroutine(AdjustAspectRatio());
         }
         else
         {
-            Debug.LogError("Không tìm thấy camera nào!");
+            Debug.LogError("No camera found!");
         }
     }
-    //! Dừng camera sau khi chụp ảnh
-    public void Stop_Camera_To_Take_Photo()
+
+    private WebCamDevice SelectCameraDevice()
     {
-        SetDeActiveUIElements(false);
+        foreach (WebCamDevice device in WebCamTexture.devices)
+        {
+            if (!device.isFrontFacing)
+                return device;
+        }
+        return WebCamTexture.devices[0];
+    }
+
+    public void StopCamera()
+    {
+        SetUIElementsActive(false);
         if (webCamTexture != null)
         {
             webCamTexture.Stop();
             webCamTexture = null;
         }
-        this.pickPhotoFromCamera = null;
+        pickPhotoFromCamera = null;
     }
 
+    // private IEnumerator AdjustAspectRatio()
+    // {
+    //     yield return new WaitUntil(() => webCamTexture.width > 100);
+    //     float videoRatio = (float)webCamTexture.width / webCamTexture.height;
+    //     CaptureScreenAspectRatioFitter.aspectRatio = videoRatio;
+    //     PreviewImageAspectRatioFitter.aspectRatio = videoRatio;
+    // }
 
-    //! Chỉnh sửa tỉ lệ khung hình của camera
-    private IEnumerator AdjustAspectRatio()
+    private void TakePhoto()
     {
-        yield return new WaitUntil(() => webCamTexture.width > 100);
-
-        float videoRatio = (float)webCamTexture.width / webCamTexture.height;
-        aspectRatioFitterForCaptureScreen.aspectRatio = videoRatio;
-        aspectRatioFitterForPreviewImage.aspectRatio = videoRatio;
+        StartCoroutine(CapturePhoto());
+        TakePhotoModule.SetActive(false);
+        PreviewPhotoModule.SetActive(true);
     }
 
-    //! Chụp ảnh
-    public void TakePhotoOnClick()
-    {
-        StartCoroutine(TakePhoto());
-
-        Take_Photo_Module.SetActive(false);
-
-        // CameraScreen.gameObject.SetActive(false);
-        // TakeButton.gameObject.SetActive(false);
-        // cancel_Take_Photo_Button.gameObject.SetActive(false);
-
-        Preview_Photo_Module.SetActive(true);
-
-
-    }
-
-    private IEnumerator TakePhoto()
+    private IEnumerator CapturePhoto()
     {
         yield return new WaitForEndOfFrame();
-        //? Tạo Texture2D mới với kích thước của camera
         capturedPhoto = new Texture2D(webCamTexture.width, webCamTexture.height);
-        //? Lấy ảnh từ camera và gán vào Texture2D
         capturedPhoto.SetPixels(webCamTexture.GetPixels());
-        //? Lưu ảnh vào bộ nhớ
         capturedPhoto.Apply();
-        yield return PreviewPhotoCoroutine(capturedPhoto, preview_Image);
+        PreviewImage.texture = capturedPhoto;
     }
 
-
-
-    public void AcceptPhoto() //! => Gán Image Sau khi đã review vào confirmImage
+    public void AcceptPhoto()
     {
-        if (capturedPhoto != null)
+        if (capturedPhoto != null && pickPhotoFromCamera != null)
         {
-            if (pickPhotoFromCamera != null)
-            {
-                ConfirmImageCanvas.SetActive(true);
-                pickPhotoFromCamera.UpdateConfirmImage(capturedPhoto);
-            }
+            ConfirmImageCanvas.SetActive(true);
+            pickPhotoFromCamera.UpdateConfirmImage(capturedPhoto);
         }
-        Stop_Camera_To_Take_Photo();
+        StopCamera();
     }
 
-
-    //! Hiển thị ảnh đã chụp => gán vào Preview_Image
-    private IEnumerator PreviewPhotoCoroutine(Texture2D photo, RawImage previewImage)
+    public void RetakePhoto()
     {
-        yield return new WaitForEndOfFrame();
-        previewImage.texture = photo;
-        previewImage.gameObject.SetActive(true);
-    }
-
-    public void ReTakePhoto()
-    {
-        Take_Photo_Module.SetActive(true);
-
-        // CameraScreen.gameObject.SetActive(true);
-        // cancel_Take_Photo_Button.gameObject.SetActive(true);
-        // TakeButton.gameObject.SetActive(true);
-
-        Preview_Photo_Module.SetActive(false);
-        // preview_Image.gameObject.SetActive(false);
-        // reTakeButton.gameObject.SetActive(false);
-        // acceptButton.gameObject.SetActive(false);
+        TakePhotoModule.SetActive(true);
+        PreviewPhotoModule.SetActive(false);
         webCamTexture.Play();
+    }
+
+
+
+
+    private void UpdateFlashButtonUI()
+    {
+        // FlashToggleButton.GetComponent<Image>().sprite = isFlashOn ? FlashOnSprite : FlashOffSprite;
+    }
+
+
+
+    private void OnBrightnessChanged(float value)
+    {
+        BrightnessValue = value;
+        if (CameraScreen.material != null)
+        {
+            CameraScreen.material.SetFloat("_Brightness", BrightnessValue);
+        }
+    }
+
+    private void OnDestroy()
+    {
     }
 }

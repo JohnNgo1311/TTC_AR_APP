@@ -174,7 +174,7 @@ public class ListJBSettingView : MonoBehaviour, IJBView
     {
         if (GlobalVariable.APIRequestType.Contains("GET_JB_List_General"))
         {
-            OpenErrorDialog(title: "Tải danh sách thất bại", message: "Đã có lỗi xảy ra khi tải danh sách. Vui lòng thử lại sau");
+            OpenErrorDialog(title: "Tải danh sách thất bại", message: message);
         }
         else if (GlobalVariable.APIRequestType.Contains("DELETE_JB"))
         {

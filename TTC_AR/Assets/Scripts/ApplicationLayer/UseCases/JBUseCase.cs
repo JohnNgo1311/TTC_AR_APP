@@ -219,10 +219,14 @@ namespace ApplicationLayer.UseCases
                  new List<ModuleBasicDto>() : jBEntity.ModuleEntities.Select(m => new ModuleBasicDto(m.Id, m.Name)).ToList(),
 
                 jBEntity.OutdoorImageEntity == null ?
-                 null : new ImageResponseDto(jBEntity.OutdoorImageEntity.Id, jBEntity.OutdoorImageEntity.Name, jBEntity.OutdoorImageEntity.Url),
+                 null : new ImageBasicDto(jBEntity.OutdoorImageEntity.Id, jBEntity.OutdoorImageEntity.Name
+                 //  , jBEntity.OutdoorImageEntity.Url
+                 ),
 
                 (jBEntity.ConnectionImageEntities == null || (jBEntity.ConnectionImageEntities != null && jBEntity.ConnectionImageEntities.Count <= 0)) ?
-                 new List<ImageResponseDto>() : jBEntity.ConnectionImageEntities.Select(i => new ImageResponseDto(i.Id, i.Name, i.Url)).ToList()
+                 new List<ImageBasicDto>() : jBEntity.ConnectionImageEntities.Select(i => new ImageBasicDto(i.Id, i.Name
+                 //  , i.Url
+                 )).ToList()
             );
         }
         private JBGeneralDto MapToGeneralDto(JBEntity jBEntity)
@@ -234,11 +238,11 @@ namespace ApplicationLayer.UseCases
 
           location: jBEntity.Location ?? "chưa cập nhật",
 
-         outdoorImageResponseDto: jBEntity.OutdoorImageEntity == null ?
-                 null : new ImageResponseDto(jBEntity.OutdoorImageEntity.Id, jBEntity.OutdoorImageEntity.Name, jBEntity.OutdoorImageEntity.Url),
+         outdoorImageBasicDto: jBEntity.OutdoorImageEntity == null ?
+                 null : new ImageBasicDto(jBEntity.OutdoorImageEntity.Id, jBEntity.OutdoorImageEntity.Name),
 
-            connectionImageResponseDtos: (jBEntity.ConnectionImageEntities == null || (jBEntity.ConnectionImageEntities != null && jBEntity.ConnectionImageEntities.Count <= 0)) ?
-                 new List<ImageResponseDto>() : jBEntity.ConnectionImageEntities.Select(i => new ImageResponseDto(i.Id, i.Name, i.Url)).ToList()
+            connectionImageBasicDtos: (jBEntity.ConnectionImageEntities == null || (jBEntity.ConnectionImageEntities != null && jBEntity.ConnectionImageEntities.Count <= 0)) ?
+                 new List<ImageBasicDto>() : jBEntity.ConnectionImageEntities.Select(i => new ImageBasicDto(i.Id, i.Name)).ToList()
              );
         }
         private JBBasicDto MapToBasicDto(JBEntity jBEntity)

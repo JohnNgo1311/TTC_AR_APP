@@ -92,7 +92,10 @@ public class UpdateModuleSpecificationSettingView : MonoBehaviour, IModuleSpecif
             );
     }
 
-
+    public void PreloadDetailById()
+    {
+        _presenter.LoadDetailById(GlobalVariable.ModuleSpecificationId);
+    }
 
     void OnDisable()
     {

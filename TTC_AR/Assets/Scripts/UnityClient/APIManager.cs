@@ -417,17 +417,17 @@ public class APIManager : MonoBehaviour
                         }
 
                         //? Tải hình ảnh ngoài trời
-                        if (!string.IsNullOrEmpty(jb.OutdoorImage.Url))
+                        if (!string.IsNullOrEmpty(jb.OutdoorImage.Name))
                         {
-                            downloadTasks.Add(DownloadImageAsync(jb.OutdoorImage.Url));
+                            downloadTasks.Add(DownloadImageAsync(jb.OutdoorImage.Name));
                         }
 
                         //? Tải danh sách hình ảnh kết nối
                         foreach (var image in jb.ListConnectionImages)
                         {
-                            if (!string.IsNullOrEmpty(image.Url))
+                            if (!string.IsNullOrEmpty(image.Name))
                             {
-                                downloadTasks.Add(DownloadImageAsync(image.Url));
+                                downloadTasks.Add(DownloadImageAsync(image.Name));
                             }
                         }
 
@@ -437,7 +437,7 @@ public class APIManager : MonoBehaviour
                         //? Cập nhật danh sách hình ảnh kết nối trên Main Thread
                         UnityMainThreadDispatcher.Instance.Enqueue(() =>
                         {
-                            if (!string.IsNullOrEmpty(jb.OutdoorImage.Url))
+                            if (!string.IsNullOrEmpty(jb.OutdoorImage.Name))
                             {
                                 list_JBLocationImagesFromModule[jb.Name] = downloadedTextures[0];
                                 list_JBConnectionImagesFromModule[jb.Name].AddRange(downloadedTextures.Skip(1));
@@ -470,9 +470,9 @@ public class APIManager : MonoBehaviour
 
                 foreach (var image_url in temp_FieldDeviceInformationModel.ListConnectionImages)
                 {
-                    if (!string.IsNullOrEmpty(image_url.Url))
+                    if (!string.IsNullOrEmpty(image_url.Name))
                     {
-                        downloadTasks.Add(DownloadImageAsync(image_url.Url));
+                        downloadTasks.Add(DownloadImageAsync(image_url.Name));
                     }
                 }
                 var downloadedTextures = await Task.WhenAll(downloadTasks);
@@ -497,28 +497,27 @@ public class APIManager : MonoBehaviour
         }
     }
 
-    private async Task<Texture2D> DownloadImageAsync(string url)
+    private async Task<Texture2D> DownloadImageAsync(string name)
     {
 
         await _semaphore.WaitAsync();
         try
         {
-            using (var request = UnityWebRequestTexture.GetTexture($"{GlobalVariable.baseUrl}files/{url}"))
+            using (var request = UnityWebRequestTexture.GetTexture($"{GlobalVariable.baseUrl}files/{name}"))
             {
                 if (!await SendWebRequestAsync(request))
                 {
                     Debug.LogError($"Request error from URL: {request.url}, Error: {request.error}");
-                    return null;
                 }
 
                 var texture = DownloadHandlerTexture.GetContent(request);
-                Debug.Log($"Image downloaded from: {url}");
+                Debug.Log($"Image downloaded from: {name}");
                 return texture;
             }
         }
         catch (Exception ex)
         {
-            Debug.LogError($"Unexpected error while downloading image from {url}: {ex}");
+            Debug.LogError($"Unexpected error while downloading image from {name}: {ex}");
             return null;
         }
         finally

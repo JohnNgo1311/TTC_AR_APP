@@ -105,9 +105,9 @@ public class SearchDeviceAndJBPresenter
     //     string url = $"{GlobalVariable.baseUrl}files/{imageName}";
     //     await LoadImage.Instance.LoadImageFromUrlAsync(url, imagePrefab);
     // }
-    public async Task LoadImageAsync(string url, Image imagePrefab)
+    public async Task LoadImageAsync(string name, Image imagePrefab)
     {
-        await LoadImage.Instance.LoadImageFromUrlAsync(url, imagePrefab);
+        await LoadImage.Instance.LoadImageFromUrlAsync(name, imagePrefab);
     }
 
 
@@ -118,16 +118,18 @@ public class SearchDeviceAndJBPresenter
             id: dto.Id,
             name: dto.Name,
             location: dto.Location,
-            outdoorImage: dto.OutdoorImageResponseDto != null ? new ImageInformationModel(
-                 id: dto.OutdoorImageResponseDto.Id,
-               name: dto.OutdoorImageResponseDto.Name,
-                url: dto.OutdoorImageResponseDto.Url
+            outdoorImage: dto.OutdoorImageBasicDto != null ? new ImageInformationModel(
+                 id: dto.OutdoorImageBasicDto.Id,
+               name: dto.OutdoorImageBasicDto.Name
+            //    ,
+            //     url: dto.OutdoorImageBasicDto.Url
             ) : null,
 
-            listConnectionImages: dto.ConnectionImageResponseDtos?.Select(imageDto => new ImageInformationModel(
+            listConnectionImages: dto.ConnectionImageBasicDtos?.Select(imageDto => new ImageInformationModel(
                 id: imageDto.Id,
-               name: imageDto.Name,
-                url: imageDto.Url
+               name: imageDto.Name
+            //    ,
+            //     url: imageDto.Url
             )).ToList()
 
         );
@@ -146,27 +148,32 @@ public class SearchDeviceAndJBPresenter
                 id: jb.Id,
                 name: jb.Name,
             location: jb?.Location,
-            outdoorImage: jb.OutdoorImageResponseDto != null ? new ImageInformationModel(
-                           id: jb.OutdoorImageResponseDto.Id,
-                           name: jb.OutdoorImageResponseDto.Name,
-                           url: jb.OutdoorImageResponseDto.Url) : null,
-            listConnectionImages: jb.ConnectionImageResponseDtos.Any() ?
-            jb.ConnectionImageResponseDtos.Select(
+            outdoorImage: jb.OutdoorImageBasicDto != null ? new ImageInformationModel(
+                           id: jb.OutdoorImageBasicDto.Id,
+                           name: jb.OutdoorImageBasicDto.Name
+                           //    ,
+                           //    url: jb.OutdoorImageBasicDto.Ur
+                           ) : null,
+            listConnectionImages: jb.ConnectionImageBasicDtos.Any() ?
+            jb.ConnectionImageBasicDtos.Select(
             connectionImage => new ImageInformationModel(
                                    id: connectionImage.Id,
-                                   name: connectionImage.Name,
-                                   url: connectionImage.Url)
+                                   name: connectionImage.Name
+                                   //    ,
+                                   //    url: connectionImage.Url
+                                   )
             ).ToList() : new List<ImageInformationModel>()
             )).ToList() : new List<JBInformationModel>(),
             moduleInformationModel: dto.ModuleBasicDto != null ? new ModuleInformationModel(
                                         dto.ModuleBasicDto.Id,
                                         dto.ModuleBasicDto.Name
             ) : null,
-            additionalConnectionImages: dto.AdditionalImageResponseDtos.Any() ? dto.AdditionalImageResponseDtos?.Select(
+            additionalConnectionImages: dto.AdditionalImageBasicDtos.Any() ? dto.AdditionalImageBasicDtos?.Select(
                 imageDto => new ImageInformationModel(
                                 id: imageDto.Id,
-                                name: imageDto.Name,
-                                url: imageDto.Url
+                                name: imageDto.Name
+                // ,
+                // url: imageDto.Url
                 )).ToList() : new List<ImageInformationModel>()
             );
     }

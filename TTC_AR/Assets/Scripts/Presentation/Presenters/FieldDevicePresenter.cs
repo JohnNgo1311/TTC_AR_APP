@@ -188,8 +188,8 @@ public class FieldDevicePresenter
             activeCurrent: dto.ActiveCurrent,
             listConnectionImages: dto.ConnectionImages.Select(imageDto => new ImageInformationModel(
                 id: imageDto.Id,
-                name: imageDto.Name,
-                url: imageDto.Url
+                name: imageDto.Name
+                // url: imageDto.Url
             )).ToList(),
             note: dto.Note
         );

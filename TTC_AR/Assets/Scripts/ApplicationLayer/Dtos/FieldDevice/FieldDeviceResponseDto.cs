@@ -23,13 +23,13 @@ namespace ApplicationLayer.Dtos.FieldDevice
         public string? ActiveCurrent { get; set; }
 
         [JsonProperty("ListConnectionImages")]
-        public List<ImageResponseDto>? ConnectionImages { get; set; }
+        public List<ImageBasicDto>? ConnectionImages { get; set; }
 
         [JsonProperty("Note")]
         public string? Note { get; set; }
         [Preserve]
 
-        public FieldDeviceResponseDto(string id, string? name, MccBasicDto? mcc, string? ratedPower, string? ratedCurrent, string? activeCurrent, List<ImageResponseDto>? connectionImages, string? note) : base(id, name)
+        public FieldDeviceResponseDto(string id, string? name, MccBasicDto? mcc, string? ratedPower, string? ratedCurrent, string? activeCurrent, List<ImageBasicDto>? connectionImages, string? note) : base(id, name)
         {
             Mcc = mcc ?? throw new ArgumentNullException(nameof(mcc));
             RatedPower = ratedPower;

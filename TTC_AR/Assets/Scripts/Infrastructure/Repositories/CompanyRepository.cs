@@ -19,6 +19,7 @@ namespace Infrastructure.Repositories
         {
             _httpClient = httpClient;
         }
+        
         public async Task<CompanyEntity> GetCompanyByIdAsync(string companyId)
         {
             try
@@ -28,7 +29,6 @@ namespace Infrastructure.Repositories
                 {
                     throw new HttpRequestException($"Failed to get company. Status: {response.StatusCode}");
                 }
-                UnityEngine.Debug.Log(response.ToString());
                 var content = await response.Content.ReadAsStringAsync();
                 var entity = JsonConvert.DeserializeObject<CompanyEntity>(content);
                 return entity;

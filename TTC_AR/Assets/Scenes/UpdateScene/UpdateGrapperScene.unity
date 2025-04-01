@@ -1392,8 +1392,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 707d7028d376d0b499cffcc7467a1e2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  previousSceneName: UpdateModuleScene
-  recentSceneName: LoginScene
+  previousSceneName: UpdateGrapperScene
+  recentSceneName: 
   isOrientation: 0
   detail_Image: {fileID: 0}
 --- !u!224 &908920697

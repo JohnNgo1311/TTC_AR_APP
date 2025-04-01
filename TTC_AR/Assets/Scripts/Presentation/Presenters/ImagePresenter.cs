@@ -202,7 +202,6 @@ public class ImagePresenter
         catch (Exception ex)
         {
             _view.ShowError($"Error: {ex.Message}");
-
         }
         finally
         {
@@ -214,12 +213,13 @@ public class ImagePresenter
 
 
     //! Dto => Model
-    private ImageInformationModel ConvertFromResponseDto(ImageResponseDto dto)
+    private ImageInformationModel ConvertFromResponseDto(ImageBasicDto dto)
     {
         return new ImageInformationModel(
             id: dto.Id,
-            name: dto.Name,
-           url: dto.Url
+            name: dto.Name
+        //     ,
+        //    url: dto.Url
         );
     }
     private ImageInformationModel ConvertFromBasicDto(ImageBasicDto dto)

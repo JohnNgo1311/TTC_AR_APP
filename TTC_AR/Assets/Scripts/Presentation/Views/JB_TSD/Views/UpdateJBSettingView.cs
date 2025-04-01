@@ -464,7 +464,7 @@ public class UpdateJBSettingView : MonoBehaviour, IJBView
     {
         if (GlobalVariable.APIRequestType.Contains("PUT_JB"))
         {
-            OpenErrorDialog();
+            OpenErrorDialog(message: message);
         }
         if (GlobalVariable.APIRequestType.Contains("GET_JB"))
         {

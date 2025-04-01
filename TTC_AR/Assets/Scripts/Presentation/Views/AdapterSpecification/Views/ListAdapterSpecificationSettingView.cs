@@ -37,7 +37,7 @@ public class ListAdapterSpecificationSettingView : MonoBehaviour, IAdapterSpecif
     }
     void OnDisable()
     {
-
+        StopAllCoroutines();
     }
 
     private void RefreshList()

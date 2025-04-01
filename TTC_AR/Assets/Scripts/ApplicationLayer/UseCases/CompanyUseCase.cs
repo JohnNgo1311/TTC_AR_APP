@@ -34,9 +34,18 @@ namespace ApplicationLayer.UseCases
                 else
                 {
 
-                    return CompanyEntities.Select(MapToResponseDto).ToList();
+                    var companyResponseDtos = CompanyEntities.Select(MapToResponseDto).ToList();
+                    if (companyResponseDtos == null || companyResponseDtos.Count == 0)
+                    {
+                        throw new ApplicationException("Failed to get Company list");
+                    }
+                    else
+                    {
+                        GlobalVariable.temp_Dictionary_CompanyInformationModel = companyResponseDtos.ToDictionary(dto => dto.Name, dto => MapToCompanyModel(dto));
+                        GlobalVariable.temp_List_CompanyInformationModel = companyResponseDtos.Select(dto => MapToCompanyModel(dto)).ToList();
+                        return companyResponseDtos;
+                    }
                 }
-
             }
             catch (ArgumentException)
             {
@@ -55,15 +64,20 @@ namespace ApplicationLayer.UseCases
 
                 if (companyEntity == null)
                 {
-                    UnityEngine.Debug.LogError("Failed to get Company");
                     throw new ApplicationException("Failed to get Company");
                 }
                 else
                 {
-                    UnityEngine.Debug.Log($"Company: {companyEntity.Name}");
                     var companyResponseDto = MapToResponseDto(companyEntity);
-
-                    return companyResponseDto;
+                    if (companyResponseDto == null)
+                    {
+                        throw new ApplicationException("Failed to get Company");
+                    }
+                    else
+                    {
+                        GlobalVariable.temp_CompanyInformationModel = MapToCompanyModel(companyResponseDto);
+                        return companyResponseDto;
+                    }
                 }
             }
             catch (ArgumentException)
@@ -87,5 +101,15 @@ namespace ApplicationLayer.UseCases
             );
         }
 
+        private CompanyInformationModel MapToCompanyModel(CompanyResponseDto companyResponseDto)
+        {
+            return new CompanyInformationModel(
+                id: companyResponseDto.Id,
+                name: companyResponseDto.Name,
+                listGrapperInformationModel: companyResponseDto.GrapperBasicDtos.Any() ? companyResponseDto.GrapperBasicDtos.Select(g => new GrapperInformationModel(g.Id, g.Name)).ToList() : new List<GrapperInformationModel>(),
+                listModuleSpecificationModel: companyResponseDto.ModuleSpecificationBasicDtos.Any() ? companyResponseDto.ModuleSpecificationBasicDtos.Select(m => new ModuleSpecificationModel(m.Id, m.Code)).ToList() : new List<ModuleSpecificationModel>(),
+                listAdapterSpecificationModel: companyResponseDto.AdapterSpecificationBasicDtos.Any() ? companyResponseDto.AdapterSpecificationBasicDtos.Select(a => new AdapterSpecificationModel(a.Id, a.Code)).ToList() : new List<AdapterSpecificationModel>()
+            );
+        }
     }
 }
