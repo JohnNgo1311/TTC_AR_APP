@@ -71,6 +71,8 @@ public class StaticVariable
 
     public static bool is_JB_TSD_Basic_Canvas_Active = false;
 
+    public static bool is_Custom_Camera = false;
+
 
     //TODO: JB TSD Detail
     public static string jb_TSD_Title;

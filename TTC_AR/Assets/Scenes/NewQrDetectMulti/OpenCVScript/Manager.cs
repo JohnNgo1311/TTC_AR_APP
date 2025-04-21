@@ -13,7 +13,7 @@ using OpenCVForUnity.UnityUtils.Helper;
 public class Manager : MonoBehaviour
 {
     // int i = 0;
-    Color[] colors = { Color.red, Color.blue, Color.green };
+    // Color[] colors = { Color.red, Color.blue, Color.green };
     [SerializeField] private Canvas canvas;
     [SerializeField] private TMP_Text title;
     [SerializeField] private ARHelperMulti aRHelper;
@@ -83,20 +83,30 @@ public class Manager : MonoBehaviour
                     if (activescene == "NewQRCodeDetectorMulti")
                     {
                         title.text = "Module " + key;
+                        eventPublisher.TriggerEvent_ButtonClicked();
+                        OpenCanvas();
                     }
                     else
                     {
                         title.text = "Tủ " + key;
+                        eventPublisher.TriggerEvent_ButtonClicked();
+                        OpenCanvas();
+                        // if (StaticVariable.temp_MccInformationModel != null)
+                        // {
+                        //     OpenCanvas();
+                        // }
+                        // else
+                        // {
+                        //     Debug.LogError("No MCC information found for the selected cabinet.");
+                        //     StartCoroutine(ShowToastError.Instance.ShowToast("Vui lòng chọn lại khu vực phù hợp. Thông tin bạn cần tìm không có ở khu vực đã chọn"));
+                        // }
                     }
-                    // title.text = "Module " + key;
-                    eventPublisher.TriggerEvent_ButtonClicked();
                 }
             }
             else
             {
                 Debug.LogWarning("No QRMarker found at the hit position.");
             }
-            OpenCanvas();
         }
     }
 

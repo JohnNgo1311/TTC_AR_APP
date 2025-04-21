@@ -125,9 +125,7 @@ namespace OpenCVForUnity.UnityUtils.Helper
         [OpenCVForUnityConditionalDisableInInspector("_currentSource2MatHelperClassInterfaces", (int)MultiSource2MatHelperClassInterfaces.Camera, conditionalInvisible: true, runtimeDisable: true, comparisonType: OpenCVForUnityConditionalDisableInInspectorComparisonType.FlagMatch)]
 #endif
         [SerializeField, FormerlySerializedAs("requestedWidth"), TooltipAttribute("Set the width of camera.")]
-        // protected int _requestedWidth = 640;
-        protected int _requestedWidth = 765;
-
+        protected int _requestedWidth = 640;
 
         /// <summary>
         /// Set the width of camera.
@@ -152,8 +150,7 @@ namespace OpenCVForUnity.UnityUtils.Helper
         [OpenCVForUnityConditionalDisableInInspector("_currentSource2MatHelperClassInterfaces", (int)MultiSource2MatHelperClassInterfaces.Camera, conditionalInvisible: true, runtimeDisable: true, comparisonType: OpenCVForUnityConditionalDisableInInspectorComparisonType.FlagMatch)]
 #endif
         [SerializeField, FormerlySerializedAs("requestedHeight"), TooltipAttribute("Set the height of camera.")]
-        // protected int _requestedHeight = 480;
-        protected int _requestedHeight = 479;
+        protected int _requestedHeight = 480;
 
         /// <summary>
         /// Set the height of camera.

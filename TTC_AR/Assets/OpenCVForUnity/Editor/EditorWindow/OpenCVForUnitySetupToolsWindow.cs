@@ -88,7 +88,7 @@ namespace OpenCVForUnity.Editor
                     }
                 }
                 GUILayout.EndVertical();
-                EditorGUI.BeginDisabledGroup(true);
+
                 GUILayout.BeginVertical("box");
                 {
                     string aboutText = "Import when using plugins that exclude opencv_contrib modules to reduce build size. See ReadMe.pdf for more information.";
@@ -100,7 +100,7 @@ namespace OpenCVForUnity.Editor
                     }
                 }
                 GUILayout.EndVertical();
-                EditorGUI.EndDisabledGroup();
+
                 GUILayout.BeginVertical("box");
                 {
 

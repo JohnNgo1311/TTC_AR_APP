@@ -5,15 +5,18 @@ using OpenCVForUnity.DnnModule;
 #if UNITY_EDITOR
 using OpenCVForUnity.UnityUtils.Helper.Editor;
 using OpenCVForUnityExample;
-using System.Collections.Generic;
+// using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
+
 
 
 
 #endif
+// using OpenCVForUnityExample;
 using UnityEngine;
 using UnityEngine.Serialization;
+using System.Collections.Generic;
+using TMPro;
 
 namespace OpenCVForUnity.UnityUtils.Helper
 {
@@ -48,7 +51,7 @@ namespace OpenCVForUnity.UnityUtils.Helper
 
         [SerializeField, FormerlySerializedAs("screenWidth"), TooltipAttribute("Set the width of screen.")]
         // protected int _screenWidth = 640;
-        protected int _screenWidth = 765;
+        protected int _screenWidth = 770;
         public virtual int screenWidth
         {
             get { return _screenWidth; }
@@ -66,7 +69,7 @@ namespace OpenCVForUnity.UnityUtils.Helper
 
         [SerializeField, FormerlySerializedAs("screenHeight"), TooltipAttribute("Set the height of screen.")]
         // protected int _screenHeight = 480;
-        protected int _screenHeight = 479;
+        protected int _screenHeight = 480;
         public virtual int screenHeight
         {
             get { return _screenHeight; }
@@ -83,7 +86,7 @@ namespace OpenCVForUnity.UnityUtils.Helper
 
 
         [SerializeField, FormerlySerializedAs("imageWidth"), TooltipAttribute("Set the width of image.")]
-        protected int _imageWidth = 640;
+        protected int _imageWidth = 770;
         public virtual int imageWidth
         {
             get { return _imageWidth; }

@@ -34,11 +34,12 @@ public class GetListMCCsFromGrapper : MonoBehaviour
             if (StaticVariable.temp_GrapperInformationModel.Name == "GrapperA")
             {
                 await APIManagerOpenCV.Instance.GetListMCCs(StaticVariable.GetListMCCsUrl);
-                Debug.Log("GrapperA: " + StaticVariable.temp_ListMccInformationModel.Count);
+                // Debug.Log("GrapperA: " + StaticVariable.temp_ListMccInformationModel.Count);
             }
             else
             {
-                Debug.LogError("Grapper null");
+                StaticVariable.temp_ListMccInformationModel.Clear();
+                Debug.Log("Grapper null");
             }
 
             await Move_On_Main_Thread.RunOnMainThread(() =>

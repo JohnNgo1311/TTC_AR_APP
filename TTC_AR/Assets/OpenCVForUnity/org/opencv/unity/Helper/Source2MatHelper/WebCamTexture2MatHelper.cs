@@ -791,8 +791,8 @@ namespace OpenCVForUnity.UnityUtils.Helper
                 }
                 else if (webCamTexture.didUpdateThisFrame)
                 {
-                    // Debug.Log("WebCamTexture2MatHelper:: " + "devicename:" + webCamTexture.deviceName + " name:" + webCamTexture.name + " width:" + webCamTexture.width + " height:" + webCamTexture.height + " fps:" + webCamTexture.requestedFPS
-                    // + " videoRotationAngle:" + webCamTexture.videoRotationAngle + " videoVerticallyMirrored:" + webCamTexture.videoVerticallyMirrored + " isFrongFacing:" + webCamDevice.isFrontFacing);
+                    Debug.Log("WebCamTexture2MatHelper:: " + "devicename:" + webCamTexture.deviceName + " name:" + webCamTexture.name + " width:" + webCamTexture.width + " height:" + webCamTexture.height + " fps:" + webCamTexture.requestedFPS
+                    + " videoRotationAngle:" + webCamTexture.videoRotationAngle + " videoVerticallyMirrored:" + webCamTexture.videoVerticallyMirrored + " isFrongFacing:" + webCamDevice.isFrontFacing);
 
                     if (colors == null || colors.Length != webCamTexture.width * webCamTexture.height)
                         colors = new Color32[webCamTexture.width * webCamTexture.height];

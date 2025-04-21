@@ -148,6 +148,9 @@ public class APIManagerOpenCV : MonoBehaviour
 
                 var listMccInformationModel = JsonConvert.DeserializeObject<List<MccInformationModel>>(response);
 
+                StaticVariable.temp_ListMccInformationModel.Clear();
+                StaticVariable.Dic_MccInformationModel.Clear();
+
                 if (listMccInformationModel != null && listMccInformationModel.Count > 0)
                 {
                     StaticVariable.temp_ListMccInformationModel = listMccInformationModel;
@@ -350,7 +353,7 @@ public class APIManagerOpenCV : MonoBehaviour
             using (HttpClient client = new HttpClient())
             {
                 string response = await client.GetStringAsync(url);
-                Debug.Log("response: " + response);
+                // Debug.Log("response: " + response);
 
                 var listGrapperInformationModel = JsonConvert.DeserializeObject<List<GrapperInformationModel>>(response);
 

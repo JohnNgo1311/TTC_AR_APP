@@ -30,16 +30,15 @@ public class GetMCCInformation : MonoBehaviour
 
             var firstSpaceIndex = title.text.IndexOf(' ');
             var mccCabinetCode = title.text.Substring(firstSpaceIndex + 1);
-            // var mccCabinetCode = title.text.Split(' ')[1];
-            // var mccCabinetCode = title.text;
-            // Debug.Log("mccCabinetCode: " + mccCabinetCode);
 
             //? Mcc tương ứng
             var mcc = StaticVariable.temp_ListMccInformationModel.Find(mcc => mcc.CabinetCode == mccCabinetCode);
 
             if (mcc == null)
             {
-                Show_Toast.Instance.ShowToast("error", "Không tìm thấy thông tin mcc!");
+                // Show_Toast.Instance.ShowToast("error", "Không tìm thấy thông tin mcc!");
+                Debug.LogError("Không tìm thấy thông tin mcc!");
+                StartCoroutine(ShowToastError.Instance.ShowToast("Vui lòng chọn lại khu vực phù hợp. Thông tin bạn cần tìm không có ở khu vực đã chọn"));
                 return;
             }
 

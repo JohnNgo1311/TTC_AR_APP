@@ -29,7 +29,7 @@ public class SettingsMenu : MonoBehaviour
         // scroll_Area = scroll_Area ?? gameObject.transform.Find("Scroll_Area").gameObject;
 
         yield return new WaitUntil(() => StaticVariable.ready_To_Update_Grapper_UI == true);
-        Debug.Log("temp_ListGrapperInformationModel.Count: " + StaticVariable.temp_ListGrapperInformationModel.Count);
+        // Debug.Log("temp_ListGrapperInformationModel.Count: " + StaticVariable.temp_ListGrapperInformationModel.Count);
 
         if (SceneManager.GetActiveScene().name == "FieldDeviceScene")
         {
