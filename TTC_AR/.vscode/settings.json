@@ -54,6 +54,9 @@
     "dotnet.preferCSharpExtension": true,
     "dotnet.defaultSolution": "TTC_AR.sln",
     "cSpell.words": [
-        "kích"
+        "kích",
+        "magicleap",
+        "openxr",
+        "rgba"
     ]
 }

@@ -14,6 +14,7 @@ using System.Net.Http;
 using ApplicationLayer.Dtos;
 using ApplicationLayer.Dtos.JB;
 using ApplicationLayer.Interfaces;
+using static ModuleInformationModel;
 
 public class APIManager : MonoBehaviour
 {
@@ -52,8 +53,8 @@ public class APIManager : MonoBehaviour
     public MccInformationModel temp_MccInformationModel;
     public List<FieldDeviceInformationModel> temp_ListFieldDeviceInformationModel = new List<FieldDeviceInformationModel>();
     public FieldDeviceInformationModel temp_FieldDeviceInformationModel;
-    public List<JBInformationModel> temp_ListJBInformationModel_From_Module = new List<JBInformationModel>();
-    public List<DeviceInformationModel> temp_ListDeviceInformationModel_FromModule = new List<DeviceInformationModel>();
+    public List<JBInformationModel> temp_ListJBInformationModelFromDevice = new List<JBInformationModel>();
+    public List<DeviceInformationModel> temp_ListDeviceInformationModelFromModule_FromModule = new List<DeviceInformationModel>();
     public Dictionary<string, List<Texture2D>> list_JBConnectionImagesFromModule = new Dictionary<string, List<Texture2D>>();
     public Dictionary<string, Texture2D> list_JBLocationImagesFromModule = new Dictionary<string, Texture2D>();
     public List<string> imageUrls = new List<string>();
@@ -305,16 +306,16 @@ public class APIManager : MonoBehaviour
     //                 GlobalVariable.ModuleSpecificationId = 1;
     //                 GlobalVariable.AdapterSpecificationId = 1;
 
-    //                 GlobalVariable.temp_ListJBInformationModel_FromModule.Clear();
-    //                 GlobalVariable.temp_ListDeviceInformationModel_FromModule.Clear();
+    //                 GlobalVariable.temp_ListJBInformationModelFromModule_FromModule.Clear();
+    //                 GlobalVariable.temp_ListDeviceInformationModelFromModule_FromModule.Clear();
 
     //                 GlobalVariable.temp_ModuleInformationModel = null;
     //                 GlobalVariable.temp_ModuleSpecificationBasicModel = null;
     //                 GlobalVariable.temp_AdapterSpecificationModel = null;
 
     //                 temp_ModuleInformationModel = moduleInformationModel;
-    //                 temp_ListJBInformationModel_From_Module = temp_ModuleInformationModel.ListJBInformationModel;
-    //                 temp_ListDeviceInformationModel_FromModule = temp_ModuleInformationModel.ListDeviceInformationModel_FromModule;
+    //                 temp_ListJBInformationModelFromDevice = temp_ModuleInformationModel.ListJBInformationModel;
+    //                 temp_ListDeviceInformationModelFromModule_FromModule = temp_ModuleInformationModel.ListDeviceInformationModel_FromModule;
     //                 ModuleId = temp_ModuleInformationModel.Id;
 
     //                 GlobalVariable.temp_ModuleInformationModel = temp_ModuleInformationModel;
@@ -323,8 +324,8 @@ public class APIManager : MonoBehaviour
     //                 GlobalVariable.ModuleSpecificationId = moduleInformationModel.ModuleSpecificationModel.Id;
     //                 GlobalVariable.AdapterSpecificationId = moduleInformationModel.AdapterSpecificationModel.Id;
 
-    //                 GlobalVariable.temp_ListJBInformationModel_FromModule = temp_ListJBInformationModel_From_Module;
-    //                 GlobalVariable.temp_ListDeviceInformationModel_FromModule = temp_ListDeviceInformationModel_FromModule;
+    //                 GlobalVariable.temp_ListJBInformationModelFromModule_FromModule = temp_ListJBInformationModelFromDevice;
+    //                 GlobalVariable.temp_ListDeviceInformationModelFromModule_FromModule = temp_ListDeviceInformationModelFromModule_FromModule;
 
     //                 GlobalVariable.temp_ModuleSpecificationModel = moduleInformationModel.ModuleSpecificationModel;
     //                 GlobalVariable.temp_AdapterSpecificationModel = moduleInformationModel.AdapterSpecificationModel;
@@ -392,18 +393,18 @@ public class APIManager : MonoBehaviour
             if (SceneManager.GetActiveScene().name == MyEnum.GrapperAScanScene.GetDescription())
             {
 
-                if (temp_ListJBInformationModel_From_Module == null || temp_ListJBInformationModel_From_Module.Count == 0)
+                if (temp_ListJBInformationModelFromDevice == null || temp_ListJBInformationModelFromDevice.Count == 0)
                 {
                     Debug.LogWarning("No JB information models available to download images.");
 
                 }
                 else
                 {
-                    Debug.Log("temp_ListJBInformationModel_From_Module.Count: " + temp_ListJBInformationModel_From_Module.Count);
+                    Debug.Log("temp_ListJBInformationModelFromDevice.Count: " + temp_ListJBInformationModelFromDevice.Count);
 
                     var downloadTasks = new List<Task<Texture2D>>();
 
-                    foreach (var jb in temp_ListJBInformationModel_From_Module)
+                    foreach (var jb in temp_ListJBInformationModelFromDevice)
                     {
                         // Khởi tạo các danh sách nếu chưa tồn tại
                         if (!list_JBConnectionImagesFromModule.ContainsKey(jb.Name))
@@ -561,7 +562,7 @@ public class APIManager : MonoBehaviour
     //             var list_DeviceInformationModel = JsonConvert.DeserializeObject<List<DeviceInformationModel>>(webRequest.downloadHandler.text);
     //             if (list_DeviceInformationModel != null && list_DeviceInformationModel.Any())
     //             {
-    //                 GlobalVariable_Search_Devices.temp_ListDeviceInformationModel = list_DeviceInformationModel;
+    //                 GlobalVariable_Search_Devices.temp_ListDeviceInformationModelFromModule = list_DeviceInformationModel;
     //                 GlobalVariable_Search_Devices.temp_List_Device_For_Fitler = FilterListDevicesForSearching(list_DeviceInformationModel);
 
     //                 Dic_DeviceInformationModels.Clear();
@@ -669,6 +670,7 @@ public class APIManager : MonoBehaviour
                         GlobalVariable.temp_ListModuleInformationModel = listModuleInformationModel;
                         GlobalVariable.temp_Dictionary_ModuleBasicModel.Clear();
                         Dic_ModuleInformationModels.Clear();
+
                         foreach (var Module in listModuleInformationModel)
                         {
                             Dic_ModuleInformationModels.TryAdd(Module.Name, Module);
@@ -682,14 +684,8 @@ public class APIManager : MonoBehaviour
 
                         GlobalVariable.temp_Dictionary_ModuleInformationModel = Dic_ModuleInformationModels;
                         Debug.Log("Dic_ModuleInformationModels.Count: " + Dic_ModuleInformationModels.Count);
-                        return listModuleInformationModel;
-
                     }
-                    else
-                    {
-                        HandleRequestError("Failed to get JB information.");
-                        return null;
-                    }
+                    return listModuleInformationModel;
                 }
                 else
                 {
@@ -722,26 +718,26 @@ public class APIManager : MonoBehaviour
                         GlobalVariable.ModuleSpecificationId = "1";
                         GlobalVariable.AdapterSpecificationId = "1";
 
-                        GlobalVariable.temp_ListJBInformationModel_FromModule.Clear();
-                        GlobalVariable.temp_ListDeviceInformationModel_FromModule.Clear();
+                        // GlobalVariable.temp_ListJBInformationModelFromModule_FromModule.Clear();
+                        // GlobalVariable.temp_ListDeviceInformationModelFromModule_FromModule.Clear();
 
                         GlobalVariable.temp_ModuleInformationModel = null;
                         GlobalVariable.temp_ModuleSpecificationBasicModel = null;
                         GlobalVariable.temp_AdapterSpecificationModel = null;
 
                         temp_ModuleInformationModel = moduleInformationModel;
-                        temp_ListJBInformationModel_From_Module = temp_ModuleInformationModel.ListJBInformationModel;
-                        temp_ListDeviceInformationModel_FromModule = temp_ModuleInformationModel.ListDeviceInformationModel;
+                        // temp_ListJBInformationModel_From_Module = temp_ModuleInformationModel.ListJBInformationModel;
+                        // temp_ListDeviceInformationModel_FromModule = temp_ModuleInformationModel.ListDeviceInformationModel;
                         ModuleId = temp_ModuleInformationModel.Id;
 
-                        GlobalVariable.temp_ModuleInformationModel = temp_ModuleInformationModel;
+                        // GlobalVariable.temp_ModuleInformationModel = temp_ModuleInformationModel;
 
                         GlobalVariable.ModuleId = ModuleId;
-                        GlobalVariable.ModuleSpecificationId = moduleInformationModel.ModuleSpecificationModel.Id;
-                        GlobalVariable.AdapterSpecificationId = moduleInformationModel.AdapterSpecificationModel.Id;
+                        // GlobalVariable.ModuleSpecificationId = moduleInformationModel.ModuleSpecificationModel.Id;
+                        // GlobalVariable.AdapterSpecificationId = moduleInformationModel.AdapterSpecificationModel.Id;
 
-                        GlobalVariable.temp_ListJBInformationModel_FromModule = temp_ListJBInformationModel_From_Module;
-                        GlobalVariable.temp_ListDeviceInformationModel_FromModule = temp_ListDeviceInformationModel_FromModule;
+                        // GlobalVariable.temp_ListJBInformationModelFromModule_FromModule = temp_ListJBInformationModelFromDevice;
+                        // GlobalVariable.temp_ListDeviceInformationModelFromModule_FromModule = temp_ListDeviceInformationModelFromModule_FromModule;
 
                         GlobalVariable.temp_ModuleSpecificationModel = moduleInformationModel.ModuleSpecificationModel;
                         GlobalVariable.temp_AdapterSpecificationModel = moduleInformationModel.AdapterSpecificationModel;
@@ -789,7 +785,7 @@ public class APIManager : MonoBehaviour
                     var list_DeviceInformationModel = JsonConvert.DeserializeObject<List<DeviceInformationModel>>(json);
                     if (list_DeviceInformationModel != null && list_DeviceInformationModel.Any())
                     {
-                        GlobalVariable_Search_Devices.temp_ListDeviceInformationModel = list_DeviceInformationModel;
+                        // GlobalVariable_Search_Devices.temp_ListDeviceInformationModelFromModule = list_DeviceInformationModel;
                         GlobalVariable_Search_Devices.temp_List_Device_For_Fitler = FilterListDevicesForSearching(list_DeviceInformationModel);
 
                         Dic_DeviceInformationModels.Clear();
@@ -938,8 +934,8 @@ public class APIManager : MonoBehaviour
 
                     if (listJBInformationModel != null && listJBInformationModel.Any())
                     {
-                        //  GlobalVariable_Search_Devices.temp_ListJBInformationModel
-                        GlobalVariable.temp_ListJBInformationModel = listJBInformationModel;
+                        //  GlobalVariable_Search_Devices.temp_ListJBInformationModelFromModule
+                        // GlobalVariable.temp_ListJBInformationModelFromModule = listJBInformationModel;
                         Dic_JBInformationModels.Clear();
                         GlobalVariable.list_jBName.Clear();
                         GlobalVariable.temp_Dictionary_JBBasicModel.Clear();
@@ -1082,8 +1078,8 @@ public class APIManager : MonoBehaviour
     //             var list_JBInformationModel = JsonConvert.DeserializeObject<List<JBInformationModel>>(webRequest.downloadHandler.text);
     //             if (list_JBInformationModel != null && list_JBInformationModel.Any())
     //             {
-    //                 GlobalVariable_Search_Devices.temp_ListJBInformationModel = list_JBInformationModel;
-    //                 Debug.Log("GlobalVariable_Search_Devices.temp_ListJBInformationModel_From_Module.Count: " + GlobalVariable_Search_Devices.temp_ListJBInformationModel.Count);
+    //                 GlobalVariable_Search_Devices.temp_ListJBInformationModelFromModule = list_JBInformationModel;
+    //                 Debug.Log("GlobalVariable_Search_Devices.temp_ListJBInformationModelFromDevice.Count: " + GlobalVariable_Search_Devices.temp_ListJBInformationModelFromModule.Count);
     //                 Dic_JBInformationModels.Clear();
 
     //                 foreach (var JB in list_JBInformationModel)

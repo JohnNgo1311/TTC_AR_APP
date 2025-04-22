@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,149 +9,80 @@ using UnityEngine.UI;
 
 public class SettingsMenu : MonoBehaviour
 {
-    public List<GameObject> imageTargets;
-    public GameObject content;
-
-    [SerializeField]
-    private GameObject scroll_Area;
-    public Button mainButton;
-    private List<SettingsMenuItem> menuItems;
-    private bool isExpanded = true;
-
-    public Get_List_MCCs get_List_MCCs;
-    // private Vector2 mainButtonPosition;
+    [SerializeField] private Transform content;
+    [SerializeField] private GameObject scroll_Area;
+    [SerializeField] private GameObject item;
+    [SerializeField] private EventPublisher eventPublisher;
+    public GameObject mainButton;
+    private GameObject FirstBtn = null;
+    private GrapperInfor grapperInforBtn;
 
     void Start()
     {
-        InitializeMenuItems();
+        // Debug.Log("SettingsMenu Start");
+        StartCoroutine(InitializeMenuItems());
         SetupMainButton();
-        // mainButtonPosition = mainButton.GetComponent<RectTransform>().anchoredPosition;
     }
 
-    private void InitializeMenuItems()
+    private IEnumerator InitializeMenuItems()
     {
-        scroll_Area = scroll_Area ?? gameObject.transform.Find("Scroll_Area").gameObject;
-        // scrollRect = gameObject.GetComponent<ScrollRect>();
-        if (SceneManager.GetActiveScene().name == MyEnum.GrapperAScanScene.GetDescription())
+        // scroll_Area = scroll_Area ?? gameObject.transform.Find("Scroll_Area").gameObject;
+
+        yield return new WaitUntil(() => StaticVariable.ready_To_Update_Grapper_UI == true);
+        // Debug.Log("temp_ListGrapperInformationModel.Count: " + StaticVariable.temp_ListGrapperInformationModel.Count);
+
+        if (SceneManager.GetActiveScene().name == "FieldDeviceScene")
         {
-            if (GlobalVariable.temp_ListRackBasicModels.Any())
+            if (StaticVariable.temp_ListGrapperInformationModel.Any())
             {
-                for (int i = 1; i < GlobalVariable.temp_ListRackBasicModels.Count; i++)
+                item.SetActive(true);
+                foreach (var grapper in StaticVariable.temp_ListGrapperInformationModel)
                 {
-                    var newObject = Instantiate(content.transform.GetChild(0), content.transform);
-                    newObject.name = $"Rack_{i + 1}";
-                    newObject.GetComponentInChildren<TMP_Text>().text = $"Rack {i + 1}";
-                    newObject.gameObject.SetActive(false);
+                    var newObject = Instantiate(item, content);
+                    var InstantiateGrapperInfor = newObject.GetComponent<GrapperInfor>();
+                    InstantiateGrapperInfor.SetGrapperName(grapper);
+                    InstantiateGrapperInfor.grapperButton.onClick.AddListener(() => OnItemClick(grapper));
+                    if (FirstBtn == null)
+                    {
+                        FirstBtn = newObject;
+                        OnItemClick(grapper);
+                    }
                 }
-            }
-            else
-            {
-                Debug.LogError("No rack found");
-            }
-        }
-        else if (SceneManager.GetActiveScene().name == MyEnum.FieldDevicesScene.GetDescription())
-        {
-            if (GlobalVariable.temp_ListGrapperBasicModels.Any())
-            {
-                for (int i = 1; i < GlobalVariable.temp_ListGrapperBasicModels.Count; i++)
-                {
-                    var newObject = Instantiate(content.transform.GetChild(0), content.transform);
-                    newObject.name = GlobalVariable.temp_ListGrapperBasicModels[i].Name;
-                    newObject.GetComponentInChildren<TMP_Text>().text = newObject.name;
-                    newObject.gameObject.SetActive(false);
-                }
+                item.SetActive(false);
             }
             else
             {
                 Debug.LogError("No Grapper found");
             }
         }
-
-        content.SetActive(false);
+        else
+        {
+            Debug.LogError("Not in FieldDeviceScene");
+        }
         scroll_Area.SetActive(false);
-
-        int itemsCount = content.transform.childCount;
-        menuItems = new List<SettingsMenuItem>(itemsCount);
-
-        for (int i = 0; i < itemsCount; i++)
-        {
-            menuItems.Add(content.transform.GetChild(i).GetComponent<SettingsMenuItem>());
-        }
-        if (SceneManager.GetActiveScene().name == MyEnum.GrapperAScanScene.GetDescription())
-        {
-            OnItemClick("Rack_1");
-        }
-        else if (SceneManager.GetActiveScene().name == MyEnum.FieldDevicesScene.GetDescription())
-        {
-            OnItemClick("GrapperA");
-        }
     }
 
     private void SetupMainButton()
     {
-        mainButton = mainButton.GetComponent<Button>();
-        mainButton.onClick.AddListener(ToggleMenu);
+        grapperInforBtn = mainButton.GetComponent<GrapperInfor>();
+        grapperInforBtn.grapperButton.onClick.AddListener(() => ToggleMenu());
     }
 
     private void ToggleMenu()
     {
-        isExpanded = !isExpanded;
-        //Debug$"ToggleMenu: {isExpanded}");
-        menuItems.ForEach(item => item.gameObject.SetActive(isExpanded));
-        content.SetActive(isExpanded);
-        // Resize_GameObject_Function.Resize_Parent_GameObject(content.GetComponent<RectTransform>());
-        //  Resize_GameObject_Function.Resize_Parent_GameObject(scroll_Area.GetComponent<RectTransform>());
-        scroll_Area.SetActive(isExpanded);
-
+        scroll_Area.gameObject.SetActive(!scroll_Area.activeSelf);
     }
 
-    public void OnItemClick(string itemName)
+    public void OnItemClick(GrapperInformationModel grapper)
     {
-        if (SceneManager.GetActiveScene().name == MyEnum.GrapperAScanScene.GetDescription())
-        {
-            string[] splitString = itemName.Split("_");
-            var rackIdentifier = splitString[1][0];
-            GlobalVariable.activated_iamgeTargets.Clear();
-            foreach (var imageTarget in imageTargets)
-            {
-                bool isActive = imageTarget.name.Split("_")[1][1] == rackIdentifier;
-                imageTarget.SetActive(isActive);
-
-                if (isActive)
-                {
-                    mainButton.GetComponentInChildren<TMP_Text>().text = $"Rack {rackIdentifier}";
-                    GlobalVariable.activated_iamgeTargets.Add(imageTarget);
-                }
-            }
-        }
-        else if (SceneManager.GetActiveScene().name == MyEnum.FieldDevicesScene.GetDescription())
-        {
-            var grapperId = GlobalVariable.temp_ListGrapperBasicModels.Find(g => g.Name == itemName).Id;
-            get_List_MCCs.GrapperId = grapperId;
-            get_List_MCCs.GrapperName = itemName;
-            get_List_MCCs.GetListMCCModels(grapperId);
-
-            foreach (var imageTarget in imageTargets)
-            {
-                if (imageTarget.gameObject.name.Contains(itemName))
-                {
-                    imageTarget.SetActive(true);
-                    GlobalVariable.activated_iamgeTargets.Add(imageTarget);
-                }
-                else
-                {
-                    imageTarget.SetActive(false);
-                }
-            }
-            mainButton.GetComponentInChildren<TMP_Text>().text = itemName;
-
-        }
+        StaticVariable.temp_GrapperInformationModel = grapper;
+        eventPublisher.TriggerEvent_GrapperClicked();
+        grapperInforBtn.SetGrapperName(grapper);
         ToggleMenu();
-
     }
 
     void OnDestroy()
     {
-        mainButton.onClick.RemoveListener(ToggleMenu);
+        grapperInforBtn.grapperButton.onClick.RemoveAllListeners();
     }
 }

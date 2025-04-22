@@ -20,5 +20,3 @@ public class GlobalVariable_Search_Devices : MonoBehaviour
 
 
 }
-
-

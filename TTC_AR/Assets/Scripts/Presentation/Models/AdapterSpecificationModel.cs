@@ -62,6 +62,10 @@ public class AdapterSpecificationModel
     Id = id;
     Code = code;
   }
+
+  public AdapterSpecificationModel()
+  {
+  }
   public AdapterSpecificationModel(string code, string? type, string? communication, string? numOfModulesAllowed, string? commSpeed, string? inputSupply, string? outputSupply, string? inrushCurrent, string? alarm, string? note, string? pdfManual)
   {
     Code = code;

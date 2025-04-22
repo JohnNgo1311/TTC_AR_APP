@@ -6,22 +6,6 @@ using System.Collections;
 using System.Collections.Generic;
 public class Get_List_Modules_By_Grapper : MonoBehaviour
 {
-    private void Awake()
-    {
-    }
-    private void OnEnable()
-    {
-
-    }
-
-    void OnDisable()
-    {
-
-    }
-    private void Start()
-    {
-
-    }
     public async void GetListModuleByGrapper()
     {
         try

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using UnityEngine.Scripting;
+using static ModuleInformationModel;
 #nullable enable
 [Preserve]
 public class JBInformationModel
@@ -60,6 +61,10 @@ public class JBInformationModel
     Location = location;
     OutdoorImage = outdoorImage;
     ListConnectionImages = listConnectionImages;
+  }
+
+  public JBInformationModel()
+  {
   }
 }
 

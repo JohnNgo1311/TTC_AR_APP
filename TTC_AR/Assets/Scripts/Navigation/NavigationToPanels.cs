@@ -16,19 +16,19 @@ public class NavigationToPanels : MonoBehaviour
 
     private void OnEnable()
     {
-        if (parentCanvas == null) // Chỉ tìm parentCanvas nếu chưa gán
-            parentCanvas = GetComponentInParent<Canvas>();
+        // if (parentCanvas == null) // Chỉ tìm parentCanvas nếu chưa gán
+        //     parentCanvas = GetComponentInParent<Canvas>();
 
-        if (initialScreen == null) // Gán initialScreen nếu chưa gán
-            initialScreen = parentCanvas.transform.Find("Basic_Panel")?.gameObject;
+        // if (initialScreen == null) // Gán initialScreen nếu chưa gán
+        //     initialScreen = parentCanvas.transform.Find("Basic_Panel")?.gameObject;
 
-        if (generalModuleTitle == null && initialScreen != null) // Gán tiêu đề nếu chưa gán
-            generalModuleTitle = initialScreen.transform.Find("Title")?.GetComponent<TMP_Text>();
+        // if (generalModuleTitle == null && initialScreen != null) // Gán tiêu đề nếu chưa gán
+        //     generalModuleTitle = initialScreen.transform.Find("Title")?.GetComponent<TMP_Text>();
 
-        GlobalVariable.generalPanel = initialScreen;
+        // StaticVariable.generalPanel = initialScreen;
 
-        if (generalModuleTitle != null)
-            generalModuleTitle.text = GetModuleTitle(parentCanvas.gameObject.name);
+        // if (generalModuleTitle != null)
+        //     generalModuleTitle.text = GetModuleTitle(parentCanvas.gameObject.name);
 
         SetInitialState();
 
@@ -46,7 +46,7 @@ public class NavigationToPanels : MonoBehaviour
             button.onClick.RemoveAllListeners();
         }
 
-        GlobalVariable.generalPanel = null;
+        // StaticVariable.generalPanel = null;
 
     }
 
@@ -57,8 +57,8 @@ public class NavigationToPanels : MonoBehaviour
 
     private void SetInitialState()
     {
-        if (initialScreen != null)
-            initialScreen.SetActive(true);
+        // if (initialScreen != null)
+        //     initialScreen.SetActive(true);
 
         foreach (var screen in destinationScreens)
         {
@@ -67,20 +67,22 @@ public class NavigationToPanels : MonoBehaviour
         }
     }
 
-    private string GetModuleTitle(string fullName)
-    {
-        if (isFieldDevice)
-        {
-            return generalModuleTitle.text;
-        }
-        else
-        {
-            return $"Module {fullName.Split('_')[0]}";
-        }
-    }
+    // private string GetModuleTitle(string fullName)
+    // {
+    //     if (isFieldDevice)
+    //     {
+    //         return generalModuleTitle.text;
+    //     }
+    //     else
+    //     {
+    //         return $"Module {fullName.Split('_')[0]}";
+    //     }
+    // }
 
     public void NavigateNewScreen(int index)
     {
+        // yield return new WaitUntil(() => StaticVariable.ready_To_Update_UI);
+
         if (initialScreen != null)
             initialScreen.SetActive(false);
 
@@ -104,7 +106,7 @@ public class NavigationToPanels : MonoBehaviour
                 screen.SetActive(false);
         }
 
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.2f);
 
         if (initialScreen != null)
             initialScreen.SetActive(true);

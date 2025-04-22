@@ -6,6 +6,7 @@ using UnityEngine.Scripting;
 [Preserve]
 public class RackInformationModel
 {
+#nullable enable
   [JsonProperty("Id")]
   public string Id { get; set; } = string.Empty;
 
@@ -27,6 +28,12 @@ public class RackInformationModel
   {
     Id = id;
     Name = name;
+  }
+
+  [Preserve]
+  public RackInformationModel()
+  {
+
   }
   [Preserve]
   public RackInformationModel(string name, List<ModuleInformationModel>? listModuleInformationModel)

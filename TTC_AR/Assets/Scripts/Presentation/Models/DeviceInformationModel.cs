@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using UnityEngine.Scripting;
+using static ModuleInformationModel;
 #nullable enable
 [Preserve]
 public class DeviceInformationModel
@@ -26,7 +27,7 @@ public class DeviceInformationModel
   [JsonProperty("Module")]
   public ModuleInformationModel? ModuleInformationModel { get; set; }
 
-  [JsonProperty("JBs")]
+  [JsonProperty("ListJBs")]
   public List<JBInformationModel>? JBInformationModels { get; set; }
 
   [JsonProperty("AdditionalConnectionImages")]
@@ -44,8 +45,11 @@ public class DeviceInformationModel
     IOAddress = ioAddress;
     ModuleInformationModel = moduleInformationModel;
     JBInformationModels = jbInformationModels;
+    JBInformationModels = jbInformationModels;
     AdditionalConnectionImages = additionalConnectionImages;
   }
+
+
   public DeviceInformationModel(string code, string? function, string? range, string? unit, string? ioAddress, ModuleInformationModel? moduleInformationModel, List<JBInformationModel>? jbInformationModels, List<ImageInformationModel>? additionalConnectionImages)
   {
 
@@ -56,12 +60,18 @@ public class DeviceInformationModel
     IOAddress = ioAddress;
     ModuleInformationModel = moduleInformationModel;
     JBInformationModels = jbInformationModels;
+    JBInformationModels = jbInformationModels;
     AdditionalConnectionImages = additionalConnectionImages;
   }
+
   public DeviceInformationModel(string id, string code)
   {
     Id = id;
     Code = code;
+  }
+
+  public DeviceInformationModel()
+  {
   }
 }
 

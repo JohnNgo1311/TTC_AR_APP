@@ -59,6 +59,12 @@ public class GrapperInformationModel
 
     Name = name;
   }
+
+  [Preserve]
+  public GrapperInformationModel()
+  {
+
+  }
 }
 
 [Preserve]

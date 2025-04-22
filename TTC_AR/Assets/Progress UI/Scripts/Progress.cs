@@ -33,6 +33,7 @@ namespace EasyUI.Progress
 
       public static UnityAction OnProgressShow;
       public static UnityAction OnProgressHide;
+
       public static bool __isLoaded = false;
 
       private static ProgressUI progressUI;
@@ -102,12 +103,11 @@ namespace EasyUI.Progress
             isActive = false;
             progressUI.Hide();
             if (OnProgressHide != null)
-            {
                OnProgressHide.Invoke();
-            }
-
          }
+
       }
+
 
       private static bool AlreadyActive()
       {

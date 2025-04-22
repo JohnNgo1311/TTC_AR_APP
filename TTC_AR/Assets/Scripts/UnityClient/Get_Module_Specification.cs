@@ -37,10 +37,7 @@ public class Get_Module_Specification : MonoBehaviour
             Debug.Log("eventPublisher is null");
         }
     }
-    private void Start()
-    {
 
-    }
     public async void Get_ModuleSpecification()
     {
         try

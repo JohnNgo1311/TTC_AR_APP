@@ -470,4 +470,7 @@ public class GlobalVariable : MonoBehaviour
 "GrapA_Connection_TSD9_1.png"
     };
 
+    public static bool isCameraPaused = false;
+
+
 }

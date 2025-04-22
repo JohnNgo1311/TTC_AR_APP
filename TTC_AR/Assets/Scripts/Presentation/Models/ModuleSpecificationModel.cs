@@ -61,6 +61,10 @@ public class ModuleSpecificationModel
     Code = code;
   }
 
+  public ModuleSpecificationModel()
+  {
+  }
+
   public ModuleSpecificationModel(
    string code, string? type, string? numOfIO, string? signalType, string? compatibleTBUs, string? operatingVoltage, string? operatingCurrent, string? flexbusCurrent, string? alarm, string? note, string? pdfManual)
   {

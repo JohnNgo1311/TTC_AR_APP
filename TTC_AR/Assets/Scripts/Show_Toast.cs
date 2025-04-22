@@ -43,7 +43,7 @@ public class Show_Toast : MonoBehaviour
         else
         {
             Instance = this;
-            Debug.Log("Show_Toast");
+            // Debug.Log("Show_Toast");
             PreloadSprites();
         }
         if (showToastInitial)
@@ -84,7 +84,7 @@ public class Show_Toast : MonoBehaviour
         {
             existingToast = Instantiate(toastPrefab, toastParent).transform;
             var layoutToast = existingToast.transform.GetChild(0);
-            
+
             toastText = layoutToast.GetComponentInChildren<TMP_Text>();
 
             toastBackground = layoutToast.GetComponentInChildren<Image>();
@@ -132,13 +132,13 @@ public class Show_Toast : MonoBehaviour
             }
             existingToast.gameObject.SetActive(status);
         }
-        
+
         foreach (GameObject obj in allObjects)
         {
             if (obj != null && obj.name == "LeanTouch")
             {
                 obj.SetActive(!status);
-                Debug.Log($"{(status ? "Deactivated" : "Activated")}: {obj.name}");
+                // Debug.Log($"{(status ? "Deactivated" : "Activated")}: {obj.name}");
             }
         }
     }
@@ -153,7 +153,6 @@ public class Show_Toast : MonoBehaviour
     {
         yield return new WaitForSeconds(time);
         SetInstanceStatus(false);
-        Debug.Log("Tắt Toast");
     }
 }
 
