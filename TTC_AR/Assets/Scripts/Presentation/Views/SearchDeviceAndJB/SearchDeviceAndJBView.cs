@@ -22,9 +22,9 @@ public class SearchDeviceAndJBView : MonoBehaviour, ISearchDeviceAndJBView
     public GameObject itemPrefab;
     public TMP_InputField inputField;
     public ScrollRect scrollRect;
-    public GameObject content;
+    public GameObject contentItemSelection;
     public event Action<string> OnValueChangedEvt;
-    [SerializeField] private RectTransform contentRect;
+    [SerializeField] private RectTransform contentItemSelectionRect;
     [SerializeField] private List<GameObject> itemGameObjects = new List<GameObject>();
     [SerializeField] private List<DeviceInformationModel> tempDeviceInfo = new List<DeviceInformationModel>();
     [SerializeField] private List<JBInformationModel> tempJBInfo = new List<JBInformationModel>();
@@ -53,7 +53,7 @@ public class SearchDeviceAndJBView : MonoBehaviour, ISearchDeviceAndJBView
     }
     public void SetInit()
     {
-        contentRect ??= content.GetComponent<RectTransform>();
+        contentItemSelectionRect ??= contentItemSelection.GetComponent<RectTransform>();
         scrollRectInitialSize = scrollRect.gameObject.GetComponent<RectTransform>().sizeDelta;
         Debug.Log("SearchableDropDown awake");
         filter_Type = "Device";
@@ -97,7 +97,7 @@ public class SearchDeviceAndJBView : MonoBehaviour, ISearchDeviceAndJBView
 
         availableOptions = deviceOptions;
 
-        if (scrollRect == null || inputField == null || content == null || itemPrefab == null)
+        if (scrollRect == null || inputField == null || contentItemSelection == null || itemPrefab == null)
         {
             Debug.LogError("Cannot find necessary components for SearchableDropDown");
             return;
@@ -149,7 +149,7 @@ public class SearchDeviceAndJBView : MonoBehaviour, ISearchDeviceAndJBView
     private void UpdateDropdownOptions(List<string> options)
     {
         availableOptions = options;
-        if (scrollRect == null || inputField == null || content == null || itemPrefab == null)
+        if (scrollRect == null || inputField == null || contentItemSelection == null || itemPrefab == null)
         {
             Debug.LogError("Cannot find necessary components for SearchableDropDown");
             return;
@@ -197,7 +197,7 @@ public class SearchDeviceAndJBView : MonoBehaviour, ISearchDeviceAndJBView
 
     private void PopulateDropdown(List<string> options)
     {
-        ClearChildren(content.transform);
+        ClearChildren(contentItemSelectionRect);
 
         itemGameObjects.Clear();
 
@@ -207,15 +207,15 @@ public class SearchDeviceAndJBView : MonoBehaviour, ISearchDeviceAndJBView
         {
             int i = options.IndexOf(option);
 
-            var itemObject = Instantiate(itemPrefab, content.transform);
+            var itemObject = Instantiate(itemPrefab, contentItemSelectionRect);
 
-            itemObject.name = option;
+            //    itemObject.name = option;
 
             var textComponent = itemObject.GetComponentInChildren<TMP_Text>();
+            var buttonComponent = itemObject.GetComponent<Button>();
 
             textComponent.text = option;
-
-            itemObject.GetComponent<Button>().onClick.AddListener(() => OnItemSelected(option));
+            buttonComponent.onClick.AddListener(() => OnItemSelected(option));
 
             itemGameObjects.Add(itemObject);
 
@@ -314,14 +314,14 @@ public class SearchDeviceAndJBView : MonoBehaviour, ISearchDeviceAndJBView
             RectTransform itemRect = itemGameObjects.FirstOrDefault(item => item.activeSelf).gameObject.GetComponent<RectTransform>();
             float newHeight = itemRect.sizeDelta.y * activeItemCount * 1.05f;
             Debug.Log("newHeight: " + newHeight);
-            contentRect.sizeDelta = new Vector2(contentRect.sizeDelta.x, newHeight);
+            contentItemSelectionRect.sizeDelta = new Vector2(contentItemSelectionRect.sizeDelta.x, newHeight);
             scrollRect.gameObject.GetComponent<RectTransform>().sizeDelta = (activeItemCount == 1)
                 ? new Vector2(scrollRectInitialSize.x, newHeight * 1.05f)
                 : scrollRectInitialSize;
         }
         else
         {
-            contentRect.sizeDelta = new Vector2(contentRect.sizeDelta.x, 0);
+            contentItemSelectionRect.sizeDelta = new Vector2(contentItemSelectionRect.sizeDelta.x, 0);
             scrollRect.gameObject.GetComponent<RectTransform>().sizeDelta = Vector2.zero;
         }
         //  Canvas.ForceUpdateCanvases();

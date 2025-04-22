@@ -527,7 +527,7 @@ public class UpdateModuleSettingView : MonoBehaviour, IModuleView
         }
     }
 
-    public void ShowSuccess()
+    public void ShowSuccess(string message)
     {
         if (GlobalVariable.APIRequestType.Contains("PUT_Module"))
         {

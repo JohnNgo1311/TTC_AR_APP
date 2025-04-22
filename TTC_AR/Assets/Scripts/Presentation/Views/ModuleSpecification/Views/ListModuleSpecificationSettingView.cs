@@ -34,7 +34,6 @@ public class ListModuleSpecificationSettingView : MonoBehaviour, IModuleSpecific
     void OnEnable()
     {
         LoadListModuleSpecification();
-
     }
     void OnDisable()
     {
@@ -64,30 +63,35 @@ public class ListModuleSpecificationSettingView : MonoBehaviour, IModuleSpecific
             foreach (var model in models)
             {
                 int ModuleSpecificationIndex = models.IndexOf(model);
-                Debug.Log(ModuleSpecificationIndex);
+
                 var newModuleSpecificationItem = Instantiate(ModuleSpecification_Item_Prefab, Parent_Vertical_Layout_Group.transform);
+
                 Transform newModuleSpecificationItemTransform = newModuleSpecificationItem.transform;
+
                 Transform newModuleSpecificationItemPreviewInforGroup = newModuleSpecificationItemTransform.GetChild(0);
+
                 newModuleSpecificationItemPreviewInforGroup.Find("Preview_ModuleSpecification_Code").GetComponent<TMP_Text>().text = model.Code;
+
                 Transform newModuleSpecificationItemPreviewButtonGroup = newModuleSpecificationItemTransform.GetChild(1);
+
                 listModuleSpecificationItems.Add(newModuleSpecificationItem);
+
                 newModuleSpecificationItemPreviewButtonGroup.Find("Group/Edit_Button").GetComponent<Button>().onClick.AddListener(() => EditModuleSpecificationItem(model.Id));
+
                 newModuleSpecificationItemPreviewButtonGroup.Find("Group/Delete_Button").GetComponent<Button>().onClick.AddListener(() => DeleModuleSpecificationItem(newModuleSpecificationItem, model));
             }
         }
         else
         {
-            Debug.Log("No ModuleSpecifications found");
+            Show_Toast.Instance.ShowToast("success", "Tải dữ liệu thành công nhưng danh sách trống");
+            StartCoroutine(Show_Toast.Instance.Set_Instance_Status_False(2f));
         }
         ModuleSpecification_Item_Prefab.SetActive(false);
-
     }
 
     private void EditModuleSpecificationItem(string id)
     {
-
         GlobalVariable.ModuleSpecificationId = id;
-
         OpenUpdateCanvas();
     }
     private void DeleModuleSpecificationItem(GameObject ModuleSpecificationItem, ModuleSpecificationModel model)
@@ -135,9 +139,9 @@ public class ListModuleSpecificationSettingView : MonoBehaviour, IModuleSpecific
 
         confirmButton.onClick.AddListener(() =>
         {
-            Destroy(ModuleSpecificationItem);
             listModuleSpecificationItems.Remove(ModuleSpecificationItem);
             _presenter.DeleteModuleSpecification(model.Id);
+            Destroy(ModuleSpecificationItem);
             DialogTwoButton.SetActive(false);
         });
         backButton.onClick.AddListener(() =>
@@ -189,10 +193,10 @@ public class ListModuleSpecificationSettingView : MonoBehaviour, IModuleSpecific
     public void HideLoading() => HideProgressBar();
     public void ShowError(string message)
     {
-
         if (GlobalVariable.APIRequestType.Contains("GET_ModuleSpecification_List"))
         {
-            OpenErrorDialog(title: "Tải danh sách thất bại", content: "Đã có lỗi xảy ra khi tải danh sách loại Module. Vui lòng thử lại sau");
+            ModuleSpecification_Item_Prefab.SetActive(false);
+            OpenErrorDialog(title: "Tải danh sách thất bại", content: message);
         }
         if (GlobalVariable.APIRequestType.Contains("DELETE_ModuleSpecification"))
         {
@@ -200,21 +204,18 @@ public class ListModuleSpecificationSettingView : MonoBehaviour, IModuleSpecific
         }
 
     }
-    public void ShowSuccess()
+    public void ShowSuccess(string message)
     {
-        Show_Toast.Instance.Set_Instance_Status_True();
-
         if (GlobalVariable.APIRequestType.Contains("GET_ModuleSpecification_List"))
         {
-            Show_Toast.Instance.ShowToast("success", "Tải danh sách thành công");
+            Show_Toast.Instance.ShowToast("success", message);
         }
         if (GlobalVariable.APIRequestType.Contains("DELETE_ModuleSpecification"))
         {
-            Show_Toast.Instance.ShowToast("success", "Xóa loại Module thành công");
-
+            Show_Toast.Instance.ShowToast("success", message);
         }
-        StartCoroutine(Show_Toast.Instance.Set_Instance_Status_False(1f));
     }
+
 
     // Không dùng trong ListView
     public void DisplayDetail(ModuleSpecificationModel model) { }

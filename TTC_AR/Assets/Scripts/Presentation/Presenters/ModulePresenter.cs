@@ -45,7 +45,7 @@ public class ModulePresenter
                     var models = new List<ModuleInformationModel>();
                     _view.DisplayList(models);
                 }
-                _view.ShowSuccess();
+                _view.ShowSuccess("");
             }
             else
             {
@@ -82,7 +82,7 @@ public class ModulePresenter
                 }
                 UnityEngine.Debug.Log(model.Name + model.Id);
                 _view.DisplayDetail(model);
-                _view.ShowSuccess();
+                _view.ShowSuccess("");
             }
             else
             {
@@ -111,7 +111,7 @@ public class ModulePresenter
 
             if (result)
             {
-                _view.ShowSuccess(); // Chỉ hiển thị thành công nếu result == true
+                _view.ShowSuccess("");
             }
             else
             {
@@ -143,7 +143,7 @@ public class ModulePresenter
 
             if (result)
             {
-                _view.ShowSuccess(); // Chỉ hiển thị thành công nếu result == true
+                _view.ShowSuccess(""); // Chỉ hiển thị thành công nếu result == true
             }
             else
             {
@@ -169,7 +169,7 @@ public class ModulePresenter
             var result = await _service.DeleteModuleAsync(ModuleId);
             if (result)
             {
-                _view.ShowSuccess(); // Chỉ hiển thị thành công nếu result == true
+                _view.ShowSuccess(""); // Chỉ hiển thị thành công nếu result == true
             }
             else
             {

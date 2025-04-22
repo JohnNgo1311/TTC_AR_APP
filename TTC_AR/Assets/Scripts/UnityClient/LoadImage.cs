@@ -42,7 +42,6 @@ public class LoadImage : MonoBehaviour
                 HandleRequestError(webRequest.error);
                 return;
             }
-
             try
             {
                 Debug.Log("LoadImageFromUrlAsync");
@@ -57,10 +56,12 @@ public class LoadImage : MonoBehaviour
             catch (JsonException jsonEx)
             {
                 Debug.LogError($"Error parsing JSON from URL: {webRequest.url}, Error: {jsonEx.Message}");
+                return;
             }
             catch (Exception ex)
             {
                 Debug.LogError($"Unexpected error from URL: {webRequest.url}, Error: {ex}");
+                return;
             }
         }
     }
@@ -69,7 +70,7 @@ public class LoadImage : MonoBehaviour
     {
         try
         {
-            request.timeout = 20;
+            request.timeout = 18;
             var operation = request.SendWebRequest();
             while (!operation.isDone)
             {
@@ -77,6 +78,7 @@ public class LoadImage : MonoBehaviour
             }
             bool isSuccess = request.result == UnityWebRequest.Result.Success;
             GlobalVariable.API_Status = isSuccess;
+            Debug.Log($"Request completed with status:" + isSuccess);
             return isSuccess;
         }
         catch (Exception ex)
@@ -90,8 +92,7 @@ public class LoadImage : MonoBehaviour
     private void HandleRequestError(string error)
     {
         Debug.LogError($"Request error: {error}");
-
-        throw new Exception(error);
+        // throw new Exception(error);
     }
 }
 

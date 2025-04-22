@@ -536,11 +536,11 @@ public class CreateModuleSettingView : MonoBehaviour, IModuleView
         }
     }
 
-    public void ShowSuccess()
+    public void ShowSuccess(string message)
     {
         if (GlobalVariable.APIRequestType.Contains("POST_Module"))
         {
-            Show_Toast.Instance.ShowToast("success", "Thêm Module IO mới thành công");
+            Show_Toast.Instance.ShowToast("success", message);
             OpenSuccessDialog(ModuleInformationModel);
         }
 

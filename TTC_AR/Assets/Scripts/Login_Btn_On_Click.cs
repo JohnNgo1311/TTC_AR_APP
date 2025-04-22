@@ -5,8 +5,6 @@ using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
-using System.Linq;
-using System;
 using EasyUI.Progress;
 
 

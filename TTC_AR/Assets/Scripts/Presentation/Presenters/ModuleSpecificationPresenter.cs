@@ -33,25 +33,23 @@ public class ModuleSpecificationPresenter
                     var models = ModuleSpecificationBasicDto.Select(dto => ConvertFromBasicDto(dto)).ToList();
 
                     _view.DisplayList(models);
-
+                    _view.ShowSuccess("Tải danh sách thành công");
                 }
                 else
                 {
                     var models = new List<ModuleSpecificationModel>();
                     _view.DisplayList(models);
+                    _view.ShowSuccess("Tải danh sách thành công nhưng danh sách trống");
                 }
-                _view.ShowSuccess();
-
             }
             else
             {
-                _view.ShowError("No ModuleSpecifications found");
+                _view.ShowError("Đã có lỗi xảy ra khi tải danh sách loại Module. Vui lòng thử lại sau");
             }
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            _view.ShowError($"Error: {ex.Message}");
-            UnityEngine.Debug.Log("Error: " + ex.Message);
+            _view.ShowError("Đã có lỗi xảy ra khi tải danh sách loại Module. Vui lòng thử lại sau");
         }
         finally
         {
@@ -72,16 +70,16 @@ public class ModuleSpecificationPresenter
             {
                 var model = ConvertFromResponseDto(dto);
                 _view.DisplayDetail(model);
-                _view.ShowSuccess();
+                _view.ShowSuccess("Tải dữ liệu thành công");
             }
             else
             {
-                _view.ShowError("ModuleSpecification not found");
+                _view.ShowError("Đã có lỗi xảy ra khi tải dữ liệu loại Module. Vui lòng thử lại sau");
             }
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            _view.ShowError($"Error: {ex.Message}");
+            _view.ShowError("Đã có lỗi xảy ra khi tải dữ liệu loại Module. Vui lòng thử lại sau");
         }
         finally
         {
@@ -101,16 +99,16 @@ public class ModuleSpecificationPresenter
 
             if (result)
             {
-                _view.ShowSuccess(); // Chỉ hiển thị thành công nếu result == true
+                _view.ShowSuccess("Tạo loại Module mới thành công");
             }
             else
             {
-                _view.ShowError("Create New ModuleSpecification failed");
+                _view.ShowError("Tạo loại Module mới thất bại");
             }
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            _view.ShowError($"Error: {ex.Message}");
+            _view.ShowError("Tạo loại Module mới thất bại");
         }
         finally
         {
@@ -131,16 +129,17 @@ public class ModuleSpecificationPresenter
             var result = await _service.UpdateModuleSpecificationAsync(ModuleSpecificationId, dto);
             if (result)
             {
-                _view.ShowSuccess(); // Chỉ hiển thị thành công nếu result == true
+                _view.ShowSuccess("Cập nhật loại Module thành công");
             }
             else
             {
-                _view.ShowError("Update ModuleSpecification failed");
+                _view.ShowError("Cập nhật loại Module thất bại");
             }
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            _view.ShowError($"Error: {ex.Message}");
+            _view.ShowError("Cập nhật loại Module thất bại");
+
         }
         finally
         {
@@ -158,11 +157,11 @@ public class ModuleSpecificationPresenter
             var result = await _service.DeleteModuleSpecificationAsync(ModuleSpecificationId);
             if (result)
             {
-                _view.ShowSuccess(); // Chỉ hiển thị thành công nếu result == true
+                _view.ShowSuccess("Xóa loại Module thành công");
             }
-            else
+            else if (result == false)
             {
-                _view.ShowError("Delete ModuleSpecification failed");
+                _view.ShowError("Xóa loại Module thất bại");
             }
         }
         catch (Exception ex)

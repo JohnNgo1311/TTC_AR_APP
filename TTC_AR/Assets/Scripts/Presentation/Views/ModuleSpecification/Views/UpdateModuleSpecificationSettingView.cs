@@ -192,26 +192,26 @@ public class UpdateModuleSpecificationSettingView : MonoBehaviour, IModuleSpecif
     {
         if (GlobalVariable.APIRequestType.Contains("PUT_ModuleSpecification"))
         {
-            OpenErrorDialog();
+            OpenErrorDialog(title: "Cập nhật loại Module thất bại", content: message);
         }
         if (GlobalVariable.APIRequestType.Contains("GET_ModuleSpecification"))
         {
-            OpenErrorDialog(title: "Tải dữ liệu thất bại", content: "Đã có lỗi xảy ra khi tải dữ liệu loại Module. Vui lòng thử lại sau");
+            OpenErrorDialog(title: "Tải dữ liệu thất bại", content: message);
         }
     }
-    public void ShowSuccess()
+    public void ShowSuccess(string message)
     {
         Show_Toast.Instance.Set_Instance_Status_True();
         if (GlobalVariable.APIRequestType.Contains("PUT_ModuleSpecification"))
         {
 
-            Show_Toast.Instance.ShowToast("success", "Cập nhật dữ liệu thành công");
+            Show_Toast.Instance.ShowToast("success", message);
             OpenSuccessDialog(_ModuleSpecificationModel);
         }
 
         if (GlobalVariable.APIRequestType.Contains("GET_ModuleSpecification"))
         {
-            Show_Toast.Instance.ShowToast("success", "Tải dữ liệu thành công");
+            Show_Toast.Instance.ShowToast("success", message);
         }
         StartCoroutine(Show_Toast.Instance.Set_Instance_Status_False(1f));
     }

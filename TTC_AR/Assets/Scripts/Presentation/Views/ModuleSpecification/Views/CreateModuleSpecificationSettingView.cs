@@ -194,13 +194,13 @@ public class CreateModuleSpecificationSettingView : MonoBehaviour, IModuleSpecif
         StartCoroutine(Show_Toast.Instance.Set_Instance_Status_False(1f));
     }
 
-    public void ShowSuccess()
+    public void ShowSuccess(string message)
     {
         Show_Toast.Instance.Set_Instance_Status_True();
         if (GlobalVariable.APIRequestType.Contains("POST_ModuleSpecification"))
         {
 
-            Show_Toast.Instance.ShowToast("success", "Thêm loại Module mới thành công");
+            Show_Toast.Instance.ShowToast("success", message);
             OpenSuccessDialog(_ModuleSpecificationModel);
         }
         StartCoroutine(Show_Toast.Instance.Set_Instance_Status_False(1f));

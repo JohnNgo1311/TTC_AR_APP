@@ -58,8 +58,8 @@ public class ListModuleSettingView : MonoBehaviour, IModuleView
         {
             foreach (var model in models)
             {
-                int ModuleIndex = models.IndexOf(model);
-                Debug.Log(ModuleIndex);
+                // int ModuleIndex = models.IndexOf(model);
+                // Debug.Log(ModuleIndex);
                 var newModuleItem = Instantiate(Module_Item_Prefab, Parent_Vertical_Layout_Group.transform);
                 Transform newModuleItemTransform = newModuleItem.transform;
                 Transform newModuleItemPreviewInforGroup = newModuleItemTransform.GetChild(0);
@@ -72,7 +72,8 @@ public class ListModuleSettingView : MonoBehaviour, IModuleView
         }
         else
         {
-            Debug.Log("No Modules found");
+            Show_Toast.Instance.ShowToast("success", "Tải dữ liệu thành công nhưng danh sách trống");
+            StartCoroutine(Show_Toast.Instance.Set_Instance_Status_False(2f));
         }
         Module_Item_Prefab.SetActive(false);
     }
@@ -127,10 +128,10 @@ public class ListModuleSettingView : MonoBehaviour, IModuleView
         confirmButton.onClick.AddListener(() =>
         {
             listModuleItems.Remove(ModuleItem);
-            Debug.Log(model.Id);
+            // Debug.Log(model.Id);
             _presenter.DeleteModule(model.Id);
-            DialogTwoButton.SetActive(false);
             Destroy(ModuleItem);
+            DialogTwoButton.SetActive(false);
         });
         backButton.onClick.AddListener(() =>
         {
@@ -175,24 +176,23 @@ public class ListModuleSettingView : MonoBehaviour, IModuleView
     {
         if (GlobalVariable.APIRequestType.Contains("GET_Module_List"))
         {
-            OpenErrorDialog(title: "Tải danh sách thất bại", message: "Đã có lỗi xảy ra khi tải danh sách. Vui lòng thử lại sau");
+            OpenErrorDialog(title: "Tải danh sách thất bại", message: message);
         }
         else if (GlobalVariable.APIRequestType.Contains("DELETE_Module"))
         {
-            OpenErrorDialog();
+            OpenErrorDialog(title: "Xóa Module IO thất bại", message: message);
         }
     }
-    public void ShowSuccess()
+    public void ShowSuccess(string message)
     {
         if (GlobalVariable.APIRequestType.Contains("GET_Module_List"))
         {
-            Show_Toast.Instance.ShowToast("success", "Tải danh sách thành công");
+            Show_Toast.Instance.ShowToast("success", message);
         }
         else if (GlobalVariable.APIRequestType.Contains("DELETE_Module"))
         {
-            Show_Toast.Instance.ShowToast("success", "Xóa Module IO thành công");
+            Show_Toast.Instance.ShowToast("success", message);
         }
-
         StartCoroutine(Show_Toast.Instance.Set_Instance_Status_False());
     }
 

@@ -756,8 +756,8 @@ MonoBehaviour:
     type: 3}
   inputField: {fileID: 786136676}
   scrollRect: {fileID: 1467489169}
-  content: {fileID: 385985388}
-  contentRect: {fileID: 385985390}
+  contentItemSelection: {fileID: 385985388}
+  contentItemSelectionRect: {fileID: 385985390}
   itemGameObjects: []
   availableOptions: []
   deviceOptions: []
@@ -1180,7 +1180,8 @@ MonoBehaviour:
   searchableDropDownView: {fileID: 665309877}
   open_Detail_Image: {fileID: 473294042}
   eventPublisher: {fileID: 703875922}
-  List_JBs: {fileID: 518961255}
+  Device_Information_Group: {fileID: 1309213754}
+  List_JB_Group: {fileID: 518961255}
   JBPrefab: {fileID: 1170635805}
   contentTransform: {fileID: 1170635814}
   code_Value_Text: {fileID: 1170635813}
@@ -3687,7 +3688,7 @@ PrefabInstance:
     - target: {fileID: 7134245868378140965, guid: adecf6ceef6bb3a41a9dab5412dbdcc0,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 833.54663
+      value: 720
       objectReference: {fileID: 0}
     - target: {fileID: 7134245868378140965, guid: adecf6ceef6bb3a41a9dab5412dbdcc0,
         type: 3}
@@ -4827,6 +4828,12 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1295553424}
   m_CullTransparentMesh: 1
+--- !u!1 &1309213754 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4651068293151483706, guid: adecf6ceef6bb3a41a9dab5412dbdcc0,
+    type: 3}
+  m_PrefabInstance: {fileID: 1170635801}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1398391113
 GameObject:
   m_ObjectHideFlags: 0
