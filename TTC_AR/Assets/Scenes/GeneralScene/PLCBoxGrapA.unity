@@ -1210,7 +1210,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   previousSceneName: PLCBoxGrapA
   recentSceneName: MenuScene
-  isOrientation: 0
   detail_Image: {fileID: 1756439108}
 --- !u!114 &834697180
 MonoBehaviour:
