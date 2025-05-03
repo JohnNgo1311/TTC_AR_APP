@@ -1,21 +1,16 @@
-using System.Buffers;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.EventSystems;
 using OpenCVForUnity.UnityUtils.Helper;
-
+using UnityEngine.SceneManagement;
 
 public class Manager : MonoBehaviour
 {
     // int i = 0;
     // Color[] colors = { Color.red, Color.blue, Color.green };
     [SerializeField] private Canvas canvas;
-    [SerializeField] private TMP_Text title;
+    // [SerializeField] private TMP_Text title;
     [SerializeField] private ARHelperMulti aRHelper;
     [SerializeField] private Button backBtn;
     [SerializeField] private EventPublisher eventPublisher;
@@ -27,7 +22,7 @@ public class Manager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        activescene = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
+        activescene = SceneManager.GetActiveScene().name;
         backBtn.onClick.AddListener(CloseCanvas);
     }
 
@@ -71,7 +66,6 @@ public class Manager : MonoBehaviour
             GameObject clickedObject = hit.collider.gameObject;
             Vector3 hitPosition = hit.point;
 
-            // Debug.LogWarning("Clicked on: " + clickedObject.name);
             float tolerance = 0.03f;
             var qrMarker = aRHelper.markers.Values.FirstOrDefault(marker => Vector3.Distance(marker.qrPosition, hitPosition) <= tolerance);
             if (qrMarker != null)
@@ -79,27 +73,17 @@ public class Manager : MonoBehaviour
                 var key = aRHelper.markers.FirstOrDefault(pair => pair.Value == qrMarker).Key;
                 if (key != null)
                 {
-                    // Debug.LogWarning("Found QRMarker with key: " + key);
                     if (activescene == "NewQRCodeDetectorMulti")
                     {
-                        title.text = "Module " + key;
+                        // title.text = "Module " + key;
                         eventPublisher.TriggerEvent_ButtonClicked();
                         OpenCanvas();
                     }
                     else
                     {
-                        title.text = "Tủ " + key;
+                        // title.text = "Tủ " + key;
                         eventPublisher.TriggerEvent_ButtonClicked();
                         OpenCanvas();
-                        // if (StaticVariable.temp_MccInformationModel != null)
-                        // {
-                        //     OpenCanvas();
-                        // }
-                        // else
-                        // {
-                        //     Debug.LogError("No MCC information found for the selected cabinet.");
-                        //     StartCoroutine(ShowToastError.Instance.ShowToast("Vui lòng chọn lại khu vực phù hợp. Thông tin bạn cần tìm không có ở khu vực đã chọn"));
-                        // }
                     }
                 }
             }

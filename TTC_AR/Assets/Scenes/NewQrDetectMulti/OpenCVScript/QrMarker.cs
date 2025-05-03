@@ -5,13 +5,7 @@ using OpenCVForUnity.CoreModule;
 using OpenCVForUnity.UnityUtils;
 using Unity.VisualScripting;
 using UnityEngine;
-// using static OpenCVForUnityExample.HelperForOpenCV;
 
-// namespace OpenCVForUnityExample
-// {
-/// <summary>
-/// Story content, pose informatio
-/// </summary>
 public class QrMarker : IDisposable
 {
     public static double UpdateTimeConstant = 2.0;
@@ -24,7 +18,7 @@ public class QrMarker : IDisposable
     public GameObject GameObject;
     public Mat Corner;
     public double TimeFromLastUpdate = 0;
-    public static float UpdateTimeLimit = 3.0f;
+    public static float UpdateTimeLimit = 2f;
     public bool MatrixFilterEnabled = true;
     public Mat tvec;
     public Mat rvec;
@@ -66,11 +60,7 @@ public class QrMarker : IDisposable
         firstDetection = false;
         if (!MatrixFilterEnabled || TimeFromLastUpdate > smoothThreshold || firstDetection)
         {
-            //Debug.LogWarning("returned early");
-            //Debug.LogWarning($"enabled: {MatrixFilterEnabled}");
-            //Debug.LogWarning($"Last update > threshold: {TimeFromLastUpdate > smoothThreshold}");
-            //Debug.LogWarning($"first detection: {firstDetection}");
-            ArMatrix = matrix * Matrix4x4.identity;
+            // ArMatrix = matrix * Matrix4x4.identity;
             UpdateTransform();
             return;
         }
@@ -79,10 +69,10 @@ public class QrMarker : IDisposable
         var oldRotation = ArMatrix.rotation;
         var newRotation = matrix.rotation;
         var updateRatio = (float)(TimeFromLastUpdate / UpdateTimeConstant);
-        //Debug.Log($"update ratio: {updateRatio}");
-        var finalPos = Vector3.Lerp(oldPos, newPos, updateRatio);
+        updateRatio = Mathf.Clamp01(updateRatio);
+        var finalPosition = Vector3.Lerp(oldPos, newPos, updateRatio);
         var finalRotation = Quaternion.Slerp(oldRotation, newRotation, updateRatio);
-        ArMatrix.SetTRS(finalPos, finalRotation, new Vector3(1, 1, 1));
+        ArMatrix.SetTRS(finalPosition, finalRotation, new Vector3(1, 1, 1));
         UpdateTransform();
     }
 

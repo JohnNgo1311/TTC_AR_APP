@@ -1,5 +1,6 @@
 using OpenCVForUnity.CoreModule;
-#if UNITY_EDITOR
+#if UNITY_EDITOR || UNITY_ANDROID || UNITY_IOS
+
 using OpenCVForUnity.UnityUtils.Helper.Editor;
 #endif
 using System;
@@ -56,7 +57,8 @@ namespace OpenCVForUnity.UnityUtils.Helper
         }
 
 
-#if UNITY_EDITOR
+#if UNITY_EDITOR || UNITY_ANDROID || UNITY_IOS
+
         [OpenCVForUnityRuntimeDisable]
 #endif
         [SerializeField, FormerlySerializedAs("requestedSource2MatHelperClassName"), TooltipAttribute("Select the source to mat helper class name. If CustomSource2MatHelper is selected, only the UnityEvent inspector is overridden for the custom helper class component.")]
@@ -97,7 +99,7 @@ namespace OpenCVForUnity.UnityUtils.Helper
         protected MultiSource2MatHelperClassInterfaces _currentSource2MatHelperClassInterfaces = MultiSource2MatHelperClassInterfaces.Camera;
 
 
-#if UNITY_EDITOR
+#if UNITY_EDITOR || UNITY_ANDROID || UNITY_IOS
         [OpenCVForUnityConditionalDisableInInspector("_currentSource2MatHelperClassInterfaces", (int)MultiSource2MatHelperClassInterfaces.Camera, conditionalInvisible: true, runtimeDisable: true, comparisonType: OpenCVForUnityConditionalDisableInInspectorComparisonType.FlagMatch)]
 #endif
         [SerializeField, FormerlySerializedAs("requestedDeviceName"), TooltipAttribute("Set the name of the device to use. (or device index number)")]
@@ -121,7 +123,8 @@ namespace OpenCVForUnity.UnityUtils.Helper
         }
 
 
-#if UNITY_EDITOR
+#if UNITY_EDITOR || UNITY_ANDROID || UNITY_IOS
+
         [OpenCVForUnityConditionalDisableInInspector("_currentSource2MatHelperClassInterfaces", (int)MultiSource2MatHelperClassInterfaces.Camera, conditionalInvisible: true, runtimeDisable: true, comparisonType: OpenCVForUnityConditionalDisableInInspectorComparisonType.FlagMatch)]
 #endif
         [SerializeField, FormerlySerializedAs("requestedWidth"), TooltipAttribute("Set the width of camera.")]
@@ -146,7 +149,8 @@ namespace OpenCVForUnity.UnityUtils.Helper
         }
 
 
-#if UNITY_EDITOR
+#if UNITY_EDITOR || UNITY_ANDROID || UNITY_IOS
+
         [OpenCVForUnityConditionalDisableInInspector("_currentSource2MatHelperClassInterfaces", (int)MultiSource2MatHelperClassInterfaces.Camera, conditionalInvisible: true, runtimeDisable: true, comparisonType: OpenCVForUnityConditionalDisableInInspectorComparisonType.FlagMatch)]
 #endif
         [SerializeField, FormerlySerializedAs("requestedHeight"), TooltipAttribute("Set the height of camera.")]
@@ -171,7 +175,8 @@ namespace OpenCVForUnity.UnityUtils.Helper
         }
 
 
-#if UNITY_EDITOR
+#if UNITY_EDITOR || UNITY_ANDROID || UNITY_IOS
+
         [OpenCVForUnityConditionalDisableInInspector("_currentSource2MatHelperClassInterfaces", (int)MultiSource2MatHelperClassInterfaces.Camera, conditionalInvisible: true, runtimeDisable: true, comparisonType: OpenCVForUnityConditionalDisableInInspectorComparisonType.FlagMatch)]
 #endif
         [SerializeField, FormerlySerializedAs("requestedIsFrontFacing"), TooltipAttribute("Set whether to use the front facing camera.")]
@@ -195,7 +200,8 @@ namespace OpenCVForUnity.UnityUtils.Helper
         }
 
 
-#if UNITY_EDITOR
+#if UNITY_EDITOR || UNITY_ANDROID || UNITY_IOS
+
         [OpenCVForUnityConditionalDisableInInspector("_currentSource2MatHelperClassInterfaces", (int)MultiSource2MatHelperClassInterfaces.Camera, conditionalInvisible: true, runtimeDisable: true, comparisonType: OpenCVForUnityConditionalDisableInInspectorComparisonType.FlagMatch)]
 #endif
         [SerializeField, FormerlySerializedAs("requestedFPS"), TooltipAttribute("Set the frame rate of camera.")]
@@ -221,7 +227,8 @@ namespace OpenCVForUnity.UnityUtils.Helper
 
 
 
-#if UNITY_EDITOR
+#if UNITY_EDITOR || UNITY_ANDROID || UNITY_IOS
+
         [OpenCVForUnityConditionalDisableInInspector("_currentSource2MatHelperClassInterfaces", (int)MultiSource2MatHelperClassInterfaces.MatUpdateFPS, conditionalInvisible: true, runtimeDisable: true, comparisonType: OpenCVForUnityConditionalDisableInInspectorComparisonType.FlagMatch)]
 #endif
         [SerializeField, FormerlySerializedAs("requestedMatUpdateFPS"), TooltipAttribute("Set the frame rate of camera.")]
@@ -247,7 +254,8 @@ namespace OpenCVForUnity.UnityUtils.Helper
 
 
 
-#if UNITY_EDITOR
+#if UNITY_EDITOR || UNITY_ANDROID || UNITY_IOS
+
         [OpenCVForUnityConditionalDisableInInspector("_currentSource2MatHelperClassInterfaces", (int)MultiSource2MatHelperClassInterfaces.Video, conditionalInvisible: true, runtimeDisable: true, comparisonType: OpenCVForUnityConditionalDisableInInspectorComparisonType.FlagMatch)]
 #endif
         [SerializeField, FormerlySerializedAs("requestedVideoFilePath"), TooltipAttribute("Set the video file path, relative to the starting point of the \"StreamingAssets\" folder, or absolute path.")]
@@ -271,7 +279,8 @@ namespace OpenCVForUnity.UnityUtils.Helper
         }
 
 
-#if UNITY_EDITOR
+#if UNITY_EDITOR || UNITY_ANDROID || UNITY_IOS
+
         [OpenCVForUnityConditionalDisableInInspector("_currentSource2MatHelperClassInterfaces", (int)MultiSource2MatHelperClassInterfaces.Video, conditionalInvisible: true, runtimeDisable: true, comparisonType: OpenCVForUnityConditionalDisableInInspectorComparisonType.FlagMatch)]
 #endif
         [SerializeField, FormerlySerializedAs("loop"), TooltipAttribute("Indicate whether to play this video in a loop.")]
@@ -297,7 +306,8 @@ namespace OpenCVForUnity.UnityUtils.Helper
 
 
 
-#if UNITY_EDITOR
+#if UNITY_EDITOR || UNITY_ANDROID || UNITY_IOS
+
         [OpenCVForUnityConditionalDisableInInspector("_currentSource2MatHelperClassInterfaces", (int)MultiSource2MatHelperClassInterfaces.Image, conditionalInvisible: true, runtimeDisable: true, comparisonType: OpenCVForUnityConditionalDisableInInspectorComparisonType.FlagMatch)]
 #endif
         [SerializeField, FormerlySerializedAs("requestedImageFilePath"), TooltipAttribute("Set the image file path, relative to the starting point of the \"StreamingAssets\" folder, or absolute path.")]
@@ -321,7 +331,8 @@ namespace OpenCVForUnity.UnityUtils.Helper
         }
 
 
-#if UNITY_EDITOR
+#if UNITY_EDITOR || UNITY_ANDROID || UNITY_IOS
+
         [OpenCVForUnityConditionalDisableInInspector("_currentSource2MatHelperClassInterfaces", (int)MultiSource2MatHelperClassInterfaces.Image, conditionalInvisible: true, runtimeDisable: true, comparisonType: OpenCVForUnityConditionalDisableInInspectorComparisonType.FlagMatch)]
 #endif
         [SerializeField, FormerlySerializedAs("repeat"), TooltipAttribute("Indicate whether to play this image in a repeat.")]
@@ -347,7 +358,8 @@ namespace OpenCVForUnity.UnityUtils.Helper
 
 
 
-#if UNITY_EDITOR
+#if UNITY_EDITOR || UNITY_ANDROID || UNITY_IOS
+
         [OpenCVForUnityConditionalDisableInInspector("_currentSource2MatHelperClassInterfaces", (int)MultiSource2MatHelperClassInterfaces.Texture, conditionalInvisible: true, runtimeDisable: true, comparisonType: OpenCVForUnityConditionalDisableInInspectorComparisonType.FlagMatch)]
 #endif
         [SerializeField, FormerlySerializedAs("sourceTexture"), TooltipAttribute("Set the source texture.")]
@@ -373,7 +385,8 @@ namespace OpenCVForUnity.UnityUtils.Helper
 
 
 
-#if UNITY_EDITOR
+#if UNITY_EDITOR || UNITY_ANDROID || UNITY_IOS
+
         [OpenCVForUnityConditionalDisableInInspector("_currentSource2MatHelperClassInterfaces", (int)MultiSource2MatHelperClassInterfaces.Custom, conditionalInvisible: true, runtimeDisable: true, comparisonType: OpenCVForUnityConditionalDisableInInspectorComparisonType.FlagMatch)]
 #endif
         [SerializeField, FormerlySerializedAs("customClassComponent"), TooltipAttribute("Set the custom class <ISource2MatHelper> component.")]
@@ -393,7 +406,8 @@ namespace OpenCVForUnity.UnityUtils.Helper
 
 
 
-#if UNITY_EDITOR
+#if UNITY_EDITOR || UNITY_ANDROID || UNITY_IOS
+
         [OpenCVForUnityRuntimeDisable]
 #endif
         [SerializeField, FormerlySerializedAs("outputColorFormat"), TooltipAttribute("Select the output color format.")]
@@ -417,7 +431,8 @@ namespace OpenCVForUnity.UnityUtils.Helper
         }
 
 
-#if UNITY_EDITOR
+#if UNITY_EDITOR || UNITY_ANDROID || UNITY_IOS
+
         [OpenCVForUnityRuntimeDisable]
 #endif
         [SerializeField, FormerlySerializedAs("timeoutFrameCount"), TooltipAttribute("The number of frames before the initialization process times out.")]
@@ -566,6 +581,7 @@ namespace OpenCVForUnity.UnityUtils.Helper
                         _source2MatHelper = gameObject.AddComponent(typeof(AsyncGPUReadback2MatHelper)) as ISource2MatHelper;
                         break;
 #if !OPENCV_DONT_USE_WEBCAMTEXTURE_API
+
                     case MultiSource2MatHelperClassName.WebCamTexture2MatAsyncGPUHelper:
                         _source2MatHelper = gameObject.AddComponent(typeof(WebCamTexture2MatAsyncGPUHelper)) as ISource2MatHelper;
                         break;

@@ -7,7 +7,6 @@ using UnityEngine.UI;
 using TMPro;
 using EasyUI.Progress;
 using System.Collections;
-using UnityEngine.iOS;
 
 public class Dropdown_On_ValueChange : MonoBehaviour
 {

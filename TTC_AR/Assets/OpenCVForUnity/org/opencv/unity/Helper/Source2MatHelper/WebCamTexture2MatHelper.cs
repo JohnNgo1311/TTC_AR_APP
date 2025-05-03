@@ -1100,7 +1100,6 @@ namespace OpenCVForUnity.UnityUtils.Helper
                 if (webCamTexture.isPlaying)
                     Utils.webCamTextureToMat(webCamTexture, baseMat, colors, false);
                 baseMat.copyTo(frameMat);
-
             }
             else
             {
