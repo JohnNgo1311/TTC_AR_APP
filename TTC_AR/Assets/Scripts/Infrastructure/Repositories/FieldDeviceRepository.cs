@@ -15,7 +15,6 @@ namespace Infrastructure.Repositories
     public class FieldDeviceRepository : IFieldDeviceRepository
     {
         private readonly HttpClient _httpClient;
-        private const string BaseUrl = "https://677ba70820824100c07a4e9f.mockapi.io/api/v3/ListFieldDevice";
 
         public FieldDeviceRepository(HttpClient httpClient)
         {
@@ -27,7 +26,7 @@ namespace Infrastructure.Repositories
         {
             try
             {
-                var response = await _httpClient.GetAsync($"{BaseUrl}/{grapperId}");
+                var response = await _httpClient.GetAsync($"{GlobalVariable.baseUrl}/{grapperId}");
                 if (!response.IsSuccessStatusCode)
                     throw new HttpRequestException($"Failed to get FieldDevice list. Status: {response.StatusCode}");
                 else
@@ -53,7 +52,7 @@ namespace Infrastructure.Repositories
         {
             try
             {
-                var response = await _httpClient.GetAsync($"{BaseUrl}/{fieldDeviceId}");
+                var response = await _httpClient.GetAsync($"{GlobalVariable.baseUrl}/{fieldDeviceId}");
                 if (!response.IsSuccessStatusCode)
                     throw new HttpRequestException($"Failed to get FieldDevice. Status: {response.StatusCode}");
                 else
@@ -86,7 +85,7 @@ namespace Infrastructure.Repositories
 
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-                var response = await _httpClient.PostAsync($"{BaseUrl}", content);
+                var response = await _httpClient.PostAsync($"{GlobalVariable.baseUrl}", content);
 
                 response.EnsureSuccessStatusCode();
 
@@ -123,7 +122,7 @@ namespace Infrastructure.Repositories
 
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-                var response = await _httpClient.PutAsync($"{BaseUrl}/{fieldDeviceId}", content);
+                var response = await _httpClient.PutAsync($"{GlobalVariable.baseUrl}/{fieldDeviceId}", content);
 
                 response.EnsureSuccessStatusCode();
                 return response.IsSuccessStatusCode;
@@ -145,7 +144,7 @@ namespace Infrastructure.Repositories
         {
             try
             {
-                var response = await _httpClient.DeleteAsync($"{BaseUrl}/{fieldDeviceId}");
+                var response = await _httpClient.DeleteAsync($"{GlobalVariable.baseUrl}/{fieldDeviceId}");
 
                 response.EnsureSuccessStatusCode();
                 return response.IsSuccessStatusCode;

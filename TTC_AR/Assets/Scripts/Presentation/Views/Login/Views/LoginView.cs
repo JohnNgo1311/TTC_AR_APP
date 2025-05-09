@@ -34,7 +34,7 @@ public class LoginView : MonoBehaviour, ILoginView
         StartCoroutine(Init());
 
         Screen.orientation = ScreenOrientation.Portrait;
-        
+
         PopulateFieldsIfLoggedIn();
     }
     private IEnumerator Init()
@@ -114,19 +114,23 @@ public class LoginView : MonoBehaviour, ILoginView
 
 
     public void ShowLoading(string title) => ShowProgressBar(title, "Đang đăng nhập...");
-    public void HideLoading() => HideProgressBar();
+    public void HideLoading() => StartCoroutine(HideProgressBar());
     public void ShowError(string message)
     {
         StartCoroutine(ShowLoginFailure(message));
     }
-    public IEnumerator ShowSuccess()
+    public void ShowSuccess()
+    {
+        StartCoroutine(NavigateToScene(targetSceneName));
+    }
+    public IEnumerator NavigateToScene(string sceneName)
     {
         SetLoginSuccessData();
         yield return new WaitForSeconds(0.5f);
-        HideProgressBar();
-        yield return SceneManager.LoadSceneAsync(targetSceneName);
-
+        // HideProgressBar();
+        yield return SceneManager.LoadSceneAsync(sceneName);
     }
+
 
     private IEnumerator ShowLoginFailure(string message)
     {
@@ -134,7 +138,7 @@ public class LoginView : MonoBehaviour, ILoginView
         GlobalVariable.loginSuccess = false;
         yield return new WaitForSeconds(0.25f);
         yield return Show_Toast.Instance.Set_Instance_Status_False();
-        HideProgressBar();
+        // HideProgressBar();
     }
     private void SetLoginSuccessData()
     {
@@ -146,9 +150,11 @@ public class LoginView : MonoBehaviour, ILoginView
         GlobalVariable.loginSuccess = true;
     }
 
-    private void HideProgressBar()
+    private IEnumerator HideProgressBar()
     {
+        yield return new WaitForSeconds(0.5f);
         Progress.Hide();
     }
+
 
 }

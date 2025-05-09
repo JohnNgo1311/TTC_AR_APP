@@ -14,8 +14,6 @@ namespace Infrastructure.Repositories
     public class MccRepository : IMccRepository
     {
         private readonly HttpClient _httpClient;
-        private const string BaseUrl = "https://677ba70820824100c07a4e9f.mockapi.io/api/v3/Mcc";
-
         public MccRepository(HttpClient httpClient)
         {
             _httpClient = httpClient;
@@ -26,7 +24,7 @@ namespace Infrastructure.Repositories
         {
             try
             {
-                var response = await _httpClient.GetStringAsync($"{BaseUrl}");
+                var response = await _httpClient.GetStringAsync($"{GlobalVariable.baseUrl}");
                 return JsonConvert.DeserializeObject<List<MccEntity>>(response);
             }
             catch (HttpRequestException ex)
@@ -43,7 +41,7 @@ namespace Infrastructure.Repositories
         {
             try
             {
-                var response = await _httpClient.GetStringAsync($"{BaseUrl}/{mccId}");
+                var response = await _httpClient.GetStringAsync($"{GlobalVariable.baseUrl}/{mccId}");
                 return JsonConvert.DeserializeObject<MccEntity>(response);
             }
             catch (HttpRequestException ex)
@@ -65,7 +63,7 @@ namespace Infrastructure.Repositories
 
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-                var response = await _httpClient.PostAsync($"{BaseUrl}", content);
+                var response = await _httpClient.PostAsync($"{GlobalVariable.baseUrl}", content);
 
                 response.EnsureSuccessStatusCode();
 
@@ -92,7 +90,7 @@ namespace Infrastructure.Repositories
 
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-                var response = await _httpClient.PutAsync($"{BaseUrl}/{mccId}", content);
+                var response = await _httpClient.PutAsync($"{GlobalVariable.baseUrl}/{mccId}", content);
                 response.EnsureSuccessStatusCode();
                 return response.IsSuccessStatusCode;
                 // var responseContent = await response.Content.ReadAsStringAsync();
@@ -111,7 +109,7 @@ namespace Infrastructure.Repositories
         {
             try
             {
-                var response = await _httpClient.DeleteAsync($"{BaseUrl}/{mccId}");
+                var response = await _httpClient.DeleteAsync($"{GlobalVariable.baseUrl}/{mccId}");
                 response.EnsureSuccessStatusCode();
                 return response.IsSuccessStatusCode;
             }

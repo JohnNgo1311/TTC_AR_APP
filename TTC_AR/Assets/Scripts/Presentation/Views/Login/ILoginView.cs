@@ -6,6 +6,6 @@ public interface ILoginView
     void ShowLoading(string title = "Đang tải dữ liệu");
     void HideLoading();
     void ShowError(string message);
-    IEnumerator ShowSuccess();
+    void ShowSuccess();
    
 }

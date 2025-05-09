@@ -18,12 +18,11 @@ namespace Infrastructure.Repositories
     {
         private readonly HttpClient _httpClient;
 
-        private const string BaseUrl = "https://67176614b910c6a6e027ebfc.mockapi.io/api/v1/Image"; // URL server ngoài thực tế
 
         public ImageRepository(HttpClient httpClient)
         {
             _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
-            _httpClient.BaseAddress = new Uri(BaseUrl);
+            // _httpClient.BaseAddress = new Uri(GlobalVariable.baseUrl);
             _httpClient.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
         }
 
@@ -32,7 +31,7 @@ namespace Infrastructure.Repositories
         {
             try
             {
-                var response = await _httpClient.GetAsync($"{BaseUrl}/{ImageId}");
+                var response = await _httpClient.GetAsync($"{GlobalVariable.baseUrl}/{ImageId}");
 
                 if (!response.IsSuccessStatusCode)
                 {
@@ -62,7 +61,7 @@ namespace Infrastructure.Repositories
         {
             try
             {
-                var response = await _httpClient.GetAsync(BaseUrl);
+                var response = await _httpClient.GetAsync(GlobalVariable.baseUrl);
                 if (!response.IsSuccessStatusCode)
                     throw new HttpRequestException($"Failed to get Image list. Status: {response.StatusCode}");
                 else
@@ -98,7 +97,7 @@ namespace Infrastructure.Repositories
 
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-                var response = await _httpClient.PostAsync($"{BaseUrl}", content);
+                var response = await _httpClient.PostAsync($"{GlobalVariable.baseUrl}", content);
 
                 response.EnsureSuccessStatusCode();
                 return response.IsSuccessStatusCode;
@@ -117,7 +116,7 @@ namespace Infrastructure.Repositories
         {
             try
             {
-                var response = await _httpClient.DeleteAsync($"{BaseUrl}/{ImageId}");
+                var response = await _httpClient.DeleteAsync($"{GlobalVariable.baseUrl}/{ImageId}");
                 response.EnsureSuccessStatusCode();
                 return response.IsSuccessStatusCode;
             }
@@ -262,7 +261,7 @@ namespace Infrastructure.Repositories
 
     //     form.AddField("metadata", jsonDto);
 
-    //     using (UnityWebRequest www = UnityWebRequest.Post(BaseUrl, form))
+    //     using (UnityWebRequest www = UnityWebRequest.Post(GlobalVariable.baseUrl, form))
     //     {
     //         yield return www.SendWebRequest();
 

@@ -31,7 +31,7 @@ public class LoginPresenter
     {
         GlobalVariable.APIRequestType.Add("GET_Company");
         GlobalVariable.APIRequestType.Add("GET_Grapper_List");
-        
+
         _view.ShowLoading("Đang đăng nhập...");
 
         try
@@ -47,7 +47,6 @@ public class LoginPresenter
             if (companyDto == null || grapperDtos == null)
             {
                 _view.ShowError("Tải dữ liệu thất bại!");
-                return;
             }
 
             if (companyDto != null)
@@ -61,7 +60,6 @@ public class LoginPresenter
             else
             {
                 _view.ShowError("Tải dữ liệu thất bại!");
-                return;
             }
             if (grapperDtos != null)
             {
@@ -78,7 +76,6 @@ public class LoginPresenter
             else
             {
                 _view.ShowError("Tải dữ liệu thất bại!");
-                return;
             }
 
             _view.ShowSuccess(); // Chỉ hiển thị thành công nếu result == true

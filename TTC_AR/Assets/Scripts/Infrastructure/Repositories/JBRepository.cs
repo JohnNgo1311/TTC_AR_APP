@@ -17,12 +17,11 @@ namespace Infrastructure.Repositories
     {
         private readonly HttpClient _httpClient;
 
-        private const string BaseUrl = "https://6776bd1c12a55a9a7d0cbc42.mockapi.io/api/v2/ListJB"; // URL server ngoài thực tế
 
         public JBRepository(HttpClient httpClient)
         {
             _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
-            _httpClient.BaseAddress = new Uri(BaseUrl);
+            // _httpClient.BaseAddress = new Uri(GlobalVariable.baseUrl);
             _httpClient.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
         }
 
@@ -31,7 +30,7 @@ namespace Infrastructure.Repositories
         {
             try
             {
-                var response = await _httpClient.GetAsync($"{BaseUrl}/{JBId}");
+                var response = await _httpClient.GetAsync($"{GlobalVariable.baseUrl}/{JBId}");
 
                 if (!response.IsSuccessStatusCode)
                 {
@@ -61,7 +60,7 @@ namespace Infrastructure.Repositories
         {
             try
             {
-                var response = await _httpClient.GetAsync($"{BaseUrl}");
+                var response = await _httpClient.GetAsync($"{GlobalVariable.baseUrl}");
                 if (!response.IsSuccessStatusCode)
                     throw new HttpRequestException($"Failed to get JB list. Status: {response.StatusCode}");
                 else
@@ -122,7 +121,7 @@ namespace Infrastructure.Repositories
 
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-                var response = await _httpClient.PostAsync($"{BaseUrl}", content);
+                var response = await _httpClient.PostAsync($"{GlobalVariable.baseUrl}", content);
 
                 response.EnsureSuccessStatusCode();
                 return response.IsSuccessStatusCode;
@@ -153,7 +152,7 @@ namespace Infrastructure.Repositories
 
                 // var json = JsonConvert.SerializeObject(jBEntity);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
-                var response = await _httpClient.PutAsync($"{BaseUrl}/{JBId}", content);
+                var response = await _httpClient.PutAsync($"{GlobalVariable.baseUrl}/{JBId}", content);
 
                 response.EnsureSuccessStatusCode();
                 return response.IsSuccessStatusCode;
@@ -176,7 +175,7 @@ namespace Infrastructure.Repositories
         {
             try
             {
-                var response = await _httpClient.DeleteAsync($"{BaseUrl}/{jbId}");
+                var response = await _httpClient.DeleteAsync($"{GlobalVariable.baseUrl}/{jbId}");
                 response.EnsureSuccessStatusCode();
                 return response.IsSuccessStatusCode;
             }

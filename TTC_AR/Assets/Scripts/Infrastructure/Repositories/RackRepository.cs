@@ -17,12 +17,10 @@ namespace Infrastructure.Repositories
     {
         private readonly HttpClient _httpClient;
 
-        private const string BaseUrl = "https://677ba70820824100c07a4e9f.mockapi.io/api/v3/Rack"; // URL server ngoài thực tế
-
         public RackRepository(HttpClient httpClient)
         {
             _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
-            _httpClient.BaseAddress = new Uri(BaseUrl);
+            // _httpClient.BaseAddress = new Uri(GlobalVariable.baseUrl);
             _httpClient.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
         }
 
@@ -31,7 +29,7 @@ namespace Infrastructure.Repositories
         {
             try
             {
-                var response = await _httpClient.GetAsync($"{BaseUrl}/{rackId}");
+                var response = await _httpClient.GetAsync($"{GlobalVariable.baseUrl}/{rackId}");
 
                 if (!response.IsSuccessStatusCode)
                 {
@@ -60,7 +58,7 @@ namespace Infrastructure.Repositories
         {
             try
             {
-                var response = await _httpClient.GetAsync($"{BaseUrl}");
+                var response = await _httpClient.GetAsync($"{GlobalVariable.baseUrl}");
                 if (!response.IsSuccessStatusCode)
                     throw new HttpRequestException($"Failed to get Rack list. Status: {response.StatusCode}");
                 else
@@ -93,7 +91,7 @@ namespace Infrastructure.Repositories
 
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-                var response = await _httpClient.PostAsync($"{BaseUrl}", content);
+                var response = await _httpClient.PostAsync($"{GlobalVariable.baseUrl}", content);
 
                 response.EnsureSuccessStatusCode();
                 return response.IsSuccessStatusCode;
@@ -117,7 +115,7 @@ namespace Infrastructure.Repositories
                 var json = JsonConvert.SerializeObject(RackEntity);
 
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
-                var response = await _httpClient.PutAsync($"{BaseUrl}/{rackId}", content);
+                var response = await _httpClient.PutAsync($"{GlobalVariable.baseUrl}/{rackId}", content);
 
                 response.EnsureSuccessStatusCode();
                 return response.IsSuccessStatusCode;
