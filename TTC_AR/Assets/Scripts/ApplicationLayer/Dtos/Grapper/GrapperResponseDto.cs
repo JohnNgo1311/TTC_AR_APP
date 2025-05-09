@@ -17,17 +17,17 @@ namespace ApplicationLayer.Dtos.Grapper
     [Preserve]
     public class GrapperResponseDto : GrapperBasicDto
     {
-        [JsonProperty("ListRacks")] public List<RackBasicDto>? RackBasicDtos { get; set; }
-        [JsonProperty("ListModules")] public List<ModuleBasicDto>? ModuleGeneralDtos { get; set; }
-        [JsonProperty("ListDevices")] public List<DeviceBasicDto>? DeviceBasicDtos { get; set; }
-        [JsonProperty("ListJBs")] public List<JBBasicDto>? JBBasicDtos { get; set; }
-        [JsonProperty("ListMCCs")] public List<MccBasicDto>? MccBasicDtos { get; set; }
-        [JsonProperty("ListFieldDevices")] public List<FieldDeviceBasicDto>? FieldDeviceBasicDtos { get; set; }
+        [JsonProperty("listRacks")] public List<RackBasicDto>? RackBasicDtos { get; set; }
+        [JsonProperty("listModules")] public List<ModuleBasicDto>? ModuleGeneralDtos { get; set; }
+        [JsonProperty("listDevices")] public List<DeviceBasicDto>? DeviceBasicDtos { get; set; }
+        [JsonProperty("listJBs")] public List<JBBasicDto>? JBBasicDtos { get; set; }
+        [JsonProperty("listMCCs")] public List<MccBasicDto>? MccBasicDtos { get; set; }
+        [JsonProperty("listFieldDevices")] public List<FieldDeviceBasicDto>? FieldDeviceBasicDtos { get; set; }
 
 
         [Preserve]
-        public GrapperResponseDto(string id, string name, List<RackBasicDto>? rackBasicDtos, List<ModuleBasicDto> moduleBasicDtos, List<DeviceBasicDto>? deviceBasicDtos, List<JBBasicDto>? jBBasicDtos, List<MccBasicDto>? mccBasicDtos, List<FieldDeviceBasicDto>? fieldDeviceBasicDtos) : base(id, name)
-        {   
+        public GrapperResponseDto(int id, string name, List<RackBasicDto>? rackBasicDtos, List<ModuleBasicDto> moduleBasicDtos, List<DeviceBasicDto>? deviceBasicDtos, List<JBBasicDto>? jBBasicDtos, List<MccBasicDto>? mccBasicDtos, List<FieldDeviceBasicDto>? fieldDeviceBasicDtos) : base(id, name)
+        {
             RackBasicDtos = rackBasicDtos;
             ModuleGeneralDtos = moduleBasicDtos;
             DeviceBasicDtos = deviceBasicDtos;

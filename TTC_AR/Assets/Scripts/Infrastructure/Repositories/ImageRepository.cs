@@ -28,7 +28,7 @@ namespace Infrastructure.Repositories
         }
 
         //! TRả về ImageEntity
-        public async Task<ImageEntity> GetImageByIdAsync(string ImageId)
+        public async Task<ImageEntity> GetImageByIdAsync(int ImageId)
         {
             try
             {
@@ -41,23 +41,24 @@ namespace Infrastructure.Repositories
                 else
                 {
                     var content = await response.Content.ReadAsStringAsync();
-                    UnityEngine.Debug.Log(content);
+                    // UnityEngine.Debug.Log(content);
                     return JsonConvert.DeserializeObject<ImageEntity>(content);
 
                 }
             }
             catch (HttpRequestException ex)
             {
-                throw ex; // Ném lỗi HTTP lên UseCase
+                throw new ApplicationException("Failed to fetch Image", ex); // Ném lỗi HTTP lên UseCase
             }
             catch (Exception ex)
             {
-                throw new Exception("Unexpected error during HTTP request", ex); // Bao bọc lỗi khác
+                throw new ApplicationException("Unexpected error during HTTP request", ex); // Bao bọc lỗi khác
             }
+
         }
 
         //! Trả về List<ImageEntity>
-        public async Task<List<ImageEntity>> GetListImageAsync(string grapperId)
+        public async Task<List<ImageEntity>> GetListImageAsync(int grapperId)
         {
             try
             {
@@ -73,16 +74,16 @@ namespace Infrastructure.Repositories
             }
             catch (HttpRequestException ex)
             {
-                throw ex;
+                throw new ApplicationException("Failed to fetch Image list", ex); // Ném lỗi HTTP lên UseCase
             }
             catch (Exception ex)
             {
-                throw new Exception("Unexpected error during HTTP request", ex);
+                throw new ApplicationException("Unexpected error during HTTP request", ex); // Bao bọc lỗi khác
             }
         }
 
 
-        public async Task<bool> CreateNewImageAsync(string grapperId, ImageEntity ImageEntity)
+        public async Task<bool> CreateNewImageAsync(int grapperId, ImageEntity ImageEntity)
         {
             try
             {
@@ -99,42 +100,38 @@ namespace Infrastructure.Repositories
 
                 var response = await _httpClient.PostAsync($"{BaseUrl}", content);
 
-                if (!response.IsSuccessStatusCode)
-                    throw new HttpRequestException($"Failed to create Image. Status: {response.StatusCode}");
-
-                return true;
+                response.EnsureSuccessStatusCode();
+                return response.IsSuccessStatusCode;
             }
             catch (HttpRequestException ex)
             {
-                throw ex; // Ném lỗi HTTP lên UseCase
+                throw new ApplicationException("Failed to create Image", ex); // Ném lỗi HTTP lên UseCase
             }
             catch (Exception ex)
             {
-                throw new Exception("Unexpected error during HTTP request", ex); // Bao bọc lỗi khác
+                throw new ApplicationException("Unexpected error during HTTP request", ex); // Bao bọc lỗi khác
             }
         }
 
-        public async Task<bool> DeleteImageAsync(string ImageId)
+        public async Task<bool> DeleteImageAsync(int ImageId)
         {
             try
             {
                 var response = await _httpClient.DeleteAsync($"{BaseUrl}/{ImageId}");
-                if (!response.IsSuccessStatusCode)
-                    throw new HttpRequestException($"Failed to delete Image. Status: {response.StatusCode}");
-
-                return true;
+                response.EnsureSuccessStatusCode();
+                return response.IsSuccessStatusCode;
             }
             catch (HttpRequestException ex)
             {
-                throw ex; // Ném lỗi HTTP lên UseCase
+                throw new ApplicationException("Failed to delete Image", ex); // Ném lỗi HTTP lên UseCase
             }
             catch (Exception ex)
             {
-                throw new Exception("Unexpected error during HTTP request", ex); // Bao bọc lỗi khác
+                throw new ApplicationException("Unexpected error during HTTP request", ex); // Bao bọc lỗi khác
             }
         }
 
-        public async Task<bool> UploadNewImageFromGallery(string grapperId, Texture2D texture, string fieldName, string fileName, string filePath, string mimeType)
+        public async Task<bool> UploadNewImageFromGallery(int grapperId, Texture2D texture, string fieldName, string fileName, string filePath, string mimeType)
         {
             // Lưu ảnh từ Texture2D thành file ảnh PNG            
             try
@@ -161,12 +158,12 @@ namespace Infrastructure.Repositories
                     if (request.result != UnityWebRequest.Result.Success)
                     {
 
-                        Debug.LogError($"❌ Lỗi upload ảnh: {request.error}");
+                        // Debug.LogError($"❌ Lỗi upload ảnh: {request.error}");
                         throw new Exception($"Lỗi upload ảnh: {request.error}");
                     }
                     else
                     {
-                        Debug.Log($"✅ Upload thành công: {fileName}");
+                        // Debug.Log($"✅ Upload thành công: {fileName}");
                         return true;
 
                     }
@@ -174,19 +171,16 @@ namespace Infrastructure.Repositories
             }
             catch (HttpRequestException ex)
             {
-                throw ex; // Ném lỗi HTTP lên UseCase
+                throw new ApplicationException("Failed to upload image", ex); // Ném lỗi HTTP lên UseCase
             }
             catch (Exception ex)
             {
-                Debug.LogError($"Lỗi upload ảnh: {ex.Message}");
-                throw new Exception($"Lỗi upload ảnh: {ex.Message}");
-
+                throw new ApplicationException($"Lỗi upload ảnh: {ex.Message}", ex);
             }
 
 
-
         }
-        public async Task<bool> UploadNewImageFromCamera(string grapperId, Texture2D texture, string fieldName, string fileName)
+        public async Task<bool> UploadNewImageFromCamera(int grapperId, Texture2D texture, string fieldName, string fileName)
         {
             try
             { // Lưu ảnh từ Texture2D thành file ảnh PNG
@@ -218,24 +212,23 @@ namespace Infrastructure.Repositories
 
                     if (request.result != UnityWebRequest.Result.Success)
                     {
-                        Debug.LogError($"❌ Lỗi upload ảnh: {request.error}");
-                        throw new Exception($"Lỗi upload ảnh: {request.error}");
+                        // Debug.LogError($"❌ Lỗi upload ảnh: {request.error}");
+                        throw new ApplicationException($"Lỗi upload ảnh: {request.error}");
                     }
                     else
                     {
-                        Debug.Log($"✅ Upload thành công: {fileName}");
+                        // Debug.Log($"✅ Upload thành công: {fileName}");
                         return true;
                     }
                 }
             }
             catch (HttpRequestException ex)
             {
-                throw ex; // Ném lỗi HTTP lên UseCase
+                throw new ApplicationException("Failed to upload image", ex);
             }
             catch (Exception ex)
             {
-                Debug.LogError($"Lỗi upload ảnh: {ex.Message}");
-                throw new Exception($"Lỗi upload ảnh: {ex.Message}");
+                throw new ApplicationException("Unexpected error during HTTP request", ex);
             }
         }
 

@@ -83,10 +83,10 @@ public class ListAdapterSpecificationSettingView : MonoBehaviour, IAdapterSpecif
 
     }
 
-    private void EditAdapterSpecificationItem(string id)
+    private void EditAdapterSpecificationItem(int id)
     {
 
-        GlobalVariable.AdapterSpecificationId = id;
+        GlobalVariable.adapterSpecificationId = id;
 
         OpenUpdateCanvas();
     }

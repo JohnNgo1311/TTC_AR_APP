@@ -10,18 +10,18 @@ namespace ApplicationLayer.Dtos.Mcc
     public class MccResponseDto : MccBasicDto
     {
 
-        [JsonProperty("Brand")]
+        [JsonProperty("brand")]
         public string? Brand { get; set; }
 
-        [JsonProperty("ListFieldDevices")]
+        [JsonProperty("listFieldDevices")]
         public List<FieldDeviceBasicDto>? FieldDeviceBasicDtos { get; set; }
 
-        [JsonProperty("Note")]
+        [JsonProperty("note")]
         public string? Note { get; set; }
 
         [Preserve]
 
-        public MccResponseDto(string id, string cabinetCode, string? brand, List<FieldDeviceBasicDto>? fieldDeviceBasicDtos, string? note) : base(id, cabinetCode)
+        public MccResponseDto(int id, string cabinetCode, string? brand, List<FieldDeviceBasicDto>? fieldDeviceBasicDtos, string? note) : base(id, cabinetCode)
         {
             Brand = brand;
             FieldDeviceBasicDtos = fieldDeviceBasicDtos;

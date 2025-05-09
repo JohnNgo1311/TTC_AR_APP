@@ -13,13 +13,13 @@ public class Initialize_Image_List_Option_Selection : MonoBehaviour
     [Header("Canvas")]
     public GameObject Selection_Option_Canvas;
 
-    [Header("List Selection Panels")]
+    [Header("list Selection Panels")]
     public GameObject selection_List_Device_Panel;
     public GameObject selection_List_JB_Panel;
     public GameObject selection_List_TSD_Panel;
     public GameObject selection_List_FieldDevice_Panel;
 
-    [Header("List Selection Option Contents")]
+    [Header("list Selection Option Contents")]
     public Transform Device_List_Selection_Option_Content_Transform;
     public Transform JB_List_Selection_Option_Content_Transform;
     public Transform TSD_List_Selection_Option_Content_Transform;

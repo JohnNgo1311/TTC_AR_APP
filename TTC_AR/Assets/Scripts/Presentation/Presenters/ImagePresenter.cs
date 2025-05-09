@@ -20,7 +20,7 @@ public class ImagePresenter
         _service = service;
     }
 
-    public async void LoadListImage(string grapperId)
+    public async void LoadListImage(int grapperId)
     {
         GlobalVariable.APIRequestType.Add("GET_Image_List");
         _view.ShowLoading("Đang tải dữ liệu...");
@@ -63,14 +63,14 @@ public class ImagePresenter
         }
     }
 
-    public async void LoadDetailById(string ImageId)
+    public async void LoadDetailById(int ImageId)
     {
         GlobalVariable.APIRequestType.Add("GET_Image");
         _view.ShowLoading("Đang tải dữ liệu...");
 
         try
         {
-            var dto = await _service.GetImageByIdAsync(ImageId.ToString());
+            var dto = await _service.GetImageByIdAsync(ImageId);
             if (dto != null)
             {
                 var model = ConvertFromResponseDto(dto);
@@ -92,7 +92,7 @@ public class ImagePresenter
             GlobalVariable.APIRequestType.Remove("GET_Image");
         }
     }
-    public async void CreateNewImage(string grapperId, ImageInformationModel model)
+    public async void CreateNewImage(int grapperId, ImageInformationModel model)
     {
         GlobalVariable.APIRequestType.Add("POST_Image");
         _view.ShowLoading("Đang thực hiện...");
@@ -121,7 +121,7 @@ public class ImagePresenter
             GlobalVariable.APIRequestType.Remove("POST_Image");
         }
     }
-    public async void DeleteImage(string ImageId)
+    public async void DeleteImage(int ImageId)
     {
         GlobalVariable.APIRequestType.Add("DELETE_Image");
         _view.ShowLoading("Đang thực hiện...");
@@ -148,7 +148,7 @@ public class ImagePresenter
             GlobalVariable.APIRequestType.Remove("DELETE_Image");
         }
     }
-    public async void UploadImageFromGallery(string grapperId, Texture2D image, string fieldName, string fileName, string filePath)
+    public async void UploadImageFromGallery(int grapperId, Texture2D image, string fieldName, string fileName, string filePath)
     {
         GlobalVariable.APIRequestType.Add("POST_Image");
         _view.ShowLoading("Đang cập nhật...");
@@ -178,7 +178,7 @@ public class ImagePresenter
             GlobalVariable.APIRequestType.Remove("POST_Image");
         }
     }
-    public async void UploadImageFromCamera(string grapperId, Texture2D image, string fieldName, string fileName)
+    public async void UploadImageFromCamera(int grapperId, Texture2D image, string fieldName, string fileName)
     {
         GlobalVariable.APIRequestType.Add("POST_Image");
         _view.ShowLoading("Đang cập nhật...");

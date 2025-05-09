@@ -76,7 +76,7 @@ public class UpdateFieldDeviceSettingView : MonoBehaviour, IFieldDeviceView
         submitButton.onClick.AddListener(OnSubmitButtonClick);
 
         //! Load detail by id
-        _presenter.LoadDetailById(GlobalVariable.FieldDeviceId);
+        _presenter.LoadDetailById(GlobalVariable.fieldDeviceId);
 
         //! Reset scroll position
         scrollRect.verticalNormalizedPosition = 1;
@@ -105,7 +105,7 @@ public class UpdateFieldDeviceSettingView : MonoBehaviour, IFieldDeviceView
             return;
         }
 
-        _presenter.UpdateFieldDevice(GlobalVariable.FieldDeviceId, fieldDeviceInformationModel);
+        _presenter.UpdateFieldDevice(GlobalVariable.fieldDeviceId, fieldDeviceInformationModel);
     }
 
     private void RenewView()
@@ -290,7 +290,7 @@ public class UpdateFieldDeviceSettingView : MonoBehaviour, IFieldDeviceView
         backButton.onClick.AddListener(() =>
         {
             DialogOneButton.SetActive(false);
-            _presenter.LoadDetailById(GlobalVariable.FieldDeviceId);
+            _presenter.LoadDetailById(GlobalVariable.fieldDeviceId);
             scrollRect.verticalNormalizedPosition = 1;
         }
        );
@@ -339,7 +339,7 @@ public class UpdateFieldDeviceSettingView : MonoBehaviour, IFieldDeviceView
     public void ReloadDetailById()
     {
         RenewView();
-        _presenter.LoadDetailById(GlobalVariable.FieldDeviceId);
+        _presenter.LoadDetailById(GlobalVariable.fieldDeviceId);
     }
     public void ShowSuccess()
     {

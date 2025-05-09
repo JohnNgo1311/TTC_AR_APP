@@ -13,18 +13,18 @@ namespace Infrastructure.Repositories
     public class CompanyRepository : ICompanyRepository
     {
         private readonly HttpClient _httpClient;
-        private const string BaseUrl = "https://6776bd1c12a55a9a7d0cbc42.mockapi.io/api/v2/Company";
+        private readonly string baseUrl = $"{GlobalVariable.baseUrl}/Companies";
 
         public CompanyRepository(HttpClient httpClient)
         {
             _httpClient = httpClient;
         }
-        
-        public async Task<CompanyEntity> GetCompanyByIdAsync(string companyId)
+
+        public async Task<CompanyEntity> GetCompanyByIdAsync(int companyId)
         {
             try
             {
-                var response = await _httpClient.GetAsync($"{BaseUrl}/{companyId}");
+                var response = await _httpClient.GetAsync($"{baseUrl}/{companyId}");
                 if (!response.IsSuccessStatusCode)
                 {
                     throw new HttpRequestException($"Failed to get company. Status: {response.StatusCode}");
@@ -49,7 +49,7 @@ namespace Infrastructure.Repositories
         {
             try
             {
-                var response = await _httpClient.GetAsync(BaseUrl);
+                var response = await _httpClient.GetAsync(baseUrl);
                 if (!response.IsSuccessStatusCode)
                     throw new HttpRequestException($"Failed to get Company list. Status: {response.StatusCode}");
                 else
@@ -61,7 +61,7 @@ namespace Infrastructure.Repositories
             }
             catch (HttpRequestException ex)
             {
-                throw ex;
+                throw new Exception($"Failed to fetch Company list: {ex.Message}");
             }
             catch (Exception ex)
             {

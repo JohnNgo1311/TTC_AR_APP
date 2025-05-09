@@ -10,8 +10,8 @@ namespace ApplicationLayer.Dtos.Rack
     [Preserve]
     public class RackRequestDto
     {
-        [JsonProperty("Name")] public string Name { get; set; }
-        [JsonProperty("ListModules")] public List<ModuleBasicDto>? ModuleBasicDtos { get; set; }
+        [JsonProperty("name")] public string Name { get; set; }
+        [JsonProperty("listModules")] public List<ModuleBasicDto>? ModuleBasicDtos { get; set; }
 
         [Preserve]
 

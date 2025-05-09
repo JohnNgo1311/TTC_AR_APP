@@ -15,15 +15,15 @@ namespace ApplicationLayer.Dtos.JB
     [Preserve]
     public class JBResponseDto : JBBasicDto //!Get ListJB & GetJBById
     {
-        [JsonProperty("Location")] public string? Location { get; set; }
-        [JsonProperty("ListDevices")] public List<DeviceBasicDto>? DeviceBasicDtos { get; set; }
-        [JsonProperty("ListModules")] public List<ModuleBasicDto>? ModuleBasicDtos { get; set; }
-        [JsonProperty("OutdoorImage")] public ImageBasicDto? OutdoorImageBasicDto { get; set; }
-        [JsonProperty("ListConnectionImages")] public List<ImageBasicDto>? ConnectionImageBasicDtos { get; set; }
+        [JsonProperty("location")] public string? Location { get; set; }
+        [JsonProperty("listDevices")] public List<DeviceBasicDto>? DeviceBasicDtos { get; set; }
+        [JsonProperty("listModules")] public List<ModuleBasicDto>? ModuleBasicDtos { get; set; }
+        [JsonProperty("outdoorImage")] public ImageBasicDto? OutdoorImageBasicDto { get; set; }
+        [JsonProperty("listConnectionImages")] public List<ImageBasicDto>? ConnectionImageBasicDtos { get; set; }
 
         [Preserve]
 
-        public JBResponseDto(string id, string name, string location, List<DeviceBasicDto>? deviceBasicDtos, List<ModuleBasicDto>? moduleBasicDtos, ImageBasicDto outdoorImageBasicDto, List<ImageBasicDto>? connectionImageBasicDtos) : base(id, name)
+        public JBResponseDto(int id, string name, string location, List<DeviceBasicDto>? deviceBasicDtos, List<ModuleBasicDto>? moduleBasicDtos, ImageBasicDto outdoorImageBasicDto, List<ImageBasicDto>? connectionImageBasicDtos) : base(id, name)
         {
             Location = location;
             DeviceBasicDtos = deviceBasicDtos;
@@ -33,7 +33,7 @@ namespace ApplicationLayer.Dtos.JB
         }
         // [Preserve]
         // 
-        // public JBResponseDto(string id, string name, string location, List<DeviceBasicDto>?? deviceBasicDtos, List<ModuleBasicDto>? moduleBasicDtos, ImageBasicDto outdoorImageBasicDto, List<ImageBasicDto>? connectionImageBasicDtos) : base(id, name)
+        // public JBResponseDto(int id, string name, string location, List<DeviceBasicDto>?? deviceBasicDtos, List<ModuleBasicDto>? moduleBasicDtos, ImageBasicDto outdoorImageBasicDto, List<ImageBasicDto>? connectionImageBasicDtos) : base(id, name)
         // {
         //     Location = location == "" ? string.Empty : location;
         //     DeviceBasicDtos = deviceBasicDtos.Any() ? deviceBasicDtos : new List<DeviceBasicDto>??();

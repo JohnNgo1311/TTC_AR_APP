@@ -50,7 +50,7 @@ public class UpdateAdapterSpecificationSettingView : MonoBehaviour, IAdapterSpec
         submitButton.onClick.RemoveAllListeners();
 
         backButton.onClick.AddListener(CloseUpdateCanvas);
-        _presenter.LoadDetailById(GlobalVariable.AdapterSpecificationId);
+        _presenter.LoadDetailById(GlobalVariable.adapterSpecificationId);
         submitButton.onClick.AddListener(OnSubmitButtonClick);
     }
 
@@ -82,7 +82,7 @@ public class UpdateAdapterSpecificationSettingView : MonoBehaviour, IAdapterSpec
                  PDFManual_TextField.text
              );
         _presenter.UpdateAdapterSpecification(
-                 GlobalVariable.AdapterSpecificationId, _adapterSpecificationModel
+                 GlobalVariable.adapterSpecificationId, _adapterSpecificationModel
             );
 
     }
@@ -90,7 +90,7 @@ public class UpdateAdapterSpecificationSettingView : MonoBehaviour, IAdapterSpec
 
     public void PreloadDetailById()
     {
-        _presenter.LoadDetailById(GlobalVariable.AdapterSpecificationId);
+        _presenter.LoadDetailById(GlobalVariable.adapterSpecificationId);
     }
 
     void OnDisable()

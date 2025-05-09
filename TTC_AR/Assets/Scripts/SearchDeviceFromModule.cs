@@ -22,7 +22,7 @@ public class SearchDeviceFromModule : MonoBehaviour
     private RectTransform jb_TSD_Detail_Transform;
     private void Awake()
     {
-        list_Devices_Transform ??= module_Canvas.gameObject.transform.Find("List_Devices").GetComponent<RectTransform>();
+        list_Devices_Transform ??= module_Canvas.gameObject.transform.Find("list_Devices").GetComponent<RectTransform>();
         jb_TSD_Basic_Transform ??= module_Canvas.gameObject.transform.Find("JB_TSD_Basic_Panel").GetComponent<RectTransform>();
         jb_TSD_Detail_Transform ??= module_Canvas.gameObject.transform.Find("Detail_JB_TSD").GetComponent<RectTransform>();
     }
@@ -50,7 +50,6 @@ public class SearchDeviceFromModule : MonoBehaviour
                         dropdown.options.Add(new TMP_Dropdown.OptionData(device.Code));
                     }
 
-                    // Đảm bảo rằng option1 luôn được chọn
                     dropdown.value = 0;
                     dropdown.RefreshShownValue();
 

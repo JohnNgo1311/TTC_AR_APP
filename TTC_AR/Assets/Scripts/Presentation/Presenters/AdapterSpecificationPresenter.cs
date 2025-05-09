@@ -17,7 +17,7 @@ public class AdapterSpecificationPresenter
         _service = service;
     }
 
-    public async void LoadListAdapterSpecification(string companyId)
+    public async void LoadListAdapterSpecification(int companyId)
     {
         GlobalVariable.APIRequestType.Add("GET_AdapterSpecification_List");
         _view.ShowLoading("Đang tải dữ liệu...");
@@ -58,14 +58,14 @@ public class AdapterSpecificationPresenter
         }
     }
 
-    public async void LoadDetailById(string adapterId)
+    public async void LoadDetailById(int adapterId)
     {
         GlobalVariable.APIRequestType.Add("GET_AdapterSpecification");
         _view.ShowLoading("Đang tải dữ liệu...");
 
         try
         {
-            var dto = await _service.GetAdapterSpecificationByIdAsync(adapterId.ToString());
+            var dto = await _service.GetAdapterSpecificationByIdAsync(adapterId);
             if (dto != null)
             {
                 var model = ConvertFromResponseDto(dto);
@@ -87,7 +87,7 @@ public class AdapterSpecificationPresenter
             GlobalVariable.APIRequestType.Remove("GET_AdapterSpecification");
         }
     }
-    public async void CreateNewAdapterSpecification(string companyId, AdapterSpecificationModel model)
+    public async void CreateNewAdapterSpecification(int companyId, AdapterSpecificationModel model)
     {
         GlobalVariable.APIRequestType.Add("POST_AdapterSpecification");
         _view.ShowLoading("Đang thực hiện...");
@@ -118,7 +118,7 @@ public class AdapterSpecificationPresenter
     }
 
 
-    public async void UpdateAdapterSpecification(string adapterSpecificationId, AdapterSpecificationModel model)
+    public async void UpdateAdapterSpecification(int adapterSpecificationId, AdapterSpecificationModel model)
     {
         GlobalVariable.APIRequestType.Add("PUT_AdapterSpecification");
         _view.ShowLoading("Đang thực hiện...");
@@ -146,7 +146,7 @@ public class AdapterSpecificationPresenter
             GlobalVariable.APIRequestType.Remove("PUT_AdapterSpecification");
         }
     }
-    public async void DeleteAdapterSpecification(string adapterSpecificationId)
+    public async void DeleteAdapterSpecification(int adapterSpecificationId)
     {
         GlobalVariable.APIRequestType.Add("DELETE_AdapterSpecification");
         _view.ShowLoading("Đang thực hiện...");

@@ -78,9 +78,9 @@ public class ListModuleSettingView : MonoBehaviour, IModuleView
         Module_Item_Prefab.SetActive(false);
     }
 
-    private void EditModuleItem(string id)
+    private void EditModuleItem(int id)
     {
-        GlobalVariable.ModuleId = id;
+        GlobalVariable.moduleId = id;
         OpenUpdateCanvas();
     }
     private void DeleModuleItem(GameObject ModuleItem, ModuleInformationModel model)

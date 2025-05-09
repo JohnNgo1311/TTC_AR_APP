@@ -25,8 +25,7 @@ namespace ApplicationLayer.UseCases
         {
             _IModuleRepository = IModuleRepository;
         }
-        #region GET List Module
-        public async Task<List<ModuleBasicDto>> GetListModuleAsync(string grapperId)
+        public async Task<List<ModuleBasicDto>> GetListModuleAsync(int grapperId)
         {
             try
             {
@@ -39,70 +38,69 @@ namespace ApplicationLayer.UseCases
                 else
                 {
                     int count = moduleEntities.Count;
-                    var listModuleInfo = new List<ModuleInformationModel>(count);
-                    var dictModuleInfo = new Dictionary<string, ModuleInformationModel>(count);
+                    // var listModuleInfo = new List<ModuleInformationModel>(count);
+                    // var dictModuleInfo = new Dictionary<string, ModuleInformationModel>(count);
                     var moduleBasicDtos = new List<ModuleBasicDto>(count);
                     foreach (var moduleEntity in moduleEntities)
                     {
                         var dto = MapEntityToBasicDto(moduleEntity);
-                        var model = new ModuleInformationModel(dto.Id, dto.Name);
+                        // var model = new ModuleInformationModel(dto.Id, dto.Name);
                         moduleBasicDtos.Add(dto);
-                        listModuleInfo.Add(model);
-                        dictModuleInfo[dto.Name] = model;
+                        // listModuleInfo.Add(model);
+                        // dictModuleInfo[dto.Name] = model;
                     }
 
-                    GlobalVariable.temp_List_ModuleInformationModel = listModuleInfo;
-                    GlobalVariable.temp_Dictionary_ModuleInformationModel = dictModuleInfo;
+                    // GlobalVariable.temp_List_ModuleInformationModel = listModuleInfo;
+                    // GlobalVariable.temp_Dictionary_ModuleInformationModel = dictModuleInfo;
                     return moduleBasicDtos;
                 }
 
             }
-            catch (ArgumentException)
+            catch (ArgumentException exception)
             {
-                throw; // Ném lại lỗi validation cho Unity xử lý
+                throw new ApplicationException("Failed to get Module list", exception); // Ném lại lỗi validation cho Unity xử lý
             }
             catch (Exception ex)
             {
-                throw new ApplicationException("Failed to get Module list", ex);
+                throw new ApplicationException("Failed to get Module list", ex); // Bao bọc lỗi từ Repository
             }
-        }
-        #endregion
 
-        #region GET Specific Module
-        public async Task<ModuleResponseDto> GetModuleByIdAsync(string ModuleId)
+        }
+
+        public async Task<ModuleResponseDto> GetModuleByIdAsync(int moduleId)
         {
             try
             {
-                UnityEngine.Debug.Log("Run UseCase");
-                var moduleEntity = await _IModuleRepository.GetModuleByIdAsync(ModuleId) ??
+                //UnityEngine.Debug.Log("Run UseCase");
+                var moduleEntity = await _IModuleRepository.GetModuleByIdAsync(moduleId) ??
                     throw new ApplicationException("Failed to get Module");
 
-                UnityEngine.Debug.Log("Let Convert to ResponseDto");
+                //UnityEngine.Debug.Log("Let Convert to ResponseDto");
 
                 return MapEntityToResponseDto(moduleEntity);
 
             }
-            catch (ArgumentException)
+            catch (ArgumentException exception)
             {
-                throw; // Ném lại lỗi validation cho Unity xử lý
+
+                throw new ApplicationException("Failed to get Module", exception); // Ném lại lỗi validation cho Unity xử lý
             }
             catch (Exception ex)
             {
                 throw new ApplicationException("Failed to get Module", ex); // Bao bọc lỗi từ Repository
             }
-        }
-        #endregion
 
-        #region POST CREATE Module
-        public async Task<bool> CreateNewModuleAsync(string grapperId, ModuleRequestDto requestDto)
+        }
+
+        public async Task<bool> CreateNewModuleAsync(int grapperId, ModuleRequestDto requestDto)
         {
             try
             {
-                UnityEngine.Debug.Log("Run UseCase");
+                //UnityEngine.Debug.Log("Run UseCase");
                 // Ánh xạ từ ModuleRequestDto sang ModuleEntity để check các nghiệp vụ
                 var ModuleEntity = MapRequestToModuleEntity(requestDto);
 
-                UnityEngine.Debug.Log("UseCase Send to Repository");
+                //UnityEngine.Debug.Log("UseCase Send to Repository");
 
                 if (ModuleEntity == null)
                 {
@@ -120,28 +118,24 @@ namespace ApplicationLayer.UseCases
                 }
 
             }
-            catch (ArgumentException ex)
+            catch (ArgumentException)
             {
-                UnityEngine.Debug.Log(ex);
-                throw; // Ném lại lỗi validation cho Unity xử lý
+                throw new ApplicationException("Failed to create Module cause ArgumentException"); // Ném lại lỗi validation cho Unity xử lý
             }
             catch (Exception ex)
             {
-                UnityEngine.Debug.Log(ex);
                 throw new ApplicationException("Failed to create Module", ex); // Bao bọc lỗi từ Repository
             }
         }
-        #endregion
 
-        #region  PUT UPDATE Module
-        public async Task<bool> UpdateModuleAsync(string moduleId, ModuleRequestDto requestDto)
+        public async Task<bool> UpdateModuleAsync(int moduleId, ModuleRequestDto requestDto)
         {
             try
             {
                 // Ánh xạ từ ModuleRequestDto sang ModuleEntity để check các nghiệp vụ
-                UnityEngine.Debug.Log("Run UseCase");
+                //UnityEngine.Debug.Log("Run UseCase");
                 var ModuleEntity = MapRequestToModuleEntity(requestDto);
-                UnityEngine.Debug.Log("Convert to Entity Successfully");
+                //UnityEngine.Debug.Log("Convert to Entity Successfully");
                 if (ModuleEntity == null)
                 {
                     throw new ApplicationException("Failed to create Module cause ModuleEntity is Null");
@@ -159,32 +153,32 @@ namespace ApplicationLayer.UseCases
             }
             catch (ArgumentException)
             {
-                throw; // Ném lại lỗi validation cho Unity xử lý
+                throw new ApplicationException("Failed to update Module cause ArgumentException"); // Ném lại lỗi validation cho Unity xử lý
             }
             catch (Exception ex)
             {
                 throw new ApplicationException("Failed to update Module", ex); // Bao bọc lỗi từ Repository
             }
         }
-        #endregion
-        #region DELETE Module
-        public async Task<bool> DeleteModuleAsync(string ModuleId)
+
+        public async Task<bool> DeleteModuleAsync(int moduleId)
         {
             try
             {
-                var deletedModuleResult = await _IModuleRepository.DeleteModuleAsync(ModuleId);
+                var deletedModuleResult = await _IModuleRepository.DeleteModuleAsync(moduleId);
                 return deletedModuleResult;
             }
             catch (ArgumentException)
             {
-                throw; // Ném lại lỗi validation cho Unity xử lý
+                throw new ApplicationException("Failed to delete Module cause ArgumentException"); // Ném lại lỗi validation cho Unity xử lý
             }
             catch (Exception ex)
             {
                 throw new ApplicationException("Failed to delete Module", ex); // Bao bọc lỗi từ Repository
             }
+
+
         }
-        #endregion
 
         //! Entity => Dto
         private ModuleBasicDto MapEntityToBasicDto(ModuleEntity moduleEntity)

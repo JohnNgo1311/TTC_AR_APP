@@ -26,7 +26,7 @@ public class SearchDeviceAndJBPresenter
     }
 
     //! Get list SearchDeviceAndJB chỉ có Id và Code
-    public async void LoadDataForSearching(string grapperId)
+    public async void LoadDataForSearching(int grapperId)
     {
         GlobalVariable.APIRequestType.Add("GET_JB_List_Information");
         GlobalVariable.APIRequestType.Add("GET_Device_List_Information_FromGrapper");
@@ -37,14 +37,10 @@ public class SearchDeviceAndJBPresenter
 
             var jBGeneralDtosTask = _JBService.GetListJBInformationAsync(grapperId);
             // var jBGeneralDtos = await _JBService.GetListJBInformationAsync(grapperId);
-
             // UnityEngine.Debug.Log("Run Presenter JB");
-
             var deviceResponseDtosTask = _DeviceService.GetListDeviceInformationFromGrapperAsync(grapperId);
             // var deviceResponseDtos = await _DeviceService.GetListDeviceInformationFromGrapperAsync(grapperId);
-
             // UnityEngine.Debug.Log("Run Presenter Device");
-
             await Task.WhenAll(
                 jBGeneralDtosTask,
             deviceResponseDtosTask);
@@ -59,11 +55,16 @@ public class SearchDeviceAndJBPresenter
                 {
                     models = jBGeneralDtos.Select(dto => ConvertJBFromGeneralDto(dto)).ToList();
                 }
-                else
-                {
-                    models = new List<JBInformationModel>();
-                }
+                // else
+                // {
+                //     models = new List<JBInformationModel>();
+                // }
                 GlobalVariable_Search_Devices.temp_ListJBInformationModel = models;
+            }
+            else
+            {
+                _view.ShowError("Tải dữ liệu thất bại!");
+                return;
             }
 
             if (deviceResponseDtos != null)
@@ -73,23 +74,22 @@ public class SearchDeviceAndJBPresenter
                 {
                     models = deviceResponseDtos.Select(dto => ConvertDeviceFromResponseDto(dto)).ToList();
                 }
-                else
-                {
-                    models = new List<DeviceInformationModel>();
-                }
+                // else
+                // {
+                //     models = new List<DeviceInformationModel>();
+                // }
                 GlobalVariable_Search_Devices.temp_ListDeviceInformationModel = models;
-
-
             }
-            UnityEngine.Debug.Log("Run Presenter Task Successfully");
-
+            else
+            {
+                _view.ShowError("Tải dữ liệu thất bại");
+                return;
+            }
             _view.ShowSuccess();
             _view.SetInit();
-
         }
         catch (Exception ex)
         {
-            UnityEngine.Debug.Log("Error: " + ex.Message);
             _view.ShowError($"Error: {ex.Message}");
         }
         finally
@@ -105,12 +105,11 @@ public class SearchDeviceAndJBPresenter
     //     string url = $"{GlobalVariable.baseUrl}files/{imageName}";
     //     await LoadImage.Instance.LoadImageFromUrlAsync(url, imagePrefab);
     // }
+
     public async Task LoadImageAsync(string name, Image imagePrefab)
     {
         await LoadImage.Instance.LoadImageFromUrlAsync(name, imagePrefab);
     }
-
-
 
     private JBInformationModel ConvertJBFromGeneralDto(JBGeneralDto dto)
     {

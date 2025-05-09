@@ -11,7 +11,7 @@
 
 //         [Preserve]
 
-//         public ImageBasicDto(string id, string name, string url) : base(id, name)
+//         public ImageBasicDto(int id, string name, string url) : base(id, name)
 //         {
 //             Url = string.IsNullOrEmpty(url) ? "Chưa cập nhật" : url;
 //         }

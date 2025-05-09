@@ -14,12 +14,12 @@ namespace ApplicationLayer.Dtos.JB
     [Preserve]
     public class JBRequestDto
     {
-        [JsonProperty("Name")] public string Name { get; set; }
-        [JsonProperty("Location")] public string? Location { get; set; }
-        [JsonProperty("ListDevices")] public List<DeviceBasicDto>? DeviceBasicDtos { get; set; }
-        [JsonProperty("ListModules")] public List<ModuleBasicDto>? ModuleBasicDtos { get; set; }
-        [JsonProperty("OutdoorImage")] public ImageBasicDto? OutdoorImageBasicDto { get; set; }
-        [JsonProperty("ListConnectionImages")] public List<ImageBasicDto>? ConnectionImageBasicDtos { get; set; }
+        [JsonProperty("name")] public string Name { get; set; }
+        [JsonProperty("location")] public string? Location { get; set; }
+        [JsonProperty("listDevices")] public List<DeviceBasicDto>? DeviceBasicDtos { get; set; }
+        [JsonProperty("listModules")] public List<ModuleBasicDto>? ModuleBasicDtos { get; set; }
+        [JsonProperty("outdoorImage")] public ImageBasicDto? OutdoorImageBasicDto { get; set; }
+        [JsonProperty("listConnectionImages")] public List<ImageBasicDto>? ConnectionImageBasicDtos { get; set; }
 
         [Preserve]
 

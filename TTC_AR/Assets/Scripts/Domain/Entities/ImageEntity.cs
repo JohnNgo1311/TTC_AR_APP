@@ -10,10 +10,10 @@ namespace Domain.Entities
   [Preserve]
   public class ImageEntity
   {
-    [JsonProperty("Id")]
-    public string Id { get; set; } = string.Empty;
+    [JsonProperty("id")]
+    public int Id { get; set; }
 
-    [JsonProperty("Name")]
+    [JsonProperty("name")]
     public string Name { get; set; } = string.Empty;
 
     // [JsonProperty("Url")]
@@ -55,7 +55,7 @@ namespace Domain.Entities
     }
 
     [Preserve]
-    public ImageEntity(string id, string name)
+    public ImageEntity(int id, string name)
     {
       Id = id;
       Name = string.IsNullOrEmpty(name) ? throw new ArgumentNullException(nameof(name)) : name;

@@ -10,30 +10,30 @@ namespace Domain.Entities
 {
   public class ModuleEntity
   {
-    [JsonProperty("Id")]
-    public string Id { get; set; } = string.Empty; // non-nullable
+    [JsonProperty("id")]
+    public int Id { get; set; } // non-nullable
 
-    [JsonProperty("Name")]
+    [JsonProperty("name")]
     public string Name { get; set; } = string.Empty; // non-nullable
 
-    // [JsonProperty("Grapper", NullValueHandling = NullValueHandling.Ignore)]
-    [JsonProperty("Grapper")]
+    // [JsonProperty("grapper", NullValueHandling = NullValueHandling.Ignore)]
+    [JsonProperty("grapper")]
     public GrapperEntity? GrapperEntity { get; set; }
 
-    // [JsonProperty("Rack", NullValueHandling = NullValueHandling.Ignore)]
-    [JsonProperty("Rack")]
+    // [JsonProperty("rack", NullValueHandling = NullValueHandling.Ignore)]
+    [JsonProperty("rack")]
     public RackEntity? RackEntity { get; set; }
     // [JsonProperty("Devices", NullValueHandling = NullValueHandling.Ignore)]
-    [JsonProperty("ListDevices")]
+    [JsonProperty("listDevices")]
     public List<DeviceEntity>? DeviceEntities { get; set; }
-    // [JsonProperty("JBs", NullValueHandling = NullValueHandling.Ignore)]
-    [JsonProperty("ListJBs")]
+    // [JsonProperty("jBs", NullValueHandling = NullValueHandling.Ignore)]
+    [JsonProperty("listJBs")]
     public List<JBEntity>? JBEntities { get; set; }
-    // [JsonProperty("ModuleSpecification", NullValueHandling = NullValueHandling.Ignore)]
-    [JsonProperty("ModuleSpecification")]
+    // [JsonProperty("moduleSpecification", NullValueHandling = NullValueHandling.Ignore)]
+    [JsonProperty("moduleSpecification")]
     public ModuleSpecificationEntity? ModuleSpecificationEntity { get; set; }
-    // [JsonProperty("AdapterSpecification", NullValueHandling = NullValueHandling.Ignore)]
-    [JsonProperty("AdapterSpecification")]
+    // [JsonProperty("adapterSpecification", NullValueHandling = NullValueHandling.Ignore)]
+    [JsonProperty("adapterSpecification")]
     public AdapterSpecificationEntity? AdapterSpecificationEntity { get; set; }
 
 
@@ -133,7 +133,7 @@ namespace Domain.Entities
 
 
     [Preserve]
-    public ModuleEntity(string id, string name)
+    public ModuleEntity(int id, string name)
     {
       Id = id;
       Name = string.IsNullOrEmpty(name) ? throw new ArgumentNullException(nameof(name)) : name;
@@ -153,7 +153,7 @@ namespace Domain.Entities
     }
 
     [Preserve]
-    public ModuleEntity(string id, GrapperEntity grapperEntity, string name, RackEntity? rack, List<DeviceEntity>? deviceEntities, List<JBEntity>? jbEntities, ModuleSpecificationEntity? moduleSpecificationEntity, AdapterSpecificationEntity? adapterSpecificationEntity)
+    public ModuleEntity(int id, GrapperEntity grapperEntity, string name, RackEntity? rack, List<DeviceEntity>? deviceEntities, List<JBEntity>? jbEntities, ModuleSpecificationEntity? moduleSpecificationEntity, AdapterSpecificationEntity? adapterSpecificationEntity)
     {
       Id = id;
       Name = string.IsNullOrEmpty(name) ? throw new ArgumentNullException(nameof(name)) : name;

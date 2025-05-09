@@ -27,7 +27,7 @@ public class Update_Set_Up_Value_UI : MonoBehaviour
         cabinetCode = gameObject.transform.parent.gameObject.name.Split('_')[1];
         Debug.Log("Cabinet Code: " + cabinetCode);
         var cabinetId = GlobalVariable.temp_ListMCCInformationModel.Find(cabinet => cabinet.CabinetCode == cabinetCode).Id;
-        GlobalVariable.MccId = cabinetId;
+        GlobalVariable.mccId = cabinetId;
 
         yield return new WaitForSeconds(2f);
 

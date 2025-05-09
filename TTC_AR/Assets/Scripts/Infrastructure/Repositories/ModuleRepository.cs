@@ -25,11 +25,11 @@ namespace Infrastructure.Repositories
         }
 
         //! TRả về ModuleResponseDto do kết quả server trả chỉ là một tập hợp con của Entity
-        public async Task<ModuleEntity> GetModuleByIdAsync(string ModuleId)
+        public async Task<ModuleEntity> GetModuleByIdAsync(int moduleId)
         {
             try
             {
-                var response = await _httpClient.GetAsync($"{BaseUrl}/{ModuleId}");
+                var response = await _httpClient.GetAsync($"{BaseUrl}/{moduleId}");
                 if (!response.IsSuccessStatusCode)
                 {
                     throw new HttpRequestException($"Failed to get Module. Status: {response.StatusCode}");
@@ -42,16 +42,17 @@ namespace Infrastructure.Repositories
             }
             catch (HttpRequestException ex)
             {
-                throw ex; // Ném lỗi HTTP lên UseCase
+                throw new ApplicationException("Failed to fetch Module", ex); // Ném lỗi HTTP lên UseCase
             }
             catch (Exception ex)
             {
-                throw new Exception("Unexpected error during HTTP request", ex); // Bao bọc lỗi khác
+                throw new ApplicationException("Unexpected error during HTTP request", ex); // Bao bọc lỗi khác
             }
+          
         }
 
         //! Trả về List<ModuleGeneralDto> do kết quả server trả chỉ là một tập hợp con của Entity
-        public async Task<List<ModuleEntity>> GetListModuleAsync(string grapperId)
+        public async Task<List<ModuleEntity>> GetListModuleAsync(int grapperId)
         {
             try
             {
@@ -67,19 +68,19 @@ namespace Infrastructure.Repositories
             }
             catch (HttpRequestException ex)
             {
-                throw ex;
+                throw new ApplicationException("Failed to fetch Module list", ex); // Ném lỗi HTTP lên UseCase
             }
             catch (Exception ex)
             {
-                throw new Exception("Unexpected error during HTTP request", ex);
+                throw new ApplicationException("Unexpected error during HTTP request", ex); // Bao bọc lỗi khác
             }
         }
 
-        public async Task<bool> CreateNewModuleAsync(string grapperId, ModuleEntity requestData)
+        public async Task<bool> CreateNewModuleAsync(int grapperId, ModuleEntity requestData)
         {
             try
             {
-                UnityEngine.Debug.Log("Run Repository");
+                // UnityEngine.Debug.Log("Run Repository");
 
                 // Tạo dữ liệu tối giản gửi lên server với tên property khớp yêu cầu
                 //  var ModuleRequestData = ConvertModuleRequestData(ModuleEntity);
@@ -90,22 +91,21 @@ namespace Infrastructure.Repositories
 
                 var response = await _httpClient.PostAsync($"{BaseUrl}", content);
 
-                if (!response.IsSuccessStatusCode)
-                    throw new HttpRequestException($"Failed to create Module. Status: {response.StatusCode}");
-
-                return true;
+                response.EnsureSuccessStatusCode();
+                return response.IsSuccessStatusCode;
             }
             catch (HttpRequestException ex)
             {
-                throw ex; // Ném lỗi HTTP lên UseCase
+                throw new ApplicationException("Failed to create Module", ex); // Ném lỗi HTTP lên UseCase
             }
             catch (Exception ex)
             {
-                throw new Exception("Unexpected error during HTTP request", ex); // Bao bọc lỗi khác
+                throw new ApplicationException("Unexpected error during HTTP request", ex); // Bao bọc lỗi khác
             }
+
         }
 
-        public async Task<bool> UpdateModuleAsync(string ModuleId, ModuleEntity requestData)
+        public async Task<bool> UpdateModuleAsync(int moduleId, ModuleEntity requestData)
         {
             try
             {
@@ -113,40 +113,37 @@ namespace Infrastructure.Repositories
 
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-                var response = await _httpClient.PutAsync($"{BaseUrl}/{ModuleId}", content);
+                var response = await _httpClient.PutAsync($"{BaseUrl}/{moduleId}", content);
 
-                if (!response.IsSuccessStatusCode)
-                    throw new HttpRequestException($"Failed to update Module. Status: {response.StatusCode}");
-
-                return true;
+                response.EnsureSuccessStatusCode();
+                return response.IsSuccessStatusCode;
             }
             catch (HttpRequestException ex)
             {
-                throw ex; // Ném lỗi HTTP lên UseCase
+                throw new ApplicationException("Failed to update Module", ex); // Ném lỗi HTTP lên UseCase
+
             }
             catch (Exception ex)
             {
-                throw new Exception("Unexpected error during HTTP request", ex); // Bao bọc lỗi khác
+                throw new ApplicationException("Unexpected error during HTTP request", ex); // Bao bọc lỗi khác
             }
         }
 
-        public async Task<bool> DeleteModuleAsync(string ModuleId)
+        public async Task<bool> DeleteModuleAsync(int moduleId)
         {
             try
             {
-                var response = await _httpClient.DeleteAsync($"{BaseUrl}/{ModuleId}");
-                if (!response.IsSuccessStatusCode)
-                    throw new HttpRequestException($"Failed to Delete Module. Status: {response.StatusCode}");
-
-                return true;
+                var response = await _httpClient.DeleteAsync($"{BaseUrl}/{moduleId}");
+                response.EnsureSuccessStatusCode();
+                return response.IsSuccessStatusCode;
             }
             catch (HttpRequestException ex)
             {
-                throw ex; // Ném lỗi HTTP lên UseCase
+                throw new ApplicationException("Failed to delete Module", ex); // Ném lỗi HTTP lên UseCase
             }
             catch (Exception ex)
             {
-                throw new Exception("Unexpected error during HTTP request", ex); // Bao bọc lỗi khác
+                throw new ApplicationException("Unexpected error during HTTP request", ex); // Bao bọc lỗi khác
             }
 
         }

@@ -12,50 +12,50 @@ namespace Domain.Entities
   [Preserve]
   public class ModuleSpecificationEntity
   {
-    [JsonProperty("Id")]
-    public string Id { get; set; } = string.Empty;
+    [JsonProperty("id")]
+    public int Id { get; set; }
 
-    [JsonProperty("Code")]
+    [JsonProperty("code")]
     public string Code { get; set; } = string.Empty;
 
-    // [JsonProperty("Type", NullValueHandling = NullValueHandling.Ignore)]
-    [JsonProperty("Type")]
+    // [JsonProperty("type", NullValueHandling = NullValueHandling.Ignore)]
+    [JsonProperty("type")]
     public string? Type { get; set; }
 
-    // [JsonProperty("NumOfIO", NullValueHandling = NullValueHandling.Ignore)]
-    [JsonProperty("NumOfIO")]
+    // [JsonProperty("numOfIO", NullValueHandling = NullValueHandling.Ignore)]
+    [JsonProperty("numOfIO")]
     public string? NumOfIO { get; set; }
 
-    // [JsonProperty("SignalType", NullValueHandling = NullValueHandling.Ignore)]
-    [JsonProperty("SignalType")]
+    // [JsonProperty("signalType", NullValueHandling = NullValueHandling.Ignore)]
+    [JsonProperty("signalType")]
     public string? SignalType { get; set; }
 
-    // [JsonProperty("CompatibleTBUs", NullValueHandling = NullValueHandling.Ignore)]
-    [JsonProperty("CompatibleTBUs")]
+    // [JsonProperty("compatibleTBUs", NullValueHandling = NullValueHandling.Ignore)]
+    [JsonProperty("compatibleTBUs")]
     public string? CompatibleTBUs { get; set; }
 
-    // [JsonProperty("OperatingVoltage", NullValueHandling = NullValueHandling.Ignore)]\
-    [JsonProperty("OperatingVoltage")]
+    // [JsonProperty("operatingVoltage", NullValueHandling = NullValueHandling.Ignore)]\
+    [JsonProperty("operatingVoltage")]
     public string? OperatingVoltage { get; set; }
 
-    // [JsonProperty("OperatingCurrent", NullValueHandling = NullValueHandling.Ignore)]
-    [JsonProperty("OperatingCurrent")]
+    // [JsonProperty("operatingCurrent", NullValueHandling = NullValueHandling.Ignore)]
+    [JsonProperty("operatingCurrent")]
     public string? OperatingCurrent { get; set; }
 
-    // [JsonProperty("FlexbusCurrent", NullValueHandling = NullValueHandling.Ignore)]
-    [JsonProperty("FlexbusCurrent")]
+    // [JsonProperty("flexbusCurrent", NullValueHandling = NullValueHandling.Ignore)]
+    [JsonProperty("flexbusCurrent")]
     public string? FlexbusCurrent { get; set; }
 
-    // [JsonProperty("Alarm", NullValueHandling = NullValueHandling.Ignore)]
-    [JsonProperty("Alarm")]
+    // [JsonProperty("alarm", NullValueHandling = NullValueHandling.Ignore)]
+    [JsonProperty("alarm")]
     public string? Alarm { get; set; }
 
-    // [JsonProperty("Note", NullValueHandling = NullValueHandling.Ignore)]
-    [JsonProperty("Note")]
+    // [JsonProperty("note", NullValueHandling = NullValueHandling.Ignore)]
+    [JsonProperty("note")]
     public string? Note { get; set; }
 
-    // [JsonProperty("PdfManual", NullValueHandling = NullValueHandling.Ignore)]
-    [JsonProperty("PdfManual")]
+    // [JsonProperty("pdfManual", NullValueHandling = NullValueHandling.Ignore)]
+    [JsonProperty("pdfManual")]
     public string? PdfManual { get; set; }
 
 
@@ -210,7 +210,7 @@ namespace Domain.Entities
 
     [Preserve]
     //! Dùng để Get hoặc làm field lúc đẩy lên ở các Entity khác
-    public ModuleSpecificationEntity(string id, string code)
+    public ModuleSpecificationEntity(int id, string code)
     {
       Id = id;
       Code = string.IsNullOrEmpty(code) ? throw new ArgumentNullException(nameof(code)) : code;
@@ -218,7 +218,7 @@ namespace Domain.Entities
 
     [Preserve]
     public ModuleSpecificationEntity(
-    string id,
+    int id,
     string? code,
     string? type,
     string? numOfIO,

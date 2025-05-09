@@ -7,21 +7,21 @@ using UnityEngine.Scripting;
 [Preserve]
 public class CompanyInformationModel
 {
-  [JsonProperty("Id")]
-  public string Id { get; set; } = string.Empty;
+  [JsonProperty("id")]
+  public int Id { get; set; }
 
-  [JsonProperty("Name")]
+  [JsonProperty("name")]
   public string Name { get; set; } = string.Empty;
 
-  [JsonProperty("ListGrappers")]
+  [JsonProperty("listGrappers")]
   public List<GrapperInformationModel>? ListGrapperInformationModel { get; set; }
-  [JsonProperty("ListModuleSpecifications")]
+  [JsonProperty("listModuleSpecifications")]
   public List<ModuleSpecificationModel>? ListModuleSpecificationModel { get; set; }
-  [JsonProperty("ListAdapterSpecifications")]
+  [JsonProperty("listAdapterSpecifications")]
   public List<AdapterSpecificationModel>? ListAdapterSpecificationModel { get; set; }
   [Preserve]
 
-  public CompanyInformationModel(string id, string name, List<GrapperInformationModel> listGrapperInformationModel, List<ModuleSpecificationModel> listModuleSpecificationModel, List<AdapterSpecificationModel> listAdapterSpecificationModel)
+  public CompanyInformationModel(int id, string name, List<GrapperInformationModel> listGrapperInformationModel, List<ModuleSpecificationModel> listModuleSpecificationModel, List<AdapterSpecificationModel> listAdapterSpecificationModel)
   {
     Id = id;
     Name = string.IsNullOrEmpty(name) ? throw new ArgumentNullException(nameof(name)) : name;
@@ -29,7 +29,7 @@ public class CompanyInformationModel
     ListModuleSpecificationModel = listModuleSpecificationModel.Any() ? listModuleSpecificationModel : new List<ModuleSpecificationModel>();
     ListAdapterSpecificationModel = listAdapterSpecificationModel.Any() ? listAdapterSpecificationModel : new List<AdapterSpecificationModel>();
   }
-  public CompanyInformationModel(string id, string name)
+  public CompanyInformationModel(int id, string name)
   {
     Id = id;
     Name = string.IsNullOrEmpty(name) ? throw new ArgumentNullException(nameof(name)) : name;

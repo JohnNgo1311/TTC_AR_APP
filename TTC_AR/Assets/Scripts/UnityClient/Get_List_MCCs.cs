@@ -6,12 +6,12 @@ using PimDeWitte.UnityMainThreadDispatcher;
 public class Get_List_MCCs : MonoBehaviour
 {
     public string GrapperName = "";
-    public string GrapperId = "1";
+    public int GrapperId = 1;
     private void Awake()
     {
     }
 
-    public async void GetListMCCModels(string GrapperId)
+    public async void GetListMCCModels(int GrapperId)
     {
         try
         {

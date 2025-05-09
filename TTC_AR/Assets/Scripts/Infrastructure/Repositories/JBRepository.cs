@@ -27,7 +27,7 @@ namespace Infrastructure.Repositories
         }
 
         //! TRả về JBEntity
-        public async Task<JBEntity> GetJBByIdAsync(string JBId)
+        public async Task<JBEntity> GetJBByIdAsync(int JBId)
         {
             try
             {
@@ -47,16 +47,17 @@ namespace Infrastructure.Repositories
             }
             catch (HttpRequestException ex)
             {
-                throw ex; // Ném lỗi HTTP lên UseCase
+                throw new ApplicationException("Failed to fetch JB", ex); // Ném lỗi HTTP lên UseCase
             }
             catch (Exception ex)
             {
                 throw new Exception("Unexpected error during HTTP request", ex); // Bao bọc lỗi khác
             }
+
         }
 
         //! Trả về List<JBEntity>
-        public async Task<List<JBEntity>> GetListJBGeneralAsync(string grapperId)
+        public async Task<List<JBEntity>> GetListJBGeneralAsync(int grapperId)
         {
             try
             {
@@ -72,7 +73,7 @@ namespace Infrastructure.Repositories
             }
             catch (HttpRequestException ex)
             {
-                throw ex;
+                throw new ApplicationException("Failed to fetch JB list", ex); // Ném lỗi HTTP lên UseCase
             }
             catch (Exception ex)
             {
@@ -80,7 +81,7 @@ namespace Infrastructure.Repositories
             }
         }
         //! Trả về List<JBEntity>
-        public async Task<List<JBEntity>> GetListJBInformationAsync(string grapperId)
+        public async Task<List<JBEntity>> GetListJBInformationAsync(int grapperId)
         {
             try
             {
@@ -97,16 +98,16 @@ namespace Infrastructure.Repositories
             }
             catch (HttpRequestException ex)
             {
-                throw ex;
+                throw new ApplicationException("Failed to fetch JB list", ex); // Ném lỗi HTTP lên UseCase
             }
             catch (Exception ex)
             {
-                throw new Exception("Unexpected error during HTTP request", ex);
+                throw new ApplicationException("Unexpected error during HTTP request", ex);
             }
         }
 
 
-        public async Task<bool> CreateNewJBAsync(string grapperId, JBEntity jBEntity)
+        public async Task<bool> CreateNewJBAsync(int grapperId, JBEntity jBEntity)
         {
             try
             {
@@ -123,22 +124,24 @@ namespace Infrastructure.Repositories
 
                 var response = await _httpClient.PostAsync($"{BaseUrl}", content);
 
-                if (!response.IsSuccessStatusCode)
-                    throw new HttpRequestException($"Failed to create JB. Status: {response.StatusCode}");
-
-                return true;
+                response.EnsureSuccessStatusCode();
+                return response.IsSuccessStatusCode;
             }
             catch (HttpRequestException ex)
             {
-                throw ex; // Ném lỗi HTTP lên UseCase
+                throw new ApplicationException("Failed to create JB", ex); // Ném lỗi HTTP lên UseCase
+            }
+            catch (JsonException ex)
+            {
+                throw new ApplicationException("Failed to deserialize JSON", ex); // Xử lý lỗi deserialize
             }
             catch (Exception ex)
             {
-                throw new Exception("Unexpected error during HTTP request", ex); // Bao bọc lỗi khác
+                throw new ApplicationException("Unexpected error during HTTP request", ex); // Bao bọc lỗi khác
             }
         }
 
-        public async Task<bool> UpdateJBAsync(string JBId, JBEntity jBEntity)
+        public async Task<bool> UpdateJBAsync(int JBId, JBEntity jBEntity)
         {
             try
             {
@@ -152,40 +155,43 @@ namespace Infrastructure.Repositories
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
                 var response = await _httpClient.PutAsync($"{BaseUrl}/{JBId}", content);
 
-                if (!response.IsSuccessStatusCode)
-                    throw new HttpRequestException($"Failed to Update JB. Status: {response.StatusCode}");
-
-                return true;
+                response.EnsureSuccessStatusCode();
+                return response.IsSuccessStatusCode;
             }
             catch (HttpRequestException ex)
             {
-                throw ex; // Ném lỗi HTTP lên UseCase
+                throw new ApplicationException("Failed to update JB", ex); // Ném lỗi HTTP lên UseCase
+            }
+            catch (JsonException ex)
+            {
+                throw new ApplicationException("Failed to deserialize JSON", ex); // Xử lý lỗi deserialize
             }
             catch (Exception ex)
             {
-                throw new Exception("Unexpected error during HTTP request", ex); // Bao bọc lỗi khác
+                throw new ApplicationException("Unexpected error during HTTP request", ex); // Bao bọc lỗi khác
             }
         }
 
-        public async Task<bool> DeleteJBAsync(string jbId)
+        public async Task<bool> DeleteJBAsync(int jbId)
         {
             try
             {
                 var response = await _httpClient.DeleteAsync($"{BaseUrl}/{jbId}");
-                if (!response.IsSuccessStatusCode)
-                    throw new HttpRequestException($"Failed to delete JB. Status: {response.StatusCode}");
-
-                return true;
+                response.EnsureSuccessStatusCode();
+                return response.IsSuccessStatusCode;
             }
             catch (HttpRequestException ex)
             {
-                throw ex; // Ném lỗi HTTP lên UseCase
+                throw new ApplicationException("Failed to delete JB", ex); // Ném lỗi HTTP lên UseCase
+            }
+            catch (JsonException ex)
+            {
+                throw new ApplicationException("Failed to deserialize JSON", ex); // Xử lý lỗi deserialize
             }
             catch (Exception ex)
             {
-                throw new Exception("Unexpected error during HTTP request", ex); // Bao bọc lỗi khác
+                throw new ApplicationException("Unexpected error during HTTP request", ex); // Bao bọc lỗi khác
             }
-
 
         }
         // private object ConvertJBRequestData(JBEntity jbEntity)

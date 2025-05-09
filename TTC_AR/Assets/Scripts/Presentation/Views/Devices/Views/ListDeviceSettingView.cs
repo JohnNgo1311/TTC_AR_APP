@@ -79,9 +79,9 @@ public class ListDeviceSettingView : MonoBehaviour, IDeviceView
         Device_Item_Prefab.SetActive(false);
     }
 
-    private void EditDeviceItem(string id)
+    private void EditDeviceItem(int id)
     {
-        GlobalVariable.DeviceId = id;
+        GlobalVariable.deviceId = id;
         OpenUpdateCanvas();
     }
     private void DeleDeviceItem(GameObject DeviceItem, DeviceInformationModel model)

@@ -38,12 +38,17 @@ public class SearchDeviceAndJBView : MonoBehaviour, ISearchDeviceAndJBView
 
     void Awake()
     {
-        _presenter = new SearchDeviceAndJBPresenter(this,
-         ManagerLocator.Instance.JBManager._IJBService,
-         ManagerLocator.Instance.DeviceManager._IDeviceService);
+        if (ManagerLocator.Instance.JBManager != null && ManagerLocator.Instance.DeviceManager != null)
+        {
+            _presenter = new SearchDeviceAndJBPresenter(this,
+                     ManagerLocator.Instance.JBManager._IJBService,
+                     ManagerLocator.Instance.DeviceManager._IDeviceService);
+        }
     }
+
     private void OnEnable()
     {
+        StopAllCoroutines();
         LoadData();
     }
     private void OnDisable()

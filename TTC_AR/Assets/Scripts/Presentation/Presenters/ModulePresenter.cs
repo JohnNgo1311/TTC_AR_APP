@@ -25,7 +25,7 @@ public class ModulePresenter
     }
 
     //! Get list Module chỉ có Id và Code
-    public async void LoadListModule(string grapperId)
+    public async void LoadListModule(int grapperId)
     {
         GlobalVariable.APIRequestType.Add("GET_Module_List");
         _view.ShowLoading("Đang tải dữ liệu...");
@@ -65,14 +65,14 @@ public class ModulePresenter
     }
 
     //! GET Module Detail với đầy đủ thông tin
-    public async void LoadDetailById(string ModuleId)
+    public async void LoadDetailById(int moduleId)
     {
         GlobalVariable.APIRequestType.Add("GET_Module");
         _view.ShowLoading("Đang tải dữ liệu...");
         try
         {
             UnityEngine.Debug.Log("Run Presenter");
-            var ModuleResponseDto = await _service.GetModuleByIdAsync(ModuleId);
+            var ModuleResponseDto = await _service.GetModuleByIdAsync(moduleId);
             if (ModuleResponseDto != null)
             {
                 var model = ConvertFromResponseDto(ModuleResponseDto);
@@ -99,7 +99,7 @@ public class ModulePresenter
             GlobalVariable.APIRequestType.Remove("GET_Module");
         }
     }
-    public async void CreateNewModule(string grapperId, ModuleInformationModel model)
+    public async void CreateNewModule(int grapperId, ModuleInformationModel model)
     {
         GlobalVariable.APIRequestType.Add("POST_Module");
         _view.ShowLoading("Đang thực hiện...");
@@ -129,7 +129,7 @@ public class ModulePresenter
         }
     }
 
-    public async void UpdateModule(string ModuleId, ModuleInformationModel model)
+    public async void UpdateModule(int moduleId, ModuleInformationModel model)
     {
         GlobalVariable.APIRequestType.Add("PUT_Module");
         _view.ShowLoading("Đang thực hiện...");
@@ -138,7 +138,7 @@ public class ModulePresenter
             UnityEngine.Debug.Log("Run Presenter");
             var dto = ConvertToRequestDto(model);
             UnityEngine.Debug.Log("Convert to Request DTO Successfully");
-            var result = await _service.UpdateModuleAsync(ModuleId, dto);
+            var result = await _service.UpdateModuleAsync(moduleId, dto);
             UnityEngine.Debug.Log("Run Service Successfully");
 
             if (result)
@@ -160,13 +160,13 @@ public class ModulePresenter
             GlobalVariable.APIRequestType.Remove("PUT_Module");
         }
     }
-    public async void DeleteModule(string ModuleId)
+    public async void DeleteModule(int moduleId)
     {
         GlobalVariable.APIRequestType.Add("DELETE_Module");
         _view.ShowLoading("Đang thực hiện...");
         try
         {
-            var result = await _service.DeleteModuleAsync(ModuleId);
+            var result = await _service.DeleteModuleAsync(moduleId);
             if (result)
             {
                 _view.ShowSuccess(""); // Chỉ hiển thị thành công nếu result == true

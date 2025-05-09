@@ -12,13 +12,13 @@ namespace ApplicationLayer.Dtos.JB
     [Preserve]
     public class JBGeneralDto : JBBasicDto
     {
-        [JsonProperty("Location")] public string? Location { get; set; }
-        [JsonProperty("OutdoorImage")] public ImageBasicDto? OutdoorImageBasicDto { get; set; }
-        [JsonProperty("ListConnectionImages")] public List<ImageBasicDto>? ConnectionImageBasicDtos { get; set; }
+        [JsonProperty("location")] public string? Location { get; set; }
+        [JsonProperty("outdoorImage")] public ImageBasicDto? OutdoorImageBasicDto { get; set; }
+        [JsonProperty("listConnectionImages")] public List<ImageBasicDto>? ConnectionImageBasicDtos { get; set; }
 
         [Preserve]
 
-        public JBGeneralDto(string id, string name, string? location, ImageBasicDto? outdoorImageBasicDto, List<ImageBasicDto>? connectionImageBasicDtos) : base(id, name)
+        public JBGeneralDto(int id, string name, string? location, ImageBasicDto? outdoorImageBasicDto, List<ImageBasicDto>? connectionImageBasicDtos) : base(id, name)
         {
             Id = id;
             Name = string.IsNullOrEmpty(name) ? throw new ArgumentNullException(nameof(name)) : name;
@@ -29,7 +29,7 @@ namespace ApplicationLayer.Dtos.JB
 
         // [Preserve]
         // 
-        // public JBGeneralDto(string id, string name, string location, ImageBasicDto outdoorImageBasicDto, List<ImageBasicDto> connectionImageBasicDtos) : base(id, name)
+        // public JBGeneralDto(int id, string name, string location, ImageBasicDto outdoorImageBasicDto, List<ImageBasicDto> connectionImageBasicDtos) : base(id, name)
         // {
         //     Id = id;
         //     Location = location == "" ? string.Empty : location;

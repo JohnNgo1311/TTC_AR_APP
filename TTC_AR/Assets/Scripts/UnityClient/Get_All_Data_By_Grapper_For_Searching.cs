@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using PimDeWitte.UnityMainThreadDispatcher;
 public class Get_All_Data_By_Grapper_For_Searching : MonoBehaviour
 {
-    public string grapperId;
+    public int grapperId;
     public EventPublisher eventPublisher; // Tham chiếu đến Publisher
     private void Awake()
     {

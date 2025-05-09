@@ -19,31 +19,31 @@ namespace ApplicationLayer.Services
 
 
         //! Dữ liệu trả về là Dto
-        public async Task<ImageBasicDto> GetImageByIdAsync(string imageId)
+        public async Task<ImageBasicDto> GetImageByIdAsync(int imageId)
         {
             return await _ImageUseCase.GetImageByIdAsync(imageId);
         }
 
-        public async Task<List<ImageBasicDto>> GetListImageAsync(string grapperId)
+        public async Task<List<ImageBasicDto>> GetListImageAsync(int grapperId)
         {
             return await _ImageUseCase.GetListImageAsync(grapperId);
         }
 
-        public async Task<bool> CreateNewImageAsync(string grapperId, ImageRequestDto ImageRequestDto)
+        public async Task<bool> CreateNewImageAsync(int grapperId, ImageRequestDto ImageRequestDto)
         {
             return await _ImageUseCase.CreateNewImageAsync(grapperId, ImageRequestDto);
         }
-        public async Task<bool> DeleteImageAsync(string ImageId)
+        public async Task<bool> DeleteImageAsync(int ImageId)
         {
             return await _ImageUseCase.DeleteImageAsync(ImageId);
         }
-        public async Task<bool> UploadNewImageFromGallery(string grapperId, Texture2D texture, string filePath, string fieldName, string fileName)
+        public async Task<bool> UploadNewImageFromGallery(int grapperId, Texture2D texture, string filePath, string fieldName, string fileName)
         {
             Debug.Log("Run Service");
             Debug.Log($"UploadNewImageFromGallery: {grapperId} {texture} {filePath} {fieldName} {fileName}");
             return await _ImageUseCase.UploadImageFromGallery(grapperId, texture, filePath, fieldName, fileName);
         }
-        public async Task<bool> UploadNewImageFromCamera(string grapperId, Texture2D texture, string fieldName, string fileName)
+        public async Task<bool> UploadNewImageFromCamera(int grapperId, Texture2D texture, string fieldName, string fileName)
         {
             Debug.Log("Run Service");
             Debug.Log($"UploadNewImageFromCamera: {grapperId} {texture} {fieldName} {fileName}");

@@ -12,14 +12,14 @@ public class Initialize_Module_List_Option_Selection : MonoBehaviour
     [Header("Canvas")]
     public GameObject Selection_Option_Canvas;
 
-    [Header("List Selection Panels")]
+    [Header("list Selection Panels")]
     public GameObject selection_List_Rack_Panel;
     public GameObject selection_List_Device_Panel;
     public GameObject selection_List_JB_Panel;
     public GameObject selection_List_ModuleSpecification_Panel;
     public GameObject selection_List_AdapterSpecification_Panel;
 
-    [Header("List Selection Option Contents")]
+    [Header("list Selection Option Contents")]
     public Transform Rack_List_Selection_Option_Content_Transform;
     public Transform Device_List_Selection_Option_Content_Transform;
     public Transform JB_List_Selection_Option_Content_Transform;

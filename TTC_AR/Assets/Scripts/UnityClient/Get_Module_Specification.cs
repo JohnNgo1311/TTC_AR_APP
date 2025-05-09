@@ -52,7 +52,7 @@ public class Get_Module_Specification : MonoBehaviour
                           Show_Toast.Instance.ShowToast("loading", "Đang tải dữ liệu...");
                       });
 
-            await APIManager.Instance.GetModuleSpecification(url: $"{GlobalVariable.baseUrl}Modules/{GlobalVariable.ModuleId}/specification");
+            await APIManager.Instance.GetModuleSpecification(url: $"{GlobalVariable.baseUrl}Modules/{GlobalVariable.moduleId}/specification");
             await Move_On_Main_Thread.RunOnMainThread(() =>
                {
                    StartCoroutine(Show_Toast.Instance.Set_Instance_Status_False());

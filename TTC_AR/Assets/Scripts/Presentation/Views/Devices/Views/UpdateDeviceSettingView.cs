@@ -56,7 +56,7 @@ public class UpdateDeviceSettingView : MonoBehaviour, IDeviceView
 
 
     private List<JBInformationModel> temp_JBModels = new List<JBInformationModel>();
-    private ModuleInformationModel temp_ModuleModel = new ModuleInformationModel("", "");
+    private ModuleInformationModel temp_ModuleModel = new ModuleInformationModel(1, "");
     private Dictionary<string, ImageInformationModel> temp_Dictionary_Additional_ConnectionModel = new();
     private Dictionary<string, JBInformationModel> temp_Dictionary_JBInformationModel = new();
     private readonly Dictionary<string, List<GameObject>> selectedGameObjects = new()
@@ -91,7 +91,7 @@ public class UpdateDeviceSettingView : MonoBehaviour, IDeviceView
     public void LoadDetailById()
     {
         RenewView();
-        _presenter.LoadDetailById(GlobalVariable.DeviceId);
+        _presenter.LoadDetailById(GlobalVariable.deviceId);
     }
     void OnEnable()
     {
@@ -112,7 +112,7 @@ public class UpdateDeviceSettingView : MonoBehaviour, IDeviceView
         backButton.onClick.AddListener(CloseAddCanvas);
 
         submitButton.onClick.AddListener(OnSubmitButtonClick);
-        _presenter.LoadDetailById(GlobalVariable.DeviceId);
+        _presenter.LoadDetailById(GlobalVariable.deviceId);
         scrollRect.verticalNormalizedPosition = 1;
     }
 
@@ -158,7 +158,7 @@ public class UpdateDeviceSettingView : MonoBehaviour, IDeviceView
         JB_Item_Prefab.SetActive(false);
         Module_Item_Prefab.SetActive(false);
         addModuleItem.SetActive(true);
-        temp_ModuleModel = new ModuleInformationModel("", "");
+        temp_ModuleModel = new ModuleInformationModel(1, "");
         temp_Dictionary_Additional_ConnectionModel.Clear();
         temp_JBModels.Clear();
 
@@ -388,7 +388,7 @@ public class UpdateDeviceSettingView : MonoBehaviour, IDeviceView
         backButton.onClick.AddListener(() =>
         {
             DialogOneButton.SetActive(false);
-            _presenter.LoadDetailById(GlobalVariable.DeviceId);
+            _presenter.LoadDetailById(GlobalVariable.deviceId);
             scrollRect.verticalNormalizedPosition = 1;
         }
        );

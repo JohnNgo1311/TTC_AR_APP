@@ -1,4 +1,5 @@
 
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net.Http;
@@ -21,57 +22,108 @@ namespace Infrastructure.Repositories
         }
 
 
-        public async Task<List<MccEntity>> GetListMccAsync(string grapperId)
+        public async Task<List<MccEntity>> GetListMccAsync(int grapperId)
         {
-            var response = await _httpClient.GetStringAsync($"{BaseUrl}");
-            return JsonConvert.DeserializeObject<List<MccEntity>>(response);
+            try
+            {
+                var response = await _httpClient.GetStringAsync($"{BaseUrl}");
+                return JsonConvert.DeserializeObject<List<MccEntity>>(response);
+            }
+            catch (HttpRequestException ex)
+            {
+                throw new ApplicationException("Failed to fetch Mcc", ex); // Ném lỗi HTTP lên UseCase
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationException("Unexpected error during HTTP request", ex); // Bao bọc lỗi khác
+            }
         }
 
-        public async Task<MccEntity> GetMccByIdAsync(string MccId)
+        public async Task<MccEntity> GetMccByIdAsync(int mccId)
         {
-            var response = await _httpClient.GetStringAsync($"{BaseUrl}/{MccId}");
-            UnityEngine.Debug.Log(response.ToString());
-            return JsonConvert.DeserializeObject<MccEntity>(response);
+            try
+            {
+                var response = await _httpClient.GetStringAsync($"{BaseUrl}/{mccId}");
+                return JsonConvert.DeserializeObject<MccEntity>(response);
+            }
+            catch (HttpRequestException ex)
+            {
+                throw new ApplicationException("Failed to fetch Mcc", ex); // Ném lỗi HTTP lên UseCase
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationException("Unexpected error during HTTP request", ex); // Bao bọc lỗi khác
+            }
         }
 
-        public async Task<bool> CreateNewMccAsync(string grapperId, MccEntity MccEntity)
+        public async Task<bool> CreateNewMccAsync(int grapperId, MccEntity MccEntity)
         {
-            var json = JsonConvert.SerializeObject(MccEntity);
+            try
+            {
+                var json = JsonConvert.SerializeObject(MccEntity);
 
-            UnityEngine.Debug.Log(json.ToString());
 
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            var response = await _httpClient.PostAsync($"{BaseUrl}", content);
+                var response = await _httpClient.PostAsync($"{BaseUrl}", content);
 
-            response.EnsureSuccessStatusCode();
+                response.EnsureSuccessStatusCode();
 
-            return response.IsSuccessStatusCode;
+                return response.IsSuccessStatusCode;
 
-            // var responseContent = await response.Content.ReadAsStringAsync();
-            // return JsonConvert.DeserializeObject<MccEntity>(responseContent);
+                // var responseContent = await response.Content.ReadAsStringAsync();
+                // return JsonConvert.DeserializeObject<MccEntity>(responseContent);
+            }
+            catch (HttpRequestException ex)
+            {
+                throw new ApplicationException("Failed to create Mcc", ex); // Ném lỗi HTTP lên UseCase
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationException("Unexpected error during HTTP request", ex); // Bao bọc lỗi khác
+            }
         }
 
-        public async Task<bool> UpdateMccAsync(string MccId, MccEntity MccEntity)
+        public async Task<bool> UpdateMccAsync(int mccId, MccEntity MccEntity)
         {
-            var json = JsonConvert.SerializeObject(MccEntity);
+            try
+            {
+                var json = JsonConvert.SerializeObject(MccEntity);
 
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            var response = await _httpClient.PutAsync($"{BaseUrl}/{MccId}", content);
-
-            response.EnsureSuccessStatusCode();
-
-
-            return response.IsSuccessStatusCode;
-            // var responseContent = await response.Content.ReadAsStringAsync();
-            // return JsonConvert.DeserializeObject<MccEntity>(responseContent);
+                var response = await _httpClient.PutAsync($"{BaseUrl}/{mccId}", content);
+                response.EnsureSuccessStatusCode();
+                return response.IsSuccessStatusCode;
+                // var responseContent = await response.Content.ReadAsStringAsync();
+                // return JsonConvert.DeserializeObject<MccEntity>(responseContent);
+            }
+            catch (HttpRequestException ex)
+            {
+                throw new ApplicationException("Failed to update Mcc", ex); // Ném lỗi HTTP lên UseCase
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationException("Unexpected error during HTTP request", ex); // Bao bọc lỗi khác
+            }
         }
-        public async Task<bool> DeleteMccAsync(string MccId)
+        public async Task<bool> DeleteMccAsync(int mccId)
         {
-            var response = await _httpClient.DeleteAsync($"{BaseUrl}/{MccId}");
-            response.EnsureSuccessStatusCode();
-            return response.IsSuccessStatusCode;
+            try
+            {
+                var response = await _httpClient.DeleteAsync($"{BaseUrl}/{mccId}");
+                response.EnsureSuccessStatusCode();
+                return response.IsSuccessStatusCode;
+            }
+            catch (HttpRequestException ex)
+            {
+                throw new ApplicationException("Failed to delete Mcc", ex); // Ném lỗi HTTP lên UseCase
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationException("Unexpected error during HTTP request", ex); // Bao bọc lỗi khác
+            }
+
         }
     }
 }

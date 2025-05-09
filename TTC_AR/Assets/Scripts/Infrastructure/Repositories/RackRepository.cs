@@ -27,11 +27,11 @@ namespace Infrastructure.Repositories
         }
 
         //! TRả về RackEntity
-        public async Task<RackEntity> GetRackByIdAsync(string RackId)
+        public async Task<RackEntity> GetRackByIdAsync(int rackId)
         {
             try
             {
-                var response = await _httpClient.GetAsync($"{BaseUrl}/{RackId}");
+                var response = await _httpClient.GetAsync($"{BaseUrl}/{rackId}");
 
                 if (!response.IsSuccessStatusCode)
                 {
@@ -47,16 +47,16 @@ namespace Infrastructure.Repositories
             }
             catch (HttpRequestException ex)
             {
-                throw ex; // Ném lỗi HTTP lên UseCase
+                throw new ApplicationException("Failed to fetch Rack", ex); // Ném lỗi HTTP lên UseCase
             }
             catch (Exception ex)
             {
-                throw new Exception("Unexpected error during HTTP request", ex); // Bao bọc lỗi khác
+                throw new ApplicationException("Unexpected error during HTTP request", ex); // Bao bọc lỗi khác
             }
         }
 
         //! Trả về List<RackEntity>
-        public async Task<List<RackEntity>> GetListRackAsync(string grapperId)
+        public async Task<List<RackEntity>> GetListRackAsync(int grapperId)
         {
             try
             {
@@ -72,16 +72,17 @@ namespace Infrastructure.Repositories
             }
             catch (HttpRequestException ex)
             {
-                throw ex;
+                throw new ApplicationException($"Failed to fetch Rack data: {ex.Message}");
             }
-            catch (Exception ex)
+            catch (JsonException ex)
             {
-                throw new Exception("Unexpected error during HTTP request", ex);
+                throw new ApplicationException($"Failed to deserialize JSON: {ex.Message}");
             }
+
         }
 
 
-        public async Task<bool> CreateNewRackAsync(string grapperId, RackEntity RackEntity)
+        public async Task<bool> CreateNewRackAsync(int grapperId, RackEntity RackEntity)
         {
             try
             {
@@ -94,67 +95,59 @@ namespace Infrastructure.Repositories
 
                 var response = await _httpClient.PostAsync($"{BaseUrl}", content);
 
-                if (!response.IsSuccessStatusCode)
-                    throw new HttpRequestException($"Failed to create Rack. Status: {response.StatusCode}");
-
-                return true;
+                response.EnsureSuccessStatusCode();
+                return response.IsSuccessStatusCode;
             }
             catch (HttpRequestException ex)
             {
-                throw ex; // Ném lỗi HTTP lên UseCase
+                throw new ApplicationException("Failed to create Rack", ex); // Ném lỗi HTTP lên UseCase
             }
             catch (Exception ex)
             {
-                throw new Exception("Unexpected error during HTTP request", ex); // Bao bọc lỗi khác
+                throw new ApplicationException("Unexpected error during HTTP request", ex); // Bao bọc lỗi khác
             }
         }
 
-        public async Task<bool> UpdateRackAsync(string RackId, RackEntity RackEntity)
+        public async Task<bool> UpdateRackAsync(int rackId, RackEntity RackEntity)
         {
             try
             {
                 if (RackEntity == null)
                     throw new ArgumentNullException(nameof(RackEntity), "Request data cannot be null");
                 var json = JsonConvert.SerializeObject(RackEntity);
-       
+
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
-                var response = await _httpClient.PutAsync($"{BaseUrl}/{RackId}", content);
+                var response = await _httpClient.PutAsync($"{BaseUrl}/{rackId}", content);
 
-                if (!response.IsSuccessStatusCode)
-                    throw new HttpRequestException($"Failed to Update Rack. Status: {response.StatusCode}");
-
-                return true;
+                response.EnsureSuccessStatusCode();
+                return response.IsSuccessStatusCode;
             }
             catch (HttpRequestException ex)
             {
-                throw ex; // Ném lỗi HTTP lên UseCase
+                throw new ApplicationException("Failed to update Rack", ex); // Ném lỗi HTTP lên UseCase
             }
             catch (Exception ex)
             {
-                throw new Exception("Unexpected error during HTTP request", ex); // Bao bọc lỗi khác
+                throw new ApplicationException("Unexpected error during HTTP request", ex); // Bao bọc lỗi khác
             }
         }
 
-        public async Task<bool> DeleteRackAsync(string RackId)
+        public async Task<bool> DeleteRackAsync(int rackId)
         {
             try
             {
-                var response = await _httpClient.DeleteAsync($"/api/Rack/{RackId}");
-                if (!response.IsSuccessStatusCode)
-                    throw new HttpRequestException($"Failed to delete Rack. Status: {response.StatusCode}");
-
-                return true;
+                var response = await _httpClient.DeleteAsync($"/api/Rack/{rackId}");
+                response.EnsureSuccessStatusCode();
+                return response.IsSuccessStatusCode;
             }
             catch (HttpRequestException ex)
             {
-                throw ex; // Ném lỗi HTTP lên UseCase
+                throw new ApplicationException("Failed to delete Rack", ex); // Ném lỗi HTTP lên UseCase
             }
             catch (Exception ex)
             {
-                throw new Exception("Unexpected error during HTTP request", ex); // Bao bọc lỗi khác
+                throw new ApplicationException("Unexpected error during HTTP request", ex); // Bao bọc lỗi khác
             }
-
-
         }
 
     }

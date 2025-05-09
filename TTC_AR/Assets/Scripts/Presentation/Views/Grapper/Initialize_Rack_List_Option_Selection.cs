@@ -12,10 +12,10 @@
 //     [Header("Canvas")]
 //     public GameObject Selection_Option_Canvas;
 
-//     [Header("List Selection Panels")]
+//     [Header("list Selection Panels")]
 //     public GameObject selection_List_Module_Panel;
 
-//     [Header("List Selection Option Contents")]
+//     [Header("list Selection Option Contents")]
 //     public Transform Module_List_Selection_Option_Content_Transform;
 
 //     public Dictionary<string, GameObject> initialSelectionOptions = new Dictionary<string, GameObject>();

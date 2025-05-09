@@ -10,22 +10,22 @@ namespace ApplicationLayer.Dtos.FieldDevice
     [Preserve]
     public class FieldDeviceRequestDto
     {
-        [JsonProperty("Name")]
+        [JsonProperty("name")]
         public string Name { get; set; }
 
-        [JsonProperty("RatedPower")]
+        [JsonProperty("ratedPower")]
         public string? RatedPower { get; set; }
 
-        [JsonProperty("RatedCurrent")]
+        [JsonProperty("ratedCurrent")]
         public string? RatedCurrent { get; set; }
 
-        [JsonProperty("ActiveCurrent")]
+        [JsonProperty("activeCurrent")]
         public string? ActiveCurrent { get; set; }
 
-        [JsonProperty("ListConnectionImages")]
+        [JsonProperty("listConnectionImages")]
         public List<ImageBasicDto>? ConnectionImageBasicDtos { get; set; }
 
-        [JsonProperty("Note")]
+        [JsonProperty("note")]
         public string? Note { get; set; }
 
         [Preserve]

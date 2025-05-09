@@ -1,5 +1,6 @@
 
 
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net.Http;
@@ -22,57 +23,144 @@ namespace Infrastructure.Repositories
         }
 
 
-        public async Task<List<FieldDeviceEntity>> GetListFieldDeviceAsync(string grapperId)
+        public async Task<List<FieldDeviceEntity>> GetListFieldDeviceAsync(int grapperId)
         {
-            var response = await _httpClient.GetStringAsync($"{BaseUrl}");
-            return JsonConvert.DeserializeObject<List<FieldDeviceEntity>>(response);
+            try
+            {
+                var response = await _httpClient.GetAsync($"{BaseUrl}/{grapperId}");
+                if (!response.IsSuccessStatusCode)
+                    throw new HttpRequestException($"Failed to get FieldDevice list. Status: {response.StatusCode}");
+                else
+                {
+                    var content = await response.Content.ReadAsStringAsync();
+                    return JsonConvert.DeserializeObject<List<FieldDeviceEntity>>(content);
+                }
+            }
+            catch (HttpRequestException ex)
+            {
+                // Xử lý lỗi HTTP
+                throw new ApplicationException($"Failed to fetch FieldDevice data: {ex.Message}");
+            }
+            catch (JsonException ex)
+            {
+                // Xử lý lỗi deserialize
+                throw new ApplicationException($"Failed to deserialize JSON: {ex.Message}");
+            }
+
         }
 
-        public async Task<FieldDeviceEntity> GetFieldDeviceByIdAsync(string fieldDeviceid)
+        public async Task<FieldDeviceEntity> GetFieldDeviceByIdAsync(int fieldDeviceId)
         {
-            var response = await _httpClient.GetStringAsync($"{BaseUrl}/{fieldDeviceid}");
-            UnityEngine.Debug.Log(response.ToString());
-            return JsonConvert.DeserializeObject<FieldDeviceEntity>(response);
+            try
+            {
+                var response = await _httpClient.GetAsync($"{BaseUrl}/{fieldDeviceId}");
+                if (!response.IsSuccessStatusCode)
+                    throw new HttpRequestException($"Failed to get FieldDevice. Status: {response.StatusCode}");
+                else
+                {
+                    var content = await response.Content.ReadAsStringAsync();
+                    return JsonConvert.DeserializeObject<FieldDeviceEntity>(content);
+                }
+            }
+            catch (HttpRequestException ex)
+            {
+                // Xử lý lỗi HTTP
+                throw new ApplicationException($"Failed to fetch FieldDevice data: {ex.Message}");
+            }
+            catch (JsonException ex)
+            {
+                // Xử lý lỗi deserialize
+                throw new ApplicationException($"Failed to deserialize JSON: {ex.Message}");
+            }
+
+
         }
 
-        public async Task<bool> CreateNewFieldDeviceAsync(string grapperId, FieldDeviceEntity fieldDeviceEntity)
+        public async Task<bool> CreateNewFieldDeviceAsync(int grapperId, FieldDeviceEntity fieldDeviceEntity)
         {
-            var json = JsonConvert.SerializeObject(fieldDeviceEntity);
+            try
+            {
 
-            UnityEngine.Debug.Log(json.ToString());
+                var json = JsonConvert.SerializeObject(fieldDeviceEntity);
+                //    UnityEngine.Debug.Log(json.ToString());
 
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            var response = await _httpClient.PostAsync($"{BaseUrl}", content);
+                var response = await _httpClient.PostAsync($"{BaseUrl}", content);
 
-            response.EnsureSuccessStatusCode();
+                response.EnsureSuccessStatusCode();
 
-            return response.IsSuccessStatusCode;
+                return response.IsSuccessStatusCode;
 
-            // var responseContent = await response.Content.ReadAsStringAsync();
-            // return JsonConvert.DeserializeObject<FieldDeviceEntity>(responseContent);
+                // var responseContent = await response.Content.ReadAsStringAsync();
+                // return JsonConvert.DeserializeObject<FieldDeviceEntity>(responseContent);
+            }
+            catch (HttpRequestException ex)
+            {
+                // Xử lý lỗi HTTP
+                throw new ApplicationException($"Failed to create FieldDevice: {ex.Message}");
+            }
+            catch (JsonException ex)
+            {
+                // Xử lý lỗi deserialize
+                throw new ApplicationException($"Failed to deserialize JSON: {ex.Message}");
+            }
         }
 
-        public async Task<bool> UpdateFieldDeviceAsync(string fieldDeviceId, FieldDeviceEntity fieldDeviceEntity)
+        public async Task<bool> UpdateFieldDeviceAsync(int fieldDeviceId, FieldDeviceEntity fieldDeviceEntity)
         {
-            var json = JsonConvert.SerializeObject(fieldDeviceEntity);
+            try
+            {
+                // var fieldDeviceRequestData = ConvertFieldDeviceRequestData(fieldDeviceEntity);
 
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
+                // var json = JsonConvert.SerializeObject(fieldDeviceEntity, new JsonSerializerSettings
+                // {
+                //     NullValueHandling = NullValueHandling.Ignore
+                // });
 
-            var response = await _httpClient.PutAsync($"{BaseUrl}/{fieldDeviceId}", content);
+                // var json = JsonConvert.SerializeObject(fieldDeviceRequestData);
+                var json = JsonConvert.SerializeObject(fieldDeviceEntity);
 
-            response.EnsureSuccessStatusCode();
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
 
+                var response = await _httpClient.PutAsync($"{BaseUrl}/{fieldDeviceId}", content);
 
-            return response.IsSuccessStatusCode;
-            // var responseContent = await response.Content.ReadAsStringAsync();
-            // return JsonConvert.DeserializeObject<FieldDeviceEntity>(responseContent);
+                response.EnsureSuccessStatusCode();
+                return response.IsSuccessStatusCode;
+                // var responseContent = await response.Content.ReadAsStringAsync();
+                // return JsonConvert.DeserializeObject<FieldDeviceEntity>(responseContent);
+            }
+            catch (HttpRequestException ex)
+            {
+                // Xử lý lỗi HTTP
+                throw new ApplicationException($"Failed to update FieldDevice: {ex.Message}");
+            }
+            catch (JsonException ex)
+            {
+                // Xử lý lỗi deserialize
+                throw new ApplicationException($"Failed to deserialize JSON: {ex.Message}");
+            }
         }
-        public async Task<bool> DeleteFieldDeviceAsync(string fieldDeviceid)
+        public async Task<bool> DeleteFieldDeviceAsync(int fieldDeviceId)
         {
-            var response = await _httpClient.DeleteAsync($"{BaseUrl}/{fieldDeviceid}");
-            response.EnsureSuccessStatusCode();
-            return response.IsSuccessStatusCode;
+            try
+            {
+                var response = await _httpClient.DeleteAsync($"{BaseUrl}/{fieldDeviceId}");
+
+                response.EnsureSuccessStatusCode();
+                return response.IsSuccessStatusCode;
+            }
+            catch (HttpRequestException ex)
+            {
+                // Xử lý lỗi HTTP
+                throw new ApplicationException($"Failed to delete FieldDevice: {ex.Message}");
+            }
+            catch (JsonException ex)
+            {
+                // Xử lý lỗi deserialize
+                throw new ApplicationException($"Failed to deserialize JSON: {ex.Message}");
+            }
+
         }
     }
 }

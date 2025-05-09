@@ -20,12 +20,11 @@ namespace ApplicationLayer.UseCases
         {
             _IDeviceRepository = deviceEntityRepository;
         }
-        #region  GET List Device
 
 
 
         //! Get List Device General
-        public async Task<List<DeviceBasicDto>> GetListDeviceGeneralAsync(string grapperId)
+        public async Task<List<DeviceBasicDto>> GetListDeviceGeneralAsync(int grapperId)
         {
             // try
             // {
@@ -66,7 +65,7 @@ namespace ApplicationLayer.UseCases
             // }
             catch (ArgumentException)
             {
-                throw; // Ném lại lỗi validation cho Unity xử lý
+                throw new ApplicationException("Failed to get Device list"); // Ném lại lỗi validation cho Unity xử lý
             }
             catch (Exception ex)
             {
@@ -76,7 +75,7 @@ namespace ApplicationLayer.UseCases
 
 
         //! Get List Device Information từ Grapper
-        public async Task<IEnumerable<DeviceResponseDto>> GetListDeviceInformationFromGrapperAsync(string grapperId)
+        public async Task<IEnumerable<DeviceResponseDto>> GetListDeviceInformationFromGrapperAsync(int grapperId)
         {
             try
             {
@@ -102,7 +101,7 @@ namespace ApplicationLayer.UseCases
 
 
         //! Get List Device Information từ Module
-        public async Task<IEnumerable<DeviceResponseDto>> GetListDeviceInformationFromModuleAsync(string moduleId)
+        public async Task<IEnumerable<DeviceResponseDto>> GetListDeviceInformationFromModuleAsync(int moduleId)
         {
             try
             {
@@ -114,23 +113,21 @@ namespace ApplicationLayer.UseCases
             }
             catch (ArgumentException)
             {
-                throw; // Ném lại lỗi validation cho Unity xử lý
+                throw new ApplicationException("Failed to get Device list"); // Ném lại lỗi validation cho Unity xử lý
             }
             catch (Exception ex)
             {
                 throw new ApplicationException("Failed to get Device list", ex); // Bao bọc lỗi từ Repository
             }
         }
-        #endregion
 
-        #region GET Specific Device
-        public async Task<DeviceResponseDto> GetDeviceByIdAsync(string DeviceId)
+        public async Task<DeviceResponseDto> GetDeviceByIdAsync(int deviceId)
         {
             try
             {
                 // UnityEngine.Debug.Log("Run UseCase");
 
-                var deviceEntity = await _IDeviceRepository.GetDeviceByIdAsync(DeviceId);
+                var deviceEntity = await _IDeviceRepository.GetDeviceByIdAsync(deviceId);
                 // UnityEngine.Debug.Log("DeviceEntity: " + deviceEntity.Code);
                 if (deviceEntity == null)
                 {
@@ -149,23 +146,20 @@ namespace ApplicationLayer.UseCases
             }
             catch (ArgumentException)
             {
-                throw; // Ném lại lỗi validation cho Unity xử lý
+                throw new ApplicationException("Failed to get Device"); // Ném lại lỗi validation cho Unity xử lý
             }
             catch (Exception ex)
             {
                 throw new ApplicationException("Failed to get Device", ex); // Bao bọc lỗi từ Repository
             }
         }
-        #endregion
-
-        #region POST New Device
-        public async Task<bool> CreateNewDeviceAsync(string grapperId, DeviceRequestDto requestDto)
+        public async Task<bool> CreateNewDeviceAsync(int grapperId, DeviceRequestDto requestDto)
         {
             try
             {
                 // Validate
                 if (string.IsNullOrEmpty(requestDto.Code))
-                    throw new ArgumentException("Name cannot be empty");
+                    throw new ArgumentException("name cannot be empty");
                 // Map DTO to Entity
                 var deviceEntity = MapRequestToEntity(requestDto);
                 //!  var requestData = MapToRequestDto(deviceEntity);
@@ -193,24 +187,22 @@ namespace ApplicationLayer.UseCases
             }
             catch (ArgumentException)
             {
-                throw; // Ném lại lỗi validation cho Unity xử lý
+                throw new ApplicationException("Failed to create Device"); // Ném lại lỗi validation cho Unity xử lý
             }
             catch (Exception ex)
             {
                 throw new ApplicationException("Failed to create Device", ex); // Bao bọc lỗi từ Repository
             }
         }
-        #endregion
 
-        #region PUT Device
-        public async Task<bool> UpdateDeviceAsync(string deviceId, DeviceRequestDto requestDto)
+        public async Task<bool> UpdateDeviceAsync(int deviceId, DeviceRequestDto requestDto)
         {
-            deviceId = GlobalVariable.DeviceId;
+            deviceId = GlobalVariable.deviceId;
             try
             {
                 // Validate
                 if (string.IsNullOrEmpty(requestDto.Code))
-                    throw new ArgumentException("Name cannot be empty");
+                    throw new ArgumentException("name cannot be empty");
                 // Map DTO to Entity
                 var deviceEntity = MapRequestToEntity(requestDto);
                 // var requestData = MapToRequestDto(deviceEntity);
@@ -237,18 +229,17 @@ namespace ApplicationLayer.UseCases
             }
             catch (ArgumentException)
             {
-                throw; // Ném lại lỗi validation cho Unity xử lý
+                throw new ApplicationException("Failed to update Device"); // Ném lại lỗi validation cho Unity xử lý
             }
             catch (Exception ex)
             {
                 throw new ApplicationException("Failed to update Device", ex); // Bao bọc lỗi từ Repository
             }
         }
-        #endregion
-        #region  DELETE Device
-        public async Task<bool> DeleteDeviceAsync(string deviceId)
+
+        public async Task<bool> DeleteDeviceAsync(int deviceId)
         {
-            deviceId = GlobalVariable.DeviceId;
+            deviceId = GlobalVariable.deviceId;
             try
             {
                 var deletedDeviceResult = await _IDeviceRepository.DeleteDeviceAsync(deviceId);
@@ -256,14 +247,14 @@ namespace ApplicationLayer.UseCases
             }
             catch (ArgumentException)
             {
-                throw; // Ném lại lỗi validation cho Unity xử lý
+                throw new ApplicationException("Failed to delete Device"); // Ném lại lỗi validation cho Unity xử lý
             }
             catch (Exception ex)
             {
                 throw new ApplicationException("Failed to delete Device", ex); // Bao bọc lỗi từ Repository
             }
+
         }
-        #endregion
 
         //! Dto => Entity
         private DeviceEntity MapRequestToEntity(DeviceRequestDto requestDto)

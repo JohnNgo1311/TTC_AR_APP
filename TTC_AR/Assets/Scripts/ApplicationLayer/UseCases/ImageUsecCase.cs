@@ -21,7 +21,7 @@ namespace ApplicationLayer.UseCases
         {
             _IImageRepository = IImageRepository;
         }
-        public async Task<List<ImageBasicDto>> GetListImageAsync(string grapperId)
+        public async Task<List<ImageBasicDto>> GetListImageAsync(int grapperId)
         {
             try
             {
@@ -70,16 +70,18 @@ namespace ApplicationLayer.UseCases
                 }
 
             }
+
             catch (ArgumentException)
             {
-                throw; // Ném lại lỗi validation cho Unity xử lý
+                throw new ApplicationException("Failed to get Image list"); // Ném lại lỗi validation cho Unity xử lý
+
             }
             catch (Exception ex)
             {
-                throw new ApplicationException("Failed to get Image list", ex);
+                throw new ApplicationException("Failed to get Image list", ex); // Bao bọc lỗi từ Repository
             }
         }
-        public async Task<ImageBasicDto> GetImageByIdAsync(string ImageId)
+        public async Task<ImageBasicDto> GetImageByIdAsync(int ImageId)
         {
             try
             {
@@ -99,21 +101,22 @@ namespace ApplicationLayer.UseCases
             }
             catch (ArgumentException)
             {
-                throw; // Ném lại lỗi validation cho Unity xử lý
+                throw new ApplicationException("Failed to get Image"); // Ném lại lỗi validation cho Unity xử lý
             }
             catch (Exception ex)
             {
                 throw new ApplicationException("Failed to get Image", ex); // Bao bọc lỗi từ Repository
             }
+
         }
-        public async Task<bool> CreateNewImageAsync(string grapperId, ImageRequestDto requestDto)
+        public async Task<bool> CreateNewImageAsync(int grapperId, ImageRequestDto requestDto)
         {
             try
             {
                 // Validate
                 if (string.IsNullOrEmpty(requestDto.Name))
                 {
-                    throw new ArgumentException("Name cannot be empty");
+                    throw new ArgumentException("name cannot be empty");
                 }
                 // Ánh xạ từ ImageRequestDto sang ImageEntity để check các nghiệp vụ
                 var ImageEntity = MapRequestToEntity(requestDto);
@@ -133,14 +136,15 @@ namespace ApplicationLayer.UseCases
             }
             catch (ArgumentException)
             {
-                throw; // Ném lại lỗi validation cho Unity xử lý
+                throw new ApplicationException("Failed to create Image cause name is empty"); // Ném lại lỗi validation cho Unity xử lý
+
             }
             catch (Exception ex)
             {
                 throw new ApplicationException("Failed to create Image", ex); // Bao bọc lỗi từ Repository
             }
         }
-        public async Task<bool> UploadImageFromGallery(string grapperId, Texture2D texture, string fileName, string fieldName, string filePath)
+        public async Task<bool> UploadImageFromGallery(int grapperId, Texture2D texture, string fileName, string fieldName, string filePath)
         {
             try
             {
@@ -153,14 +157,14 @@ namespace ApplicationLayer.UseCases
             }
             catch (ArgumentException)
             {
-                throw; // Ném lại lỗi validation cho Unity xử lý
+                throw new ApplicationException("Failed to upload Image cause name is empty"); // Ném lại lỗi validation cho Unity xử lý
             }
             catch (Exception ex)
             {
                 throw new ApplicationException("Failed to upload Image from gallery", ex); // Bao bọc lỗi từ Repository
             }
         }
-        public async Task<bool> UploadImageFromCamera(string grapperId, Texture2D texture, string fileName, string fieldName)
+        public async Task<bool> UploadImageFromCamera(int grapperId, Texture2D texture, string fileName, string fieldName)
         {
             try
             {
@@ -172,7 +176,7 @@ namespace ApplicationLayer.UseCases
             }
             catch (ArgumentException)
             {
-                throw; // Ném lại lỗi validation cho Unity xử lý
+                throw new ApplicationException("Failed to upload Image cause name is empty"); // Ném lại lỗi validation cho Unity xử lý
             }
             catch (Exception ex)
             {
@@ -180,7 +184,7 @@ namespace ApplicationLayer.UseCases
             }
         }
 
-        public async Task<bool> DeleteImageAsync(string ImageId)
+        public async Task<bool> DeleteImageAsync(int ImageId)
         {
             try
             {
@@ -189,7 +193,7 @@ namespace ApplicationLayer.UseCases
             }
             catch (ArgumentException)
             {
-                throw; // Ném lại lỗi validation cho Unity xử lý
+                throw new ApplicationException("Failed to delete Image"); // Ném lại lỗi validation cho Unity xử lý
             }
             catch (Exception ex)
             {

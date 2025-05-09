@@ -66,7 +66,7 @@ public class Update_JB_TSD_Basic_UI : MonoBehaviour
     private IEnumerator InitionalizeUIElement()
     {
         yield return null;
-        list_Devices_Transform ??= FindRectTransform("List_Devices", module_Canvas.transform);
+        list_Devices_Transform ??= FindRectTransform("list_Devices", module_Canvas.transform);
         yield return null;
         jb_TSD_Detail_Transform ??= FindRectTransform("Detail_JB_TSD", module_Canvas.transform);
         yield return null;

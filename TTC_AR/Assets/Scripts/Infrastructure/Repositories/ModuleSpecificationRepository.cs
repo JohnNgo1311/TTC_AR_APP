@@ -27,12 +27,12 @@ namespace Infrastructure.Repositories
         }
 
         //! Trả về Entity do kết quả server trả về hoàn toàn giống hoặc gần giống với Entity
-        public async Task<ModuleSpecificationEntity> GetModuleSpecificationByIdAsync(string ModuleSpecificationId)
+        public async Task<ModuleSpecificationEntity> GetModuleSpecificationByIdAsync(int moduleSpecificationId)
         {
             try
             {
-                // var response = await _httpClient.GetAsync($"/api/ModuleSpecification/{ModuleSpecificationId}");
-                var response = await _httpClient.GetAsync($"{BaseUrl}/{ModuleSpecificationId}");
+                // var response = await _httpClient.GetAsync($"/api/ModuleSpecification/{moduleSpecificationId}");
+                var response = await _httpClient.GetAsync($"{BaseUrl}/{moduleSpecificationId}");
 
                 if (!response.IsSuccessStatusCode)
                 {
@@ -46,16 +46,16 @@ namespace Infrastructure.Repositories
             }
             catch (HttpRequestException ex)
             {
-                throw ex; // Ném lỗi HTTP lên UseCase
+                throw new ApplicationException("Failed to fetch ModuleSpecification", ex); // Ném lỗi HTTP lên UseCase
             }
             catch (Exception ex)
             {
-                throw new Exception("Unexpected error during HTTP request", ex); // Bao bọc lỗi khác
+                throw new ApplicationException("Unexpected error during HTTP request", ex); // Bao bọc lỗi khác
             }
         }
 
         //! Trả về List<Entity> do kết quả server trả về hoàn toàn giống hoặc gần giống với Entity
-        public async Task<List<ModuleSpecificationEntity>> GetListModuleSpecificationAsync(string companyId)
+        public async Task<List<ModuleSpecificationEntity>> GetListModuleSpecificationAsync(int companyId)
         {
             try
             {
@@ -72,15 +72,15 @@ namespace Infrastructure.Repositories
             }
             catch (HttpRequestException ex)
             {
-                throw ex;
+                throw new ApplicationException("Failed to fetch ModuleSpecification", ex); // Ném lỗi HTTP lên UseCase
             }
             catch (Exception ex)
             {
-                throw new Exception("Unexpected error during HTTP request", ex);
+                throw new ApplicationException("Unexpected error during HTTP request", ex); // Bao bọc lỗi khác
             }
         }
 
-        public async Task<bool> CreateNewModuleSpecificationAsync(string companyId, ModuleSpecificationEntity moduleSpecificationEntity)
+        public async Task<bool> CreateNewModuleSpecificationAsync(int companyId, ModuleSpecificationEntity moduleSpecificationEntity)
         {
             try
             {
@@ -90,62 +90,58 @@ namespace Infrastructure.Repositories
                 // var response = await _httpClient.PostAsync($"/api/ModuleSpecification/grapper/{companyId}", content);
                 var response = await _httpClient.PostAsync($"{BaseUrl}", content);
 
-                if (!response.IsSuccessStatusCode)
-                    throw new HttpRequestException($"Failed to create ModuleSpecification. Status: {response.StatusCode}");
-                else { return true; }
+                response.EnsureSuccessStatusCode();
+                return response.IsSuccessStatusCode;
             }
             catch (HttpRequestException ex)
             {
-                throw ex; // Ném lỗi HTTP lên UseCase
+                throw new ApplicationException("Failed to create ModuleSpecification", ex); // Ném lỗi HTTP lên UseCase
             }
             catch (Exception ex)
             {
-                throw new Exception("Unexpected error during HTTP request", ex); // Bao bọc lỗi khác
+                throw new ApplicationException("Unexpected error during HTTP request", ex); // Bao bọc lỗi khác
             }
         }
 
-        public async Task<bool> UpdateModuleSpecificationAsync(string ModuleSpecificationId, ModuleSpecificationEntity moduleSpecificationEntity)
+        public async Task<bool> UpdateModuleSpecificationAsync(int moduleSpecificationId, ModuleSpecificationEntity moduleSpecificationEntity)
         {
             try
             {
                 var json = JsonConvert.SerializeObject(moduleSpecificationEntity);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
-                // var response = await _httpClient.PutAsync($"/api/ModuleSpecification/{ModuleSpecificationId}", content);
-                var response = await _httpClient.PutAsync($"{BaseUrl}/{ModuleSpecificationId}", content);
+                // var response = await _httpClient.PutAsync($"/api/ModuleSpecification/{moduleSpecificationId}", content);
+                var response = await _httpClient.PutAsync($"{BaseUrl}/{moduleSpecificationId}", content);
 
-                if (!response.IsSuccessStatusCode)
-                    throw new HttpRequestException($"Failed to update ModuleSpecification. Status: {response.StatusCode}");
-                else { return true; }
+                response.EnsureSuccessStatusCode();
+                return response.IsSuccessStatusCode;
 
             }
             catch (HttpRequestException ex)
             {
-                throw ex; // Ném lỗi HTTP lên UseCase
+                throw new ApplicationException("Failed to update ModuleSpecification", ex); // Ném lỗi HTTP lên UseCase
             }
             catch (Exception ex)
             {
-                throw new Exception("Unexpected error during HTTP request", ex); // Bao bọc lỗi khác
+                throw new ApplicationException("Unexpected error during HTTP request", ex); // Bao bọc lỗi khác
             }
         }
 
-        public async Task<bool> DeleteModuleSpecificationAsync(string ModuleSpecificationId)
+        public async Task<bool> DeleteModuleSpecificationAsync(int moduleSpecificationId)
         {
             try
             {
-                var response = await _httpClient.DeleteAsync($"{BaseUrl}/{ModuleSpecificationId}");
+                var response = await _httpClient.DeleteAsync($"{BaseUrl}/{moduleSpecificationId}");
 
-                if (!response.IsSuccessStatusCode)
-                    throw new HttpRequestException($"Failed to create ModuleSpecification. Status: {response.StatusCode}");
-                else return true;
-
+                response.EnsureSuccessStatusCode();
+                return response.IsSuccessStatusCode;
             }
             catch (HttpRequestException ex)
             {
-                throw ex; // Ném lỗi HTTP lên UseCase
+                throw new ApplicationException("Failed to delete ModuleSpecification", ex); // Ném lỗi HTTP lên UseCase
             }
             catch (Exception ex)
             {
-                throw new Exception("Unexpected error during HTTP request", ex); // Bao bọc lỗi khác
+                throw new ApplicationException("Unexpected error during HTTP request", ex); // Bao bọc lỗi khác
             }
 
         }

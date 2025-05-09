@@ -17,15 +17,15 @@ namespace ApplicationLayer.Dtos.Module
     [Preserve]
     public class ModuleResponseDto : ModuleBasicDto
     {
-        [JsonProperty("Grapper")] public GrapperBasicDto GrapperBasicDto { get; set; }
-        [JsonProperty("Rack")] public RackBasicDto? RackBasicDto { get; set; }
-        [JsonProperty("ListDevices")] public List<DeviceBasicDto>? DeviceBasicDtos { get; set; }
-        [JsonProperty("ListJBs")] public List<JBBasicDto>? JBBasicDtos { get; set; }
-        [JsonProperty("ModuleSpecification")] public ModuleSpecificationResponseDto? ModuleSpecificationResponseDto { get; set; }
-        [JsonProperty("AdapterSpecification")] public AdapterSpecificationResponseDto? AdapterSpecificationResponseDto { get; set; }
+        [JsonProperty("grapper")] public GrapperBasicDto GrapperBasicDto { get; set; }
+        [JsonProperty("rack")] public RackBasicDto? RackBasicDto { get; set; }
+        [JsonProperty("listDevices")] public List<DeviceBasicDto>? DeviceBasicDtos { get; set; }
+        [JsonProperty("listJBs")] public List<JBBasicDto>? JBBasicDtos { get; set; }
+        [JsonProperty("moduleSpecification")] public ModuleSpecificationResponseDto? ModuleSpecificationResponseDto { get; set; }
+        [JsonProperty("adapterSpecification")] public AdapterSpecificationResponseDto? AdapterSpecificationResponseDto { get; set; }
 
         [Preserve]
-        public ModuleResponseDto(string id, string name, GrapperBasicDto grapperBasicDto, RackBasicDto? rackBasicDto, List<DeviceBasicDto>? deviceBasicDtos, List<JBBasicDto>? jbBasicDtos, ModuleSpecificationResponseDto? moduleSpecificationResponseDto, AdapterSpecificationResponseDto? adapterSpecificationResponseDto) : base(id, name)
+        public ModuleResponseDto(int id, string name, GrapperBasicDto grapperBasicDto, RackBasicDto? rackBasicDto, List<DeviceBasicDto>? deviceBasicDtos, List<JBBasicDto>? jbBasicDtos, ModuleSpecificationResponseDto? moduleSpecificationResponseDto, AdapterSpecificationResponseDto? adapterSpecificationResponseDto) : base(id, name)
         {
             GrapperBasicDto = grapperBasicDto ?? throw new ArgumentNullException(nameof(grapperBasicDto));
             RackBasicDto = rackBasicDto;

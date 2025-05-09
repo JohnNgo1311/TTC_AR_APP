@@ -11,34 +11,34 @@ namespace Domain.Entities
   [Preserve]
   public class FieldDeviceEntity
   {
-    [JsonProperty("Id")]
-    public string Id { get; set; } = string.Empty;
+    [JsonProperty("id")]
+    public int Id { get; set; }
 
-    [JsonProperty("Name")]
+    [JsonProperty("name")]
     public string Name { get; set; } = string.Empty;
 
-    // [JsonProperty("Mcc", NullValueHandling = NullValueHandling.Ignore)]
-    [JsonProperty("Mcc")]
+    // [JsonProperty("mcc", NullValueHandling = NullValueHandling.Ignore)]
+    [JsonProperty("mcc")]
     public MccEntity? MccEntity { get; set; }
 
-    // [JsonProperty("RatedPower", NullValueHandling = NullValueHandling.Ignore)]
-    [JsonProperty("RatedPower")]
+    // [JsonProperty("ratedPower", NullValueHandling = NullValueHandling.Ignore)]
+    [JsonProperty("ratedPower")]
     public string? RatedPower { get; set; }
 
-    // [JsonProperty("RatedCurrent", NullValueHandling = NullValueHandling.Ignore)]
-    [JsonProperty("RatedCurrent")]
+    // [JsonProperty("ratedCurrent", NullValueHandling = NullValueHandling.Ignore)]
+    [JsonProperty("ratedCurrent")]
     public string? RatedCurrent { get; set; }
 
-    // [JsonProperty("ActiveCurrent", NullValueHandling = NullValueHandling.Ignore)]
-    [JsonProperty("ActiveCurrent")]
+    // [JsonProperty("activeCurrent", NullValueHandling = NullValueHandling.Ignore)]
+    [JsonProperty("activeCurrent")]
     public string? ActiveCurrent { get; set; }
 
-    // [JsonProperty("ListConnectionImages", NullValueHandling = NullValueHandling.Ignore)]
-    [JsonProperty("ListConnectionImages")]
+    // [JsonProperty("listConnectionImages", NullValueHandling = NullValueHandling.Ignore)]
+    [JsonProperty("listConnectionImages")]
     public List<ImageEntity>? ConnectionImageEntities { get; set; }
 
-    // [JsonProperty("Note", NullValueHandling = NullValueHandling.Ignore)]
-    [JsonProperty("Note")]
+    // [JsonProperty("note", NullValueHandling = NullValueHandling.Ignore)]
+    [JsonProperty("note")]
     public string? Note { get; set; } = string.Empty;
 
 
@@ -132,7 +132,7 @@ namespace Domain.Entities
 
 
     [Preserve]  //! Dùng khi FieldDeviceEntity được dùng làm Field để Post cho Mcc
-    public FieldDeviceEntity(string id, string name)
+    public FieldDeviceEntity(int id, string name)
     {
       Id = id;
       Name = string.IsNullOrEmpty(name) ? throw new ArgumentNullException(nameof(name)) : name;
@@ -148,7 +148,7 @@ namespace Domain.Entities
 
     [Preserve]
     //! Dùng khi Get FieldDeviceEntity từ Grapper
-    public FieldDeviceEntity(string id, string name, MccEntity? mccEntity, List<ImageEntity>? connectionImageEntities, string? ratedPower, string? ratedCurrent, string? activeCurrent, string? note)
+    public FieldDeviceEntity(int id, string name, MccEntity? mccEntity, List<ImageEntity>? connectionImageEntities, string? ratedPower, string? ratedCurrent, string? activeCurrent, string? note)
     {
       Id = id;
       Name = string.IsNullOrEmpty(name) ? throw new ArgumentNullException(nameof(name)) : name;

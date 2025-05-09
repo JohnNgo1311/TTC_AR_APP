@@ -76,7 +76,7 @@ public class ListJBSettingView : MonoBehaviour, IJBView
         JB_Item_Prefab.SetActive(false);
     }
 
-    private void EditJBItem(string id)
+    private void EditJBItem(int id)
     {
         GlobalVariable.JBId = id;
         OpenUpdateCanvas();

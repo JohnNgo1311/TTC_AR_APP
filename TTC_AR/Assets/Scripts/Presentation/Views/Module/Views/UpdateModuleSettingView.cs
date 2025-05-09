@@ -124,7 +124,7 @@ public class UpdateModuleSettingView : MonoBehaviour, IModuleView
 
         scrollRect.verticalNormalizedPosition = 1;
 
-        _presenter.LoadDetailById(GlobalVariable.ModuleId);
+        _presenter.LoadDetailById(GlobalVariable.moduleId);
 
     }
 
@@ -158,14 +158,14 @@ public class UpdateModuleSettingView : MonoBehaviour, IModuleView
             // Debug.Log("ModuleSpecification Code: " + ModuleInformationModel.ModuleSpecificationModel.Code);
             // Debug.Log("AdapterSpecification Code: " + ModuleInformationModel.AdapterSpecificationModel.Code);
 
-            _presenter.UpdateModule(GlobalVariable.ModuleId, ModuleInformationModel);
+            _presenter.UpdateModule(GlobalVariable.moduleId, ModuleInformationModel);
         }
     }
     public void loadDetailById()
     {
         RenewView();
 
-        _presenter.LoadDetailById(GlobalVariable.ModuleId);
+        _presenter.LoadDetailById(GlobalVariable.moduleId);
     }
     private void RenewView()
     {
@@ -498,7 +498,7 @@ public class UpdateModuleSettingView : MonoBehaviour, IModuleView
         backButton.onClick.AddListener(() =>
         {
             DialogOneButton.SetActive(false);
-            _presenter.LoadDetailById(GlobalVariable.ModuleId);
+            _presenter.LoadDetailById(GlobalVariable.moduleId);
             scrollRect.verticalNormalizedPosition = 1;
         }
        );
