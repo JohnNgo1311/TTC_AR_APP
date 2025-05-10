@@ -81,9 +81,9 @@ public class ListMccSettingView : MonoBehaviour, IMccView
 
     }
 
-    private void EditMccItem(string id)
+    private void EditMccItem(int id)
     {
-        GlobalVariable.MccId = id;
+        GlobalVariable.mccId = id;
         OpenUpdateCanvas();
     }
     private void DeleMccItem(GameObject MccItem, MccInformationModel model)

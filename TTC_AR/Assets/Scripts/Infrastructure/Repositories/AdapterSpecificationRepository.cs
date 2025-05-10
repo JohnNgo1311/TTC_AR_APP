@@ -17,21 +17,20 @@ namespace Infrastructure.Repositories
     {
         private readonly HttpClient _httpClient;
 
-        private const string BaseUrl = "https://67da8d3b35c87309f52d09f5.mockapi.io/api/v4/AdapterSpecification"; // URL server ngoài thực tế
 
         public AdapterSpecificationRepository(HttpClient httpClient)
         {
             _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
-            _httpClient.BaseAddress = new Uri(BaseUrl);
+            // _httpClient.BaseAddress = new Uri(GlobalVariable.baseUrl);
             _httpClient.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
         }
 
         //! Trả về Entity
-        public async Task<AdapterSpecificationEntity> GetAdapterSpecificationByIdAsync(string AdapterSpecificationId)
+        public async Task<AdapterSpecificationEntity> GetAdapterSpecificationByIdAsync(int adapterSpecificationId)
         {
             try
             {
-                var response = await _httpClient.GetAsync($"{BaseUrl}/{AdapterSpecificationId}");
+                var response = await _httpClient.GetAsync($"{GlobalVariable.baseUrl}/{adapterSpecificationId}");
 
                 if (!response.IsSuccessStatusCode)
                 {
@@ -50,7 +49,7 @@ namespace Infrastructure.Repositories
             }
             catch (HttpRequestException ex)
             {
-                throw ex; // Ném lỗi HTTP lên UseCase
+                throw new ApplicationException("Failed to fetch AdapterSpecification", ex); // Ném lỗi HTTP lên UseCase
             }
             catch (Exception ex)
             {
@@ -59,12 +58,12 @@ namespace Infrastructure.Repositories
         }
 
         //! Trả về List<Entity>
-        public async Task<List<AdapterSpecificationEntity>> GetListAdapterSpecificationAsync(string companyId)
+        public async Task<List<AdapterSpecificationEntity>> GetListAdapterSpecificationAsync(int companyId)
         {
             try
             {
-                // var response = await _httpClient.GetAsync($"{BaseUrl}/{companyId}");
-                var response = await _httpClient.GetAsync($"{BaseUrl}");
+                // var response = await _httpClient.GetAsync($"{GlobalVariable.baseUrl}/{companyId}");
+                var response = await _httpClient.GetAsync($"{GlobalVariable.baseUrl}");
 
                 if (!response.IsSuccessStatusCode)
                     throw new HttpRequestException($"Failed to get AdapterSpecification list. Status: {response.StatusCode}");
@@ -76,7 +75,7 @@ namespace Infrastructure.Repositories
             }
             catch (HttpRequestException ex)
             {
-                throw ex;
+                throw new ApplicationException("Failed to fetch AdapterSpecification list", ex); // Ném lỗi HTTP lên UseCase
             }
             catch (Exception ex)
             {
@@ -84,7 +83,7 @@ namespace Infrastructure.Repositories
             }
         }
 
-        public async Task<bool> CreateNewAdapterSpecificationAsync(string companyId, AdapterSpecificationEntity adapterSpecificationEntity)
+        public async Task<bool> CreateNewAdapterSpecificationAsync(int companyId, AdapterSpecificationEntity adapterSpecificationEntity)
         {
             try
             {
@@ -98,18 +97,16 @@ namespace Infrastructure.Repositories
 
                     var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-                    var response = await _httpClient.PostAsync($"{BaseUrl}", content);
+                    var response = await _httpClient.PostAsync($"{GlobalVariable.baseUrl}", content);
 
-                    //! var response = await _httpClient.PostAsync($"{BaseUrl}/{companyId}", content);
-                    if (!response.IsSuccessStatusCode)
-                        throw new HttpRequestException($"Failed to create AdapterSpecification. Status: {response.StatusCode}");
-                    else { return true; }
+                    response.EnsureSuccessStatusCode();
+                    return response.IsSuccessStatusCode;
 
                 }
             }
             catch (HttpRequestException ex)
             {
-                throw ex; // Ném lỗi HTTP lên UseCase
+                throw new ApplicationException("Failed to create AdapterSpecification", ex); // Ném lỗi HTTP lên UseCase
             }
             catch (Exception ex)
             {
@@ -118,7 +115,7 @@ namespace Infrastructure.Repositories
         }
 
 
-        public async Task<bool> UpdateAdapterSpecificationAsync(string adapterSpecificationId, AdapterSpecificationEntity adapterSpecificationEntity)
+        public async Task<bool> UpdateAdapterSpecificationAsync(int adapterSpecificationId, AdapterSpecificationEntity adapterSpecificationEntity)
         {
             try
             {
@@ -131,18 +128,17 @@ namespace Infrastructure.Repositories
                     var json = JsonConvert.SerializeObject(adapterSpecificationEntity);
 
                     var content = new StringContent(json, Encoding.UTF8, "application/json");
-                    var response = await _httpClient.PutAsync($"{BaseUrl}/{adapterSpecificationId}", content);
+                    var response = await _httpClient.PutAsync($"{GlobalVariable.baseUrl}/{adapterSpecificationId}", content);
                     // var response = await _httpClient.PutAsync($"/api/AdapterSpecification/{adapterSpecificationId}", content);
 
-                    if (!response.IsSuccessStatusCode)
-                        throw new HttpRequestException($"Failed to update AdapterSpecification. Status: {response.StatusCode}");
-                    else { return true; }
+                    response.EnsureSuccessStatusCode();
+                    return response.IsSuccessStatusCode;
 
                 }
             }
             catch (HttpRequestException ex)
             {
-                throw ex; // Ném lỗi HTTP lên UseCase
+                throw new ApplicationException("Failed to update AdapterSpecification", ex); // Ném lỗi HTTP lên UseCase
             }
             catch (Exception ex)
             {
@@ -150,20 +146,19 @@ namespace Infrastructure.Repositories
             }
         }
 
-        public async Task<bool> DeleteAdapterSpecificationAsync(string adapterSpecificationId)
+        public async Task<bool> DeleteAdapterSpecificationAsync(int adapterSpecificationId)
         {
             try
             {
                 //! var response = await _httpClient.DeleteAsync($"/api/AdapterSpecification/{adapterSpecificationId}");
-                var response = await _httpClient.DeleteAsync($"{BaseUrl}/{adapterSpecificationId}");
-                if (!response.IsSuccessStatusCode)
-                    throw new HttpRequestException($"Failed to create AdapterSpecification. Status: {response.StatusCode}");
-                else return true;
+                var response = await _httpClient.DeleteAsync($"{GlobalVariable.baseUrl}/{adapterSpecificationId}");
+                response.EnsureSuccessStatusCode();
+                return response.IsSuccessStatusCode;
 
             }
             catch (HttpRequestException ex)
             {
-                throw ex; // Ném lỗi HTTP lên UseCase
+                throw new ApplicationException("Failed to delete AdapterSpecification", ex); // Ném lỗi HTTP lên UseCase
             }
             catch (Exception ex)
             {

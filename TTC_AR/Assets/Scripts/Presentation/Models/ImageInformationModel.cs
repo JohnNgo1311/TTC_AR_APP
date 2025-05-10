@@ -6,17 +6,17 @@ using UnityEngine.Scripting;
 [Preserve]
 public class ImageInformationModel
 {
-  [JsonProperty("Id")]
-  public string Id { get; set; } = string.Empty;
+  [JsonProperty("id")]
+  public int Id { get; set; }
 
-  [JsonProperty("Name")]
+  [JsonProperty("name")]
   public string Name { get; set; } = string.Empty;
 
   // [JsonProperty("Url")]
   // public string? Url { get; set; }
 
   [Preserve]
-  public ImageInformationModel(string id, string name
+  public ImageInformationModel(int id, string name
   // string url
   )
   {
@@ -36,15 +36,15 @@ public class ImageInformationModel
 [Preserve]
 public class ImageBasicModel
 {
-  [JsonProperty("Id")]
-  public string Id { get; set; }
+  [JsonProperty("id")]
+  public int Id { get; set; }
 
-  [JsonProperty("Name")]
+  [JsonProperty("name")]
   public string Name { get; set; }
 
   [Preserve]
 
-  public ImageBasicModel(string id, string name)
+  public ImageBasicModel(int id, string name)
   {
     Id = id;
     Name = name;

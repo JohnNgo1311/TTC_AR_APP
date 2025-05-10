@@ -8,7 +8,7 @@ using System.Collections.Generic;
 public class Get_MCC_Information : MonoBehaviour
 {
     public EventPublisher eventPublisher; // Tham chiếu đến Publisher
-    public string MCCId = "1";
+    public int mccId = 1;
     private void Awake()
     {
     }
@@ -43,7 +43,7 @@ public class Get_MCC_Information : MonoBehaviour
     }
     public async void GetMCCInformation()
     {
-        MCCId = GlobalVariable.MccId;
+        mccId = GlobalVariable.mccId;
         try
         {
             GlobalVariable.ready_To_Nav_New_Scene = false;
@@ -53,12 +53,12 @@ public class Get_MCC_Information : MonoBehaviour
                           Show_Toast.Instance.ShowToast("loading", "Đang tải dữ liệu...");
                       });
             await APIManager.Instance.GetMccInformation(
-                url: $"{GlobalVariable.baseUrl}Mccs/{MCCId}"
+                url: $"{GlobalVariable.baseUrl}Mccs/{mccId}"
 
             );
             await APIManager.Instance.DownloadImagesAsync();
             await APIManager.Instance.GetMccInformation(
-                url: $"{GlobalVariable.baseUrl}Mccs/{MCCId}"
+                url: $"{GlobalVariable.baseUrl}Mccs/{mccId}"
             );
             await Move_On_Main_Thread.RunOnMainThread(() =>
                {

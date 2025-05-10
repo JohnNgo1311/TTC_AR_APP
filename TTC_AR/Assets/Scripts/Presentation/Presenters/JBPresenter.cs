@@ -23,7 +23,7 @@ public class JBPresenter
 
 
     //! Get list JB nhưng chỉ có Id và Name
-    public async void LoadListJBGeneral(string grapperId)
+    public async void LoadListJBGeneral(int grapperId)
     {
         GlobalVariable.APIRequestType.Add("GET_JB_List_General");
 
@@ -64,7 +64,7 @@ public class JBPresenter
     }
 
     //! Get list JB nhưng không có list Devices và List Modules
-    public async void LoadListJBInformation(string grapperId)
+    public async void LoadListJBInformation(int grapperId)
     {
         GlobalVariable.APIRequestType.Add("GET_JB_List_Information");
         _view.ShowLoading("Đang tải dữ liệu...");
@@ -103,13 +103,13 @@ public class JBPresenter
     }
 
     //! GET JB Detail với đầy đủ thông tin
-    public async void LoadDetailById(string JBId)
+    public async void LoadDetailById(int JBId)
     {
         GlobalVariable.APIRequestType.Add("GET_JB");
         _view.ShowLoading("Đang tải dữ liệu...");
         try
         {
-            var jBResponseDto = await _service.GetJBByIdAsync(JBId.ToString());
+            var jBResponseDto = await _service.GetJBByIdAsync(JBId);
             if (jBResponseDto != null)
             {
                 var model = ConvertFromResponseDto(jBResponseDto);
@@ -132,7 +132,7 @@ public class JBPresenter
             GlobalVariable.APIRequestType.Remove("GET_JB");
         }
     }
-    public async void CreateNewJB(string grapperId, JBInformationModel model)
+    public async void CreateNewJB(int grapperId, JBInformationModel model)
     {
         GlobalVariable.APIRequestType.Add("POST_JB");
         _view.ShowLoading("Đang thực hiện...");
@@ -160,7 +160,7 @@ public class JBPresenter
         }
     }
 
-    public async void UpdateJB(string JBId, JBInformationModel model)
+    public async void UpdateJB(int JBId, JBInformationModel model)
     {
         GlobalVariable.APIRequestType.Add("PUT_JB");
         _view.ShowLoading("Đang thực hiện...");
@@ -187,7 +187,7 @@ public class JBPresenter
             GlobalVariable.APIRequestType.Remove("PUT_JB");
         }
     }
-    public async void DeleteJB(string JBId)
+    public async void DeleteJB(int JBId)
     {
         GlobalVariable.APIRequestType.Add("DELETE_JB");
         _view.ShowLoading("Đang thực hiện...");

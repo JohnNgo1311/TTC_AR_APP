@@ -10,25 +10,25 @@ namespace Domain.Entities
 {
   public class JBEntity
   {
-    [JsonProperty("Id")]
-    public string Id { get; set; } = string.Empty;// Id sẽ được sinh tự động khi lưu hoặc lấy từ repository
+    [JsonProperty("id")]
+    public int Id { get; set; }// Id sẽ được sinh tự động khi lưu hoặc lấy từ repository
 
-    [JsonProperty("Name")]
+    [JsonProperty("name")]
     public string Name { get; set; } = string.Empty;
 
-    [JsonProperty("Location")]
+    [JsonProperty("location")]
     public string? Location { get; set; }
 
-    [JsonProperty("ListDevices")]
+    [JsonProperty("listDevices")]
     public List<DeviceEntity>? DeviceEntities { get; set; }
 
-    [JsonProperty("ListModules")]
+    [JsonProperty("listModules")]
     public List<ModuleEntity>? ModuleEntities { get; set; }
 
-    [JsonProperty("OutdoorImage")]
+    [JsonProperty("outdoorImage")]
     public ImageEntity? OutdoorImageEntity { get; set; } // Có thể null nếu không có ảnh ngoài trời
 
-    [JsonProperty("ListConnectionImages")]
+    [JsonProperty("listConnectionImages")]
     public List<ImageEntity>? ConnectionImageEntities { get; set; }
 
     public bool ShouldSerializeId() //=> Done
@@ -133,7 +133,7 @@ namespace Domain.Entities
 
     //! Constructor tối thiểu để đảm bảo Name không rỗng (yêu cầu nghiệp vụ cơ bản)
     [Preserve]
-    public JBEntity(string id, string name)
+    public JBEntity(int id, string name)
     {
       Id = id;
       Name = string.IsNullOrEmpty(name) ? throw new ArgumentNullException(nameof(name)) : name;
@@ -156,7 +156,7 @@ namespace Domain.Entities
 
     //! Constructor đầy đủ (tùy chọn, để hỗ trợ ánh xạ từ DTO nếu cần)
     [Preserve]
-    public JBEntity(string id, string name, string? location, List<DeviceEntity> devices, List<ModuleEntity> modules, ImageEntity? outdoorImage, List<ImageEntity> connectionImages)
+    public JBEntity(int id, string name, string? location, List<DeviceEntity> devices, List<ModuleEntity> modules, ImageEntity? outdoorImage, List<ImageEntity> connectionImages)
     {
       Id = id;
       Name = string.IsNullOrEmpty(name) ? throw new ArgumentNullException(nameof(name)) : name;
@@ -168,7 +168,7 @@ namespace Domain.Entities
     }
 
     [Preserve]
-    public JBEntity(string id, string name, string? location, ImageEntity? outdoorImage, List<ImageEntity>? connectionImages)
+    public JBEntity(int id, string name, string? location, ImageEntity? outdoorImage, List<ImageEntity>? connectionImages)
     {
       Id = id;
       Name = string.IsNullOrEmpty(name) ? throw new ArgumentNullException(nameof(name)) : name;

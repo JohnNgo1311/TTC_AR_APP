@@ -9,16 +9,16 @@ namespace ApplicationLayer.Dtos.Mcc
     [Preserve]
     public class MccRequestDto
     {
-        [JsonProperty("CabinetCode")]
+        [JsonProperty("cabinetCode")]
         public string? CabinetCode { get; set; }
 
-        [JsonProperty("Brand")]
+        [JsonProperty("brand")]
         public string? Brand { get; set; }
 
-        [JsonProperty("ListFieldDevice")]
+        [JsonProperty("listFieldDevice")]
         public List<FieldDeviceBasicDto>? FieldDeviceBasicDtos { get; set; }
 
-        [JsonProperty("Note")]
+        [JsonProperty("note")]
         public string? Note { get; set; }
 
         [Preserve]

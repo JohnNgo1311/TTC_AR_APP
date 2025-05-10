@@ -89,9 +89,9 @@ public class ListModuleSpecificationSettingView : MonoBehaviour, IModuleSpecific
         ModuleSpecification_Item_Prefab.SetActive(false);
     }
 
-    private void EditModuleSpecificationItem(string id)
+    private void EditModuleSpecificationItem(int id)
     {
-        GlobalVariable.ModuleSpecificationId = id;
+        GlobalVariable.moduleSpecificationId = id;
         OpenUpdateCanvas();
     }
     private void DeleModuleSpecificationItem(GameObject ModuleSpecificationItem, ModuleSpecificationModel model)

@@ -23,7 +23,7 @@ public class DevicePresenter
 
 
     //! Get list Device nhưng chỉ có Id và Name
-    public async void LoadListDeviceInformationFromGrapper(string grapperId)
+    public async void LoadListDeviceInformationFromGrapper(int grapperId)
     {
         GlobalVariable.APIRequestType.Add("GET_Device_List_Information_FromGrapper");
         _view.ShowLoading("Đang tải dữ liệu...");
@@ -63,7 +63,7 @@ public class DevicePresenter
 
 
     //! Get list Device nhưng chỉ có Id và Name
-    public async void LoadListDeviceInformationFromModule(string moduleId)
+    public async void LoadListDeviceInformationFromModule(int moduleId)
     {
         GlobalVariable.APIRequestType.Add("GET_Device_List_Information_FromModule");
         _view.ShowLoading("Đang tải dữ liệu...");
@@ -102,7 +102,7 @@ public class DevicePresenter
     }
 
     //! Get list Device chỉ có Id và Code
-    public async void LoadListDeviceGeneral(string grapperId)
+    public async void LoadListDeviceGeneral(int grapperId)
     {
         GlobalVariable.APIRequestType.Add("GET_Device_List_General");
         _view.ShowLoading("Đang tải dữ liệu...");
@@ -142,14 +142,14 @@ public class DevicePresenter
     }
 
     //! GET Device Detail với đầy đủ thông tin
-    public async void LoadDetailById(string DeviceId)
+    public async void LoadDetailById(int deviceId)
     {
         GlobalVariable.APIRequestType.Add("GET_Device");
         _view.ShowLoading("Đang tải dữ liệu...");
         try
         {
             UnityEngine.Debug.Log("Run Presenter");
-            var DeviceResponseDto = await _service.GetDeviceByIdAsync(DeviceId);
+            var DeviceResponseDto = await _service.GetDeviceByIdAsync(deviceId);
             if (DeviceResponseDto != null)
             {
                 var model = ConvertFromResponseDto(DeviceResponseDto);
@@ -176,7 +176,7 @@ public class DevicePresenter
             GlobalVariable.APIRequestType.Remove("GET_Device");
         }
     }
-    public async void CreateNewDevice(string grapperId, DeviceInformationModel model)
+    public async void CreateNewDevice(int grapperId, DeviceInformationModel model)
     {
         GlobalVariable.APIRequestType.Add("POST_Device");
         _view.ShowLoading("Đang thực hiện...");
@@ -206,14 +206,14 @@ public class DevicePresenter
         }
     }
 
-    public async void UpdateDevice(string DeviceId, DeviceInformationModel model)
+    public async void UpdateDevice(int deviceId, DeviceInformationModel model)
     {
         GlobalVariable.APIRequestType.Add("PUT_Device");
         _view.ShowLoading("Đang thực hiện...");
         try
         {
             var dto = ConvertToRequestDto(model);
-            var result = await _service.UpdateDeviceAsync(DeviceId, dto);
+            var result = await _service.UpdateDeviceAsync(deviceId, dto);
             if (result)
             {
                 _view.ShowSuccess(); // Chỉ hiển thị thành công nếu result == true
@@ -233,13 +233,13 @@ public class DevicePresenter
             GlobalVariable.APIRequestType.Remove("PUT_Device");
         }
     }
-    public async void DeleteDevice(string DeviceId)
+    public async void DeleteDevice(int deviceId)
     {
         GlobalVariable.APIRequestType.Add("DELETE_Device");
         _view.ShowLoading("Đang thực hiện...");
         try
         {
-            var result = await _service.DeleteDeviceAsync(DeviceId);
+            var result = await _service.DeleteDeviceAsync(deviceId);
             if (result)
             {
                 _view.ShowSuccess(); // Chỉ hiển thị thành công nếu result == true

@@ -7,7 +7,6 @@ public class Collapse_Button_OnClicked : MonoBehaviour
     public List<RectTransform> optionGameObjects; // Main buttons
     public List<GameObject> collapseButtons;  // Arrow icons
     public List<GameObject> functionButtons; // Setting icons
-
     private List<bool> collapsedStatus; // Button expansion status
     private List<RectTransform> arrowIcons; // Arrow icons
     private List<Vector3> arrowInitialEulerAngles;  // Initial arrow positions

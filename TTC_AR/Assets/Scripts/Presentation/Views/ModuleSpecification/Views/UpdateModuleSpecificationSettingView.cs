@@ -52,7 +52,7 @@ public class UpdateModuleSpecificationSettingView : MonoBehaviour, IModuleSpecif
     {
         ResetAllInputFields();
 
-        _presenter.LoadDetailById(GlobalVariable.ModuleSpecificationId);
+        _presenter.LoadDetailById(GlobalVariable.moduleSpecificationId);
 
         submitButton.onClick.RemoveAllListeners();
         backButton.onClick.RemoveAllListeners();
@@ -88,13 +88,13 @@ public class UpdateModuleSpecificationSettingView : MonoBehaviour, IModuleSpecif
             pdfManual: PdfManual_TextField.text
           );
         _presenter.UpdateModuleSpecification(
-                 GlobalVariable.ModuleSpecificationId, _ModuleSpecificationModel
+                 GlobalVariable.moduleSpecificationId, _ModuleSpecificationModel
             );
     }
 
     public void PreloadDetailById()
     {
-        _presenter.LoadDetailById(GlobalVariable.ModuleSpecificationId);
+        _presenter.LoadDetailById(GlobalVariable.moduleSpecificationId);
     }
 
     void OnDisable()

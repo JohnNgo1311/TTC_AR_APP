@@ -24,7 +24,7 @@ namespace ApplicationLayer.UseCases
         {
             _IGrapperRepository = IGrapperRepository;
         }
-        public async Task<List<GrapperBasicDto>> GetListGrapperAsync(string companyId)
+        public async Task<List<GrapperBasicDto>> GetListGrapperAsync(int companyId)
         {
             try
             {
@@ -45,14 +45,15 @@ namespace ApplicationLayer.UseCases
             }
             catch (ArgumentException)
             {
-                throw; // Ném lại lỗi validation cho Unity xử lý
+                throw new ApplicationException("Failed to get Grapper list"); // Ném lại lỗi validation cho Unity xử lý
             }
             catch (Exception ex)
             {
-                throw new ApplicationException("Failed to get Grapper list", ex);
+                throw new ApplicationException("Failed to get Grapper list", ex); // Bao bọc lỗi từ Repository
             }
+
         }
-        public async Task<GrapperResponseDto> GetGrapperByIdAsync(string GrapperId)
+        public async Task<GrapperResponseDto> GetGrapperByIdAsync(int GrapperId)
         {
             try
             {
@@ -70,14 +71,15 @@ namespace ApplicationLayer.UseCases
             }
             catch (ArgumentException)
             {
-                throw; // Ném lại lỗi validation cho Unity xử lý
+                throw new ApplicationException("Failed to get Grapper"); // Ném lại lỗi validation cho Unity xử lý
             }
             catch (Exception ex)
             {
                 throw new ApplicationException("Failed to get Grapper", ex); // Bao bọc lỗi từ Repository
             }
+
         }
-        public async Task<bool> CreateNewGrapperAsync(string companyId, GrapperRequestDto requestDto)
+        public async Task<bool> CreateNewGrapperAsync(int companyId, GrapperRequestDto requestDto)
         {
             companyId = GlobalVariable.companyId;
             try
@@ -85,7 +87,7 @@ namespace ApplicationLayer.UseCases
                 // Validate
                 if (string.IsNullOrEmpty(requestDto.Name))
                 {
-                    throw new ArgumentException("Name cannot be empty");
+                    throw new ArgumentException("name cannot be empty");
                 }
 
                 var GrapperEntity = MapRequestToEntity(requestDto);
@@ -103,22 +105,24 @@ namespace ApplicationLayer.UseCases
             }
             catch (ArgumentException)
             {
-                throw; // Ném lại lỗi validation cho Unity xử lý
+                throw new ApplicationException("Failed to create Grapper cause name is empty"); // Ném lại lỗi validation cho Unity xử lý
+
             }
             catch (Exception ex)
             {
                 throw new ApplicationException("Failed to create Grapper", ex); // Bao bọc lỗi từ Repository
             }
+
         }
-        public async Task<bool> UpdateGrapperAsync(string GrapperId, GrapperRequestDto requestDto)
+        public async Task<bool> UpdateGrapperAsync(int grapperId, GrapperRequestDto requestDto)
         {
-            GrapperId = GlobalVariable.GrapperId;
+            grapperId = GlobalVariable.GrapperId;
             try
             {
                 // Validate
                 if (string.IsNullOrEmpty(requestDto.Name))
                 {
-                    throw new ArgumentException("Name cannot be empty");
+                    throw new ArgumentException("name cannot be empty");
                 }
                 // Ánh xạ từ GrapperRequestDto sang GrapperEntity để check các nghiệp vụ
                 var GrapperEntity = MapRequestToEntity(requestDto);
@@ -132,20 +136,21 @@ namespace ApplicationLayer.UseCases
 
                 else
                 {
-                    return await _IGrapperRepository.UpdateGrapperAsync(GrapperId, GrapperEntity);
+                    return await _IGrapperRepository.UpdateGrapperAsync(grapperId, GrapperEntity);
                 }
 
             }
             catch (ArgumentException)
             {
-                throw; // Ném lại lỗi validation cho Unity xử lý
+                throw new ApplicationException("Failed to update Grapper cause name is empty"); // Ném lại lỗi validation cho Unity xử lý
             }
             catch (Exception ex)
             {
-                throw new ApplicationException("Failed to create Grapper", ex); // Bao bọc lỗi từ Repository
+                throw new ApplicationException("Failed to update Grapper", ex); // Bao bọc lỗi từ Repository
             }
+
         }
-        public async Task<bool> DeleteGrapperAsync(string GrapperId)
+        public async Task<bool> DeleteGrapperAsync(int GrapperId)
         {
             try
             {
@@ -154,12 +159,13 @@ namespace ApplicationLayer.UseCases
             }
             catch (ArgumentException)
             {
-                throw; // Ném lại lỗi validation cho Unity xử lý
+                throw new ApplicationException("Failed to delete Grapper"); // Ném lại lỗi validation cho Unity xử lý
             }
             catch (Exception ex)
             {
                 throw new ApplicationException("Failed to delete Grapper", ex); // Bao bọc lỗi từ Repository
             }
+
         }
 
 

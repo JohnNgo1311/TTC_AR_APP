@@ -73,7 +73,7 @@ public class UpdateMccSettingView : MonoBehaviour, IMccView
         submitButton.onClick.AddListener(OnSubmitButtonClick);
 
         //! Load detail by id
-        _presenter.LoadDetailById(GlobalVariable.MccId);
+        _presenter.LoadDetailById(GlobalVariable.mccId);
 
         //! Reset scroll position
         scrollRect.verticalNormalizedPosition = 1;
@@ -99,7 +99,7 @@ public class UpdateMccSettingView : MonoBehaviour, IMccView
             return;
         }
 
-        _presenter.UpdateMcc(GlobalVariable.MccId, MccInformationModel);
+        _presenter.UpdateMcc(GlobalVariable.mccId, MccInformationModel);
     }
 
     private void RenewView()
@@ -284,7 +284,7 @@ public class UpdateMccSettingView : MonoBehaviour, IMccView
         backButton.onClick.AddListener(() =>
         {
             DialogOneButton.SetActive(false);
-            _presenter.LoadDetailById(GlobalVariable.MccId);
+            _presenter.LoadDetailById(GlobalVariable.mccId);
             scrollRect.verticalNormalizedPosition = 1;
         }
        );
@@ -330,7 +330,7 @@ public class UpdateMccSettingView : MonoBehaviour, IMccView
     public void ReloadDetailById()
     {
         RenewView();
-        _presenter.LoadDetailById(GlobalVariable.MccId);
+        _presenter.LoadDetailById(GlobalVariable.mccId);
     }
     public void ShowSuccess()
     {

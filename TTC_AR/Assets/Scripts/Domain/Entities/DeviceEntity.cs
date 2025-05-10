@@ -9,31 +9,31 @@ namespace Domain.Entities
 {
   public class DeviceEntity
   {
-    [JsonProperty("Id")]
-    public string Id { get; set; } = string.Empty;
-    [JsonProperty("Code")]
+    [JsonProperty("id")]
+    public int Id { get; set; }
+    [JsonProperty("code")]
     public string Code { get; set; } = string.Empty;
 
-    // [JsonProperty("Function", NullValueHandling = NullValueHandling.Ignore)]
-    [JsonProperty("Function")]
+    // [JsonProperty("function", NullValueHandling = NullValueHandling.Ignore)]
+    [JsonProperty("function")]
     public string? Function { get; set; }
-    // [JsonProperty("Range", NullValueHandling = NullValueHandling.Ignore)]
-    [JsonProperty("Range")]
+    // [JsonProperty("range", NullValueHandling = NullValueHandling.Ignore)]
+    [JsonProperty("range")]
     public string? Range { get; set; }
     // [JsonProperty("Unit", NullValueHandling = NullValueHandling.Ignore)]
-    [JsonProperty("Unit")]
+    [JsonProperty("unit")]
     public string? Unit { get; set; }
-    // [JsonProperty("IOAddress", NullValueHandling = NullValueHandling.Ignore)]
-    [JsonProperty("IOAddress")]
+    // [JsonProperty("ioAddress", NullValueHandling = NullValueHandling.Ignore)]
+    [JsonProperty("ioAddress")]
     public string? IOAddress { get; set; }
-    // [JsonProperty("Module", NullValueHandling = NullValueHandling.Ignore)]
-    [JsonProperty("Module")]
+    // [JsonProperty("module", NullValueHandling = NullValueHandling.Ignore)]
+    [JsonProperty("module")]
     public ModuleEntity? ModuleEntity { get; set; }
     // [JsonProperty("JB",NullValueHandling = NullValueHandling.Ignore)]
-    [JsonProperty("JBs")]
+    [JsonProperty("jBs")]
     public List<JBEntity>? JBEntities { get; set; }
-    // [JsonProperty("AdditionalConnectionImages", NullValueHandling = NullValueHandling.Ignore)]
-    [JsonProperty("AdditionalConnectionImages")]
+    // [JsonProperty("additionalConnectionImages", NullValueHandling = NullValueHandling.Ignore)]
+    [JsonProperty("additionalConnectionImages")]
     public List<ImageEntity>? AdditionalConnectionImageEntities { get; set; }
 
     public bool ShouldSerializeId()
@@ -162,7 +162,7 @@ namespace Domain.Entities
     }
 
     [Preserve]
-    public DeviceEntity(string id, string code)
+    public DeviceEntity(int id, string code)
     {
       Id = id;
       Code = string.IsNullOrEmpty(code) ? throw new ArgumentNullException(nameof(code)) : code;
@@ -177,7 +177,7 @@ namespace Domain.Entities
 
 
     [Preserve]
-    public DeviceEntity(string id, string code, string function, string range, string unit, string ioAddress, ModuleEntity? moduleEntity, List<JBEntity>? jbEntities, List<ImageEntity>? additionalConnectionImageEntities)
+    public DeviceEntity(int id, string code, string function, string range, string unit, string ioAddress, ModuleEntity? moduleEntity, List<JBEntity>? jbEntities, List<ImageEntity>? additionalConnectionImageEntities)
     {
       Id = id;
       Code = string.IsNullOrEmpty(code) ? throw new ArgumentNullException(nameof(code)) : code;

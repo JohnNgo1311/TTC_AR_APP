@@ -32,14 +32,14 @@ public class APIManager : MonoBehaviour
     private IModuleSpecificationService _moduleSpecificationService;
     #endregion
 
-    public string CompanyId = "1";
-    public string GrapperId = "1";
-    public string RackId = "1";
-    public string ModuleId = "1";
-    public string DeviceId = "1";
-    public string JBId = "1";
-    public string FieldDeviceId = "1";
-    public string MCCId = "1";
+    public int CompanyId = 1;
+    public int GrapperId = 1;
+    public int rackId = 1;
+    public int moduleId = 1;
+    public int deviceId = 1;
+    public int JBId = 1;
+    public int fieldDeviceId = 1;
+    public int mccId = 1;
 
     public List<RackBasicModel> temp_ListRackBasicModels;
     public List<GrapperBasicModel> temp_ListGrapperBasicModels;
@@ -59,7 +59,7 @@ public class APIManager : MonoBehaviour
     public Dictionary<string, Texture2D> list_JBLocationImagesFromModule = new Dictionary<string, Texture2D>();
     public List<string> imageUrls = new List<string>();
     public List<Texture2D> textures = new List<Texture2D>();
-    public Dictionary<string, string> Dic_GrapperBasicNonListRackModels = new Dictionary<string, string>();
+    public Dictionary<string, int> Dic_GrapperBasicNonListRackModels = new Dictionary<string, int>();
 
 
     //! Dictionary
@@ -193,7 +193,7 @@ public class APIManager : MonoBehaviour
                     GlobalVariable.temp_ListMCCInformationModel = new List<MccInformationModel>();
                     temp_ListMCCInformationModel = List_MCC_Models;
                     GlobalVariable.temp_ListMCCInformationModel = temp_ListMCCInformationModel;
-                    Debug.Log("List_MCC_Models.Count: " + List_MCC_Models.Count);
+                    Debug.Log("list_MCC_Models.Count: " + List_MCC_Models.Count);
                 }
                 Debug.Log("success");
             }
@@ -224,11 +224,11 @@ public class APIManager : MonoBehaviour
 
                 if (mccModel != null)
                 {
-                    MCCId = mccModel.Id;
+                    mccId = mccModel.Id;
                     GlobalVariable.temp_MCCInformationModel = mccModel;
                     //!   GlobalVariable.temp_FieldDeviceInformationModel = mccModel.FieldDeviceInformationModel[0];
-                    GlobalVariable.FieldDeviceId = GlobalVariable.temp_FieldDeviceInformationModel.Id;
-                    GlobalVariable.MccId = MCCId;
+                    GlobalVariable.fieldDeviceId = GlobalVariable.temp_FieldDeviceInformationModel.Id;
+                    GlobalVariable.mccId = mccId;
                 }
                 Debug.Log("success");
             }
@@ -246,7 +246,7 @@ public class APIManager : MonoBehaviour
     }
 
 
-    // public async Task GetListModuleInformation(string url, string grapperId)
+    // public async Task GetListModuleInformation(string url, int grapperId)
     // {
     //     using UnityWebRequest webRequest = UnityWebRequest.Get(url);
     //     {
@@ -286,7 +286,7 @@ public class APIManager : MonoBehaviour
     // }
 
     // Get list Devices by Grapper ==> Search Devices
-    // public async Task GetModuleInformation(string url, string moduleId)
+    // public async Task GetModuleInformation(string url, int moduleId)
     // {
     //     using UnityWebRequest webRequest = UnityWebRequest.Get(url);
     //     {
@@ -302,9 +302,9 @@ public class APIManager : MonoBehaviour
     //             var moduleInformationModel = JsonConvert.DeserializeObject<ModuleInformationModel>(webRequest.downloadHandler.text);
     //             if (moduleInformationModel != null)
     //             {
-    //                 GlobalVariable.ModuleId = 1;
-    //                 GlobalVariable.ModuleSpecificationId = 1;
-    //                 GlobalVariable.AdapterSpecificationId = 1;
+    //                 GlobalVariable.moduleId = 1;
+    //                 GlobalVariable.moduleSpecificationId = 1;
+    //                 GlobalVariable.adapterSpecificationId = 1;
 
     //                 GlobalVariable.temp_ListJBInformationModelFromModule_FromModule.Clear();
     //                 GlobalVariable.temp_ListDeviceInformationModelFromModule_FromModule.Clear();
@@ -317,12 +317,15 @@ public class APIManager : MonoBehaviour
     //                 temp_ListJBInformationModelFromDevice = temp_ModuleInformationModel.ListJBInformationModel;
     //                 temp_ListDeviceInformationModelFromModule_FromModule = temp_ModuleInformationModel.ListDeviceInformationModel_FromModule;
     //                 ModuleId = temp_ModuleInformationModel.Id;
+    //                 temp_ListJBInformationModel_From_Module = temp_ModuleInformationModel.ListJBInformationModel;
+    //                 temp_ListDeviceInformationModel_FromModule = temp_ModuleInformationModel.ListDeviceInformationModel_FromModule;
+    //                 moduleId = temp_ModuleInformationModel.Id;
 
     //                 GlobalVariable.temp_ModuleInformationModel = temp_ModuleInformationModel;
 
-    //                 GlobalVariable.ModuleId = ModuleId;
-    //                 GlobalVariable.ModuleSpecificationId = moduleInformationModel.ModuleSpecificationModel.Id;
-    //                 GlobalVariable.AdapterSpecificationId = moduleInformationModel.AdapterSpecificationModel.Id;
+    //                 GlobalVariable.moduleId = moduleId;
+    //                 GlobalVariable.moduleSpecificationId = moduleInformationModel.ModuleSpecificationModel.Id;
+    //                 GlobalVariable.adapterSpecificationId = moduleInformationModel.AdapterSpecificationModel.Id;
 
     //                 GlobalVariable.temp_ListJBInformationModelFromModule_FromModule = temp_ListJBInformationModelFromDevice;
     //                 GlobalVariable.temp_ListDeviceInformationModelFromModule_FromModule = temp_ListDeviceInformationModelFromModule_FromModule;
@@ -548,7 +551,7 @@ public class APIManager : MonoBehaviour
             return false;
         }
     }
-    // public async Task GetAllDevicesByGrapper(string url, string grapperId)
+    // public async Task GetAllDevicesByGrapper(string url, int grapperId)
     // {
     //     using UnityWebRequest webRequest = UnityWebRequest.Get(url);
     //     {
@@ -714,9 +717,9 @@ public class APIManager : MonoBehaviour
                     var moduleInformationModel = JsonConvert.DeserializeObject<ModuleInformationModel>(json);
                     if (moduleInformationModel != null)
                     {
-                        GlobalVariable.ModuleId = "1";
-                        GlobalVariable.ModuleSpecificationId = "1";
-                        GlobalVariable.AdapterSpecificationId = "1";
+                        GlobalVariable.moduleId = 1;
+                        GlobalVariable.moduleSpecificationId = 1;
+                        GlobalVariable.adapterSpecificationId = 1;
 
                         // GlobalVariable.temp_ListJBInformationModelFromModule_FromModule.Clear();
                         // GlobalVariable.temp_ListDeviceInformationModelFromModule_FromModule.Clear();
@@ -728,13 +731,16 @@ public class APIManager : MonoBehaviour
                         temp_ModuleInformationModel = moduleInformationModel;
                         // temp_ListJBInformationModel_From_Module = temp_ModuleInformationModel.ListJBInformationModel;
                         // temp_ListDeviceInformationModel_FromModule = temp_ModuleInformationModel.ListDeviceInformationModel;
-                        ModuleId = temp_ModuleInformationModel.Id;
+                        moduleId = temp_ModuleInformationModel.Id;
 
                         // GlobalVariable.temp_ModuleInformationModel = temp_ModuleInformationModel;
 
-                        GlobalVariable.ModuleId = ModuleId;
+                        GlobalVariable.moduleId = moduleId;
                         // GlobalVariable.ModuleSpecificationId = moduleInformationModel.ModuleSpecificationModel.Id;
                         // GlobalVariable.AdapterSpecificationId = moduleInformationModel.AdapterSpecificationModel.Id;
+                        GlobalVariable.moduleId = moduleId;
+                        GlobalVariable.moduleSpecificationId = moduleInformationModel.ModuleSpecificationModel.Id;
+                        GlobalVariable.adapterSpecificationId = moduleInformationModel.AdapterSpecificationModel.Id;
 
                         // GlobalVariable.temp_ListJBInformationModelFromModule_FromModule = temp_ListJBInformationModelFromDevice;
                         // GlobalVariable.temp_ListDeviceInformationModelFromModule_FromModule = temp_ListDeviceInformationModelFromModule_FromModule;
@@ -1063,7 +1069,7 @@ public class APIManager : MonoBehaviour
     }
 
 
-    // public async Task GetAllJBsByGrapper(string url, string grapperId)
+    // public async Task GetAllJBsByGrapper(string url, int grapperId)
     // {
     //     using UnityWebRequest webRequest = UnityWebRequest.Get(url);
     //     {
@@ -1258,7 +1264,7 @@ public class ApiClient : MonoBehaviour
         _rackService = ServiceLocator.Instance.RackService;
 
     }
-    public async void GetJBList(string grapperId)
+    public async void GetJBList(int grapperId)
     {
         try
         {
@@ -1280,11 +1286,11 @@ public class ApiClient : MonoBehaviour
         }
     }
 
-    public async void GetJBById(string jBId)
+    public async void GetJBById(int jbId)
     {
         try
         {
-            var jb = await _jbService.GetJBByIdAsync(jBId); // Gọi Service
+            var jb = await _jbService.GetJBByIdAsync(jbId); // Gọi Service
             if (jb != null)
             {
                 Debug.Log($"JB: {jb.Name}, Location: {jb.Location}");
@@ -1301,7 +1307,7 @@ public class ApiClient : MonoBehaviour
         }
     }
 
-    public async void CreateNewJB(string grapperId, JBRequestDto jBRequestDto)
+    public async void CreateNewJB(int grapperId, JBRequestDto jBRequestDto)
     {
         try
         {
@@ -1327,11 +1333,11 @@ public class ApiClient : MonoBehaviour
             // Có thể hiển thị UI thông báo lỗi cho người chơi
         }
     }
-    public async void DeleteJB(string jBId)
+    public async void DeleteJB(int jbId)
     {
         try
         {
-            bool result = await _jbService.DeleteJBAsync(jBId);
+            bool result = await _jbService.DeleteJBAsync(jbId);
             Debug.Log(result ? "JB deleted successfully" : "Failed to delete JB");
         }
         catch (Exception ex)

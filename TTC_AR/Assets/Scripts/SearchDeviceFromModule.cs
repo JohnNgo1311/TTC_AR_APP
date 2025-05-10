@@ -30,8 +30,8 @@ public class SearchDeviceFromModule : MonoBehaviour
     private RectTransform jb_TSD_Detail_Transform;
     private void Awake()
     {
-        list_Devices_Transform ??= module_Canvas.gameObject.transform.Find("List_Devices").GetComponent<RectTransform>();
-        jb_TSD_Basic_Transform ??= module_Canvas.gameObject.transform.Find("JB_TSD_General_Panel").GetComponent<RectTransform>();
+        list_Devices_Transform ??= module_Canvas.gameObject.transform.Find("list_Devices").GetComponent<RectTransform>();
+        jb_TSD_Basic_Transform ??= module_Canvas.gameObject.transform.Find("JB_TSD_Basic_Panel").GetComponent<RectTransform>();
         jb_TSD_Detail_Transform ??= module_Canvas.gameObject.transform.Find("Detail_JB_TSD").GetComponent<RectTransform>();
     }
 
@@ -65,8 +65,26 @@ public class SearchDeviceFromModule : MonoBehaviour
                 // Chuyển đổi danh sách thiết bị thành danh sách tùy chọn cho dropdown
                 foreach (var device in listDeviceFromModule)
                 {
-                    // Debug.Log("device.Code: " + device.Code);
-                    dropdown.options.Add(new TMP_Dropdown.OptionData(device.Code));
+                    // Chuyển đổi danh sách thiết bị thành danh sách tùy chọn cho dropdown
+                    foreach (var dv in listDeviceFromModule)
+                    {
+                        dropdown.options.Add(new TMP_Dropdown.OptionData(dv.Code));
+                    }
+
+                    dropdown.value = 0;
+                    dropdown.RefreshShownValue();
+
+                    dropdown.onValueChanged.AddListener(OnValueChange);
+                    OnValueChange(0); // Gọi OnValueChange để cập nhật thông tin thiết bị đầu tiên
+
+                    /* deviceInfor = listDeviceFromModule[0];
+                     UpdateDeviceInformation(deviceInfor);*
+
+                     if (!contentPanel.activeSelf)
+                     {
+                         contentPanel.SetActive(true);
+                     }*/
+
                 }
 
                 OnValueChange(0);// Gọi OnValueChange để cập nhật thông tin thiết bị đầu tiên

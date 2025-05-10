@@ -22,7 +22,7 @@ namespace ApplicationLayer.UseCases
         }
         //! Select(), ToList(), ToDictionary() đề phải duyệt qua toàn bộ danh sách, duyệt tới đâu lưu tới đó 
         //! => dùng Foreach để chỉ quét 1 lần, tối ưu được thời gian xử lý
-        public async Task<List<JBBasicDto>> GetListJBGeneralAsync(string grapperId)
+        public async Task<List<JBBasicDto>> GetListJBGeneralAsync(int grapperId)
         {
             try
             {
@@ -52,32 +52,45 @@ namespace ApplicationLayer.UseCases
 
                 return JBBasicDtos;
             }
-            catch (ArgumentException)
+            catch (ArgumentException exception)
             {
-                throw; // Ném lại lỗi validation cho Unity xử lý
+                throw new ApplicationException("Failed to get JB list", exception); // Ném lại lỗi validation cho Unity xử lý
             }
             catch (Exception ex)
             {
-                throw new ApplicationException("Failed to get JB list", ex);
+                throw new ApplicationException("Failed to get JB list", ex); // Bao bọc lỗi từ Repository
             }
         }
 
 
 
         //! Dùng IEnumerable<JBGeneralDto thay cho List<JBGeneralDto> vì không cần tạo ra List để sử dụng trong hàm ngay
-        public async Task<IEnumerable<JBGeneralDto>> GetListJBInforAsync(string grapperId)
+        public async Task<IEnumerable<JBGeneralDto>> GetListJBInforAsync(int grapperId)
         {
-            var jBEntities = await _IJBRepository.GetListJBInformationAsync(grapperId);
-            if (jBEntities == null || !jBEntities.Any())
+            try
             {
-                UnityEngine.Debug.LogWarning("No jBEntities found.");
-            }
+                var jBEntities = await _IJBRepository.GetListJBInformationAsync(grapperId);
+                if (jBEntities == null || !jBEntities.Any())
+                {
+                    // UnityEngine.Debug.LogWarning("No jBEntities found.");
+                    throw new ApplicationException("Failed to get JB list");
 
-            return jBEntities.Select(MapToGeneralDto);
+                }
+
+                return jBEntities.Select(MapToGeneralDto);
+            }
+            catch (ArgumentException exception)
+            {
+                throw new ApplicationException("Failed to get JB list", exception); // Ném lại lỗi validation cho Unity xử lý
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationException("Failed to get JB list", ex); // Bao bọc lỗi từ Repository
+            }
         }
 
 
-        public async Task<JBResponseDto> GetJBByIdAsync(string JBId)
+        public async Task<JBResponseDto> GetJBByIdAsync(int JBId)
         {
             try
             {
@@ -93,23 +106,23 @@ namespace ApplicationLayer.UseCases
                     return jbResponseDto;
                 }
             }
-            catch (ArgumentException)
+            catch (ArgumentException exception)
             {
-                throw; // Ném lại lỗi validation cho Unity xử lý
+                throw new ApplicationException("Failed to get JB", exception); // Ném lại lỗi validation cho Unity xử lý
             }
             catch (Exception ex)
             {
                 throw new ApplicationException("Failed to get JB", ex); // Bao bọc lỗi từ Repository
             }
         }
-        public async Task<bool> CreateNewJBAsync(string grapperId, JBRequestDto requestDto)
+        public async Task<bool> CreateNewJBAsync(int grapperId, JBRequestDto requestDto)
         {
             try
             {
                 // Validate
                 if (string.IsNullOrEmpty(requestDto.Name))
                 {
-                    throw new ArgumentException("Name cannot be empty");
+                    throw new ArgumentException("name cannot be empty");
                 }
                 // Ánh xạ từ JBRequestDto sang JBEntity để check các nghiệp vụ
                 var jbEntity = MapRequestToEntity(requestDto);
@@ -129,21 +142,21 @@ namespace ApplicationLayer.UseCases
             }
             catch (ArgumentException)
             {
-                throw; // Ném lại lỗi validation cho Unity xử lý
+                throw new ApplicationException("Failed to create JB cause name is empty"); // Ném lại lỗi validation cho Unity xử lý
             }
             catch (Exception ex)
             {
                 throw new ApplicationException("Failed to create JB", ex); // Bao bọc lỗi từ Repository
             }
         }
-        public async Task<bool> UpdateJBAsync(string JBId, JBRequestDto requestDto)
+        public async Task<bool> UpdateJBAsync(int JBId, JBRequestDto requestDto)
         {
             try
             {
                 // Validate
                 if (string.IsNullOrEmpty(requestDto.Name))
                 {
-                    throw new ArgumentException("Name cannot be empty");
+                    throw new ArgumentException("name cannot be empty");
                 }
                 // Ánh xạ từ JBRequestDto sang JBEntity để check các nghiệp vụ
                 var jbEntity = MapRequestToEntity(requestDto);
@@ -163,14 +176,14 @@ namespace ApplicationLayer.UseCases
             }
             catch (ArgumentException)
             {
-                throw; // Ném lại lỗi validation cho Unity xử lý
+                throw new ApplicationException("Failed to update JB cause name is empty"); // Ném lại lỗi validation cho Unity xử lý
             }
             catch (Exception ex)
             {
-                throw new ApplicationException("Failed to create JB", ex); // Bao bọc lỗi từ Repository
+                throw new ApplicationException("Failed to update JB", ex); // Bao bọc lỗi từ Repository
             }
         }
-        public async Task<bool> DeleteJBAsync(string JBId)
+        public async Task<bool> DeleteJBAsync(int JBId)
         {
             try
             {
@@ -179,12 +192,13 @@ namespace ApplicationLayer.UseCases
             }
             catch (ArgumentException)
             {
-                throw; // Ném lại lỗi validation cho Unity xử lý
+                throw new ApplicationException("Failed to delete JB cause name is empty"); // Ném lại lỗi validation cho Unity xử lý
             }
             catch (Exception ex)
             {
                 throw new ApplicationException("Failed to delete JB", ex); // Bao bọc lỗi từ Repository
             }
+
         }
 
 

@@ -77,7 +77,7 @@ public class ListGrapperSettingView : MonoBehaviour, IGrapperView
         Grapper_Item_Prefab.SetActive(false);
     }
 
-    private void EditGrapperItem(string id)
+    private void EditGrapperItem(int id)
     {
         GlobalVariable.GrapperId = id;
         OpenUpdateCanvas();

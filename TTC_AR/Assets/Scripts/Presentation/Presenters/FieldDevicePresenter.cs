@@ -18,7 +18,7 @@ public class FieldDevicePresenter
         _service = service;
     }
 
-    public async void LoadListFieldDevice(string grapperId)
+    public async void LoadListFieldDevice(int grapperId)
     {
         GlobalVariable.APIRequestType.Add("GET_FieldDevice_List");
         _view.ShowLoading("Đang tải dữ liệu...");
@@ -60,14 +60,14 @@ public class FieldDevicePresenter
         }
     }
 
-    public async void LoadDetailById(string fieldDeviceId)
+    public async void LoadDetailById(int fieldDeviceId)
     {
         GlobalVariable.APIRequestType.Add("GET_FieldDevice");
         _view.ShowLoading("Đang tải dữ liệu...");
 
         try
         {
-            var dto = await _service.GetFieldDeviceByIdAsync(fieldDeviceId.ToString());
+            var dto = await _service.GetFieldDeviceByIdAsync(fieldDeviceId);
             if (dto != null)
             {
                 var model = ConvertFromResponseDto(dto);
@@ -89,7 +89,7 @@ public class FieldDevicePresenter
             GlobalVariable.APIRequestType.Remove("GET_FieldDevice");
         }
     }
-    public async void CreateNewFieldDevice(string grapperId, FieldDeviceInformationModel model)
+    public async void CreateNewFieldDevice(int grapperId, FieldDeviceInformationModel model)
     {
         GlobalVariable.APIRequestType.Add("POST_FieldDevice");
         _view.ShowLoading("Đang thực hiện...");
@@ -119,7 +119,7 @@ public class FieldDevicePresenter
     }
 
 
-    public async void UpdateFieldDevice(string FieldDeviceId, FieldDeviceInformationModel model)
+    public async void UpdateFieldDevice(int fieldDeviceId, FieldDeviceInformationModel model)
     {
         GlobalVariable.APIRequestType.Add("PUT_FieldDevice");
         _view.ShowLoading("Đang thực hiện...");
@@ -127,7 +127,7 @@ public class FieldDevicePresenter
         try
         {
             var dto = ConvertToRequestDto(model);
-            var result = await _service.UpdateFieldDeviceAsync(FieldDeviceId, dto);
+            var result = await _service.UpdateFieldDeviceAsync(fieldDeviceId, dto);
             if (result)
             {
                 _view.ShowSuccess(); // Chỉ hiển thị thành công nếu result == true
@@ -147,14 +147,14 @@ public class FieldDevicePresenter
             GlobalVariable.APIRequestType.Remove("PUT_FieldDevice");
         }
     }
-    public async void DeleteFieldDevice(string FieldDeviceId)
+    public async void DeleteFieldDevice(int fieldDeviceId)
     {
         GlobalVariable.APIRequestType.Add("DELETE_FieldDevice");
         _view.ShowLoading("Đang thực hiện...");
 
         try
         {
-            var result = await _service.DeleteFieldDeviceAsync(FieldDeviceId);
+            var result = await _service.DeleteFieldDeviceAsync(fieldDeviceId);
             if (result)
             {
                 _view.ShowSuccess(); // Chỉ hiển thị thành công nếu result == true

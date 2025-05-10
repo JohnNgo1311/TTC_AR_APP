@@ -15,11 +15,11 @@ public class Initialize_Mcc_List_Option_Selection : MonoBehaviour
     public GameObject Selection_Option_Canvas;
 
 
-    [Header("List Selection Panels")]
+    [Header("list Selection Panels")]
     public GameObject selection_List_FieldDevices_Panel;
 
 
-    [Header("List Selection Option Contents")]
+    [Header("list Selection Option Contents")]
     public Transform FieldDevices_List_Selection_Option_Content_Transform;
 
     public Dictionary<string, GameObject> initialSelectionOptions = new Dictionary<string, GameObject>();

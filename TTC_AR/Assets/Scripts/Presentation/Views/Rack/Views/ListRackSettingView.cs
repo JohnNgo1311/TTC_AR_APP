@@ -77,9 +77,9 @@ public class ListRackSettingView : MonoBehaviour, IRackView
         Rack_Item_Prefab.SetActive(false);
     }
 
-    private void EditRackItem(string id)
+    private void EditRackItem(int id)
     {
-        GlobalVariable.RackId = id;
+        GlobalVariable.rackId = id;
         OpenUpdateCanvas();
     }
     private void DeleRackItem(GameObject RackItem, RackInformationModel model)

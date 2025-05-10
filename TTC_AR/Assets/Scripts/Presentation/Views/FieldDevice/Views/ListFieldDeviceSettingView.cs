@@ -82,9 +82,9 @@ public class ListFieldDeviceSettingView : MonoBehaviour, IFieldDeviceView
 
     }
 
-    private void EditFieldDeviceItem(string id)
+    private void EditFieldDeviceItem(int id)
     {
-        GlobalVariable.FieldDeviceId = id;
+        GlobalVariable.fieldDeviceId = id;
         OpenUpdateCanvas();
     }
     private void DeleFieldDeviceItem(GameObject FieldDeviceItem, FieldDeviceInformationModel model)

@@ -21,7 +21,7 @@ public class JBManager : MonoBehaviour
         //! Dependency Injection
         _IJBService = ServiceLocator.Instance.JBService;
     }
-    public async void GetListJBInformation(string grapperId)
+    public async void GetListJBInformation(int grapperId)
     {
         try
         {
@@ -51,12 +51,12 @@ public class JBManager : MonoBehaviour
                         }
                         else
                         {
-                            Debug.Log("List ConnectionImage is empty");
+                            Debug.Log("list ConnectionImage is empty");
                         }
                     }
                     else
                     {
-                        Debug.Log("List ConnectionImage is null");
+                        Debug.Log("list ConnectionImage is null");
                     }
                 }
             }
@@ -85,7 +85,7 @@ public class JBManager : MonoBehaviour
         }
     }
 
-    public async void GetListJBGeneral(string grapperId)
+    public async void GetListJBGeneral(int grapperId)
     {
         try
         {
@@ -119,7 +119,7 @@ public class JBManager : MonoBehaviour
         }
     }
 
-    public async void GetJBById(string JBId)
+    public async void GetJBById(int JBId)
     {
         try
         {
@@ -138,12 +138,12 @@ public class JBManager : MonoBehaviour
                     }
                     else
                     {
-                        Debug.Log("List Device is empty");
+                        Debug.Log("list Device is empty");
                     }
                 }
                 else
                 {
-                    Debug.Log("List Device is null");
+                    Debug.Log("list Device is null");
                 }
 
                 if (jBResponseDto.ModuleBasicDtos != null)
@@ -157,12 +157,12 @@ public class JBManager : MonoBehaviour
                     }
                     else
                     {
-                        Debug.Log("List Module is empty");
+                        Debug.Log("list Module is empty");
                     }
                 }
                 else
                 {
-                    Debug.Log("List Module is null");
+                    Debug.Log("list Module is null");
                 }
 
 
@@ -187,13 +187,13 @@ public class JBManager : MonoBehaviour
                     }
                     else
                     {
-                        Debug.Log("List ConnectionImage is empty");
+                        Debug.Log("list ConnectionImage is empty");
                     }
                 }
 
                 else
                 {
-                    Debug.Log("List ConnectionImage is null");
+                    Debug.Log("list ConnectionImage is null");
                 }
             }
             else
@@ -222,7 +222,7 @@ public class JBManager : MonoBehaviour
         }
     }
 
-    public async void CreateNewJB(string grapperId, JBRequestDto jBRequestDto)
+    public async void CreateNewJB(int grapperId, JBRequestDto jBRequestDto)
     {
         try
         {
@@ -251,7 +251,7 @@ public class JBManager : MonoBehaviour
 
         }
     }
-    public async void UpdateJB(string JBId, JBRequestDto jBRequestDto)
+    public async void UpdateJB(int JBId, JBRequestDto jBRequestDto)
     {
         JBId = GlobalVariable.JBId;
         try
@@ -279,7 +279,7 @@ public class JBManager : MonoBehaviour
 
         }
     }
-    public async void DeleteJB(string JBId)
+    public async void DeleteJB(int JBId)
     {
         JBId = GlobalVariable.JBId;
         try
