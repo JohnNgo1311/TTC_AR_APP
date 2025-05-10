@@ -4,6 +4,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.Linq;
+using System;
+using EasyUI.Progress;
+using System.Threading.Tasks;
 
 public class Update_Field_Device_Connection_Screen : MonoBehaviour
 {
@@ -13,8 +17,7 @@ public class Update_Field_Device_Connection_Screen : MonoBehaviour
     [SerializeField] private Image connection_ImagePrefab;
     [SerializeField] private GameObject scroll_Area_Content;
     [SerializeField] private ScrollRect scroll_Area;
-    private string fieldDevice_Name;
-    private string cabinet_Type;
+    [SerializeField] private GameObject gameObject_Empty;
     private List<GameObject> instantiatedImages = new List<GameObject>();
 
     private void OnEnable()
@@ -25,8 +28,7 @@ public class Update_Field_Device_Connection_Screen : MonoBehaviour
         InitializeReferences();
         UpdateTitle();
 
-        // Chạy hai hàm song song bằng coroutines
-        StartCoroutine(RunApplyFunctions());
+        RunApplyFunctions();
     }
 
     private void OnDisable()
@@ -43,63 +45,37 @@ public class Update_Field_Device_Connection_Screen : MonoBehaviour
     }
     private void UpdateTitle()
     {
-        if (!string.IsNullOrEmpty(GlobalVariable.temp_MCCInformationModel.Type) && !string.IsNullOrEmpty(GlobalVariable.temp_FieldDeviceInformationModel.Name))
-        {
-            fieldDevice_Name = GlobalVariable.temp_FieldDeviceInformationModel.Name;
-            cabinet_Type = GlobalVariable.temp_MCCInformationModel.Type;
-            if (cabinet_Type.ToLower() == "biến tần")
-            {
-                MCC_Title.text = $"Sơ đồ đấu dây tủ {cabinet_Type.ToLower()} {fieldDevice_Name}";
-            }
-            else
-            {
-                MCC_Title.text = $"Sơ đồ đấu dây tủ động lực + {fieldDevice_Name}";
-            }
-        }
+        MCC_Title.text = "Sơ đồ đấu dây tủ biến tần " + StaticVariable.temp_FieldDeviceInformationModel.Name;
     }
 
-    private IEnumerator RunApplyFunctions()
+    private async void RunApplyFunctions()
     {
-        Show_Dialog.Instance.Set_Instance_Status_True();
-        Show_Dialog.Instance.ShowToast("loading", "Đang tải hình ảnh...");
-        yield return ApplyConnectionSprites();
-        yield return Show_Dialog.Instance.Set_Instance_Status_False();
-    }
+        ShowProgressBar("Đang tải hình ảnh...", "Vui lòng chờ...");
 
+        var tasks = new List<Task>();
 
-
-    private IEnumerator ApplyConnectionSprites()
-    {
-        if (GlobalVariable.temp_ListFieldDeviceConnectionImages != null)
+        connection_ImagePrefab.gameObject.SetActive(true);
+        foreach (var image in StaticVariable.temp_FieldDeviceInformationModel.ListConnectionImages)
         {
-            var list_Texture = GlobalVariable.temp_ListFieldDeviceConnectionImages;
-            if (list_Texture.Count > 0)
-            {
-                if (list_Texture.Count == 1)
-                {
-                    connection_ImagePrefab.sprite = Texture_To_Sprite.ConvertTextureToSprite(list_Texture[0]);
-                    connection_ImagePrefab.gameObject.SetActive(true);
-                }
-                else
-                {
-                    Debug.Log("list_Texture.Count: " + list_Texture.Count);
-                    foreach (var texture in list_Texture)
-                    {
-                        var imageObject = Instantiate(connection_ImagePrefab, scroll_Area_Content.transform);
-                        instantiatedImages.Add(imageObject.gameObject);
-                        imageObject.sprite = Texture_To_Sprite.ConvertTextureToSprite(texture);
-                        imageObject.gameObject.SetActive(true);
-                        yield return StartCoroutine(Resize_Gameobject_Function.Set_NativeSize_For_GameObject(imageObject));
+            // Debug.Log("image.url: " + image.url);
+            var new_FieldDevice_connection_image = Instantiate(connection_ImagePrefab, scroll_Area_Content.transform);
+            instantiatedImages.Add(new_FieldDevice_connection_image.gameObject);
+            tasks.Add(LoadImage.Instance.LoadImageFromUrlAsync(image.url, new_FieldDevice_connection_image));
+        }
 
-                    }
-                    connection_ImagePrefab.gameObject.SetActive(false);
-                }
-            }
-        }
-        else
+        connection_ImagePrefab.gameObject.SetActive(false);
+        gameObject_Empty.transform.SetAsLastSibling();
+
+        await Task.WhenAll(tasks);
+
+        //Resize hình ảnh
+        foreach (var image in instantiatedImages)
         {
-            Debug.LogError("No connection images found");
+            StartCoroutine(Resize_GameObject_Function.Set_NativeSize_For_GameObject(image.GetComponent<Image>()));
         }
+        scroll_Area.verticalNormalizedPosition = 1f;
+
+        HideProgressBar();
     }
 
     private void ClearInstantiatedImageObjects()
@@ -109,5 +85,16 @@ public class Update_Field_Device_Connection_Screen : MonoBehaviour
             Destroy(imageObject);
         }
         instantiatedImages.Clear();
+    }
+
+    private void ShowProgressBar(string title, string details)
+    {
+        Progress.Show(title, ProgressColor.Blue, true);
+        Progress.SetDetailsText(details);
+    }
+
+    private void HideProgressBar()
+    {
+        Progress.Hide();
     }
 }

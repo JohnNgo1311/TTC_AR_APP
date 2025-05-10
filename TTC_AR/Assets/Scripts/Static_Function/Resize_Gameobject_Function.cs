@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 [System.Serializable]
-public class Resize_Gameobject_Function : MonoBehaviour
+public class Resize_GameObject_Function : MonoBehaviour
 {
 
   //public static bool isResize = false;
@@ -11,7 +11,7 @@ public class Resize_Gameobject_Function : MonoBehaviour
   {
   }
 
-  public static void Resize_Parent_GameObject(RectTransform contentTransform)
+  public static void Resize_Parent_GameObject(RectTransform contentTransform, float Multiply = 1.00005f)
   {
     LayoutRebuilder.ForceRebuildLayoutImmediate(contentTransform);
     Canvas.ForceUpdateCanvases();
@@ -23,7 +23,7 @@ public class Resize_Gameobject_Function : MonoBehaviour
         totalHeight += childRect.rect.height;
       }
     }
-    contentTransform.sizeDelta = new Vector2(contentTransform.sizeDelta.x, totalHeight * 1.00005f);
+    contentTransform.sizeDelta = new Vector2(contentTransform.sizeDelta.x, totalHeight * Multiply);
   }
 
   public static IEnumerator Set_NativeSize_For_GameObject(Image imageComponent)
@@ -38,7 +38,6 @@ public class Resize_Gameobject_Function : MonoBehaviour
 
 
     yield return new WaitForEndOfFrame();
-    // Lấy kích thước gốc của hình ảnh
     float originalWidth = imageComponent.sprite.rect.width;
     float originalHeight = imageComponent.sprite.rect.height;
 

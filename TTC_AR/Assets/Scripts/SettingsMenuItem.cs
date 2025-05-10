@@ -1,34 +1,34 @@
-using UnityEngine;
-using UnityEngine.UI;
+// using UnityEngine;
+// using UnityEngine.UI;
 
-public class SettingsMenuItem : MonoBehaviour
-{
-    [HideInInspector] public Image img;
-    [HideInInspector] public RectTransform rectTrans;
-    private SettingsMenu settingsMenu;
-    private Button button;
+// public class SettingsMenuItem : MonoBehaviour
+// {
+//     [HideInInspector] public Image img;
+//     [HideInInspector] public RectTransform rectTrans;
+//     private SettingsMenu settingsMenu;
+//     private Button button;
 
-    void Awake()
-    {
-        img = GetComponent<Image>();
-        rectTrans = GetComponent<RectTransform>();
-        settingsMenu = rectTrans.parent.GetComponentInParent<SettingsMenu>();
+//     void Awake()
+//     {
+//         img = GetComponent<Image>();
+//         rectTrans = GetComponent<RectTransform>();
+//         settingsMenu = rectTrans.parent.GetComponentInParent<SettingsMenu>();
 
-        button = GetComponent<Button>();
-        button.onClick.AddListener(OnItemClick);
-    }
+//         button = GetComponent<Button>();
+//         button.onClick.AddListener(OnItemClick);
+//     }
 
-    void OnItemClick()
-    {
-        settingsMenu.OnItemClick(gameObject.name);
-    }
+//     void OnItemClick()
+//     {
+//         settingsMenu.OnItemClick(gameObject.name);
+//     }
 
-    void OnDestroy()
-    {
-        button.onClick.RemoveListener(OnItemClick);
-    }
-    void Start()
-    {
+//     void OnDestroy()
+//     {
+//         button.onClick.RemoveListener(OnItemClick);
+//     }
+//     void Start()
+//     {
 
-    }
-}
+//     }
+// }

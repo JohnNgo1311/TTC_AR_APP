@@ -1,0 +1,401 @@
+// using System;
+// using System.Collections.Generic;
+// using System.Linq;
+// using System.Threading.Tasks;
+// using UnityEngine;
+// using UnityEngine.UI;
+// using TMPro;
+// using EasyUI.Progress;
+// using System.Collections;
+
+// public class Dropdown_On_ValueChange : MonoBehaviour
+// {
+//     public GameObject prefab_Device;
+//     public SearchDeviceAndJBView searchableDropDownView;
+//     public Open_Detail_Image open_Detail_Image;
+//     public EventPublisher eventPublisher;
+//     public GameObject List_JBs;
+//     public GameObject JBPrefab;
+
+//     [SerializeField] private RectTransform contentTransform;
+//     [SerializeField] private TMP_Text code_Value_Text, function_Value_Text, range_Value_Text, unit_Value_Text, io_Value_Text;
+//     [SerializeField] private Image JB_Location_Image_Prefab, JB_Connection_Wiring_Image_Prefab;
+//     [SerializeField] private GameObject JB_Connection_Group, bottom_App_Bar;
+//     [SerializeField] private ScrollRect scrollRect;
+//     [SerializeField] private Dictionary<string, Sprite> spriteCache = new();
+//     [SerializeField] private List<Image> instantiatedImages = new();
+//     [SerializeField] private Transform deviceInfo;
+
+//     private Dictionary<string, DeviceInformationModel> deviceDictionary;
+//     private Dictionary<string, JBInformationModel> jBDictionary;
+//     private string _jbName = "";
+
+//     private void Awake()
+//     {
+//         searchableDropDownView ??= GameObject.Find("Searchable").GetComponent<SearchDeviceAndJBView>();
+//         InitUIElements();
+//     }
+
+//     private void OnEnable()
+//     {
+//     }
+
+//     private void OnDisable()
+//     {
+//         ResetResources();
+//     }
+
+//     private void Start()
+//     {
+//         StartCoroutine(LoadData());
+//     }
+
+//     private IEnumerator LoadData()
+//     {
+//         yield return new WaitUntil(
+//             () => GlobalVariable_Search_Devices.temp_ListDeviceInformationModel.Any() &&
+//             GlobalVariable_Search_Devices.temp_ListJBInformationModel.Any()
+//         );
+
+//         try
+//         {
+//             Prepare_Device_Dictionary_For_Searching();
+//             Prepare_JB_Dictionary_For_Searching();
+//             searchableDropDownView.Initialize();
+//             searchableDropDownView.SetInitialTextFieldValue();
+//         }
+//         catch (Exception e)
+//         {
+//             Debug.LogWarning(e.Message + " " + e.StackTrace + " " + e.Source + " " + e.InnerException);
+//         }
+//     }
+
+//     private void InitUIElements()
+//     {
+//         var content = prefab_Device.transform.Find("Content");
+//         scrollRect ??= prefab_Device.GetComponent<ScrollRect>();
+//         contentTransform ??= content.GetComponent<RectTransform>();
+
+//         deviceInfo = content.Find("Device_information");
+//         code_Value_Text ??= deviceInfo.Find("Code_group/Code_value").GetComponent<TMP_Text>();
+//         function_Value_Text ??= deviceInfo.Find("Function_group/Function_value").GetComponent<TMP_Text>();
+//         range_Value_Text ??= deviceInfo.Find("Range_group/Range_value").GetComponent<TMP_Text>();
+//         io_Value_Text ??= deviceInfo.Find("IO_group/IO_value").GetComponent<TMP_Text>();
+
+//         var jbConnectionGroup = content.Find("JB_Connection_group/JB_Connection_text_group");
+
+//         JB_Connection_Group ??= content.Find("JB_Connection_group").gameObject;
+//         JB_Location_Image_Prefab ??= JB_Connection_Group.transform.Find("JB_Location_Image").GetComponent<Image>();
+//         JB_Connection_Wiring_Image_Prefab ??= JB_Connection_Group.transform.Find("JB_Connection_Wiring").GetComponent<Image>();
+//     }
+
+//     private void Prepare_Device_Dictionary_For_Searching()
+//     {
+//         var tempListDevice = GlobalVariable_Search_Devices.temp_ListDeviceInformationModel;
+//         deviceDictionary = tempListDevice
+//             .GroupBy(device => device.Code.ToLower())
+//             .ToDictionary(g => g.Key, g => g.First());
+
+//         foreach (var device in tempListDevice)
+//         {
+//             var functionKey = device.Function.ToLower();
+//             if (!deviceDictionary.ContainsKey(functionKey))
+//             {
+//                 deviceDictionary.Add(functionKey, device);
+//             }
+//         }
+//     }
+
+//     private void Prepare_JB_Dictionary_For_Searching()
+//     {
+//         var tempListJB = GlobalVariable_Search_Devices.temp_ListJBInformationModel;
+
+//         jBDictionary = tempListJB
+//             .GroupBy(jb => jb.Name.ToLower())
+//             .ToDictionary(g => g.Key, g => g.First());
+//     }
+
+//     private void OnInputValueChanged(string input)
+//     {
+//         switch (searchableDropDownView.filter_Type)
+//         {
+//             case "Device":
+//                 if (deviceDictionary.TryGetValue(input.ToLower(), out var device))
+//                 {
+//                     ClearWiringGroupAndCache();
+//                     UpdateDeviceInformation(device);
+//                 }
+//                 break;
+//             case "JB/TSD":
+//                 List_JBs.SetActive(true);
+//                 JBPrefab.SetActive(true);
+//                 if (jBDictionary.TryGetValue(input.ToLower(), out var jB))
+//                 {
+//                     ClearWiringGroupAndCache();
+//                     UpdateJBInformation(jB);
+//                 }
+//                 break;
+//         }
+//     }
+
+//     private void ClearWiringGroupAndCache()
+//     {
+//         foreach (Transform child in JB_Connection_Group.transform)
+//         {
+//             if (child.gameObject != JB_Connection_Wiring_Image_Prefab && child.gameObject.name.Contains("(Clone)"))
+//             {
+//                 Destroy(child.gameObject);
+//             }
+//         }
+//         foreach (Transform child in List_JBs.transform)
+//         {
+//             if (child.gameObject != JB_Connection_Wiring_Image_Prefab && child.gameObject.name.Contains("(Clone)"))
+//             {
+//                 Destroy(child.gameObject);
+//             }
+//         }
+//     }
+
+//     private async void UpdateDeviceInformation(DeviceInformationModel device)
+//     {
+//         if (!deviceInfo.gameObject.activeSelf) deviceInfo.gameObject.SetActive(true);
+//         code_Value_Text.text = device.Code;
+//         function_Value_Text.text = device.Function;
+//         unit_Value_Text.text = device.Unit;
+//         range_Value_Text.text = device.Range;
+//         io_Value_Text.text = device.IOAddress;
+
+//         if (device.JBInformationModels.Any())
+//         {
+//             ShowProgressBar("Đang tải hình ảnh...", "...");
+
+//             if (device.JBInformationModels.Count == 1)
+//             {
+//                 if (!JBPrefab.activeSelf) JBPrefab.SetActive(true);
+//                 var JBName = JBPrefab.transform.Find("JB_Connection_text_group/JB_Connection_value").GetComponent<TMP_Text>();
+//                 var JBLocation = JBPrefab.transform.Find("JB_Connection_text_group/JB_Connection_location").GetComponent<TMP_Text>();
+//                 JBName.text = device.JBInformationModels[0].Name;
+//                 JBLocation.text = device.JBInformationModels[0].Location;
+//                 _jbName = device.JBInformationModels[0].Name;
+//                 if (!string.IsNullOrEmpty(_jbName))
+//                 {
+//                     await LoadDeviceSprites(
+//                           list_Additional_Images: device.AdditionalConnectionImages,
+//                            jbInformationModel: device.JBInformationModels[0],
+//                            LocationImage: JB_Location_Image_Prefab,
+//                            ConnectionImage: JB_Connection_Wiring_Image_Prefab,
+//                            JB_List_Connection_Group: JB_Connection_Group.transform);
+//                     Canvas.ForceUpdateCanvases();
+//                     LayoutRebuilder.ForceRebuildLayoutImmediate(contentTransform);
+//                     HideProgressBar();
+//                 }
+//             }
+//             else
+//             {
+//                 if (!JBPrefab.activeSelf) JBPrefab.SetActive(true);
+//                 foreach (var jb in device.JBInformationModels)
+//                 {
+//                     int jbIndex = device.JBInformationModels.IndexOf(jb);
+//                     var newJB = Instantiate(JBPrefab, List_JBs.transform);
+//                     var JBName = newJB.transform.Find("JB_Connection_text_group/JB_Connection_value").GetComponent<TMP_Text>();
+//                     var JBLocation = newJB.transform.Find("JB_Connection_text_group/JB_Connection_location").GetComponent<TMP_Text>();
+//                     JBName.text = jb.Name;
+//                     JBLocation.text = jb.Location;
+//                     _jbName = jb.Name;
+//                     if (!string.IsNullOrEmpty(_jbName))
+//                     {
+//                         Image JB_Location_Image = newJB.transform.Find("JB_Location_Image").GetComponent<Image>();
+//                         Image JB_Connection_Wiring_Image = newJB.transform.Find("JB_Connection_Wiring").GetComponent<Image>();
+//                         await LoadDeviceSprites(
+//                              list_Additional_Images: device.AdditionalConnectionImages,
+//                               jbInformationModel: device.JBInformationModels[jbIndex],
+//                              LocationImage: JB_Location_Image,
+//                              ConnectionImage: JB_Connection_Wiring_Image,
+//                              JB_List_Connection_Group: newJB.transform);
+//                     }
+//                 }
+//                 Canvas.ForceUpdateCanvases();
+//                 LayoutRebuilder.ForceRebuildLayoutImmediate(contentTransform);
+//                 JBPrefab.SetActive(false);
+//                 HideProgressBar();
+//             }
+//         }
+//         else
+//         {
+//             List_JBs.SetActive(false);
+//         }
+//     }
+
+//     private async void UpdateJBInformation(JBInformationModel jB)
+//     {
+//         ShowProgressBar("Đang tải hình ảnh...", "...");
+//         if (deviceInfo.gameObject.activeSelf) deviceInfo.gameObject.SetActive(false);
+//         var JBName = JBPrefab.transform.Find("JB_Connection_text_group/JB_Connection_value").GetComponent<TMP_Text>();
+//         var JBLocation = JBPrefab.transform.Find("JB_Connection_text_group/JB_Connection_location").GetComponent<TMP_Text>();
+//         JBName.text = jB.Name;
+//         JBLocation.text = jB.Location;
+//         _jbName = jB.Name;
+//         GlobalVariable_Search_Devices.jbName = _jbName;
+//         if (!string.IsNullOrEmpty(_jbName))
+//         {
+//             await LoadDeviceSprites(
+//              list_Additional_Images: null,
+//              jbInformationModel: jB,
+//              LocationImage: JB_Location_Image_Prefab,
+//              ConnectionImage: JB_Connection_Wiring_Image_Prefab,
+//              JB_List_Connection_Group: JB_Connection_Group.transform);
+//         }
+//         Canvas.ForceUpdateCanvases();
+//         LayoutRebuilder.ForceRebuildLayoutImmediate(List_JBs.transform as RectTransform);
+//         LayoutRebuilder.ForceRebuildLayoutImmediate(contentTransform);
+
+//         HideProgressBar();
+//     }
+
+//     private async Task LoadDeviceSprites(List<ImageInformationModel> list_Additional_Images, JBInformationModel jbInformationModel, Image LocationImage, Image ConnectionImage, Transform JB_List_Connection_Group)
+//     {
+//         if (jbInformationModel == null || jbInformationModel.ListConnectionImages == null)
+//         {
+//             Debug.LogError("jbInformationModel hoặc ListConnectionImages bị null!");
+//             return;
+//         }
+
+//         var total_List_Connection_Images = new List<ImageInformationModel>(jbInformationModel.ListConnectionImages);
+
+//         if (list_Additional_Images != null && list_Additional_Images.Count > 0)
+//         {
+//             total_List_Connection_Images.AddRange(list_Additional_Images);
+//         }
+//         await Apply_Sprite_JB_Images(
+//           outdoorImage: jbInformationModel.OutdoorImage,
+//           listConnectionImages: total_List_Connection_Images,
+//           JB_Location_Image: LocationImage,
+//           JB_Connection_Wiring_Image: ConnectionImage,
+//           JB_List_Connection_Group: JB_List_Connection_Group);
+//         if (scrollRect != null)
+//         {
+//             scrollRect.verticalNormalizedPosition = 1f;
+//         }
+//         else
+//         {
+//             Debug.LogWarning("scrollRect bị null, không thể thay đổi vị trí roll!");
+//         }
+//     }
+
+//     private async Task Apply_Sprite_JB_Images(ImageInformationModel outdoorImage, List<ImageInformationModel> listConnectionImages, Image JB_Location_Image, Image JB_Connection_Wiring_Image, Transform JB_List_Connection_Group)
+//     {
+//         var tasks = new List<Task>();
+
+//         if (outdoorImage != null)
+//         {
+//             if (!string.IsNullOrEmpty(outdoorImage.url))
+//             {
+//                 AddButtonListener(JB_Location_Image, outdoorImage.url);
+//                 tasks.Add(searchableDropDownView._presenter.LoadImageAsync(outdoorImage.url, JB_Location_Image));
+//             }
+//         }
+//         else
+//         {
+//             var Noted_Url = "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_Outdoor_Location%2FJB_TSD_Location_Note.png?alt=media&token=3c18c77a-750d-4d7b-81b5-84f1973f61ba";
+//             AddButtonListener(JB_Location_Image, Noted_Url);
+//             tasks.Add(searchableDropDownView._presenter.LoadImageAsync(Noted_Url, JB_Location_Image));
+//         }
+
+//         if (listConnectionImages.Any())
+//         {
+//             foreach (var image in listConnectionImages)
+//             {
+//                 var newImage = Instantiate(JB_Connection_Wiring_Image.gameObject, JB_List_Connection_Group);
+//                 AddButtonListener(newImage.GetComponent<Image>(), image.Name);
+//                 tasks.Add(searchableDropDownView._presenter.LoadImageAsync(image.url, newImage.GetComponent<Image>()));
+//             }
+//         }
+
+//         await Task.WhenAll(tasks);
+
+//         JB_Connection_Wiring_Image.gameObject.SetActive(false);
+
+//         ResizeImages(JB_Location_Image, JB_List_Connection_Group);
+//     }
+
+//     private void AddButtonListener(Image imagePrefab, string imageName)
+//     {
+//         var button = imagePrefab.GetComponent<Button>();
+//         button.onClick.RemoveAllListeners();
+//         button.onClick.AddListener(() => open_Detail_Image.Open_Detail_Canvas(imagePrefab));
+//     }
+
+//     private void ShowProgressBar(string title, string details)
+//     {
+//         Progress.Show(title, ProgressColor.Blue, true);
+//         Progress.SetDetailsText(details);
+//     }
+
+//     private void HideProgressBar()
+//     {
+//         Progress.Hide();
+//     }
+
+//     private void ResizeImages(Image locationImage, Transform JB_List_Connection_Group)
+//     {
+//         foreach (var connectionImage in JB_List_Connection_Group.GetComponentsInChildren<Image>())
+//         {
+//             if (connectionImage.gameObject.activeSelf && connectionImage.name.Contains("(Clone)") || connectionImage.name.Contains("Location"))
+//                 StartCoroutine(Resize_GameObject_Function.Set_NativeSize_For_GameObject(connectionImage));
+//         }
+//     }
+
+//     private void SetSprite(Image imageComponent, string jb_name)
+//     {
+//         if (!spriteCache.TryGetValue(jb_name, out var jbSprite))
+//         {
+//             spriteCache.TryGetValue("JB_TSD_Location_Note", out jbSprite);
+//         }
+//         imageComponent.sprite = jbSprite;
+//         imageComponent.gameObject.GetComponent<Button>().onClick.AddListener(() => open_Detail_Image.Open_Detail_Canvas(imageComponent));
+//         StartCoroutine(Resize_GameObject_Function.Set_NativeSize_For_GameObject(imageComponent));
+//     }
+
+//     private void CreateAndSetSprite(string jb_name)
+//     {
+//         var jbLocationImage = Instantiate(JB_Location_Image_Prefab, JB_Connection_Group.transform);
+//         jbLocationImage.transform.SetSiblingIndex(JB_Location_Image_Prefab.transform.GetSiblingIndex() + 1);
+//         jbLocationImage.gameObject.SetActive(true);
+//         SetSprite(jbLocationImage, jb_name);
+//         instantiatedImages.Add(jbLocationImage);
+//     }
+
+//     private void ClearInstantiatedImages()
+//     {
+//         foreach (var img in instantiatedImages)
+//         {
+//             if (img != null)
+//             {
+//                 Destroy(img.gameObject);
+//             }
+//         }
+//         instantiatedImages.Clear();
+//     }
+
+//     private void ResetResources()
+//     {
+//         ClearWiringGroupAndCache();
+
+//         GlobalVariable_Search_Devices.temp_ListDeviceInformationModel.Clear();
+//         GlobalVariable_Search_Devices.temp_ListJBInformationModel.Clear();
+//         GlobalVariable_Search_Devices.temp_List_Device_For_Fitler.Clear();
+//         GlobalVariable_Search_Devices.temp_List_JB_For_Fitler.Clear();
+//     }
+
+//     private void HandleOrientationChange(ScreenOrientation newOrientation)
+//     {
+//         // if (newOrientation == ScreenOrientation.Portrait)
+//         // {
+//         //     bottom_App_Bar.SetActive(true);
+//         // }
+//         // else if (newOrientation == ScreenOrientation.LandscapeLeft || newOrientation == LandscapeRight)
+//         // {
+//         //     bottom_App_Bar.SetActive(false);
+//         // }
+//     }
+// }

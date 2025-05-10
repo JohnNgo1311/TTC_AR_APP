@@ -19,6 +19,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace PimDeWitte.UnityMainThreadDispatcher
 {
@@ -36,7 +37,7 @@ namespace PimDeWitte.UnityMainThreadDispatcher
 		{
 			lock (_executionQueue)
 			{
-				while (_executionQueue.Count > 0)
+				while (_executionQueue.Any())
 				{
 					_executionQueue.Dequeue().Invoke();
 				}

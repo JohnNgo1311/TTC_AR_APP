@@ -11,7 +11,8 @@ namespace CW.Common
 	public class CwRenderTextureManager : MonoBehaviour
 	{
 		/// <summary>This allows you to set how many frames an unused RenderTexture will remaining in memory before it's released.</summary>
-		public int Lifetime { set { lifetime = value; } get { return lifetime; } } [SerializeField] private int lifetime = 3;
+		public int Lifetime { set { lifetime = value; } get { return lifetime; } }
+		[SerializeField] private int lifetime = 3;
 
 #if USE_CUSTOM_TEMPORARY
 		private class Entry
@@ -81,9 +82,9 @@ namespace CW.Common
 		{
 			if (rt != null)
 			{
-				if (instances.Count > 0)
+				if (instances.Any())
 				{
-					var entry = Entry.Pool.Count > 0 ? Entry.Pool.Pop() : new Entry();
+					var entry = Entry.Pool.Any() ? Entry.Pool.Pop() : new Entry();
 
 					entry.RT    = rt;
 					entry.Desc  = rt.descriptor;

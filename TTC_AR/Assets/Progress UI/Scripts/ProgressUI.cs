@@ -24,7 +24,7 @@ namespace EasyUI.Helpers
    public class ProgressUI : MonoBehaviour
    {
       [Header("UI References :")]
-      [SerializeField] private CanvasGroup uiCanvasGroup;
+      [SerializeField] public CanvasGroup uiCanvasGroup;
       [SerializeField] private Image uiOverlayImage;
       [SerializeField] private Image uiPopupImage;
       [SerializeField] private Image uiLoadingCircleImage;
@@ -35,6 +35,7 @@ namespace EasyUI.Helpers
       [SerializeField] private TextMeshProUGUI uiProgressText;
       [SerializeField] private Slider uiProgressSlider;
       [SerializeField] private Image uiProgressFillImage;
+
 
       [Space]
       [Header("Progress UI Settings :")]
@@ -67,15 +68,15 @@ namespace EasyUI.Helpers
          progressData = data;
 
          UpdateTheme();
-         UpdateColors();
+         //UpdateColors();
 
          SetTitleText(data.title);
 
          SetDetails(data.detailsEnabled);
          if (data.detailsEnabled)
          {
-            SetDetailsText("");
-            SetProgressValue(0f);
+            // SetDetailsText("");
+            //  SetProgressValue(0f);
          }
 
          Show();
@@ -84,44 +85,46 @@ namespace EasyUI.Helpers
 
       private void Show()
       {
+         uiCanvasGroup.blocksRaycasts = true;
          Dismiss();
          SetLoadingCircleAnimation(true);
          StartCoroutine(Fade(0f, 1f, settings.fadeInDuration));
+
       }
 
       private void UpdateTheme()
       {
          uiOverlayImage.raycastTarget = true;
-         uiOverlayImage.gameObject.layer = 5;
-         foreach (Transform child in uiOverlayImage.transform)
-         {
-            child.gameObject.layer = 5;
-         }
-         uiOverlayImage.color = settings.theme.OverlayColor;
-         uiPopupImage.color = settings.theme.BackgroundColor;
+         // uiOverlayImage.gameObject.layer = 5;
+         // foreach (Transform child in uiOverlayImage.transform)
+         // {
+         //    child.gameObject.layer = 5;
+         // }
+         //uiOverlayImage.color = settings.theme.OverlayColor;
+         // uiPopupImage.color = settings.theme.BackgroundColor;
       }
 
       private void SetDetails(bool enabled)
       {
-         uiDetailsSection.SetActive(enabled);
+         //  uiDetailsSection.SetActive(enabled);
       }
 
       public void SetTitleText(string text)
       {
-         progressData.title = text;
-         uiTitleText.font = fontAsset;
+         //  progressData.title = text;
+         // uiTitleText.font = fontAsset;
          uiTitleText.ForceMeshUpdate();
-         uiTitleText.fontSize = 30;
-         uiTitleText.fontWeight = FontWeight.Bold;
+         //   uiTitleText.fontSize = 30;
+         // uiTitleText.fontWeight = FontWeight.Bold;
          uiTitleText.text = text;
       }
 
       public void SetDetailsText(string text)
       {
-         progressData.details = text;
-         uiDetailsText.font = fontAsset;
-         uiDetailsText.ForceMeshUpdate();
-         uiDetailsText.text = text;
+         // progressData.details = text;
+         // uiDetailsText.font = fontAsset;
+         // uiDetailsText.ForceMeshUpdate();
+         // uiDetailsText.text = text;
       }
 
       public void SetProgressValue(float progress)
@@ -129,19 +132,19 @@ namespace EasyUI.Helpers
          progressData.progress = progress;
          uiProgressSlider.value = progress;
          uiProgressText.font = fontAsset;
-         uiProgressText.ForceMeshUpdate();
+         // uiProgressText.ForceMeshUpdate();
          uiProgressText.text = string.Format("{0} %", Mathf.Clamp(Mathf.Floor(progress), 0f, 100f));
       }
 
       private void UpdateColors()
       {
-         Color c = settings.theme.ProgressColors[(int)progressData.color].value;
+         // Color c = settings.theme.ProgressColors[(int)progressData.color].value;
 
-         uiTitleText.color = settings.theme.TitleTextColor;
-         uiLoadingCircleImage.color = c;
-         uiProgressFillImage.color = c;
-         uiDetailsText.color = settings.theme.DetailsTextColor;
-         uiProgressText.color = settings.theme.DetailsTextColor;
+         // uiTitleText.color = settings.theme.TitleTextColor;
+         // uiLoadingCircleImage.color = c;
+         // uiProgressFillImage.color = c;
+         //   uiDetailsText.color = settings.theme.DetailsTextColor;
+         //  uiProgressText.color = settings.theme.DetailsTextColor;
       }
 
       public void Hide()
@@ -149,6 +152,8 @@ namespace EasyUI.Helpers
          SetLoadingCircleAnimation(false);
          StartCoroutine(Fade(uiCanvasGroup.alpha, 0f, settings.fadeOutDuration));
          ResetProgressData();
+         uiCanvasGroup.blocksRaycasts = false;
+
       }
 
       private IEnumerator Fade(float startAlpha, float endAlpha, float fadeDuration)

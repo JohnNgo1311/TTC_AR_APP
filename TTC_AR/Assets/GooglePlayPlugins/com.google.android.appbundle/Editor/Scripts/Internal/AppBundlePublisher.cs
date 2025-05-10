@@ -196,7 +196,8 @@ namespace Google.Android.AppBundle.Editor.Internal
             {
                 var createBundleOptions = new CreateBundleOptions
                 {
-                    AabFilePath = aabFilePath, AssetPackConfig = buildSettings.assetPackConfig
+                    AabFilePath = aabFilePath,
+                    AssetPackConfig = buildSettings.assetPackConfig
                 };
                 var errorMessage = appBundleBuilder.CreateBundle(createBundleOptions);
                 return errorMessage == null;
@@ -223,12 +224,13 @@ namespace Google.Android.AppBundle.Editor.Internal
         {
             var callback =
                 runOnDevice
-                    ? (AppBundleBuilder.PostBuildCallback) RunBundle
+                    ? (AppBundleBuilder.PostBuildCallback)RunBundle
                     : EditorUtility.RevealInFinder;
 
             var createBundleOptions = new CreateBundleOptions
             {
-                AabFilePath = aabFilePath, AssetPackConfig = assetPackConfig
+                AabFilePath = aabFilePath,
+                AssetPackConfig = assetPackConfig
             };
             appBundleBuilder.CreateBundleAsync(createBundleOptions, callback);
         }

@@ -6,13 +6,13 @@ public class Nav_Scene_Back : MonoBehaviour
 {
     public string previousSceneName;
     public string recentSceneName;
-    [SerializeField]
-    private bool isOrientation = false;
+    // [SerializeField]
+    // private bool isOrientation = false;
     [SerializeField]
     private GameObject detail_Image;
     private void Awake()
     {
-        Scene_Manager.Instance.SetScreenOrientation(isOrientation);
+        // Scene_Manager.Instance.SetScreenOrientation(isOrientation);
     }
     private void Update()
     {

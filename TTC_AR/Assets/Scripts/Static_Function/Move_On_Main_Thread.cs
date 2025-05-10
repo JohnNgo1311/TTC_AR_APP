@@ -8,12 +8,10 @@ using UnityEngine.UI;
 
 public class Move_On_Main_Thread : MonoBehaviour
 {
-
   //public static bool isResize = false;
   void Start()
   {
   }
-
   public static Task RunOnMainThread(Action action)
   {
     if (action == null) throw new ArgumentNullException(nameof(action));

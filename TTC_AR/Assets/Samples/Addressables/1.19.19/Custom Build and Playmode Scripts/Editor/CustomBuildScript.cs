@@ -222,7 +222,7 @@ public class CustomBuildScript : BuildScriptBase
         var tempPath = Path.GetDirectoryName(Application.dataPath) + "/" + Addressables.LibraryPath + PlatformMappingService.GetPlatformPathSubFolder() + "/addressables_content_state.bin";
 
         var playerBuildVersion = builderInput.PlayerVersion;
-        if (m_AllBundleInputDefs.Count > 0)
+        if (m_AllBundleInputDefs.Any())
         {
             if (!BuildUtility.CheckModifiedScenesAndAskToSave())
                 return AddressableAssetBuildResult.CreateResult<TResult>(null, 0, "Unsaved scenes");
@@ -298,7 +298,7 @@ public class CustomBuildScript : BuildScriptBase
                 var resultValue = r.Value;
                 m_Linker.AddTypes(resultValue.includedTypes);
 #if UNITY_2021_1_OR_NEWER
-                    m_Linker.AddSerializedClass(resultValue.includedSerializeReferenceFQN);
+                m_Linker.AddSerializedClass(resultValue.includedSerializeReferenceFQN);
 #else
                 if (resultValue.GetType().GetProperty("includedSerializeReferenceFQN") != null)
                     m_Linker.AddSerializedClass(resultValue.GetType().GetProperty("includedSerializeReferenceFQN").GetValue(resultValue) as System.Collections.Generic.IEnumerable<string>);
@@ -608,7 +608,7 @@ public class CustomBuildScript : BuildScriptBase
         foreach (var loc in assetEntries)
         {
             AddressableAssetEntry processedEntry = loc;
-            if (loc.IsFolder && loc.SubAssets.Count > 0)
+            if (loc.IsFolder && loc.SubAssets.Any())
                 processedEntry = loc.SubAssets[0];
             GUID guid = new GUID(processedEntry.guid);
             //For every entry in the write data we need to ensure the BundleFileId is set so we can save it correctly in the cached state
@@ -917,9 +917,9 @@ public class CustomBuildScript : BuildScriptBase
             else
                 assets.Add(e);
         }
-        if (assets.Count > 0)
+        if (assets.Any())
             buildInputDefs.Add(GenerateBuildInputDefinition(assets, groupGuid + "_assets_" + address + ".bundle"));
-        if (scenes.Count > 0)
+        if (scenes.Any())
             buildInputDefs.Add(GenerateBuildInputDefinition(scenes, groupGuid + "_scenes_" + address + ".bundle"));
     }
 
@@ -977,15 +977,15 @@ public class CustomBuildScript : BuildScriptBase
 
             var remoteHashLoadPath = remoteLoadFolder + versionedFileName + ".hash";
             var remoteHashLoadLocation = new ResourceLocationData(
-                    new[] {dependencyHashes[(int)ContentCatalogProvider.DependencyHashIndex.Remote]},
+                    new[] { dependencyHashes[(int)ContentCatalogProvider.DependencyHashIndex.Remote] },
                     remoteHashLoadPath,
                     typeof(TextDataProvider), typeof(string));
             remoteHashLoadLocation.Data = catalogLoadOptions.Copy();
             locations.Add(remoteHashLoadLocation);
 
-            var cacheLoadPath = "{UnityEngine.Application.persistentDataPath}/com.unity.addressables" + versionedFileName + ".hash";
+            var cacheLoadPath = "{Application.persistentDataPath}/com.unity.addressables" + versionedFileName + ".hash";
             var cacheLoadLocation = new ResourceLocationData(
-                    new[] {dependencyHashes[(int)ContentCatalogProvider.DependencyHashIndex.Cache]},
+                    new[] { dependencyHashes[(int)ContentCatalogProvider.DependencyHashIndex.Cache] },
                     cacheLoadPath,
                     typeof(TextDataProvider), typeof(string));
             cacheLoadLocation.Data = catalogLoadOptions.Copy();
@@ -1143,8 +1143,8 @@ public class CustomBuildScript : BuildScriptBase
         {
             postCatalogUpdates.Add(() =>
             {
-                    //This is where we strip out the temporary hash for the final bundle location and filename
-                    string bundlePathWithoutHash = StripHashFromBundleLocation(targetBundlePath);
+                //This is where we strip out the temporary hash for the final bundle location and filename
+                string bundlePathWithoutHash = StripHashFromBundleLocation(targetBundlePath);
                 if (File.Exists(targetBundlePath))
                 {
                     if (File.Exists(bundlePathWithoutHash))
