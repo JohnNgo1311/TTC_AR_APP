@@ -74,8 +74,8 @@ public class GlobalVariable : MonoBehaviour
 
     "GET_Image_List"
     };
+    public static string objectName = "";
     public static bool requestTimeOut = false;
-
     public static string previousScene;
     public static string recentScene;
     public static string jb_TSD_Title = "";
@@ -213,7 +213,6 @@ public class GlobalVariable : MonoBehaviour
 
 
     public static List<MccInformationModel> temp_List_MccInformationModel = new List<MccInformationModel>();
-    public static Dictionary<string, MccInformationModel> temp_Dictionary_MccInformationModel = new Dictionary<string, MccInformationModel>();
 
     //! Field Device
     public static List<FieldDeviceInformationModel> temp_ListFieldDeviceInformationModel = new List<FieldDeviceInformationModel>();

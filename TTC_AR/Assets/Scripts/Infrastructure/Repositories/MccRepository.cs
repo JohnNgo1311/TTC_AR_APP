@@ -24,7 +24,7 @@ namespace Infrastructure.Repositories
         {
             try
             {
-                var response = await _httpClient.GetStringAsync($"{GlobalVariable.baseUrl}");
+                var response = await _httpClient.GetStringAsync($"{GlobalVariable.baseUrl}/Grappers/{grapperId}/mccs");
                 return JsonConvert.DeserializeObject<List<MccEntity>>(response);
             }
             catch (HttpRequestException ex)
@@ -41,7 +41,7 @@ namespace Infrastructure.Repositories
         {
             try
             {
-                var response = await _httpClient.GetStringAsync($"{GlobalVariable.baseUrl}/{mccId}");
+                var response = await _httpClient.GetStringAsync($"{GlobalVariable.baseUrl}/Mccs/{mccId}");
                 return JsonConvert.DeserializeObject<MccEntity>(response);
             }
             catch (HttpRequestException ex)

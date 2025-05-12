@@ -46,6 +46,7 @@ namespace Domain.Entities
       HashSet<string> allowedRequests = new HashSet<string>
       {
         HttpMethodTypeEnum.GETMcc.GetDescription(),
+        HttpMethodTypeEnum.GETListMcc.GetDescription(),
         HttpMethodTypeEnum.PUTMcc.GetDescription(),
         HttpMethodTypeEnum.POSTMcc.GetDescription(),
       };

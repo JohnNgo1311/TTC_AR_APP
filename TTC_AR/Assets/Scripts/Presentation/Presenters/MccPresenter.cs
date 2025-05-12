@@ -30,7 +30,6 @@ public class MccPresenter
                 if (MccBasicDto.Any())
                 {
                     var models = MccBasicDto.Select(dto => ConvertFromBasicDto(dto)).ToList();
-
                     _view.DisplayList(models);
 
                 }

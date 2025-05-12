@@ -375,4 +375,8 @@ public class UpdateMccSettingView : MonoBehaviour, IMccView
     }
 
     public void DisplayCreateResult(bool success) { }
+
+    public void DisplayFieldDeviceList(List<FieldDeviceInformationModel> models)
+    {
+    }
 }

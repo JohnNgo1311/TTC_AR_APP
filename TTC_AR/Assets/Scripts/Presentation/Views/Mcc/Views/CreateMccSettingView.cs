@@ -103,7 +103,7 @@ public class CreateMccSettingView : MonoBehaviour, IMccView
             OpenErrorDialog("Vui lòng nhập mã tủ Mcc");
             return;
         }
-        if (GlobalVariable.temp_Dictionary_MccInformationModel.ContainsKey(MccInformationModel.CabinetCode))
+        if (GlobalVariable.temp_Dictionary_MCCInformationModel.ContainsKey(MccInformationModel.CabinetCode))
         {
             OpenErrorDialog("Mã tủ Mcc đã tồn tại", "Vui lòng nhập mã tủ Mcc khác");
             return;
@@ -359,4 +359,8 @@ public class CreateMccSettingView : MonoBehaviour, IMccView
     public void DisplayDeleteResult(bool success) { }
 
     public void DisplayDetail(MccInformationModel model) { }
+
+    public void DisplayFieldDeviceList(List<FieldDeviceInformationModel> models)
+    {
+    }
 }

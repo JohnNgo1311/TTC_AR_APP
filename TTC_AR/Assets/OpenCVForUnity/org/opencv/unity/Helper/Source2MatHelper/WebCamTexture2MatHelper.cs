@@ -65,7 +65,7 @@ namespace OpenCVForUnity.UnityUtils.Helper
         [OpenCVForUnityRuntimeDisable]
 #endif
         [SerializeField, FormerlySerializedAs("requestedWidth"), TooltipAttribute("Set the width of camera.")]
-        protected int _requestedWidth = 640;
+        protected int _requestedWidth = Screen.width;
 
         /// <summary>
         /// Set the width of camera.
@@ -92,7 +92,7 @@ namespace OpenCVForUnity.UnityUtils.Helper
         [OpenCVForUnityRuntimeDisable]
 #endif
         [SerializeField, FormerlySerializedAs("requestedHeight"), TooltipAttribute("Set the height of camera.")]
-        protected int _requestedHeight = 480;
+        protected int _requestedHeight = Screen.height;
 
         /// <summary>
         /// Set the height of camera.
@@ -145,7 +145,7 @@ namespace OpenCVForUnity.UnityUtils.Helper
         [OpenCVForUnityRuntimeDisable]
 #endif
         [SerializeField, FormerlySerializedAs("requestedFPS"), TooltipAttribute("Set the frame rate of camera.")]
-        protected float _requestedFPS = 30f;
+        protected float _requestedFPS = 60f;
 
         /// <summary>
         /// Set the frame rate of camera.

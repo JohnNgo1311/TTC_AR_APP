@@ -217,4 +217,8 @@ public class ListMccSettingView : MonoBehaviour, IMccView
     public void DisplayCreateResult(bool success) { }
     public void DisplayUpdateResult(bool success) { }
     public void DisplayDeleteResult(bool success) { }
+
+    public void DisplayFieldDeviceList(List<FieldDeviceInformationModel> models)
+    {
+    }
 }
