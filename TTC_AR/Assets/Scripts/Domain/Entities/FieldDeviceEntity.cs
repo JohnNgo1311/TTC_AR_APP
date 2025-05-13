@@ -33,14 +33,13 @@ namespace Domain.Entities
     [JsonProperty("activeCurrent")]
     public string? ActiveCurrent { get; set; }
 
-    // [JsonProperty("listConnectionImages", NullValueHandling = NullValueHandling.Ignore)]
-    [JsonProperty("listConnectionImages")]
-    public List<ImageEntity>? ConnectionImageEntities { get; set; }
-
     // [JsonProperty("note", NullValueHandling = NullValueHandling.Ignore)]
     [JsonProperty("note")]
     public string? Note { get; set; } = string.Empty;
 
+    // [JsonProperty("listConnectionImages", NullValueHandling = NullValueHandling.Ignore)]
+    [JsonProperty("listConnectionImages")]
+    public List<ImageEntity>? ConnectionImageEntities { get; set; }
 
     // public bool ShouldSerializeId()
     // {
@@ -52,6 +51,20 @@ namespace Domain.Entities
     //   return !allowedRequests.Contains(apiRequestType);
     // }
 
+    public bool ShouldSerializeId()
+    {
+      List<string> apiRequestType = GlobalVariable.APIRequestType;
+      HashSet<string> allowedRequests = new HashSet<string>
+      {
+        HttpMethodTypeEnum.POSTFieldDevice.GetDescription(),
+        HttpMethodTypeEnum.PUTFieldDevice.GetDescription(),
+      };
+      return !apiRequestType.Any(request => allowedRequests.Contains(request));
+    }
+    public bool ShouldSerializeName()
+    {
+      return true;
+    }
     public bool ShouldSerializeMccEntity()
     {
       List<string> apiRequestType = GlobalVariable.APIRequestType;
@@ -81,7 +94,7 @@ namespace Domain.Entities
       HashSet<string> allowedRequests = new HashSet<string>
       {
         HttpMethodTypeEnum.GETFieldDevice.GetDescription(),
-              HttpMethodTypeEnum.POSTFieldDevice.GetDescription(),
+        HttpMethodTypeEnum.POSTFieldDevice.GetDescription(),
         HttpMethodTypeEnum.PUTFieldDevice.GetDescription(),
       };
       return apiRequestType.Any(request => allowedRequests.Contains(request));

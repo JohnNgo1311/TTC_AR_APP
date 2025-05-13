@@ -33,7 +33,7 @@ public class LoadImage : MonoBehaviour
     }
     public async Task LoadImageFromUrlAsync(string imageName, Image image, bool convertToSprite = true)
     {
-        using (UnityWebRequest webRequest = UnityWebRequestTexture.GetTexture($"{GlobalVariable.baseUrl}files/{imageName}"))
+        using (UnityWebRequest webRequest = UnityWebRequestTexture.GetTexture($"{GlobalVariable.baseUrl}/Images/{imageName}"))
         {
             image.gameObject.SetActive(true);
 

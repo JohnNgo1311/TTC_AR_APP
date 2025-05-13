@@ -9,7 +9,7 @@ public class Active_AR_Camera : MonoBehaviour
     [SerializeField]
     private Button active_ARCamera_Button;
     [SerializeField]
-    private Button deactive_ARCamera_Button;
+    private Button deActive_ARCamera_Button;
 
     private void Start()
     {
@@ -24,26 +24,26 @@ public class Active_AR_Camera : MonoBehaviour
     private void AddListenerBtn()
     {
         active_ARCamera_Button.onClick.AddListener(ResumeCamera);
-        deactive_ARCamera_Button.onClick.AddListener(PauseCamera);
+        deActive_ARCamera_Button.onClick.AddListener(PauseCamera);
     }
 
     private void RemoveListenerBtn()
     {
         active_ARCamera_Button.onClick.RemoveAllListeners();
-        deactive_ARCamera_Button.onClick.RemoveAllListeners();
+        deActive_ARCamera_Button.onClick.RemoveAllListeners();
     }
 
     private void ResumeCamera()
     {
         GlobalVariable.isCameraPaused = false;
-        deactive_ARCamera_Button.gameObject.SetActive(true);
+        deActive_ARCamera_Button.gameObject.SetActive(true);
         active_ARCamera_Button.gameObject.SetActive(false);
     }
 
     private void PauseCamera()
     {
         GlobalVariable.isCameraPaused = true;
-        deactive_ARCamera_Button.gameObject.SetActive(false);
+        deActive_ARCamera_Button.gameObject.SetActive(false);
         active_ARCamera_Button.gameObject.SetActive(true);
     }
 
@@ -64,14 +64,14 @@ public class Active_AR_Camera : MonoBehaviour
     //     }
     //     private void Start()
     //     {
-    //         if (!deactive_ARCamera_Button.gameObject.activeSelf) deactive_ARCamera_Button.gameObject.SetActive(true);
+    //         if (!deActive_ARCamera_Button.gameObject.activeSelf) deActive_ARCamera_Button.gameObject.SetActive(true);
     //         if (active_ARCamera_Button.gameObject.activeSelf) active_ARCamera_Button.gameObject.SetActive(false);
-    //         deactive_ARCamera_Button.onClick.AddListener(() => StartCoroutine(PauseARCamera()));
+    //         deActive_ARCamera_Button.onClick.AddListener(() => StartCoroutine(PauseARCamera()));
     //         active_ARCamera_Button.onClick.AddListener(ResumeARCamera);
     //     }
     //     private void OnDestroy()
     //     {
-    //         deactive_ARCamera_Button.onClick.RemoveListener(() => StartCoroutine(PauseARCamera()));
+    //         deActive_ARCamera_Button.onClick.RemoveListener(() => StartCoroutine(PauseARCamera()));
     //         active_ARCamera_Button.onClick.RemoveListener(ResumeARCamera);
     //     }
     //     private IEnumerator PauseARCamera()
@@ -81,7 +81,7 @@ public class Active_AR_Camera : MonoBehaviour
     //         // {
     //         //     vuforiaBehaviour.enabled = false;  // Tắt AR Camera
     //         //     image.gameObject.SetActive(true);
-    //         //     deactive_ARCamera_Button.gameObject.SetActive(false);
+    //         //     deActive_ARCamera_Button.gameObject.SetActive(false);
     //         //     active_ARCamera_Button.gameObject.SetActive(true);
     //         // }
     //     }
@@ -93,7 +93,7 @@ public class Active_AR_Camera : MonoBehaviour
     //         // {
     //         //     vuforiaBehaviour.enabled = true; // Bật AR Camera
     //         //     image.gameObject.SetActive(false);
-    //         //     deactive_ARCamera_Button.gameObject.SetActive(true);
+    //         //     deActive_ARCamera_Button.gameObject.SetActive(true);
     //         //     active_ARCamera_Button.gameObject.SetActive(false);
     //         // }
     //     }

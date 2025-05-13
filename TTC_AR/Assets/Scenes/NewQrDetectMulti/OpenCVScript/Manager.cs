@@ -19,6 +19,7 @@ public class Manager : MonoBehaviour
 
     public bool IsCanvasOpen => canvas.gameObject.activeSelf;
     public bool enableQRCodeDetection = true;
+    private bool enableQRCodeDetectionByActiveCameraIcon = true;
 
     private void Start()
     {
@@ -117,13 +118,28 @@ public class Manager : MonoBehaviour
 
     private void OpenCanvas()
     {
-        enableQRCodeDetection = false;
+        if (enableQRCodeDetection)
+        {
+            enableQRCodeDetection = false;
+        }
         canvas.SetActive(true);
     }
 
     public void CloseCanvas()
     {
-        enableQRCodeDetection = true;
+        if (!enableQRCodeDetection)
+        {
+            if (enableQRCodeDetectionByActiveCameraIcon)
+            {
+                enableQRCodeDetection = true;
+            }
+        }
         canvas.SetActive(false);
     }
+    public void setQRCodeDetection(bool enable)
+    {
+        enableQRCodeDetection = enable;
+        enableQRCodeDetectionByActiveCameraIcon = enable;
+    }
+
 }

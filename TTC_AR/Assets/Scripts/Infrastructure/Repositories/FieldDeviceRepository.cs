@@ -26,7 +26,7 @@ namespace Infrastructure.Repositories
         {
             try
             {
-                var response = await _httpClient.GetAsync($"{GlobalVariable.baseUrl}/{grapperId}");
+                var response = await _httpClient.GetAsync($"{GlobalVariable.baseUrl}/Grappers/{grapperId}/fieldDevices");
                 if (!response.IsSuccessStatusCode)
                     throw new HttpRequestException($"Failed to get FieldDevice list. Status: {response.StatusCode}");
                 else
@@ -52,7 +52,7 @@ namespace Infrastructure.Repositories
         {
             try
             {
-                var response = await _httpClient.GetAsync($"{GlobalVariable.baseUrl}/{fieldDeviceId}");
+                var response = await _httpClient.GetAsync($"{GlobalVariable.baseUrl}/FieldDevices/{fieldDeviceId}");
                 if (!response.IsSuccessStatusCode)
                     throw new HttpRequestException($"Failed to get FieldDevice. Status: {response.StatusCode}");
                 else
@@ -85,7 +85,7 @@ namespace Infrastructure.Repositories
 
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-                var response = await _httpClient.PostAsync($"{GlobalVariable.baseUrl}", content);
+                var response = await _httpClient.PostAsync($"{GlobalVariable.baseUrl}/FieldDevices/add/{grapperId}", content);
 
                 response.EnsureSuccessStatusCode();
 
@@ -122,7 +122,7 @@ namespace Infrastructure.Repositories
 
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-                var response = await _httpClient.PutAsync($"{GlobalVariable.baseUrl}/{fieldDeviceId}", content);
+                var response = await _httpClient.PutAsync($"{GlobalVariable.baseUrl}/FieldDevices/{fieldDeviceId}", content);
 
                 response.EnsureSuccessStatusCode();
                 return response.IsSuccessStatusCode;
@@ -144,7 +144,7 @@ namespace Infrastructure.Repositories
         {
             try
             {
-                var response = await _httpClient.DeleteAsync($"{GlobalVariable.baseUrl}/{fieldDeviceId}");
+                var response = await _httpClient.DeleteAsync($"{GlobalVariable.baseUrl}/FieldDevices/{fieldDeviceId}");
 
                 response.EnsureSuccessStatusCode();
                 return response.IsSuccessStatusCode;

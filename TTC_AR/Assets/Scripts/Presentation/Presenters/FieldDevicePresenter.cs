@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using ApplicationLayer.Dtos.FieldDevice;
 using ApplicationLayer.Dtos.Image;
@@ -71,6 +72,7 @@ public class FieldDevicePresenter
             if (dto != null)
             {
                 var model = ConvertFromResponseDto(dto);
+                
                 _view.DisplayDetail(model);
                 _view.ShowSuccess();
             }

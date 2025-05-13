@@ -67,83 +67,57 @@ public class OpenMccPanelView : MonoBehaviour, IMccView
     private void UpdateUI(MccInformationModel model)
     {
         fieldDevice_Item_Prefab.SetActive(true);
+        UpdateTextValue(mccInfor_Value[0], model.Brand, "Chưa cập nhật");
+        UpdateTextValue(mccInfor_Value[1], model.Note, "Chưa cập nhật");
 
-        if (string.IsNullOrEmpty(model.Brand))
-        {
-            mccInfor_Value[0].text = "Chưa cập nhật";
-            mccInfor_Value[0].color = Color.red;
-            mccInfor_Value[0].fontStyle = FontStyles.Bold;
-        }
-        else
-        {
-            mccInfor_Value[0].text = model.Brand;
-        }
-        if (string.IsNullOrEmpty(model.Note))
-        {
-            mccInfor_Value[1].text = "Chưa cập nhật";
-            mccInfor_Value[1].color = Color.red;
-            mccInfor_Value[1].fontStyle = FontStyles.Bold;
-        }
-        else
-        {
-            mccInfor_Value[1].text = model.Note;
-        }
-
-        if (listFieldDeviceFromMcc.Any())
+        if (listFieldDeviceFromMcc.Count > 0)
         {
             foreach (var fieldDevice in listFieldDeviceFromMcc)
             {
                 var fieldDeviceItem = Instantiate(fieldDevice_Item_Prefab, parentTransform);
-
                 listFieldDeviceItems.Add(fieldDeviceItem);
 
-                var fieldDeviceInfor = fieldDeviceItem.GetComponent<FieldDeviceInfor>();
-
-                fieldDeviceInfor.SetFieldDeviceName(fieldDevice.Name);
-
-                fieldDeviceInfor.button.onClick.RemoveAllListeners();
-                fieldDeviceInfor.button.onClick.AddListener(() => OpenGeneralPanel());
+                if (fieldDeviceItem.TryGetComponent(out FieldDeviceInfor fieldDeviceInfor))
+                {
+                    fieldDeviceInfor.SetFieldDeviceName(fieldDevice.Name);
+                    fieldDeviceInfor.button.onClick.RemoveAllListeners();
+                    fieldDeviceInfor.button.onClick.AddListener(() => OpenGeneralPanel(fieldDevice));
+                }
             }
 
             fieldDevice_Item_Prefab.SetActive(false);
             scroll_Area.verticalNormalizedPosition = 1f;
         }
+    }
 
-    }   
-
-
-    private void DestroyAllInstancesExceptPrefab(List<GameObject> listInstances)
+    private void UpdateTextValue(TMP_Text textField, string value, string defaultValue)
     {
-        foreach (var instance in listInstances)
+        if (string.IsNullOrEmpty(value))
         {
-            Destroy(instance);
+            textField.text = defaultValue;
+            textField.color = Color.red;
+            textField.fontStyle = FontStyles.Bold;
+        }
+        else
+        {
+            textField.text = value;
+            textField.color = Color.black; // Reset to default color
+            textField.fontStyle = FontStyles.Normal; // Reset to default style
         }
     }
 
 
-    public void OpenGeneralPanel()
+    public void OpenGeneralPanel(FieldDeviceInformationModel model)
     {
+        SetUpFieldDeviceData(model);
         General_Panel.SetActive(true);
         List_FieldDevices_Panel.SetActive(false);
     }
-    private void OpenUpdateCanvas()
+    private void SetUpFieldDeviceData(FieldDeviceInformationModel model)
     {
-        List_FieldDevices_Panel.SetActive(false);
-        General_Panel.SetActive(false);
-
+        GlobalVariable.temp_FieldDeviceInformationModel = model;
+        GlobalVariable.fieldDeviceId = model.Id;
     }
-
-    private void OpenDeleteWarningDialog(GameObject MccItem, MccInformationModel model)
-    {
-
-    }
-
-
-
-
-
-
-
     private void ShowProgressBar(string title, string details)
     {
         Progress.Show(title, ProgressColor.Blue, true);
@@ -153,27 +127,22 @@ public class OpenMccPanelView : MonoBehaviour, IMccView
     {
         Progress.Hide();
     }
-
-
-
     public void ShowLoading(string title) => ShowProgressBar(title, "Đang tải dữ liệu...");
     public void HideLoading() => HideProgressBar();
     public void ShowError(string message)
     {
-
-
+        if (GlobalVariable.APIRequestType.Contains("GET_Mcc"))
+        {
+            Show_Toast.Instance.ShowToast("failure", "Tải dữ liệu thất bại");
+        }
+        StartCoroutine(Show_Toast.Instance.Set_Instance_Status_False(1f));
     }
     public void ShowSuccess()
     {
-        if (GlobalVariable.APIRequestType.Contains("GET_Mcc_List"))
+        if (GlobalVariable.APIRequestType.Contains("GET_Mcc"))
         {
-            Show_Toast.Instance.ShowToast("success", "Tải danh sách thành công");
+            Show_Toast.Instance.ShowToast("success", "Tải dữ liệu thành công");
         }
-        if (GlobalVariable.APIRequestType.Contains("DELETE_Mcc"))
-        {
-            Show_Toast.Instance.ShowToast("success", "Xóa tủ Mcc thành công");
-        }
-
         StartCoroutine(Show_Toast.Instance.Set_Instance_Status_False(1f));
     }
 
