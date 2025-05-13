@@ -28,7 +28,7 @@ namespace Infrastructure.Repositories
         {
             try
             {
-                var response = await _httpClient.GetAsync($"{GlobalVariable.baseUrl}/{moduleId}");
+                var response = await _httpClient.GetAsync($"{GlobalVariable.baseUrl}/Modules/{moduleId}");
                 if (!response.IsSuccessStatusCode)
                 {
                     throw new HttpRequestException($"Failed to get Module. Status: {response.StatusCode}");
@@ -47,7 +47,7 @@ namespace Infrastructure.Repositories
             {
                 throw new ApplicationException("Unexpected error during HTTP request", ex); // Bao bọc lỗi khác
             }
-          
+
         }
 
         //! Trả về List<ModuleGeneralDto> do kết quả server trả chỉ là một tập hợp con của Entity
@@ -55,7 +55,7 @@ namespace Infrastructure.Repositories
         {
             try
             {
-                var response = await _httpClient.GetAsync(GlobalVariable.baseUrl);
+                var response = await _httpClient.GetAsync($"{GlobalVariable.baseUrl}/Grappers/{grapperId}/modules");
                 if (!response.IsSuccessStatusCode)
                     throw new HttpRequestException($"Failed to get Module list. Status: {response.StatusCode}");
                 else
@@ -88,7 +88,7 @@ namespace Infrastructure.Repositories
 
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-                var response = await _httpClient.PostAsync($"{GlobalVariable.baseUrl}", content);
+                var response = await _httpClient.PostAsync($"{GlobalVariable.baseUrl}/Modules/{grapperId}", content);
 
                 response.EnsureSuccessStatusCode();
                 return response.IsSuccessStatusCode;
@@ -112,7 +112,7 @@ namespace Infrastructure.Repositories
 
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-                var response = await _httpClient.PutAsync($"{GlobalVariable.baseUrl}/{moduleId}", content);
+                var response = await _httpClient.PutAsync($"{GlobalVariable.baseUrl}/Modules/{moduleId}", content);
 
                 response.EnsureSuccessStatusCode();
                 return response.IsSuccessStatusCode;
@@ -132,7 +132,7 @@ namespace Infrastructure.Repositories
         {
             try
             {
-                var response = await _httpClient.DeleteAsync($"{GlobalVariable.baseUrl}/{moduleId}");
+                var response = await _httpClient.DeleteAsync($"{GlobalVariable.baseUrl}/Modules/{moduleId}");
                 response.EnsureSuccessStatusCode();
                 return response.IsSuccessStatusCode;
             }

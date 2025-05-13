@@ -72,15 +72,13 @@ public class ModulePresenter
         try
         {
             UnityEngine.Debug.Log("Run Presenter");
+
+            UnityEngine.Debug.Log(moduleId);
+
             var ModuleResponseDto = await _service.GetModuleByIdAsync(moduleId);
             if (ModuleResponseDto != null)
             {
                 var model = ConvertFromResponseDto(ModuleResponseDto);
-                if (model != null)
-                {
-                    UnityEngine.Debug.Log("Get Module Detail Successfully");
-                }
-                UnityEngine.Debug.Log(model.Name + model.Id);
                 _view.DisplayDetail(model);
                 _view.ShowSuccess("");
             }

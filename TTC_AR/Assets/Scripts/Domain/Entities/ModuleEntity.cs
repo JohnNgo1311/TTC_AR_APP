@@ -16,19 +16,22 @@ namespace Domain.Entities
     [JsonProperty("name")]
     public string Name { get; set; } = string.Empty; // non-nullable
 
+    // [JsonProperty("rack", NullValueHandling = NullValueHandling.Ignore)]
+    [JsonProperty("rack")]
+    public RackEntity? RackEntity { get; set; }
+
     // [JsonProperty("grapper", NullValueHandling = NullValueHandling.Ignore)]
     [JsonProperty("grapper")]
     public GrapperEntity? GrapperEntity { get; set; }
 
-    // [JsonProperty("rack", NullValueHandling = NullValueHandling.Ignore)]
-    [JsonProperty("rack")]
-    public RackEntity? RackEntity { get; set; }
-    // [JsonProperty("Devices", NullValueHandling = NullValueHandling.Ignore)]
-    [JsonProperty("listDevices")]
-    public List<DeviceEntity>? DeviceEntities { get; set; }
     // [JsonProperty("jBs", NullValueHandling = NullValueHandling.Ignore)]
     [JsonProperty("listJBs")]
     public List<JBEntity>? JBEntities { get; set; }
+
+    // [JsonProperty("Devices", NullValueHandling = NullValueHandling.Ignore)]
+    [JsonProperty("listDevices")]
+    public List<DeviceEntity>? DeviceEntities { get; set; }
+
     // [JsonProperty("moduleSpecification", NullValueHandling = NullValueHandling.Ignore)]
     [JsonProperty("moduleSpecification")]
     public ModuleSpecificationEntity? ModuleSpecificationEntity { get; set; }
@@ -53,6 +56,17 @@ namespace Domain.Entities
     {
       return true;
     }
+    public bool ShouldSerializeRackEntity()
+    {
+      List<string> apiRequestType = GlobalVariable.APIRequestType;
+      HashSet<string> allowedRequests = new HashSet<string>
+      {
+        HttpMethodTypeEnum.GETModule.GetDescription(),
+        HttpMethodTypeEnum.POSTModule.GetDescription(),
+        HttpMethodTypeEnum.PUTModule.GetDescription(),
+      };
+      return apiRequestType.Any(request => allowedRequests.Contains(request));
+    }
     public bool ShouldSerializeGrapperEntity()
     {
       List<string> apiRequestType = GlobalVariable.APIRequestType;
@@ -62,7 +76,7 @@ namespace Domain.Entities
       };
       return apiRequestType.Any(request => allowedRequests.Contains(request));
     }
-    public bool ShouldSerializeRackEntity()
+    public bool ShouldSerializeJBEntities()
     {
       List<string> apiRequestType = GlobalVariable.APIRequestType;
       HashSet<string> allowedRequests = new HashSet<string>
@@ -86,17 +100,6 @@ namespace Domain.Entities
       return apiRequestType.Any(request => allowedRequests.Contains(request));
     }
 
-    public bool ShouldSerializeJBEntities()
-    {
-      List<string> apiRequestType = GlobalVariable.APIRequestType;
-      HashSet<string> allowedRequests = new HashSet<string>
-      {
-        HttpMethodTypeEnum.GETModule.GetDescription(),
-        HttpMethodTypeEnum.POSTModule.GetDescription(),
-        HttpMethodTypeEnum.PUTModule.GetDescription(),
-      };
-      return apiRequestType.Any(request => allowedRequests.Contains(request));
-    }
 
     public bool ShouldSerializeModuleSpecificationEntity()
     {
@@ -126,7 +129,6 @@ namespace Domain.Entities
     [Preserve]
     public ModuleEntity()
     {
-
       // DeviceEntities = new List<DeviceEntity>?();
       // JBEntities = new List<JBEntity>?();
     }

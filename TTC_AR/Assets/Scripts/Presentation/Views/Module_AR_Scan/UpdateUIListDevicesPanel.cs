@@ -1,48 +1,74 @@
-using System.Collections.Generic;
-using UnityEngine;
-using TMPro;
-using UnityEngine.UI;
-using System.Threading.Tasks;
-using System.Collections;
-using Unity.VisualScripting;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
-public class SearchDeviceFromModule : MonoBehaviour
+using EasyUI.Progress;
+using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class UpdateUIListDevicesPanel : MonoBehaviour, IDeviceView
 {
-    public List<TMP_Text> deviceInformation = new List<TMP_Text>();
-    private List<DeviceInformationModel> listDeviceFromModule = new List<DeviceInformationModel>();
-    private DeviceInformationModel deviceInforModel;
+
+    [SerializeField] private GameObject main_Canvas;
+    [SerializeField] private GameObject generalPanel;
+    [SerializeField] private GameObject listDevicesPanel;
+    [SerializeField] private GameObject listJBsPanel;
+    [SerializeField] private GameObject JBDetailPanel;
+    [SerializeField] private Button closeButton;
+    public GameObject JB_Item_Prefab;
     public TMP_Dropdown dropdown;
     public GameObject contentPanel;
     public Transform jbConnectionParentTransform;
+    public List<TMP_Text> deviceInforValue = new List<TMP_Text>();
+
+    //!
+    private List<DeviceInformationModel> listDeviceFromModule = new List<DeviceInformationModel>();
+    private DeviceInformationModel deviceInformationModel;
     private List<JBInformationModel> listJBInformationModel = new List<JBInformationModel>();
-    public GameObject JB_Item_Prefab;
-    // public List<GameObject> list_jb_Detail_Panel_Instantiates = new List<GameObject>();
     public Dictionary<string, JBInformationModel> dic_JBInformationModel = new Dictionary<string, JBInformationModel>();
     public Dictionary<string, GameObject> dic_JBInformationModel_Button = new Dictionary<string, GameObject>();
-
     private const string noDeviceMessage = "Không có thiết bị kết nối";
 
-    [SerializeField]
-    public GameObject module_Canvas;
-    public GameObject list_Devices_Panel;
-    public GameObject list_JBs_Panel;
-    public GameObject jb_Detail_Panel;
-    private void Awake()
+    private DevicePresenter _presenter;
+
+    void Awake()
     {
-        list_Devices_Panel ??= module_Canvas.transform.Find("list_Devices").gameObject;
-        list_JBs_Panel ??= module_Canvas.transform.Find("JB_TSD_Basic_Panel").gameObject;
-        jb_Detail_Panel ??= module_Canvas.transform.Find("Detail_JB_TSD").gameObject;
+        Initialize();
+        _presenter = new DevicePresenter(this, ManagerLocator.Instance.DeviceManager._IDeviceService);
+
+    }
+    private void Initialize()
+    {
+        listDevicesPanel ??= main_Canvas.transform.Find("List_Devices_Panel").gameObject;
+        listJBsPanel ??= main_Canvas.transform.Find("List_JB_Panel").gameObject;
+        JBDetailPanel ??= main_Canvas.transform.Find("Detail_JB_TSD").gameObject;
     }
 
     private void OnEnable()
     {
+        _presenter.LoadListDeviceInformationFromModule(GlobalVariable.moduleId);
+    }
+    private void OnDisable()
+    {
+        closeButton.onClick.RemoveAllListeners();
+        dropdown.onValueChanged.RemoveAllListeners();
+        DestroyAllInstancesExceptPrefab(dic_JBInformationModel_Button.Values.ToList());
+        dic_JBInformationModel.Clear();
+        dic_JBInformationModel_Button.Clear();
+        listJBInformationModel.Clear();
+        listDeviceFromModule.Clear();
+        StopAllCoroutines();
+    }
+    public void DisplayList(List<DeviceInformationModel> models)
+    {
+        closeButton.onClick.RemoveAllListeners();
+        closeButton.onClick.AddListener(() => CloseListJBPanel());
+
         if (GlobalVariable.temp_ListDeviceInformationModel_FromModule.Any())
         {
             listDeviceFromModule = GlobalVariable.temp_ListDeviceInformationModel_FromModule;
         }
-
-        module_Canvas ??= GetComponentInParent<GameObject>();
         StartCoroutine(UpdateUI());
     }
 
@@ -76,11 +102,6 @@ public class SearchDeviceFromModule : MonoBehaviour
 
     }
 
-    private void OnDisable()
-    {
-
-    }
-
     private void DestroyAllInstancesExceptPrefab(List<GameObject> listInstances)
     {
         foreach (var instance in listInstances)
@@ -93,12 +114,8 @@ public class SearchDeviceFromModule : MonoBehaviour
     {
         if (value < listDeviceFromModule.Count)
         {
-            deviceInforModel = listDeviceFromModule[value];
-            if (!contentPanel.activeSelf)
-            {
-                contentPanel.SetActive(true);
-            }
-            UpdateDeviceInformation(deviceInforModel);
+            deviceInformationModel = listDeviceFromModule[value];
+            _presenter.LoadDetailById(deviceInformationModel.Id);
         }
         else
         {
@@ -112,11 +129,11 @@ public class SearchDeviceFromModule : MonoBehaviour
     {
         DestroyAllInstancesExceptPrefab(dic_JBInformationModel_Button.Values.ToList());
 
-        deviceInformation[0].text = device.Code;
-        deviceInformation[1].text = device.Function;
-        deviceInformation[2].text = device.Range;
-        deviceInformation[3].text = device.Unit;
-        deviceInformation[4].text = device.IOAddress;
+        deviceInforValue[0].text = device.Code;
+        deviceInforValue[1].text = device.Function;
+        deviceInforValue[2].text = device.Range;
+        deviceInforValue[3].text = device.Unit;
+        deviceInforValue[4].text = device.IOAddress;
 
         GlobalVariable.deviceCode = device.Code;
         dic_JBInformationModel.Clear();
@@ -183,7 +200,7 @@ public class SearchDeviceFromModule : MonoBehaviour
 
     private void ClearDeviceInformation()
     {
-        foreach (var infoValue in deviceInformation)
+        foreach (var infoValue in deviceInforValue)
         {
             infoValue.text = string.Empty;
         }
@@ -202,15 +219,79 @@ public class SearchDeviceFromModule : MonoBehaviour
         if (GlobalVariable.navigate_from_list_JBs)
         {
             GlobalVariable.navigate_from_JB_TSD_Detail = true;
-            list_JBs_Panel.gameObject.SetActive(false);
-            jb_Detail_Panel.gameObject.SetActive(true);
+            listJBsPanel.gameObject.SetActive(false);
+            JBDetailPanel.gameObject.SetActive(true);
         }
 
         if (GlobalVariable.navigate_from_List_Devices)
         {
             GlobalVariable.navigate_from_JB_TSD_Detail = true;
-            list_Devices_Panel.gameObject.SetActive(false);
-            jb_Detail_Panel.gameObject.SetActive(true);
+            listDevicesPanel.gameObject.SetActive(false);
+            JBDetailPanel.gameObject.SetActive(true);
         }
+    }
+    private void CloseListJBPanel()
+    {
+        generalPanel.SetActive(true);
+        listDevicesPanel.SetActive(false);
+    }
+
+
+    public void ShowLoading(string title = "Loading...")
+    {
+    }
+
+    public void HideLoading()
+    {
+        throw new NotImplementedException();
+    }
+
+    public void ShowSuccess()
+    {
+        if (GlobalVariable.APIRequestType.Contains("GET_Device_List_Information_FromModule"))
+        {
+            Show_Toast.Instance.ShowToast("success", "Tải dữ liệu thành công");
+        }
+        if (GlobalVariable.APIRequestType.Contains("GET_Device"))
+        {
+            Show_Toast.Instance.ShowToast("success", "Tải dữ liệu thành công");
+        }
+        StartCoroutine(Show_Toast.Instance.Set_Instance_Status_False(1f));
+    }
+    public void ShowError(string message)
+    {
+        if (GlobalVariable.APIRequestType.Contains("GET_Device_List_Information_FromModule"))
+        {
+            Show_Toast.Instance.ShowToast("failure", "Tải dữ liệu thất bại");
+        }
+        if (GlobalVariable.APIRequestType.Contains("GET_Device"))
+        {
+            Show_Toast.Instance.ShowToast("failure", "Tải dữ liệu thất bại");
+        }
+        StartCoroutine(Show_Toast.Instance.Set_Instance_Status_False(1f));
+    }
+
+    public void DisplayDetail(DeviceInformationModel model)
+    {
+        if (!contentPanel.activeSelf)
+        {
+            contentPanel.SetActive(true);
+        }
+        UpdateDeviceInformation(model);
+    }
+
+    public void DisplayCreateResult(bool success)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void DisplayUpdateResult(bool success)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void DisplayDeleteResult(bool success)
+    {
+        throw new NotImplementedException();
     }
 }

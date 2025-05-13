@@ -83,7 +83,7 @@ public class GlobalVariable : MonoBehaviour
     public static string jb_TSD_Name = "";
     public static List<GameObject> activated_iamgeTargets = new List<GameObject>() { };
     public static bool navigate_from_List_Devices = false;
-    public static bool navigate_from_JB_TSD_Basic = false;
+    public static bool navigate_from_list_JBs = false;
     public static bool navigate_from_JB_TSD_Detail = false;
     public static GameObject generalPanel;
     public static bool loginSuccess = false;
@@ -188,6 +188,7 @@ public class GlobalVariable : MonoBehaviour
     public static Dictionary<string, DeviceInformationModel> temp_Dictionary_DeviceInformationModel = new Dictionary<string, DeviceInformationModel>();
     public static Dictionary<string, string> temp_Dictionary_DeviceIOAddress = new Dictionary<string, string>();
     public static int deviceId = 1;
+    public static string deviceCode = "";
 
 
     public static List<DeviceInformationModel> temp_List_DeviceInformationModel = new List<DeviceInformationModel>() { };

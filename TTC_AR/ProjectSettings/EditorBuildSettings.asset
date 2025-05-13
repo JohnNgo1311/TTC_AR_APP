@@ -14,7 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/NewQrDetectMulti/FieldDeviceScene.unity
     guid: efe1bcd707eaf6f4caf2a3fe8dfc31e2
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/NewQrDetectMulti/NewQRCodeDetectorMulti.unity
     guid: fd0610d1c3970e94c8c3226567f018ec
   m_configObjects:

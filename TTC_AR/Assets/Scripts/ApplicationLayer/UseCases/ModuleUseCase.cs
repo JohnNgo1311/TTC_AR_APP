@@ -71,18 +71,14 @@ namespace ApplicationLayer.UseCases
         {
             try
             {
-                //UnityEngine.Debug.Log("Run UseCase");
                 var moduleEntity = await _IModuleRepository.GetModuleByIdAsync(moduleId) ??
                     throw new ApplicationException("Failed to get Module");
-
-                //UnityEngine.Debug.Log("Let Convert to ResponseDto");
 
                 return MapEntityToResponseDto(moduleEntity);
 
             }
             catch (ArgumentException exception)
             {
-
                 throw new ApplicationException("Failed to get Module", exception); // Ném lại lỗi validation cho Unity xử lý
             }
             catch (Exception ex)
@@ -206,9 +202,8 @@ namespace ApplicationLayer.UseCases
 
         private ModuleResponseDto MapEntityToResponseDto(ModuleEntity moduleEntity)
         {
-            var deviceEntities = moduleEntity.DeviceEntities ?? Enumerable.Empty<DeviceEntity>();
-            var jbEntities = moduleEntity.JBEntities ?? Enumerable.Empty<JBEntity>();
-
+            var jbEntities = moduleEntity.JBEntities ?? new List<JBEntity>();
+            var deviceEntities = moduleEntity.DeviceEntities ?? new List<DeviceEntity>();
             return new ModuleResponseDto(
                 id: moduleEntity.Id,
                 name: moduleEntity.Name,

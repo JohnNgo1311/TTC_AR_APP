@@ -28,7 +28,7 @@ namespace Infrastructure.Repositories
             {
                 UnityEngine.Debug.Log("Run Repository");
 
-                var response = await _httpClient.GetStringAsync($"{GlobalVariable.baseUrl}/{deviceId}");
+                var response = await _httpClient.GetStringAsync($"{GlobalVariable.baseUrl}/Devices/{deviceId}");
 
                 // UnityEngine.Debug.Log(response);
 
@@ -53,7 +53,7 @@ namespace Infrastructure.Repositories
             try
             {
                 // var response = await _httpClient.GetAsync($"{GlobalVariable.baseUrl}/{grapperId}");
-                var response = await _httpClient.GetAsync("https://67da8d3b35c87309f52d09f5.mockapi.io/api/v4/ListDeviceFromGrapper");
+                var response = await _httpClient.GetAsync($"${GlobalVariable.baseUrl}/Grappers/{grapperId}/deviceInfos");
                 if (!response.IsSuccessStatusCode) return null;
 
                 var content = await response.Content.ReadAsStringAsync();
@@ -76,7 +76,7 @@ namespace Infrastructure.Repositories
             try
             {
                 // var response = await _httpClient.GetAsync($"{GlobalVariable.baseUrl}/{grapperId}");
-                var response = await _httpClient.GetAsync($"{GlobalVariable.baseUrl}");
+                var response = await _httpClient.GetAsync($"{GlobalVariable.baseUrl}/Modules/{moduleId}/devices");
                 if (!response.IsSuccessStatusCode) return null;
                 var content = await response.Content.ReadAsStringAsync();
                 return JsonConvert.DeserializeObject<List<DeviceEntity>>(content);
@@ -96,7 +96,7 @@ namespace Infrastructure.Repositories
             {
                 // var response = await _httpClient.GetAsync($"{GlobalVariable.baseUrl}/{grapperId}");
 
-                var response = await _httpClient.GetStringAsync($"{GlobalVariable.baseUrl}");
+                var response = await _httpClient.GetStringAsync($"{GlobalVariable.baseUrl}/Grappers/{grapperId}/devicesGeneral");
 
                 if (response == null) return null;
                 // if (!response.IsSuccessStatusCode) return null;
@@ -140,7 +140,7 @@ namespace Infrastructure.Repositories
 
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
                 // var response = await _httpClient.PostAsync($"{GlobalVariable.baseUrl}/{grapperId}", content);
-                var response = await _httpClient.PostAsync($"{GlobalVariable.baseUrl}", content);
+                var response = await _httpClient.PostAsync($"{GlobalVariable.baseUrl}/Devices/add/{grapperId}", content);
                 response.EnsureSuccessStatusCode();
                 return response.IsSuccessStatusCode;
             }
@@ -169,8 +169,7 @@ namespace Infrastructure.Repositories
                 var json = JsonConvert.SerializeObject(deviceEntity);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-                var response = await _httpClient.PutAsync($"{GlobalVariable.baseUrl}/{deviceId}", content)
-                ;
+                var response = await _httpClient.PutAsync($"{GlobalVariable.baseUrl}/Devices/{deviceId}", content);
                 response.EnsureSuccessStatusCode();
                 return response.IsSuccessStatusCode;
             }
@@ -188,7 +187,7 @@ namespace Infrastructure.Repositories
         {
             try
             {
-                var response = await _httpClient.DeleteAsync($"{GlobalVariable.baseUrl}/{deviceId}");
+                var response = await _httpClient.DeleteAsync($"{GlobalVariable.baseUrl}/Devices/{deviceId}");
                 response.EnsureSuccessStatusCode();
                 return response.IsSuccessStatusCode;
             }
