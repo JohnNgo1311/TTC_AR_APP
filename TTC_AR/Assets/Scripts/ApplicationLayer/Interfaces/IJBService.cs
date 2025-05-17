@@ -11,7 +11,7 @@ namespace ApplicationLayer.Interfaces
     {
         //! Tham số là Dto, tả về Dto
         Task<JBResponseDto> GetJBByIdAsync(int JBId);
-        Task<IEnumerable<JBGeneralDto>> GetListJBInformationAsync(int grapperId);
+        Task<List<JBGeneralDto>> GetListJBInformationAsync(int grapperId);
         Task<List<JBBasicDto>> GetListJBGeneralAsync(int grapperId);
         Task<bool> CreateNewJBAsync(int grapperId, JBRequestDto JBRequestDto);
         Task<bool> UpdateJBAsync(int JBId, JBRequestDto JBRequestDto);

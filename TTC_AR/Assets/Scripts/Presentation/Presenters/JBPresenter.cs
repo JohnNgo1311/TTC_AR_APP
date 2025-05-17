@@ -222,7 +222,7 @@ public class JBPresenter
         return new JBInformationModel(
             id: dto.Id,
             name: dto.Name,
-            location: dto.Location,
+            location: string.IsNullOrEmpty(dto.Location) ? "Được ghi chú trên sơ đồ" : dto.Location,
             listDeviceInformation: dto.DeviceBasicDtos?.Select(deviceDto => new DeviceInformationModel(
                 id: deviceDto.Id,
               code: deviceDto.Code
@@ -251,7 +251,7 @@ public class JBPresenter
         return new JBInformationModel(
             id: dto.Id,
             name: dto.Name,
-            location: dto.Location,
+            location: string.IsNullOrEmpty(dto.Location) ? "Được ghi chú trên sơ đồ" : dto.Location,
             outdoorImage: dto.OutdoorImageBasicDto != null ? new ImageInformationModel(
                  id: dto.OutdoorImageBasicDto.Id,
                name: dto.OutdoorImageBasicDto.Name
@@ -282,7 +282,7 @@ public class JBPresenter
         return new JBRequestDto(
             name: model.Name,
 
-            location: model.Location,
+            location: string.IsNullOrEmpty(model.Location) ? "Được ghi chú trên sơ đồ" : model.Location,
 
             deviceBasicDtos: model.ListDeviceInformation?.Select(deviceModel => new DeviceBasicDto(
                 id: deviceModel.Id,

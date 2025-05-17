@@ -45,7 +45,7 @@ public class ModulePresenter
                     var models = new List<ModuleInformationModel>();
                     _view.DisplayList(models);
                 }
-                _view.ShowSuccess("");
+                _view.ShowSuccess("Tải danh sách thành công");
             }
             else
             {
@@ -71,16 +71,14 @@ public class ModulePresenter
         _view.ShowLoading("Đang tải dữ liệu...");
         try
         {
-            UnityEngine.Debug.Log("Run Presenter");
 
             UnityEngine.Debug.Log(moduleId);
-
             var ModuleResponseDto = await _service.GetModuleByIdAsync(moduleId);
             if (ModuleResponseDto != null)
             {
                 var model = ConvertFromResponseDto(ModuleResponseDto);
                 _view.DisplayDetail(model);
-                _view.ShowSuccess("");
+                _view.ShowSuccess("Tải dữ liệu thành công");
             }
             else
             {
@@ -213,13 +211,13 @@ public class ModulePresenter
                     code: Device.Code
                 )
             ).ToList() : new List<DeviceInformationModel>(),
-            moduleSpecificationModel: dto.ModuleSpecificationResponseDto != null ? new ModuleSpecificationModel(
-                id: dto.ModuleSpecificationResponseDto.Id,
-                code: dto.ModuleSpecificationResponseDto.Code
+            moduleSpecificationModel: dto.ModuleSpecificationBasicDto != null ? new ModuleSpecificationModel(
+                id: dto.ModuleSpecificationBasicDto.Id,
+                code: dto.ModuleSpecificationBasicDto.Code
             ) : null,
-            adapterSpecificationModel: dto.AdapterSpecificationResponseDto != null ? new AdapterSpecificationModel(
-                id: dto.AdapterSpecificationResponseDto.Id,
-                code: dto.AdapterSpecificationResponseDto.Code
+            adapterSpecificationModel: dto.AdapterSpecificationBasicDto != null ? new AdapterSpecificationModel(
+                id: dto.AdapterSpecificationBasicDto.Id,
+                code: dto.AdapterSpecificationBasicDto.Code
             ) : null);
     }
     private ModuleInformationModel ConvertFromBasicDto(ModuleBasicDto dto)

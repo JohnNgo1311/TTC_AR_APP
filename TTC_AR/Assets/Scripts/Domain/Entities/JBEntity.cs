@@ -147,7 +147,7 @@ namespace Domain.Entities
     public JBEntity(string name, string? location, List<DeviceEntity>? devices, List<ModuleEntity>? modules, ImageEntity? outdoorImage, List<ImageEntity>? connectionImages)
     {
       Name = string.IsNullOrEmpty(name) ? throw new ArgumentNullException(nameof(name)) : name;
-      Location = string.IsNullOrEmpty(location) ? "chưa cập nhật" : location;
+      Location = string.IsNullOrEmpty(location) ? "Được ghi chú trên sơ đồ" : location;
       DeviceEntities = (devices == null || (devices != null && devices.Count <= 0)) ? new List<DeviceEntity>() : devices;
       ModuleEntities = (modules == null || (modules != null && modules.Count <= 0)) ? new List<ModuleEntity>() : modules;
       OutdoorImageEntity = outdoorImage ?? null;
@@ -160,7 +160,7 @@ namespace Domain.Entities
     {
       Id = id;
       Name = string.IsNullOrEmpty(name) ? throw new ArgumentNullException(nameof(name)) : name;
-      Location = location == string.Empty ? "chưa cập nhật" : location;
+      Location = string.IsNullOrEmpty(location) ? "Được ghi chú trên sơ đồ" : location;
       DeviceEntities = devices.Any() ? devices : new List<DeviceEntity>();
       ModuleEntities = modules.Any() ? modules : new List<ModuleEntity>();
       OutdoorImageEntity = outdoorImage ?? null;
@@ -172,7 +172,7 @@ namespace Domain.Entities
     {
       Id = id;
       Name = string.IsNullOrEmpty(name) ? throw new ArgumentNullException(nameof(name)) : name;
-      Location = location == string.Empty ? "chưa cập nhật" : location;
+      Location = string.IsNullOrEmpty(location) ? "Được ghi chú trên sơ đồ" : location;
       OutdoorImageEntity = outdoorImage ?? null;
       ConnectionImageEntities = connectionImages.Any() ? connectionImages : new List<ImageEntity>();
     }

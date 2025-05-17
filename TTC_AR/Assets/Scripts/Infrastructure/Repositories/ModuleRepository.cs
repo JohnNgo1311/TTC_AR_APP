@@ -31,12 +31,21 @@ namespace Infrastructure.Repositories
                 var response = await _httpClient.GetAsync($"{GlobalVariable.baseUrl}/Modules/{moduleId}");
                 if (!response.IsSuccessStatusCode)
                 {
+                    UnityEngine.Debug.LogError($"Failed to get Module. Status: {response.StatusCode}");
                     throw new HttpRequestException($"Failed to get Module. Status: {response.StatusCode}");
                 }
                 else
                 {
                     var content = await response.Content.ReadAsStringAsync();
-                    return JsonConvert.DeserializeObject<ModuleEntity>(content);
+                    if (string.IsNullOrEmpty(content))
+                    {
+                        UnityEngine.Debug.LogError("Received empty response from server");
+                        throw new ApplicationException("Received empty response from server");
+                    }
+                    else
+                    {
+                        return JsonConvert.DeserializeObject<ModuleEntity>(content);
+                    }
                 }
             }
             catch (HttpRequestException ex)

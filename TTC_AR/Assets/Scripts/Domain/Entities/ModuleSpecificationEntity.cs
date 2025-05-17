@@ -81,7 +81,6 @@ namespace Domain.Entities
       HashSet<string> allowedRequests = new HashSet<string>
       {
         HttpMethodTypeEnum.GETModuleSpecification.GetDescription(),
-        HttpMethodTypeEnum.GETModule.GetDescription(),
         HttpMethodTypeEnum.POSTModuleSpecification.GetDescription(),
         HttpMethodTypeEnum.PUTModuleSpecification.GetDescription()
       };
@@ -93,7 +92,6 @@ namespace Domain.Entities
       HashSet<string> allowedRequests = new HashSet<string>
       {
         HttpMethodTypeEnum.GETModuleSpecification.GetDescription(),
-        HttpMethodTypeEnum.GETModule.GetDescription(),
         HttpMethodTypeEnum.POSTModuleSpecification.GetDescription(),
         HttpMethodTypeEnum.PUTModuleSpecification.GetDescription()
       };
@@ -105,7 +103,6 @@ namespace Domain.Entities
       HashSet<string> allowedRequests = new HashSet<string>
       {
         HttpMethodTypeEnum.GETModuleSpecification.GetDescription(),
-        HttpMethodTypeEnum.GETModule.GetDescription(),
         HttpMethodTypeEnum.POSTModuleSpecification.GetDescription(),
         HttpMethodTypeEnum.PUTModuleSpecification.GetDescription()
       };
@@ -117,7 +114,6 @@ namespace Domain.Entities
       HashSet<string> allowedRequests = new HashSet<string>
       {
         HttpMethodTypeEnum.GETModuleSpecification.GetDescription(),
-        HttpMethodTypeEnum.GETModule.GetDescription(),
         HttpMethodTypeEnum.POSTModuleSpecification.GetDescription(),
         HttpMethodTypeEnum.PUTModuleSpecification.GetDescription()
       };
@@ -129,7 +125,6 @@ namespace Domain.Entities
       HashSet<string> allowedRequests = new HashSet<string>
       {
         HttpMethodTypeEnum.GETModuleSpecification.GetDescription(),
-        HttpMethodTypeEnum.GETModule.GetDescription(),
         HttpMethodTypeEnum.POSTModuleSpecification.GetDescription(),
         HttpMethodTypeEnum.PUTModuleSpecification.GetDescription()
       };
@@ -141,7 +136,6 @@ namespace Domain.Entities
       HashSet<string> allowedRequests = new HashSet<string>
       {
         HttpMethodTypeEnum.GETModuleSpecification.GetDescription(),
-        HttpMethodTypeEnum.GETModule.GetDescription(),
         HttpMethodTypeEnum.POSTModuleSpecification.GetDescription(),
         HttpMethodTypeEnum.PUTModuleSpecification.GetDescription()
       };
@@ -153,7 +147,6 @@ namespace Domain.Entities
       HashSet<string> allowedRequests = new HashSet<string>
       {
         HttpMethodTypeEnum.GETModuleSpecification.GetDescription(),
-        HttpMethodTypeEnum.GETModule.GetDescription(),
         HttpMethodTypeEnum.POSTModuleSpecification.GetDescription(),
         HttpMethodTypeEnum.PUTModuleSpecification.GetDescription()
       };
@@ -165,7 +158,6 @@ namespace Domain.Entities
       HashSet<string> allowedRequests = new HashSet<string>
       {
         HttpMethodTypeEnum.GETModuleSpecification.GetDescription(),
-        HttpMethodTypeEnum.GETModule.GetDescription(),
         HttpMethodTypeEnum.POSTModuleSpecification.GetDescription(),
         HttpMethodTypeEnum.PUTModuleSpecification.GetDescription()
       };
@@ -177,7 +169,6 @@ namespace Domain.Entities
       HashSet<string> allowedRequests = new HashSet<string>
       {
         HttpMethodTypeEnum.GETModuleSpecification.GetDescription(),
-        HttpMethodTypeEnum.GETModule.GetDescription(),
         HttpMethodTypeEnum.POSTModuleSpecification.GetDescription(),
         HttpMethodTypeEnum.PUTModuleSpecification.GetDescription()
       };
@@ -189,7 +180,6 @@ namespace Domain.Entities
       HashSet<string> allowedRequests = new HashSet<string>
       {
         HttpMethodTypeEnum.GETModuleSpecification.GetDescription(),
-        HttpMethodTypeEnum.GETModule.GetDescription(),
         HttpMethodTypeEnum.POSTModuleSpecification.GetDescription(),
         HttpMethodTypeEnum.PUTModuleSpecification.GetDescription()
       };

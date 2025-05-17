@@ -275,7 +275,7 @@ public class DevicePresenter
             jbInformationModels: dto.JBGeneralDtos.Any() ? dto.JBGeneralDtos.Select(jb => new JBInformationModel(
                 id: jb.Id,
                 name: jb.Name,
-            location: jb?.Location,
+            location: string.IsNullOrEmpty(jb.Location) ? "Được ghi chú trong sơ đồ" : jb.Location,
             outdoorImage: jb.OutdoorImageBasicDto != null ? new ImageInformationModel(
                            id: jb.OutdoorImageBasicDto.Id,
                            name: jb.OutdoorImageBasicDto.Name

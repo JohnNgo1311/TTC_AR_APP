@@ -39,11 +39,11 @@ public class Update_JB_TSD_Detail_UI : MonoBehaviour, IJBView
         if (model != null)
         {
             _jbInformationModel = model;
-            GlobalVariable.temp_JBInformationModel = model;
-            GlobalVariable.JBId = model.Id;
+            GlobalVariable.temp_JBInformationModel = _jbInformationModel;
+            GlobalVariable.JBId = _jbInformationModel.Id;
         }
-        UpdateJBTextInfor(model);
-        UpdateUIImages(model);
+        UpdateJBTextInfor(_jbInformationModel);
+        UpdateUIImages(_jbInformationModel);
     }
 
     private void OnDisable()
@@ -97,13 +97,17 @@ public class Update_JB_TSD_Detail_UI : MonoBehaviour, IJBView
         ShowProgressBar("Đang tải hình ảnh...");
         try
         {
+            var tasks = new List<Task>();
             jb_location_imagePrefab.gameObject.SetActive(true);
             jb_connection_imagePrefab.gameObject.SetActive(true);
-            var tasks = new List<Task>
-        {
-            LoadImage.Instance.LoadImageFromUrlAsync(model.OutdoorImage.Name, jb_location_imagePrefab)
-        };
-
+            if (model.OutdoorImage == null)
+            {
+                jb_location_imagePrefab.gameObject.SetActive(false);
+            }
+            else
+            {
+                tasks.Add(LoadImage.Instance.LoadImageFromUrlAsync(model.OutdoorImage.Name, jb_location_imagePrefab));
+            }
             if (model.ListConnectionImages.Any())
             {
                 foreach (var imageModel in model.ListConnectionImages)
@@ -138,7 +142,6 @@ public class Update_JB_TSD_Detail_UI : MonoBehaviour, IJBView
 
             jb_connection_imagePrefab.gameObject.SetActive(false);
 
-            jb_location_imagePrefab.gameObject.SetActive(false);
 
             emptySpace.transform.SetAsLastSibling();
 

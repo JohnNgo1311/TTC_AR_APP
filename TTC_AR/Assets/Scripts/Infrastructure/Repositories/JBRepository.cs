@@ -30,7 +30,7 @@ namespace Infrastructure.Repositories
         {
             try
             {
-                var response = await _httpClient.GetAsync($"{GlobalVariable.baseUrl}/{JBId}");
+                var response = await _httpClient.GetAsync($"{GlobalVariable.baseUrl}/Jbs/{JBId}");
 
                 if (!response.IsSuccessStatusCode)
                 {
@@ -50,7 +50,7 @@ namespace Infrastructure.Repositories
             }
             catch (Exception ex)
             {
-                throw new Exception("Unexpected error during HTTP request", ex); // Bao bọc lỗi khác
+                throw new ApplicationException("Unexpected error during HTTP request", ex); // Bao bọc lỗi khác
             }
 
         }
@@ -60,7 +60,7 @@ namespace Infrastructure.Repositories
         {
             try
             {
-                var response = await _httpClient.GetAsync($"{GlobalVariable.baseUrl}");
+                var response = await _httpClient.GetAsync($"{GlobalVariable.baseUrl}/Grappers/{grapperId}/jbsGeneral");
                 if (!response.IsSuccessStatusCode)
                     throw new HttpRequestException($"Failed to get JB list. Status: {response.StatusCode}");
                 else
@@ -84,14 +84,16 @@ namespace Infrastructure.Repositories
         {
             try
             {
-                var response = await _httpClient.GetAsync("https://677ba70820824100c07a4e9f.mockapi.io/api/v3/ListJBInformation");
+                var response = await _httpClient.GetAsync($"{GlobalVariable.baseUrl}/Grappers/{grapperId}/jbInfos");
                 if (!response.IsSuccessStatusCode)
                     throw new HttpRequestException($"Failed to get JB list. Status: {response.StatusCode}");
                 else
                 {
                     var content = await response.Content.ReadAsStringAsync();
                     UnityEngine.Debug.Log(content);
-                    return JsonConvert.DeserializeObject<List<JBEntity>>(content);
+                    var result = JsonConvert.DeserializeObject<List<JBEntity>>(content);
+                    UnityEngine.Debug.Log(result.Count);
+                    return result;
                 }
 
             }
@@ -121,7 +123,7 @@ namespace Infrastructure.Repositories
 
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-                var response = await _httpClient.PostAsync($"{GlobalVariable.baseUrl}", content);
+                var response = await _httpClient.PostAsync($"{GlobalVariable.baseUrl}/Jbs/{grapperId}", content);
 
                 response.EnsureSuccessStatusCode();
                 return response.IsSuccessStatusCode;
@@ -152,7 +154,7 @@ namespace Infrastructure.Repositories
 
                 // var json = JsonConvert.SerializeObject(jBEntity);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
-                var response = await _httpClient.PutAsync($"{GlobalVariable.baseUrl}/{JBId}", content);
+                var response = await _httpClient.PutAsync($"{GlobalVariable.baseUrl}/Jbs/{JBId}", content);
 
                 response.EnsureSuccessStatusCode();
                 return response.IsSuccessStatusCode;
@@ -175,7 +177,7 @@ namespace Infrastructure.Repositories
         {
             try
             {
-                var response = await _httpClient.DeleteAsync($"{GlobalVariable.baseUrl}/{jbId}");
+                var response = await _httpClient.DeleteAsync($"{GlobalVariable.baseUrl}/Jbs/{jbId}");
                 response.EnsureSuccessStatusCode();
                 return response.IsSuccessStatusCode;
             }

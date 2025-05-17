@@ -8,7 +8,7 @@ public class JBInfor : MonoBehaviour
 {
     public Button button;
     public TMP_Text value;
-    [SerializeField] private TMP_Text Location;
+    public TMP_Text Location;
 
     private void OnEnable()
     {
@@ -19,9 +19,9 @@ public class JBInfor : MonoBehaviour
     {
         value.text = jb.Name;
 
-        if (jb.Location == null)
+        if (string.IsNullOrEmpty(jb.Location))
         {
-            Location.text = "Vị trí tủ được ghi chú trong sơ đồ";
+            Location.text = "Vị trí tủ không được ghi chú";
         }
         else
         {

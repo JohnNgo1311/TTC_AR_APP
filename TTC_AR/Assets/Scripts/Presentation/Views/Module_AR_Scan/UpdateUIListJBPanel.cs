@@ -18,13 +18,26 @@ public class UpdateUIListJBPanel : MonoBehaviour
     [SerializeField] private GameObject jbPrefab;
     [SerializeField] private List<JBInformationModel> jbInformationList = new List<JBInformationModel>();
     [SerializeField] private List<GameObject> instantiatedJBObjects = new List<GameObject>();
-
-
+    private Dictionary<string, JBInformationModel> jbInformationDictionary = new Dictionary<string, JBInformationModel>();
     void Awake()
     {
+
     }
+
     private void OnEnable()
     {
+        if (GlobalVariable.temp_Dictionary_JBInformationModel.Any())
+        {
+            jbInformationDictionary = GlobalVariable.temp_Dictionary_JBInformationModel;
+        }
+        else
+        {
+            jbInformationDictionary = new Dictionary<string, JBInformationModel>();
+        }
+        if (GlobalVariable.temp_ListJBInformationModel_FromModule != null)
+        {
+            jbInformationList = GlobalVariable.temp_ListJBInformationModel_FromModule;
+        }
         RefreshJBListPanel();
         closeButton.onClick.RemoveAllListeners();
         closeButton.onClick.AddListener(() => CloseListJBPanel());
@@ -34,7 +47,10 @@ public class UpdateUIListJBPanel : MonoBehaviour
     {
         foreach (Transform child in content)
         {
-            Destroy(child.gameObject);
+            if (child.gameObject != jbPrefab)
+            {
+                Destroy(child.gameObject);
+            }
         }
     }
     private void CloseListJBPanel()
@@ -53,17 +69,29 @@ public class UpdateUIListJBPanel : MonoBehaviour
     {
         instantiatedJBObjects.Clear();
         yield return null;
-        if (GlobalVariable.temp_ListJBInformationModel_FromModule != null)
-        {
-            jbInformationList = GlobalVariable.temp_ListJBInformationModel_FromModule;
-        }
+
         if (jbInformationList.Any())
         {
+            jbPrefab.SetActive(true);
+            Debug.Log("jbInformationList: " + jbInformationList.Count);
+            Debug.Log("jbInformationDictionary: " + jbInformationDictionary.Count);
+
             foreach (var model in jbInformationList)
             {
                 var newJBItem = Instantiate(jbPrefab, content);
                 newJBItem.SetActive(true);
                 var jbInfor = newJBItem.GetComponent<JBInfor>();
+                jbInfor.value.text = model.Name;
+                if (jbInformationDictionary.TryGetValue(model.Name, out JBInformationModel temp_model))
+                {
+
+                    jbInfor.Location.text = temp_model.Location;
+                }
+                else
+                {
+                    jbInfor.Location.text = "Được ghi chú trong sơ đồ";
+                }
+                //  jbInfor.Location.text = model.Location;
                 jbInfor.button.onClick.RemoveAllListeners();
                 jbInfor.button.onClick.AddListener(() =>
                 {
@@ -73,26 +101,24 @@ public class UpdateUIListJBPanel : MonoBehaviour
                 });
                 instantiatedJBObjects.Add(newJBItem);
             }
+            jbPrefab.SetActive(false);
         }
         else
         {
             var newJBItem = Instantiate(jbPrefab, content);
+            instantiatedJBObjects.Add(newJBItem);
             newJBItem.SetActive(true);
             newJBItem.GetComponent<JBInfor>().HandleEmptyList();
         }
-
-
     }
     private void OpenJBDetailPanel(JBInformationModel model)
     {
-        GlobalVariable.temp_JBInformationModel = model;
         GlobalVariable.JBId = model.Id;
         GlobalVariable.navigate_from_list_JBs = true;
         GlobalVariable.navigate_from_List_Devices = false;
         GlobalVariable.navigate_from_JB_TSD_Detail = true;
         listJBPanel.SetActive(false);
         JBDetailPanel.SetActive(true);
-
     }
 
 

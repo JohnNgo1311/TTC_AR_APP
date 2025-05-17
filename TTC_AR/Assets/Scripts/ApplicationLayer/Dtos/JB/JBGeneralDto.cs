@@ -20,9 +20,7 @@ namespace ApplicationLayer.Dtos.JB
 
         public JBGeneralDto(int id, string name, string? location, ImageBasicDto? outdoorImageBasicDto, List<ImageBasicDto>? connectionImageBasicDtos) : base(id, name)
         {
-            Id = id;
-            Name = string.IsNullOrEmpty(name) ? throw new ArgumentNullException(nameof(name)) : name;
-            Location = location;
+            Location = string.IsNullOrEmpty(location) ? "Được ghi chú trên sơ đồ" : location;
             OutdoorImageBasicDto = outdoorImageBasicDto;
             ConnectionImageBasicDtos = connectionImageBasicDtos;
         }

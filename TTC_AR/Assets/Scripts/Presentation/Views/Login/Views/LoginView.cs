@@ -44,7 +44,9 @@ public class LoginView : MonoBehaviour, ILoginView
             ManagerLocator.Instance.GrapperManager != null);
         _presenter = new LoginPresenter(this,
              ManagerLocator.Instance.CompanyManager._ICompanyService,
-             ManagerLocator.Instance.GrapperManager._IGrapperService);
+             ManagerLocator.Instance.GrapperManager._IGrapperService
+                , ManagerLocator.Instance.JBManager._IJBService
+             );
     }
 
     private void OnEnable()
@@ -55,6 +57,7 @@ public class LoginView : MonoBehaviour, ILoginView
 
     private void Start()
     {
+        loginButton.onClick.RemoveAllListeners();
         loginButton.onClick.AddListener(HandleLogin);
     }
 

@@ -65,7 +65,7 @@ namespace ApplicationLayer.UseCases
 
 
         //! Dùng IEnumerable<JBGeneralDto thay cho List<JBGeneralDto> vì không cần tạo ra List để sử dụng trong hàm ngay
-        public async Task<IEnumerable<JBGeneralDto>> GetListJBInforAsync(int grapperId)
+        public async Task<List<JBGeneralDto>> GetListJBInforAsync(int grapperId)
         {
             try
             {
@@ -74,10 +74,8 @@ namespace ApplicationLayer.UseCases
                 {
                     // UnityEngine.Debug.LogWarning("No jBEntities found.");
                     throw new ApplicationException("Failed to get JB list");
-
                 }
-
-                return jBEntities.Select(MapToGeneralDto);
+                return jBEntities.Select(jBEntity => MapToGeneralDto(jBEntity)).ToList();
             }
             catch (ArgumentException exception)
             {
@@ -207,7 +205,7 @@ namespace ApplicationLayer.UseCases
         {
             return new JBEntity(
                 jBRequestDto.Name,
-                 string.IsNullOrEmpty(jBRequestDto.Location) ? "chưa cập nhật" : jBRequestDto.Location,
+                 string.IsNullOrEmpty(jBRequestDto.Location) ? "Được ghi chú trên sơ đồ" : jBRequestDto.Location,
                 jBRequestDto.DeviceBasicDtos == null ? null : jBRequestDto.DeviceBasicDtos.Select(d => new DeviceEntity(d.Id, d.Code)).ToList(),
                 jBRequestDto.ModuleBasicDtos == null ? null : jBRequestDto.ModuleBasicDtos.Select(m => new ModuleEntity(m.Id, m.Name)).ToList(),
                 jBRequestDto.OutdoorImageBasicDto == null ? null : new ImageEntity(jBRequestDto.OutdoorImageBasicDto.Id, jBRequestDto.OutdoorImageBasicDto.Name),
@@ -224,7 +222,7 @@ namespace ApplicationLayer.UseCases
 
                 jBEntity.Name,
 
-                jBEntity.Location ?? "chưa cập nhật",
+                string.IsNullOrEmpty(jBEntity.Location) ? "Được ghi chú trong sơ đồ" : jBEntity.Location,
 
                (jBEntity.DeviceEntities == null || (jBEntity.DeviceEntities != null && jBEntity.DeviceEntities.Count <= 0)) ?
                  new List<DeviceBasicDto>() : jBEntity.DeviceEntities.Select(d => new DeviceBasicDto(d.Id, d.Code)).ToList(),
@@ -247,15 +245,11 @@ namespace ApplicationLayer.UseCases
         {
             return new JBGeneralDto(
                 id: jBEntity.Id,
-
               name: jBEntity.Name,
-
-          location: jBEntity.Location ?? "chưa cập nhật",
-
+          location: string.IsNullOrEmpty(jBEntity.Location) ? "Được ghi chú trong sơ đồ" : jBEntity.Location,
          outdoorImageBasicDto: jBEntity.OutdoorImageEntity == null ?
                  null : new ImageBasicDto(jBEntity.OutdoorImageEntity.Id, jBEntity.OutdoorImageEntity.Name),
-
-            connectionImageBasicDtos: (jBEntity.ConnectionImageEntities == null || (jBEntity.ConnectionImageEntities != null && jBEntity.ConnectionImageEntities.Count <= 0)) ?
+            connectionImageBasicDtos: (jBEntity.ConnectionImageEntities == null || (jBEntity.ConnectionImageEntities != null && !jBEntity.ConnectionImageEntities.Any())) ?
                  new List<ImageBasicDto>() : jBEntity.ConnectionImageEntities.Select(i => new ImageBasicDto(i.Id, i.Name)).ToList()
              );
         }

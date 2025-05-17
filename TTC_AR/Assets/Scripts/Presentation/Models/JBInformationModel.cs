@@ -14,7 +14,7 @@ public class JBInformationModel
   public string Name { get; set; } = string.Empty;
 
   [JsonProperty("location")]
-  public string? Location { get; set; }
+  public string? Location { get; set; } = string.Empty;
 
   [JsonProperty("listDevices")]
   public List<DeviceInformationModel>? ListDeviceInformation { get; set; }

@@ -23,7 +23,7 @@ namespace ApplicationLayer.Services
             return await _JBUseCase.GetJBByIdAsync(JBid);
         }
 
-        public async Task<IEnumerable<JBGeneralDto>> GetListJBInformationAsync(int grapperId)
+        public async Task<List<JBGeneralDto>> GetListJBInformationAsync(int grapperId)
         {
             return await _JBUseCase.GetListJBInforAsync(grapperId);
         }

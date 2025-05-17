@@ -26,7 +26,7 @@ namespace ApplicationLayer.Dtos.JB
         public JBRequestDto(string name, string? location, List<DeviceBasicDto>? deviceBasicDtos, List<ModuleBasicDto>? moduleBasicDtos, ImageBasicDto? outdoorImageBasicDto, List<ImageBasicDto>? connectionImageBasicDtos)
         {
             Name = string.IsNullOrEmpty(name) ? throw new ArgumentNullException(nameof(name)) : name;
-            Location = location;
+            Location = string.IsNullOrEmpty(location) ? "Được ghi chú trên sơ đồ" : location;
             DeviceBasicDtos = deviceBasicDtos;
             ModuleBasicDtos = moduleBasicDtos;
             OutdoorImageBasicDto = outdoorImageBasicDto;

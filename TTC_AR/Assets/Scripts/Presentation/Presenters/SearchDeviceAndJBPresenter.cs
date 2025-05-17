@@ -116,7 +116,7 @@ public class SearchDeviceAndJBPresenter
         return new JBInformationModel(
             id: dto.Id,
             name: dto.Name,
-            location: dto.Location,
+            location: string.IsNullOrEmpty(dto.Location) ? "Được ghi chú trên sơ đồ" : dto.Location,
             outdoorImage: dto.OutdoorImageBasicDto != null ? new ImageInformationModel(
                  id: dto.OutdoorImageBasicDto.Id,
                name: dto.OutdoorImageBasicDto.Name
