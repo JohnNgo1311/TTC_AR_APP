@@ -21,7 +21,9 @@ public class JBInfor : MonoBehaviour
 
         if (string.IsNullOrEmpty(jb.Location))
         {
-            Location.text = "Vị trí tủ không được ghi chú";
+            Location.text = "Được ghi chú trong sơ đồ";
+            Location.fontWeight = FontWeight.Bold;
+            Location.color = Color.red;
         }
         else
         {

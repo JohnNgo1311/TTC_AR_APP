@@ -180,23 +180,21 @@ public class UpdateUIListDevicesPanel : MonoBehaviour, IDeviceView
                 {
                     if (!dic_JBInformationModel.ContainsKey(model.Name))
                     {
-                        dic_JBInformationModel.Add(model.Name, model);
-
-                        var new_JB_Item = Instantiate(JB_Item_Prefab, jbConnectionParentTransform);
-                        var new_JB_Item_JBInfor = new_JB_Item.GetComponent<JBInfor>();
-
-                        new_JB_Item_JBInfor.value.text = model.Name;
-                        new_JB_Item_JBInfor.Location.text = model.Location;
-
-                        dic_JBInformationModel_Button.Add(model.Name, new_JB_Item);
-
-                        new_JB_Item_JBInfor.button.onClick.RemoveAllListeners();
-                        new_JB_Item_JBInfor.button.onClick.AddListener(() =>
+                        if (GlobalVariable.temp_Dictionary_JBInformationModel.TryGetValue(model.Name, out var jbInformationModel))
                         {
-                            GlobalVariable.navigate_from_List_Devices = true;
-                            GlobalVariable.navigate_from_list_JBs = false;
-                            NavigateJBDetailScreen(model: model);
-                        });
+                            dic_JBInformationModel.Add(jbInformationModel.Name, jbInformationModel);
+                            var new_JB_Item = Instantiate(JB_Item_Prefab, jbConnectionParentTransform);
+                            var new_JB_Item_JBInfor = new_JB_Item.GetComponent<JBInfor>();
+                            new_JB_Item_JBInfor.SetJBInfor(jbInformationModel);
+                            dic_JBInformationModel_Button.Add(jbInformationModel.Name, new_JB_Item);
+                            new_JB_Item_JBInfor.button.onClick.RemoveAllListeners();
+                            new_JB_Item_JBInfor.button.onClick.AddListener(() =>
+                            {
+                                GlobalVariable.navigate_from_List_Devices = true;
+                                GlobalVariable.navigate_from_list_JBs = false;
+                                NavigateJBDetailScreen(model: jbInformationModel);
+                            });
+                        }
                     }
                     dic_JBInformationModel_Button[model.Name].SetActive(true);
                 }
@@ -206,15 +204,18 @@ public class UpdateUIListDevicesPanel : MonoBehaviour, IDeviceView
             else
             {
                 JB_Item_Prefab.SetActive(true);
-                var jbInfor = JB_Item_Prefab.GetComponent<JBInfor>();
-                jbInfor.SetJBInfor(listJBInformationModel[0]);
-                jbInfor.button.onClick.RemoveAllListeners();
-                jbInfor.button.onClick.AddListener(() =>
+                if (GlobalVariable.temp_Dictionary_JBInformationModel.TryGetValue(listJBInformationModel[0].Name, out var jbInformationModel))
                 {
-                    GlobalVariable.navigate_from_List_Devices = true;
-                    GlobalVariable.navigate_from_list_JBs = false;
-                    NavigateJBDetailScreen(model: listJBInformationModel[0]);
-                });
+                    var jbInfor = JB_Item_Prefab.GetComponent<JBInfor>();
+                    jbInfor.SetJBInfor(jbInformationModel);
+                    jbInfor.button.onClick.RemoveAllListeners();
+                    jbInfor.button.onClick.AddListener(() =>
+                    {
+                        GlobalVariable.navigate_from_List_Devices = true;
+                        GlobalVariable.navigate_from_list_JBs = false;
+                        NavigateJBDetailScreen(model: jbInformationModel);
+                    });
+                }
             }
         }
 

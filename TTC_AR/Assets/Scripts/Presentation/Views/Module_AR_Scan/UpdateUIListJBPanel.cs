@@ -101,15 +101,16 @@ public class UpdateUIListJBPanel : MonoBehaviour
                 });
                 instantiatedJBObjects.Add(newJBItem);
             }
-            jbPrefab.SetActive(false);
         }
         else
         {
+            jbPrefab.SetActive(true);
             var newJBItem = Instantiate(jbPrefab, content);
             instantiatedJBObjects.Add(newJBItem);
             newJBItem.SetActive(true);
             newJBItem.GetComponent<JBInfor>().HandleEmptyList();
         }
+        jbPrefab.SetActive(false);
     }
     private void OpenJBDetailPanel(JBInformationModel model)
     {
