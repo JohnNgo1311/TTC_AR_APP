@@ -29,15 +29,15 @@ namespace ApplicationLayer.Services
 
             return await _DeviceUseCase.GetDeviceByIdAsync(id);
         }
-        public async Task<IEnumerable<DeviceBasicDto>> GetListDeviceGeneralAsync(int grapperId)
+        public async Task<List<DeviceBasicDto>> GetListDeviceGeneralAsync(int grapperId)
         {
             return await _DeviceUseCase.GetListDeviceGeneralAsync(grapperId);
         }
-        public async Task<IEnumerable<DeviceResponseDto>> GetListDeviceInformationFromGrapperAsync(int grapperId)
+        public async Task<List<DeviceResponseDto>> GetListDeviceInformationFromGrapperAsync(int grapperId)
         {
             return await _DeviceUseCase.GetListDeviceInformationFromGrapperAsync(grapperId);
         }
-        public async Task<IEnumerable<DeviceResponseDto>> GetListDeviceInformationFromModuleAsync(int moduleId)
+        public async Task<List<DeviceBasicDto>> GetListDeviceInformationFromModuleAsync(int moduleId)
         {
             return await _DeviceUseCase.GetListDeviceInformationFromModuleAsync(moduleId);
         }

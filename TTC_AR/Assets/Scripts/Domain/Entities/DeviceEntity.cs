@@ -11,9 +11,11 @@ namespace Domain.Entities
   {
     [JsonProperty("id")]
     public int Id { get; set; }
+    [JsonProperty("module")]
+    public ModuleEntity? ModuleEntity { get; set; }
+    // [JsonProperty("JB",NullValueHandling = NullValueHandling.Ignore)]
     [JsonProperty("code")]
     public string Code { get; set; } = string.Empty;
-
     // [JsonProperty("function", NullValueHandling = NullValueHandling.Ignore)]
     [JsonProperty("function")]
     public string? Function { get; set; }
@@ -27,14 +29,12 @@ namespace Domain.Entities
     [JsonProperty("ioAddress")]
     public string? IOAddress { get; set; }
     // [JsonProperty("module", NullValueHandling = NullValueHandling.Ignore)]
-    [JsonProperty("module")]
-    public ModuleEntity? ModuleEntity { get; set; }
-    // [JsonProperty("JB",NullValueHandling = NullValueHandling.Ignore)]
-    [JsonProperty("jBs")]
-    public List<JBEntity>? JBEntities { get; set; }
     // [JsonProperty("additionalConnectionImages", NullValueHandling = NullValueHandling.Ignore)]
     [JsonProperty("additionalConnectionImages")]
     public List<ImageEntity>? AdditionalConnectionImageEntities { get; set; }
+    [JsonProperty("jBs")]
+    public List<JBEntity>? JBEntities { get; set; }
+
 
     public bool ShouldSerializeId()
     {
@@ -57,7 +57,7 @@ namespace Domain.Entities
       HashSet<string> allowedRequests = new HashSet<string>
       {
         HttpMethodTypeEnum.GETListDeviceInformationFromGrapper.GetDescription(),
-        HttpMethodTypeEnum.GETListDeviceInformationFromModule.GetDescription(),
+        //HttpMethodTypeEnum.GETListDeviceInformationFromModule.GetDescription(),
         HttpMethodTypeEnum.GETDevice.GetDescription(),
         HttpMethodTypeEnum.POSTDevice.GetDescription(),
         HttpMethodTypeEnum.PUTDevice.GetDescription()
@@ -71,7 +71,7 @@ namespace Domain.Entities
       HashSet<string> allowedRequests = new HashSet<string>
       {
         HttpMethodTypeEnum.GETListDeviceInformationFromGrapper.GetDescription(),
-        HttpMethodTypeEnum.GETListDeviceInformationFromModule.GetDescription(),
+        //HttpMethodTypeEnum.GETListDeviceInformationFromModule.GetDescription(),
         HttpMethodTypeEnum.GETDevice.GetDescription(),
         HttpMethodTypeEnum.POSTDevice.GetDescription(),
         HttpMethodTypeEnum.PUTDevice.GetDescription()
@@ -85,7 +85,7 @@ namespace Domain.Entities
       HashSet<string> allowedRequests = new HashSet<string>
       {
         HttpMethodTypeEnum.GETListDeviceInformationFromGrapper.GetDescription(),
-        HttpMethodTypeEnum.GETListDeviceInformationFromModule.GetDescription(),
+        //HttpMethodTypeEnum.GETListDeviceInformationFromModule.GetDescription(),
         HttpMethodTypeEnum.GETDevice.GetDescription(),
         HttpMethodTypeEnum.POSTDevice.GetDescription(),
         HttpMethodTypeEnum.PUTDevice.GetDescription()
@@ -99,7 +99,7 @@ namespace Domain.Entities
       HashSet<string> allowedRequests = new HashSet<string>
       {
         HttpMethodTypeEnum.GETListDeviceInformationFromGrapper.GetDescription(),
-        HttpMethodTypeEnum.GETListDeviceInformationFromModule.GetDescription(),
+        //HttpMethodTypeEnum.GETListDeviceInformationFromModule.GetDescription(),
         HttpMethodTypeEnum.GETDevice.GetDescription(),
         HttpMethodTypeEnum.POSTDevice.GetDescription(),
         HttpMethodTypeEnum.PUTDevice.GetDescription()
@@ -114,7 +114,7 @@ namespace Domain.Entities
       HashSet<string> allowedRequests = new HashSet<string>
       {
         HttpMethodTypeEnum.GETListDeviceInformationFromGrapper.GetDescription(),
-        HttpMethodTypeEnum.GETListDeviceInformationFromModule.GetDescription(),
+        //HttpMethodTypeEnum.GETListDeviceInformationFromModule.GetDescription(),
         HttpMethodTypeEnum.GETDevice.GetDescription(),
         HttpMethodTypeEnum.POSTDevice.GetDescription(),
         HttpMethodTypeEnum.PUTDevice.GetDescription()
@@ -129,7 +129,7 @@ namespace Domain.Entities
       HashSet<string> allowedRequests = new HashSet<string>
       {
         HttpMethodTypeEnum.GETListDeviceInformationFromGrapper.GetDescription(),
-        HttpMethodTypeEnum.GETListDeviceInformationFromModule.GetDescription(),
+        //HttpMethodTypeEnum.GETListDeviceInformationFromModule.GetDescription(),
         HttpMethodTypeEnum.GETDevice.GetDescription(),
         HttpMethodTypeEnum.POSTDevice.GetDescription(),
         HttpMethodTypeEnum.PUTDevice.GetDescription()
@@ -144,7 +144,7 @@ namespace Domain.Entities
       HashSet<string> allowedRequests = new HashSet<string>
       {
         HttpMethodTypeEnum.GETListDeviceInformationFromGrapper.GetDescription(),
-        HttpMethodTypeEnum.GETListDeviceInformationFromModule.GetDescription(),
+        //HttpMethodTypeEnum.GETListDeviceInformationFromModule.GetDescription(),
         HttpMethodTypeEnum.GETDevice.GetDescription(),
         HttpMethodTypeEnum.POSTDevice.GetDescription(),
         HttpMethodTypeEnum.PUTDevice.GetDescription()

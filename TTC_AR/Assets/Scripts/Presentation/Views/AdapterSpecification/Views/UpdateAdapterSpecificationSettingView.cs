@@ -198,7 +198,7 @@ public class UpdateAdapterSpecificationSettingView : MonoBehaviour, IAdapterSpec
             OpenErrorDialog(title: "Tải dữ liệu thất bại", message: "Đã có lỗi xảy ra khi tải dữ liệu loại Adapter. Vui lòng thử lại sau");
         }
     }
-    public void ShowSuccess()
+    public void ShowSuccess(string message)
     {
         Show_Toast.Instance.Set_Instance_Status_True();
         if (GlobalVariable.APIRequestType.Contains("PUT_AdapterSpecification"))

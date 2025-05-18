@@ -32,7 +32,7 @@ namespace Infrastructure.Repositories
             try
             {
                 // var response = await _httpClient.GetAsync($"/api/ModuleSpecification/{moduleSpecificationId}");
-                var response = await _httpClient.GetAsync($"{GlobalVariable.baseUrl}/{moduleSpecificationId}");
+                var response = await _httpClient.GetAsync($"{GlobalVariable.baseUrl}/ModuleSpecifications/{moduleSpecificationId}");
 
                 if (!response.IsSuccessStatusCode)
                 {
@@ -41,6 +41,7 @@ namespace Infrastructure.Repositories
                 else
                 {
                     var content = await response.Content.ReadAsStringAsync();
+                    UnityEngine.Debug.Log(content);
                     return JsonConvert.DeserializeObject<ModuleSpecificationEntity>(content);
                 }
             }
@@ -60,7 +61,7 @@ namespace Infrastructure.Repositories
             try
             {
                 // var response = await _httpClient.GetAsync($"/api/ModuleSpecification/grapper/{companyId}");
-                var response = await _httpClient.GetAsync($"{GlobalVariable.baseUrl}");
+                var response = await _httpClient.GetAsync($"{GlobalVariable.baseUrl}/Grappers/{companyId}/moduleSpecificationsGeneral");
 
                 if (!response.IsSuccessStatusCode)
                     throw new HttpRequestException($"Failed to get ModuleSpecification list. Status: {response.StatusCode}");
@@ -88,7 +89,7 @@ namespace Infrastructure.Repositories
                 var json = JsonConvert.SerializeObject(moduleSpecificationEntity);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
                 // var response = await _httpClient.PostAsync($"/api/ModuleSpecification/grapper/{companyId}", content);
-                var response = await _httpClient.PostAsync($"{GlobalVariable.baseUrl}", content);
+                var response = await _httpClient.PostAsync($"{GlobalVariable.baseUrl}/ModuleSpecifications/companyId?companyId={companyId}", content);
 
                 response.EnsureSuccessStatusCode();
                 return response.IsSuccessStatusCode;
@@ -110,7 +111,7 @@ namespace Infrastructure.Repositories
                 var json = JsonConvert.SerializeObject(moduleSpecificationEntity);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
                 // var response = await _httpClient.PutAsync($"/api/ModuleSpecification/{moduleSpecificationId}", content);
-                var response = await _httpClient.PutAsync($"{GlobalVariable.baseUrl}/{moduleSpecificationId}", content);
+                var response = await _httpClient.PutAsync($"{GlobalVariable.baseUrl}/ModuleSpecifications/{moduleSpecificationId}", content);
 
                 response.EnsureSuccessStatusCode();
                 return response.IsSuccessStatusCode;
@@ -130,7 +131,7 @@ namespace Infrastructure.Repositories
         {
             try
             {
-                var response = await _httpClient.DeleteAsync($"{GlobalVariable.baseUrl}/{moduleSpecificationId}");
+                var response = await _httpClient.DeleteAsync($"{GlobalVariable.baseUrl}/ModuleSpecifications/{moduleSpecificationId}");
 
                 response.EnsureSuccessStatusCode();
                 return response.IsSuccessStatusCode;

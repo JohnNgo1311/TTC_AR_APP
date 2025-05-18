@@ -79,7 +79,7 @@ namespace Domain.Entities
         HttpMethodTypeEnum.GETJB.GetDescription(),
         HttpMethodTypeEnum.GETListDeviceInformationFromGrapper.GetDescription(),
         HttpMethodTypeEnum.GETListDeviceInformationFromModule.GetDescription(),
-        HttpMethodTypeEnum.GETDevice.GetDescription(),
+       // HttpMethodTypeEnum.GETDevice.GetDescription(),
         HttpMethodTypeEnum.POSTJB.GetDescription(),
         HttpMethodTypeEnum.PUTJB.GetDescription()
      };
@@ -98,7 +98,7 @@ namespace Domain.Entities
         HttpMethodTypeEnum.GETListDeviceInformationFromModule.GetDescription(),
         HttpMethodTypeEnum.POSTJB.GetDescription(),
         HttpMethodTypeEnum.PUTJB.GetDescription(),
-        HttpMethodTypeEnum.GETDevice.GetDescription(),
+       // HttpMethodTypeEnum.GETDevice.GetDescription(),
      };
       return apiRequestType.Any(request => allowedRequests.Contains(request));
       ;
@@ -116,7 +116,7 @@ namespace Domain.Entities
         HttpMethodTypeEnum.GETListDeviceInformationFromModule.GetDescription(),
         HttpMethodTypeEnum.POSTJB.GetDescription(),
         HttpMethodTypeEnum.PUTJB.GetDescription(),
-        HttpMethodTypeEnum.GETDevice.GetDescription(),
+       // HttpMethodTypeEnum.GETDevice.GetDescription(),
      };
       return apiRequestType.Any(request => allowedRequests.Contains(request));
       ;

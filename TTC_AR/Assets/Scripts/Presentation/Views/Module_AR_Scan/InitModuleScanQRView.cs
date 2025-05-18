@@ -1,12 +1,7 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using EasyUI.Progress;
-using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class InitModuleScanQRView : MonoBehaviour, IModuleView
 {
@@ -56,7 +51,7 @@ public class InitModuleScanQRView : MonoBehaviour, IModuleView
 
 
     }
- 
+
     public void ShowSuccess(string message)
     {
         if (GlobalVariable.APIRequestType.Contains("GET_Module_List"))
@@ -71,6 +66,6 @@ public class InitModuleScanQRView : MonoBehaviour, IModuleView
     public void DisplayUpdateResult(bool success) { }
     public void DisplayDeleteResult(bool success) { }
 
-   
+
 }
 

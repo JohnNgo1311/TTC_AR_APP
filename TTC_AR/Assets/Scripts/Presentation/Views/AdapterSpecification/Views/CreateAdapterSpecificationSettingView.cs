@@ -201,7 +201,7 @@ public class CreateAdapterSpecificationSettingView : MonoBehaviour, IAdapterSpec
         }
 
     }
-    public void ShowSuccess()
+    public void ShowSuccess(string message)
     {
         Show_Toast.Instance.Set_Instance_Status_True();
 

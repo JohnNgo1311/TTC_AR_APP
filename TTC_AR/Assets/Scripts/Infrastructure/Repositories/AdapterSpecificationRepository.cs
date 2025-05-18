@@ -30,7 +30,7 @@ namespace Infrastructure.Repositories
         {
             try
             {
-                var response = await _httpClient.GetAsync($"{GlobalVariable.baseUrl}/{adapterSpecificationId}");
+                var response = await _httpClient.GetAsync($"{GlobalVariable.baseUrl}/AdapterSpecifications/{adapterSpecificationId}");
 
                 if (!response.IsSuccessStatusCode)
                 {
@@ -63,7 +63,7 @@ namespace Infrastructure.Repositories
             try
             {
                 // var response = await _httpClient.GetAsync($"{GlobalVariable.baseUrl}/{companyId}");
-                var response = await _httpClient.GetAsync($"{GlobalVariable.baseUrl}");
+                var response = await _httpClient.GetAsync($"{GlobalVariable.baseUrl}/Grappers/{companyId}/adapterSpecificationsGeneral");
 
                 if (!response.IsSuccessStatusCode)
                     throw new HttpRequestException($"Failed to get AdapterSpecification list. Status: {response.StatusCode}");
@@ -97,7 +97,7 @@ namespace Infrastructure.Repositories
 
                     var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-                    var response = await _httpClient.PostAsync($"{GlobalVariable.baseUrl}", content);
+                    var response = await _httpClient.PostAsync($"{GlobalVariable.baseUrl}/AdapterSpecifications/companyId?companyId={companyId}", content);
 
                     response.EnsureSuccessStatusCode();
                     return response.IsSuccessStatusCode;
@@ -128,7 +128,7 @@ namespace Infrastructure.Repositories
                     var json = JsonConvert.SerializeObject(adapterSpecificationEntity);
 
                     var content = new StringContent(json, Encoding.UTF8, "application/json");
-                    var response = await _httpClient.PutAsync($"{GlobalVariable.baseUrl}/{adapterSpecificationId}", content);
+                    var response = await _httpClient.PutAsync($"{GlobalVariable.baseUrl}/AdapterSpecifications/{adapterSpecificationId}", content);
                     // var response = await _httpClient.PutAsync($"/api/AdapterSpecification/{adapterSpecificationId}", content);
 
                     response.EnsureSuccessStatusCode();
@@ -151,7 +151,7 @@ namespace Infrastructure.Repositories
             try
             {
                 //! var response = await _httpClient.DeleteAsync($"/api/AdapterSpecification/{adapterSpecificationId}");
-                var response = await _httpClient.DeleteAsync($"{GlobalVariable.baseUrl}/{adapterSpecificationId}");
+                var response = await _httpClient.DeleteAsync($"{GlobalVariable.baseUrl}/AdapterSpecifications/{adapterSpecificationId}");
                 response.EnsureSuccessStatusCode();
                 return response.IsSuccessStatusCode;
 

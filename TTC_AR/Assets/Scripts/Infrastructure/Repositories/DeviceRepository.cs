@@ -30,11 +30,11 @@ namespace Infrastructure.Repositories
 
                 var response = await _httpClient.GetStringAsync($"{GlobalVariable.baseUrl}/Devices/{deviceId}");
 
-                // UnityEngine.Debug.Log(response);
+                UnityEngine.Debug.Log(response);
 
                 var entity = JsonConvert.DeserializeObject<DeviceEntity>(response);
 
-                // UnityEngine.Debug.Log(entity.Code);
+                UnityEngine.Debug.Log(entity.Code);
 
                 return entity;
             }
@@ -79,6 +79,7 @@ namespace Infrastructure.Repositories
                 var response = await _httpClient.GetAsync($"{GlobalVariable.baseUrl}/Modules/{moduleId}/devices");
                 if (!response.IsSuccessStatusCode) return null;
                 var content = await response.Content.ReadAsStringAsync();
+                UnityEngine.Debug.Log(content);
                 return JsonConvert.DeserializeObject<List<DeviceEntity>>(content);
             }
             catch (HttpRequestException ex)

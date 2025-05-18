@@ -75,7 +75,7 @@ namespace ApplicationLayer.UseCases
 
 
         //! Get List Device Information từ Grapper
-        public async Task<IEnumerable<DeviceResponseDto>> GetListDeviceInformationFromGrapperAsync(int grapperId)
+        public async Task<List<DeviceResponseDto>> GetListDeviceInformationFromGrapperAsync(int grapperId)
         {
             try
             {
@@ -83,7 +83,7 @@ namespace ApplicationLayer.UseCases
 
                 var deviceEntities = await _IDeviceRepository.GetListDeviceInformationFromGrapperAsync(grapperId);
 
-                IEnumerable<DeviceResponseDto> deviceResponseDtos =
+                List<DeviceResponseDto> deviceResponseDtos =
                     deviceEntities.Select(MapToResponseDto).ToList();
 
                 return deviceResponseDtos;
@@ -101,7 +101,7 @@ namespace ApplicationLayer.UseCases
 
 
         //! Get List Device Information từ Module
-        public async Task<IEnumerable<DeviceResponseDto>> GetListDeviceInformationFromModuleAsync(int moduleId)
+        public async Task<List<DeviceBasicDto>> GetListDeviceInformationFromModuleAsync(int moduleId)
         {
             try
             {
@@ -109,7 +109,7 @@ namespace ApplicationLayer.UseCases
                 var deviceEntities = await _IDeviceRepository.GetListDeviceInformationFromModuleAsync(moduleId)
                 ?? throw new ApplicationException("Failed to get Device list"); ;
                 //! Đưa về Entity để xử lý logic nghiệp vụ 
-                return deviceEntities.Select(MapToResponseDto).ToList();
+                return deviceEntities.Select(MapToBasicDto).ToList();
             }
             catch (ArgumentException)
             {
@@ -305,20 +305,11 @@ namespace ApplicationLayer.UseCases
                 moduleBasicDto: deviceEntity.ModuleEntity != null ? new ModuleBasicDto(
                     id: deviceEntity.ModuleEntity.Id,
                     name: deviceEntity.ModuleEntity.Name) : null,
-                jbGeneralDtos: deviceEntity.JBEntities != null
-                ? deviceEntity.JBEntities.Select(jb => new JBGeneralDto(
+                jbBasicDtos: (deviceEntity.JBEntities != null && deviceEntity.JBEntities.Any())
+                ? deviceEntity.JBEntities.Select(jb => new JBBasicDto(
                        id: jb.Id,
-                       name: jb.Name,
-                   location: jb.Location,
-                   outdoorImageBasicDto: jb.OutdoorImageEntity != null ? new ImageBasicDto(
-                   id: jb.OutdoorImageEntity.Id,
-                   name: jb.OutdoorImageEntity.Name
-                ) : null,
-                connectionImageBasicDtos: jb.ConnectionImageEntities.Any() ? jb.ConnectionImageEntities.Select(imageEntity => new ImageBasicDto(
-                    id: imageEntity.Id,
-                    name: imageEntity.Name
-                   )).ToList() : new List<ImageBasicDto>()
-                )).ToList() : new List<JBGeneralDto>(),
+                       name: jb.Name
+                   )).ToList() : new List<JBBasicDto>(),
                 additionalImageBasicDtos: deviceEntity.AdditionalConnectionImageEntities.Any() ? deviceEntity.AdditionalConnectionImageEntities.Select(imageEntity => new ImageBasicDto(
                         id: imageEntity.Id,
                         name: imageEntity.Name

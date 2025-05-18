@@ -39,7 +39,7 @@ public class AdapterSpecificationPresenter
                     var models = new List<AdapterSpecificationModel>();
                     _view.DisplayList(models);
                 }
-                _view.ShowSuccess();
+                _view.ShowSuccess(message: "Tải danh sách thành công");
 
             }
             else
@@ -70,7 +70,7 @@ public class AdapterSpecificationPresenter
             {
                 var model = ConvertFromResponseDto(dto);
                 _view.DisplayDetail(model);
-                _view.ShowSuccess();
+                _view.ShowSuccess(message: "Tải dữ liệu thành công");
             }
             else
             {
@@ -99,7 +99,7 @@ public class AdapterSpecificationPresenter
 
             if (result)
             {
-                _view.ShowSuccess(); // Chỉ hiển thị thành công nếu result == true
+                _view.ShowSuccess(message: "Tạo loại Adapter mới thành công"); // Chỉ hiển thị thành công nếu result == true
             }
             else
             {
@@ -129,7 +129,7 @@ public class AdapterSpecificationPresenter
             var result = await _service.UpdateAdapterSpecificationAsync(adapterSpecificationId, dto);
             if (result)
             {
-                _view.ShowSuccess(); // Chỉ hiển thị thành công nếu result == true
+                _view.ShowSuccess(message: "Cập nhật loại Adapter thành công"); // Chỉ hiển thị thành công nếu result == true
             }
             else
             {
@@ -156,7 +156,7 @@ public class AdapterSpecificationPresenter
             var result = await _service.DeleteAdapterSpecificationAsync(adapterSpecificationId);
             if (result)
             {
-                _view.ShowSuccess(); // Chỉ hiển thị thành công nếu result == true
+                _view.ShowSuccess(message: "Xóa loại Adapter thành công"); // Chỉ hiển thị thành công nếu result == true
             }
             else
             {

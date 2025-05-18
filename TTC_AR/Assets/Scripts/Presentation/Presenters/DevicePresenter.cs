@@ -74,7 +74,7 @@ public class DevicePresenter
             {
                 if (DeviceResponseDtos.Any())
                 {
-                    var models = DeviceResponseDtos.Select(dto => ConvertFromResponseDto(dto)).ToList();
+                    var models = DeviceResponseDtos.Select(dto => ConvertFromBasicDto(dto)).ToList();
                     _view.DisplayList(models);
                 }
                 else
@@ -169,6 +169,8 @@ public class DevicePresenter
         catch (Exception ex)
         {
             _view.ShowError($"Error: {ex.Message}");
+            UnityEngine.Debug.LogError("Error: " + ex.Message);
+
         }
         finally
         {
@@ -272,25 +274,9 @@ public class DevicePresenter
             range: dto.Range,
             unit: dto.Unit,
             ioAddress: dto.IOAddress,
-            jbInformationModels: dto.JBGeneralDtos.Any() ? dto.JBGeneralDtos.Select(jb => new JBInformationModel(
+            jbInformationModels: dto.JBBasicDtos.Any() ? dto.JBBasicDtos.Select(jb => new JBInformationModel(
                 id: jb.Id,
-                name: jb.Name,
-            location: string.IsNullOrEmpty(jb.Location) ? "Được ghi chú trong sơ đồ" : jb.Location,
-            outdoorImage: jb.OutdoorImageBasicDto != null ? new ImageInformationModel(
-                           id: jb.OutdoorImageBasicDto.Id,
-                           name: jb.OutdoorImageBasicDto.Name
-                           //    ,url: jb.OutdoorImageBasicDto.Url
-                           ) : null,
-            listConnectionImages: jb.ConnectionImageBasicDtos.Any() ?
-            jb.ConnectionImageBasicDtos.Select(
-            connectionImage => new ImageInformationModel(
-                                   id: connectionImage.Id,
-                                   name: connectionImage.Name
-                                   //    ,
-                                   //    url: connectionImage.Url
-                                   )
-            ).ToList() : new List<ImageInformationModel>()
-            )).ToList() : new List<JBInformationModel>(),
+                name: jb.Name)).ToList() : new List<JBInformationModel>(),
             moduleInformationModel: dto.ModuleBasicDto != null ? new ModuleInformationModel(
                                         dto.ModuleBasicDto.Id,
                                         dto.ModuleBasicDto.Name

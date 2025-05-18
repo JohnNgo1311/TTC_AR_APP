@@ -143,25 +143,9 @@ public class SearchDeviceAndJBPresenter
             range: dto.Range,
             unit: dto.Unit,
             ioAddress: dto.IOAddress,
-            jbInformationModels: dto.JBGeneralDtos.Any() ? dto.JBGeneralDtos.Select(jb => new JBInformationModel(
+            jbInformationModels: dto.JBBasicDtos.Any() ? dto.JBBasicDtos.Select(jb => new JBInformationModel(
                 id: jb.Id,
-                name: jb.Name,
-            location: jb?.Location,
-            outdoorImage: jb.OutdoorImageBasicDto != null ? new ImageInformationModel(
-                           id: jb.OutdoorImageBasicDto.Id,
-                           name: jb.OutdoorImageBasicDto.Name
-                           //    ,
-                           //    url: jb.OutdoorImageBasicDto.Ur
-                           ) : null,
-            listConnectionImages: jb.ConnectionImageBasicDtos.Any() ?
-            jb.ConnectionImageBasicDtos.Select(
-            connectionImage => new ImageInformationModel(
-                                   id: connectionImage.Id,
-                                   name: connectionImage.Name
-                                   //    ,
-                                   //    url: connectionImage.Url
-                                   )
-            ).ToList() : new List<ImageInformationModel>()
+                name: jb.Name
             )).ToList() : new List<JBInformationModel>(),
             moduleInformationModel: dto.ModuleBasicDto != null ? new ModuleInformationModel(
                                         dto.ModuleBasicDto.Id,

@@ -194,7 +194,7 @@ public class ListAdapterSpecificationSettingView : MonoBehaviour, IAdapterSpecif
         }
 
     }
-    public void ShowSuccess()
+    public void ShowSuccess(string message)
     {
         Show_Toast.Instance.Set_Instance_Status_True();
         if (GlobalVariable.APIRequestType.Contains("GET_AdapterSpecification_List"))

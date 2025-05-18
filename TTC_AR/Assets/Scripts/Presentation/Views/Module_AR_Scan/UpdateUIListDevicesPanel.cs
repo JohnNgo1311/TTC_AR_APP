@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using EasyUI.Progress;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -29,14 +30,14 @@ public class UpdateUIListDevicesPanel : MonoBehaviour, IDeviceView
     public Dictionary<string, JBInformationModel> dic_JBInformationModel = new Dictionary<string, JBInformationModel>();
     public Dictionary<string, GameObject> dic_JBInformationModel_Button = new Dictionary<string, GameObject>();
     private const string noDeviceMessage = "Không có thiết bị kết nối";
-
+    public List<string> devicesCode = new List<string>();
     private DevicePresenter _presenter;
+    private bool loadFirstDevice = true;
 
     void Awake()
     {
         Initialize();
         _presenter = new DevicePresenter(this, ManagerLocator.Instance.DeviceManager._IDeviceService);
-
     }
     private void Initialize()
     {
@@ -47,7 +48,11 @@ public class UpdateUIListDevicesPanel : MonoBehaviour, IDeviceView
 
     private void OnEnable()
     {
-        _presenter.LoadListDeviceInformationFromModule(GlobalVariable.moduleId);
+        if (GlobalVariable.moduleId != 0)
+        {
+            _presenter.LoadListDeviceInformationFromModule(GlobalVariable.moduleId);
+
+        }
     }
     private void OnDisable()
     {
@@ -58,40 +63,55 @@ public class UpdateUIListDevicesPanel : MonoBehaviour, IDeviceView
         dic_JBInformationModel_Button.Clear();
         listJBInformationModel.Clear();
         listDeviceFromModule.Clear();
-        StopAllCoroutines();
     }
     public void DisplayList(List<DeviceInformationModel> models)
     {
         closeButton.onClick.RemoveAllListeners();
         closeButton.onClick.AddListener(() => CloseListJBPanel());
 
-        if (GlobalVariable.temp_ListDeviceInformationModel_FromModule.Any())
+        if (models.Any())
         {
-            listDeviceFromModule = GlobalVariable.temp_ListDeviceInformationModel_FromModule;
+            GlobalVariable.temp_ListDeviceInformationModel_FromModule = models;
+            listDeviceFromModule = models;
         }
         StartCoroutine(UpdateUI());
+    }
+    public void DisplayDetail(DeviceInformationModel model)
+    {
+        if (!contentPanel.activeSelf)
+        {
+            contentPanel.SetActive(true);
+        }
+        UpdateDeviceInformation(model);
     }
 
     private IEnumerator UpdateUI()
     {
+        loadFirstDevice = true;
+
         yield return null;
 
         dropdown.options.Clear();
 
         if (listDeviceFromModule.Any())
         {
+            Debug.Log("listDeviceFromModule Count: " + listDeviceFromModule.Count);
             contentPanel.SetActive(true);
             foreach (var model in listDeviceFromModule)
             {
                 dropdown.options.Add(new TMP_Dropdown.OptionData(model.Code));
+                devicesCode.Add(model.Code);
             }
             dropdown.value = 0;
             dropdown.RefreshShownValue();
             dropdown.onValueChanged.AddListener(OnValueChange);
             OnValueChange(0);
+            yield return new WaitForSeconds(2f);
+            loadFirstDevice = false;
         }
         else
         {
+            Debug.Log("listDeviceFromModule Count: " + 0);
             contentPanel.SetActive(false);
             dropdown.options.Add(new TMP_Dropdown.OptionData(noDeviceMessage));
             dropdown.value = 0;
@@ -116,6 +136,7 @@ public class UpdateUIListDevicesPanel : MonoBehaviour, IDeviceView
         {
             deviceInformationModel = listDeviceFromModule[value];
             _presenter.LoadDetailById(deviceInformationModel.Id);
+
         }
         else
         {
@@ -123,7 +144,6 @@ public class UpdateUIListDevicesPanel : MonoBehaviour, IDeviceView
             contentPanel.SetActive(false);
         }
     }
-
 
     private void UpdateDeviceInformation(DeviceInformationModel device)
     {
@@ -136,7 +156,9 @@ public class UpdateUIListDevicesPanel : MonoBehaviour, IDeviceView
         deviceInforValue[4].text = device.IOAddress;
 
         GlobalVariable.deviceCode = device.Code;
+
         dic_JBInformationModel.Clear();
+
         dic_JBInformationModel_Button.Clear();
 
         if (device.JBInformationModels != null && device.JBInformationModels.Any())
@@ -144,7 +166,7 @@ public class UpdateUIListDevicesPanel : MonoBehaviour, IDeviceView
             listJBInformationModel = device.JBInformationModels;
         }
 
-        else if (!listJBInformationModel.Any())
+        if (!listJBInformationModel.Any())
         {
             JB_Item_Prefab.SetActive(true);
             JB_Item_Prefab.GetComponent<JBInfor>().HandleEmptyList();
@@ -163,7 +185,8 @@ public class UpdateUIListDevicesPanel : MonoBehaviour, IDeviceView
                         var new_JB_Item = Instantiate(JB_Item_Prefab, jbConnectionParentTransform);
                         var new_JB_Item_JBInfor = new_JB_Item.GetComponent<JBInfor>();
 
-                        new_JB_Item_JBInfor.SetJBInfor(model);
+                        new_JB_Item_JBInfor.value.text = model.Name;
+                        new_JB_Item_JBInfor.Location.text = model.Location;
 
                         dic_JBInformationModel_Button.Add(model.Name, new_JB_Item);
 
@@ -236,27 +259,30 @@ public class UpdateUIListDevicesPanel : MonoBehaviour, IDeviceView
         listDevicesPanel.SetActive(false);
     }
 
-
-    public void ShowLoading(string title = "Loading...")
+    private void ShowProgressBar(string title, string details)
     {
+        Progress.Show(title, ProgressColor.Blue, true);
+        Progress.SetDetailsText(details);
     }
-
-    public void HideLoading()
+    private void HideProgressBar()
     {
-        throw new NotImplementedException();
+        Progress.Hide();
     }
+    public void ShowLoading(string title) => ShowProgressBar(title, "Đang tải dữ liệu...");
+    public void HideLoading() => HideProgressBar();
 
     public void ShowSuccess()
     {
+
         if (GlobalVariable.APIRequestType.Contains("GET_Device_List_Information_FromModule"))
         {
             Show_Toast.Instance.ShowToast("success", "Tải dữ liệu thành công");
         }
-        if (GlobalVariable.APIRequestType.Contains("GET_Device"))
+        if (GlobalVariable.APIRequestType.Contains("GET_Device") && !loadFirstDevice)
         {
             Show_Toast.Instance.ShowToast("success", "Tải dữ liệu thành công");
         }
-        StartCoroutine(Show_Toast.Instance.Set_Instance_Status_False(1f));
+        StartCoroutine(Show_Toast.Instance.Set_Instance_Status_False(0.5f));
     }
     public void ShowError(string message)
     {
@@ -268,17 +294,9 @@ public class UpdateUIListDevicesPanel : MonoBehaviour, IDeviceView
         {
             Show_Toast.Instance.ShowToast("failure", "Tải dữ liệu thất bại");
         }
-        StartCoroutine(Show_Toast.Instance.Set_Instance_Status_False(1f));
+        StartCoroutine(Show_Toast.Instance.Set_Instance_Status_False(0.5f));
     }
 
-    public void DisplayDetail(DeviceInformationModel model)
-    {
-        if (!contentPanel.activeSelf)
-        {
-            contentPanel.SetActive(true);
-        }
-        UpdateDeviceInformation(model);
-    }
 
     public void DisplayCreateResult(bool success)
     {

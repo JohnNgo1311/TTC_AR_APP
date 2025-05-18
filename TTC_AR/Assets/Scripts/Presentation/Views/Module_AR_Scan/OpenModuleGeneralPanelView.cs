@@ -54,6 +54,9 @@ public class OpenModuleGeneralPanelView : MonoBehaviour, IModuleView
             GlobalVariable.moduleId = moduleInformationModel.Id;
 
             GlobalVariable.temp_ModuleInformationModel = moduleInformationModel;
+
+         //   GlobalVariable.temp_ListDeviceInformationModel_FromModule = moduleInformationModel.ListDeviceInformationModel;
+
             if (moduleInformationModel.ListJBInformationModel != null)
             {
                 if (moduleInformationModel.ListJBInformationModel.Any())
@@ -67,6 +70,23 @@ public class OpenModuleGeneralPanelView : MonoBehaviour, IModuleView
                     GlobalVariable.temp_ListJBInformationModel_FromModule = new List<JBInformationModel>();
                     Debug.Log("ListJBInformationModel Empty");
                 }
+            }
+            if (model.ModuleSpecificationModel != null)
+            {
+                GlobalVariable.moduleSpecificationId = model.ModuleSpecificationModel.Id;
+            }
+            else
+            {
+                GlobalVariable.moduleSpecificationId = 0;
+            }
+            if (model.AdapterSpecificationModel != null)
+            {
+                GlobalVariable.adapterSpecificationId = model.AdapterSpecificationModel.Id;
+            }
+            else
+            {
+                GlobalVariable.adapterSpecificationId = 0;
+
             }
             title.text = moduleInformationModel.Name;
         }
