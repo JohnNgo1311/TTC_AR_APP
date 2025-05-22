@@ -39,6 +39,10 @@ namespace Domain.Entities
       };
       return !apiRequestType.Any(request => allowedRequests.Contains(request));
     }
+    public bool ShouldSerializeCabinetCode()
+    {
+      return true;
+    }
 
     public bool ShouldSerializeBrand()
     {

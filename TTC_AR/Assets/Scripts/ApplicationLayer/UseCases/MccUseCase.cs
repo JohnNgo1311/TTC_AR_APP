@@ -96,7 +96,6 @@ namespace ApplicationLayer.UseCases
         {
             try
             {
-                mccId = GlobalVariable.mccId;
 
                 var MccEntity = MapRequestToEntity(requestDto);
 

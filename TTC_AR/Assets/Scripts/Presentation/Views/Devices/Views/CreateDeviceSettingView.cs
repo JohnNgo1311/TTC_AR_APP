@@ -391,9 +391,16 @@ public class CreateDeviceSettingView : MonoBehaviour, IDeviceView
         var confirmButton = horizontalGroupTransform.Find("Confirm_Button").GetComponent<Button>();
         var backButton = horizontalGroupTransform.Find("Back_Button").GetComponent<Button>();
 
-        confirmButton.GetComponent<Image>().sprite = Resources.Load<Sprite>("images/UIimages/Success_Back_Button_Background");
-        confirmButton.transform.Find("Text").GetComponent<TMP_Text>().text = "Tiếp tục thêm mới";
-        backButton.transform.Find("Text").GetComponent<TMP_Text>().text = "Trở lại danh sách";
+        var confirmButtonText = confirmButton.GetComponentInChildren<TMP_Text>();
+        var confirmButtonSprite = confirmButton.GetComponent<Image>().sprite;
+
+        var backButtonText = backButton.GetComponentInChildren<TMP_Text>();
+
+
+        confirmButtonText.text = "Tiếp tục thêm mới";
+        backButtonText.text = "Trở lại danh sách";
+
+        confirmButtonSprite = Resources.Load<Sprite>("images/UIimages/Success_Back_Button_Background");
 
         confirmButton.onClick.RemoveAllListeners();
         backButton.onClick.RemoveAllListeners();

@@ -29,6 +29,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/UpdateScene/UpdateMccScene.unity
     guid: 3122fa72b6ffe934f9a278e9a4c2c78f
+  - enabled: 1
+    path: Assets/Scenes/UpdateScene/UpdateFieldDeviceScene.unity
+    guid: 9618474b8c359644f8c5096dffb61e00
   m_configObjects:
     UnityEditor.XR.ARCore.ARCoreSettings: {fileID: 11400000, guid: 4e27cb49c56077a4e9377e67098f2e89,
       type: 2}

@@ -121,12 +121,18 @@ public class ListDeviceSettingView : MonoBehaviour, IDeviceView
         var dialog_Title = DialogTwoButton.transform.Find("Background/Dialog_Title").GetComponent<TMP_Text>().text = "Xóa thiết bị khỏi hệ thống?";
 
         backgroundTransform.Find("Dialog_Status_Icon").GetComponent<Image>().sprite = Resources.Load<Sprite>("images/UIimages/Warning_Icon_For_Dialog");
-
         var confirmButton = Horizontal_Group.transform.Find("Confirm_Button").GetComponent<Button>();
-
-        confirmButton.GetComponent<Image>().sprite = Resources.Load<Sprite>("images/UIimages/Warning_Back_Button_Background");
+        var confirmButtonText = confirmButton.GetComponentInChildren<TMP_Text>();
+        var confirmButtonSprite = confirmButton.GetComponent<Image>().sprite;
 
         var backButton = Horizontal_Group.transform.Find("Back_Button").GetComponent<Button>();
+        var backButtonText = backButton.GetComponentInChildren<TMP_Text>();
+
+
+        confirmButtonText.text = "Xác nhận";
+        backButtonText.text = "Trở lại";
+
+        confirmButtonSprite = Resources.Load<Sprite>("images/UIimages/Warning_Back_Button_Background");
 
         confirmButton.onClick.RemoveAllListeners();
 
@@ -134,7 +140,6 @@ public class ListDeviceSettingView : MonoBehaviour, IDeviceView
 
         confirmButton.onClick.AddListener(() =>
         {
-            listDeviceItems.Remove(DeviceItem);
             // Debug.Log(model.Id);
             _presenter.DeleteDevice(model.Id);
             DialogTwoButton.SetActive(false);
@@ -198,6 +203,7 @@ public class ListDeviceSettingView : MonoBehaviour, IDeviceView
         }
         else if (GlobalVariable.APIRequestType.Contains("DELETE_Device"))
         {
+            listDeviceItems.Remove(_deviceItem);
             Destroy(_deviceItem);
             Show_Toast.Instance.ShowToast("success", "Xóa thiết bị thành công");
         }

@@ -32,17 +32,22 @@ namespace Infrastructure.Repositories
                 else
                 {
                     var content = await response.Content.ReadAsStringAsync();
-                    return JsonConvert.DeserializeObject<List<FieldDeviceEntity>>(content);
+                    var entities = JsonConvert.DeserializeObject<List<FieldDeviceEntity>>(content);
+                    return entities;
                 }
             }
             catch (HttpRequestException ex)
             {
                 // Xử lý lỗi HTTP
+                UnityEngine.Debug.Log("Error: " + ex.Message);
+
                 throw new ApplicationException($"Failed to fetch FieldDevice data: {ex.Message}");
             }
             catch (JsonException ex)
             {
                 // Xử lý lỗi deserialize
+                UnityEngine.Debug.Log("Error: " + ex.Message);
+
                 throw new ApplicationException($"Failed to deserialize JSON: {ex.Message}");
             }
 
@@ -58,17 +63,22 @@ namespace Infrastructure.Repositories
                 else
                 {
                     var content = await response.Content.ReadAsStringAsync();
-                    return JsonConvert.DeserializeObject<FieldDeviceEntity>(content);
+                    UnityEngine.Debug.Log(content);
+                    var entity = JsonConvert.DeserializeObject<FieldDeviceEntity>(content);
+                    UnityEngine.Debug.Log(entity.Name + " " + entity.Id);
+
+                    return entity;
                 }
             }
             catch (HttpRequestException ex)
             {
-                // Xử lý lỗi HTTP
+                UnityEngine.Debug.Log("Error: " + ex.Message);
                 throw new ApplicationException($"Failed to fetch FieldDevice data: {ex.Message}");
             }
             catch (JsonException ex)
             {
                 // Xử lý lỗi deserialize
+                UnityEngine.Debug.Log("Error: " + ex.Message);
                 throw new ApplicationException($"Failed to deserialize JSON: {ex.Message}");
             }
 
@@ -97,11 +107,13 @@ namespace Infrastructure.Repositories
             catch (HttpRequestException ex)
             {
                 // Xử lý lỗi HTTP
+                UnityEngine.Debug.Log("Error: " + ex.Message);
                 throw new ApplicationException($"Failed to create FieldDevice: {ex.Message}");
             }
             catch (JsonException ex)
             {
                 // Xử lý lỗi deserialize
+                UnityEngine.Debug.Log("Error: " + ex.Message);
                 throw new ApplicationException($"Failed to deserialize JSON: {ex.Message}");
             }
         }
@@ -133,11 +145,13 @@ namespace Infrastructure.Repositories
             catch (HttpRequestException ex)
             {
                 // Xử lý lỗi HTTP
+                UnityEngine.Debug.Log("Error: " + ex.Message);
                 throw new ApplicationException($"Failed to update FieldDevice: {ex.Message}");
             }
             catch (JsonException ex)
             {
                 // Xử lý lỗi deserialize
+                UnityEngine.Debug.Log("Error: " + ex.Message);
                 throw new ApplicationException($"Failed to deserialize JSON: {ex.Message}");
             }
         }
@@ -154,11 +168,13 @@ namespace Infrastructure.Repositories
             catch (HttpRequestException ex)
             {
                 // Xử lý lỗi HTTP
+                UnityEngine.Debug.Log("Error: " + ex.Message);
                 throw new ApplicationException($"Failed to delete FieldDevice: {ex.Message}");
             }
             catch (JsonException ex)
             {
                 // Xử lý lỗi deserialize
+                UnityEngine.Debug.Log("Error: " + ex.Message);
                 throw new ApplicationException($"Failed to deserialize JSON: {ex.Message}");
             }
 

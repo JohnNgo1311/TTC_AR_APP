@@ -5,6 +5,7 @@ using System.Linq;
 using ApplicationLayer.Dtos.FieldDevice;
 using ApplicationLayer.Dtos.Image;
 using ApplicationLayer.Interfaces;
+using Unity.VisualScripting;
 
 public class FieldDevicePresenter
 {
@@ -72,17 +73,26 @@ public class FieldDevicePresenter
             if (dto != null)
             {
                 var model = ConvertFromResponseDto(dto);
-                
-                _view.DisplayDetail(model);
-                _view.ShowSuccess();
+                if (model != null)
+                {
+                    _view.DisplayDetail(model);
+                    _view.ShowSuccess();
+                }
+                else
+                {
+                    UnityEngine.Debug.Log("FieldDevice not found1");
+                    _view.ShowError("FieldDevice not found");
+                }
             }
             else
             {
+                UnityEngine.Debug.Log("FieldDevice not found2");
                 _view.ShowError("FieldDevice not found");
             }
         }
         catch (Exception ex)
         {
+            UnityEngine.Debug.Log("Error: " + ex.Message);
             _view.ShowError($"Error: {ex.Message}");
         }
         finally
@@ -185,14 +195,18 @@ public class FieldDevicePresenter
         return new FieldDeviceInformationModel(
             id: dto.Id,
             name: dto.Name,
+           mcc: dto.Mcc != null ? new MccInformationModel(
+                id: dto.Mcc.Id,
+                cabinetCode: dto.Mcc.CabinetCode
+            ) : null,
             ratedPower: dto.RatedPower,
             ratedCurrent: dto.RatedCurrent,
             activeCurrent: dto.ActiveCurrent,
-            listConnectionImages: dto.ConnectionImages.Select(imageDto => new ImageInformationModel(
+            listConnectionImages: dto.ConnectionImages.Any() ? dto.ConnectionImages.Select(imageDto => new ImageInformationModel(
                 id: imageDto.Id,
                 name: imageDto.Name
             // url: imageDto.Url
-            )).ToList(),
+            )).ToList() : new List<ImageInformationModel>(),
             note: dto.Note
         );
     }
@@ -212,10 +226,10 @@ public class FieldDevicePresenter
             ratedPower: model.RatedPower,
             ratedCurrent: model.RatedCurrent,
             activeCurrent: model.ActiveCurrent,
-            connectionImageBasicDtos: model.ListConnectionImages?.Select(imageModel => new ImageBasicDto(
+            connectionImageBasicDtos: model.ListConnectionImages.Any() ? model.ListConnectionImages?.Select(imageModel => new ImageBasicDto(
                 id: imageModel.Id,
                 name: imageModel.Name
-            )).ToList(),
+            )).ToList() : new List<ImageBasicDto>(),
             note: model.Note
         )
        ;

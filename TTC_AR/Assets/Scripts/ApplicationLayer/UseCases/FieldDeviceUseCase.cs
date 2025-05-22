@@ -58,7 +58,13 @@ namespace ApplicationLayer.UseCases
             {
                 var entity = await _fieldDeviceRepository.GetFieldDeviceByIdAsync(fieldDeviceId);
 
+                UnityEngine.Debug.Log("Convert to Entity In UseCase Success: " + entity.Name + " - " + entity.Id);
+
                 var fieldDeviceResponseDto = MapToResponseDto(entity);
+
+                UnityEngine.Debug.Log("Debug From UseCase: " + fieldDeviceResponseDto.Name + fieldDeviceResponseDto.Id +
+                    " - " + fieldDeviceResponseDto.RatedPower + " - " + fieldDeviceResponseDto.RatedCurrent + " - " +
+                    fieldDeviceResponseDto.ActiveCurrent + " - " + fieldDeviceResponseDto.Note);
 
                 return fieldDeviceResponseDto;
             }
@@ -109,8 +115,6 @@ namespace ApplicationLayer.UseCases
         {
             try
             {
-                fieldDeviceId = GlobalVariable.fieldDeviceId;
-
                 var fieldDeviceEntity = MapRequestToEntity(requestDto);
 
                 var updatedEntity = await _fieldDeviceRepository.UpdateFieldDeviceAsync(fieldDeviceId, fieldDeviceEntity);
@@ -162,12 +166,12 @@ namespace ApplicationLayer.UseCases
         {
             return new FieldDeviceEntity(
                 name: fieldDeviceRequestDto.Name,
-                ratedPower: fieldDeviceRequestDto.RatedPower,
-                ratedCurrent: fieldDeviceRequestDto.RatedCurrent,
-                activeCurrent: fieldDeviceRequestDto.ActiveCurrent,
-                connectionImageEntities: (fieldDeviceRequestDto.ConnectionImageBasicDtos == null || (fieldDeviceRequestDto.ConnectionImageBasicDtos != null && fieldDeviceRequestDto.ConnectionImageBasicDtos.Count <= 0)) ? new List<ImageEntity>() :
+                ratedPower: string.IsNullOrEmpty(fieldDeviceRequestDto.RatedPower) ? "Chưa cập nhật" : fieldDeviceRequestDto.RatedPower,
+                ratedCurrent: string.IsNullOrEmpty(fieldDeviceRequestDto.RatedCurrent) ? "Chưa cập nhật" : fieldDeviceRequestDto.RatedCurrent,
+                activeCurrent: string.IsNullOrEmpty(fieldDeviceRequestDto.ActiveCurrent) ? "Chưa cập nhật" : fieldDeviceRequestDto.ActiveCurrent,
+                connectionImageEntities: !fieldDeviceRequestDto.ConnectionImageBasicDtos.Any() ? new List<ImageEntity>() :
                 fieldDeviceRequestDto.ConnectionImageBasicDtos.Select(i => new ImageEntity(i.Id, i.Name)).ToList(),
-                note: fieldDeviceRequestDto.Note
+                note: string.IsNullOrEmpty(fieldDeviceRequestDto.Note) ? "Chưa cập nhật" : fieldDeviceRequestDto.Note
             );
         }
         //! Entity => Dto
@@ -181,14 +185,14 @@ namespace ApplicationLayer.UseCases
         private FieldDeviceResponseDto MapToResponseDto(FieldDeviceEntity entity)
         {
             return new FieldDeviceResponseDto(
-               id: entity.Id,
+              id: entity.Id,
               name: entity.Name,
-              mcc: entity.MccEntity == null ? null : new MccBasicDto(entity.MccEntity.Id, entity.MccEntity.CabinetCode),
-              ratedPower: entity.RatedPower,
-              ratedCurrent: entity.RatedCurrent,
-              activeCurrent: entity.ActiveCurrent,
+              mcc: entity.MccEntity != null ? new MccBasicDto(entity.MccEntity.Id, entity.MccEntity.CabinetCode) : null,
+              ratedPower: string.IsNullOrEmpty(entity.RatedPower) ? "Chưa cập nhật" : entity.RatedPower,
+              ratedCurrent: string.IsNullOrEmpty(entity.RatedCurrent) ? "Chưa cập nhật" : entity.RatedCurrent,
+              activeCurrent: string.IsNullOrEmpty(entity.ActiveCurrent) ? "Chưa cập nhật" : entity.ActiveCurrent,
               connectionImages: entity.ConnectionImageEntities.Any() ? entity.ConnectionImageEntities.Select(img => new ImageBasicDto(img.Id, img.Name)).ToList() : new List<ImageBasicDto>(),
-              note: entity.Note
+              note: string.IsNullOrEmpty(entity.Note) ? "Chưa cập nhật" : entity.Note
             );
         }
     }

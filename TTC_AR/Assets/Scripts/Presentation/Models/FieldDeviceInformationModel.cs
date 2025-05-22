@@ -32,9 +32,10 @@ public class FieldDeviceInformationModel
   public string? Note { get; set; }
   [Preserve]
 
-  public FieldDeviceInformationModel(int id, string name, string? ratedPower, string? ratedCurrent, string? activeCurrent, List<ImageInformationModel>? listConnectionImages, string? note)
+  public FieldDeviceInformationModel(int id, MccInformationModel mcc, string name, string? ratedPower, string? ratedCurrent, string? activeCurrent, List<ImageInformationModel>? listConnectionImages, string? note)
   {
     Id = id;
+    Mcc = mcc;
     Name = name;
     RatedPower = ratedPower;
     RatedCurrent = ratedCurrent;

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using ApplicationLayer.Dtos.Image;
 using ApplicationLayer.Dtos.Mcc;
 using Newtonsoft.Json;
@@ -31,12 +32,12 @@ namespace ApplicationLayer.Dtos.FieldDevice
 
         public FieldDeviceResponseDto(int id, string? name, MccBasicDto? mcc, string? ratedPower, string? ratedCurrent, string? activeCurrent, List<ImageBasicDto>? connectionImages, string? note) : base(id, name)
         {
-            Mcc = mcc ?? throw new ArgumentNullException(nameof(mcc));
-            RatedPower = ratedPower;
-            RatedCurrent = ratedCurrent;
-            ActiveCurrent = activeCurrent;
-            ConnectionImages = connectionImages;
-            Note = note;
+            Mcc = mcc ?? null;
+            RatedPower = string.IsNullOrEmpty(ratedPower) ? "Chưa cập nhật" : ratedPower;
+            RatedCurrent = string.IsNullOrEmpty(ratedCurrent) ? "Chưa cập nhật" : ratedCurrent;
+            ActiveCurrent = string.IsNullOrEmpty(activeCurrent) ? "Chưa cập nhật" : activeCurrent;
+            ConnectionImages = connectionImages.Any() ? connectionImages : new List<ImageBasicDto>();
+            Note = string.IsNullOrEmpty(note) ? "Chưa cập nhật" : note;
         }
     }
 }

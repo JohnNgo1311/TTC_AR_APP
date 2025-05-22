@@ -123,11 +123,17 @@ public class ListMccSettingView : MonoBehaviour, IMccView
         backgroundTransform.Find("Dialog_Status_Icon").GetComponent<Image>().sprite = Resources.Load<Sprite>("images/UIimages/Warning_Icon_For_Dialog");
 
         var confirmButton = Horizontal_Group.transform.Find("Confirm_Button").GetComponent<Button>();
-
-        confirmButton.GetComponent<Image>().sprite = Resources.Load<Sprite>("images/UIimages/Warning_Back_Button_Background");
-
+        var confirmButtonText = confirmButton.GetComponentInChildren<TMP_Text>();
+        var confirmButtonSprite = confirmButton.GetComponent<Image>().sprite;
 
         var backButton = Horizontal_Group.transform.Find("Back_Button").GetComponent<Button>();
+        var backButtonText = backButton.GetComponentInChildren<TMP_Text>();
+
+
+        confirmButtonText.text = "Xác nhận";
+        backButtonText.text = "Trở lại";
+
+        confirmButtonSprite = Resources.Load<Sprite>("images/UIimages/Warning_Back_Button_Background");
 
         confirmButton.onClick.RemoveAllListeners();
 
@@ -187,7 +193,7 @@ public class ListMccSettingView : MonoBehaviour, IMccView
         }
         else
         {
-            listMccItems.Remove(MccItem);
+
             _presenter.DeleteMcc(model.Id);
             DialogTwoButton.SetActive(false);
             _mccItem = MccItem;
@@ -230,10 +236,9 @@ public class ListMccSettingView : MonoBehaviour, IMccView
         if (GlobalVariable.APIRequestType.Contains("DELETE_Mcc"))
         {
             Show_Toast.Instance.ShowToast("success", "Xóa tủ Mcc thành công");
+            listMccItems.Remove(_mccItem);
             Destroy(_mccItem);
-
         }
-
         StartCoroutine(Show_Toast.Instance.Set_Instance_Status_False(1f));
     }
 

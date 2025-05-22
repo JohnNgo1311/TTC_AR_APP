@@ -88,11 +88,7 @@ public class UpdateMccSettingView : MonoBehaviour, IMccView
             OpenErrorDialog(title: "Cập nhật tủ Mcc thất bại", message: "Vui lòng nhập mã tủ Mcc");
             return;
         }
-        if (string.IsNullOrEmpty(CabinetCode_TextField.text))
-        {
-            OpenErrorDialog(title: "Cập nhật tủ Mcc thất bại", message: "Vui lòng nhập mã tủ Mcc");
-            return;
-        }
+
         MccInformationModel = new MccInformationModel(
             cabinetCode: CabinetCode_TextField.text,
             brand: string.IsNullOrEmpty(Brand_TextField.text) ? "Chưa cập nhật" : Brand_TextField.text,
