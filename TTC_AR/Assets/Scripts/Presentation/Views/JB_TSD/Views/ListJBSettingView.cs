@@ -20,15 +20,16 @@ public class ListJBSettingView : MonoBehaviour, IJBView
     public GameObject DialogOneButton;
     public GameObject DialogTwoButton;
     private JBPresenter _presenter;
+    private int grapperId;
+    private GameObject _JBItem;
 
     void Awake()
     {
-        // var DeviceManager = FindObjectOfType<DeviceManager>();
         _presenter = new JBPresenter(this, ManagerLocator.Instance.JBManager._IJBService);
-        // DeviceManager._IDeviceService
     }
     void OnEnable()
     {
+        grapperId = GlobalVariable.GrapperId;
         LoadListJB();
     }
     void OnDisable()
@@ -55,18 +56,25 @@ public class ListJBSettingView : MonoBehaviour, IJBView
     {
         if (models.Any())
         {
+            JB_Item_Prefab.SetActive(true);
             foreach (var model in models)
             {
-                int JBIndex = models.IndexOf(model);
-                Debug.Log(JBIndex);
+                // int JBIndex = models.IndexOf(model);
+                // Debug.Log(JBIndex);
+
                 var newJBItem = Instantiate(JB_Item_Prefab, Parent_Vertical_Layout_Group.transform);
+                newJBItem.SetActive(true);
                 Transform newJBItemTransform = newJBItem.transform;
                 Transform newJBItemPreviewInforGroup = newJBItemTransform.GetChild(0);
                 newJBItemPreviewInforGroup.Find("Preview_JB_Name").GetComponent<TMP_Text>().text = model.Name;
                 Transform newJBItemPreviewButtonGroup = newJBItemTransform.GetChild(1);
                 listJBItems.Add(newJBItem);
-                newJBItemPreviewButtonGroup.Find("Group/Edit_Button").GetComponent<Button>().onClick.AddListener(() => EditJBItem(model.Id));
-                newJBItemPreviewButtonGroup.Find("Group/Delete_Button").GetComponent<Button>().onClick.AddListener(() => DeleJBItem(newJBItem, model));
+                var editButton = newJBItemPreviewButtonGroup.Find("Group/Edit_Button").GetComponent<Button>();
+                var deleteButton = newJBItemPreviewButtonGroup.Find("Group/Delete_Button").GetComponent<Button>();
+                editButton.onClick.RemoveAllListeners();
+                deleteButton.onClick.RemoveAllListeners();
+                editButton.onClick.AddListener(() => EditJBItem(model.Id));
+                deleteButton.onClick.AddListener(() => DeleJBItem(newJBItem, model));
             }
         }
         else
@@ -74,6 +82,7 @@ public class ListJBSettingView : MonoBehaviour, IJBView
             Debug.Log("No JBs found");
         }
         JB_Item_Prefab.SetActive(false);
+        scrollView.verticalNormalizedPosition = 1f;
     }
 
     private void EditJBItem(int id)
@@ -107,29 +116,31 @@ public class ListJBSettingView : MonoBehaviour, IJBView
 
         var Horizontal_Group = DialogTwoButton.transform.Find("Background/Horizontal_Group").gameObject.transform;
 
-        var dialog_Content = DialogTwoButton.transform.Find("Background/Dialog_Content").GetComponent<TMP_Text>().text = $"Bạn có chắc chắn muốn xóa thông tin tủ JB/TSD <b><color =#004C8A>{model.Name}</b></color> khỏi hệ thống? Hãy kiểm tra kĩ trước khi nhấn nút xác nhận phía dưới";
+        var dialog_Content = DialogTwoButton.transform.Find("Background/Dialog_Content").GetComponent<TMP_Text>().text = $"Bạn có chắc chắn muốn xóa tủ: <color=#ED1C24><b>{model.Name}</b></color> khỏi hệ thống? Hãy kiểm tra kĩ trước khi nhấn nút \"xác nhận\" phía dưới";
 
         var dialog_Title = DialogTwoButton.transform.Find("Background/Dialog_Title").GetComponent<TMP_Text>().text = "Xóa tủ JB/TSD khỏi hệ thống?";
 
         backgroundTransform.Find("Dialog_Status_Icon").GetComponent<Image>().sprite = Resources.Load<Sprite>("images/UIimages/Warning_Icon_For_Dialog");
 
         var confirmButton = Horizontal_Group.transform.Find("Confirm_Button").GetComponent<Button>();
-
-        confirmButton.GetComponent<Image>().sprite = Resources.Load<Sprite>("images/UIimages/Warning_Back_Button_Background");
+        var confirmButtonText = confirmButton.GetComponentInChildren<TMP_Text>();
+        var confirmButtonSprite = confirmButton.GetComponent<Image>().sprite;
 
         var backButton = Horizontal_Group.transform.Find("Back_Button").GetComponent<Button>();
+        var backButtonText = backButton.GetComponentInChildren<TMP_Text>();
 
-        confirmButton.onClick.RemoveAllListeners();
 
-        backButton.onClick.RemoveAllListeners();
+        confirmButtonText.text = "Xác nhận";
+        backButtonText.text = "Trở lại";
+
+        confirmButtonSprite = Resources.Load<Sprite>("images/UIimages/Warning_Back_Button_Background");
 
         confirmButton.onClick.AddListener(() =>
         {
-            listJBItems.Remove(JBItem);
             Debug.Log(model.Id);
             _presenter.DeleteJB(model.Id);
             DialogTwoButton.SetActive(false);
-            Destroy(JBItem);
+            _JBItem = JBItem;
         });
         backButton.onClick.AddListener(() =>
         {
@@ -179,6 +190,9 @@ public class ListJBSettingView : MonoBehaviour, IJBView
         else if (GlobalVariable.APIRequestType.Contains("DELETE_JB"))
         {
             OpenErrorDialog();
+            listJBItems.Remove(_JBItem);
+            Destroy(_JBItem);
+
         }
     }
     public void ShowSuccess()

@@ -22,6 +22,7 @@ public class LoginPresenter
     private readonly IModuleService _moduleService;
     private readonly IMccService _mccService;
     private readonly IFieldDeviceService _fieldDeviceService;
+    private readonly IDeviceService _deviceService;
 
     public LoginPresenter(
         ILoginView view,
@@ -32,6 +33,7 @@ public class LoginPresenter
         , IModuleService ModuleService
         , IMccService MccService
         , IFieldDeviceService FieldDeviceService
+        , IDeviceService DeviceService
         )
     {
         _view = view;
@@ -42,6 +44,7 @@ public class LoginPresenter
         _moduleService = ModuleService;
         _mccService = MccService;
         _fieldDeviceService = FieldDeviceService;
+        _deviceService = DeviceService;
     }
 
     //! Get list Login chỉ có Id và Code
@@ -52,6 +55,8 @@ public class LoginPresenter
         GlobalVariable.APIRequestType.Add("GET_JB_List_Information");
         GlobalVariable.APIRequestType.Add("GET_Image_List");
         GlobalVariable.APIRequestType.Add("GET_Module_List");
+        GlobalVariable.APIRequestType.Add("GET_Device_List_General");
+
         _view.ShowLoading("Đang đăng nhập...");
 
         try
@@ -63,8 +68,9 @@ public class LoginPresenter
             var moduleTask = _moduleService.GetListModuleAsync(1);
             var mccTask = _mccService.GetListMccAsync(1);
             var fieldDeviceTask = _fieldDeviceService.GetListFieldDeviceAsync(1);
+            var deviceTask = _deviceService.GetListDeviceGeneralAsync(1);
 
-            await Task.WhenAll(companyTask, grapperTask, jbTask, imageTask, moduleTask, mccTask, fieldDeviceTask);
+            await Task.WhenAll(companyTask, grapperTask, jbTask, imageTask, moduleTask, mccTask, fieldDeviceTask, deviceTask);
 
             var companyDto = companyTask.Result;
             var grapperDtos = grapperTask.Result;
@@ -73,8 +79,10 @@ public class LoginPresenter
             var moduleDtos = moduleTask.Result;
             var mccDtos = mccTask.Result;
             var fieldDeviceDtos = fieldDeviceTask.Result;
+            var deviceDtos = deviceTask.Result;
 
-            if (companyDto == null || grapperDtos == null || jbDtos == null || imageDtos == null || moduleDtos == null)
+            if (companyDto == null || grapperDtos == null
+            || jbDtos == null || imageDtos == null || moduleDtos == null || fieldDeviceDtos == null || deviceDtos == null)
             {
                 _view.ShowError("Tải dữ liệu thất bại!");
                 return;
@@ -211,6 +219,24 @@ public class LoginPresenter
                       .GroupBy(fd => fd.Name)
                       .ToDictionary(g => g.Key, g => g.ToList());
                     Debug.Log(GlobalVariable.temp_Dictionary_FieldDeviceInformationModel.Count);
+                }
+            }
+            else
+            {
+                _view.ShowError("Tải dữ liệu thất bại!");
+            }
+
+            if (deviceDtos != null)
+            {
+                if (deviceDtos.Any())
+                {
+                    var models = deviceDtos.Select(dto => new DeviceInformationModel(
+                        id: dto.Id,
+                        code: dto.Code
+                    )).ToList();
+                    GlobalVariable.temp_ListDeviceInformationModel = models;
+                    GlobalVariable.temp_Dictionary_DeviceInformationModel = models.ToDictionary(m => m.Code, m => m);
+                    Debug.Log("Devices: " + models.Count);
                 }
             }
             else

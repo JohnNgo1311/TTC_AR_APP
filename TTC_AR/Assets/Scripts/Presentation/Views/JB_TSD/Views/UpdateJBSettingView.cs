@@ -75,16 +75,16 @@ public class UpdateJBSettingView : MonoBehaviour, IJBView
         { "Location_Image", 0 },
         { "Connection_Images", 0 }
     };
+    private int jbId;
     void Awake()
     {
-        // var DeviceManager = FindObjectOfType<DeviceManager>();
         _presenter = new JBPresenter(this, ManagerLocator.Instance.JBManager._IJBService);
-        // DeviceManager._IDeviceService
     }
 
     void OnEnable()
     {
-        // ResetAllInputFields();
+        jbId = GlobalVariable.JBId;
+
 
         AddButtonListeners(initialize_JB_List_Option_Selection.Device_List_Selection_Option_Content_Transform, "Devices");
         AddButtonListeners(initialize_JB_List_Option_Selection.Module_List_Selection_Option_Content_Transform, "Modules");
@@ -107,9 +107,8 @@ public class UpdateJBSettingView : MonoBehaviour, IJBView
         backButton.onClick.AddListener(CloseUpdateCanvas);
         submitButton.onClick.AddListener(OnSubmitButtonClick);
 
-        _presenter.LoadDetailById(GlobalVariable.JBId);
+        LoadJB();
 
-        scrollRect.verticalNormalizedPosition = 1;
     }
 
     void OnDisable()
@@ -118,54 +117,60 @@ public class UpdateJBSettingView : MonoBehaviour, IJBView
     }
     public void LoadJB()
     {
-        _presenter.LoadDetailById(GlobalVariable.JBId);
+        RenewView();
+        _presenter.LoadDetailById(jbId);
     }
 
     private void OnSubmitButtonClick()
     {
-        JBInformationModel = new JBInformationModel(
-            name: bis_Toggle.isOn ? $"{Name_TextField.text.ToUpper()}_Bis" : Name_TextField.text.ToUpper(),
-            location: Location_TextField.text,
-            listDeviceInformation: temp_Dictionary_DeviceModel.Values.ToList(),
-            listModuleInformation: temp_Dictionary_ModuleModel.Values.ToList(),
-            outdoorImage: temp_Dictionary_OutDoorModel.Values.FirstOrDefault(),
-            listConnectionImages: temp_Dictionary_ConnectionModel.Values.ToList()
-        );
-
         if (string.IsNullOrEmpty(Name_TextField.text))
         {
             OpenErrorDialog(title: "Cập nhật tủ JB thất bại", message: "Vui lòng nhập mã tủ JB");
             return;
         }
-        else
+        JBInformationModel = new JBInformationModel(
+            name: bis_Toggle.isOn ? $"{Name_TextField.text.ToUpper()}_Bis" : Name_TextField.text.ToUpper(),
+            location: string.IsNullOrEmpty(Location_TextField.text) ? "Chưa cập nhật" : Location_TextField.text,
+            listDeviceInformation: temp_Dictionary_DeviceModel.Any() ? temp_Dictionary_DeviceModel.Values.ToList() : new List<DeviceInformationModel>(),
+            listModuleInformation: temp_Dictionary_ModuleModel.Any() ? temp_Dictionary_ModuleModel.Values.ToList() : new List<ModuleInformationModel>(),
+            outdoorImage: temp_Dictionary_OutDoorModel.Any() ? temp_Dictionary_OutDoorModel.Values.FirstOrDefault() : null,
+            listConnectionImages: temp_Dictionary_ConnectionModel.Any() ? temp_Dictionary_ConnectionModel.Values.ToList() : new List<ImageInformationModel>()
+        );
+        if (JBInformationModel != null)
         {
-            _presenter.UpdateJB(GlobalVariable.JBId, JBInformationModel);
+            _presenter.UpdateJB(jbId, JBInformationModel);
         }
     }
 
     private void RenewView()
     {
+        addLocationImageItem.SetActive(true);
+
+        Device_Item_Prefab.SetActive(false);
+        Module_Item_Prefab.SetActive(false);
+        OutDoorImage_Item_Prefab.SetActive(false);
+        ConnectionImage_Item_Prefab.SetActive(false);
+
+        ResetAllInputFields();
+
         ClearActiveChildren(List_Devices_Parent_GridLayout_Group);
         ClearActiveChildren(List_Modules_Parent_GridLayout_Group);
         ClearActiveChildren(List_Location_Image_Parent_Vertical_Group);
         ClearActiveChildren(List_Connection_Image_Parent_Vertical_Group);
 
-        ResetAllInputFields();
-
         temp_Dictionary_DeviceModel.Clear();
-        selectedGameObjects["Devices"].Clear();
-        selectedCounts["Devices"] = 0;
-
         temp_Dictionary_ModuleModel.Clear();
-        selectedGameObjects["Modules"].Clear();
-        selectedCounts["Modules"] = 0;
-
         temp_Dictionary_OutDoorModel.Clear();
-        selectedGameObjects["Location_Image"].Clear();
-        selectedCounts["Location_Image"] = 0;
-
         temp_Dictionary_ConnectionModel.Clear();
+
+        selectedGameObjects["Devices"].Clear();
+        selectedGameObjects["Modules"].Clear();
+        selectedGameObjects["Location_Image"].Clear();
         selectedGameObjects["Connection_Images"].Clear();
+
+        selectedCounts["Devices"] = 0;
+        selectedCounts["Modules"] = 0;
+        selectedCounts["Location_Image"] = 0;
         selectedCounts["Connection_Images"] = 0;
     }
 
@@ -183,7 +188,6 @@ public class UpdateJBSettingView : MonoBehaviour, IJBView
     }
     private void SetInitialInputFields(JBInformationModel model)
     {
-
         if (model.Name.Contains("Bis"))
         {
             bis_Toggle.isOn = true;
@@ -191,9 +195,22 @@ public class UpdateJBSettingView : MonoBehaviour, IJBView
         }
         else
         {
+            bis_Toggle.isOn = false;
             Name_TextField.text = model.Name;
         }
-        Location_TextField.text = model.Location;
+        Location_TextField.text = string.IsNullOrEmpty(model.Location) ? "Chưa cập nhật" : model.Location;
+
+        if (Location_TextField.text == "Chưa cập nhật")
+        {
+            Location_TextField.textComponent.color = Color.red;
+            Location_TextField.textComponent.fontStyle = FontStyles.Bold;
+        }
+        else
+        {
+            Location_TextField.textComponent.color = Color.black;
+        }
+        Name_TextField.interactable = false;
+        bis_Toggle.interactable = false;
     }
     private void AddButtonListeners(Transform contentTransform, string field)
     {
@@ -308,6 +325,7 @@ public class UpdateJBSettingView : MonoBehaviour, IJBView
         //     initialize_JB_List_Option_Selection.Selection_Option_Canvas.SetActive(true);
 
         var newItem = Instantiate(itemPrefab, parentGroup.transform);
+        newItem.SetActive(true);
         temp_Item_Transform = newItem.transform;
         var button = newItem.GetComponentInChildren<Button>();
         button.onClick.AddListener(() => DeselectItem(newItem, field));
@@ -431,7 +449,7 @@ public class UpdateJBSettingView : MonoBehaviour, IJBView
 
         DialogOneButton.transform.Find("Background/Dialog_Status_Icon").GetComponent<Image>().sprite = Resources.Load<Sprite>("images/UIimages/Success_Icon_For_Dialog");
 
-        DialogOneButton.transform.Find("Background/Dialog_Content").GetComponent<TMP_Text>().text = message + $"<b><color=#004C8A>{JBInformationModel.Name}</b></color>";
+        DialogOneButton.transform.Find("Background/Dialog_Content").GetComponent<TMP_Text>().text = $"{message} <color=#004C8A><b>{JBInformationModel.Name}</b></color>";
 
         DialogOneButton.transform.Find("Background/Dialog_Title").GetComponent<TMP_Text>().text = title;
 
@@ -440,8 +458,8 @@ public class UpdateJBSettingView : MonoBehaviour, IJBView
         backButton.onClick.AddListener(() =>
         {
             DialogOneButton.SetActive(false);
-            _presenter.LoadDetailById(GlobalVariable.JBId);
-            scrollRect.verticalNormalizedPosition = 1;
+            // _presenter.LoadDetailById(GlobalVariable.JBId);
+            LoadJB();
         }
        );
     }
@@ -507,6 +525,8 @@ public class UpdateJBSettingView : MonoBehaviour, IJBView
         {
             addLocationImageItem.SetActive(false);
         }
+        scrollRect.verticalNormalizedPosition = 1;
+
     }
 
     private void PopulateItems(List<string> listItems, GameObject itemPrefab, GameObject parentLayoutGroup, string field)
@@ -517,6 +537,7 @@ public class UpdateJBSettingView : MonoBehaviour, IJBView
         foreach (var item in listItems)
         {
             var newItem = Instantiate(itemPrefab, parentTransform);
+            newItem.SetActive(true);
             SetItemTextValue(newItem.transform, item, field);
             AddButtonListener(newItem.transform.Find("Deselect_Button"), () => DeselectItem(newItem, field));
             selectedGameObjects[field].Add(newItem);

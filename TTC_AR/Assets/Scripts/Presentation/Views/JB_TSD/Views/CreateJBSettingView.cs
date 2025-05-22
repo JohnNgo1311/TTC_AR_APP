@@ -44,7 +44,6 @@ public class CreateJBSettingView : MonoBehaviour, IJBView
     [SerializeField] private Button backButtonConnectionImageListSelection;
     [SerializeField] private GameObject addLocationImageItem;
 
-
     [Header("Toggle")]
     [SerializeField] private Toggle bis_Toggle;
 
@@ -76,22 +75,18 @@ public class CreateJBSettingView : MonoBehaviour, IJBView
         { "Location_Image", 0 },
         { "Connection_Images", 0 }
     };
+    private int grapperId;
 
-    // void Awake()
-    // {
-    //     var JBManager = FindObjectOfType<JBManager>();
-    //     _presenter = new JBPresenter(this, JBManager._IJBService);
-    // }
 
     void Awake()
     {
-        // var DeviceManager = FindObjectOfType<DeviceManager>();
         _presenter = new JBPresenter(this, ManagerLocator.Instance.JBManager._IJBService);
-        // DeviceManager._IDeviceService
     }
     void OnEnable()
     {
-        ResetAllInputFields();
+        grapperId = GlobalVariable.GrapperId;
+
+        RenewView();
 
         AddButtonListeners(initialize_JB_List_Option_Selection.Device_List_Selection_Option_Content_Transform, "Devices");
         AddButtonListeners(initialize_JB_List_Option_Selection.Module_List_Selection_Option_Content_Transform, "Modules");
@@ -124,28 +119,27 @@ public class CreateJBSettingView : MonoBehaviour, IJBView
 
     private void OnSubmitButtonClick()
     {
-        JBInformationModel = new JBInformationModel(
-            name: bis_Toggle.isOn ? $"{Name_TextField.text.ToUpper()}_Bis" : Name_TextField.text.ToUpper(),
-            location: Location_TextField.text,
-            listDeviceInformation: temp_Dictionary_DeviceModel.Values.ToList(),
-            listModuleInformation: temp_Dictionary_ModuleModel.Values.ToList(),
-            outdoorImage: temp_Dictionary_OutDoorModel.Values.FirstOrDefault(),
-            listConnectionImages: temp_Dictionary_ConnectionModel.Values.ToList()
-        );
-
         if (string.IsNullOrEmpty(Name_TextField.text))
         {
-            OpenErrorDialog("Vui lòng nhập mã tủ JB");
+            OpenErrorDialog("Vui lòng nhập mã tủ JB/TSD");
             return;
         }
-        if (GlobalVariable.temp_Dictionary_JBInformationModel.ContainsKey(JBInformationModel.Name))
+        if (GlobalVariable.temp_Dictionary_JBInformationModel.ContainsKey(Name_TextField.text))
         {
-            OpenErrorDialog("Mã tủ JB đã tồn tại", "Vui lòng nhập mã tủ JB khác");
+            OpenErrorDialog("Tủ JB/TSD đã tồn tại", "Vui lòng nhập mã tủ JB khác");
             return;
         }
-        else
+        JBInformationModel = new JBInformationModel(
+            name: bis_Toggle.isOn ? $"{Name_TextField.text.ToUpper()}_Bis" : Name_TextField.text.ToUpper(),
+            location: string.IsNullOrEmpty(Location_TextField.text) ? "Chưa cập nhật" : Location_TextField.text,
+            listDeviceInformation: temp_Dictionary_DeviceModel.Any() ? temp_Dictionary_DeviceModel.Values.ToList() : new List<DeviceInformationModel>(),
+            listModuleInformation: temp_Dictionary_ModuleModel.Any() ? temp_Dictionary_ModuleModel.Values.ToList() : new List<ModuleInformationModel>(),
+            outdoorImage: temp_Dictionary_OutDoorModel.Any() ? temp_Dictionary_OutDoorModel.Values.FirstOrDefault() : null,
+            listConnectionImages: temp_Dictionary_ConnectionModel.Any() ? temp_Dictionary_ConnectionModel.Values.ToList() : new List<ImageInformationModel>()
+        );
+        if (JBInformationModel != null)
         {
-            _presenter.CreateNewJB(GlobalVariable.GrapperId, JBInformationModel);
+            _presenter.CreateNewJB(grapperId, JBInformationModel);
         }
     }
 
@@ -153,43 +147,44 @@ public class CreateJBSettingView : MonoBehaviour, IJBView
     {
         addLocationImageItem.SetActive(true);
 
+        Device_Item_Prefab.SetActive(false);
+        Module_Item_Prefab.SetActive(false);
+        OutDoorImage_Item_Prefab.SetActive(false);
+        ConnectionImage_Item_Prefab.SetActive(false);
+
+        ResetAllInputFields();
 
         ClearActiveChildren(List_Devices_Parent_GridLayout_Group);
         ClearActiveChildren(List_Modules_Parent_GridLayout_Group);
         ClearActiveChildren(List_Location_Image_Parent_Vertical_Group);
         ClearActiveChildren(List_Connection_Image_Parent_Vertical_Group);
 
-        ResetAllInputFields();
-
         temp_Dictionary_DeviceModel.Clear();
-        selectedGameObjects["Devices"].Clear();
-        selectedCounts["Devices"] = 0;
-
         temp_Dictionary_ModuleModel.Clear();
-        selectedGameObjects["Modules"].Clear();
-        selectedCounts["Modules"] = 0;
-
         temp_Dictionary_OutDoorModel.Clear();
-        selectedGameObjects["Location_Image"].Clear();
-        selectedCounts["Location_Image"] = 0;
-
         temp_Dictionary_ConnectionModel.Clear();
+
+        selectedGameObjects["Devices"].Clear();
+        selectedGameObjects["Modules"].Clear();
+        selectedGameObjects["Location_Image"].Clear();
         selectedGameObjects["Connection_Images"].Clear();
+
+        selectedCounts["Devices"] = 0;
+        selectedCounts["Modules"] = 0;
+        selectedCounts["Location_Image"] = 0;
         selectedCounts["Connection_Images"] = 0;
     }
-
-    public void CloseAddCanvas()
-    {
-        Add_New_JB_Canvas.SetActive(false);
-        Update_JB_Canvas.SetActive(false);
-        List_JB_Canvas.SetActive(true);
-    }
-
     private void ResetAllInputFields()
     {
         Name_TextField.text = "";
         Location_TextField.text = "";
         bis_Toggle.isOn = false;
+    }
+    public void CloseAddCanvas()
+    {
+        Add_New_JB_Canvas.SetActive(false);
+        Update_JB_Canvas.SetActive(false);
+        List_JB_Canvas.SetActive(true);
     }
 
     private void AddButtonListeners(Transform contentTransform, string field)
@@ -306,6 +301,7 @@ public class CreateJBSettingView : MonoBehaviour, IJBView
         //     initialize_JB_List_Option_Selection.Selection_Option_Canvas.SetActive(true);
 
         var newItem = Instantiate(itemPrefab, parentGroup.transform);
+        newItem.SetActive(true);
         temp_Item_Transform = newItem.transform;
         var button = newItem.GetComponentInChildren<Button>();
         button.onClick.AddListener(() => DeselectItem(newItem, field));
@@ -442,7 +438,6 @@ public class CreateJBSettingView : MonoBehaviour, IJBView
 
         confirmButton.onClick.AddListener(() =>
         {
-            ResetAllInputFields();
             DialogTwoButton.SetActive(false);
             scrollRect.verticalNormalizedPosition = 1;
             RenewView();
@@ -450,7 +445,6 @@ public class CreateJBSettingView : MonoBehaviour, IJBView
 
         backButton.onClick.AddListener(() =>
         {
-            ResetAllInputFields();
             DialogTwoButton.SetActive(false);
             RenewView();
             CloseAddCanvas();
@@ -483,7 +477,7 @@ public class CreateJBSettingView : MonoBehaviour, IJBView
     {
         if (GlobalVariable.APIRequestType.Contains("POST_JB"))
         {
-            Show_Toast.Instance.ShowToast("success", "Thêm tủ JB mới thành công");
+            Show_Toast.Instance.ShowToast("success", "Thêm tủ JB/TSD mới thành công");
             OpenSuccessDialog(JBInformationModel);
         }
 

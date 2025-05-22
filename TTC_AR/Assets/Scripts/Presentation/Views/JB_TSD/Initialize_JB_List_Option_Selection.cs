@@ -35,8 +35,8 @@ public class Initialize_JB_List_Option_Selection : MonoBehaviour
     private void Awake()
     {
         InitializeItemOptions();
-        deviceInformationModels = GlobalVariable.temp_List_DeviceInformationModel;
-        moduleInformationModels = GlobalVariable.temp_List_ModuleInformationModel;
+        deviceInformationModels = GlobalVariable.temp_ListDeviceInformationModel;
+        moduleInformationModels = GlobalVariable.temp_ListModuleInformationModel;
         locationImageInformationModels = GlobalVariable.temp_ListImageInformationModel;
         connectionImageInformationModels = GlobalVariable.temp_ListImageInformationModel;
     }

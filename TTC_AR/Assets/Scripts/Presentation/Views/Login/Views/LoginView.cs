@@ -50,7 +50,8 @@ public class LoginView : MonoBehaviour, ILoginView
              ManagerLocator.Instance.ImageManager._IImageService
                 , ManagerLocator.Instance.ModuleManager._IModuleService,
                 ManagerLocator.Instance.MccManager._IMccService,
-                ManagerLocator.Instance.FieldDeviceManager._IFieldDeviceService
+                ManagerLocator.Instance.FieldDeviceManager._IFieldDeviceService,
+                ManagerLocator.Instance.DeviceManager._IDeviceService
              );
     }
 
