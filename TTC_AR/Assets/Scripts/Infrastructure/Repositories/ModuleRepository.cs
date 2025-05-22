@@ -99,8 +99,9 @@ namespace Infrastructure.Repositories
 
                 var response = await _httpClient.PostAsync($"{GlobalVariable.baseUrl}/Modules/{grapperId}", content);
 
-                response.EnsureSuccessStatusCode();
-                return response.IsSuccessStatusCode;
+                var temp = await response.Content.ReadAsStringAsync();
+                var result = JsonConvert.DeserializeObject<bool>(temp);
+                return result;
             }
             catch (HttpRequestException ex)
             {
@@ -123,8 +124,9 @@ namespace Infrastructure.Repositories
 
                 var response = await _httpClient.PutAsync($"{GlobalVariable.baseUrl}/Modules/{moduleId}", content);
 
-                response.EnsureSuccessStatusCode();
-                return response.IsSuccessStatusCode;
+                var temp = await response.Content.ReadAsStringAsync();
+                var result = JsonConvert.DeserializeObject<bool>(temp);
+                return result;
             }
             catch (HttpRequestException ex)
             {
@@ -142,8 +144,9 @@ namespace Infrastructure.Repositories
             try
             {
                 var response = await _httpClient.DeleteAsync($"{GlobalVariable.baseUrl}/Modules/{moduleId}");
-                response.EnsureSuccessStatusCode();
-                return response.IsSuccessStatusCode;
+                var temp = await response.Content.ReadAsStringAsync();
+                var result = JsonConvert.DeserializeObject<bool>(temp);
+                return result;
             }
             catch (HttpRequestException ex)
             {

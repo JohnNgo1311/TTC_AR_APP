@@ -54,7 +54,7 @@ public class ListAdapterSpecificationSettingView : MonoBehaviour, IAdapterSpecif
     public void LoadListAdapterSpecification()
     {
         RefreshList();
-        _presenter.LoadListAdapterSpecification(GlobalVariable.companyId);
+        _presenter.LoadListAdapterSpecification(1);
 
     }
     public void DisplayList(List<AdapterSpecificationModel> models)

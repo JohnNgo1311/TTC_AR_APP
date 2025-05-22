@@ -37,7 +37,7 @@ public class Initialize_Module_List_Option_Selection : MonoBehaviour
     {
         InitializeItemOptions();
         deviceInformationModels = GlobalVariable.temp_List_DeviceInformationModel;
-        jbInformationModels = GlobalVariable.temp_List_JBInformationModel;
+        jbInformationModels = GlobalVariable.temp_ListJBInformationModel;
         rackInformationModels = GlobalVariable.temp_List_RackInformationModel;
         moduleSpecificationModels = GlobalVariable.temp_List_ModuleSpecificationModel;
         adapterSpecificationModels = GlobalVariable.temp_List_AdapterSpecificationModel;

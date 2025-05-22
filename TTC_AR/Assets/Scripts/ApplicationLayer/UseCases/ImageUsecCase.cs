@@ -57,14 +57,14 @@ namespace ApplicationLayer.UseCases
                     // , url: ""
                     ));
 
-                    GlobalVariable.temp_List_ImageInformationModel = ImageBasicDtos.Select(dto => new ImageInformationModel(dto.Id, dto.Name
+                    GlobalVariable.temp_ListImageInformationModel = ImageBasicDtos.Select(dto => new ImageInformationModel(dto.Id, dto.Name
                     // , ""
                     )).ToList();
 
-                    foreach (var item in GlobalVariable.temp_Dictionary_ImageInformationModel)
-                    {
-                        UnityEngine.Debug.Log("Key: " + item.Key + " Value: " + item.Value.Id + " " + item.Value.Name);
-                    }
+                    // foreach (var item in GlobalVariable.temp_Dictionary_ImageInformationModel)
+                    // {
+                    //     UnityEngine.Debug.Log("Key: " + item.Key + " Value: " + item.Value.Id + " " + item.Value.Name);
+                    // }
 
                     return ImageBasicDtos;
                 }

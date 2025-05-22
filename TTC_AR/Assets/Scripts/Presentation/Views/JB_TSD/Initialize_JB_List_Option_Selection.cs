@@ -37,8 +37,8 @@ public class Initialize_JB_List_Option_Selection : MonoBehaviour
         InitializeItemOptions();
         deviceInformationModels = GlobalVariable.temp_List_DeviceInformationModel;
         moduleInformationModels = GlobalVariable.temp_List_ModuleInformationModel;
-        locationImageInformationModels = GlobalVariable.temp_List_ImageInformationModel;
-        connectionImageInformationModels = GlobalVariable.temp_List_ImageInformationModel;
+        locationImageInformationModels = GlobalVariable.temp_ListImageInformationModel;
+        connectionImageInformationModels = GlobalVariable.temp_ListImageInformationModel;
     }
     private void Start()
     {

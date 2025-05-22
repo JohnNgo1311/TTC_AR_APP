@@ -47,7 +47,7 @@ namespace ApplicationLayer.UseCases
                     dictJBInfo[dto.Name] = model;
                 }
 
-                GlobalVariable.temp_List_JBInformationModel = listJBInfo;
+                GlobalVariable.temp_ListJBInformationModel = listJBInfo;
                 GlobalVariable.temp_Dictionary_JBInformationModel = dictJBInfo;
 
                 return JBBasicDtos;

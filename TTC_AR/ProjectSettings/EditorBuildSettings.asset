@@ -17,6 +17,18 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/NewQrDetectMulti/NewQRCodeDetectorMulti.unity
     guid: fd0610d1c3970e94c8c3226567f018ec
+  - enabled: 1
+    path: Assets/Scenes/UpdateScene/UpdateAdapterSpecificationScene.unity
+    guid: a43c1b97d0c52ab419759e2867fb0c1d
+  - enabled: 1
+    path: Assets/Scenes/UpdateScene/UpdateDeviceScene.unity
+    guid: 71691c8bb175565458c7808d1081f914
+  - enabled: 1
+    path: Assets/Scenes/UpdateScene/UpdateModuleSpecificationScene.unity
+    guid: 6d71c1a296eaa484eaea239b718b73c8
+  - enabled: 1
+    path: Assets/Scenes/UpdateScene/UpdateMccScene.unity
+    guid: 3122fa72b6ffe934f9a278e9a4c2c78f
   m_configObjects:
     UnityEditor.XR.ARCore.ARCoreSettings: {fileID: 11400000, guid: 4e27cb49c56077a4e9377e67098f2e89,
       type: 2}

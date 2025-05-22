@@ -52,7 +52,6 @@ public class DeviceInformationModel
 
   public DeviceInformationModel(string code, string? function, string? range, string? unit, string? ioAddress, ModuleInformationModel? moduleInformationModel, List<JBInformationModel>? jbInformationModels, List<ImageInformationModel>? additionalConnectionImages)
   {
-
     Code = code;
     Function = function;
     Range = range;

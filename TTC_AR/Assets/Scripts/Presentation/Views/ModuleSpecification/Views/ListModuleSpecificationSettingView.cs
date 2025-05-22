@@ -14,15 +14,20 @@ public class ListModuleSpecificationSettingView : MonoBehaviour, IModuleSpecific
     public GameObject Add_New_ModuleSpecification_Canvas;
     public GameObject Update_ModuleSpecification_Canvas;
 
+    [Header("UI Components")]
     public GameObject ModuleSpecification_Item_Prefab;
     public GameObject Parent_Vertical_Layout_Group;
     public ScrollRect scrollView;
-    private List<GameObject> listModuleSpecificationItems = new List<GameObject>();
 
-
+    [Header("Dialog")]
     public GameObject DialogOneButton;
     public GameObject DialogTwoButton;
+
     private ModuleSpecificationPresenter _presenter;
+    private List<GameObject> listModuleSpecificationItems = new List<GameObject>();
+    private int companyId;
+    private GameObject tempItemObject;
+
 
     void Awake()
     {
@@ -33,6 +38,7 @@ public class ListModuleSpecificationSettingView : MonoBehaviour, IModuleSpecific
 
     void OnEnable()
     {
+        companyId = GlobalVariable.companyId;
         LoadListModuleSpecification();
     }
     void OnDisable()
@@ -53,7 +59,7 @@ public class ListModuleSpecificationSettingView : MonoBehaviour, IModuleSpecific
     public void LoadListModuleSpecification()
     {
         RefreshList();
-        _presenter.LoadListModuleSpecification(GlobalVariable.companyId);
+        _presenter.LoadListModuleSpecification(companyId);
 
     }
     public void DisplayList(List<ModuleSpecificationModel> models)
@@ -67,26 +73,30 @@ public class ListModuleSpecificationSettingView : MonoBehaviour, IModuleSpecific
                 var newModuleSpecificationItem = Instantiate(ModuleSpecification_Item_Prefab, Parent_Vertical_Layout_Group.transform);
 
                 Transform newModuleSpecificationItemTransform = newModuleSpecificationItem.transform;
-
                 Transform newModuleSpecificationItemPreviewInforGroup = newModuleSpecificationItemTransform.GetChild(0);
-
                 newModuleSpecificationItemPreviewInforGroup.Find("Preview_ModuleSpecification_Code").GetComponent<TMP_Text>().text = model.Code;
-
                 Transform newModuleSpecificationItemPreviewButtonGroup = newModuleSpecificationItemTransform.GetChild(1);
-
                 listModuleSpecificationItems.Add(newModuleSpecificationItem);
 
-                newModuleSpecificationItemPreviewButtonGroup.Find("Group/Edit_Button").GetComponent<Button>().onClick.AddListener(() => EditModuleSpecificationItem(model.Id));
+                var editButton = newModuleSpecificationItemPreviewButtonGroup.Find("Group/Edit_Button").GetComponent<Button>();
+                var deleteButton = newModuleSpecificationItemPreviewButtonGroup.Find("Group/Delete_Button").GetComponent<Button>();
 
-                newModuleSpecificationItemPreviewButtonGroup.Find("Group/Delete_Button").GetComponent<Button>().onClick.AddListener(() => DeleModuleSpecificationItem(newModuleSpecificationItem, model));
+                editButton.onClick.RemoveAllListeners();
+                deleteButton.onClick.RemoveAllListeners();
+
+                editButton.onClick.AddListener(() => EditModuleSpecificationItem(model.Id));
+
+                deleteButton.onClick.AddListener(() => DeleModuleSpecificationItem(newModuleSpecificationItem, model));
             }
         }
         else
         {
             Show_Toast.Instance.ShowToast("success", "Tải dữ liệu thành công nhưng danh sách trống");
-            StartCoroutine(Show_Toast.Instance.Set_Instance_Status_False(2f));
+            StartCoroutine(Show_Toast.Instance.Set_Instance_Status_False(1f));
         }
+
         ModuleSpecification_Item_Prefab.SetActive(false);
+        scrollView.verticalNormalizedPosition = 1f;
     }
 
     private void EditModuleSpecificationItem(int id)
@@ -120,7 +130,7 @@ public class ListModuleSpecificationSettingView : MonoBehaviour, IModuleSpecific
 
         var Horizontal_Group = DialogTwoButton.transform.Find("Background/Horizontal_Group").gameObject.transform;
 
-        var dialog_Content = DialogTwoButton.transform.Find("Background/Dialog_Content").GetComponent<TMP_Text>().text = $"Bạn có chắc chắn muốn xóa thông tin loại Module <b><color =#004C8A>{model.Code}</b></color> khỏi hệ thống? Hãy kiểm tra kĩ trước khi nhấn nút xác nhận phía dưới";
+        var dialog_Content = DialogTwoButton.transform.Find("Background/Dialog_Content").GetComponent<TMP_Text>().text = $"Bạn có chắc chắn muốn xóa thông tin loại Module <color=#ED1C24><b>{model.Code}</b></color> khỏi hệ thống? Hãy kiểm tra kĩ trước khi nhấn nút \"xác nhận\" phía dưới";
 
         var dialog_Title = DialogTwoButton.transform.Find("Background/Dialog_Title").GetComponent<TMP_Text>().text = "Xóa loại Module khỏi hệ thống?";
 
@@ -141,7 +151,7 @@ public class ListModuleSpecificationSettingView : MonoBehaviour, IModuleSpecific
         {
             listModuleSpecificationItems.Remove(ModuleSpecificationItem);
             _presenter.DeleteModuleSpecification(model.Id);
-            Destroy(ModuleSpecificationItem);
+            tempItemObject = ModuleSpecificationItem;
             DialogTwoButton.SetActive(false);
         });
         backButton.onClick.AddListener(() =>
@@ -213,7 +223,9 @@ public class ListModuleSpecificationSettingView : MonoBehaviour, IModuleSpecific
         if (GlobalVariable.APIRequestType.Contains("DELETE_ModuleSpecification"))
         {
             Show_Toast.Instance.ShowToast("success", message);
+            Destroy(tempItemObject);
         }
+        StartCoroutine(Show_Toast.Instance.Set_Instance_Status_False());
     }
 
 

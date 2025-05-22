@@ -53,7 +53,7 @@ public class ListFieldDeviceSettingView : MonoBehaviour, IFieldDeviceView
     public void LoadListFieldDevice()
     {
         RefreshList();
-        _presenter.LoadListFieldDevice(GlobalVariable.GrapperId);
+        _presenter.LoadListFieldDevice(1);
 
     }
     public void DisplayList(List<FieldDeviceInformationModel> models)

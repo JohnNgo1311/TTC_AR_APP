@@ -31,7 +31,7 @@ namespace Infrastructure.Repositories
         {
             try
             {
-                var response = await _httpClient.GetAsync($"{GlobalVariable.baseUrl}/{ImageId}");
+                var response = await _httpClient.GetAsync($"{GlobalVariable.baseUrl}/Images/{ImageId}/info");
 
                 if (!response.IsSuccessStatusCode)
                 {
@@ -61,7 +61,7 @@ namespace Infrastructure.Repositories
         {
             try
             {
-                var response = await _httpClient.GetAsync(GlobalVariable.baseUrl);
+                var response = await _httpClient.GetAsync($"{GlobalVariable.baseUrl}/Grappers/{grapperId}/images");
                 if (!response.IsSuccessStatusCode)
                     throw new HttpRequestException($"Failed to get Image list. Status: {response.StatusCode}");
                 else
@@ -97,10 +97,10 @@ namespace Infrastructure.Repositories
 
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-                var response = await _httpClient.PostAsync($"{GlobalVariable.baseUrl}", content);
-
-                response.EnsureSuccessStatusCode();
-                return response.IsSuccessStatusCode;
+                var response = await _httpClient.PostAsync($"{GlobalVariable.baseUrl}/Images/grapperId?grapperId={grapperId}&fileName={ImageEntity.Name}", content);
+                var temp = await response.Content.ReadAsStringAsync();
+                var result = JsonConvert.DeserializeObject<bool>(temp);
+                return result;
             }
             catch (HttpRequestException ex)
             {
@@ -116,9 +116,10 @@ namespace Infrastructure.Repositories
         {
             try
             {
-                var response = await _httpClient.DeleteAsync($"{GlobalVariable.baseUrl}/{ImageId}");
-                response.EnsureSuccessStatusCode();
-                return response.IsSuccessStatusCode;
+                var response = await _httpClient.DeleteAsync($"{GlobalVariable.baseUrl}/Images/{ImageId}");
+                var temp = await response.Content.ReadAsStringAsync();
+                var result = JsonConvert.DeserializeObject<bool>(temp);
+                return result;
             }
             catch (HttpRequestException ex)
             {

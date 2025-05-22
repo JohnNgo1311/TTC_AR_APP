@@ -155,11 +155,13 @@ public class DevicePresenter
                 var model = ConvertFromResponseDto(DeviceResponseDto);
                 if (model != null)
                 {
-                    UnityEngine.Debug.Log("Get Device Detail Successfully");
+                    _view.DisplayDetail(model);
+                    _view.ShowSuccess();
                 }
-                UnityEngine.Debug.Log(model.Code + model.Id + model.IOAddress);
-                _view.DisplayDetail(model);
-                _view.ShowSuccess();
+                else
+                {
+                    _view.ShowError("Device not found");
+                }
             }
             else
             {
@@ -169,8 +171,6 @@ public class DevicePresenter
         catch (Exception ex)
         {
             _view.ShowError($"Error: {ex.Message}");
-            UnityEngine.Debug.LogError("Error: " + ex.Message);
-
         }
         finally
         {
@@ -185,9 +185,7 @@ public class DevicePresenter
         try
         {
             var dto = ConvertToRequestDto(model);
-
             var result = await _service.CreateNewDeviceAsync(grapperId, dto);
-
             if (result)
             {
                 _view.ShowSuccess(); // Chỉ hiển thị thành công nếu result == true
@@ -218,16 +216,20 @@ public class DevicePresenter
             var result = await _service.UpdateDeviceAsync(deviceId, dto);
             if (result)
             {
+                GlobalVariable.deviceId = deviceId;
                 _view.ShowSuccess(); // Chỉ hiển thị thành công nếu result == true
+                UnityEngine.Debug.Log("Update Device succeeded");
             }
             else
             {
                 _view.ShowError("Update Device failed");
+                UnityEngine.Debug.Log("Update Device failed");
             }
         }
         catch (Exception ex)
         {
             _view.ShowError($"Error: {ex.Message}");
+            UnityEngine.Debug.Log("Error: " + ex.Message + " " + ex.StackTrace);
         }
         finally
         {
@@ -241,6 +243,8 @@ public class DevicePresenter
         _view.ShowLoading("Đang thực hiện...");
         try
         {
+            UnityEngine.Debug.Log(deviceId);
+
             var result = await _service.DeleteDeviceAsync(deviceId);
             if (result)
             {
@@ -248,11 +252,13 @@ public class DevicePresenter
             }
             else
             {
+                UnityEngine.Debug.Log("Delete Device failed");
                 _view.ShowError("Delete Device failed");
             }
         }
         catch (Exception ex)
         {
+            UnityEngine.Debug.Log("Error: " + ex.Message);
             _view.ShowError($"Error: {ex.Message}");
         }
         finally
@@ -261,8 +267,6 @@ public class DevicePresenter
             GlobalVariable.APIRequestType.Remove("DELETE_Device");
         }
     }
-
-
 
     //! Dto => Model
     private DeviceInformationModel ConvertFromResponseDto(DeviceResponseDto dto)
@@ -311,17 +315,16 @@ public class DevicePresenter
                 id: jb.Id,
                 name: jb.Name
             )).ToList() : new List<JBBasicDto>(),
-            moduleBasicDto: model.ModuleInformationModel == null ? null : new ModuleBasicDto(
+            moduleBasicDto: model.ModuleInformationModel != null ? new ModuleBasicDto(
                 id: model.ModuleInformationModel.Id,
                 name: model.ModuleInformationModel.Name
-            ),
+            ) : null,
          additionalImageBasicDtos: model.AdditionalConnectionImages.Any() ? model.AdditionalConnectionImages.Select(
             imageInfor => new ImageBasicDto(
                 id: imageInfor.Id,
                 name: imageInfor.Name
             )
          ).ToList() : new List<ImageBasicDto>()
-
         );
     }
 }

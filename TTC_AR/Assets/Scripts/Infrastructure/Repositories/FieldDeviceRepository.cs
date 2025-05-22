@@ -87,9 +87,9 @@ namespace Infrastructure.Repositories
 
                 var response = await _httpClient.PostAsync($"{GlobalVariable.baseUrl}/FieldDevices/add/{grapperId}", content);
 
-                response.EnsureSuccessStatusCode();
-
-                return response.IsSuccessStatusCode;
+                var temp = await response.Content.ReadAsStringAsync();
+                var result = JsonConvert.DeserializeObject<bool>(temp);
+                return result;
 
                 // var responseContent = await response.Content.ReadAsStringAsync();
                 // return JsonConvert.DeserializeObject<FieldDeviceEntity>(responseContent);
@@ -124,8 +124,9 @@ namespace Infrastructure.Repositories
 
                 var response = await _httpClient.PutAsync($"{GlobalVariable.baseUrl}/FieldDevices/{fieldDeviceId}", content);
 
-                response.EnsureSuccessStatusCode();
-                return response.IsSuccessStatusCode;
+                var temp = await response.Content.ReadAsStringAsync();
+                var result = JsonConvert.DeserializeObject<bool>(temp);
+                return result;
                 // var responseContent = await response.Content.ReadAsStringAsync();
                 // return JsonConvert.DeserializeObject<FieldDeviceEntity>(responseContent);
             }
@@ -146,8 +147,9 @@ namespace Infrastructure.Repositories
             {
                 var response = await _httpClient.DeleteAsync($"{GlobalVariable.baseUrl}/FieldDevices/{fieldDeviceId}");
 
-                response.EnsureSuccessStatusCode();
-                return response.IsSuccessStatusCode;
+                var temp = await response.Content.ReadAsStringAsync();
+                var result = JsonConvert.DeserializeObject<bool>(temp);
+                return result;
             }
             catch (HttpRequestException ex)
             {

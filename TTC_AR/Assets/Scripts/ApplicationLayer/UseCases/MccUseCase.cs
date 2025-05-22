@@ -20,15 +20,14 @@ namespace ApplicationLayer.UseCases
             _MccRepository = MccRepository;
         }
 
-        public async Task<IEnumerable<MccBasicDto>> GetListMccAsync(int grapperId)
+        public async Task<List<MccBasicDto>> GetListMccAsync(int grapperId)
         {
             try
             {
 
                 var entities = await _MccRepository.GetListMccAsync(grapperId)
                                ?? throw new ApplicationException("Failed to load List MccBasicDtos");
-
-                return entities.Select(entity => MapToBasicDto(entity));
+                return entities.Select(entity => MapToBasicDto(entity)).ToList();
             }
             catch (ArgumentException exception)
             {

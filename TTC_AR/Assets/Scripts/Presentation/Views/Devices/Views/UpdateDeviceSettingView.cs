@@ -9,15 +9,14 @@ public class UpdateDeviceSettingView : MonoBehaviour, IDeviceView
 {
     public Initialize_Device_List_Option_Selection initialize_Device_List_Option_Selection;
     private DevicePresenter _presenter;
-
-    [SerializeField] private DeviceInformationModel DeviceInformationModel;
-
+    private DeviceInformationModel DeviceInformationModel;
     [Header("Input Fields")]
     [SerializeField] private TMP_InputField deviceCode_TextField;
     [SerializeField] private TMP_InputField deviceFunction_TextField;
     [SerializeField] private TMP_InputField deviceRange_TextField;
     [SerializeField] private TMP_InputField deviceUnit_TextField;
     [SerializeField] private TMP_InputField deviceIOAddress_TextField;
+    [SerializeField] private List<TMP_InputField> deviceTextFieldValues;
 
     [Header("Basic")]
     public ScrollRect scrollRect;
@@ -54,48 +53,35 @@ public class UpdateDeviceSettingView : MonoBehaviour, IDeviceView
     public GameObject Update_Device_Canvas;
 
 
-
+    private int deviceId = 0;
     private List<JBInformationModel> temp_JBModels = new List<JBInformationModel>();
     private ModuleInformationModel temp_ModuleModel = new ModuleInformationModel(1, "");
     private Dictionary<string, ImageInformationModel> temp_Dictionary_Additional_ConnectionModel = new();
     private Dictionary<string, JBInformationModel> temp_Dictionary_JBInformationModel = new();
     private readonly Dictionary<string, List<GameObject>> selectedGameObjects = new()
+
     {
+        { "Module", new List<GameObject>() },
         { "Additional_Connection_Images", new List<GameObject>() },
-        { "JBs", new List<GameObject>() },
+        { "JB", new List<GameObject>() },
 
     };
 
     private readonly Dictionary<string, int> selectedCounts = new()
-    {
+    {   { "Module", 0 },
         { "Additional_Connection_Images", 0 },
-        { "JBs", 0 },
-
+        { "JB", 0 },
     };
 
     void Awake()
     {
-        // var DeviceManager = FindObjectOfType<DeviceManager>();
         _presenter = new DevicePresenter(this, ManagerLocator.Instance.DeviceManager._IDeviceService);
-        // DeviceManager._IDeviceService
-    }
-    private void ResetAllInputFields()
-    {
-        deviceCode_TextField.text = "";
-        deviceFunction_TextField.text = "";
-        deviceRange_TextField.text = "";
-        deviceUnit_TextField.text = "";
-        deviceIOAddress_TextField.text = "";
     }
 
-    public void LoadDetailById()
-    {
-        RenewView();
-        _presenter.LoadDetailById(GlobalVariable.deviceId);
-    }
     void OnEnable()
     {
-        ResetAllInputFields();
+        deviceId = GlobalVariable.deviceId;
+        deviceCode_TextField.interactable = false;
 
         AddButtonListeners(initialize_Device_List_Option_Selection.JB_List_Selection_Option_Content_Transform, "JB");
         AddButtonListeners(initialize_Device_List_Option_Selection.Module_List_Selection_Option_Content_Transform, "Module");
@@ -106,24 +92,36 @@ public class UpdateDeviceSettingView : MonoBehaviour, IDeviceView
         backButtonJBListSelection.onClick.RemoveAllListeners();
         backButtonModuleListSelection.onClick.RemoveAllListeners();
         backButtonAdditionalConnectionImageListSelection.onClick.RemoveAllListeners();
+
+
+        backButton.onClick.AddListener(CloseAddCanvas);
+        submitButton.onClick.AddListener(OnSubmitButtonClick);
         backButtonJBListSelection.onClick.AddListener(() => CloseListSelectionFromBackButton("JB"));
         backButtonModuleListSelection.onClick.AddListener(() => CloseListSelectionFromBackButton("Module"));
         backButtonAdditionalConnectionImageListSelection.onClick.AddListener(() => CloseListSelectionFromBackButton("Additional_Connection_Images"));
-        backButton.onClick.AddListener(CloseAddCanvas);
 
-        submitButton.onClick.AddListener(OnSubmitButtonClick);
-        _presenter.LoadDetailById(GlobalVariable.deviceId);
-        scrollRect.verticalNormalizedPosition = 1;
+        LoadDetailById();
     }
 
     void OnDisable()
     {
         RenewView();
     }
-
+    // private void ResetAllInputFields()
+    // {
+    //     deviceCode_TextField.interactable = false;
+    //     deviceFunction_TextField.text = "";
+    //     deviceRange_TextField.text = "";
+    //     deviceUnit_TextField.text = "";
+    //     deviceIOAddress_TextField.text = "";
+    // }
+    public void LoadDetailById()
+    {
+        RenewView();
+        _presenter.LoadDetailById(deviceId);
+    }
     private void OnSubmitButtonClick()
     {
-
         if (string.IsNullOrEmpty(deviceCode_TextField.text))
         {
             OpenErrorDialog("Vui lòng nhập mã thiết bị");
@@ -131,10 +129,6 @@ public class UpdateDeviceSettingView : MonoBehaviour, IDeviceView
         }
         else
         {
-            Debug.Log("Module Name Value: " + temp_ModuleModel.Name);
-            Debug.Log(addModuleItem.activeSelf);
-
-
             DeviceInformationModel = new DeviceInformationModel(
             code: string.IsNullOrEmpty(deviceCode_TextField.text) ? throw new ArgumentNullException(nameof(deviceCode_TextField.text)) : deviceCode_TextField.text,
             function: string.IsNullOrEmpty(deviceFunction_TextField.text) ? "Chưa cập nhật" : deviceFunction_TextField.text,
@@ -145,27 +139,29 @@ public class UpdateDeviceSettingView : MonoBehaviour, IDeviceView
             moduleInformationModel: !addModuleItem.activeSelf ? temp_ModuleModel : null,
             additionalConnectionImages: temp_Dictionary_Additional_ConnectionModel.Any() ? temp_Dictionary_Additional_ConnectionModel.Values.ToList() : new List<ImageInformationModel>()
             );
-
-            _presenter.UpdateDevice(GlobalVariable.GrapperId, DeviceInformationModel);
+            _presenter.UpdateDevice(deviceId, DeviceInformationModel);
         }
     }
 
     private void RenewView()
     {
-        // ClearActiveChildren(List_JB_Parent_GridLayout_Group);
         //  ClearActiveChildren(List_Module_Parent_GridLayout_Group);
+        ClearActiveChildren(List_JB_Parent_GridLayout_Group);
         ClearActiveChildren(List_Additional_Connection_Image_Parent_Vertical_Group);
-        JB_Item_Prefab.SetActive(false);
+
         Module_Item_Prefab.SetActive(false);
         addModuleItem.SetActive(true);
+
         temp_ModuleModel = new ModuleInformationModel(1, "");
+        temp_Dictionary_JBInformationModel.Clear();
         temp_Dictionary_Additional_ConnectionModel.Clear();
-        temp_JBModels.Clear();
 
         selectedGameObjects["Additional_Connection_Images"].Clear();
+        selectedGameObjects["JB"].Clear();
+        selectedGameObjects["Module"].Clear();
         selectedCounts["Additional_Connection_Images"] = 0;
-        selectedCounts["JBs"] = 0;
-
+        selectedCounts["JB"] = 0;
+        selectedCounts["Module"] = 0;
     }
 
     public void CloseAddCanvas()
@@ -199,18 +195,16 @@ public class UpdateDeviceSettingView : MonoBehaviour, IDeviceView
 
         CloseListSelection(field);
 
-        if (field != "Module")
+        selectedCounts[field]++;
+        if (!selectedGameObjects[field].Contains(temp_Item_Transform.gameObject))
         {
-            selectedCounts[field]++;
-            if (!selectedGameObjects[field].Contains(temp_Item_Transform.gameObject))
-            {
-                selectedGameObjects[field].Add(temp_Item_Transform.gameObject);
-            }
-            else
-            {
-                Destroy(temp_Item_Transform.gameObject);
-            }
+            selectedGameObjects[field].Add(temp_Item_Transform.gameObject);
         }
+        else
+        {
+            Destroy(temp_Item_Transform.gameObject);
+        }
+
 
     }
 
@@ -222,7 +216,17 @@ public class UpdateDeviceSettingView : MonoBehaviour, IDeviceView
 
         switch (field)
         {
-            case "JBs":
+
+            case "Module":
+                if (GlobalVariable.temp_Dictionary_ModuleInformationModel.TryGetValue(textValue, out var module))
+                {
+                    if (temp_ModuleModel == null || temp_ModuleModel.Name != textValue)
+                    {
+                        temp_ModuleModel = new ModuleInformationModel(module.Id, module.Name);
+                    }
+                }
+                break;
+            case "JB":
                 if (GlobalVariable.temp_Dictionary_JBInformationModel.TryGetValue(textValue, out var jB))
                 {
                     if (!temp_Dictionary_JBInformationModel.ContainsKey(textValue))
@@ -232,15 +236,6 @@ public class UpdateDeviceSettingView : MonoBehaviour, IDeviceView
                     else
                     {
                         Destroy(temp_Item_Transform.gameObject);
-                    }
-                }
-                break;
-            case "Module":
-                if (GlobalVariable.temp_Dictionary_ModuleInformationModel.TryGetValue(textValue, out var module))
-                {
-                    if (temp_ModuleModel == null || temp_ModuleModel.Name != textValue)
-                    {
-                        temp_ModuleModel = new ModuleInformationModel(module.Id, module.Name);
                     }
                 }
                 break;
@@ -271,6 +266,7 @@ public class UpdateDeviceSettingView : MonoBehaviour, IDeviceView
         if (field != "Module")
         {
             var newItem = Instantiate(itemPrefab, parentGroup.transform);
+            newItem.SetActive(true);
             temp_Item_Transform = newItem.transform;
             var button = newItem.GetComponentInChildren<Button>();
             button.onClick.RemoveAllListeners();
@@ -284,7 +280,6 @@ public class UpdateDeviceSettingView : MonoBehaviour, IDeviceView
             button.onClick.AddListener(() => DeselectItem(itemPrefab, field));
             addModuleItem.SetActive(false);
         }
-
         GetSelectionPanel(field).SetActive(true);
     }
 
@@ -297,7 +292,7 @@ public class UpdateDeviceSettingView : MonoBehaviour, IDeviceView
             temp_Dictionary_Additional_ConnectionModel.Remove(item.GetComponentInChildren<TMP_Text>().text);
             Destroy(item);
         }
-        if (field == "JBs")
+        if (field == "JB")
         {
             selectedCounts[field]--;
             selectedGameObjects[field].Remove(item);
@@ -351,7 +346,7 @@ public class UpdateDeviceSettingView : MonoBehaviour, IDeviceView
     {
         return field switch
         {
-            "JBs" => initialize_Device_List_Option_Selection.selection_List_JB_Panel,
+            "JB" => initialize_Device_List_Option_Selection.selection_List_JB_Panel,
             "Module" => initialize_Device_List_Option_Selection.selection_List_ModuleIO_Panel,
             "Additional_Connection_Images" => initialize_Device_List_Option_Selection.selection_List_Additional_Connection_Image_Panel,
             _ => throw new ArgumentException("Invalid field Name")
@@ -379,7 +374,7 @@ public class UpdateDeviceSettingView : MonoBehaviour, IDeviceView
 
         DialogOneButton.transform.Find("Background/Dialog_Status_Icon").GetComponent<Image>().sprite = Resources.Load<Sprite>("images/UIimages/Success_Icon_For_Dialog");
 
-        DialogOneButton.transform.Find("Background/Dialog_Content").GetComponent<TMP_Text>().text = message + DeviceInformationModel.Code;
+        DialogOneButton.transform.Find("Background/Dialog_Content").GetComponent<TMP_Text>().text = $"{message} <color=#004C8A><b>{DeviceInformationModel.Code}</b></color>";
 
         DialogOneButton.transform.Find("Background/Dialog_Title").GetComponent<TMP_Text>().text = title;
 
@@ -388,8 +383,7 @@ public class UpdateDeviceSettingView : MonoBehaviour, IDeviceView
         backButton.onClick.AddListener(() =>
         {
             DialogOneButton.SetActive(false);
-            _presenter.LoadDetailById(GlobalVariable.deviceId);
-            scrollRect.verticalNormalizedPosition = 1;
+            LoadDetailById();
         }
        );
     }
@@ -411,6 +405,11 @@ public class UpdateDeviceSettingView : MonoBehaviour, IDeviceView
 
     public void ShowError(string message)
     {
+        if (GlobalVariable.APIRequestType.Contains("GET_Device"))
+        {
+            Show_Toast.Instance.ShowToast("failure", "Tải dữ liệu thất bại");
+            StartCoroutine(Show_Toast.Instance.Set_Instance_Status_False(1f));
+        }
         if (GlobalVariable.APIRequestType.Contains("PUT_Device"))
         {
             OpenErrorDialog();
@@ -433,22 +432,41 @@ public class UpdateDeviceSettingView : MonoBehaviour, IDeviceView
 
     private void SetInitialInputFields(DeviceInformationModel model)
     {
-        Debug.Log(model.Code + model.Function + model.IOAddress);
-        deviceCode_TextField.text = model.Code;
-        deviceFunction_TextField.text = model.Function;
-        deviceIOAddress_TextField.text = model.IOAddress;
-        deviceRange_TextField.text = model.Range;
-        deviceUnit_TextField.text = model.Unit;
+        deviceCode_TextField.text = string.IsNullOrEmpty(model.Code) ? "Chưa cập nhật" : model.Code;
+        deviceFunction_TextField.text = string.IsNullOrEmpty(model.Function) ? "Chưa cập nhật" : model.Function;
+        deviceIOAddress_TextField.text = string.IsNullOrEmpty(model.IOAddress) ? "Chưa cập nhật" : model.IOAddress;
+        deviceRange_TextField.text = string.IsNullOrEmpty(model.Range) ? "Chưa cập nhật" : model.Range;
+        deviceUnit_TextField.text = string.IsNullOrEmpty(model.Unit) ? "Chưa cập nhật" : model.Unit;
+
+        foreach (var textField in deviceTextFieldValues)
+        {
+            if (textField.text == "Chưa cập nhật" || string.IsNullOrEmpty(textField.text))
+            {
+                textField.textComponent.color = Color.red;
+                textField.textComponent.fontStyle = FontStyles.Bold;
+            }
+            else
+            {
+                textField.textComponent.color = Color.black;
+                textField.textComponent.fontStyle = FontStyles.Normal;
+            }
+        }
     }
     private void PopulateItems<T>(List<T> listItems, GameObject itemPrefab, GameObject parentLayoutGroup, string field)
     {
         var parentTransform = parentLayoutGroup.transform;
+        foreach (Transform child in parentTransform)
+        {
+            Destroy(child.gameObject);
+        }
         foreach (var item in listItems)
         {
             var newItem = Instantiate(itemPrefab, parentTransform);
+            newItem.SetActive(true);
             SetItemTextValue(newItem.transform, item.ToString(), field);
             AddButtonListener(newItem.transform.Find("Deselect_Button"), () => DeselectItem(newItem, field));
             selectedGameObjects[field].Add(newItem);
+
         }
     }
 
@@ -465,25 +483,35 @@ public class UpdateDeviceSettingView : MonoBehaviour, IDeviceView
 
     public void DisplayDetail(DeviceInformationModel model)
     {
-        SetInitialInputFields(model);
-
-        if (model.AdditionalConnectionImages != null && model.AdditionalConnectionImages.Any())
+        if (model != null)
         {
-            var temp_Additional_ConnectionImageNames = model.AdditionalConnectionImages.Select(item => item.Name).ToList();
-            PopulateItems(temp_Additional_ConnectionImageNames, ConnectionImage_Item_Prefab, List_Additional_Connection_Image_Parent_Vertical_Group, "Additional_Connection_Images");
+            SetInitialInputFields(model);
+            if (model.JBInformationModels != null && model.JBInformationModels.Any())
+            {
+                var temp_JBNames = model.JBInformationModels.Select(item => item.Name).ToList();
+                PopulateItems(
+                 listItems: temp_JBNames,
+                 itemPrefab: JB_Item_Prefab,
+                 parentLayoutGroup: List_JB_Parent_GridLayout_Group,
+                 field: "JB");
+            }
+            if (model.ModuleInformationModel != null)
+            {
+                Module_Item_Prefab.SetActive(true);
+                addModuleItem.SetActive(false);
+                SetItemTextValue(Module_Item_Prefab.transform, model.ModuleInformationModel.Name, "Module");
+                AddButtonListener(Module_Item_Prefab.transform.Find("BackGround"), () => DeselectItem(Module_Item_Prefab, "Module"));
+            }
+            if (model.AdditionalConnectionImages != null && model.AdditionalConnectionImages.Any())
+            {
+                var temp_Additional_ConnectionImageNames = model.AdditionalConnectionImages.Select(item => item.Name).ToList();
+                PopulateItems(
+                    listItems: temp_Additional_ConnectionImageNames,
+                    itemPrefab: ConnectionImage_Item_Prefab,
+                    parentLayoutGroup: List_Additional_Connection_Image_Parent_Vertical_Group,
+                    field: "Additional_Connection_Images");
+            }
         }
-        if (model.JBInformationModels != null && model.JBInformationModels.Any())
-        {
-            var temp_JBNames = model.JBInformationModels.Select(item => item.Name).ToList();
-            PopulateItems(temp_JBNames, JB_Item_Prefab, List_JB_Parent_GridLayout_Group, "JBs");
-        }
-        if (model.ModuleInformationModel != null)
-        {
-            Module_Item_Prefab.SetActive(true);
-            addModuleItem.SetActive(false);
-            SetItemTextValue(Module_Item_Prefab.transform, model.ModuleInformationModel.Name, "Module");
-            AddButtonListener(Module_Item_Prefab.transform.Find("BackGround"), () => DeselectItem(Module_Item_Prefab, "Module"));
-        }
-
+        scrollRect.verticalNormalizedPosition = 1;
     }
 }

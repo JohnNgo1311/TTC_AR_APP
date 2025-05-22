@@ -99,8 +99,9 @@ namespace Infrastructure.Repositories
 
                     var response = await _httpClient.PostAsync($"{GlobalVariable.baseUrl}/AdapterSpecifications/companyId?companyId={companyId}", content);
 
-                    response.EnsureSuccessStatusCode();
-                    return response.IsSuccessStatusCode;
+                    var temp = await response.Content.ReadAsStringAsync();
+                    var result = JsonConvert.DeserializeObject<bool>(temp);
+                    return result;
 
                 }
             }
@@ -131,8 +132,9 @@ namespace Infrastructure.Repositories
                     var response = await _httpClient.PutAsync($"{GlobalVariable.baseUrl}/AdapterSpecifications/{adapterSpecificationId}", content);
                     // var response = await _httpClient.PutAsync($"/api/AdapterSpecification/{adapterSpecificationId}", content);
 
-                    response.EnsureSuccessStatusCode();
-                    return response.IsSuccessStatusCode;
+                    var temp = await response.Content.ReadAsStringAsync();
+                    var result = JsonConvert.DeserializeObject<bool>(temp);
+                    return result;
 
                 }
             }
@@ -152,8 +154,9 @@ namespace Infrastructure.Repositories
             {
                 //! var response = await _httpClient.DeleteAsync($"/api/AdapterSpecification/{adapterSpecificationId}");
                 var response = await _httpClient.DeleteAsync($"{GlobalVariable.baseUrl}/AdapterSpecifications/{adapterSpecificationId}");
-                response.EnsureSuccessStatusCode();
-                return response.IsSuccessStatusCode;
+                var temp = await response.Content.ReadAsStringAsync();
+                var result = JsonConvert.DeserializeObject<bool>(temp);
+                return result;
 
             }
             catch (HttpRequestException ex)

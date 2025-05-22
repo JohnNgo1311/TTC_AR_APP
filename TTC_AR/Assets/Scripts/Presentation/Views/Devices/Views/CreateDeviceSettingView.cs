@@ -53,40 +53,38 @@ public class CreateDeviceSettingView : MonoBehaviour, IDeviceView
     public GameObject List_Device_Canvas;
     public GameObject Add_New_Device_Canvas;
     public GameObject Update_Device_Canvas;
-
-
-
     private List<JBInformationModel> temp_JBModels = new List<JBInformationModel>();
     private ModuleInformationModel temp_ModuleModel = new ModuleInformationModel(1, "");
     private Dictionary<string, ImageInformationModel> temp_Dictionary_Additional_ConnectionModel = new();
     private Dictionary<string, JBInformationModel> temp_Dictionary_JBInformationModel = new();
+    private int grapperId;
 
     private readonly Dictionary<string, List<GameObject>> selectedGameObjects = new()
     {
+        { "Module", new List<GameObject>() },
         { "Additional_Connection_Images", new List<GameObject>() },
-        { "JBs", new List<GameObject>() },
+        { "JB", new List<GameObject>() },
 
     };
 
     private readonly Dictionary<string, int> selectedCounts = new()
     {
+        { "Module", 0 },
         { "Additional_Connection_Images", 0 },
-        { "JBs", 0 },
-
+        { "JB", 0 },
     };
 
     void Awake()
     {
-        // var DeviceManager = FindObjectOfType<DeviceManager>();
         _presenter = new DevicePresenter(this, ManagerLocator.Instance.DeviceManager._IDeviceService);
-        // DeviceManager._IDeviceService
     }
 
     void OnEnable()
     {
+        grapperId = GlobalVariable.GrapperId;
         ResetAllInputFields();
 
-        AddButtonListeners(initialize_Device_List_Option_Selection.JB_List_Selection_Option_Content_Transform, "JBs");
+        AddButtonListeners(initialize_Device_List_Option_Selection.JB_List_Selection_Option_Content_Transform, "JB");
         AddButtonListeners(initialize_Device_List_Option_Selection.Module_List_Selection_Option_Content_Transform, "Module");
         AddButtonListeners(initialize_Device_List_Option_Selection.Additional_Connection_Image_List_Selection_Option_Content_Transform, "Additional_Connection_Images");
 
@@ -97,7 +95,7 @@ public class CreateDeviceSettingView : MonoBehaviour, IDeviceView
         backButtonModuleListSelection.onClick.RemoveAllListeners();
         backButtonAdditionalConnectionImageListSelection.onClick.RemoveAllListeners();
 
-        backButtonJBListSelection.onClick.AddListener(() => CloseListSelectionFromBackButton("JBs"));
+        backButtonJBListSelection.onClick.AddListener(() => CloseListSelectionFromBackButton("JB"));
         backButtonModuleListSelection.onClick.AddListener(() => CloseListSelectionFromBackButton("Module"));
         backButtonAdditionalConnectionImageListSelection.onClick.AddListener(() => CloseListSelectionFromBackButton("Additional_Connection_Images"));
 
@@ -117,19 +115,16 @@ public class CreateDeviceSettingView : MonoBehaviour, IDeviceView
 
         if (string.IsNullOrEmpty(deviceCode_TextField.text))
         {
-            OpenErrorDialog("Vui lòng nhập mã Device");
+            OpenErrorDialog("Vui lòng nhập mã thiết bị");
             return;
         }
         if (GlobalVariable.temp_Dictionary_DeviceInformationModel.ContainsKey(deviceCode_TextField.text))
         {
-            OpenErrorDialog("Mã Device đã tồn tại", "Vui lòng nhập mã Device khác");
+            OpenErrorDialog("Thiết bị đã tồn tại", "Vui lòng nhập mã thiết bị khác");
             return;
         }
         else
         {
-            Debug.Log("Module Name Value: " + temp_ModuleModel.Name);
-            Debug.Log("JB Name Value: " + temp_JBModels[0].Name);
-            Debug.Log(addModuleItem.activeSelf);
             DeviceInformationModel = new DeviceInformationModel(
             code: string.IsNullOrEmpty(deviceCode_TextField.text) ? throw new ArgumentNullException(nameof(deviceCode_TextField.text)) : deviceCode_TextField.text,
             function: string.IsNullOrEmpty(deviceFunction_TextField.text) ? "Chưa cập nhật" : deviceFunction_TextField.text,
@@ -141,27 +136,30 @@ public class CreateDeviceSettingView : MonoBehaviour, IDeviceView
             additionalConnectionImages: temp_Dictionary_Additional_ConnectionModel.Any() ? temp_Dictionary_Additional_ConnectionModel.Values.ToList() : new List<ImageInformationModel>()
             );
 
-            _presenter.CreateNewDevice(GlobalVariable.GrapperId, DeviceInformationModel);
+            _presenter.CreateNewDevice(grapperId, DeviceInformationModel);
         }
     }
 
     private void RenewView()
     {
-        // ClearActiveChildren(List_JB_Parent_GridLayout_Group);
-        //  ClearActiveChildren(List_Module_Parent_GridLayout_Group);
+        ClearActiveChildren(List_JB_Parent_GridLayout_Group);
         ClearActiveChildren(List_Additional_Connection_Image_Parent_Vertical_Group);
+
         ResetAllInputFields();
         JB_Item_Prefab.SetActive(false);
         Module_Item_Prefab.SetActive(false);
         addModuleItem.SetActive(true);
-        temp_ModuleModel = new ModuleInformationModel(1, "");
 
         temp_Dictionary_Additional_ConnectionModel.Clear();
-        temp_JBModels.Clear();
+        temp_Dictionary_JBInformationModel.Clear();
+        temp_ModuleModel = new ModuleInformationModel(1, "");
+
         selectedGameObjects["Additional_Connection_Images"].Clear();
+        selectedGameObjects["JB"].Clear();
+        selectedGameObjects["Module"].Clear();
         selectedCounts["Additional_Connection_Images"] = 0;
-        selectedGameObjects["JBs"].Clear();
-        selectedCounts["JBs"] = 0;
+        selectedCounts["JB"] = 0;
+        selectedCounts["Module"] = 0;
     }
 
     public void CloseAddCanvas()
@@ -200,20 +198,18 @@ public class CreateDeviceSettingView : MonoBehaviour, IDeviceView
 
     private void SelectOption(string optionTextValue, string field)
     {
-        if (field != "Module")
-        {
-            SetItemTextValue(temp_Item_Transform, optionTextValue, field);
-            CloseListSelection(field);
 
-            selectedCounts[field]++;
-            if (!selectedGameObjects[field].Contains(temp_Item_Transform.gameObject))
-            {
-                selectedGameObjects[field].Add(temp_Item_Transform.gameObject);
-            }
-            else
-            {
-                Destroy(temp_Item_Transform.gameObject);
-            }
+        SetItemTextValue(temp_Item_Transform, optionTextValue, field);
+        CloseListSelection(field);
+
+        selectedCounts[field]++;
+        if (!selectedGameObjects[field].Contains(temp_Item_Transform.gameObject))
+        {
+            selectedGameObjects[field].Add(temp_Item_Transform.gameObject);
+        }
+        else
+        {
+            Destroy(temp_Item_Transform.gameObject);
         }
 
     }
@@ -226,7 +222,17 @@ public class CreateDeviceSettingView : MonoBehaviour, IDeviceView
 
         switch (field)
         {
-            case "JBs":
+
+            case "Module":
+                if (GlobalVariable.temp_Dictionary_ModuleInformationModel.TryGetValue(textValue, out var module))
+                {
+                    if (temp_ModuleModel == null || temp_ModuleModel.Name != textValue)
+                    {
+                        temp_ModuleModel = new ModuleInformationModel(module.Id, module.Name);
+                    }
+                }
+                break;
+            case "JB":
                 if (GlobalVariable.temp_Dictionary_JBInformationModel.TryGetValue(textValue, out var jB))
                 {
                     if (!temp_Dictionary_JBInformationModel.ContainsKey(textValue))
@@ -236,15 +242,6 @@ public class CreateDeviceSettingView : MonoBehaviour, IDeviceView
                     else
                     {
                         Destroy(temp_Item_Transform.gameObject);
-                    }
-                }
-                break;
-            case "Module":
-                if (GlobalVariable.temp_Dictionary_ModuleInformationModel.TryGetValue(textValue, out var module))
-                {
-                    if (temp_ModuleModel == null || temp_ModuleModel.Name != textValue)
-                    {
-                        temp_ModuleModel = new ModuleInformationModel(module.Id, module.Name);
                     }
                 }
                 break;
@@ -264,7 +261,7 @@ public class CreateDeviceSettingView : MonoBehaviour, IDeviceView
         }
     }
 
-    public void OpenListJBSelection() => OpenListSelection("JBs", JB_Item_Prefab, List_JB_Parent_GridLayout_Group);
+    public void OpenListJBSelection() => OpenListSelection("JB", JB_Item_Prefab, List_JB_Parent_GridLayout_Group);
     public void OpenListModuleSelection() => OpenListSelection("Module", Module_Item_Prefab, null);
     public void OpenListConnectionImageSelection() => OpenListSelection("Additional_Connection_Images", ConnectionImage_Item_Prefab, List_Additional_Connection_Image_Parent_Vertical_Group);
 
@@ -275,6 +272,7 @@ public class CreateDeviceSettingView : MonoBehaviour, IDeviceView
         if (field != "Module")
         {
             var newItem = Instantiate(itemPrefab, parentGroup.transform);
+            newItem.SetActive(true);
             temp_Item_Transform = newItem.transform;
             var button = newItem.GetComponentInChildren<Button>();
             button.onClick.AddListener(() => DeselectItem(newItem, field));
@@ -300,19 +298,21 @@ public class CreateDeviceSettingView : MonoBehaviour, IDeviceView
             temp_Dictionary_Additional_ConnectionModel.Remove(item.GetComponentInChildren<TMP_Text>().text);
             Destroy(item);
         }
-        if (field == "JBs")
+        if (field == "JB")
         {
             selectedCounts[field]--;
             selectedGameObjects[field].Remove(item);
             temp_Dictionary_JBInformationModel.Remove(item.GetComponentInChildren<TMP_Text>().text);
             Destroy(item);
         }
-        else
+        if (field == "Module")
         {
+            selectedCounts[field]--;
+            selectedGameObjects[field].Remove(item);
+            temp_ModuleModel = new ModuleInformationModel(1, "");
             item.SetActive(false);
             addModuleItem.SetActive(true);
         }
-
     }
 
     public void CloseListSelection(string field)
@@ -354,7 +354,7 @@ public class CreateDeviceSettingView : MonoBehaviour, IDeviceView
     {
         return field switch
         {
-            "JBs" => initialize_Device_List_Option_Selection.selection_List_JB_Panel,
+            "JB" => initialize_Device_List_Option_Selection.selection_List_JB_Panel,
             "Module" => initialize_Device_List_Option_Selection.selection_List_ModuleIO_Panel,
             "Additional_Connection_Images" => initialize_Device_List_Option_Selection.selection_List_Additional_Connection_Image_Panel,
             _ => throw new ArgumentException("Invalid field Name")

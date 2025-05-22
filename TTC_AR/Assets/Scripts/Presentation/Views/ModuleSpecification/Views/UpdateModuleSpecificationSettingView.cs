@@ -10,7 +10,7 @@ public class UpdateModuleSpecificationSettingView : MonoBehaviour, IModuleSpecif
 
     // Input Fields
     [Header("Input Fields")]
-    [Header("Input Fields")]
+    [SerializeField] private List<TMP_InputField> moduleSpecificationTextFieldValues;
     [SerializeField] private TMP_InputField ModuleSpecificationCode_TextField;
     [SerializeField] private TMP_InputField Type_TextField;
     [SerializeField] private TMP_InputField NumOfIo_TextField;
@@ -34,32 +34,30 @@ public class UpdateModuleSpecificationSettingView : MonoBehaviour, IModuleSpecif
     public GameObject List_ModuleSpecification_Canvas;
     public GameObject Add__ModuleSpecification_Canvas;
     public GameObject Update_ModuleSpecification_Canvas;
-
     public ScrollRect ScrollView;
-
     private ModuleSpecificationModel _ModuleSpecificationModel;
+    private int moduleSpecificationId;
 
     void Awake()
     {
-        // var DeviceManager = FindObjectOfType<DeviceManager>();
         _presenter = new ModuleSpecificationPresenter(this, ManagerLocator.Instance.ModuleSpecificationManager._IModuleSpecificationService);
-        // DeviceManager._IDeviceService
     }
 
 
 
     void OnEnable()
     {
-        ResetAllInputFields();
-
-        _presenter.LoadDetailById(GlobalVariable.moduleSpecificationId);
-
+        moduleSpecificationId = GlobalVariable.moduleSpecificationId;
+        ModuleSpecificationCode_TextField.interactable = false;
+      
         submitButton.onClick.RemoveAllListeners();
         backButton.onClick.RemoveAllListeners();
 
         backButton.onClick.AddListener(CloseUpdateCanvas);
-
         submitButton.onClick.AddListener(OnSubmitButtonClick);
+
+        PreloadDetailById();
+
     }
     private void OnSubmitButtonClick()
     {
@@ -88,13 +86,13 @@ public class UpdateModuleSpecificationSettingView : MonoBehaviour, IModuleSpecif
             pdfManual: PdfManual_TextField.text
           );
         _presenter.UpdateModuleSpecification(
-                 GlobalVariable.moduleSpecificationId, _ModuleSpecificationModel
+                 moduleSpecificationId, _ModuleSpecificationModel
             );
     }
 
     public void PreloadDetailById()
     {
-        _presenter.LoadDetailById(GlobalVariable.moduleSpecificationId);
+        _presenter.LoadDetailById(moduleSpecificationId);
     }
 
     void OnDisable()
@@ -160,19 +158,32 @@ public class UpdateModuleSpecificationSettingView : MonoBehaviour, IModuleSpecif
     private void SetInitialInputFields(ModuleSpecificationModel model)
     {
         ModuleSpecificationCode_TextField.text = model.Code;
-        Type_TextField.text = model.Type;
-        NumOfIo_TextField.text = model.NumOfIO;
-        SignalType_TextField.text = model.SignalType;
-        CompatibleTBUs_TextField.text = model.CompatibleTBUs;
-        OperatingVoltage_TextField.text = model.OperatingVoltage;
-        OperatingCurrent_TextField.text = model.OperatingCurrent;
-        FlexbusCurrent_TextField.text = model.FlexbusCurrent;
-        Alarm_TextField.text = model.Alarm;
-        Note_TextField.text = model.Note;
-        PdfManual_TextField.text = model.PdfManual;
+        Type_TextField.text = string.IsNullOrEmpty(model.Type) ? "Chưa cập nhật" : model.Type;
+        NumOfIo_TextField.text = string.IsNullOrEmpty(model.NumOfIO) ? "Chưa cập nhật" : model.NumOfIO;
+        SignalType_TextField.text = string.IsNullOrEmpty(model.SignalType) ? "Chưa cập nhật" : model.SignalType;
+        CompatibleTBUs_TextField.text = string.IsNullOrEmpty(model.CompatibleTBUs) ? "Chưa cập nhật" : model.CompatibleTBUs;
+        OperatingVoltage_TextField.text = string.IsNullOrEmpty(model.OperatingVoltage) ? "Chưa cập nhật" : model.OperatingVoltage;
+        OperatingCurrent_TextField.text = string.IsNullOrEmpty(model.OperatingCurrent) ? "Chưa cập nhật" : model.OperatingCurrent;
+        FlexbusCurrent_TextField.text = string.IsNullOrEmpty(model.FlexbusCurrent) ? "Chưa cập nhật" : model.FlexbusCurrent;
+        Alarm_TextField.text = string.IsNullOrEmpty(model.Alarm) ? "Chưa cập nhật" : model.Alarm;
+        Note_TextField.text = string.IsNullOrEmpty(model.Note) ? "Chưa cập nhật" : model.Note;
+        PdfManual_TextField.text = string.IsNullOrEmpty(model.PdfManual) ? "Chưa cập nhật" : model.PdfManual;
+        ModuleSpecificationCode_TextField.interactable = false;
+
+        foreach (var textField in moduleSpecificationTextFieldValues)
+        {
+            if (textField.text == "Chưa cập nhật" || string.IsNullOrEmpty(textField.text))
+            {
+                textField.textComponent.color = Color.red;
+                textField.textComponent.fontStyle = FontStyles.Bold;
+            }
+            else
+            {
+                textField.textComponent.color = Color.black;
+                textField.textComponent.fontStyle = FontStyles.Normal;
+            }
+        }
     }
-
-
 
     private void ShowProgressBar(string title, string details)
     {
@@ -183,8 +194,6 @@ public class UpdateModuleSpecificationSettingView : MonoBehaviour, IModuleSpecif
     {
         Progress.Hide();
     }
-
-
 
     public void ShowLoading(string title) => ShowProgressBar(title, "Đang tải dữ liệu...");
     public void HideLoading() => HideProgressBar();

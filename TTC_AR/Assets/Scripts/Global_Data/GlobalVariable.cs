@@ -187,6 +187,7 @@ public class GlobalVariable : MonoBehaviour
     // public static Dictionary<string, DeviceBasicModel> temp_Dictionary_DeviceBasicModel = new Dictionary<string, DeviceBasicModel>();
     public static Dictionary<string, DeviceInformationModel> temp_Dictionary_DeviceInformationModel = new Dictionary<string, DeviceInformationModel>();
     public static Dictionary<string, string> temp_Dictionary_DeviceIOAddress = new Dictionary<string, string>();
+    public static List<ImageInformationModel> temp_List_AdditionalImages = new List<ImageInformationModel>();
     public static int deviceId = 0;
     public static string deviceCode = "";
 
@@ -212,7 +213,6 @@ public class GlobalVariable : MonoBehaviour
     public static int mccId = 0;
     public static Dictionary<string, MccInformationModel> temp_Dictionary_MCCInformationModel = new Dictionary<string, MccInformationModel>();
 
-
     public static List<MccInformationModel> temp_List_MccInformationModel = new List<MccInformationModel>();
 
     //! Field Device
@@ -220,8 +220,6 @@ public class GlobalVariable : MonoBehaviour
     public static FieldDeviceInformationModel temp_FieldDeviceInformationModel;
     public static int fieldDeviceId = 0;
     public static Dictionary<string, FieldDeviceInformationModel> temp_Dictionary_FieldDeviceInformationModel = new Dictionary<string, FieldDeviceInformationModel>();
-
-
     public static List<FieldDeviceInformationModel> temp_List_FieldDeviceInformationModel = new List<FieldDeviceInformationModel>();
 
 
@@ -257,7 +255,7 @@ public class GlobalVariable : MonoBehaviour
     public static Dictionary<string, ImageBasicModel> temp_Dictionary_ImageBasicModel = new Dictionary<string, ImageBasicModel>();
     public static List<string> temp_ListImage_Name = new List<string>();
     public static bool PickPhotoFromCamera = false;
-    public static List<ImageInformationModel> temp_List_ImageInformationModel = new List<ImageInformationModel>()
+    public static List<ImageInformationModel> temp_ListImageInformationModel = new List<ImageInformationModel>()
     {
 
           new ImageInformationModel(1, "Image1.png"),

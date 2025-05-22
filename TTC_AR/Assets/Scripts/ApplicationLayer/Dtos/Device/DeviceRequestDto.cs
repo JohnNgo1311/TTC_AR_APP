@@ -27,10 +27,10 @@ namespace ApplicationLayer.Dtos.Device
         public DeviceRequestDto(string code, string function, string range, string unit, string ioAddress, ModuleBasicDto? moduleBasicDto, List<JBBasicDto>? jbBasicDtos, List<ImageBasicDto>? additionalImageBasicDtos)
         {
             Code = string.IsNullOrEmpty(code) ? throw new System.ArgumentException(nameof(code)) : code;
-            Function = function;
-            Range = range;
-            Unit = unit;
-            IOAddress = ioAddress;
+            Function = string.IsNullOrEmpty(function) ? "Chưa cập nhật" : function;
+            Range = string.IsNullOrEmpty(range) ? "Chưa cập nhật" : range;
+            Unit = string.IsNullOrEmpty(unit) ? "Chưa cập nhật" : unit;
+            IOAddress = string.IsNullOrEmpty(ioAddress) ? "Chưa cập nhật" : ioAddress;
             ModuleBasicDto = moduleBasicDto;
             JBBasicDtos = jbBasicDtos;
             AdditionalImageBasicDtos = additionalImageBasicDtos;

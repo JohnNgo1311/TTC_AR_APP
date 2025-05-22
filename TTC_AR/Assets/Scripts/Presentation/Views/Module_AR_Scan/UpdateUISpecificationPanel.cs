@@ -20,6 +20,7 @@ public class UpdateUISpecificationPanel : MonoBehaviour, IModuleSpecificationVie
     [Header("Module Specification")]
     public TMP_Text module_Specification_Title;
     public GameObject[] module_Spe_values;
+    public List<TMP_Text> module_Specification_Values = new List<TMP_Text>();
     public TMP_Text module_CodeValue;
     public TMP_Text module_TypeValue;
     public TMP_Text module_NumOfIOValue;
@@ -36,6 +37,7 @@ public class UpdateUISpecificationPanel : MonoBehaviour, IModuleSpecificationVie
     [Header("Adapter Specification")]
     public TMP_Text adapter_Specification_Title;
     public GameObject[] adapter_Spe_values;
+    public List<TMP_Text> adapter_Specification_Values = new List<TMP_Text>();
     public TMP_Text adapter_CodeValue;
     public TMP_Text adapter_TypeValue;
     public TMP_Text adapter_CommunicationValue;
@@ -169,7 +171,25 @@ public class UpdateUISpecificationPanel : MonoBehaviour, IModuleSpecificationVie
             {
                 press_PDF_Open_Online_Catalogue.Open_url(moduleSpecificationModel.Code);
             });
-
+            foreach (var value in module_Specification_Values)
+            {
+                if (value.text == "Chưa cập nhật")
+                {
+                    value.fontWeight = FontWeight.Bold;
+                    value.color = Color.red;
+                }
+                if (string.IsNullOrEmpty(value.text))
+                {
+                    value.text = "Chưa cập nhật";
+                    value.fontWeight = FontWeight.Bold;
+                    value.color = Color.red;
+                }
+                else
+                {
+                    value.fontStyle = FontStyles.Normal;
+                    value.color = Color.black;
+                }
+            }
             Debug.Log("Module Specification Data Loaded");
         }
         else
@@ -201,9 +221,25 @@ public class UpdateUISpecificationPanel : MonoBehaviour, IModuleSpecificationVie
             {
                 press_PDF_Open_Online_Catalogue.Open_url(adapterSpecificationModel.Code);
             });
-
-            // Debug.Log("Adapter PDF Manual: " + adapter_PDFManualValue);
-            Debug.Log("Adapter Specification Data Loaded");
+            foreach (var value in adapter_Specification_Values)
+            {
+                if (value.text == "Chưa cập nhật")
+                {
+                    value.fontWeight = FontWeight.Bold;
+                    value.color = Color.red;
+                }
+                if (string.IsNullOrEmpty(value.text))
+                {
+                    value.text = "Chưa cập nhật";
+                    value.fontWeight = FontWeight.Bold;
+                    value.color = Color.red;
+                }
+                else
+                {
+                    value.fontStyle = FontStyles.Normal;
+                    value.color = Color.black;
+                }
+            }
         }
         else
         {

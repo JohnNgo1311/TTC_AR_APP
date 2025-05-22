@@ -33,7 +33,7 @@ public class ImagePresenter
                 {
                     var models = ImageBasicDto.Select(dto => ConvertFromBasicDto(dto)).ToList();
 
-                    GlobalVariable.temp_List_ImageInformationModel = models;
+                    GlobalVariable.temp_ListImageInformationModel = models;
 
                     GlobalVariable.temp_ListImage_Name = models.Select(m => m.Name).ToList();
 

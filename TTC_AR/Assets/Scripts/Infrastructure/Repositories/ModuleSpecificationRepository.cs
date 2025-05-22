@@ -17,8 +17,6 @@ namespace Infrastructure.Repositories
     {
         private readonly HttpClient _httpClient;
 
-        // private const string GlobalVariable.baseUrl = "https://677ba70820824100c07a4e9f.mockapi.io/api/v3/ModuleSpecification"; // URL server ngoài thực tế
-
         public ModuleSpecificationRepository(HttpClient httpClient)
         {
             _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
@@ -33,50 +31,59 @@ namespace Infrastructure.Repositories
             {
                 // var response = await _httpClient.GetAsync($"/api/ModuleSpecification/{moduleSpecificationId}");
                 var response = await _httpClient.GetAsync($"{GlobalVariable.baseUrl}/ModuleSpecifications/{moduleSpecificationId}");
-
                 if (!response.IsSuccessStatusCode)
                 {
+                    UnityEngine.Debug.Log("ErrorStatus Code: " + response.StatusCode);
                     throw new HttpRequestException($"Failed to get ModuleSpecification. Status: {response.StatusCode}");
                 }
                 else
                 {
                     var content = await response.Content.ReadAsStringAsync();
                     UnityEngine.Debug.Log(content);
-                    return JsonConvert.DeserializeObject<ModuleSpecificationEntity>(content);
+                    var entity = JsonConvert.DeserializeObject<ModuleSpecificationEntity>(content);
+                    UnityEngine.Debug.Log(entity.Id);
+                    return entity;
                 }
             }
             catch (HttpRequestException ex)
             {
+                UnityEngine.Debug.Log("Error: " + ex.Message);
                 throw new ApplicationException("Failed to fetch ModuleSpecification", ex); // Ném lỗi HTTP lên UseCase
             }
             catch (Exception ex)
             {
+                UnityEngine.Debug.Log("Error: " + ex.Message);
                 throw new ApplicationException("Unexpected error during HTTP request", ex); // Bao bọc lỗi khác
             }
         }
 
         //! Trả về List<Entity> do kết quả server trả về hoàn toàn giống hoặc gần giống với Entity
-        public async Task<List<ModuleSpecificationEntity>> GetListModuleSpecificationAsync(int companyId)
+        public async Task<List<ModuleSpecificationEntity>> GetListModuleSpecificationAsync(int grapperId)
         {
             try
             {
                 // var response = await _httpClient.GetAsync($"/api/ModuleSpecification/grapper/{companyId}");
-                var response = await _httpClient.GetAsync($"{GlobalVariable.baseUrl}/Grappers/{companyId}/moduleSpecificationsGeneral");
+                var response = await _httpClient.GetAsync($"{GlobalVariable.baseUrl}/Grappers/{grapperId}/moduleSpecificationsGeneral");
 
                 if (!response.IsSuccessStatusCode)
                     throw new HttpRequestException($"Failed to get ModuleSpecification list. Status: {response.StatusCode}");
                 else
                 {
                     var content = await response.Content.ReadAsStringAsync();
-                    return JsonConvert.DeserializeObject<List<ModuleSpecificationEntity>>(content);
+                    var entities = JsonConvert.DeserializeObject<List<ModuleSpecificationEntity>>(content);
+                    return entities;
                 }
             }
             catch (HttpRequestException ex)
             {
+                UnityEngine.Debug.Log("Error: " + ex.Message);
+
                 throw new ApplicationException("Failed to fetch ModuleSpecification", ex); // Ném lỗi HTTP lên UseCase
             }
             catch (Exception ex)
             {
+                UnityEngine.Debug.Log("Error: " + ex.Message);
+
                 throw new ApplicationException("Unexpected error during HTTP request", ex); // Bao bọc lỗi khác
             }
         }
@@ -85,21 +92,24 @@ namespace Infrastructure.Repositories
         {
             try
             {
-                //  var ModuleSpecificationEntity = ConvertModuleSpecificationEntity(ModuleSpecificationEntity);
                 var json = JsonConvert.SerializeObject(moduleSpecificationEntity);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
-                // var response = await _httpClient.PostAsync($"/api/ModuleSpecification/grapper/{companyId}", content);
                 var response = await _httpClient.PostAsync($"{GlobalVariable.baseUrl}/ModuleSpecifications/companyId?companyId={companyId}", content);
-
-                response.EnsureSuccessStatusCode();
-                return response.IsSuccessStatusCode;
+                var temp = await response.Content.ReadAsStringAsync();
+                var result = JsonConvert.DeserializeObject<bool>(temp);
+                UnityEngine.Debug.Log("Result: " + result);
+                return result;
             }
             catch (HttpRequestException ex)
             {
+                UnityEngine.Debug.Log("Error: " + ex.Message);
+
                 throw new ApplicationException("Failed to create ModuleSpecification", ex); // Ném lỗi HTTP lên UseCase
             }
             catch (Exception ex)
             {
+                UnityEngine.Debug.Log("Error: " + ex.Message);
+
                 throw new ApplicationException("Unexpected error during HTTP request", ex); // Bao bọc lỗi khác
             }
         }
@@ -113,16 +123,21 @@ namespace Infrastructure.Repositories
                 // var response = await _httpClient.PutAsync($"/api/ModuleSpecification/{moduleSpecificationId}", content);
                 var response = await _httpClient.PutAsync($"{GlobalVariable.baseUrl}/ModuleSpecifications/{moduleSpecificationId}", content);
 
-                response.EnsureSuccessStatusCode();
-                return response.IsSuccessStatusCode;
-
+                var temp = await response.Content.ReadAsStringAsync();
+                var result = JsonConvert.DeserializeObject<bool>(temp);
+                UnityEngine.Debug.Log("Result: " + result);
+                return result;
             }
             catch (HttpRequestException ex)
             {
+                UnityEngine.Debug.Log("Error: " + ex.Message);
+
                 throw new ApplicationException("Failed to update ModuleSpecification", ex); // Ném lỗi HTTP lên UseCase
             }
             catch (Exception ex)
             {
+                UnityEngine.Debug.Log("Error: " + ex.Message);
+
                 throw new ApplicationException("Unexpected error during HTTP request", ex); // Bao bọc lỗi khác
             }
         }
@@ -133,8 +148,9 @@ namespace Infrastructure.Repositories
             {
                 var response = await _httpClient.DeleteAsync($"{GlobalVariable.baseUrl}/ModuleSpecifications/{moduleSpecificationId}");
 
-                response.EnsureSuccessStatusCode();
-                return response.IsSuccessStatusCode;
+                var temp = await response.Content.ReadAsStringAsync();
+                var result = JsonConvert.DeserializeObject<bool>(temp);
+                return result;
             }
             catch (HttpRequestException ex)
             {

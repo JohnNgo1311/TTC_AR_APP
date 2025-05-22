@@ -197,7 +197,6 @@ namespace ApplicationLayer.UseCases
 
         public async Task<bool> UpdateDeviceAsync(int deviceId, DeviceRequestDto requestDto)
         {
-            deviceId = GlobalVariable.deviceId;
             try
             {
                 // Validate
@@ -205,6 +204,7 @@ namespace ApplicationLayer.UseCases
                     throw new ArgumentException("name cannot be empty");
                 // Map DTO to Entity
                 var deviceEntity = MapRequestToEntity(requestDto);
+                UnityEngine.Debug.Log("DeviceId From UseCase: " + deviceEntity.Id);
                 // var requestData = MapToRequestDto(deviceEntity);
                 // Map DTO to Entity
                 // var deviceEntity = new DeviceEntity(requestDto.Code)
@@ -223,23 +223,25 @@ namespace ApplicationLayer.UseCases
                 var updatedDeviceResult = await _IDeviceRepository.UpdateDeviceAsync(deviceId, deviceEntity);
                 if (!updatedDeviceResult)
                 {
+                    UnityEngine.Debug.Log("Update Device failed");
                     throw new ApplicationException("Failed to update Device");
                 }
                 return true;
             }
             catch (ArgumentException)
             {
+
                 throw new ApplicationException("Failed to update Device"); // Ném lại lỗi validation cho Unity xử lý
             }
             catch (Exception ex)
             {
+                UnityEngine.Debug.Log("Error: " + ex.Message);
                 throw new ApplicationException("Failed to update Device", ex); // Bao bọc lỗi từ Repository
             }
         }
 
         public async Task<bool> DeleteDeviceAsync(int deviceId)
         {
-            deviceId = GlobalVariable.deviceId;
             try
             {
                 var deletedDeviceResult = await _IDeviceRepository.DeleteDeviceAsync(deviceId);
@@ -265,10 +267,9 @@ namespace ApplicationLayer.UseCases
              range: requestDto.Range,
             unit: requestDto.Unit,
             ioAddress: requestDto.IOAddress,
-            moduleEntity: requestDto.ModuleBasicDto == null ? null : new ModuleEntity(requestDto.ModuleBasicDto.Id, requestDto.ModuleBasicDto.Name),
-            jbEntities: requestDto.JBBasicDtos.Any() ? new List<JBEntity>() : requestDto.JBBasicDtos.Select(jbEntity => new JBEntity(jbEntity.Id, jbEntity.Name)).ToList(),
-                (requestDto.AdditionalImageBasicDtos == null || (requestDto.AdditionalImageBasicDtos != null && requestDto.AdditionalImageBasicDtos.Count <= 0)) ? new List<ImageEntity>()
-                 : requestDto.AdditionalImageBasicDtos.Select(dto => new ImageEntity(dto.Id, dto.Name)).ToList()
+            moduleEntity: requestDto.ModuleBasicDto != null ? new ModuleEntity(requestDto.ModuleBasicDto.Id, requestDto.ModuleBasicDto.Name) : null,
+            jbEntities: requestDto.JBBasicDtos.Any() ? requestDto.JBBasicDtos.Select(jbEntity => new JBEntity(jbEntity.Id, jbEntity.Name)).ToList() : new List<JBEntity>(),
+            additionalConnectionImageEntities: requestDto.AdditionalImageBasicDtos.Any() ? requestDto.AdditionalImageBasicDtos.Select(dto => new ImageEntity(dto.Id, dto.Name)).ToList() : new List<ImageEntity>()
             );
         }
         // private DeviceEntity MapResponseToEntity(DeviceResponseDto responseDto)

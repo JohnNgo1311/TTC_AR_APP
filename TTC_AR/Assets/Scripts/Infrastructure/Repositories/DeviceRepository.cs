@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 
 using Domain.Interfaces;
+using Unity.VisualScripting;
 
 namespace Infrastructure.Repositories
 {
@@ -33,9 +34,8 @@ namespace Infrastructure.Repositories
                 UnityEngine.Debug.Log(response);
 
                 var entity = JsonConvert.DeserializeObject<DeviceEntity>(response);
-
+                UnityEngine.Debug.Log(entity.Id);
                 UnityEngine.Debug.Log(entity.Code);
-
                 return entity;
             }
             catch (HttpRequestException ex)
@@ -130,20 +130,12 @@ namespace Infrastructure.Repositories
         {
             try
             {
-                // var deviceRequestData = ConvertDeviceRequestData(deviceEntity);
-
-                // var json = JsonConvert.SerializeObject(deviceEntity, new JsonSerializerSettings
-                // {
-                //     NullValueHandling = NullValueHandling.Ignore
-                // });
-
                 var json = JsonConvert.SerializeObject(deviceEntity);
-
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
-                // var response = await _httpClient.PostAsync($"{GlobalVariable.baseUrl}/{grapperId}", content);
                 var response = await _httpClient.PostAsync($"{GlobalVariable.baseUrl}/Devices/add/{grapperId}", content);
-                response.EnsureSuccessStatusCode();
-                return response.IsSuccessStatusCode;
+                var temp = await response.Content.ReadAsStringAsync();
+                var result = JsonConvert.DeserializeObject<bool>(temp);
+                return result;
             }
 
             catch (HttpRequestException ex)
@@ -168,18 +160,28 @@ namespace Infrastructure.Repositories
                 // });
 
                 var json = JsonConvert.SerializeObject(deviceEntity);
+                UnityEngine.Debug.Log("Json: " + json);
+
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
 
                 var response = await _httpClient.PutAsync($"{GlobalVariable.baseUrl}/Devices/{deviceId}", content);
-                response.EnsureSuccessStatusCode();
-                return response.IsSuccessStatusCode;
+                var temp = await response.Content.ReadAsStringAsync();
+
+                var temp2 = JsonConvert.SerializeObject(JsonConvert.DeserializeObject(temp), Formatting.Indented);
+                UnityEngine.Debug.Log("DeviceId From Repository: " + deviceId);
+                UnityEngine.Debug.Log("Response: " + temp2);
+                var result = JsonConvert.DeserializeObject<bool>(temp);
+                UnityEngine.Debug.Log("Response: " + result);
+                return result;
             }
             catch (HttpRequestException ex)
             {
+                UnityEngine.Debug.Log("Error: " + ex.Message);
                 throw new ApplicationException("Failed to update Device", ex); // Ném lỗi HTTP lên UseCase
             }
             catch (Exception ex)
             {
+                UnityEngine.Debug.Log("Error: " + ex.Message);
                 throw new Exception("Unexpected error during HTTP request", ex); // Bao bọc lỗi khác
             }
         }
@@ -189,8 +191,9 @@ namespace Infrastructure.Repositories
             try
             {
                 var response = await _httpClient.DeleteAsync($"{GlobalVariable.baseUrl}/Devices/{deviceId}");
-                response.EnsureSuccessStatusCode();
-                return response.IsSuccessStatusCode;
+                var temp = await response.Content.ReadAsStringAsync();
+                var result = JsonConvert.DeserializeObject<bool>(temp);
+                return result;
             }
             catch (HttpRequestException ex)
             {

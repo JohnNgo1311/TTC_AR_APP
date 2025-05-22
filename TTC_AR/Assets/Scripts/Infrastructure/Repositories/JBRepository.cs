@@ -125,8 +125,9 @@ namespace Infrastructure.Repositories
 
                 var response = await _httpClient.PostAsync($"{GlobalVariable.baseUrl}/Jbs/{grapperId}", content);
 
-                response.EnsureSuccessStatusCode();
-                return response.IsSuccessStatusCode;
+                var temp = await response.Content.ReadAsStringAsync();
+                var result = JsonConvert.DeserializeObject<bool>(temp);
+                return result;
             }
             catch (HttpRequestException ex)
             {
@@ -156,8 +157,9 @@ namespace Infrastructure.Repositories
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
                 var response = await _httpClient.PutAsync($"{GlobalVariable.baseUrl}/Jbs/{JBId}", content);
 
-                response.EnsureSuccessStatusCode();
-                return response.IsSuccessStatusCode;
+                var temp = await response.Content.ReadAsStringAsync();
+                var result = JsonConvert.DeserializeObject<bool>(temp);
+                return result;
             }
             catch (HttpRequestException ex)
             {
@@ -178,8 +180,9 @@ namespace Infrastructure.Repositories
             try
             {
                 var response = await _httpClient.DeleteAsync($"{GlobalVariable.baseUrl}/Jbs/{jbId}");
-                response.EnsureSuccessStatusCode();
-                return response.IsSuccessStatusCode;
+                var temp = await response.Content.ReadAsStringAsync();
+                var result = JsonConvert.DeserializeObject<bool>(temp);
+                return result;
             }
             catch (HttpRequestException ex)
             {

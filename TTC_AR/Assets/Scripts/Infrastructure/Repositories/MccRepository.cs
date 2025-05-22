@@ -59,15 +59,13 @@ namespace Infrastructure.Repositories
             try
             {
                 var json = JsonConvert.SerializeObject(MccEntity);
-
-
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
+                var response = await _httpClient.PostAsync($"{GlobalVariable.baseUrl}/Mccs/add/{grapperId}", content);
+                var temp = await response.Content.ReadAsStringAsync();
 
-                var response = await _httpClient.PostAsync($"{GlobalVariable.baseUrl}", content);
-
-                response.EnsureSuccessStatusCode();
-
-                return response.IsSuccessStatusCode;
+                var result = JsonConvert.DeserializeObject<bool>(temp);
+                UnityEngine.Debug.Log("Result: " + result);
+                return result;
 
                 // var responseContent = await response.Content.ReadAsStringAsync();
                 // return JsonConvert.DeserializeObject<MccEntity>(responseContent);
@@ -90,9 +88,11 @@ namespace Infrastructure.Repositories
 
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-                var response = await _httpClient.PutAsync($"{GlobalVariable.baseUrl}/{mccId}", content);
-                response.EnsureSuccessStatusCode();
-                return response.IsSuccessStatusCode;
+                var response = await _httpClient.PutAsync($"{GlobalVariable.baseUrl}/Mccs/{mccId}", content);
+                var temp = await response.Content.ReadAsStringAsync();
+                var result = JsonConvert.DeserializeObject<bool>(temp);
+                UnityEngine.Debug.Log("Result: " + result);
+                return result;
                 // var responseContent = await response.Content.ReadAsStringAsync();
                 // return JsonConvert.DeserializeObject<MccEntity>(responseContent);
             }
@@ -109,9 +109,12 @@ namespace Infrastructure.Repositories
         {
             try
             {
-                var response = await _httpClient.DeleteAsync($"{GlobalVariable.baseUrl}/{mccId}");
-                response.EnsureSuccessStatusCode();
-                return response.IsSuccessStatusCode;
+                var response = await _httpClient.DeleteAsync($"{GlobalVariable.baseUrl}/Mccs/{mccId}");
+                var temp = await response.Content.ReadAsStringAsync();
+                var result = JsonConvert.DeserializeObject<bool>(temp);
+                UnityEngine.Debug.Log("Result: " + result);
+
+                return result;
             }
             catch (HttpRequestException ex)
             {

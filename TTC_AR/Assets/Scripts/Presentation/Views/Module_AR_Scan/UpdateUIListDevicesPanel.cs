@@ -118,8 +118,6 @@ public class UpdateUIListDevicesPanel : MonoBehaviour, IDeviceView
             dropdown.RefreshShownValue();
             ClearDeviceInformation();
         }
-
-
     }
 
     private void DestroyAllInstancesExceptPrefab(List<GameObject> listInstances)
@@ -156,6 +154,14 @@ public class UpdateUIListDevicesPanel : MonoBehaviour, IDeviceView
         deviceInforValue[4].text = device.IOAddress;
 
         GlobalVariable.deviceCode = device.Code;
+        if (device.AdditionalConnectionImages != null && device.AdditionalConnectionImages.Any())
+        {
+            GlobalVariable.temp_List_AdditionalImages = device.AdditionalConnectionImages;
+        }
+        else
+        {
+            GlobalVariable.temp_List_AdditionalImages = new List<ImageInformationModel>();
+        }
 
         dic_JBInformationModel.Clear();
 
@@ -239,6 +245,8 @@ public class UpdateUIListDevicesPanel : MonoBehaviour, IDeviceView
         GlobalVariable.jb_TSD_Name = model.Name; // jb_name: JB100
 
         GlobalVariable.jb_TSD_Location = model.Location; // jb_location: Hầm Cáp MCC
+
+        GlobalVariable.JBId = model.Id;
 
         if (GlobalVariable.navigate_from_list_JBs)
         {

@@ -254,7 +254,7 @@
 
 //         yield return new WaitUntil(() =>
 //             GlobalVariable.temp_List_DeviceInformationModel.Count > 0 &&
-//             GlobalVariable.temp_List_ImageInformationModel.Count > 0 &&
+//             GlobalVariable.temp_ListImageInformationModel.Count > 0 &&
 //             GlobalVariable.temp_List_ModuleInformationModel.Count > 0
 //         );
 

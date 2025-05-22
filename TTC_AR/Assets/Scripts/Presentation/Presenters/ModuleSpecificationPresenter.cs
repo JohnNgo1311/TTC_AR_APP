@@ -31,7 +31,6 @@ public class ModuleSpecificationPresenter
                 if (ModuleSpecificationBasicDto.Any())
                 {
                     var models = ModuleSpecificationBasicDto.Select(dto => ConvertFromBasicDto(dto)).ToList();
-
                     _view.DisplayList(models);
                     _view.ShowSuccess("Tải danh sách thành công");
                 }

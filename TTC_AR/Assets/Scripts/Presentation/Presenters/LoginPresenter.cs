@@ -11,24 +11,37 @@ using System.Threading.Tasks;
 using UnityEngine.UI;
 using ApplicationLayer.Dtos.Company;
 using UnityEngine;
+using ApplicationLayer.Dtos.Image;
 public class LoginPresenter
 {
     private readonly ILoginView _view;
     private readonly ICompanyService _companyService;
     private readonly IGrapperService _grapperService;
     private readonly IJBService _jbService;
+    private readonly IImageService _imageService;
+    private readonly IModuleService _moduleService;
+    private readonly IMccService _mccService;
+    private readonly IFieldDeviceService _fieldDeviceService;
 
     public LoginPresenter(
         ILoginView view,
         ICompanyService CompanyService,
         IGrapperService GrapperService,
-        IJBService JBService
+        IJBService JBService,
+        IImageService ImageService
+        , IModuleService ModuleService
+        , IMccService MccService
+        , IFieldDeviceService FieldDeviceService
         )
     {
         _view = view;
         _companyService = CompanyService;
         _grapperService = GrapperService;
         _jbService = JBService;
+        _imageService = ImageService;
+        _moduleService = ModuleService;
+        _mccService = MccService;
+        _fieldDeviceService = FieldDeviceService;
     }
 
     //! Get list Login chỉ có Id và Code
@@ -37,7 +50,8 @@ public class LoginPresenter
         GlobalVariable.APIRequestType.Add("GET_Company");
         GlobalVariable.APIRequestType.Add("GET_Grapper_List");
         GlobalVariable.APIRequestType.Add("GET_JB_List_Information");
-
+        GlobalVariable.APIRequestType.Add("GET_Image_List");
+        GlobalVariable.APIRequestType.Add("GET_Module_List");
         _view.ShowLoading("Đang đăng nhập...");
 
         try
@@ -45,14 +59,22 @@ public class LoginPresenter
             var companyTask = _companyService.GetCompanyByIdAsync(1);
             var grapperTask = _grapperService.GetListGrapperAsync(1);
             var jbTask = _jbService.GetListJBInformationAsync(1);
+            var imageTask = _imageService.GetListImageAsync(1);
+            var moduleTask = _moduleService.GetListModuleAsync(1);
+            var mccTask = _mccService.GetListMccAsync(1);
+            var fieldDeviceTask = _fieldDeviceService.GetListFieldDeviceAsync(1);
 
-            await Task.WhenAll(companyTask, grapperTask, jbTask);
+            await Task.WhenAll(companyTask, grapperTask, jbTask, imageTask, moduleTask, mccTask, fieldDeviceTask);
 
             var companyDto = companyTask.Result;
             var grapperDtos = grapperTask.Result;
             var jbDtos = jbTask.Result;
+            var imageDtos = imageTask.Result;
+            var moduleDtos = moduleTask.Result;
+            var mccDtos = mccTask.Result;
+            var fieldDeviceDtos = fieldDeviceTask.Result;
 
-            if (companyDto == null || grapperDtos == null || jbDtos == null)
+            if (companyDto == null || grapperDtos == null || jbDtos == null || imageDtos == null || moduleDtos == null)
             {
                 _view.ShowError("Tải dữ liệu thất bại!");
                 return;
@@ -93,7 +115,7 @@ public class LoginPresenter
                 if (jbDtos.Any())
                 {
                     var models = jbDtos.Select(dto => ConvertFromResponseDto(dto)).ToList();
-                    GlobalVariable.temp_List_JBInformationModel = models;
+                    GlobalVariable.temp_ListJBInformationModel = models;
                     GlobalVariable.temp_Dictionary_JBInformationModel = models.ToDictionary(m => m.Name, m => m);
                     Debug.Log(GlobalVariable.temp_Dictionary_JBInformationModel.Count);
                 }
@@ -104,8 +126,77 @@ public class LoginPresenter
                 _view.ShowError("Tải dữ liệu thất bại!");
 
             }
+            if (imageDtos != null)
+            {
+                if (imageDtos.Any())
+                {
+                    var models = imageDtos.Select(dto => ConvertImageFromBasicDto(dto)).ToList();
+                    GlobalVariable.temp_ListImageInformationModel = models;
+                    GlobalVariable.temp_Dictionary_ImageInformationModel = models.ToDictionary(m => m.Name, m => m);
+                    Debug.Log(GlobalVariable.temp_Dictionary_ImageInformationModel.Count);
+                }
+            }
+            else
+            {
+                _view.ShowError("Tải dữ liệu thất bại!");
 
+            }
+            if (moduleDtos != null)
+            {
+                if (moduleDtos.Any())
+                {
+                    var models = moduleDtos.Select(dto => new ModuleInformationModel(
+                        id: dto.Id,
+                        name: dto.Name
+                    )).ToList();
+                    GlobalVariable.temp_ListModuleInformationModel = models;
+                    GlobalVariable.temp_Dictionary_ModuleInformationModel = models.ToDictionary(m => m.Name, m => m);
+                    Debug.Log(GlobalVariable.temp_Dictionary_ModuleInformationModel.Count);
+                }
+            }
+            else
+            {
+                _view.ShowError("Tải dữ liệu thất bại!");
+            }
+            if (mccDtos != null)
+            {
+                if (mccDtos.Any())
+                {
+                    var models = mccDtos.Select(dto => new MccInformationModel(
+                        id: dto.Id,
+                        cabinetCode: dto.CabinetCode
+                    )).ToList();
+                    GlobalVariable.temp_List_MccInformationModel = models;
+                    GlobalVariable.temp_Dictionary_MCCInformationModel = models.ToDictionary(m => m.CabinetCode, m => m);
+                    Debug.Log(GlobalVariable.temp_Dictionary_MCCInformationModel.Count);
+                }
+            }
+            else
+            {
+                _view.ShowError("Tải dữ liệu thất bại!");
+            }
+            if (fieldDeviceDtos != null)
+            {
+                if (fieldDeviceDtos.Any())
+                {
+                    var models = fieldDeviceDtos.Select(dto => new FieldDeviceInformationModel(
+                        id: dto.Id,
+                        name: dto.Name
+                    )).ToList();
+                    GlobalVariable.temp_List_FieldDeviceInformationModel = models;
+                    GlobalVariable.temp_Dictionary_FieldDeviceInformationModel = models.ToDictionary(m => m.Name, m => m);
+                    Debug.Log(GlobalVariable.temp_Dictionary_FieldDeviceInformationModel.Count);
+                }
+            }
+            else
+            {
+                _view.ShowError("Tải dữ liệu thất bại!");
+            }
             _view.ShowSuccess(); // Chỉ hiển thị thành công nếu result == true
+
+            GlobalVariable.GrapperId = 1;
+            GlobalVariable.companyId = 1;
+
         }
         catch (Exception ex)
         {
@@ -118,6 +209,8 @@ public class LoginPresenter
             GlobalVariable.APIRequestType.Remove("GET_Company");
             GlobalVariable.APIRequestType.Remove("GET_Grapper_List");
             GlobalVariable.APIRequestType.Remove("GET_JB_List_Information");
+            GlobalVariable.APIRequestType.Remove("GET_Image_List");
+            GlobalVariable.APIRequestType.Remove("GET_Module_List");
         }
     }
 
@@ -164,6 +257,14 @@ public class LoginPresenter
     private GrapperInformationModel ConvertGrapperFromResponseDto(GrapperBasicDto dto)
     {
         return new GrapperInformationModel(
+            id: dto.Id,
+            name: dto.Name);
+    }
+
+    //! Dto => Model
+    private ImageInformationModel ConvertImageFromBasicDto(ImageBasicDto dto)
+    {
+        return new ImageInformationModel(
             id: dto.Id,
             name: dto.Name);
     }

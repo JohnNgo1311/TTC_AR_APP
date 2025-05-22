@@ -135,7 +135,6 @@ namespace Domain.Entities
         HttpMethodTypeEnum.PUTDevice.GetDescription()
       };
       return apiRequestType.Any(request => allowedRequests.Contains(request));
-
     }
 
     public bool ShouldSerializeAdditionalConnectionImageEntities()
@@ -207,7 +206,6 @@ namespace Domain.Entities
       ModuleEntity = moduleEntity ?? null;
 
       JBEntities = (jbEntities == null || (jbEntities != null && !jbEntities.Any())) ? new List<JBEntity>() : jbEntities;
-
 
       AdditionalConnectionImageEntities = (additionalConnectionImageEntities == null
       || (additionalConnectionImageEntities != null && !additionalConnectionImageEntities.Any()))

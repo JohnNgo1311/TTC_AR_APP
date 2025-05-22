@@ -109,6 +109,8 @@ public class UpdateUIListJBPanel : MonoBehaviour
             instantiatedJBObjects.Add(newJBItem);
             newJBItem.SetActive(true);
             newJBItem.GetComponent<JBInfor>().HandleEmptyList();
+            var Horizontal_JB_TSD = jbPrefab.transform.parent.transform.GetComponent<HorizontalLayoutGroup>();
+            Horizontal_JB_TSD.childAlignment = TextAnchor.MiddleCenter;
         }
         jbPrefab.SetActive(false);
     }
