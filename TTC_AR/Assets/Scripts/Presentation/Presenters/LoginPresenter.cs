@@ -184,7 +184,32 @@ public class LoginPresenter
                         name: dto.Name
                     )).ToList();
                     GlobalVariable.temp_List_FieldDeviceInformationModel = models;
-                    GlobalVariable.temp_Dictionary_FieldDeviceInformationModel = models.ToDictionary(m => m.Name, m => m);
+                    Debug.Log("FieldDevices: " + models.Count);
+
+                    GlobalVariable.temp_Dictionary_FieldDeviceInformationModel.Clear();
+                    //!
+                    // foreach (var fieldDevice in models)
+                    // {
+                    //     if (!GlobalVariable.temp_Dictionary_FieldDeviceInformationModel.ContainsKey(fieldDevice.Name))
+                    //     {
+                    //         GlobalVariable.temp_Dictionary_FieldDeviceInformationModel[fieldDevice.Name] = new List<FieldDeviceInformationModel>()
+                    //         {
+                    //             fieldDevice
+                    //         };
+                    //     }
+                    //     if (GlobalVariable.temp_Dictionary_FieldDeviceInformationModel.ContainsKey(fieldDevice.Name))
+                    //     {
+                    //         if (GlobalVariable.temp_Dictionary_FieldDeviceInformationModel[fieldDevice.Name].Any())
+                    //         {
+                    //             GlobalVariable.temp_Dictionary_FieldDeviceInformationModel[fieldDevice.Name].Add(fieldDevice);
+                    //         }
+
+                    //     }
+                    // }
+                    //!
+                    GlobalVariable.temp_Dictionary_FieldDeviceInformationModel = models
+                      .GroupBy(fd => fd.Name)
+                      .ToDictionary(g => g.Key, g => g.ToList());
                     Debug.Log(GlobalVariable.temp_Dictionary_FieldDeviceInformationModel.Count);
                 }
             }

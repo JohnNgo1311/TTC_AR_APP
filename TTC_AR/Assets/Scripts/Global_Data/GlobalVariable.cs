@@ -219,7 +219,7 @@ public class GlobalVariable : MonoBehaviour
     public static List<FieldDeviceInformationModel> temp_ListFieldDeviceInformationModel = new List<FieldDeviceInformationModel>();
     public static FieldDeviceInformationModel temp_FieldDeviceInformationModel;
     public static int fieldDeviceId = 0;
-    public static Dictionary<string, FieldDeviceInformationModel> temp_Dictionary_FieldDeviceInformationModel = new Dictionary<string, FieldDeviceInformationModel>();
+    public static Dictionary<string, List<FieldDeviceInformationModel>> temp_Dictionary_FieldDeviceInformationModel = new Dictionary<string, List<FieldDeviceInformationModel>>();
     public static List<FieldDeviceInformationModel> temp_List_FieldDeviceInformationModel = new List<FieldDeviceInformationModel>();
 
 

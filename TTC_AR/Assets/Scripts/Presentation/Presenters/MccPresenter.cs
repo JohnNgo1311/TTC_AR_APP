@@ -135,6 +135,7 @@ public class MccPresenter
         }
         catch (Exception ex)
         {
+            UnityEngine.Debug.Log("Error: " + ex.Message);
             _view.ShowError($"Error: {ex.Message}");
         }
         finally

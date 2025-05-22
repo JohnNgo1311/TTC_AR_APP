@@ -43,6 +43,7 @@ public class CreateMccSettingView : MonoBehaviour, IMccView
     public GameObject List_Mcc_Canvas;
     public GameObject Add_New_Mcc_Canvas;
     public GameObject Update_Mcc_Canvas;
+    private int grapperId;
 
     private readonly Dictionary<string, FieldDeviceInformationModel> temp_Dictionary_FieldDeviceModel = new();
     private readonly Dictionary<string, List<GameObject>> selectedGameObjects = new()
@@ -55,23 +56,18 @@ public class CreateMccSettingView : MonoBehaviour, IMccView
         { "FieldDevices", 0 }
     };
 
-    // void Awake()
-    // {
-    //     var MccManager = FindObjectOfType<MccManager>();
-    //     _presenter = new MccPresenter(this, MccManager._IMccService);
-    // }
     void Awake()
     {
-        // var DeviceManager = FindObjectOfType<DeviceManager>();
         _presenter = new MccPresenter(this, ManagerLocator.Instance.MccManager._IMccService);
-        // DeviceManager._IDeviceService
     }
 
 
     void OnEnable()
     {
-        scrollRect.verticalNormalizedPosition = 1;
-        ResetAllInputFields();
+        grapperId = GlobalVariable.GrapperId;
+
+        RenewView();
+
         AddButtonListeners(initialize_Mcc_List_Option_Selection.FieldDevices_List_Selection_Option_Content_Transform, "FieldDevices");
 
         backButton.onClick.RemoveAllListeners();
@@ -80,8 +76,9 @@ public class CreateMccSettingView : MonoBehaviour, IMccView
 
         backButtonListSelection.onClick.AddListener(CloseListSelectionFromBackButton);
         backButton.onClick.AddListener(CloseAddCanvas);
-
         submitButton.onClick.AddListener(OnSubmitButtonClick);
+
+        scrollRect.verticalNormalizedPosition = 1;
     }
 
     void OnDisable()
@@ -91,25 +88,23 @@ public class CreateMccSettingView : MonoBehaviour, IMccView
 
     private void OnSubmitButtonClick()
     {
-        MccInformationModel = new MccInformationModel(
-            cabinetCode: CabinetCode_TextField.text,
-            brand: Brand_TextField.text,
-            listFieldDeviceInformation: temp_Dictionary_FieldDeviceModel.Values.ToList(),
-            note: Note_TextField.text
-        );
-
-        if (string.IsNullOrEmpty(MccInformationModel.CabinetCode))
+        if (string.IsNullOrEmpty(CabinetCode_TextField.text))
         {
             OpenErrorDialog("Vui lòng nhập mã tủ Mcc");
-            return;
         }
-        if (GlobalVariable.temp_Dictionary_MCCInformationModel.ContainsKey(MccInformationModel.CabinetCode))
+        if (GlobalVariable.temp_Dictionary_MCCInformationModel.ContainsKey(CabinetCode_TextField.text))
         {
             OpenErrorDialog("Mã tủ Mcc đã tồn tại", "Vui lòng nhập mã tủ Mcc khác");
-            return;
         }
 
-        _presenter.CreateNewMcc(GlobalVariable.GrapperId, MccInformationModel);
+        MccInformationModel = new MccInformationModel(
+            cabinetCode: CabinetCode_TextField.text,
+            brand: string.IsNullOrEmpty(Brand_TextField.text) ? "Chưa cập nhật" : Brand_TextField.text,
+            listFieldDeviceInformation: temp_Dictionary_FieldDeviceModel.Any() ? temp_Dictionary_FieldDeviceModel.Values.ToList() : new List<FieldDeviceInformationModel>(),
+            note: string.IsNullOrEmpty(Note_TextField.text) ? "Chưa cập nhật" : Note_TextField.text
+        );
+
+        _presenter.CreateNewMcc(grapperId, MccInformationModel);
     }
 
     private void RenewView()
@@ -175,16 +170,36 @@ public class CreateMccSettingView : MonoBehaviour, IMccView
         if (itemText != null)
         {
             itemText.text = textValue;
-            if (field == "FieldDevices" && GlobalVariable.temp_Dictionary_FieldDeviceInformationModel.TryGetValue(textValue, out var FieldDeviceInformationModel))
+            if (field == "FieldDevices")
             {
-                var FieldDeviceInfoModel = new FieldDeviceInformationModel(FieldDeviceInformationModel.Id, FieldDeviceInformationModel.Name);
-                if (!temp_Dictionary_FieldDeviceModel.ContainsKey(textValue))
+                if (GlobalVariable.temp_Dictionary_FieldDeviceInformationModel.TryGetValue(textValue, out var listFieldDevice))
                 {
-                    temp_Dictionary_FieldDeviceModel[textValue] = FieldDeviceInfoModel;
-                }
-                else
-                {
-                    Destroy(temp_Item_Transform.gameObject);
+                    if (listFieldDevice.Count == 1)
+                    {
+                        var FieldDeviceInfoModel = new FieldDeviceInformationModel(listFieldDevice[0].Id, listFieldDevice[0].Name);
+                        if (!temp_Dictionary_FieldDeviceModel.ContainsKey(textValue))
+                        {
+                            temp_Dictionary_FieldDeviceModel[textValue] = FieldDeviceInfoModel;
+                        }
+                        else
+                        {
+                            Destroy(temp_Item_Transform.gameObject);
+                        }
+                    }
+                    else
+                    {
+                        // var FieldDeviceInfoModel = new FieldDeviceInformationModel(listFieldDevice[0].Id, listFieldDevice[0].Name);
+                        // if (!temp_Dictionary_FieldDeviceModel.ContainsKey(textValue))
+                        // {
+                        //     temp_Dictionary_FieldDeviceModel[textValue] = FieldDeviceInfoModel;
+                        // }
+                        // else
+                        // {
+                        //     Destroy(temp_Item_Transform.gameObject);
+                        // }
+                        Debug.Log("Multiple FieldDeviceInformationModels found for the same name. Please check your data.");
+
+                    }
                 }
             }
         }
@@ -288,7 +303,8 @@ public class CreateMccSettingView : MonoBehaviour, IMccView
         var horizontalGroupTransform = backgroundTransform.Find("Horizontal_Group");
 
         backgroundTransform.Find("Dialog_Status_Icon").GetComponent<Image>().sprite = Resources.Load<Sprite>("images/UIimages/Success_Icon_For_Dialog");
-        backgroundTransform.Find("Dialog_Content").GetComponent<TMP_Text>().text = $"Bạn đã thành công thêm tủ Mcc <b><color =#004C8A>{model.CabinetCode}</b></color> vào hệ thống";
+        backgroundTransform.Find("Dialog_Content").GetComponent<TMP_Text>().text = $"Bạn đã thành công thêm tủ Mcc <color=#004C8A><b>{model.CabinetCode}</b></color> vào hệ thống";
+
         backgroundTransform.Find("Dialog_Title").GetComponent<TMP_Text>().text = "Thêm tủ Mcc mới thành công";
 
         var confirmButton = horizontalGroupTransform.Find("Confirm_Button").GetComponent<Button>();
