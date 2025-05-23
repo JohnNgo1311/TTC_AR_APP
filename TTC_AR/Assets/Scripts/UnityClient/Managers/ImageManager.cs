@@ -154,22 +154,22 @@ public class ImageManager : MonoBehaviour
         }
     }
 
-    public async void UploadNewImageFromGallery(int grapperId, Texture2D texture, string filePath, string fieldName, string fileName)
+    public async void UploadNewImageFromGallery(int grapperId, Texture2D texture, string filePath, string fileName)
     {
         try
         {
-            await _IImageService.UploadNewImageFromGallery(grapperId, texture, filePath, fieldName, fileName);
+            await _IImageService.UploadNewImageFromGallery(grapperId, texture, filePath, fileName);
         }
         catch (Exception ex)
         {
             Debug.LogError($"Upload error: {ex.Message}");
         }
     }
-    public async void UploadNewImageFromCamera(int grapperId, Texture2D texture, string fieldName, string fileName)
+    public async void UploadNewImageFromCamera(int grapperId, Texture2D texture, string fileName)
     {
         try
         {
-            bool result = await _IImageService.UploadNewImageFromCamera(grapperId, texture, fieldName, fileName);
+            bool result = await _IImageService.UploadNewImageFromCamera(grapperId, texture, fileName);
             Debug.Log(result ? "Image uploaded successfully" : "Failed to upload Image");
         }
         catch (Exception ex)

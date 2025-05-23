@@ -37,17 +37,17 @@ namespace ApplicationLayer.Services
         {
             return await _ImageUseCase.DeleteImageAsync(ImageId);
         }
-        public async Task<bool> UploadNewImageFromGallery(int grapperId, Texture2D texture, string filePath, string fieldName, string fileName)
+        public async Task<bool> UploadNewImageFromGallery(int grapperId, Texture2D texture, string filePath, string fileName)
         {
             Debug.Log("Run Service");
-            Debug.Log($"UploadNewImageFromGallery: {grapperId} {texture} {filePath} {fieldName} {fileName}");
-            return await _ImageUseCase.UploadImageFromGallery(grapperId, texture, filePath, fieldName, fileName);
+            Debug.Log($"UploadNewImageFromGallery: {grapperId} {texture} {filePath} {fileName}");
+            return await _ImageUseCase.UploadImageFromGallery(grapperId, texture, filePath, fileName);
         }
-        public async Task<bool> UploadNewImageFromCamera(int grapperId, Texture2D texture, string fieldName, string fileName)
+        public async Task<bool> UploadNewImageFromCamera(int grapperId, Texture2D texture, string fileName)
         {
             Debug.Log("Run Service");
-            Debug.Log($"UploadNewImageFromCamera: {grapperId} {texture} {fieldName} {fileName}");
-            return await _ImageUseCase.UploadImageFromCamera(grapperId, texture, fieldName, fileName);
+            Debug.Log($"UploadNewImageFromCamera: {grapperId} {texture} {fileName}");
+            return await _ImageUseCase.UploadImageFromCamera(grapperId, texture, fileName);
 
         }
     }

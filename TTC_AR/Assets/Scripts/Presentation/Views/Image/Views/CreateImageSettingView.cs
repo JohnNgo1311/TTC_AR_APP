@@ -109,6 +109,37 @@ public class CreateImageSettingView : MonoBehaviour, IImageView
 
     private bool isObjectSelected = false;
     private bool isTypeImageSelected = false;
+
+    private int grapperId;
+    public string fieldObjectOption;
+
+    void OnEnable()
+    {
+        grapperId = GlobalVariable.GrapperId;
+
+        PreloadSprites();
+
+        AddButtonListeners(initialize_Image_List_Option_Selection.Device_List_Selection_Option_Content_Transform, "Devices");
+        AddButtonListeners(initialize_Image_List_Option_Selection.JB_List_Selection_Option_Content_Transform, "JBs");
+        AddButtonListeners(initialize_Image_List_Option_Selection.TSD_List_Selection_Option_Content_Transform, "TSDs");
+        AddButtonListeners(initialize_Image_List_Option_Selection.FieldDevice_List_Selection_Option_Content_Transform, "FieldDevices");
+
+        backButton.onClick.RemoveAllListeners();
+        backButtonDeviceListSelection.onClick.RemoveAllListeners();
+        backButtonJBListSelection.onClick.RemoveAllListeners();
+        backButtonTSDListSelection.onClick.RemoveAllListeners();
+        backButtonFieldDeviceListSelection.onClick.RemoveAllListeners();
+
+        backButtonDeviceListSelection.onClick.AddListener(() => CloseListSelectionFromBackButton("Devices"));
+        backButtonJBListSelection.onClick.AddListener(() => CloseListSelectionFromBackButton("JBs"));
+        backButtonTSDListSelection.onClick.AddListener(() => CloseListSelectionFromBackButton("TSDs"));
+        backButtonFieldDeviceListSelection.onClick.AddListener(() => CloseListSelectionFromBackButton("FieldDevices"));
+        backButton.onClick.AddListener(CloseAddCanvas);
+
+        PrepareButtonClicked();
+        scrollRect.verticalNormalizedPosition = 1;
+
+    }
     void Update()
     {
         SetImageColor();
@@ -299,32 +330,7 @@ public class CreateImageSettingView : MonoBehaviour, IImageView
         Debug.Log(successConfirmButtonSprite);
     }
 
-    void OnEnable()
-    {
 
-        PreloadSprites();
-
-        AddButtonListeners(initialize_Image_List_Option_Selection.Device_List_Selection_Option_Content_Transform, "Devices");
-        AddButtonListeners(initialize_Image_List_Option_Selection.JB_List_Selection_Option_Content_Transform, "JBs");
-        AddButtonListeners(initialize_Image_List_Option_Selection.TSD_List_Selection_Option_Content_Transform, "TSDs");
-        AddButtonListeners(initialize_Image_List_Option_Selection.FieldDevice_List_Selection_Option_Content_Transform, "FieldDevices");
-
-        backButton.onClick.RemoveAllListeners();
-        backButtonDeviceListSelection.onClick.RemoveAllListeners();
-        backButtonJBListSelection.onClick.RemoveAllListeners();
-        backButtonTSDListSelection.onClick.RemoveAllListeners();
-        backButtonFieldDeviceListSelection.onClick.RemoveAllListeners();
-
-        backButtonDeviceListSelection.onClick.AddListener(() => CloseListSelectionFromBackButton("Devices"));
-        backButtonJBListSelection.onClick.AddListener(() => CloseListSelectionFromBackButton("JBs"));
-        backButtonTSDListSelection.onClick.AddListener(() => CloseListSelectionFromBackButton("TSDs"));
-        backButtonFieldDeviceListSelection.onClick.AddListener(() => CloseListSelectionFromBackButton("FieldDevices"));
-        backButton.onClick.AddListener(CloseAddCanvas);
-
-        PrepareButtonClicked();
-        scrollRect.verticalNormalizedPosition = 1;
-
-    }
 
     void OnDisable()
     {
@@ -411,10 +417,14 @@ public class CreateImageSettingView : MonoBehaviour, IImageView
 
             isObjectSelected = true;
 
-            finalObjectNameText = optionTextValue; //! Lấy được tên đối tượng cần thêm ảnh
+            finalObjectNameText = optionTextValue; //! Lấy được tên đối tượng cần thêm ảnh: Ví dụ như JB5
 
+            // Debug.Log($"finalObjectNameText: {finalObjectNameText}");
+            ;
             CloseListSelection(field);
         }
+        fieldObjectOption = field;
+        Debug.Log($"fieldObjectOption: {fieldObjectOption}");
     }
 
     public void CloseListSelection(string field)

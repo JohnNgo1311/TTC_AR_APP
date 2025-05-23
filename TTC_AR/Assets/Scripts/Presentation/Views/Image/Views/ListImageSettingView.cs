@@ -30,6 +30,8 @@ public class ListImageSettingView : MonoBehaviour, IImageView
     public Image PreviewImage;
     public TMP_Text PreviewImageName;
     private Sprite warningConfirmButtonSprite;
+    private int grapperId;
+    private GameObject _imageItem;
 
     void Awake()
     {
@@ -38,6 +40,7 @@ public class ListImageSettingView : MonoBehaviour, IImageView
     }
     void OnEnable()
     {
+        grapperId = GlobalVariable.GrapperId;
         warningConfirmButtonSprite = Resources.Load<Sprite>("images/UIimages/Warning_Back_Button_Background");
         Debug.Log(warningConfirmButtonSprite);
         LoadListImage();
@@ -60,7 +63,7 @@ public class ListImageSettingView : MonoBehaviour, IImageView
     public void LoadListImage()
     {
         RefreshList();
-        _presenter.LoadListImage(GlobalVariable.GrapperId);
+        _presenter.LoadListImage(grapperId);
     }
     public void DisplayList(List<ImageInformationModel> models)
     {
@@ -68,9 +71,10 @@ public class ListImageSettingView : MonoBehaviour, IImageView
         {
             foreach (var model in models)
             {
-                int ImageIndex = models.IndexOf(model);
-                Debug.Log(ImageIndex);
+                // int ImageIndex = models.IndexOf(model);
+                // Debug.Log(ImageIndex);
                 var newImageItem = Instantiate(Image_Item_Prefab, Parent_Vertical_Layout_Group.transform);
+                newImageItem.SetActive(true);
                 Transform newImageItemTransform = newImageItem.transform;
                 var previewButton = newImageItem.GetComponent<Button>();
                 previewButton.onClick.RemoveAllListeners();
@@ -85,21 +89,25 @@ public class ListImageSettingView : MonoBehaviour, IImageView
             Debug.Log("No Images found");
         }
         Image_Item_Prefab.SetActive(false);
+        scrollView.verticalNormalizedPosition = 1f;
     }
 
     private async void OpenPreviewImageCanvas(ImageInformationModel model)
     {
         ShowProgressBar("Đang tải ảnh...", "...");
+
         PreviewImageCanvas.SetActive(true);
         BackButtonFromPreviewCanvas.onClick.RemoveAllListeners();
         BackButtonFromPreviewCanvas.onClick.AddListener(() => PreviewImageCanvas.SetActive(false));
-        PreviewImageName.text = model.Name;
+
+        PreviewImageName.text = $"Xem chi tiết hình ảnh: {model.Name}";
 
         await LoadImage.Instance.LoadImageFromUrlAsync(
-                    imageName: "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_Outdoor_Location%2FJB101_Location.jpg?alt=media&token=98ea4fb2-7093-425a-802e-458579c12fbd",
+                    imageName: model.Name,
                     image: PreviewImage,
                     true
                 );
+
         StartCoroutine(Resize_GameObject_Function.Set_NativeSize_For_GameObject(PreviewImage));
 
         await Task.Delay(1000);
@@ -125,7 +133,7 @@ public class ListImageSettingView : MonoBehaviour, IImageView
 
         var Horizontal_Group = DialogTwoButton.transform.Find("Background/Horizontal_Group").gameObject.transform;
 
-        var dialog_Content = DialogTwoButton.transform.Find("Background/Dialog_Content").GetComponent<TMP_Text>().text = $"Bạn có chắc chắn muốn xóa hình ảnh <b><color=red>{model.Name}</b></color> khỏi hệ thống? Hãy kiểm tra kĩ trước khi nhấn nút xác nhận phía dưới";
+        var dialog_Content = DialogTwoButton.transform.Find("Background/Dialog_Content").GetComponent<TMP_Text>().text = $"Bạn có chắc chắn muốn xóa hình ảnh <b><color=#ED1C24>{model.Name}</b></color> khỏi hệ thống? Hãy kiểm tra kĩ trước khi nhấn nút xác nhận phía dưới";
 
         var dialog_Title = DialogTwoButton.transform.Find("Background/Dialog_Title").GetComponent<TMP_Text>().text = "Xóa hình ảnh khỏi hệ thống?";
 
@@ -154,11 +162,11 @@ public class ListImageSettingView : MonoBehaviour, IImageView
 
         confirmButton.onClick.AddListener(() =>
         {
-            listImageItems.Remove(ImageItem);
+            _imageItem = ImageItem;
             Debug.Log(model.Id);
             _presenter.DeleteImage(model.Id);
             DialogTwoButton.SetActive(false);
-            Destroy(ImageItem);
+
         });
         backButton.onClick.AddListener(() =>
         {
@@ -207,7 +215,7 @@ public class ListImageSettingView : MonoBehaviour, IImageView
         }
         else if (GlobalVariable.APIRequestType.Contains("DELETE_Image"))
         {
-            OpenErrorDialog();
+            OpenErrorDialog(title: "Xóa hình ảnh thất bại", message: "Đã có lỗi xảy ra khi xóa hình ảnh khỏi hệ thống. Vui lòng thử lại sau");
         }
     }
     public void ShowSuccess()
@@ -219,6 +227,8 @@ public class ListImageSettingView : MonoBehaviour, IImageView
         else if (GlobalVariable.APIRequestType.Contains("DELETE_Image"))
         {
             Show_Toast.Instance.ShowToast("success", "Xóa hình ảnh thành công");
+            listImageItems.Remove(_imageItem);
+            Destroy(_imageItem);
         }
 
         StartCoroutine(Show_Toast.Instance.Set_Instance_Status_False());

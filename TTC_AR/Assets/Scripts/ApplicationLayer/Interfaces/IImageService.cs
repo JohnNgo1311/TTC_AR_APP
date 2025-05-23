@@ -16,8 +16,8 @@ namespace ApplicationLayer.Interfaces
         Task<List<ImageBasicDto>> GetListImageAsync(int grapperId);
         Task<bool> CreateNewImageAsync(int grapperId, ImageRequestDto ImageRequestDto);
         Task<bool> DeleteImageAsync(int imageId);
-        Task<bool> UploadNewImageFromGallery(int grapperId, Texture2D texture, string filePath, string fieldName, string fileName);
-        Task<bool> UploadNewImageFromCamera(int grapperId, Texture2D texture, string fieldName, string fileName);
+        Task<bool> UploadNewImageFromGallery(int grapperId, Texture2D texture, string filePath, string fileName);
+        Task<bool> UploadNewImageFromCamera(int grapperId, Texture2D texture, string fileName);
 
     }
 

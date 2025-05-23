@@ -144,14 +144,14 @@ namespace ApplicationLayer.UseCases
                 throw new ApplicationException("Failed to create Image", ex); // Bao bọc lỗi từ Repository
             }
         }
-        public async Task<bool> UploadImageFromGallery(int grapperId, Texture2D texture, string fileName, string fieldName, string filePath)
+        public async Task<bool> UploadImageFromGallery(int grapperId, Texture2D texture, string fileName,  string filePath)
         {
             try
             {
                 var mimeType = GetMimeType(filePath);
                 Debug.Log("Run UseCase");
-                Debug.Log($"UploadNewImageFromGallery: {grapperId} {texture} {fieldName} {fileName} {filePath} {mimeType}");
-                var result = await _IImageRepository.UploadNewImageFromGallery(grapperId, texture, fieldName, fileName, filePath, mimeType);
+                Debug.Log($"UploadNewImageFromGallery: {grapperId} {texture} {fileName} {filePath} {mimeType}");
+                var result = await _IImageRepository.UploadNewImageFromGallery(grapperId, texture, fileName, filePath, mimeType);
                 // TryDeleteFile(filePath); // Xóa file tạm sau khi upload
                 return result;
             }
@@ -164,14 +164,14 @@ namespace ApplicationLayer.UseCases
                 throw new ApplicationException("Failed to upload Image from gallery", ex); // Bao bọc lỗi từ Repository
             }
         }
-        public async Task<bool> UploadImageFromCamera(int grapperId, Texture2D texture, string fileName, string fieldName)
+        public async Task<bool> UploadImageFromCamera(int grapperId, Texture2D texture, string fileName)
         {
             try
             {
                 Debug.Log("Run UseCase");
-                Debug.Log($"UploadNewImageFromCamera: {grapperId} {texture} {fieldName} {fileName}");
+                Debug.Log($"UploadNewImageFromCamera: {grapperId} {texture}  {fileName}");
 
-                var result = await _IImageRepository.UploadNewImageFromCamera(grapperId, texture, fieldName, fileName);
+                var result = await _IImageRepository.UploadNewImageFromCamera(grapperId, texture, fileName);
                 return result;
             }
             catch (ArgumentException)

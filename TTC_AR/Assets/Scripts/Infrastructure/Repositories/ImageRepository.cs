@@ -10,6 +10,7 @@ using System.Collections;
 using UnityEngine.Networking;
 using System.IO;
 using UnityEngine;
+using Unity.VisualScripting;
 
 
 namespace Infrastructure.Repositories
@@ -40,9 +41,9 @@ namespace Infrastructure.Repositories
                 else
                 {
                     var content = await response.Content.ReadAsStringAsync();
-                    // UnityEngine.Debug.Log(content);
-                    return JsonConvert.DeserializeObject<ImageEntity>(content);
-
+                    UnityEngine.Debug.Log(content);
+                    var entity = JsonConvert.DeserializeObject<ImageEntity>(content);
+                    return entity;
                 }
             }
             catch (HttpRequestException ex)
@@ -67,7 +68,9 @@ namespace Infrastructure.Repositories
                 else
                 {
                     var content = await response.Content.ReadAsStringAsync();
-                    return JsonConvert.DeserializeObject<List<ImageEntity>>(content);
+                    Debug.Log(content);
+                    var entities = JsonConvert.DeserializeObject<List<ImageEntity>>(content);
+                    return entities;
                 }
 
             }
@@ -92,13 +95,16 @@ namespace Infrastructure.Repositories
                 // var json = JsonConvert.SerializeObject(ImageEntity);
                 // Tạo dữ liệu tối giản gửi lên server với tên property khớp yêu cầu
                 // var ImageImageEntity = ConvertImageImageEntity(ImageEntity);
-
                 var json = JsonConvert.SerializeObject(ImageEntity);
+
+                Debug.Log(json);
 
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
 
                 var response = await _httpClient.PostAsync($"{GlobalVariable.baseUrl}/Images/grapperId?grapperId={grapperId}&fileName={ImageEntity.Name}", content);
+
                 var temp = await response.Content.ReadAsStringAsync();
+                Debug.Log(temp);
                 var result = JsonConvert.DeserializeObject<bool>(temp);
                 return result;
             }
@@ -118,6 +124,7 @@ namespace Infrastructure.Repositories
             {
                 var response = await _httpClient.DeleteAsync($"{GlobalVariable.baseUrl}/Images/{ImageId}");
                 var temp = await response.Content.ReadAsStringAsync();
+                Debug.Log(temp);
                 var result = JsonConvert.DeserializeObject<bool>(temp);
                 return result;
             }
@@ -131,11 +138,19 @@ namespace Infrastructure.Repositories
             }
         }
 
-        public async Task<bool> UploadNewImageFromGallery(int grapperId, Texture2D texture, string fieldName, string fileName, string filePath, string mimeType)
+        public async Task<bool> UploadNewImageFromGallery(int grapperId, Texture2D texture, string fileName, string filePath, string mimeType)
         {
             // Lưu ảnh từ Texture2D thành file ảnh PNG            
             try
             {
+                if (!fileName.Contains(".png") && !fileName.Contains(".jpg"))
+                {
+                    fileName += ".png";
+                }
+                if (fileName.Contains(".jpg"))
+                {
+                    fileName = fileName.Replace(".jpg", ".png");
+                }
                 Debug.Log("Run Repository 1");
 
                 File.WriteAllBytes(filePath, texture.EncodeToPNG());
@@ -144,9 +159,9 @@ namespace Infrastructure.Repositories
                 Debug.Log("Run Repository 3");
                 WWWForm form = new WWWForm();
                 Debug.Log("Run Repository 4");
-                form.AddBinaryData(fieldName, fileData, fileName, mimeType);
+                form.AddBinaryData("file", fileData, fileName, mimeType);
                 Debug.Log("Run Repository 5");
-                using (UnityWebRequest request = UnityWebRequest.Post("https://imagekit.io/tools/free-image-hosting/", form))
+                using (UnityWebRequest request = UnityWebRequest.Post($"{GlobalVariable.baseUrl}/Images/grapperId?grapperId={grapperId}&fileName={fileName}", form))
                 {
                     Debug.Log("Run Repository 6");
                     request.SendWebRequest();
@@ -180,28 +195,35 @@ namespace Infrastructure.Repositories
 
 
         }
-        public async Task<bool> UploadNewImageFromCamera(int grapperId, Texture2D texture, string fieldName, string fileName)
+        public async Task<bool> UploadNewImageFromCamera(int grapperId, Texture2D texture, string fileName)
         {
             try
             { // Lưu ảnh từ Texture2D thành file ảnh PNG
               // Mã hóa thành PNG
-                Debug.Log("Run Repository 1");
+                if (!fileName.Contains(".png") && !fileName.Contains(".jpg"))
+                {
+                    fileName += ".png";
+                }
+                if (fileName.Contains(".jpg"))
+                {
+                    fileName = fileName.Replace(".jpg", ".png");
+                }
 
                 byte[] imageData = texture.EncodeToPNG();
-
-                Debug.Log("Run Repository 2");
-
 
                 // Tạo form dữ liệu
                 WWWForm form = new WWWForm();
                 // Thêm dữ liệu ảnh vào form
-                Debug.Log("Run Repository 3");
 
-                form.AddBinaryData(fieldName, imageData, fileName, "image/png");
+                form.AddBinaryData("file", imageData, fileName, "image/png");
                 // Gửi yêu cầu lên server
-                Debug.Log("Run Repository 4");
-                Debug.Log($"UploadNewImageFromCamera: {grapperId} {texture} {fieldName} {fileName}");
-                using (UnityWebRequest request = UnityWebRequest.Post("https://imagekit.io/tools/free-image-hosting/", form))
+
+
+                Debug.Log($"UploadNewImageFromCamera: {grapperId} + {fileName}");
+
+                using (UnityWebRequest request = UnityWebRequest.Post(
+                    $"{GlobalVariable.baseUrl}/Images/grapperId?grapperId={grapperId}&fileName={fileName}",
+                     form))
                 {
                     request.SendWebRequest();
 
@@ -212,22 +234,22 @@ namespace Infrastructure.Repositories
 
                     if (request.result != UnityWebRequest.Result.Success)
                     {
-                        // Debug.LogError($"❌ Lỗi upload ảnh: {request.error}");
                         throw new ApplicationException($"Lỗi upload ảnh: {request.error}");
                     }
                     else
                     {
-                        // Debug.Log($"✅ Upload thành công: {fileName}");
                         return true;
                     }
                 }
             }
             catch (HttpRequestException ex)
             {
+                Debug.LogError($"❌ Lỗi upload ảnh: {ex.Message}");
                 throw new ApplicationException("Failed to upload image", ex);
             }
             catch (Exception ex)
             {
+                Debug.LogError($"❌ Lỗi upload ảnh: {ex.Message}");
                 throw new ApplicationException("Unexpected error during HTTP request", ex);
             }
         }

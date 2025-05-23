@@ -148,14 +148,14 @@ public class ImagePresenter
             GlobalVariable.APIRequestType.Remove("DELETE_Image");
         }
     }
-    public async void UploadImageFromGallery(int grapperId, Texture2D image, string fieldName, string fileName, string filePath)
+    public async void UploadImageFromGallery(int grapperId, Texture2D image, string fileName, string filePath)
     {
         GlobalVariable.APIRequestType.Add("POST_Image");
         _view.ShowLoading("Đang cập nhật...");
         try
         {
             Debug.Log("Run Presenter");
-            var result = await _service.UploadNewImageFromGallery(grapperId, image, fieldName, fileName, filePath);
+            var result = await _service.UploadNewImageFromGallery(grapperId, image, fileName, filePath);
 
             if (result)
             {
@@ -178,7 +178,7 @@ public class ImagePresenter
             GlobalVariable.APIRequestType.Remove("POST_Image");
         }
     }
-    public async void UploadImageFromCamera(int grapperId, Texture2D image, string fieldName, string fileName)
+    public async void UploadImageFromCamera(int grapperId, Texture2D image, string fileName)
     {
         GlobalVariable.APIRequestType.Add("POST_Image");
         _view.ShowLoading("Đang cập nhật...");
@@ -186,9 +186,9 @@ public class ImagePresenter
 
         {
             Debug.Log("Run Presenter");
-            Debug.Log("UploadImageFromCamera: " + grapperId + " " + fieldName + " " + fileName);
+            Debug.Log("UploadImageFromCamera: " + grapperId + " " + fileName);
 
-            var result = await _service.UploadNewImageFromCamera(grapperId, image, fieldName, fileName);
+            var result = await _service.UploadNewImageFromCamera(grapperId, image, fileName);
 
             if (result)
             {

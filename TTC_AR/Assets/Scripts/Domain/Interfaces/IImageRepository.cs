@@ -16,8 +16,8 @@ namespace Domain.Interfaces
         Task<List<ImageEntity>> GetListImageAsync(int grapperId);
         Task<bool> CreateNewImageAsync(int grapperId, ImageEntity ImageEntity);
         Task<bool> DeleteImageAsync(int ImageId);
-        Task<bool> UploadNewImageFromGallery(int grapperId, Texture2D texture, string fieldName, string fileName, string filePath, string mimeType);
-        Task<bool> UploadNewImageFromCamera(int grapperId, Texture2D texture, string fieldName, string fileName);
+        Task<bool> UploadNewImageFromGallery(int grapperId, Texture2D texture, string fileName, string filePath, string mimeType);
+        Task<bool> UploadNewImageFromCamera(int grapperId, Texture2D texture, string fileName);
 
     }
     //! Được Implement ở ImageRepository.cs trong Infrastructure Layer
