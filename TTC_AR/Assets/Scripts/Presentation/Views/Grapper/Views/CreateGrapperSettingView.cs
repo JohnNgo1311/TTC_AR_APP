@@ -28,23 +28,23 @@ public class CreateGrapperSettingView : MonoBehaviour, IGrapperView
     //     _presenter = new GrapperPresenter(this, GrapperManager._IGrapperService);
     // }
     private Sprite successConfirmButtonSprite;
+    private int companyId;
 
     void Awake()
     {
-        // var DeviceManager = FindObjectOfType<DeviceManager>();
         _presenter = new GrapperPresenter(this, ManagerLocator.Instance.GrapperManager._IGrapperService);
-        // DeviceManager._IDeviceService
     }
 
     void OnEnable()
     {
+        companyId = GlobalVariable.companyId;
         successConfirmButtonSprite = Resources.Load<Sprite>("images/UIimages/Success_Back_Button_Background");
         Debug.Log(successConfirmButtonSprite);
+
         RenewView();        // 
         // AddButtonListeners(initialize_Grapper_List_Option_Selection.Module_List_Selection_Option_Content_Transform, "Modules");
         backButton.onClick.RemoveAllListeners();
         submitButton.onClick.RemoveAllListeners();
-
         submitButton.onClick.AddListener(OnSubmitButtonClick);
     }
 
@@ -55,27 +55,29 @@ public class CreateGrapperSettingView : MonoBehaviour, IGrapperView
 
     private void OnSubmitButtonClick()
     {
-        GrapperInformationModel = new GrapperInformationModel(
-            name: Name_TextField.text
-                );
+
         if (string.IsNullOrEmpty(Name_TextField.text))
         {
             OpenErrorDialog("Vui lòng nhập mã Grapper");
             return;
         }
-        if (GlobalVariable.temp_List_GrapperInformationModel.Any(x => x.Name == Name_TextField.text))
+        if (GlobalVariable.temp_Dictionary_GrapperInformationModel.ContainsKey(Name_TextField.text))
         {
-            OpenErrorDialog("Mã Grapper đã tồn tại", "Vui lòng nhập mã Grapper khác");
+            OpenErrorDialog("Khu vực đã tồn tại", "Vui lòng nhập mã Khu vực khác");
             return;
         }
-        else
+        GrapperInformationModel = new GrapperInformationModel(
+         name: Name_TextField.text
+             );
+        if (GrapperInformationModel != null)
         {
-            _presenter.CreateNewGrapper(GlobalVariable.GrapperId, GrapperInformationModel);
+            _presenter.CreateNewGrapper(companyId, GrapperInformationModel);
         }
     }
 
     private void RenewView()
     {
+        // ClearActiveChildren(initialize_Grapper_List_Option_Selection.Module_List_Selection_Option_Content_Transform);
         ResetAllInputFields();
     }
 
@@ -154,14 +156,12 @@ public class CreateGrapperSettingView : MonoBehaviour, IGrapperView
 
         confirmButton.onClick.AddListener(() =>
         {
-            ResetAllInputFields();
             DialogTwoButton.SetActive(false);
             RenewView();
         });
 
         backButton.onClick.AddListener(() =>
         {
-            ResetAllInputFields();
             DialogTwoButton.SetActive(false);
             RenewView();
         });

@@ -93,6 +93,7 @@ public class UpdateModuleSettingView : MonoBehaviour, IModuleView
         moduleId = GlobalVariable.moduleId;
         Name_TextField.interactable = false;
 
+        RenewView();
 
         AddButtonListeners(initialize_Module_List_Option_Selection.Rack_List_Selection_Option_Content_Transform, "Racks");
         AddButtonListeners(initialize_Module_List_Option_Selection.Device_List_Selection_Option_Content_Transform, "Devices");
@@ -543,44 +544,50 @@ public class UpdateModuleSettingView : MonoBehaviour, IModuleView
     }
     public void DisplayDetail(ModuleInformationModel model)
     {
-        SetInitialInputFields(model);
-
-        PopulateItems(model.ListDeviceInformationModel?.Select(item => item.Code).ToList(), Device_Item_Prefab, List_Devices_Parent_Grid_Layout_Group, "Devices");
-
-        PopulateItems(model.ListJBInformationModel?.Select(item => item.Name).ToList(), JB_Item_Prefab, List_JBs_Parent_Grid_Layout_Group, "JBs");
-
-        if (model.Rack != null)
+        if (model != null)
         {
-            PopulateItems(new List<string> { model.Rack.Name }, Rack_Item_Prefab, List_Racks_Parent_Vertical_Layout_Group, "Racks");
-            if (temp_Dictionary_RackModel.Any())
+            SetInitialInputFields(model);
+            if (model.ListDeviceInformationModel.Any())
             {
-                addRackButton.SetActive(false);
+                PopulateItems(model.ListDeviceInformationModel?.Select(item => item.Code).ToList(), Device_Item_Prefab, List_Devices_Parent_Grid_Layout_Group, "Devices");
             }
-        }
-        if (model.ModuleSpecificationModel != null)
-        {
-            PopulateItems(new List<string> { model.ModuleSpecificationModel.Code }, ModuleSpecification_Item_Prefab, List_ModuleSpecification_Parent_Vertical_Layout_Group, "ModuleSpecifications");
-
-            if (temp_Dictionary_ModuleSpecificationModel.Any())
+            if (model.ListJBInformationModel.Any())
             {
-                addModuleSpeButton.SetActive(false);
+                PopulateItems(model.ListJBInformationModel?.Select(item => item.Name).ToList(), JB_Item_Prefab, List_JBs_Parent_Grid_Layout_Group, "JBs");
             }
-        }
-        if (model.AdapterSpecificationModel != null)
-        {
-            PopulateItems(new List<string> { model.AdapterSpecificationModel.Code }, AdapterSpecification_Item_Prefab, List_AdapterSpecification_Parent_Vertical_Layout_Group, "AdapterSpecifications");
 
-            if (temp_Dictionary_AdapterSpecificationModel.Any())
+            if (model.Rack != null)
             {
-                addAdapterSpeButton.SetActive(false);
+                PopulateItems(new List<string> { model.Rack.Name }, Rack_Item_Prefab, List_Racks_Parent_Vertical_Layout_Group, "Racks");
+                if (temp_Dictionary_RackModel.Any())
+                {
+                    addRackButton.SetActive(false);
+                }
             }
-        }
-        AddButtonListeners(initialize_Module_List_Option_Selection.Rack_List_Selection_Option_Content_Transform, "Racks");
-        AddButtonListeners(initialize_Module_List_Option_Selection.Device_List_Selection_Option_Content_Transform, "Devices");
-        AddButtonListeners(initialize_Module_List_Option_Selection.JB_List_Selection_Option_Content_Transform, "JBs");
-        AddButtonListeners(initialize_Module_List_Option_Selection.ModuleSpecification_List_Selection_Option_Content_Transform, "ModuleSpecifications");
-        AddButtonListeners(initialize_Module_List_Option_Selection.AdapterSpecification_List_Selection_Option_Content_Transform, "AdapterSpecifications");
+            if (model.ModuleSpecificationModel != null)
+            {
+                PopulateItems(new List<string> { model.ModuleSpecificationModel.Code }, ModuleSpecification_Item_Prefab, List_ModuleSpecification_Parent_Vertical_Layout_Group, "ModuleSpecifications");
 
+                if (temp_Dictionary_ModuleSpecificationModel.Any())
+                {
+                    addModuleSpeButton.SetActive(false);
+                }
+            }
+            if (model.AdapterSpecificationModel != null)
+            {
+                PopulateItems(new List<string> { model.AdapterSpecificationModel.Code }, AdapterSpecification_Item_Prefab, List_AdapterSpecification_Parent_Vertical_Layout_Group, "AdapterSpecifications");
+
+                if (temp_Dictionary_AdapterSpecificationModel.Any())
+                {
+                    addAdapterSpeButton.SetActive(false);
+                }
+            }
+            AddButtonListeners(initialize_Module_List_Option_Selection.Rack_List_Selection_Option_Content_Transform, "Racks");
+            AddButtonListeners(initialize_Module_List_Option_Selection.Device_List_Selection_Option_Content_Transform, "Devices");
+            AddButtonListeners(initialize_Module_List_Option_Selection.JB_List_Selection_Option_Content_Transform, "JBs");
+            AddButtonListeners(initialize_Module_List_Option_Selection.ModuleSpecification_List_Selection_Option_Content_Transform, "ModuleSpecifications");
+            AddButtonListeners(initialize_Module_List_Option_Selection.AdapterSpecification_List_Selection_Option_Content_Transform, "AdapterSpecifications");
+        }
 
     }
 

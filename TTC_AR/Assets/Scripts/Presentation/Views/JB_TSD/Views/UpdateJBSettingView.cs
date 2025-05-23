@@ -510,21 +510,39 @@ public class UpdateJBSettingView : MonoBehaviour, IJBView
     public void DisplayDeleteResult(bool success) { }
     public void DisplayDetail(JBInformationModel model)
     {
-        SetInitialInputFields(model);
-        PopulateItems(model.ListDeviceInformation?.Select(item => item.Code).ToList(), Device_Item_Prefab, List_Devices_Parent_GridLayout_Group, "Devices");
-        PopulateItems(model.ListModuleInformation?.Select(item => item.Name).ToList(), Module_Item_Prefab, List_Modules_Parent_GridLayout_Group, "Modules");
-        PopulateItems(model.OutdoorImage != null ? new List<string> { model.OutdoorImage.Name } : null, OutDoorImage_Item_Prefab, List_Location_Image_Parent_Vertical_Group, "Location_Image");
-        PopulateItems(model.ListConnectionImages?.Select(item => item.Name).ToList(), ConnectionImage_Item_Prefab, List_Connection_Image_Parent_Vertical_Group, "Connection_Images");
-
-        AddButtonListeners(initialize_JB_List_Option_Selection.Device_List_Selection_Option_Content_Transform, "Devices");
-        AddButtonListeners(initialize_JB_List_Option_Selection.Module_List_Selection_Option_Content_Transform, "Modules");
-        AddButtonListeners(initialize_JB_List_Option_Selection.Location_Image_List_Selection_Option_Content_Transform, "Location_Image");
-        AddButtonListeners(initialize_JB_List_Option_Selection.Connection_Image_List_Selection_Option_Content_Transform, "Connection_Images");
-        if (model.OutdoorImage != null && temp_Dictionary_OutDoorModel.Any())
+        if (model != null)
         {
-            addLocationImageItem.SetActive(false);
+            SetInitialInputFields(model);
+            if (model.ListDeviceInformation.Any())
+            {
+                PopulateItems(model.ListDeviceInformation?.Select(item => item.Code).ToList(), Device_Item_Prefab, List_Devices_Parent_GridLayout_Group, "Devices");
+            }
+            if (model.ListModuleInformation.Any())
+            {
+                PopulateItems(model.ListModuleInformation?.Select(item => item.Name).ToList(), Module_Item_Prefab, List_Modules_Parent_GridLayout_Group, "Modules");
+            }
+            if (model.OutdoorImage != null)
+            {
+                PopulateItems(new List<string> { model.OutdoorImage.Name }, OutDoorImage_Item_Prefab, List_Location_Image_Parent_Vertical_Group, "Location_Image");
+            }
+            if (model.ListConnectionImages.Any())
+            {
+                PopulateItems(model.ListConnectionImages?.Select(item => item.Name).ToList(), ConnectionImage_Item_Prefab, List_Connection_Image_Parent_Vertical_Group, "Connection_Images");
+            }
+
+            AddButtonListeners(initialize_JB_List_Option_Selection.Device_List_Selection_Option_Content_Transform, "Devices");
+            AddButtonListeners(initialize_JB_List_Option_Selection.Module_List_Selection_Option_Content_Transform, "Modules");
+            AddButtonListeners(initialize_JB_List_Option_Selection.Location_Image_List_Selection_Option_Content_Transform, "Location_Image");
+            AddButtonListeners(initialize_JB_List_Option_Selection.Connection_Image_List_Selection_Option_Content_Transform, "Connection_Images");
+
+            if (model.OutdoorImage != null && temp_Dictionary_OutDoorModel.Any())
+            {
+                addLocationImageItem.SetActive(false);
+            }
+
+            scrollRect.verticalNormalizedPosition = 1;
         }
-        scrollRect.verticalNormalizedPosition = 1;
+
 
     }
 

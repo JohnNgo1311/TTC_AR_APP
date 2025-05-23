@@ -193,7 +193,7 @@ public class ListModuleSettingView : MonoBehaviour, IModuleView
         }
         else if (GlobalVariable.APIRequestType.Contains("DELETE_Module"))
         {
-            OpenErrorDialog(title: "Xóa Module IO thất bại");
+            OpenErrorDialog(title: "Xóa Module IO thất bại", message: "Đã có lỗi xảy ra khi xóa Module IO khỏi hệ thống. Vui lòng thử lại sau");
         }
     }
     public void ShowSuccess(string message)

@@ -5,11 +5,9 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using UnityEngine.Networking;
-using System.Linq;
-using ApplicationLayer.Dtos;
-using ApplicationLayer.Dtos.Grapper;
+
 using Domain.Interfaces;
+using Unity.VisualScripting;
 
 namespace Infrastructure.Repositories
 {
@@ -30,7 +28,7 @@ namespace Infrastructure.Repositories
         {
             try
             {
-                var response = await _httpClient.GetAsync($"{GlobalVariable.baseUrl}/{GrapperId}");
+                var response = await _httpClient.GetAsync($"{GlobalVariable.baseUrl}/Grappers/{GrapperId}");
 
                 if (!response.IsSuccessStatusCode)
                 {
@@ -40,7 +38,8 @@ namespace Infrastructure.Repositories
                 {
                     var content = await response.Content.ReadAsStringAsync();
                     UnityEngine.Debug.Log(content);
-                    return JsonConvert.DeserializeObject<GrapperEntity>(content);
+                    var entity = JsonConvert.DeserializeObject<GrapperEntity>(content);
+                    return entity;
 
                 }
             }
@@ -65,7 +64,9 @@ namespace Infrastructure.Repositories
                 else
                 {
                     var content = await response.Content.ReadAsStringAsync();
-                    return JsonConvert.DeserializeObject<List<GrapperEntity>>(content);
+                    UnityEngine.Debug.Log(content);
+                    var entities = JsonConvert.DeserializeObject<List<GrapperEntity>>(content);
+                    return entities;
                 }
 
             }
@@ -93,11 +94,14 @@ namespace Infrastructure.Repositories
 
                 var json = JsonConvert.SerializeObject(grapperEntity);
 
+                UnityEngine.Debug.Log(json);
+
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-                var response = await _httpClient.PostAsync($"{GlobalVariable.baseUrl}", content);
+                var response = await _httpClient.PostAsync($"{GlobalVariable.baseUrl}/Grappers/add/{companyId}", content);
 
                 var temp = await response.Content.ReadAsStringAsync();
+                UnityEngine.Debug.Log(temp);
                 var result = JsonConvert.DeserializeObject<bool>(temp);
                 return result;
             }
@@ -121,14 +125,14 @@ namespace Infrastructure.Repositories
             {
                 if (grapperEntity == null)
                     throw new ArgumentNullException(nameof(grapperEntity), "Request data cannot be null");
-                var json = JsonConvert.SerializeObject(grapperEntity);
-                // Tạo dữ liệu tối giản gửi lên server với tên property khớp yêu cầu
-                // var GrapperGrapperEntity = ConvertGrapperGrapperEntity(GrapperEntity);
 
-                // var json = JsonConvert.SerializeObject(GrapperEntity);
+                var json = JsonConvert.SerializeObject(grapperEntity);
+                UnityEngine.Debug.Log(json);
+
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
-                var response = await _httpClient.PutAsync($"{GlobalVariable.baseUrl}/{GrapperId}", content);
+                var response = await _httpClient.PutAsync($"{GlobalVariable.baseUrl}/Grappers/update/{GrapperId}", content);
                 var temp = await response.Content.ReadAsStringAsync();
+                UnityEngine.Debug.Log(temp);
                 var result = JsonConvert.DeserializeObject<bool>(temp);
                 return result;
             }
@@ -151,8 +155,10 @@ namespace Infrastructure.Repositories
         {
             try
             {
-                var response = await _httpClient.DeleteAsync($"/api/Grapper/{GrapperId}");
+                var response = await _httpClient.DeleteAsync($"{GlobalVariable.baseUrl}/Grappers/delete/{GrapperId}");
+
                 var temp = await response.Content.ReadAsStringAsync();
+                UnityEngine.Debug.Log(temp);
                 var result = JsonConvert.DeserializeObject<bool>(temp);
                 return result;
             }

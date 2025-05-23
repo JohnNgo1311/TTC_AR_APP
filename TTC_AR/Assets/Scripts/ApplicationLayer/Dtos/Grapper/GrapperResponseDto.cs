@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using ApplicationLayer.Dtos.Device;
 using ApplicationLayer.Dtos.FieldDevice;
 using ApplicationLayer.Dtos.JB;
@@ -28,12 +29,12 @@ namespace ApplicationLayer.Dtos.Grapper
         [Preserve]
         public GrapperResponseDto(int id, string name, List<RackBasicDto>? rackBasicDtos, List<ModuleBasicDto> moduleBasicDtos, List<DeviceBasicDto>? deviceBasicDtos, List<JBBasicDto>? jBBasicDtos, List<MccBasicDto>? mccBasicDtos, List<FieldDeviceBasicDto>? fieldDeviceBasicDtos) : base(id, name)
         {
-            RackBasicDtos = rackBasicDtos;
-            ModuleGeneralDtos = moduleBasicDtos;
-            DeviceBasicDtos = deviceBasicDtos;
-            JBBasicDtos = jBBasicDtos;
-            MccBasicDtos = mccBasicDtos;
-            FieldDeviceBasicDtos = fieldDeviceBasicDtos;
+            RackBasicDtos = rackBasicDtos.Any() ? rackBasicDtos : new List<RackBasicDto>();
+            ModuleGeneralDtos = moduleBasicDtos.Any() ? moduleBasicDtos : new List<ModuleBasicDto>();
+            DeviceBasicDtos = deviceBasicDtos.Any() ? deviceBasicDtos : new List<DeviceBasicDto>();
+            JBBasicDtos = jBBasicDtos.Any() ? jBBasicDtos : new List<JBBasicDto>();
+            MccBasicDtos = mccBasicDtos.Any() ? mccBasicDtos : new List<MccBasicDto>();
+            FieldDeviceBasicDtos = fieldDeviceBasicDtos.Any() ? fieldDeviceBasicDtos : new List<FieldDeviceBasicDto>();
         }
     }
 

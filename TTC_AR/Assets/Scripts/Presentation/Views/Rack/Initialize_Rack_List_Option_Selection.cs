@@ -25,7 +25,7 @@ public class Initialize_Rack_List_Option_Selection : MonoBehaviour
     private void Awake()
     {
         InitializeItemOptions();
-        moduleInformationModels = GlobalVariable.temp_List_ModuleInformationModel;
+        moduleInformationModels = GlobalVariable.temp_ListModuleInformationModel;
 
     }
     private void Start()

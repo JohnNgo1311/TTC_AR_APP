@@ -159,6 +159,7 @@ public class GlobalVariable : MonoBehaviour
     public static GrapperBasicModel temp_GrapperBasicModel; // Id, Name, List_Rack_Basic_Model
 
     public static List<GrapperInformationModel> temp_List_GrapperInformationModel = new List<GrapperInformationModel>();
+    public static Dictionary<string, GrapperInformationModel> temp_Dictionary_GrapperInformationModel = new Dictionary<string, GrapperInformationModel>();
 
     //!Rack
     public static List<RackBasicModel> temp_ListRackBasicModels = new List<RackBasicModel>(); // Id, Name, List_ ModuleBasicNonRackModel

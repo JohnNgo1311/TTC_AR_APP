@@ -83,17 +83,9 @@ public class CreateModuleSettingView : MonoBehaviour, IModuleView
         { "ModuleSpecifications", 0 },
         { "AdapterSpecifications", 0 }
     };
-
-    // void Awake()
-    // {
-    //     var ModuleManager = FindObjectOfType<ModuleManager>();
-    //     _presenter = new ModulePresenter(this, ModuleManager._IModuleService);
-    // }
     void Awake()
     {
-        // var DeviceManager = FindObjectOfType<DeviceManager>();
         _presenter = new ModulePresenter(this, ManagerLocator.Instance.ModuleManager._IModuleService);
-        // DeviceManager._IDeviceService
     }
 
     void OnEnable()

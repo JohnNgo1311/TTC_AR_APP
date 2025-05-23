@@ -486,7 +486,7 @@ public class UpdateDeviceSettingView : MonoBehaviour, IDeviceView
         if (model != null)
         {
             SetInitialInputFields(model);
-            if (model.JBInformationModels != null && model.JBInformationModels.Any())
+            if (model.JBInformationModels.Any())
             {
                 var temp_JBNames = model.JBInformationModels.Select(item => item.Name).ToList();
                 PopulateItems(
@@ -502,7 +502,7 @@ public class UpdateDeviceSettingView : MonoBehaviour, IDeviceView
                 SetItemTextValue(Module_Item_Prefab.transform, model.ModuleInformationModel.Name, "Module");
                 AddButtonListener(Module_Item_Prefab.transform.Find("BackGround"), () => DeselectItem(Module_Item_Prefab, "Module"));
             }
-            if (model.AdditionalConnectionImages != null && model.AdditionalConnectionImages.Any())
+            if (model.AdditionalConnectionImages.Any())
             {
                 var temp_Additional_ConnectionImageNames = model.AdditionalConnectionImages.Select(item => item.Name).ToList();
                 PopulateItems(
