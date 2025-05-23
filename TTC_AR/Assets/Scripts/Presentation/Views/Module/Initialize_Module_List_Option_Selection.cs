@@ -36,7 +36,7 @@ public class Initialize_Module_List_Option_Selection : MonoBehaviour
     private void Awake()
     {
         InitializeItemOptions();
-        deviceInformationModels = GlobalVariable.temp_List_DeviceInformationModel;
+        deviceInformationModels = GlobalVariable.temp_ListDeviceInformationModel;
         jbInformationModels = GlobalVariable.temp_ListJBInformationModel;
         rackInformationModels = GlobalVariable.temp_List_RackInformationModel;
         moduleSpecificationModels = GlobalVariable.temp_List_ModuleSpecificationModel;
@@ -95,6 +95,7 @@ public class Initialize_Module_List_Option_Selection : MonoBehaviour
             foreach (var option in models)
             {
                 GameObject newOption = Instantiate(initialSelectionOptions[field], list_Option_Content_Transform);
+                newOption.SetActive(true);
                 SetOptionText(newOption, getValue(option));
             }
             initialSelectionOptions[field].SetActive(false); // Tắt option mặc định

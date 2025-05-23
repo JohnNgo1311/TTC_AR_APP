@@ -37,6 +37,8 @@ namespace Infrastructure.Repositories
                 else
                 {
                     var content = await response.Content.ReadAsStringAsync();
+                    UnityEngine.Debug.Log("Module content: " + content);
+
                     if (string.IsNullOrEmpty(content))
                     {
                         UnityEngine.Debug.LogError("Received empty response from server");
@@ -44,7 +46,8 @@ namespace Infrastructure.Repositories
                     }
                     else
                     {
-                        return JsonConvert.DeserializeObject<ModuleEntity>(content);
+                        var entity = JsonConvert.DeserializeObject<ModuleEntity>(content);
+                        return entity;
                     }
                 }
             }
@@ -70,7 +73,12 @@ namespace Infrastructure.Repositories
                 else
                 {
                     var content = await response.Content.ReadAsStringAsync();
-                    return JsonConvert.DeserializeObject<List<ModuleEntity>>(content);
+                    UnityEngine.Debug.Log("Module list content: " + content);
+
+                    var entities = JsonConvert.DeserializeObject<List<ModuleEntity>>(content);
+
+                    return entities;
+
                 }
 
             }
@@ -88,18 +96,17 @@ namespace Infrastructure.Repositories
         {
             try
             {
-                // UnityEngine.Debug.Log("Run Repository");
-
-                // Tạo dữ liệu tối giản gửi lên server với tên property khớp yêu cầu
-                //  var ModuleRequestData = ConvertModuleRequestData(ModuleEntity);
 
                 var json = JsonConvert.SerializeObject(requestData);
 
+                UnityEngine.Debug.Log("json: " + json);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
-
                 var response = await _httpClient.PostAsync($"{GlobalVariable.baseUrl}/Modules/{grapperId}", content);
 
                 var temp = await response.Content.ReadAsStringAsync();
+
+                UnityEngine.Debug.Log("Create Module response: " + temp);
+
                 var result = JsonConvert.DeserializeObject<bool>(temp);
                 return result;
             }
@@ -119,12 +126,16 @@ namespace Infrastructure.Repositories
             try
             {
                 var json = JsonConvert.SerializeObject(requestData);
+                UnityEngine.Debug.Log("json: " + json);
 
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
 
                 var response = await _httpClient.PutAsync($"{GlobalVariable.baseUrl}/Modules/{moduleId}", content);
 
                 var temp = await response.Content.ReadAsStringAsync();
+
+                UnityEngine.Debug.Log("Update Module response: " + temp);
+
                 var result = JsonConvert.DeserializeObject<bool>(temp);
                 return result;
             }
@@ -144,7 +155,11 @@ namespace Infrastructure.Repositories
             try
             {
                 var response = await _httpClient.DeleteAsync($"{GlobalVariable.baseUrl}/Modules/{moduleId}");
+
                 var temp = await response.Content.ReadAsStringAsync();
+
+                UnityEngine.Debug.Log("Delete Module response: " + temp);
+
                 var result = JsonConvert.DeserializeObject<bool>(temp);
                 return result;
             }
@@ -158,40 +173,6 @@ namespace Infrastructure.Repositories
             }
 
         }
-        // private object ConvertModuleRequestData(ModuleEntity ModuleEntity)
-        // {
-
-        //     return new
-        //     {
-        //         Name = ModuleEntity.Name,
-        //         Rack = new
-        //         {
-        //             ModuleEntity.RackEntity.Id,
-        //             ModuleEntity.RackEntity.Name
-        //         },
-        //         Devices = ModuleEntity.DeviceEntities.Select(d => new
-        //         {
-        //             d.Id,
-        //             d.Code
-        //         }).ToList(),
-        //         JBEntities = ModuleEntity.JBEntities.Select(j => new
-        //         {
-        //             j.Id,
-        //             j.Name
-        //         }).ToList(),
-
-        //         ModuleSpecification = new
-        //         {
-        //             ModuleEntity.ModuleSpecificationEntity.Id,
-        //             ModuleEntity.ModuleSpecificationEntity.Code
-        //         },
-        //         AdapterSpecificationEntity = new
-        //         {
-        //             ModuleEntity.AdapterSpecificationEntity.Id,
-        //             ModuleEntity.AdapterSpecificationEntity.Code
-        //         },
-        //     };
-        // }
     }
 
 

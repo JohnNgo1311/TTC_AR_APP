@@ -134,7 +134,7 @@ public class CreateJBSettingView : MonoBehaviour, IJBView
         }
         JBInformationModel = new JBInformationModel(
             name: bis_Toggle.isOn ? $"{Name_TextField.text.ToUpper()}_Bis" : Name_TextField.text.ToUpper(),
-            location: string.IsNullOrEmpty(Location_TextField.text) ? "Chưa cập nhật" : Location_TextField.text,
+            location: string.IsNullOrEmpty(Location_TextField.text) ? "Được ghi chú trên sơ đồ" : Location_TextField.text,
             listDeviceInformation: temp_Dictionary_DeviceModel.Any() ? temp_Dictionary_DeviceModel.Values.ToList() : new List<DeviceInformationModel>(),
             listModuleInformation: temp_Dictionary_ModuleModel.Any() ? temp_Dictionary_ModuleModel.Values.ToList() : new List<ModuleInformationModel>(),
             outdoorImage: temp_Dictionary_OutDoorModel.Any() ? temp_Dictionary_OutDoorModel.Values.FirstOrDefault() : null,

@@ -68,9 +68,10 @@ public class ListMccSettingView : MonoBehaviour, IMccView
         {
             foreach (var model in models)
             {
-                int MccIndex = models.IndexOf(model);
+                // int MccIndex = models.IndexOf(model);
                 //  Debug.Log(MccIndex);
                 var newMccItem = Instantiate(Mcc_Item_Prefab, Parent_Vertical_Layout_Group.transform);
+                newMccItem.SetActive(true);
                 Transform newMccItemTransform = newMccItem.transform;
                 Transform newMccItemPreviewInforGroup = newMccItemTransform.GetChild(0);
                 newMccItemPreviewInforGroup.Find("Preview_Mcc_CabinetCode").GetComponent<TMP_Text>().text = model.CabinetCode;

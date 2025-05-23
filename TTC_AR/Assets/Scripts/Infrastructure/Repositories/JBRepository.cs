@@ -40,7 +40,8 @@ namespace Infrastructure.Repositories
                 {
                     var content = await response.Content.ReadAsStringAsync();
                     UnityEngine.Debug.Log(content);
-                    return JsonConvert.DeserializeObject<JBEntity>(content);
+                    var entity = JsonConvert.DeserializeObject<JBEntity>(content);
+                    return entity;
 
                 }
             }
@@ -66,7 +67,9 @@ namespace Infrastructure.Repositories
                 else
                 {
                     var content = await response.Content.ReadAsStringAsync();
-                    return JsonConvert.DeserializeObject<List<JBEntity>>(content);
+                    UnityEngine.Debug.Log(content);
+                    var entities = JsonConvert.DeserializeObject<List<JBEntity>>(content);
+                    return entities;
                 }
 
             }

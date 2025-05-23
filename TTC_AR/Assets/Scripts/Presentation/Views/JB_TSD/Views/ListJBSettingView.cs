@@ -53,7 +53,7 @@ public class ListJBSettingView : MonoBehaviour, IJBView
     public void LoadListJB()
     {
         RefreshList();
-        _presenter.LoadListJBGeneral(GlobalVariable.GrapperId);
+        _presenter.LoadListJBGeneral(grapperId);
     }
     public void DisplayList(List<JBInformationModel> models)
     {
@@ -141,7 +141,7 @@ public class ListJBSettingView : MonoBehaviour, IJBView
 
         confirmButtonText.text = "Xác nhận";
         backButtonText.text = "Trở lại";
-        
+
         confirmButton.onClick.RemoveAllListeners();
 
         backButton.onClick.RemoveAllListeners();

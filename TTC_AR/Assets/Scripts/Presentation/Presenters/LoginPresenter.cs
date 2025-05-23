@@ -23,6 +23,9 @@ public class LoginPresenter
     private readonly IMccService _mccService;
     private readonly IFieldDeviceService _fieldDeviceService;
     private readonly IDeviceService _deviceService;
+    private readonly IModuleSpecificationService _moduleSpecificationService;
+    private readonly IAdapterSpecificationService _adapterSpecificationService;
+    private readonly IRackService _rackService;
 
     public LoginPresenter(
         ILoginView view,
@@ -34,6 +37,9 @@ public class LoginPresenter
         , IMccService MccService
         , IFieldDeviceService FieldDeviceService
         , IDeviceService DeviceService
+        , IModuleSpecificationService ModuleSpecificationService
+        , IAdapterSpecificationService AdapterSpecificationService
+        , IRackService RackService
         )
     {
         _view = view;
@@ -45,6 +51,10 @@ public class LoginPresenter
         _mccService = MccService;
         _fieldDeviceService = FieldDeviceService;
         _deviceService = DeviceService;
+        _moduleSpecificationService = ModuleSpecificationService;
+        _adapterSpecificationService = AdapterSpecificationService;
+        _rackService = RackService;
+
     }
 
     //! Get list Login chỉ có Id và Code
@@ -56,6 +66,11 @@ public class LoginPresenter
         GlobalVariable.APIRequestType.Add("GET_Image_List");
         GlobalVariable.APIRequestType.Add("GET_Module_List");
         GlobalVariable.APIRequestType.Add("GET_Device_List_General");
+        GlobalVariable.APIRequestType.Add("GET_MCC_List");
+        GlobalVariable.APIRequestType.Add("GET_FieldDevice_List");
+        GlobalVariable.APIRequestType.Add("GET_ModuleSpecification_List");
+        GlobalVariable.APIRequestType.Add("GET_AdapterSpecification_List");
+        GlobalVariable.APIRequestType.Add("GET_Rack_List");
 
         _view.ShowLoading("Đang đăng nhập...");
 
@@ -69,8 +84,11 @@ public class LoginPresenter
             var mccTask = _mccService.GetListMccAsync(1);
             var fieldDeviceTask = _fieldDeviceService.GetListFieldDeviceAsync(1);
             var deviceTask = _deviceService.GetListDeviceGeneralAsync(1);
+            var moduleSpecificationTask = _moduleSpecificationService.GetListModuleSpecificationAsync(1);
+            var adapterSpecificationTask = _adapterSpecificationService.GetListAdapterSpecificationAsync(1);
+            var rackTask = _rackService.GetListRackAsync(1);
 
-            await Task.WhenAll(companyTask, grapperTask, jbTask, imageTask, moduleTask, mccTask, fieldDeviceTask, deviceTask);
+            await Task.WhenAll(companyTask, grapperTask, jbTask, imageTask, moduleTask, mccTask, fieldDeviceTask, deviceTask, moduleSpecificationTask, adapterSpecificationTask, rackTask);
 
             var companyDto = companyTask.Result;
             var grapperDtos = grapperTask.Result;
@@ -80,9 +98,19 @@ public class LoginPresenter
             var mccDtos = mccTask.Result;
             var fieldDeviceDtos = fieldDeviceTask.Result;
             var deviceDtos = deviceTask.Result;
+            var moduleSpecificationDtos = moduleSpecificationTask.Result;
+            var adapterSpecificationDtos = adapterSpecificationTask.Result;
+            var rackDtos = rackTask.Result;
 
             if (companyDto == null || grapperDtos == null
-            || jbDtos == null || imageDtos == null || moduleDtos == null || fieldDeviceDtos == null || deviceDtos == null)
+            || jbDtos == null || imageDtos == null
+            || moduleDtos == null
+            || fieldDeviceDtos == null
+            || deviceDtos == null
+            || moduleSpecificationDtos == null
+            || adapterSpecificationDtos == null
+            || mccDtos == null
+            || rackDtos == null)
             {
                 _view.ShowError("Tải dữ liệu thất bại!");
                 return;
@@ -243,6 +271,58 @@ public class LoginPresenter
             {
                 _view.ShowError("Tải dữ liệu thất bại!");
             }
+            if (moduleSpecificationDtos != null)
+            {
+                if (moduleSpecificationDtos.Any())
+                {
+                    var models = moduleSpecificationDtos.Select(dto => new ModuleSpecificationModel(
+                        id: dto.Id,
+                        code: dto.Code
+                    )).ToList();
+                    GlobalVariable.temp_List_ModuleSpecificationModel = models;
+                    GlobalVariable.temp_Dictionary_ModuleSpecificationModel = models.ToDictionary(m => m.Code, m => m);
+                    Debug.Log("ModuleSpecifications: " + models.Count);
+                }
+            }
+            else
+            {
+                _view.ShowError("Tải dữ liệu thất bại!");
+            }
+            if (adapterSpecificationDtos != null)
+            {
+                if (adapterSpecificationDtos.Any())
+                {
+                    var models = adapterSpecificationDtos.Select(dto => new AdapterSpecificationModel(
+                        id: dto.Id,
+                        code: dto.Code
+                    )).ToList();
+                    GlobalVariable.temp_List_AdapterSpecificationModel = models;
+                    GlobalVariable.temp_Dictionary_AdapterSpecificationModel = models.ToDictionary(m => m.Code, m => m);
+                    Debug.Log("AdapterSpecifications: " + models.Count);
+                }
+            }
+            else
+            {
+                _view.ShowError("Tải dữ liệu thất bại!");
+            }
+
+            if (rackDtos != null)
+            {
+                if (rackDtos.Any())
+                {
+                    var models = rackDtos.Select(dto => new RackInformationModel(
+                        id: dto.Id,
+                        name: dto.Name
+                    )).ToList();
+                    GlobalVariable.temp_List_RackInformationModel = models;
+                    GlobalVariable.temp_Dictionary_RackInformationModel = models.ToDictionary(m => m.Name, m => m);
+                    Debug.Log("Racks: " + models.Count);
+                }
+            }
+            else
+            {
+                _view.ShowError("Tải dữ liệu thất bại!");
+            }
             _view.ShowSuccess(); // Chỉ hiển thị thành công nếu result == true
 
             GlobalVariable.GrapperId = 1;
@@ -262,6 +342,13 @@ public class LoginPresenter
             GlobalVariable.APIRequestType.Remove("GET_JB_List_Information");
             GlobalVariable.APIRequestType.Remove("GET_Image_List");
             GlobalVariable.APIRequestType.Remove("GET_Module_List");
+            GlobalVariable.APIRequestType.Remove("GET_Device_List_General");
+            GlobalVariable.APIRequestType.Remove("GET_MCC_List");
+            GlobalVariable.APIRequestType.Remove("GET_FieldDevice_List");
+            GlobalVariable.APIRequestType.Remove("GET_ModuleSpecification_List");
+            GlobalVariable.APIRequestType.Remove("GET_AdapterSpecification_List");
+            GlobalVariable.APIRequestType.Remove("GET_Rack_List");
+
         }
     }
 

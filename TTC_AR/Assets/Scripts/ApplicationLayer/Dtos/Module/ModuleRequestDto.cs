@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using ApplicationLayer.Dtos.AdapterSpecification;
 using ApplicationLayer.Dtos.Device;
 using ApplicationLayer.Dtos.JB;
@@ -25,11 +26,11 @@ namespace ApplicationLayer.Dtos.Module
         public ModuleRequestDto(string name, RackBasicDto? rackBasicDto, List<DeviceBasicDto>? deviceBasicDtos, List<JBBasicDto>? jBBasicDtos, ModuleSpecificationBasicDto? moduleSpecificationBasicDto, AdapterSpecificationBasicDto? adapterSpecificationBasicDto)
         {
             Name = string.IsNullOrEmpty(name) ? throw new ArgumentNullException(nameof(name)) : name;
-            RackBasicDto = rackBasicDto;
-            DeviceBasicDtos = deviceBasicDtos;
-            JBBasicDtos = jBBasicDtos;
-            ModuleSpecificationBasicDto = moduleSpecificationBasicDto;
-            AdapterSpecificationBasicDto = adapterSpecificationBasicDto;
+            RackBasicDto = rackBasicDto != null ? rackBasicDto : null;
+            DeviceBasicDtos = deviceBasicDtos.Any() ? deviceBasicDtos : new List<DeviceBasicDto>();
+            JBBasicDtos = jBBasicDtos.Any() ? jBBasicDtos : new List<JBBasicDto>();
+            ModuleSpecificationBasicDto = moduleSpecificationBasicDto != null ? moduleSpecificationBasicDto : null;
+            AdapterSpecificationBasicDto = adapterSpecificationBasicDto != null ? adapterSpecificationBasicDto : null;
         }
 
     }

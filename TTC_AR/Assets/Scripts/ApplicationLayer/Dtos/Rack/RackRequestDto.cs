@@ -1,6 +1,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using ApplicationLayer.Dtos.Module;
 using Newtonsoft.Json;
 using UnityEngine.Scripting;
@@ -18,7 +19,7 @@ namespace ApplicationLayer.Dtos.Rack
         public RackRequestDto(string name, List<ModuleBasicDto>? moduleBasicDtos)
         {
             Name = string.IsNullOrEmpty(name) ? throw new ArgumentException(nameof(name)) : name;
-            ModuleBasicDtos = moduleBasicDtos ?? new List<ModuleBasicDto>();
+            ModuleBasicDtos = moduleBasicDtos.Any() ? moduleBasicDtos : new List<ModuleBasicDto>();
         }
 
     }

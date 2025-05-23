@@ -26,10 +26,10 @@ namespace ApplicationLayer.Dtos.JB
         public JBResponseDto(int id, string name, string location, List<DeviceBasicDto>? deviceBasicDtos, List<ModuleBasicDto>? moduleBasicDtos, ImageBasicDto outdoorImageBasicDto, List<ImageBasicDto>? connectionImageBasicDtos) : base(id, name)
         {
             Location = string.IsNullOrEmpty(location) ? "Được ghi chú trên sơ đồ" : location;
-            DeviceBasicDtos = deviceBasicDtos;
-            ModuleBasicDtos = moduleBasicDtos;
-            OutdoorImageBasicDto = outdoorImageBasicDto;
-            ConnectionImageBasicDtos = connectionImageBasicDtos;
+            DeviceBasicDtos = deviceBasicDtos.Any() ? deviceBasicDtos : new List<DeviceBasicDto>();
+            ModuleBasicDtos = moduleBasicDtos.Any() ? moduleBasicDtos : new List<ModuleBasicDto>();
+            OutdoorImageBasicDto = outdoorImageBasicDto != null ? outdoorImageBasicDto : null;
+            ConnectionImageBasicDtos = connectionImageBasicDtos.Any() ? connectionImageBasicDtos : new List<ImageBasicDto>();
         }
         // [Preserve]
         // 

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using ApplicationLayer.Dtos.Module;
 using Newtonsoft.Json;
 using UnityEngine.Scripting;
@@ -14,7 +15,7 @@ namespace ApplicationLayer.Dtos.Rack
         [Preserve]
         public RackResponseDto(int id, string name, List<ModuleBasicDto> moduleBasicDtos) : base(id, name)
         {
-            ModuleBasicDtos = moduleBasicDtos;
+            ModuleBasicDtos = moduleBasicDtos.Any() ? moduleBasicDtos : new List<ModuleBasicDto>();
         }
     }
 }

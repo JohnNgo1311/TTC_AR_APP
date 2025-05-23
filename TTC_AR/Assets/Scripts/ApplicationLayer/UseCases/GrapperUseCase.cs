@@ -81,7 +81,7 @@ namespace ApplicationLayer.UseCases
         }
         public async Task<bool> CreateNewGrapperAsync(int companyId, GrapperRequestDto requestDto)
         {
-            companyId = GlobalVariable.companyId;
+
             try
             {
                 // Validate
@@ -116,7 +116,6 @@ namespace ApplicationLayer.UseCases
         }
         public async Task<bool> UpdateGrapperAsync(int grapperId, GrapperRequestDto requestDto)
         {
-            grapperId = GlobalVariable.GrapperId;
             try
             {
                 // Validate

@@ -5,10 +5,6 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using UnityEngine.Networking;
-using System.Linq;
-using ApplicationLayer.Dtos;
-using ApplicationLayer.Dtos.Rack;
 using Domain.Interfaces;
 
 namespace Infrastructure.Repositories
@@ -29,7 +25,7 @@ namespace Infrastructure.Repositories
         {
             try
             {
-                var response = await _httpClient.GetAsync($"{GlobalVariable.baseUrl}/{rackId}");
+                var response = await _httpClient.GetAsync($"{GlobalVariable.baseUrl}/Racks/{rackId}");
 
                 if (!response.IsSuccessStatusCode)
                 {
@@ -39,7 +35,8 @@ namespace Infrastructure.Repositories
                 {
                     var content = await response.Content.ReadAsStringAsync();
                     UnityEngine.Debug.Log(content);
-                    return JsonConvert.DeserializeObject<RackEntity>(content);
+                    var entity = JsonConvert.DeserializeObject<RackEntity>(content);
+                    return entity;
 
                 }
             }
@@ -58,13 +55,14 @@ namespace Infrastructure.Repositories
         {
             try
             {
-                var response = await _httpClient.GetAsync($"{GlobalVariable.baseUrl}");
+                var response = await _httpClient.GetAsync($"{GlobalVariable.baseUrl}/Grappers/{grapperId}/racks");
                 if (!response.IsSuccessStatusCode)
                     throw new HttpRequestException($"Failed to get Rack list. Status: {response.StatusCode}");
                 else
                 {
                     var content = await response.Content.ReadAsStringAsync();
-                    return JsonConvert.DeserializeObject<List<RackEntity>>(content);
+                    var entities = JsonConvert.DeserializeObject<List<RackEntity>>(content);
+                    return entities;
                 }
 
             }
@@ -89,11 +87,16 @@ namespace Infrastructure.Repositories
                     throw new ArgumentNullException(nameof(RackEntity), "Request data cannot be null");
                 var json = JsonConvert.SerializeObject(RackEntity);
 
+                UnityEngine.Debug.Log("json: " + json);
+
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-                var response = await _httpClient.PostAsync($"{GlobalVariable.baseUrl}", content);
+                var response = await _httpClient.PostAsync($"{GlobalVariable.baseUrl}/Racks/add/{grapperId}", content);
 
                 var temp = await response.Content.ReadAsStringAsync();
+
+                UnityEngine.Debug.Log("Create Rack response: " + temp);
+
                 var result = JsonConvert.DeserializeObject<bool>(temp);
                 return result;
             }
@@ -114,11 +117,13 @@ namespace Infrastructure.Repositories
                 if (RackEntity == null)
                     throw new ArgumentNullException(nameof(RackEntity), "Request data cannot be null");
                 var json = JsonConvert.SerializeObject(RackEntity);
+                UnityEngine.Debug.Log("json: " + json);
 
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
-                var response = await _httpClient.PutAsync($"{GlobalVariable.baseUrl}/{rackId}", content);
+                var response = await _httpClient.PutAsync($"{GlobalVariable.baseUrl}/Racks/{rackId}", content);
 
                 var temp = await response.Content.ReadAsStringAsync();
+                UnityEngine.Debug.Log("Update Rack response: " + temp);
                 var result = JsonConvert.DeserializeObject<bool>(temp);
                 return result;
             }
@@ -136,9 +141,12 @@ namespace Infrastructure.Repositories
         {
             try
             {
-                var response = await _httpClient.DeleteAsync($"/api/Rack/{rackId}");
+                var response = await _httpClient.DeleteAsync($"{GlobalVariable.baseUrl}/Racks/delete/{rackId}");
+
                 var temp = await response.Content.ReadAsStringAsync();
+
                 var result = JsonConvert.DeserializeObject<bool>(temp);
+
                 return result;
             }
             catch (HttpRequestException ex)

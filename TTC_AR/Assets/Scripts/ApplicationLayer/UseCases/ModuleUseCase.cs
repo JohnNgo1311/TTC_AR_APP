@@ -14,6 +14,7 @@ using ApplicationLayer.Dtos.ModuleSpecification;
 using ApplicationLayer.Dtos.Rack;
 using Domain.Entities;
 using Domain.Interfaces;
+using Unity.VisualScripting;
 
 namespace ApplicationLayer.UseCases
 {
@@ -202,12 +203,12 @@ namespace ApplicationLayer.UseCases
 
         private ModuleResponseDto MapEntityToResponseDto(ModuleEntity moduleEntity)
         {
-            var jbEntities = moduleEntity.JBEntities ?? new List<JBEntity>();
-            var deviceEntities = moduleEntity.DeviceEntities ?? new List<DeviceEntity>();
+            var jbEntities = moduleEntity.JBEntities.Any() ? moduleEntity.JBEntities : new List<JBEntity>();
+            var deviceEntities = moduleEntity.DeviceEntities.Any() ? moduleEntity.DeviceEntities : new List<DeviceEntity>();
             return new ModuleResponseDto(
                 id: moduleEntity.Id,
                 name: moduleEntity.Name,
-                grapperBasicDto: new GrapperBasicDto(moduleEntity.GrapperEntity.Id, moduleEntity.GrapperEntity.Name),
+                grapperBasicDto: moduleEntity.GrapperEntity != null ? new GrapperBasicDto(moduleEntity.GrapperEntity.Id, moduleEntity.GrapperEntity.Name) : null,
                 rackBasicDto: moduleEntity.RackEntity != null ? new RackBasicDto(moduleEntity.RackEntity.Id, moduleEntity.RackEntity.Name) : null,
                 deviceBasicDtos: deviceEntities.Any()
                     ? new List<DeviceBasicDto>(deviceEntities.Select(d => new DeviceBasicDto(d.Id, d.Code)))
@@ -259,7 +260,6 @@ namespace ApplicationLayer.UseCases
             return new ModuleSpecificationEntity(
                     moduleResponseDto.ModuleSpecificationBasicDto.Id,
                     moduleResponseDto.ModuleSpecificationBasicDto.Code
-
                     );
         }
 
@@ -278,8 +278,8 @@ namespace ApplicationLayer.UseCases
               rack: moduleRequestDto.RackBasicDto != null ? new RackEntity(
                 id: moduleRequestDto.RackBasicDto.Id,
                 name: moduleRequestDto.RackBasicDto.Name) : null,
-              deviceEntities: moduleRequestDto.DeviceBasicDtos.Select(d => new DeviceEntity(d.Id, d.Code)).ToList(),
-              jbEntities: moduleRequestDto.JBBasicDtos.Select(j => new JBEntity(j.Id, j.Name)).ToList(),
+              deviceEntities: moduleRequestDto.DeviceBasicDtos.Any() ? moduleRequestDto.DeviceBasicDtos.Select(d => new DeviceEntity(d.Id, d.Code)).ToList() : new List<DeviceEntity>(),
+              jbEntities: moduleRequestDto.JBBasicDtos.Any() ? moduleRequestDto.JBBasicDtos.Select(j => new JBEntity(j.Id, j.Name)).ToList() : new List<JBEntity>(),
               moduleSpecificationEntity: moduleRequestDto.ModuleSpecificationBasicDto != null ? new ModuleSpecificationEntity(moduleRequestDto.ModuleSpecificationBasicDto.Id, moduleRequestDto.ModuleSpecificationBasicDto.Code) : null,
               adapterSpecificationEntity: moduleRequestDto.AdapterSpecificationBasicDto != null ? new AdapterSpecificationEntity(moduleRequestDto.AdapterSpecificationBasicDto.Id, moduleRequestDto.AdapterSpecificationBasicDto.Code) : null);
         }

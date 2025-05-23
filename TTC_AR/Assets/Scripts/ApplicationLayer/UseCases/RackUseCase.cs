@@ -162,25 +162,23 @@ namespace ApplicationLayer.UseCases
         //! Dto => Entity
         private RackEntity MapRequestToEntity(RackRequestDto RackRequestDto)
         {
-            int count = RackRequestDto.ModuleBasicDtos?.Count ?? 0; // Lấy số lượng phần tử trước
             return new RackEntity(
                 name: RackRequestDto.Name,
-                moduleEntities: count == 0
-                    ? new List<ModuleEntity>() // Nếu không có dữ liệu, trả về danh sách rỗng
-                    : new List<ModuleEntity>(RackRequestDto.ModuleBasicDtos.Select(module => new ModuleEntity(module.Id, module.Name)))
+                moduleEntities: RackRequestDto.ModuleBasicDtos.Any()
+                    ? RackRequestDto.ModuleBasicDtos.Select(module => new ModuleEntity(module.Id, module.Name)).ToList()
+                    : new List<ModuleEntity>()
             );
         }
         //! Entity => Dto
         private RackResponseDto MapToResponseDto(RackEntity rackEntity)
         {
-            var moduleEntities = rackEntity.ModuleEntities;
 
             return new RackResponseDto(
                 id: rackEntity.Id,
                 name: rackEntity.Name,
-                moduleBasicDtos: moduleEntities.Any()
-                    ? moduleEntities.Select(m => new ModuleBasicDto(m.Id, m.Name)).ToList()
-                    : new()
+                moduleBasicDtos: rackEntity.ModuleEntities.Any()
+                    ? rackEntity.ModuleEntities.Select(m => new ModuleBasicDto(m.Id, m.Name)).ToList()
+                    : new List<ModuleBasicDto>()
             );
         }
 

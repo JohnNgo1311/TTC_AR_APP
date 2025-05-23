@@ -51,7 +51,11 @@ public class LoginView : MonoBehaviour, ILoginView
                 , ManagerLocator.Instance.ModuleManager._IModuleService,
                 ManagerLocator.Instance.MccManager._IMccService,
                 ManagerLocator.Instance.FieldDeviceManager._IFieldDeviceService,
-                ManagerLocator.Instance.DeviceManager._IDeviceService
+                ManagerLocator.Instance.DeviceManager._IDeviceService,
+                ManagerLocator.Instance.ModuleSpecificationManager._IModuleSpecificationService,
+                ManagerLocator.Instance.AdapterSpecificationManager._IAdapterSpecificationService,
+                ManagerLocator.Instance.RackManager._IRackService
+
              );
     }
 

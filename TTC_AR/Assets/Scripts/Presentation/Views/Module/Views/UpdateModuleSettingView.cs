@@ -82,21 +82,17 @@ public class UpdateModuleSettingView : MonoBehaviour, IModuleView
         { "AdapterSpecifications", 0 }
     };
 
-    // void Awake()
-    // {
-    //     var ModuleManager = FindObjectOfType<ModuleManager>();
-    //     _presenter = new ModulePresenter(this, ModuleManager._IModuleService);
-    // }
+    private int moduleId;
     void Awake()
     {
-        // var DeviceManager = FindObjectOfType<DeviceManager>();
         _presenter = new ModulePresenter(this, ManagerLocator.Instance.ModuleManager._IModuleService);
-        // DeviceManager._IDeviceService
     }
 
     void OnEnable()
     {
-        ResetAllInputFields();
+        moduleId = GlobalVariable.moduleId;
+        Name_TextField.interactable = false;
+
 
         AddButtonListeners(initialize_Module_List_Option_Selection.Rack_List_Selection_Option_Content_Transform, "Racks");
         AddButtonListeners(initialize_Module_List_Option_Selection.Device_List_Selection_Option_Content_Transform, "Devices");
@@ -122,10 +118,8 @@ public class UpdateModuleSettingView : MonoBehaviour, IModuleView
         backButton.onClick.AddListener(CloseAddCanvas);
         submitButton.onClick.AddListener(OnSubmitButtonClick);
 
-        scrollRect.verticalNormalizedPosition = 1;
 
-        _presenter.LoadDetailById(GlobalVariable.moduleId);
-
+        loadDetailById();
     }
 
     void OnDisable()
@@ -135,37 +129,30 @@ public class UpdateModuleSettingView : MonoBehaviour, IModuleView
 
     private void OnSubmitButtonClick()
     {
-        ModuleInformationModel = new ModuleInformationModel(
-            name: Name_TextField.text,
-            rack: temp_Dictionary_RackModel.Values.Any() ? temp_Dictionary_RackModel.Values.ToList()[0] : null,
-            listDeviceInformationModel: temp_Dictionary_DeviceModel.Values.Any() ? temp_Dictionary_DeviceModel.Values.ToList() : new List<DeviceInformationModel>(),
-            listJBInformationModel: temp_Dictionary_JBModel.Values.Any() ? temp_Dictionary_JBModel.Values.ToList() : new List<JBInformationModel>(),
-            moduleSpecificationModel: temp_Dictionary_ModuleSpecificationModel.Values.Any() ? temp_Dictionary_ModuleSpecificationModel.Values.ToList()[0] : null,
-            adapterSpecificationModel: temp_Dictionary_AdapterSpecificationModel.Values.Any() ? temp_Dictionary_AdapterSpecificationModel.Values.ToList()[0] : null
-        );
-
         if (string.IsNullOrEmpty(Name_TextField.text))
         {
             OpenErrorDialog("Vui lòng nhập mã Module");
             return;
         }
-        else
-        {
-            // Debug.Log("Module Name: " + ModuleInformationModel.Name);
-            // Debug.Log("Rack Name: " + ModuleInformationModel.Rack.Name);
-            // Debug.Log("Device Count: " + ModuleInformationModel.ListDeviceInformationModel.Count);
-            // Debug.Log("JB Count: " + ModuleInformationModel.ListJBInformationModel.Count);
-            // Debug.Log("ModuleSpecification Code: " + ModuleInformationModel.ModuleSpecificationModel.Code);
-            // Debug.Log("AdapterSpecification Code: " + ModuleInformationModel.AdapterSpecificationModel.Code);
+        ModuleInformationModel = new ModuleInformationModel(
+            name: Name_TextField.text,
+            rack: temp_Dictionary_RackModel.Any() ? temp_Dictionary_RackModel.Values.ToList()[0] : null,
+            listDeviceInformationModel: temp_Dictionary_DeviceModel.Any() ? temp_Dictionary_DeviceModel.Values.ToList() : new List<DeviceInformationModel>(),
+            listJBInformationModel: temp_Dictionary_JBModel.Any() ? temp_Dictionary_JBModel.Values.ToList() : new List<JBInformationModel>(),
+            moduleSpecificationModel: temp_Dictionary_ModuleSpecificationModel.Any() ? temp_Dictionary_ModuleSpecificationModel.Values.ToList()[0] : null,
+            adapterSpecificationModel: temp_Dictionary_AdapterSpecificationModel.Any() ? temp_Dictionary_AdapterSpecificationModel.Values.ToList()[0] : null
+        );
 
-            _presenter.UpdateModule(GlobalVariable.moduleId, ModuleInformationModel);
+        if (ModuleInformationModel != null)
+        {
+
+            _presenter.UpdateModule(moduleId, ModuleInformationModel);
         }
     }
     public void loadDetailById()
     {
         RenewView();
-
-        _presenter.LoadDetailById(GlobalVariable.moduleId);
+        _presenter.LoadDetailById(moduleId);
     }
     private void RenewView()
     {
@@ -173,33 +160,40 @@ public class UpdateModuleSettingView : MonoBehaviour, IModuleView
         addModuleSpeButton.SetActive(true);
         addAdapterSpeButton.SetActive(true);
 
+        Device_Item_Prefab.SetActive(false);
+        JB_Item_Prefab.SetActive(false);
+        Rack_Item_Prefab.SetActive(false);
+        ModuleSpecification_Item_Prefab.SetActive(false);
+        AdapterSpecification_Item_Prefab.SetActive(false);
+
+        ResetAllInputFields();
+
         ClearActiveChildren(List_Racks_Parent_Vertical_Layout_Group);
         ClearActiveChildren(List_Devices_Parent_Grid_Layout_Group);
         ClearActiveChildren(List_JBs_Parent_Grid_Layout_Group);
         ClearActiveChildren(List_ModuleSpecification_Parent_Vertical_Layout_Group);
         ClearActiveChildren(List_AdapterSpecification_Parent_Vertical_Layout_Group);
 
-        ResetAllInputFields();
-
         temp_Dictionary_RackModel.Clear();
-        selectedGameObjects["Racks"].Clear();
-        selectedCounts["Racks"] = 0;
-
         temp_Dictionary_DeviceModel.Clear();
-        selectedGameObjects["Devices"].Clear();
-        selectedCounts["Devices"] = 0;
-
         temp_Dictionary_JBModel.Clear();
-        selectedGameObjects["JBs"].Clear();
-        selectedCounts["JBs"] = 0;
-
         temp_Dictionary_ModuleSpecificationModel.Clear();
-        selectedGameObjects["ModuleSpecifications"].Clear();
-        selectedCounts["ModuleSpecifications"] = 0;
-
         temp_Dictionary_AdapterSpecificationModel.Clear();
+
+        selectedGameObjects["Racks"].Clear();
+        selectedGameObjects["Devices"].Clear();
+        selectedGameObjects["ModuleSpecifications"].Clear();
+        selectedGameObjects["JBs"].Clear();
         selectedGameObjects["AdapterSpecifications"].Clear();
+
+        selectedCounts["Racks"] = 0;
+        selectedCounts["Devices"] = 0;
+        selectedCounts["JBs"] = 0;
+        selectedCounts["ModuleSpecifications"] = 0;
         selectedCounts["AdapterSpecifications"] = 0;
+
+
+        scrollRect.verticalNormalizedPosition = 1f;
     }
 
     public void CloseAddCanvas()
@@ -351,6 +345,7 @@ public class UpdateModuleSettingView : MonoBehaviour, IModuleView
             addAdapterSpeButton.SetActive(false);
         }
         var newItem = Instantiate(itemPrefab, parentGroup.transform);
+        newItem.SetActive(true);
         temp_Item_Transform = newItem.transform;
         var button = newItem.GetComponentInChildren<Button>();
         button.onClick.AddListener(() => DeselectItem(newItem, field));
@@ -489,7 +484,7 @@ public class UpdateModuleSettingView : MonoBehaviour, IModuleView
 
         DialogOneButton.transform.Find("Background/Dialog_Status_Icon").GetComponent<Image>().sprite = Resources.Load<Sprite>("images/UIimages/Success_Icon_For_Dialog");
 
-        DialogOneButton.transform.Find("Background/Dialog_Content").GetComponent<TMP_Text>().text = message + $"<b><color=#004C8A>{ModuleInformationModel.Name}</b></color>";
+        DialogOneButton.transform.Find("Background/Dialog_Content").GetComponent<TMP_Text>().text = message + $"<color=#004C8A><b>{ModuleInformationModel.Name}</b></color>";
 
         DialogOneButton.transform.Find("Background/Dialog_Title").GetComponent<TMP_Text>().text = title;
 
@@ -597,6 +592,7 @@ public class UpdateModuleSettingView : MonoBehaviour, IModuleView
         foreach (var item in listItems)
         {
             var newItem = Instantiate(itemPrefab, parentTransform);
+            newItem.SetActive(true);
             SetItemTextValue(newItem.transform, item, field);
             AddButtonListener(newItem.transform.Find("Deselect_Button"), () => DeselectItem(newItem, field));
             selectedGameObjects[field].Add(newItem);

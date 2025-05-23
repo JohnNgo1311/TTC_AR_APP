@@ -27,10 +27,10 @@ namespace ApplicationLayer.Dtos.JB
         {
             Name = string.IsNullOrEmpty(name) ? throw new ArgumentNullException(nameof(name)) : name;
             Location = string.IsNullOrEmpty(location) ? "Được ghi chú trên sơ đồ" : location;
-            DeviceBasicDtos = deviceBasicDtos;
-            ModuleBasicDtos = moduleBasicDtos;
-            OutdoorImageBasicDto = outdoorImageBasicDto;
-            ConnectionImageBasicDtos = connectionImageBasicDtos;
+            DeviceBasicDtos = deviceBasicDtos.Any() ? deviceBasicDtos : new List<DeviceBasicDto>();
+            ModuleBasicDtos = moduleBasicDtos.Any() ? moduleBasicDtos : new List<ModuleBasicDto>();
+            OutdoorImageBasicDto = outdoorImageBasicDto != null ? outdoorImageBasicDto : null;
+            ConnectionImageBasicDtos = connectionImageBasicDtos.Any() ? connectionImageBasicDtos : new List<ImageBasicDto>();
         }
 
         // [Preserve]

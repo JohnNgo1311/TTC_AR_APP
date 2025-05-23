@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using ApplicationLayer.Dtos.AdapterSpecification;
 using ApplicationLayer.Dtos.Device;
 using ApplicationLayer.Dtos.Grapper;
@@ -26,11 +27,11 @@ namespace ApplicationLayer.Dtos.Module
         public ModuleGeneralDto(int id, string name, GrapperBasicDto grapperBasicDto, RackBasicDto? rackBasicDto, List<DeviceBasicDto>? deviceBasicDtos, List<JBBasicDto>? jBBasicDtos, ModuleSpecificationBasicDto? moduleSpecificationBasicDto, AdapterSpecificationBasicDto? adapterSpecificationBasicDto) : base(id, name)
         {
             GrapperBasicDto = grapperBasicDto ?? throw new ArgumentNullException(nameof(grapperBasicDto));
-            RackBasicDto = rackBasicDto;
-            DeviceBasicDtos = deviceBasicDtos;
-            JBBasicDtos = jBBasicDtos;
-            ModuleSpecificationBasicDto = moduleSpecificationBasicDto;
-            AdapterSpecificationBasicDto = adapterSpecificationBasicDto;
+            RackBasicDto = rackBasicDto != null ? rackBasicDto : null;
+            DeviceBasicDtos = deviceBasicDtos.Any() ? deviceBasicDtos : new List<DeviceBasicDto>();
+            JBBasicDtos = jBBasicDtos.Any() ? jBBasicDtos : new List<JBBasicDto>();
+            ModuleSpecificationBasicDto = moduleSpecificationBasicDto != null ? moduleSpecificationBasicDto : null;
+            AdapterSpecificationBasicDto = adapterSpecificationBasicDto != null ? adapterSpecificationBasicDto : null;
         }
     }
 }

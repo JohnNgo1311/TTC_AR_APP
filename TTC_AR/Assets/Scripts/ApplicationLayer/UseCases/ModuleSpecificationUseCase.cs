@@ -83,7 +83,6 @@ namespace ApplicationLayer.UseCases
         }
         public async Task<bool> CreateNewModuleSpecificationAsync(int companyId, ModuleSpecificationRequestDto requestDto)
         {
-            companyId = GlobalVariable.companyId;
             try
             {
                 if (string.IsNullOrEmpty(requestDto.Code))
@@ -114,7 +113,6 @@ namespace ApplicationLayer.UseCases
         }
         public async Task<bool> UpdateModuleSpecificationAsync(int moduleSpecificationId, ModuleSpecificationRequestDto requestDto)
         {
-            moduleSpecificationId = GlobalVariable.moduleSpecificationId;
             try
             {
                 // Validate

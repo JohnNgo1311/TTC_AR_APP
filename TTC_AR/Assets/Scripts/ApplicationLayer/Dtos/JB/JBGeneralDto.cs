@@ -21,8 +21,8 @@ namespace ApplicationLayer.Dtos.JB
         public JBGeneralDto(int id, string name, string? location, ImageBasicDto? outdoorImageBasicDto, List<ImageBasicDto>? connectionImageBasicDtos) : base(id, name)
         {
             Location = string.IsNullOrEmpty(location) ? "Được ghi chú trên sơ đồ" : location;
-            OutdoorImageBasicDto = outdoorImageBasicDto;
-            ConnectionImageBasicDtos = connectionImageBasicDtos;
+            OutdoorImageBasicDto = outdoorImageBasicDto != null ? outdoorImageBasicDto : null;
+            ConnectionImageBasicDtos = connectionImageBasicDtos.Any() ? connectionImageBasicDtos : new List<ImageBasicDto>();
         }
 
         // [Preserve]

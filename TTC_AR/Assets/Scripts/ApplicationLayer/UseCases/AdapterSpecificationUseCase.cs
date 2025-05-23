@@ -86,7 +86,6 @@ namespace ApplicationLayer.UseCases
         }
         public async Task<bool> CreateNewAdapterSpecificationAsync(int companyId, AdapterSpecificationRequestDto requestDto)
         {
-            companyId = GlobalVariable.companyId;
             try
             {
                 // Validate
