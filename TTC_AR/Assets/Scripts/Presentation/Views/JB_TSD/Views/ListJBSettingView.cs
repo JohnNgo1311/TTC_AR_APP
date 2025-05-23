@@ -22,6 +22,7 @@ public class ListJBSettingView : MonoBehaviour, IJBView
     private JBPresenter _presenter;
     private int grapperId;
     private GameObject _JBItem;
+    private Sprite warningConfirmButtonSprite;
 
     void Awake()
     {
@@ -29,6 +30,8 @@ public class ListJBSettingView : MonoBehaviour, IJBView
     }
     void OnEnable()
     {
+        warningConfirmButtonSprite = Resources.Load<Sprite>("images/UIimages/Warning_Back_Button_Background");
+        Debug.Log(warningConfirmButtonSprite);
         grapperId = GlobalVariable.GrapperId;
         LoadListJB();
     }
@@ -122,18 +125,26 @@ public class ListJBSettingView : MonoBehaviour, IJBView
 
         backgroundTransform.Find("Dialog_Status_Icon").GetComponent<Image>().sprite = Resources.Load<Sprite>("images/UIimages/Warning_Icon_For_Dialog");
 
-        var confirmButton = Horizontal_Group.transform.Find("Confirm_Button").GetComponent<Button>();
-        var confirmButtonText = confirmButton.GetComponentInChildren<TMP_Text>();
-        var confirmButtonSprite = confirmButton.GetComponent<Image>().sprite;
+        var confirmButton = Horizontal_Group.Find("Confirm_Button").GetComponent<Button>();
+        var backButton = Horizontal_Group.Find("Back_Button").GetComponent<Button>();
 
-        var backButton = Horizontal_Group.transform.Find("Back_Button").GetComponent<Button>();
+        var confirmButtonSprite = confirmButton.GetComponent<Image>();
+
+        confirmButtonSprite.sprite = warningConfirmButtonSprite;
+
+        var confirmButtonText = confirmButton.GetComponentInChildren<TMP_Text>();
         var backButtonText = backButton.GetComponentInChildren<TMP_Text>();
 
+        // var colors = confirmButton.colors;
+        // colors.normalColor = new Color32(92, 237, 115, 255); // #5CED73 in RGB
+        // confirmButton.colors = colors;
 
         confirmButtonText.text = "Xác nhận";
         backButtonText.text = "Trở lại";
+        
+        confirmButton.onClick.RemoveAllListeners();
 
-        confirmButtonSprite = Resources.Load<Sprite>("images/UIimages/Warning_Back_Button_Background");
+        backButton.onClick.RemoveAllListeners();
 
         confirmButton.onClick.AddListener(() =>
         {

@@ -364,7 +364,7 @@ public class UpdateMccSettingView : MonoBehaviour, IMccView
     }
     public void ShowSuccess()
     {
-        Show_Toast.Instance.Set_Instance_Status_True();
+
         if (GlobalVariable.APIRequestType.Contains("PUT_Mcc"))
         {
             Show_Toast.Instance.ShowToast("success", "Cập nhật tủ Mcc mới thành công");

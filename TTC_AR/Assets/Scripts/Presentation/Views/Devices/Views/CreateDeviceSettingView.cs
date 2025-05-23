@@ -58,6 +58,7 @@ public class CreateDeviceSettingView : MonoBehaviour, IDeviceView
     private Dictionary<string, ImageInformationModel> temp_Dictionary_Additional_ConnectionModel = new();
     private Dictionary<string, JBInformationModel> temp_Dictionary_JBInformationModel = new();
     private int grapperId;
+    private Sprite successConfirmButtonSprite;
 
     private readonly Dictionary<string, List<GameObject>> selectedGameObjects = new()
     {
@@ -81,8 +82,11 @@ public class CreateDeviceSettingView : MonoBehaviour, IDeviceView
 
     void OnEnable()
     {
+        successConfirmButtonSprite = Resources.Load<Sprite>("images/UIimages/Success_Back_Button_Background");
+        Debug.Log(successConfirmButtonSprite);
         grapperId = GlobalVariable.GrapperId;
-        ResetAllInputFields();
+
+        RenewView();
 
         AddButtonListeners(initialize_Device_List_Option_Selection.JB_List_Selection_Option_Content_Transform, "JB");
         AddButtonListeners(initialize_Device_List_Option_Selection.Module_List_Selection_Option_Content_Transform, "Module");
@@ -102,7 +106,6 @@ public class CreateDeviceSettingView : MonoBehaviour, IDeviceView
         backButton.onClick.AddListener(CloseAddCanvas);
         submitButton.onClick.AddListener(OnSubmitButtonClick);
 
-        scrollRect.verticalNormalizedPosition = 1;
     }
 
     void OnDisable()
@@ -160,6 +163,8 @@ public class CreateDeviceSettingView : MonoBehaviour, IDeviceView
         selectedCounts["Additional_Connection_Images"] = 0;
         selectedCounts["JB"] = 0;
         selectedCounts["Module"] = 0;
+        scrollRect.verticalNormalizedPosition = 1;
+
     }
 
     public void CloseAddCanvas()

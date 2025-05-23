@@ -59,6 +59,7 @@ public class CreateJBSettingView : MonoBehaviour, IJBView
     private readonly Dictionary<string, ModuleInformationModel> temp_Dictionary_ModuleModel = new();
     private readonly Dictionary<string, ImageInformationModel> temp_Dictionary_OutDoorModel = new();
     private readonly Dictionary<string, ImageInformationModel> temp_Dictionary_ConnectionModel = new();
+    private Sprite successConfirmButtonSprite;
 
     private readonly Dictionary<string, List<GameObject>> selectedGameObjects = new()
     {
@@ -84,6 +85,8 @@ public class CreateJBSettingView : MonoBehaviour, IJBView
     }
     void OnEnable()
     {
+        successConfirmButtonSprite = Resources.Load<Sprite>("images/UIimages/Success_Back_Button_Background");
+        Debug.Log(successConfirmButtonSprite);
         grapperId = GlobalVariable.GrapperId;
 
         RenewView();
@@ -426,12 +429,24 @@ public class CreateJBSettingView : MonoBehaviour, IJBView
         backgroundTransform.Find("Dialog_Content").GetComponent<TMP_Text>().text = $"Bạn đã thành công thêm tủ JB <b><color=#004C8A>{model.Name}</b></color> vào hệ thống";
         backgroundTransform.Find("Dialog_Title").GetComponent<TMP_Text>().text = "Thêm tủ JB mới thành công";
 
+
         var confirmButton = horizontalGroupTransform.Find("Confirm_Button").GetComponent<Button>();
         var backButton = horizontalGroupTransform.Find("Back_Button").GetComponent<Button>();
 
-        confirmButton.GetComponent<Image>().sprite = Resources.Load<Sprite>("images/UIimages/Success_Back_Button_Background");
-        confirmButton.transform.Find("Text").GetComponent<TMP_Text>().text = "Tiếp tục thêm mới";
-        backButton.transform.Find("Text").GetComponent<TMP_Text>().text = "Trở lại danh sách";
+
+        var confirmButtonSprite = confirmButton.GetComponent<Image>();
+        confirmButtonSprite.sprite = successConfirmButtonSprite;
+
+        var confirmButtonText = confirmButton.GetComponentInChildren<TMP_Text>();
+        var backButtonText = backButton.GetComponentInChildren<TMP_Text>();
+
+        // var colors = confirmButton.colors;
+        // colors.normalColor = new Color32(92, 237, 115, 255); // #5CED73 in RGB
+        // confirmButton.colors = colors;
+
+        confirmButtonText.text = "Tiếp tục thêm mới";
+        backButtonText.text = "Trở lại danh sách";
+
 
         confirmButton.onClick.RemoveAllListeners();
         backButton.onClick.RemoveAllListeners();

@@ -39,6 +39,7 @@ public class CreateModuleSpecificationSettingView : MonoBehaviour, IModuleSpecif
     private ModuleSpecificationModel _ModuleSpecificationModel;
     private int companyId;
 
+    private Sprite successConfirmButtonSprite;
 
     void Awake()
     {
@@ -48,8 +49,10 @@ public class CreateModuleSpecificationSettingView : MonoBehaviour, IModuleSpecif
 
     void OnEnable()
     {
+        successConfirmButtonSprite = Resources.Load<Sprite>("images/UIimages/Success_Back_Button_Background");
+        Debug.Log(successConfirmButtonSprite);
+        ReNewUI(); 
         companyId = GlobalVariable.companyId;
-        ReNewUI();
     }
     private void ReNewUI()
     {
@@ -132,9 +135,19 @@ public class CreateModuleSpecificationSettingView : MonoBehaviour, IModuleSpecif
         var confirmButton = horizontalGroupTransform.Find("Confirm_Button").GetComponent<Button>();
         var backButton = horizontalGroupTransform.Find("Back_Button").GetComponent<Button>();
 
-        confirmButton.GetComponent<Image>().sprite = Resources.Load<Sprite>("images/UIimages/Success_Back_Button_Background");
-        confirmButton.transform.Find("Text").GetComponent<TMP_Text>().text = "Tiếp tục thêm mới";
-        backButton.transform.Find("Text").GetComponent<TMP_Text>().text = "Trở lại danh sách";
+
+        var confirmButtonSprite = confirmButton.GetComponent<Image>();
+        confirmButtonSprite.sprite = successConfirmButtonSprite;
+
+        var confirmButtonText = confirmButton.GetComponentInChildren<TMP_Text>();
+        var backButtonText = backButton.GetComponentInChildren<TMP_Text>();
+
+        // var colors = confirmButton.colors;
+        // colors.normalColor = new Color32(92, 237, 115, 255); // #5CED73 in RGB
+        // confirmButton.colors = colors;
+
+        confirmButtonText.text = "Tiếp tục thêm mới";
+        backButtonText.text = "Trở lại danh sách";
 
         confirmButton.onClick.RemoveAllListeners();
         backButton.onClick.RemoveAllListeners();
@@ -194,7 +207,7 @@ public class CreateModuleSpecificationSettingView : MonoBehaviour, IModuleSpecif
 
     public void ShowSuccess(string message)
     {
-        Show_Toast.Instance.Set_Instance_Status_True();
+
         if (GlobalVariable.APIRequestType.Contains("POST_ModuleSpecification"))
         {
 

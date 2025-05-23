@@ -60,6 +60,8 @@ public class CreateRackSettingView : MonoBehaviour, IRackView
     //     var RackManager = FindObjectOfType<RackManager>();
     //     _presenter = new RackPresenter(this, RackManager._IRackService);
     // }
+    private Sprite successConfirmButtonSprite;
+
     void Awake()
     {
         // var DeviceManager = FindObjectOfType<DeviceManager>();
@@ -69,7 +71,10 @@ public class CreateRackSettingView : MonoBehaviour, IRackView
 
     void OnEnable()
     {
-        ResetAllInputFields();
+        successConfirmButtonSprite = Resources.Load<Sprite>("images/UIimages/Success_Back_Button_Background");
+        Debug.Log(successConfirmButtonSprite);
+
+        RenewView();
 
         AddButtonListeners(initialize_Rack_List_Option_Selection.Module_List_Selection_Option_Content_Transform, "Modules");
 
@@ -301,9 +306,19 @@ public class CreateRackSettingView : MonoBehaviour, IRackView
         var confirmButton = horizontalGroupTransform.Find("Confirm_Button").GetComponent<Button>();
         var backButton = horizontalGroupTransform.Find("Back_Button").GetComponent<Button>();
 
-        confirmButton.GetComponent<Image>().sprite = Resources.Load<Sprite>("images/UIimages/Success_Back_Button_Background");
-        confirmButton.transform.Find("Text").GetComponent<TMP_Text>().text = "Tiếp tục thêm mới";
-        backButton.transform.Find("Text").GetComponent<TMP_Text>().text = "Trở lại danh sách";
+
+        var confirmButtonSprite = confirmButton.GetComponent<Image>();
+        confirmButtonSprite.sprite = successConfirmButtonSprite;
+
+        var confirmButtonText = confirmButton.GetComponentInChildren<TMP_Text>();
+        var backButtonText = backButton.GetComponentInChildren<TMP_Text>();
+
+        // var colors = confirmButton.colors;
+        // colors.normalColor = new Color32(92, 237, 115, 255); // #5CED73 in RGB
+        // confirmButton.colors = colors;
+
+        confirmButtonText.text = "Tiếp tục thêm mới";
+        backButtonText.text = "Trở lại danh sách";
 
         confirmButton.onClick.RemoveAllListeners();
         backButton.onClick.RemoveAllListeners();

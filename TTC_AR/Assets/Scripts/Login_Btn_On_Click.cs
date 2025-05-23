@@ -237,7 +237,7 @@
 
 //     private IEnumerator HandleLoginFailure()
 //     {
-//         Show_Toast.Instance.Set_Instance_Status_True();
+//         
 //         Show_Toast.Instance.ShowToast("failure", "Sai tên đăng nhập hoặc mật khẩu!");
 //         yield return new WaitForSeconds(0.5f);
 //         Debug.Log("Sai tên đăng nhập hoặc mật khẩu!");
@@ -247,7 +247,7 @@
 
 //     private IEnumerator LoadSceneAsync(string sceneName)
 //     {
-//         //  Show_Toast.Instance.Set_Instance_Status_True();
+//         //  
 //         Show_Toast.Instance.ShowToast("loading", "Đang đăng nhập...");
 
 //         GlobalVariable.ready_To_Nav_New_Scene = true;

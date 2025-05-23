@@ -89,6 +89,7 @@ public class CreateImageSettingView : MonoBehaviour, IImageView
     private readonly Dictionary<string, JBInformationModel> temp_Dictionary_JBModel = new();
     private readonly Dictionary<string, JBInformationModel> temp_Dictionary_TSDModel = new();
     private readonly Dictionary<string, FieldDeviceInformationModel> temp_Dictionary_FieldDeviceModel = new();
+    private Sprite successConfirmButtonSprite;
 
     private readonly Dictionary<string, GameObject> selectedGameObjects = new()
     {
@@ -293,10 +294,14 @@ public class CreateImageSettingView : MonoBehaviour, IImageView
         Grey_Camera_Selection = Resources.Load<Sprite>("images/UIimages/Grey_Camera_Selection");
         Grey_Non_Image_Status_Icon = Resources.Load<Sprite>("images/UIimages/Grey_Non_Image_Status_Icon");
         Grey_Gallery_Selection = Resources.Load<Sprite>("images/UIimages/Grey_Gallery_Selection");
+
+        successConfirmButtonSprite = Resources.Load<Sprite>("images/UIimages/Success_Back_Button_Background");
+        Debug.Log(successConfirmButtonSprite);
     }
 
     void OnEnable()
     {
+
         PreloadSprites();
 
         AddButtonListeners(initialize_Image_List_Option_Selection.Device_List_Selection_Option_Content_Transform, "Devices");
@@ -486,13 +491,22 @@ public class CreateImageSettingView : MonoBehaviour, IImageView
         backgroundTransform.Find("Dialog_Status_Icon").GetComponent<Image>().sprite = Resources.Load<Sprite>("images/UIimages/Success_Icon_For_Dialog");
         backgroundTransform.Find("Dialog_Content").GetComponent<TMP_Text>().text = $"Bạn đã thành công thêm hình ảnh <b><color=#004C8A>{model.Name}</b></color> vào hệ thống";
         backgroundTransform.Find("Dialog_Title").GetComponent<TMP_Text>().text = "thêm hình ảnh mới thành công";
-
         var confirmButton = horizontalGroupTransform.Find("Confirm_Button").GetComponent<Button>();
         var backButton = horizontalGroupTransform.Find("Back_Button").GetComponent<Button>();
 
-        confirmButton.GetComponent<Image>().sprite = Resources.Load<Sprite>("images/UIimages/Success_Back_Button_Background");
-        confirmButton.transform.Find("Text").GetComponent<TMP_Text>().text = "Tiếp tục thêm mới";
-        backButton.transform.Find("Text").GetComponent<TMP_Text>().text = "Trở lại danh sách";
+
+        var confirmButtonSprite = confirmButton.GetComponent<Image>();
+        confirmButtonSprite.sprite = successConfirmButtonSprite;
+
+        var confirmButtonText = confirmButton.GetComponentInChildren<TMP_Text>();
+        var backButtonText = backButton.GetComponentInChildren<TMP_Text>();
+
+        // var colors = confirmButton.colors;
+        // colors.normalColor = new Color32(92, 237, 115, 255); // #5CED73 in RGB
+        // confirmButton.colors = colors;
+
+        confirmButtonText.text = "Tiếp tục thêm mới";
+        backButtonText.text = "Trở lại danh sách";
 
         confirmButton.onClick.RemoveAllListeners();
         backButton.onClick.RemoveAllListeners();

@@ -1151,7 +1151,7 @@ public class APIManager : MonoBehaviour
     // public async Task Get_JB_TSD_Information(string url, string grapperName)
     // {
     //     await Task.Delay(1500);
-    //     Show_Toast.Instance.Set_Instance_Status_True();
+    //     
     //     Show_Toast.Instance.ShowToast("loading", $"Đang tải dữ liệu...");
     //     string jsonData = await FetchJsonData(url, grapperName);
     //     if (jsonData == null) return;

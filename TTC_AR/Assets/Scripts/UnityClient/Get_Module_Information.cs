@@ -45,7 +45,7 @@ public class Get_Module_Information : MonoBehaviour
     {
         try
         {
-            
+
             GlobalVariable.ready_To_Nav_New_Scene = false;
 
             var moduleName = gameObject.name.Split('_')[0];
@@ -65,7 +65,7 @@ public class Get_Module_Information : MonoBehaviour
 
             await Move_On_Main_Thread.RunOnMainThread(() =>
                       {
-                          Show_Toast.Instance.Set_Instance_Status_True();
+
                           Show_Toast.Instance.ShowToast("loading", "Đang tải dữ liệu...");
                       });
 

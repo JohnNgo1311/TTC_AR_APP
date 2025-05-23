@@ -25,6 +25,7 @@ public class ListFieldDeviceSettingView : MonoBehaviour, IFieldDeviceView
     private FieldDevicePresenter _presenter;
     private int grapperId;
     private GameObject _fieldDeviceItem;
+    private Sprite warningConfirmButtonSprite;
 
     void Awake()
     {
@@ -34,6 +35,8 @@ public class ListFieldDeviceSettingView : MonoBehaviour, IFieldDeviceView
 
     void OnEnable()
     {
+        warningConfirmButtonSprite = Resources.Load<Sprite>("images/UIimages/Warning_Back_Button_Background");
+        Debug.Log(warningConfirmButtonSprite);
         grapperId = GlobalVariable.GrapperId;
         LoadListFieldDevice();
     }
@@ -126,22 +129,26 @@ public class ListFieldDeviceSettingView : MonoBehaviour, IFieldDeviceView
 
         backgroundTransform.Find("Dialog_Status_Icon").GetComponent<Image>().sprite = Resources.Load<Sprite>("images/UIimages/Warning_Icon_For_Dialog");
 
-        var confirmButton = Horizontal_Group.transform.Find("Confirm_Button").GetComponent<Button>();
-        var confirmButtonText = confirmButton.GetComponentInChildren<TMP_Text>();
-        var confirmButtonSprite = confirmButton.GetComponent<Image>().sprite;
+        var confirmButton = Horizontal_Group.Find("Confirm_Button").GetComponent<Button>();
+        var backButton = Horizontal_Group.Find("Back_Button").GetComponent<Button>();
 
-        var backButton = Horizontal_Group.transform.Find("Back_Button").GetComponent<Button>();
+        var confirmButtonSprite = confirmButton.GetComponent<Image>();
+
+        confirmButtonSprite.sprite = warningConfirmButtonSprite;
+
+        var confirmButtonText = confirmButton.GetComponentInChildren<TMP_Text>();
         var backButtonText = backButton.GetComponentInChildren<TMP_Text>();
 
+        // var colors = confirmButton.colors;
+        // colors.normalColor = new Color32(92, 237, 115, 255); // #5CED73 in RGB
+        // confirmButton.colors = colors;
 
         confirmButtonText.text = "Xác nhận";
         backButtonText.text = "Trở lại";
 
-        confirmButtonSprite = Resources.Load<Sprite>("images/UIimages/Warning_Back_Button_Background");
-
         confirmButton.onClick.RemoveAllListeners();
         backButton.onClick.RemoveAllListeners();
-        
+
         confirmButton.onClick.AddListener(() =>
         {
             _fieldDeviceItem = FieldDeviceItem;
@@ -211,7 +218,7 @@ public class ListFieldDeviceSettingView : MonoBehaviour, IFieldDeviceView
     }
     public void ShowSuccess()
     {
-        Show_Toast.Instance.Set_Instance_Status_True();
+
         if (GlobalVariable.APIRequestType.Contains("GET_FieldDevice_List"))
         {
             Show_Toast.Instance.ShowToast("success", "Tải danh sách thành công");

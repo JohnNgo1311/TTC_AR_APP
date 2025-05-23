@@ -49,7 +49,7 @@ public class UpdateModuleSpecificationSettingView : MonoBehaviour, IModuleSpecif
     {
         moduleSpecificationId = GlobalVariable.moduleSpecificationId;
         ModuleSpecificationCode_TextField.interactable = false;
-      
+
         submitButton.onClick.RemoveAllListeners();
         backButton.onClick.RemoveAllListeners();
 
@@ -210,7 +210,7 @@ public class UpdateModuleSpecificationSettingView : MonoBehaviour, IModuleSpecif
     }
     public void ShowSuccess(string message)
     {
-        Show_Toast.Instance.Set_Instance_Status_True();
+
         if (GlobalVariable.APIRequestType.Contains("PUT_ModuleSpecification"))
         {
 

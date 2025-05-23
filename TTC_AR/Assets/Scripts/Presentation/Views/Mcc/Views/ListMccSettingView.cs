@@ -27,13 +27,17 @@ public class ListMccSettingView : MonoBehaviour, IMccView
     private int grapperId;
     private GameObject _mccItem;
     private MccInformationModel temp_MccInformationModel;
+    private Sprite warningConfirmButtonSprite;
 
     void Awake()
     {
+
         _presenter = new MccPresenter(this, ManagerLocator.Instance.MccManager._IMccService);
     }
     void OnEnable()
     {
+        warningConfirmButtonSprite = Resources.Load<Sprite>("images/UIimages/Warning_Back_Button_Background");
+        Debug.Log(warningConfirmButtonSprite);
         grapperId = GlobalVariable.GrapperId;
         LoadListMcc();
     }
@@ -122,18 +126,35 @@ public class ListMccSettingView : MonoBehaviour, IMccView
 
         backgroundTransform.Find("Dialog_Status_Icon").GetComponent<Image>().sprite = Resources.Load<Sprite>("images/UIimages/Warning_Icon_For_Dialog");
 
-        var confirmButton = Horizontal_Group.transform.Find("Confirm_Button").GetComponent<Button>();
-        var confirmButtonText = confirmButton.GetComponentInChildren<TMP_Text>();
-        var confirmButtonSprite = confirmButton.GetComponent<Image>().sprite;
+        // var confirmButton = Horizontal_Group.transform.Find("Confirm_Button").GetComponent<Button>();
+        // var confirmButtonText = confirmButton.GetComponentInChildren<TMP_Text>();
+        // var confirmButtonSprite = confirmButton.GetComponent<Image>();
+        // confirmButtonSprite.sprite = warningConfirmButtonSprite;
 
-        var backButton = Horizontal_Group.transform.Find("Back_Button").GetComponent<Button>();
+        // var backButton = Horizontal_Group.transform.Find("Back_Button").GetComponent<Button>();
+        // var backButtonText = backButton.GetComponentInChildren<TMP_Text>();
+
+
+        // confirmButtonText.text = "Xác nhận";
+        // backButtonText.text = "Trở lại";
+
+
+        var confirmButton = Horizontal_Group.Find("Confirm_Button").GetComponent<Button>();
+        var backButton = Horizontal_Group.Find("Back_Button").GetComponent<Button>();
+
+        var confirmButtonSprite = confirmButton.GetComponent<Image>();
+
+        confirmButtonSprite.sprite = warningConfirmButtonSprite;
+
+        var confirmButtonText = confirmButton.GetComponentInChildren<TMP_Text>();
         var backButtonText = backButton.GetComponentInChildren<TMP_Text>();
 
+        // var colors = confirmButton.colors;
+        // colors.normalColor = new Color32(92, 237, 115, 255); // #5CED73 in RGB
+        // confirmButton.colors = colors;
 
         confirmButtonText.text = "Xác nhận";
         backButtonText.text = "Trở lại";
-
-        confirmButtonSprite = Resources.Load<Sprite>("images/UIimages/Warning_Back_Button_Background");
 
         confirmButton.onClick.RemoveAllListeners();
 
@@ -185,20 +206,20 @@ public class ListMccSettingView : MonoBehaviour, IMccView
     {
         yield return new WaitUntil(() => temp_MccInformationModel != null);
 
-        Debug.Log("Check Mcc");
-        if (temp_MccInformationModel.ListFieldDeviceInformation.Any())
-        {
-            OpenErrorDialog(title: "Xóa tủ Mcc thất bại", message: "Tủ Mcc này đang được sử dụng bởi các thiết bị khác. Vui lòng xóa mối quan hệ giữa tủ này với các thiết bị trước khi thử lại");
-            temp_MccInformationModel = null;
-        }
-        else
-        {
+        // Debug.Log("Check Mcc");
+        // if (temp_MccInformationModel.ListFieldDeviceInformation.Any())
+        // {
+        //     OpenErrorDialog(title: "Xóa tủ Mcc thất bại", message: "Tủ Mcc này đang được sử dụng bởi các thiết bị khác. Vui lòng xóa mối quan hệ giữa tủ này với các thiết bị trước khi thử lại");
+        //     temp_MccInformationModel = null;
+        // }
+        // else
+        // {
 
-            _presenter.DeleteMcc(model.Id);
-            DialogTwoButton.SetActive(false);
-            _mccItem = MccItem;
-            temp_MccInformationModel = null;
-        }
+        _presenter.DeleteMcc(model.Id);
+        DialogTwoButton.SetActive(false);
+        _mccItem = MccItem;
+        temp_MccInformationModel = null;
+        // }
     }
 
     private void ShowProgressBar(string title, string details)

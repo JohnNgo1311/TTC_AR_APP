@@ -14,7 +14,7 @@ public class Get_List_Modules_By_Grapper : MonoBehaviour
 
             await Move_On_Main_Thread.RunOnMainThread(() =>
                       {
-                          Show_Toast.Instance.Set_Instance_Status_True();
+
                           Show_Toast.Instance.ShowToast("loading", "Đang tải dữ liệu...");
                       });
 

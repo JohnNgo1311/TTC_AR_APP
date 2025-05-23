@@ -57,6 +57,7 @@ public class CreateFieldDeviceSettingView : MonoBehaviour, IFieldDeviceView
         { "Connection_Image", 0 }
     };
     private int grapperId;
+    private Sprite successConfirmButtonSprite;
 
     // void Awake()
     // {
@@ -72,6 +73,8 @@ public class CreateFieldDeviceSettingView : MonoBehaviour, IFieldDeviceView
 
     void OnEnable()
     {
+        successConfirmButtonSprite = Resources.Load<Sprite>("images/UIimages/Success_Back_Button_Background");
+        Debug.Log(successConfirmButtonSprite);
         grapperId = GlobalVariable.GrapperId;
 
         RenewView();
@@ -305,16 +308,19 @@ public class CreateFieldDeviceSettingView : MonoBehaviour, IFieldDeviceView
         var confirmButton = horizontalGroupTransform.Find("Confirm_Button").GetComponent<Button>();
         var backButton = horizontalGroupTransform.Find("Back_Button").GetComponent<Button>();
 
-        var confirmButtonText = confirmButton.GetComponentInChildren<TMP_Text>();
-        var confirmButtonSprite = confirmButton.GetComponent<Image>().sprite;
 
+        var confirmButtonSprite = confirmButton.GetComponent<Image>();
+        confirmButtonSprite.sprite = successConfirmButtonSprite;
+
+        var confirmButtonText = confirmButton.GetComponentInChildren<TMP_Text>();
         var backButtonText = backButton.GetComponentInChildren<TMP_Text>();
 
+        // var colors = confirmButton.colors;
+        // colors.normalColor = new Color32(92, 237, 115, 255); // #5CED73 in RGB
+        // confirmButton.colors = colors;
 
         confirmButtonText.text = "Tiếp tục thêm mới";
         backButtonText.text = "Trở lại danh sách";
-
-        confirmButtonSprite = Resources.Load<Sprite>("images/UIimages/Success_Back_Button_Background");
 
         confirmButton.onClick.RemoveAllListeners();
         backButton.onClick.RemoveAllListeners();

@@ -19,7 +19,7 @@ public class Get_List_MCCs : MonoBehaviour
             // Thực thi các tác vụ giao diện trên Main Thread
             UnityMainThreadDispatcher.Instance.Enqueue(() =>
             {
-                Show_Toast.Instance.Set_Instance_Status_True();
+
                 Show_Toast.Instance.ShowToast("loading", "Đang tải dữ liệu...");
             });
 

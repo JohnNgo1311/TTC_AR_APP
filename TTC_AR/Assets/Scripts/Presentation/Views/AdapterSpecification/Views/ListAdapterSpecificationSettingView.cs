@@ -23,6 +23,7 @@ public class ListAdapterSpecificationSettingView : MonoBehaviour, IAdapterSpecif
     public GameObject DialogOneButton;
     public GameObject DialogTwoButton;
     private AdapterSpecificationPresenter _presenter;
+    private Sprite warningConfirmButtonSprite;
 
     void Awake()
     {
@@ -33,6 +34,8 @@ public class ListAdapterSpecificationSettingView : MonoBehaviour, IAdapterSpecif
 
     void OnEnable()
     {
+        warningConfirmButtonSprite = Resources.Load<Sprite>("images/UIimages/Warning_Back_Button_Background");
+        Debug.Log(warningConfirmButtonSprite);
         LoadListAdapterSpecification();
     }
     void OnDisable()
@@ -123,15 +126,24 @@ public class ListAdapterSpecificationSettingView : MonoBehaviour, IAdapterSpecif
 
         backgroundTransform.Find("Dialog_Status_Icon").GetComponent<Image>().sprite = Resources.Load<Sprite>("images/UIimages/Warning_Icon_For_Dialog");
 
-        var confirmButton = Horizontal_Group.transform.Find("Confirm_Button").GetComponent<Button>();
+        var confirmButton = Horizontal_Group.Find("Confirm_Button").GetComponent<Button>();
+        var backButton = Horizontal_Group.Find("Back_Button").GetComponent<Button>();
 
-        confirmButton.GetComponent<Image>().sprite = Resources.Load<Sprite>("images/UIimages/Warning_Back_Button_Background");
+        var confirmButtonSprite = confirmButton.GetComponent<Image>();
 
+        confirmButtonSprite.sprite = warningConfirmButtonSprite;
 
-        var backButton = Horizontal_Group.transform.Find("Back_Button").GetComponent<Button>();
+        var confirmButtonText = confirmButton.GetComponentInChildren<TMP_Text>();
+        var backButtonText = backButton.GetComponentInChildren<TMP_Text>();
+
+        // var colors = confirmButton.colors;
+        // colors.normalColor = new Color32(92, 237, 115, 255); // #5CED73 in RGB
+        // confirmButton.colors = colors;
+
+        confirmButtonText.text = "Xác nhận";
+        backButtonText.text = "Trở lại";
 
         confirmButton.onClick.RemoveAllListeners();
-
         backButton.onClick.RemoveAllListeners();
 
         confirmButton.onClick.AddListener(() =>
@@ -196,7 +208,7 @@ public class ListAdapterSpecificationSettingView : MonoBehaviour, IAdapterSpecif
     }
     public void ShowSuccess(string message)
     {
-        Show_Toast.Instance.Set_Instance_Status_True();
+
         if (GlobalVariable.APIRequestType.Contains("GET_AdapterSpecification_List"))
         {
             Show_Toast.Instance.ShowToast("success", "Tải danh sách thành công");

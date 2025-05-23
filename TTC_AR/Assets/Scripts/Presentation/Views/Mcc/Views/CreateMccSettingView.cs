@@ -44,6 +44,7 @@ public class CreateMccSettingView : MonoBehaviour, IMccView
     public GameObject Add_New_Mcc_Canvas;
     public GameObject Update_Mcc_Canvas;
     private int grapperId;
+    private Sprite successConfirmButtonSprite;
 
     private readonly Dictionary<string, FieldDeviceInformationModel> temp_Dictionary_FieldDeviceModel = new();
     private readonly Dictionary<string, List<GameObject>> selectedGameObjects = new()
@@ -58,12 +59,15 @@ public class CreateMccSettingView : MonoBehaviour, IMccView
 
     void Awake()
     {
+       
         _presenter = new MccPresenter(this, ManagerLocator.Instance.MccManager._IMccService);
     }
 
 
     void OnEnable()
     {
+        successConfirmButtonSprite = Resources.Load<Sprite>("images/UIimages/Success_Back_Button_Background");
+        Debug.Log(successConfirmButtonSprite);
         grapperId = GlobalVariable.GrapperId;
 
         RenewView();
@@ -114,6 +118,8 @@ public class CreateMccSettingView : MonoBehaviour, IMccView
         temp_Dictionary_FieldDeviceModel.Clear();
         selectedGameObjects["FieldDevices"].Clear();
         selectedCounts["FieldDevices"] = 0;
+        scrollRect.verticalNormalizedPosition = 1;
+
     }
 
     public void CloseAddCanvas()
@@ -214,6 +220,7 @@ public class CreateMccSettingView : MonoBehaviour, IMccView
             initialize_Mcc_List_Option_Selection.Selection_Option_Canvas.SetActive(true);
 
         var newItem = Instantiate(itemPrefab, parentGroup.transform);
+        newItem.SetActive(true);
         temp_Item_Transform = newItem.transform;
         temp_Item_Transform.gameObject.GetComponentInChildren<Button>().onClick.AddListener(() => DeselectItem(newItem.gameObject, field));
         GetSelectionPanel(field).SetActive(true);
@@ -311,31 +318,31 @@ public class CreateMccSettingView : MonoBehaviour, IMccView
         var confirmButton = horizontalGroupTransform.Find("Confirm_Button").GetComponent<Button>();
         var backButton = horizontalGroupTransform.Find("Back_Button").GetComponent<Button>();
 
-        var confirmButtonText = confirmButton.GetComponentInChildren<TMP_Text>();
-        var confirmButtonSprite = confirmButton.GetComponent<Image>().sprite;
 
+        var confirmButtonSprite = confirmButton.GetComponent<Image>();
+        confirmButtonSprite.sprite = successConfirmButtonSprite;
+
+        var confirmButtonText = confirmButton.GetComponentInChildren<TMP_Text>();
         var backButtonText = backButton.GetComponentInChildren<TMP_Text>();
 
+        // var colors = confirmButton.colors;
+        // colors.normalColor = new Color32(92, 237, 115, 255); // #5CED73 in RGB
+        // confirmButton.colors = colors;
 
         confirmButtonText.text = "Tiếp tục thêm mới";
         backButtonText.text = "Trở lại danh sách";
 
-        confirmButtonSprite = Resources.Load<Sprite>("images/UIimages/Success_Back_Button_Background");
 
         confirmButton.onClick.RemoveAllListeners();
         backButton.onClick.RemoveAllListeners();
-
         confirmButton.onClick.AddListener(() =>
         {
-            ResetAllInputFields();
             DialogTwoButton.SetActive(false);
-            scrollRect.verticalNormalizedPosition = 1;
             RenewView();
         });
 
         backButton.onClick.AddListener(() =>
         {
-            ResetAllInputFields();
             DialogTwoButton.SetActive(false);
             RenewView();
             CloseAddCanvas();
@@ -367,7 +374,7 @@ public class CreateMccSettingView : MonoBehaviour, IMccView
 
     public void ShowSuccess()
     {
-        Show_Toast.Instance.Set_Instance_Status_True();
+
         if (GlobalVariable.APIRequestType.Contains("POST_Mcc"))
         {
             Show_Toast.Instance.ShowToast("success", "Thêm tủ Mcc mới thành công");

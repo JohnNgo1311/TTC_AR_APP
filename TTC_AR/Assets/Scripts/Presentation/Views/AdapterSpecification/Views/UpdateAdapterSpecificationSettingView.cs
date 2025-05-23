@@ -200,7 +200,7 @@ public class UpdateAdapterSpecificationSettingView : MonoBehaviour, IAdapterSpec
     }
     public void ShowSuccess(string message)
     {
-        Show_Toast.Instance.Set_Instance_Status_True();
+
         if (GlobalVariable.APIRequestType.Contains("PUT_AdapterSpecification"))
         {
             Show_Toast.Instance.ShowToast("success", "Cập nhật dữ liệu thành công");
