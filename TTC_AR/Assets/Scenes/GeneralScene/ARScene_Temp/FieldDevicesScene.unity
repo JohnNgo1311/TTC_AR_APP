@@ -8509,12 +8509,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 481d4b49b712f1444ba410e22a857e5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  imageTargets:
-  - {fileID: 1845493733}
   content: {fileID: 124843220}
   scroll_Area: {fileID: 206198572}
-  mainButton: {fileID: 572859030}
-  get_List_MCCs: {fileID: 1543531812}
+  item: {fileID: 0}
+  eventPublisher: {fileID: 0}
+  mainButton: {fileID: 0}
 --- !u!114 &753180957
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9479,7 +9478,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   eventPublisher: {fileID: 1105852753}
-  MCCId: 1
+  mccId: 1
 --- !u!1 &998682249
 GameObject:
   m_ObjectHideFlags: 0
@@ -9693,12 +9692,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8213db083e4157947b08222e5c01960e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  field_Device_Connection_Panel_Prefab: {fileID: 1009429181}
-  canvas_Parent: {fileID: 965181387}
-  MCC_Title: {fileID: 0}
-  connection_ImagePrefab: {fileID: 683541130}
-  scroll_Area_Content: {fileID: 1468004398}
+  General_Panel: {fileID: 0}
+  field_Device_Connection_Panel: {fileID: 0}
+  title: {fileID: 0}
   scroll_Area: {fileID: 841920430}
+  content: {fileID: 0}
+  connection_ImagePrefab: {fileID: 683541130}
+  gameObject_Empty: {fileID: 0}
+  closeButton: {fileID: 0}
 --- !u!1 &1025770068
 GameObject:
   m_ObjectHideFlags: 0
@@ -10475,7 +10476,6 @@ MonoBehaviour:
   navButtons:
   - {fileID: 677259250}
   - {fileID: 1953944299}
-  isFieldDevice: 1
 --- !u!224 &1182939224
 RectTransform:
   m_ObjectHideFlags: 0
@@ -10517,8 +10517,9 @@ MonoBehaviour:
   - {fileID: 1095358945}
   - {fileID: 466814065}
   - {fileID: 1543668065}
-  eventPublisher: {fileID: 1105852753}
-  cabinetCode: 
+  generalPanel: {fileID: 0}
+  setupValuePanel: {fileID: 0}
+  closeButton: {fileID: 0}
 --- !u!1 &1198008856
 GameObject:
   m_ObjectHideFlags: 0
@@ -13121,7 +13122,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   previousSceneName: FieldDevicesScene
   recentSceneName: SelectionScene
-  isOrientation: 0
   detail_Image: {fileID: 0}
 --- !u!114 &1838124275
 MonoBehaviour:
@@ -13186,10 +13186,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab83bcb677d64bb4e9f9fbdb7ffbac2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  image: {fileID: 499529593}
-  mainCamera: {fileID: 1364942599}
   active_ARCamera_Button: {fileID: 35583324}
-  deactive_ARCamera_Button: {fileID: 1613733152}
+  deActive_ARCamera_Button: {fileID: 0}
 --- !u!1 &1845493733
 GameObject:
   m_ObjectHideFlags: 0

@@ -133,7 +133,6 @@ public class GrapperManager : MonoBehaviour
     }
     public async void UpdateGrapper(int GrapperId, GrapperRequestDto GrapperRequestDto)
     {
-        GrapperId = GlobalVariable.GrapperId;
         try
         {
             bool result = await _IGrapperService.UpdateGrapperAsync(GrapperId, GrapperRequestDto);
@@ -161,7 +160,6 @@ public class GrapperManager : MonoBehaviour
     }
     public async void DeleteGrapper(int GrapperId)
     {
-        GrapperId = GlobalVariable.GrapperId;
         try
         {
             bool result = await _IGrapperService.DeleteGrapperAsync(GrapperId);

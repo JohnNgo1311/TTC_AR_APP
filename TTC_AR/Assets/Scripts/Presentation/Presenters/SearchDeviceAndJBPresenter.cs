@@ -33,17 +33,24 @@ public class SearchDeviceAndJBPresenter
         _view.ShowLoading("Đang tải dữ liệu...");
         try
         {
-            // UnityEngine.Debug.Log("Run Presenter");
+            UnityEngine.Debug.Log("Run Presenter");
 
             var jBGeneralDtosTask = _JBService.GetListJBInformationAsync(grapperId);
-            // var jBGeneralDtos = await _JBService.GetListJBInformationAsync(grapperId);
-            // UnityEngine.Debug.Log("Run Presenter JB");
+            UnityEngine.Debug.Log("Run Presenter JB Successfully");
+
             var deviceResponseDtosTask = _DeviceService.GetListDeviceInformationFromGrapperAsync(grapperId);
-            // var deviceResponseDtos = await _DeviceService.GetListDeviceInformationFromGrapperAsync(grapperId);
-            // UnityEngine.Debug.Log("Run Presenter Device");
+
+            UnityEngine.Debug.Log("Run Presenter Device Successfully");
+
             await Task.WhenAll(
                 jBGeneralDtosTask,
             deviceResponseDtosTask);
+
+            if (jBGeneralDtosTask.IsFaulted || deviceResponseDtosTask.IsFaulted)
+            {
+                _view.ShowError("Tải dữ liệu thất bại!");
+                return;
+            }
 
             var jBGeneralDtos = await jBGeneralDtosTask;
             var deviceResponseDtos = await deviceResponseDtosTask;
@@ -55,10 +62,6 @@ public class SearchDeviceAndJBPresenter
                 {
                     models = jBGeneralDtos.Select(dto => ConvertJBFromGeneralDto(dto)).ToList();
                 }
-                // else
-                // {
-                //     models = new List<JBInformationModel>();
-                // }
                 GlobalVariable_Search_Devices.temp_ListJBInformationModel = models;
             }
             else
@@ -74,10 +77,6 @@ public class SearchDeviceAndJBPresenter
                 {
                     models = deviceResponseDtos.Select(dto => ConvertDeviceFromResponseDto(dto)).ToList();
                 }
-                // else
-                // {
-                //     models = new List<DeviceInformationModel>();
-                // }
                 GlobalVariable_Search_Devices.temp_ListDeviceInformationModel = models;
             }
             else
@@ -90,7 +89,8 @@ public class SearchDeviceAndJBPresenter
         }
         catch (Exception ex)
         {
-            _view.ShowError($"Error: {ex.Message}");
+            UnityEngine.Debug.LogError($"Error in LoadDataForSearching: {ex.Message}");
+            _view.ShowError("Tải dữ liệu thất bại");
         }
         finally
         {
@@ -99,12 +99,6 @@ public class SearchDeviceAndJBPresenter
             GlobalVariable.APIRequestType.Remove("GET_Device_List_Information_FromGrapper");
         }
     }
-
-    // public async void LoadImageAsync(string imageName, Image imagePrefab)
-    // {
-    //     string url = $"{GlobalVariable.baseUrl}files/{imageName}";
-    //     await LoadImage.Instance.LoadImageFromUrlAsync(url, imagePrefab);
-    // }
 
     public async Task LoadImageAsync(string name, Image imagePrefab)
     {
@@ -120,16 +114,12 @@ public class SearchDeviceAndJBPresenter
             outdoorImage: dto.OutdoorImageBasicDto != null ? new ImageInformationModel(
                  id: dto.OutdoorImageBasicDto.Id,
                name: dto.OutdoorImageBasicDto.Name
-            //    ,
-            //     url: dto.OutdoorImageBasicDto.Url
             ) : null,
 
-            listConnectionImages: dto.ConnectionImageBasicDtos?.Select(imageDto => new ImageInformationModel(
+            listConnectionImages: dto.ConnectionImageBasicDtos.Any() ? dto.ConnectionImageBasicDtos.Select(imageDto => new ImageInformationModel(
                 id: imageDto.Id,
                name: imageDto.Name
-            //    ,
-            //     url: imageDto.Url
-            )).ToList()
+            )).ToList() : new List<ImageInformationModel>()
 
         );
     }

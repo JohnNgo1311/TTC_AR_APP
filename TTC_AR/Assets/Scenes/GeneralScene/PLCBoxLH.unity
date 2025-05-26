@@ -1767,6 +1767,7 @@ GameObject:
   m_Component:
   - component: {fileID: 999132527}
   - component: {fileID: 999132526}
+  - component: {fileID: 999132525}
   - component: {fileID: 999132524}
   m_Layer: 0
   m_Name: Camera
@@ -1808,6 +1809,14 @@ MonoBehaviour:
   m_RequiresDepthTexture: 0
   m_RequiresColorTexture: 0
   m_Version: 2
+--- !u!81 &999132525
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 999132523}
+  m_Enabled: 1
 --- !u!20 &999132526
 Camera:
   m_ObjectHideFlags: 0
@@ -4577,6 +4586,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1252349831}
   - component: {fileID: 1252349830}
+  - component: {fileID: 1252349829}
   m_Layer: 0
   m_Name: Directional Light
   m_TagString: Untagged
@@ -4584,6 +4594,26 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &1252349829
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1252349828}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Version: 1
+  m_UsePipelineSettings: 1
+  m_AdditionalLightsShadowResolutionTier: 2
+  m_LightLayerMask: 1
+  m_CustomShadowLayers: 0
+  m_ShadowLayerMask: 1
+  m_LightCookieSize: {x: 1, y: 1}
+  m_LightCookieOffset: {x: 0, y: 0}
 --- !u!108 &1252349830
 Light:
   m_ObjectHideFlags: 0

@@ -38,9 +38,9 @@ public class Initialize_Module_List_Option_Selection : MonoBehaviour
         InitializeItemOptions();
         deviceInformationModels = GlobalVariable.temp_ListDeviceInformationModel;
         jbInformationModels = GlobalVariable.temp_ListJBInformationModel;
-        rackInformationModels = GlobalVariable.temp_List_RackInformationModel;
-        moduleSpecificationModels = GlobalVariable.temp_List_ModuleSpecificationModel;
-        adapterSpecificationModels = GlobalVariable.temp_List_AdapterSpecificationModel;
+        rackInformationModels = GlobalVariable.temp_ListRackInformationModel;
+        moduleSpecificationModels = GlobalVariable.temp_ListModuleSpecificationModel;
+        adapterSpecificationModels = GlobalVariable.temp_ListAdapterSpecificationModel;
     }
     private void Start()
     {

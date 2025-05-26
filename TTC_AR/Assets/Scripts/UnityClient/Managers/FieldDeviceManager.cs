@@ -122,11 +122,11 @@ public class FieldDeviceManager : MonoBehaviour
 
         }
     }
-    public async void UpdateFieldDevice(FieldDeviceRequestDto FieldDeviceRequestDto)
+    public async void UpdateFieldDevice(int fieldDeviceId, FieldDeviceRequestDto FieldDeviceRequestDto)
     {
         try
         {
-            bool result = await _IFieldDeviceService.UpdateFieldDeviceAsync(GlobalVariable.GrapperId, FieldDeviceRequestDto);
+            bool result = await _IFieldDeviceService.UpdateFieldDeviceAsync(fieldDeviceId, FieldDeviceRequestDto);
             Debug.Log(result ? "FieldDevice updated successfully" : "Failed to update FieldDevice");
         }
 

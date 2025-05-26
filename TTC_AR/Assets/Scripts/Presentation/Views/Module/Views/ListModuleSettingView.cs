@@ -30,9 +30,10 @@ public class ListModuleSettingView : MonoBehaviour, IModuleView
     }
     void OnEnable()
     {
+        grapperId = GlobalVariable.GrapperId;
+
         warningConfirmButtonSprite = Resources.Load<Sprite>("images/UIimages/Warning_Back_Button_Background");
         Debug.Log(warningConfirmButtonSprite);
-        grapperId = GlobalVariable.GrapperId;
         LoadListModule();
     }
     void OnDisable()

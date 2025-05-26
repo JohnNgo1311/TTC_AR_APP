@@ -46,11 +46,24 @@ public class Scene_Manager : MonoBehaviour
     public IEnumerator WaitAndNavigate(string recentSceneName, string previousSceneName)
     {
         yield return new WaitUntil(() => GlobalVariable.ready_To_Nav_New_Scene);
-
-        if (GlobalVariable.recentScene != recentSceneName)
+        try
         {
             Show_Toast.Instance.ShowToast("loading", "Đang chuyển trang...");
-            NavigateToScene(recentSceneName, previousSceneName);
+
+            if (GlobalVariable.recentScene != recentSceneName)
+            {
+                Show_Toast.Instance.ShowToast("loading", "Đang chuyển trang...");
+                NavigateToScene(recentSceneName, previousSceneName);
+            }
         }
+        catch
+        {
+            Debug.LogError("Error navigating to scene: " + recentSceneName);
+        }
+        finally
+        {
+            StartCoroutine(Show_Toast.Instance.Set_Instance_Status_False());
+        }
+
     }
 }

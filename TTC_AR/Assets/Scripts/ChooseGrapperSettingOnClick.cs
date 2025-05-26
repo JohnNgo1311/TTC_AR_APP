@@ -10,7 +10,7 @@ public class ChooseGrapperSettingOnClick : MonoBehaviour
 
     public string previousSceneName = "";
     public string menuSettingName = "";
-    private string grapperName = "";
+    private string  grapperName = "";
 
     private void Start()
     {
@@ -36,23 +36,23 @@ public class ChooseGrapperSettingOnClick : MonoBehaviour
             return;
         }
 
-        grapperName = grapperNames[index];
+        // !
+        // grapperName = grapperNames[index];
 
-        // var grapperInfo = GlobalVariable.temp_CompanyInformationModel.ListGrapperInformationModel
-        //     .Find(x => x.Name.ToLower() == grapperName.ToLower());
+        // var grapperInfo = GlobalVariable.temp_Dictionary_GrapperInformationModel.TryGetValue(grapperName, out var info) ? info : null;
 
-        // GlobalVariable.GrapperName = grapperName;
 
         // if (grapperInfo != null)
         // {
         //     GlobalVariable.GrapperId = grapperInfo.Id;
+        //     GlobalVariable.GrapperName = grapperInfo.Name;
         // }
         // else
         // {
         //     Debug.LogError($"Grapper information not found for name: {grapperName}");
         //     return;
         // }
-
+        //!
 
         GlobalVariable.recentScene = menuSettingName;
 

@@ -25,7 +25,7 @@
 //     private void Awake()
 //     {
 //         InitializeItemOptions();
-//         moduleInformationModels = GlobalVariable.temp_List_ModuleInformationModel;
+//         moduleInformationModels = GlobalVariable.temp_ListModuleInformationModel;
 
 //     }
 //     private void Start()

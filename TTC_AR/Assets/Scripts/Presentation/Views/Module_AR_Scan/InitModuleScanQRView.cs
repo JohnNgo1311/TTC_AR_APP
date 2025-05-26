@@ -6,13 +6,14 @@ using UnityEngine;
 public class InitModuleScanQRView : MonoBehaviour, IModuleView
 {
     private ModulePresenter _modulePresenter;
-
+    private int grapperId;
     void Awake()
     {
         _modulePresenter = new ModulePresenter(this, ManagerLocator.Instance.ModuleManager._IModuleService);
     }
     void OnEnable()
     {
+        grapperId = GlobalVariable.GrapperId;
         LoadListModule();
     }
     void OnDisable()
@@ -21,7 +22,7 @@ public class InitModuleScanQRView : MonoBehaviour, IModuleView
 
     public void LoadListModule()
     {
-        _modulePresenter.LoadListModule(1);
+        _modulePresenter.LoadListModule(grapperId);
     }
 
 

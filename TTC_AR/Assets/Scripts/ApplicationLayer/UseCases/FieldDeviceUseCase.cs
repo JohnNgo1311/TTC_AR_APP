@@ -34,10 +34,10 @@ namespace ApplicationLayer.UseCases
                 // GlobalVariable.temp_Dictionary_FieldDeviceInformationModel =
                 // fieldDeviceBasicDtos.ToDictionary(dto => dto.Name, dto => new FieldDeviceInformationModel(dto.Id, dto.Name));
 
-                // GlobalVariable.temp_List_FieldDeviceInformationModel = fieldDeviceBasicDtos.Select(dto => new FieldDeviceInformationModel(dto.Id, dto.Name)).ToList();
+                // GlobalVariable.temp_ListFieldDeviceInformationModel = fieldDeviceBasicDtos.Select(dto => new FieldDeviceInformationModel(dto.Id, dto.Name)).ToList();
 
                 // UnityEngine.Debug.Log(GlobalVariable.temp_Dictionary_FieldDeviceInformationModel.Count);
-                // UnityEngine.Debug.Log(GlobalVariable.temp_List_FieldDeviceInformationModel.Count);
+                // UnityEngine.Debug.Log(GlobalVariable.temp_ListFieldDeviceInformationModel.Count);
 
                 return fieldDeviceBasicDtos;
             }

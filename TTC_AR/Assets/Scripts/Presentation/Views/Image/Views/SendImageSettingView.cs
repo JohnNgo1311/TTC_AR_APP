@@ -96,8 +96,8 @@ public class SendImageSettingView : MonoBehaviour, IImageView
             }
         }
         imageObjectName = createImageSettingView.finalObjectNameText;
-        string grapperName = GlobalVariable.temp_List_GrapperInformationModel.Any(x => x.Id == grapperId)
-                  ? GlobalVariable.temp_List_GrapperInformationModel
+        string grapperName = GlobalVariable.temp_ListGrapperInformationModel.Any(x => x.Id == grapperId)
+                  ? GlobalVariable.temp_ListGrapperInformationModel
                       .FirstOrDefault(x => x.Id == grapperId).Name
                   : "";
 

@@ -51,7 +51,7 @@ namespace ApplicationLayer.UseCases
                         // dictModuleInfo[dto.Name] = model;
                     }
 
-                    // GlobalVariable.temp_List_ModuleInformationModel = listModuleInfo;
+                    // GlobalVariable.temp_ListModuleInformationModel = listModuleInfo;
                     // GlobalVariable.temp_Dictionary_ModuleInformationModel = dictModuleInfo;
                     return moduleBasicDtos;
                 }

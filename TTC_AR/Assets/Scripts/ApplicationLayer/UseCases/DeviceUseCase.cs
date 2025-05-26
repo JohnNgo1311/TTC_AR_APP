@@ -57,7 +57,7 @@ namespace ApplicationLayer.UseCases
                     dictDeviceInfo[dto.Code] = model;
                 }
 
-                GlobalVariable.temp_List_DeviceInformationModel = listDeviceInfo;
+                GlobalVariable.temp_ListDeviceInformationModel = listDeviceInfo;
                 GlobalVariable.temp_Dictionary_DeviceInformationModel = dictDeviceInfo;
 
                 return DeviceBasicDtos;

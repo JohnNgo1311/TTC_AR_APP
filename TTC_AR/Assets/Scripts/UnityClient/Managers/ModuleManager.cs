@@ -122,11 +122,11 @@ public class ModuleManager : MonoBehaviour
 
         }
     }
-    public async void UpdateModule(ModuleRequestDto ModuleRequestDto)
+    public async void UpdateModule(int moduleId, ModuleRequestDto ModuleRequestDto)
     {
         try
         {
-            bool result = await _IModuleService.UpdateModuleAsync(GlobalVariable.GrapperId, ModuleRequestDto);
+            bool result = await _IModuleService.UpdateModuleAsync(moduleId, ModuleRequestDto);
             Debug.Log(result ? "Module updated successfully" : "Failed to update Module");
         }
 

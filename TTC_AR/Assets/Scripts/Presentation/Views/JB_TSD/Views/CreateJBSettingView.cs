@@ -85,9 +85,10 @@ public class CreateJBSettingView : MonoBehaviour, IJBView
     }
     void OnEnable()
     {
+        grapperId = GlobalVariable.GrapperId;
+
         successConfirmButtonSprite = Resources.Load<Sprite>("images/UIimages/Success_Back_Button_Background");
         Debug.Log(successConfirmButtonSprite);
-        grapperId = GlobalVariable.GrapperId;
 
         RenewView();
 

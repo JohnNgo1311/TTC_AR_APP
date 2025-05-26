@@ -137,7 +137,8 @@ public class LoginPresenter
                 }
                 if (models != null)
                 {
-                    GlobalVariable.temp_List_GrapperInformationModel = models;
+                    GlobalVariable.temp_ListGrapperInformationModel = models;
+                    GlobalVariable.temp_Dictionary_GrapperInformationModel = models.ToDictionary(m => m.Name, m => m);
                 }
             }
             else
@@ -202,7 +203,7 @@ public class LoginPresenter
                         id: dto.Id,
                         cabinetCode: dto.CabinetCode
                     )).ToList();
-                    GlobalVariable.temp_List_MccInformationModel = models;
+                    GlobalVariable.temp_ListMCCInformationModel = models;
                     GlobalVariable.temp_Dictionary_MCCInformationModel = models.ToDictionary(m => m.CabinetCode, m => m);
                     Debug.Log(GlobalVariable.temp_Dictionary_MCCInformationModel.Count);
                 }
@@ -219,7 +220,7 @@ public class LoginPresenter
                         id: dto.Id,
                         name: dto.Name
                     )).ToList();
-                    GlobalVariable.temp_List_FieldDeviceInformationModel = models;
+                    GlobalVariable.temp_ListFieldDeviceInformationModel = models;
                     Debug.Log("FieldDevices: " + models.Count);
 
                     GlobalVariable.temp_Dictionary_FieldDeviceInformationModel.Clear();
@@ -279,7 +280,7 @@ public class LoginPresenter
                         id: dto.Id,
                         code: dto.Code
                     )).ToList();
-                    GlobalVariable.temp_List_ModuleSpecificationModel = models;
+                    GlobalVariable.temp_ListModuleSpecificationModel = models;
                     GlobalVariable.temp_Dictionary_ModuleSpecificationModel = models.ToDictionary(m => m.Code, m => m);
                     Debug.Log("ModuleSpecifications: " + models.Count);
                 }
@@ -296,7 +297,7 @@ public class LoginPresenter
                         id: dto.Id,
                         code: dto.Code
                     )).ToList();
-                    GlobalVariable.temp_List_AdapterSpecificationModel = models;
+                    GlobalVariable.temp_ListAdapterSpecificationModel = models;
                     GlobalVariable.temp_Dictionary_AdapterSpecificationModel = models.ToDictionary(m => m.Code, m => m);
                     Debug.Log("AdapterSpecifications: " + models.Count);
                 }
@@ -314,7 +315,7 @@ public class LoginPresenter
                         id: dto.Id,
                         name: dto.Name
                     )).ToList();
-                    GlobalVariable.temp_List_RackInformationModel = models;
+                    GlobalVariable.temp_ListRackInformationModel = models;
                     GlobalVariable.temp_Dictionary_RackInformationModel = models.ToDictionary(m => m.Name, m => m);
                     Debug.Log("Racks: " + models.Count);
                 }

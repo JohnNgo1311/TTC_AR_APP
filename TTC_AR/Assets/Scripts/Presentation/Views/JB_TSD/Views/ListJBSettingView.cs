@@ -30,9 +30,10 @@ public class ListJBSettingView : MonoBehaviour, IJBView
     }
     void OnEnable()
     {
+        grapperId = GlobalVariable.GrapperId;
+
         warningConfirmButtonSprite = Resources.Load<Sprite>("images/UIimages/Warning_Back_Button_Background");
         Debug.Log(warningConfirmButtonSprite);
-        grapperId = GlobalVariable.GrapperId;
         LoadListJB();
     }
     void OnDisable()
@@ -203,7 +204,6 @@ public class ListJBSettingView : MonoBehaviour, IJBView
             OpenErrorDialog();
             listJBItems.Remove(_JBItem);
             Destroy(_JBItem);
-
         }
     }
     public void ShowSuccess()

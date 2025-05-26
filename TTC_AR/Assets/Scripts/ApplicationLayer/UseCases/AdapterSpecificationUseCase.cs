@@ -43,7 +43,7 @@ namespace ApplicationLayer.UseCases
                     dictAdapterSpecificationInfo[dto.Code] = model;
                 }
 
-                // GlobalVariable.temp_List_AdapterSpecificationModel = listAdapterSpecificationInfo;
+                // GlobalVariable.temp_ListAdapterSpecificationModel = listAdapterSpecificationInfo;
                 // GlobalVariable.temp_Dictionary_AdapterSpecificationModel = dictAdapterSpecificationInfo;
 
                 return AdapterSpecificationBasicDtos;

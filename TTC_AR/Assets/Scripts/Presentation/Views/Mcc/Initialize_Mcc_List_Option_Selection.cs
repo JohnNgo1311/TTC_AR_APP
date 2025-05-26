@@ -26,7 +26,7 @@ public class Initialize_Mcc_List_Option_Selection : MonoBehaviour
     private void Awake()
     {
         InitializeItemOptions();
-        fieldDeviceInformationModels = GlobalVariable.temp_List_FieldDeviceInformationModel;
+        fieldDeviceInformationModels = GlobalVariable.temp_ListFieldDeviceInformationModel;
     }
     private void Start()
     {

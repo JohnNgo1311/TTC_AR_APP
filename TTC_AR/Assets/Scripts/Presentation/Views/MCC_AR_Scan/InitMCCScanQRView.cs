@@ -14,6 +14,7 @@ public class InitMCCScanQRView : MonoBehaviour, IMccView
     public GameObject General_Panel;
 
     private MccPresenter _presenter;
+    private int grapperId;
 
     void Awake()
     {
@@ -21,6 +22,7 @@ public class InitMCCScanQRView : MonoBehaviour, IMccView
     }
     void OnEnable()
     {
+        grapperId = GlobalVariable.GrapperId;
         LoadListMCC();
     }
     void OnDisable()
@@ -29,8 +31,7 @@ public class InitMCCScanQRView : MonoBehaviour, IMccView
 
     public void LoadListMCC()
     {
-        _presenter.LoadListMcc(1);
-        // _presenter.LoadListMcc(GlobalVariable.GrapperId);
+        _presenter.LoadListMcc(grapperId);
     }
     public void DisplayFieldDeviceList(List<FieldDeviceInformationModel> models)
     {

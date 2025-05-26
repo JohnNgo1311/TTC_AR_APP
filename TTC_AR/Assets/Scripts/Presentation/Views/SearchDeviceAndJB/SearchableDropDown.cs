@@ -31,6 +31,7 @@ public class SearchableDropDown : MonoBehaviour
     [SerializeField] private List<string> availableOptions = new List<string>();
     private Vector2 scrollRectInitialSize;
     private SearchDeviceAndJBPresenter _presenter;
+    private int grapperId;
 
     void Awake()
     {
@@ -38,23 +39,25 @@ public class SearchableDropDown : MonoBehaviour
          ManagerLocator.Instance.JBManager._IJBService,
          ManagerLocator.Instance.DeviceManager._IDeviceService);
     }
-    private void LoadData()
-    {
-        _presenter.LoadDataForSearching(GlobalVariable.GrapperId);
-    }
+
     private void OnEnable()
     {
+        grapperId = GlobalVariable.GrapperId;
         LoadData();
         contentRect ??= content.GetComponent<RectTransform>();
         scrollRectInitialSize = scrollRect.gameObject.GetComponent<RectTransform>().sizeDelta;
         Debug.Log("SearchableDropDown awake");
         filter_Type = "Device";
     }
+
     private void Start()
     {
         //Invoke(nameof(SetInitialTextFieldValue), 2f);
     }
-
+    private void LoadData()
+    {
+        _presenter.LoadDataForSearching(grapperId);
+    }
     public void SetInitialTextFieldValue()
     {
         tempDeviceInfo = GlobalVariable_Search_Devices.temp_ListDeviceInformationModel;

@@ -10,10 +10,11 @@ using System.Collections;
 
 public class Dropdown_On_ValueChange : MonoBehaviour
 {
-    public GameObject prefab_Device;
     public SearchDeviceAndJBView searchableDropDownView;
+
+    public GameObject prefab_Infor;
     public Open_Detail_Image open_Detail_Image;
-    public EventPublisher eventPublisher;
+    // public EventPublisher eventPublisher;
     public GameObject Device_Information_Group;
     public GameObject List_JB_Group;
     public GameObject JBPrefab;
@@ -77,20 +78,16 @@ public class Dropdown_On_ValueChange : MonoBehaviour
 
     private void InitUIElements()
     {
-        var content = prefab_Device.transform.Find("Content");
-        scrollRect ??= prefab_Device.GetComponent<ScrollRect>();
-        contentTransform ??= content.GetComponent<RectTransform>();
-
+        scrollRect ??= prefab_Infor.GetComponent<ScrollRect>();
+        var content = prefab_Infor.transform.Find("Content");
         deviceInfo = content.Find("Device_information");
         code_Value_Text ??= deviceInfo.Find("Code_group/Code_value").GetComponent<TMP_Text>();
         function_Value_Text ??= deviceInfo.Find("Function_group/Function_value").GetComponent<TMP_Text>();
         range_Value_Text ??= deviceInfo.Find("Range_group/Range_value").GetComponent<TMP_Text>();
         io_Value_Text ??= deviceInfo.Find("IO_group/IO_value").GetComponent<TMP_Text>();
-
         // var jbConnectionGroup = content.Find("JB_Connection_group/JB_Connection_text_group");
-
         JB_Connection_Group ??= content.Find("JB_Connection_group").gameObject;
-        JB_Location_Image_Prefab ??= JB_Connection_Group.transform.Find("JB_Location_Image").GetComponent<Image>();
+        JB_Location_Image_Prefab ??= JB_Connection_Group.transform.Find("image_BackGround/JB_Location_Image").GetComponent<Image>();
         JB_Connection_Wiring_Image_Prefab ??= JB_Connection_Group.transform.Find("JB_Connection_Wiring").GetComponent<Image>();
     }
 

@@ -148,12 +148,12 @@ public class APIManagerOpenCV : MonoBehaviour
 
                 var listMccInformationModel = JsonConvert.DeserializeObject<List<MccInformationModel>>(response);
 
-                StaticVariable.temp_ListMccInformationModel.Clear();
+                StaticVariable.temp_ListMCCInformationModel.Clear();
                 StaticVariable.Dic_MccInformationModel.Clear();
 
                 if (listMccInformationModel != null && listMccInformationModel.Count > 0)
                 {
-                    StaticVariable.temp_ListMccInformationModel = listMccInformationModel;
+                    StaticVariable.temp_ListMCCInformationModel = listMccInformationModel;
                     Dic_MccInformationModels.Clear();
 
                     foreach (var Mcc in listMccInformationModel)

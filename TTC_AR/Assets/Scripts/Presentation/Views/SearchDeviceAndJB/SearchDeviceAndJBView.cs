@@ -35,6 +35,7 @@ public class SearchDeviceAndJBView : MonoBehaviour, ISearchDeviceAndJBView
 
     private Vector2 scrollRectInitialSize;
     public SearchDeviceAndJBPresenter _presenter;
+    private int grapperId;
 
     void Awake()
     {
@@ -48,6 +49,7 @@ public class SearchDeviceAndJBView : MonoBehaviour, ISearchDeviceAndJBView
 
     private void OnEnable()
     {
+        grapperId = GlobalVariable.GrapperId;
         StopAllCoroutines();
         LoadData();
     }
@@ -66,7 +68,7 @@ public class SearchDeviceAndJBView : MonoBehaviour, ISearchDeviceAndJBView
 
     private void LoadData()
     {
-        _presenter.LoadDataForSearching(GlobalVariable.GrapperId);
+        _presenter.LoadDataForSearching(grapperId);
     }
 
     private void Start()

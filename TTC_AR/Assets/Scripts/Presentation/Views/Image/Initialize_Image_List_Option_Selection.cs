@@ -34,7 +34,7 @@ public class Initialize_Image_List_Option_Selection : MonoBehaviour
     {
         InitializeItemOptions();
 
-        deviceInformationModels = GlobalVariable.temp_List_DeviceInformationModel;
+        deviceInformationModels = GlobalVariable.temp_ListDeviceInformationModel;
 
         jbInformationModels = GlobalVariable.temp_ListJBInformationModel
         .Where(jb => jb.Name.Contains("JB"))
@@ -46,7 +46,7 @@ public class Initialize_Image_List_Option_Selection : MonoBehaviour
             .Select(jb => new JBInformationModel(jb.Id, jb.Name))
             .ToList();
 
-        fieldDeviceInformationModels = GlobalVariable.temp_List_FieldDeviceInformationModel;
+        fieldDeviceInformationModels = GlobalVariable.temp_ListFieldDeviceInformationModel;
 
     }
     private void Start()

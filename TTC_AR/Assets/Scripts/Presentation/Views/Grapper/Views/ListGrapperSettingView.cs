@@ -21,16 +21,18 @@ public class ListGrapperSettingView : MonoBehaviour, IGrapperView
     public GameObject DialogTwoButton;
     private GrapperPresenter _presenter;
     private Sprite warningConfirmButtonSprite;
+    private int companyId;
 
     void Awake()
     {
-        // var GrapperManager = FindObjectOfType<GrapperManager>();
+
         _presenter = new GrapperPresenter(this,
         ManagerLocator.Instance.GrapperManager._IGrapperService);
-        // GrapperManager._IGrapperService
+
     }
     void OnEnable()
     {
+        companyId = GlobalVariable.companyId;
         warningConfirmButtonSprite = Resources.Load<Sprite>("images/UIimages/Warning_Back_Button_Background");
         Debug.Log(warningConfirmButtonSprite);
         LoadListGrapper();
@@ -53,7 +55,7 @@ public class ListGrapperSettingView : MonoBehaviour, IGrapperView
     public void LoadListGrapper()
     {
         RefreshList();
-        _presenter.LoadListGrapper(GlobalVariable.GrapperId);
+        _presenter.LoadListGrapper(companyId);
     }
     public void DisplayList(List<GrapperInformationModel> models)
     {

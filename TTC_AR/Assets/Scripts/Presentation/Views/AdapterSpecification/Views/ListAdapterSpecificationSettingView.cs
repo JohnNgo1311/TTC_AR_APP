@@ -24,6 +24,7 @@ public class ListAdapterSpecificationSettingView : MonoBehaviour, IAdapterSpecif
     public GameObject DialogTwoButton;
     private AdapterSpecificationPresenter _presenter;
     private Sprite warningConfirmButtonSprite;
+    private int companyId;
 
     void Awake()
     {
@@ -34,6 +35,7 @@ public class ListAdapterSpecificationSettingView : MonoBehaviour, IAdapterSpecif
 
     void OnEnable()
     {
+        companyId = GlobalVariable.companyId;
         warningConfirmButtonSprite = Resources.Load<Sprite>("images/UIimages/Warning_Back_Button_Background");
         Debug.Log(warningConfirmButtonSprite);
         LoadListAdapterSpecification();
@@ -57,7 +59,7 @@ public class ListAdapterSpecificationSettingView : MonoBehaviour, IAdapterSpecif
     public void LoadListAdapterSpecification()
     {
         RefreshList();
-        _presenter.LoadListAdapterSpecification(1);
+        _presenter.LoadListAdapterSpecification(companyId);
 
     }
     public void DisplayList(List<AdapterSpecificationModel> models)

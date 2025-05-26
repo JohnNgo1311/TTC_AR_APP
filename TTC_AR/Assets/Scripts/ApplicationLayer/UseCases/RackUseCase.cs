@@ -51,7 +51,7 @@ namespace ApplicationLayer.UseCases
                     // dictRackInfo[dto.Name] = model;
                 }
 
-                // GlobalVariable.temp_List_RackInformationModel = listRackInfo;
+                // GlobalVariable.temp_ListRackInformationModel = listRackInfo;
                 // GlobalVariable.temp_Dictionary_RackInformationModel = dictRackInfo;
 
                 return RackBasicDtos;
