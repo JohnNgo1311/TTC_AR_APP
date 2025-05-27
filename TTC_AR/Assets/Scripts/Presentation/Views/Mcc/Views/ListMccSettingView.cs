@@ -215,10 +215,9 @@ public class ListMccSettingView : MonoBehaviour, IMccView
         // }
         // else
         // {
-
+        _mccItem = MccItem;
         _presenter.DeleteMcc(model.Id);
         DialogTwoButton.SetActive(false);
-        _mccItem = MccItem;
         temp_MccInformationModel = null;
         // }
     }
@@ -255,11 +254,12 @@ public class ListMccSettingView : MonoBehaviour, IMccView
         {
             Show_Toast.Instance.ShowToast("success", "Tải danh sách thành công");
         }
-        if (GlobalVariable.APIRequestType.Contains("DELETE_Mcc"))
+        else if (GlobalVariable.APIRequestType.Contains("DELETE_Mcc"))
         {
-            Show_Toast.Instance.ShowToast("success", "Xóa tủ Mcc thành công");
             listMccItems.Remove(_mccItem);
             Destroy(_mccItem);
+            Show_Toast.Instance.ShowToast("success", "Xóa tủ Mcc thành công");
+
         }
         StartCoroutine(Show_Toast.Instance.Set_Instance_Status_False(1f));
     }

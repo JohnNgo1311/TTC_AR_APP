@@ -229,9 +229,9 @@ public class ListImageSettingView : MonoBehaviour, IImageView
         }
         else if (GlobalVariable.APIRequestType.Contains("DELETE_Image"))
         {
-            Show_Toast.Instance.ShowToast("success", "Xóa hình ảnh thành công");
             listImageItems.Remove(_imageItem);
             Destroy(_imageItem);
+            Show_Toast.Instance.ShowToast("success", "Xóa hình ảnh thành công");
         }
 
         StartCoroutine(Show_Toast.Instance.Set_Instance_Status_False());

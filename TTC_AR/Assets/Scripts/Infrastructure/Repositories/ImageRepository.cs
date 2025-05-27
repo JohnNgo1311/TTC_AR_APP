@@ -41,7 +41,7 @@ namespace Infrastructure.Repositories
                 else
                 {
                     var content = await response.Content.ReadAsStringAsync();
-                    UnityEngine.Debug.Log(content);
+                    Debug.Log(content);
                     var entity = JsonConvert.DeserializeObject<ImageEntity>(content);
                     return entity;
                 }
@@ -140,7 +140,6 @@ namespace Infrastructure.Repositories
 
         public async Task<bool> UploadNewImageFromGallery(int grapperId, Texture2D texture, string fileName, string filePath, string mimeType)
         {
-            // Lưu ảnh từ Texture2D thành file ảnh PNG            
             try
             {
                 if (!fileName.Contains(".png") && !fileName.Contains(".jpg"))
@@ -151,9 +150,41 @@ namespace Infrastructure.Repositories
                 {
                     fileName = fileName.Replace(".jpg", ".png");
                 }
+
                 Debug.Log("Run Repository 1");
 
-                File.WriteAllBytes(filePath, texture.EncodeToPNG());
+                // Resize the texture to height 2560 while maintaining aspect ratio
+                int targetHeight = 2560;
+                float aspectRatio = (float)texture.width / texture.height;
+                int targetWidth = Mathf.RoundToInt(targetHeight * aspectRatio);
+
+                Texture2D resizedTexture = new Texture2D(targetWidth, targetHeight, texture.format, false);
+                Color[] pixels = texture.GetPixels();
+                Color[] resizedPixels = new Color[targetWidth * targetHeight];
+
+                // Simple bilinear scaling
+                for (int y = 0; y < targetHeight; y++)
+                {
+                    for (int x = 0; x < targetWidth; x++)
+                    {
+                        float u = x / (float)(targetWidth - 1);
+                        float v = y / (float)(targetHeight - 1);
+                        int x0 = (int)(u * (texture.width - 1));
+                        int y0 = (int)(v * (texture.height - 1));
+                        resizedPixels[y * targetWidth + x] = pixels[y0 * texture.width + x0];
+                    }
+                }
+
+                resizedTexture.SetPixels(resizedPixels);
+                resizedTexture.Apply();
+
+                // Encode the resized texture to PNG and save to file
+                byte[] imageData = resizedTexture.EncodeToPNG();
+                File.WriteAllBytes(filePath, imageData);
+
+                // Clean up
+                UnityEngine.Object.Destroy(resizedTexture);
+
                 Debug.Log("Run Repository 2");
                 byte[] fileData = File.ReadAllBytes(filePath);
                 Debug.Log("Run Repository 3");
@@ -161,45 +192,43 @@ namespace Infrastructure.Repositories
                 Debug.Log("Run Repository 4");
                 form.AddBinaryData("file", fileData, fileName, mimeType);
                 Debug.Log("Run Repository 5");
+
+                Debug.Log($"imageSize: {resizedTexture.width} x {resizedTexture.height}");
+
                 using (UnityWebRequest request = UnityWebRequest.Post($"{GlobalVariable.baseUrl}/Images/grapperId?grapperId={grapperId}&fileName={fileName}", form))
                 {
                     Debug.Log("Run Repository 6");
                     request.SendWebRequest();
                     while (!request.isDone)
                     {
-                        await Task.Delay(50); // Đợi cho đến khi yêu cầu hoàn tất
+                        await Task.Delay(50);
                     }
 
                     if (request.result != UnityWebRequest.Result.Success)
                     {
-
-                        // Debug.LogError($"❌ Lỗi upload ảnh: {request.error}");
                         throw new Exception($"Lỗi upload ảnh: {request.error}");
                     }
                     else
                     {
-                        // Debug.Log($"✅ Upload thành công: {fileName}");
-                        return true;
 
+                        return true;
                     }
                 }
             }
             catch (HttpRequestException ex)
             {
-                throw new ApplicationException("Failed to upload image", ex); // Ném lỗi HTTP lên UseCase
+                throw new ApplicationException("Failed to upload image", ex);
             }
             catch (Exception ex)
             {
                 throw new ApplicationException($"Lỗi upload ảnh: {ex.Message}", ex);
             }
-
-
         }
         public async Task<bool> UploadNewImageFromCamera(int grapperId, Texture2D texture, string fileName)
         {
             try
-            { // Lưu ảnh từ Texture2D thành file ảnh PNG
-              // Mã hóa thành PNG
+            {
+                // Ensure proper file extension
                 if (!fileName.Contains(".png") && !fileName.Contains(".jpg"))
                 {
                     fileName += ".png";
@@ -209,27 +238,53 @@ namespace Infrastructure.Repositories
                     fileName = fileName.Replace(".jpg", ".png");
                 }
 
-                byte[] imageData = texture.EncodeToPNG();
+                // Resize the texture to height 2560 while maintaining aspect ratio
+                int targetHeight = 2560;
+                float aspectRatio = (float)texture.width / texture.height;
+                int targetWidth = Mathf.RoundToInt(targetHeight * aspectRatio);
 
-                // Tạo form dữ liệu
+                Texture2D resizedTexture = new Texture2D(targetWidth, targetHeight, texture.format, false);
+                Color[] pixels = texture.GetPixels();
+                Color[] resizedPixels = new Color[targetWidth * targetHeight];
+
+                // Simple bilinear scaling
+                for (int y = 0; y < targetHeight; y++)
+                {
+                    for (int x = 0; x < targetWidth; x++)
+                    {
+                        float u = x / (float)(targetWidth - 1);
+                        float v = y / (float)(targetHeight - 1);
+                        int x0 = (int)(u * (texture.width - 1));
+                        int y0 = (int)(v * (texture.height - 1));
+                        resizedPixels[y * targetWidth + x] = pixels[y0 * texture.width + x0];
+                    }
+                }
+
+                resizedTexture.SetPixels(resizedPixels);
+                resizedTexture.Apply();
+
+                // Encode the resized texture to PNG
+                byte[] imageData = resizedTexture.EncodeToPNG();
+
+                // Clean up
+                UnityEngine.Object.Destroy(resizedTexture);
+
+                // Create form data
                 WWWForm form = new WWWForm();
-                // Thêm dữ liệu ảnh vào form
-
                 form.AddBinaryData("file", imageData, fileName, "image/png");
-                // Gửi yêu cầu lên server
-
 
                 Debug.Log($"UploadNewImageFromCamera: {grapperId} + {fileName}");
+                Debug.Log($"imageSize: {resizedTexture.width} x {resizedTexture.height}");
 
                 using (UnityWebRequest request = UnityWebRequest.Post(
                     $"{GlobalVariable.baseUrl}/Images/grapperId?grapperId={grapperId}&fileName={fileName}",
-                     form))
+                    form))
                 {
                     request.SendWebRequest();
 
                     while (!request.isDone)
                     {
-                        await Task.Delay(50); // Đợi cho đến khi yêu cầu hoàn tất
+                        await Task.Delay(50);
                     }
 
                     if (request.result != UnityWebRequest.Result.Success)
@@ -253,8 +308,6 @@ namespace Infrastructure.Repositories
                 throw new ApplicationException("Unexpected error during HTTP request", ex);
             }
         }
-
-
     }
 
     // public IEnumerator UploadNewImage()

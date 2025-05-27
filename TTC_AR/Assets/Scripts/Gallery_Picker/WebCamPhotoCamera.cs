@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
 using UnityEngine.Events;
+using EasyUI.Progress;
 
 public class WebCamPhotoCamera : MonoBehaviour
 {
@@ -59,7 +60,7 @@ public class WebCamPhotoCamera : MonoBehaviour
     private void RegisterUIEvents()
     {
         TakeButton.onClick.AddListener(TakePhoto);
-        AcceptButton.onClick.AddListener(AcceptPhoto);
+        AcceptButton.onClick.AddListener(() => StartCoroutine(AcceptPhoto()));
         RetakeButton.onClick.AddListener(RetakePhoto);
         CancelTakePhotoButton.onClick.AddListener(StopCamera);
         BrightnessSlider.onValueChanged.AddListener(OnBrightnessChanged);
@@ -152,16 +153,33 @@ public class WebCamPhotoCamera : MonoBehaviour
         PreviewImage.texture = capturedPhoto;
     }
 
-    public void AcceptPhoto()
+    public IEnumerator AcceptPhoto()
     {
+        ShowProgressBar("Đang tải ảnh...", "...");
+
         if (capturedPhoto != null && pickPhotoFromCamera != null)
         {
             ConfirmImageCanvas.SetActive(true);
             pickPhotoFromCamera.UpdateConfirmImage(capturedPhoto);
         }
+        yield return new WaitForSeconds(1f);
+
         StopCamera();
+
+        yield return new WaitForSeconds(0.5f);
+        HideProgressBar();
     }
 
+
+    private void ShowProgressBar(string title, string details)
+    {
+        Progress.Show(title, ProgressColor.Blue, true);
+        Progress.SetDetailsText(details);
+    }
+    private void HideProgressBar()
+    {
+        Progress.Hide();
+    }
     public void RetakePhoto()
     {
         TakePhotoModule.SetActive(true);

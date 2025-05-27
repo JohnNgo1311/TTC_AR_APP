@@ -149,10 +149,10 @@ public class ListDeviceSettingView : MonoBehaviour, IDeviceView
 
         confirmButton.onClick.AddListener(() =>
         {
-            // Debug.Log(model.Id);
+            Debug.Log(model.Id);
+            _deviceItem = DeviceItem;
             _presenter.DeleteDevice(model.Id);
             DialogTwoButton.SetActive(false);
-            _deviceItem = DeviceItem;
         });
         backButton.onClick.AddListener(() =>
         {

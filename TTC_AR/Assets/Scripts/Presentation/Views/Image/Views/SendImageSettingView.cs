@@ -63,11 +63,13 @@ public class SendImageSettingView : MonoBehaviour, IImageView
                 SendImageRequestFromGallery();
             });
         }
+        Debug.Log("Set Native Size for finalImage");
 
-        sendRequestButton.onClick.AddListener(() =>
-        {
-
-        });
+        StartCoroutine(
+           Resize_GameObject_Function.Set_NativeSize_For_GameObject(
+                finalImage
+           )
+        );
     }
 
     void SetImageName()
@@ -121,13 +123,15 @@ public class SendImageSettingView : MonoBehaviour, IImageView
             }
         }
 
-        imageNameText.text = finalImageName;
+        imageNameText.text = $"{finalImageName}.png";
         finalImage.gameObject.SetActive(true);
+
     }
 
 
     public void SendImageRequestFromGallery()
     {
+
         _presenter.UploadImageFromGallery(
             grapperId: grapperId,
             image: (Texture2D)finalImage.texture,
@@ -137,6 +141,7 @@ public class SendImageSettingView : MonoBehaviour, IImageView
     }
     public void SendImageRequestFromCamera()
     {
+
         _presenter.UploadImageFromCamera(
             grapperId: grapperId,
             image: (Texture2D)finalImage.texture,

@@ -12,7 +12,7 @@ public class PickPhotoFromGallery : MonoBehaviour
     public Button Gallery_Option_Btn;
 
     [Header("Canvas")]
-    public GameObject ConfirmImageCanvas;
+    public GameObject imageCanvas;
     void Start()
     {
         Gallery_Option_Btn.onClick.RemoveAllListeners();
@@ -62,7 +62,12 @@ public class PickPhotoFromGallery : MonoBehaviour
             imagePath = path;
             imageForUpload.texture = await LoadSpriteFromPathAsync(path);
             image.gameObject.SetActive(true);
-            ConfirmImageCanvas.SetActive(true);
+            imageCanvas.SetActive(true);
+            StartCoroutine(
+          Resize_GameObject_Function.Set_NativeSize_For_GameObject(
+            imageForUpload
+          )
+       );
             // Function_onPicked_Return.Invoke(); // Triggered [On Unity Event] in Visual Scripting
         }
     }

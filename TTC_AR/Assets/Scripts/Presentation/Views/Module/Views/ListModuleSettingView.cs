@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using EasyUI.Progress;
@@ -143,8 +144,8 @@ public class ListModuleSettingView : MonoBehaviour, IModuleView
 
         confirmButton.onClick.AddListener(() =>
         {
-            _presenter.DeleteModule(model.Id);
             _moduleItem = ModuleItem;
+            _presenter.DeleteModule(model.Id);
             DialogTwoButton.SetActive(false);
         });
         backButton.onClick.AddListener(() =>
@@ -205,13 +206,13 @@ public class ListModuleSettingView : MonoBehaviour, IModuleView
         }
         else if (GlobalVariable.APIRequestType.Contains("DELETE_Module"))
         {
-            Show_Toast.Instance.ShowToast("success", message: "Xóa Module IO thành công");
             listModuleItems.Remove(_moduleItem);
             Destroy(_moduleItem);
+            Show_Toast.Instance.ShowToast("success", message: "Xóa Module IO thành công");
+
         }
         StartCoroutine(Show_Toast.Instance.Set_Instance_Status_False());
     }
-
     // Không dùng trong ListView
     public void DisplayDetail(ModuleInformationModel model) { }
     public void DisplayCreateResult(bool success) { }

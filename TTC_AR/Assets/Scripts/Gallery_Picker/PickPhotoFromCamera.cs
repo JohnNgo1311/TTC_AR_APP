@@ -1,3 +1,4 @@
+using EasyUI.Progress;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -16,11 +17,16 @@ public class PickPhotoFromCamera : MonoBehaviour
     {
         if (savedPhoto != null)
         {
-            Texture2D rotatedTexture = RotateTexture(savedPhoto, -90);
+            Texture2D rotatedTexture = RotateTexture(savedPhoto, 0f);
             confirmImage.texture = rotatedTexture;
+            StartCoroutine(
+          Resize_GameObject_Function.Set_NativeSize_For_GameObject(
+                confirmImage
+            )
+       );
         }
     }
-
+  
     private Texture2D RotateTexture(Texture2D originalTexture, float angle)
     {
         int width = originalTexture.width;
@@ -45,5 +51,7 @@ public class PickPhotoFromCamera : MonoBehaviour
         WebCamPhotoCamera.Instance.ConfirmImageCanvas.SetActive(false);
         GlobalVariable.PickPhotoFromCamera = true;
         WebCamPhotoCamera.Instance.StartCameraToTakePhoto(this);
+
+
     }
 }

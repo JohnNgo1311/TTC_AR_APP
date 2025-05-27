@@ -1,9 +1,12 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using EasyUI.Progress;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+
 
 public class ListJBSettingView : MonoBehaviour, IJBView
 {
@@ -150,9 +153,9 @@ public class ListJBSettingView : MonoBehaviour, IJBView
         confirmButton.onClick.AddListener(() =>
         {
             Debug.Log(model.Id);
+            _JBItem = JBItem;
             _presenter.DeleteJB(model.Id);
             DialogTwoButton.SetActive(false);
-            _JBItem = JBItem;
         });
         backButton.onClick.AddListener(() =>
         {
@@ -212,9 +215,9 @@ public class ListJBSettingView : MonoBehaviour, IJBView
         }
         else if (GlobalVariable.APIRequestType.Contains("DELETE_JB"))
         {
-            Show_Toast.Instance.ShowToast("success", "Xóa tủ JB/TSD thành công");
             listJBItems.Remove(_JBItem);
             Destroy(_JBItem);
+            Show_Toast.Instance.ShowToast("success", "Xóa tủ JB/TSD thành công");
         }
 
         StartCoroutine(Show_Toast.Instance.Set_Instance_Status_False());

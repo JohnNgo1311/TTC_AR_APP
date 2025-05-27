@@ -162,8 +162,9 @@ public class ListModuleSpecificationSettingView : MonoBehaviour, IModuleSpecific
 
         confirmButton.onClick.AddListener(() =>
         {
-            _presenter.DeleteModuleSpecification(model.Id);
+            Debug.Log(model.Id);
             tempItemObject = ModuleSpecificationItem;
+            _presenter.DeleteModuleSpecification(model.Id);
             DialogTwoButton.SetActive(false);
         });
         backButton.onClick.AddListener(() =>
@@ -234,9 +235,10 @@ public class ListModuleSpecificationSettingView : MonoBehaviour, IModuleSpecific
         }
         if (GlobalVariable.APIRequestType.Contains("DELETE_ModuleSpecification"))
         {
-            Show_Toast.Instance.ShowToast("success", message);
             listModuleSpecificationItems.Remove(tempItemObject);
             Destroy(tempItemObject);
+            Show_Toast.Instance.ShowToast("success", message);
+
         }
         StartCoroutine(Show_Toast.Instance.Set_Instance_Status_False());
     }

@@ -151,9 +151,8 @@ public class ListAdapterSpecificationSettingView : MonoBehaviour, IAdapterSpecif
 
         confirmButton.onClick.AddListener(() =>
         {
-
-            _presenter.DeleteAdapterSpecification(model.Id);
             this.AdapterSpecificationItem = AdapterSpecificationItem;
+            _presenter.DeleteAdapterSpecification(model.Id);
             DialogTwoButton.SetActive(false);
 
         });
@@ -218,10 +217,9 @@ public class ListAdapterSpecificationSettingView : MonoBehaviour, IAdapterSpecif
         }
         if (GlobalVariable.APIRequestType.Contains("DELETE_AdapterSpecification"))
         {
-            Show_Toast.Instance.ShowToast("success", "Xóa loại Adapter thành công");
             listAdapterSpecificationItems.Remove(AdapterSpecificationItem);
             Destroy(AdapterSpecificationItem);
-
+            Show_Toast.Instance.ShowToast("success", "Xóa loại Adapter thành công");
         }
 
         StartCoroutine(Show_Toast.Instance.Set_Instance_Status_False(1f));

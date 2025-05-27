@@ -207,9 +207,9 @@ public class ListRackSettingView : MonoBehaviour, IRackView
         }
         else if (GlobalVariable.APIRequestType.Contains("DELETE_Rack"))
         {
-            Show_Toast.Instance.ShowToast("success", "Xóa Rack IO thành công");
             listRackItems.Remove(_rackItem);
             Destroy(_rackItem);
+            Show_Toast.Instance.ShowToast("success", "Xóa Rack IO thành công");
         }
 
         StartCoroutine(Show_Toast.Instance.Set_Instance_Status_False());
