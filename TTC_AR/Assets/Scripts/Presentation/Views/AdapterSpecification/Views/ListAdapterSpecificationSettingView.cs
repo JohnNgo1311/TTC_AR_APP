@@ -25,6 +25,7 @@ public class ListAdapterSpecificationSettingView : MonoBehaviour, IAdapterSpecif
     private AdapterSpecificationPresenter _presenter;
     private Sprite warningConfirmButtonSprite;
     private int companyId;
+    private GameObject AdapterSpecificationItem;
 
     void Awake()
     {
@@ -150,9 +151,9 @@ public class ListAdapterSpecificationSettingView : MonoBehaviour, IAdapterSpecif
 
         confirmButton.onClick.AddListener(() =>
         {
-            Destroy(AdapterSpecificationItem);
-            listAdapterSpecificationItems.Remove(AdapterSpecificationItem);
+
             _presenter.DeleteAdapterSpecification(model.Id);
+            this.AdapterSpecificationItem = AdapterSpecificationItem;
             DialogTwoButton.SetActive(false);
 
         });
@@ -218,6 +219,8 @@ public class ListAdapterSpecificationSettingView : MonoBehaviour, IAdapterSpecif
         if (GlobalVariable.APIRequestType.Contains("DELETE_AdapterSpecification"))
         {
             Show_Toast.Instance.ShowToast("success", "Xóa loại Adapter thành công");
+            listAdapterSpecificationItems.Remove(AdapterSpecificationItem);
+            Destroy(AdapterSpecificationItem);
 
         }
 

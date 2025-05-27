@@ -53,14 +53,16 @@ namespace Infrastructure.Repositories
             try
             {
                 // var response = await _httpClient.GetAsync($"{GlobalVariable.baseUrl}/{grapperId}");
-                var response = await _httpClient.GetAsync($"${GlobalVariable.baseUrl}/Grappers/{grapperId}/deviceInfos");
+                var response = await _httpClient.GetAsync($"{GlobalVariable.baseUrl}/Grappers/{grapperId}/deviceInfos");
                 if (!response.IsSuccessStatusCode) return null;
 
                 var content = await response.Content.ReadAsStringAsync();
 
-                // UnityEngine.Debug.Log(content);
+                UnityEngine.Debug.Log(content);
+                var entities = JsonConvert.DeserializeObject<List<DeviceEntity>>(content);
+                UnityEngine.Debug.Log(entities.Count);
 
-                return JsonConvert.DeserializeObject<List<DeviceEntity>>(content);
+                return entities;
             }
             catch (HttpRequestException ex)
             {

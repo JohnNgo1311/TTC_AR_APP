@@ -22,7 +22,6 @@ public class Nav_Scene_Back : MonoBehaviour
             {
                 detail_Image.gameObject.SetActive(false);
             }
-
             else NavigatePop();
         }
     }
@@ -37,16 +36,27 @@ public class Nav_Scene_Back : MonoBehaviour
     public void NavigatePop()
     {
         GlobalVariable.ready_To_Nav_New_Scene = true;
-        if (previousSceneName == "UpdateImageScene" || previousSceneName == "UpdateGrapperScene")
+        if (previousSceneName == "UpdateImageScene"
+        || previousSceneName == "UpdateGrapperScene")
         {
             var temp = GlobalVariable.previousScene;
             GlobalVariable.previousScene = previousSceneName;
             GlobalVariable.recentScene = temp;
             SceneManager.LoadScene(temp);
+            return;
+        }
+        else if (previousSceneName == "ControlDeviceARScene")
+        {
+            recentSceneName = GlobalVariable.previousScene;
+            GlobalVariable.previousScene = previousSceneName;
+            GlobalVariable.recentScene = recentSceneName;
+            SceneManager.LoadScene(recentSceneName);
+            return;
         }
         else
         {
             Scene_Manager.Instance.NavigateToScene(recentSceneName, previousSceneName);
+            return;
         }
     }
 }

@@ -92,7 +92,7 @@ public class OpenMccPanelView : MonoBehaviour, IMccView
 
     private void UpdateTextValue(TMP_Text textField, string value, string defaultValue)
     {
-        if (string.IsNullOrEmpty(value))
+        if (string.IsNullOrEmpty(value) || value == defaultValue)
         {
             textField.text = defaultValue;
             textField.color = Color.red;

@@ -96,21 +96,24 @@ public class ListImageSettingView : MonoBehaviour, IImageView
     {
         ShowProgressBar("Đang tải ảnh...", "...");
 
-        PreviewImageCanvas.SetActive(true);
-        BackButtonFromPreviewCanvas.onClick.RemoveAllListeners();
-        BackButtonFromPreviewCanvas.onClick.AddListener(() => PreviewImageCanvas.SetActive(false));
+        if (model != null)
+        {
+            PreviewImageCanvas.SetActive(true);
+            BackButtonFromPreviewCanvas.onClick.RemoveAllListeners();
+            BackButtonFromPreviewCanvas.onClick.AddListener(() => PreviewImageCanvas.SetActive(false));
 
-        PreviewImageName.text = $"Xem chi tiết hình ảnh: {model.Name}";
+            PreviewImageName.text = $"Xem chi tiết hình ảnh: {model.Name}";
 
-        await LoadImage.Instance.LoadImageFromUrlAsync(
-                    imageName: model.Name,
-                    image: PreviewImage,
-                    true
-                );
+            await LoadImage.Instance.LoadImageFromUrlAsync(
+                        imageName: model.Name,
+                        image: PreviewImage,
+                        true
+                    );
 
-        StartCoroutine(Resize_GameObject_Function.Set_NativeSize_For_GameObject(PreviewImage));
+            StartCoroutine(Resize_GameObject_Function.Set_NativeSize_For_GameObject(PreviewImage));
 
-        await Task.Delay(1000);
+            await Task.Delay(1000);
+        }
 
         HideProgressBar();
     }

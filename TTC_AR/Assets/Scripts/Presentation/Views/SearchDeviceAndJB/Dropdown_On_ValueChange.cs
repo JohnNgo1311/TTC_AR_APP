@@ -188,15 +188,17 @@ public class Dropdown_On_ValueChange : MonoBehaviour
                 if (!JBPrefab.activeSelf) JBPrefab.SetActive(true);
                 var JBName = JBPrefab.transform.Find("JB_Connection_text_group/JB_Connection_value").GetComponent<TMP_Text>();
                 var JBLocation = JBPrefab.transform.Find("JB_Connection_text_group/JB_Connection_location").GetComponent<TMP_Text>();
-                JBName.text = device.JBInformationModels[0].Name;
-                JBLocation.text = device.JBInformationModels[0].Location;
                 _jbName = device.JBInformationModels[0].Name;
+                var jbInformationModel = GlobalVariable_Search_Devices.temp_Dictionary_JBInformationModel.TryGetValue(_jbName, out var jbInfo) ? jbInfo : null;
+                JBName.text = jbInformationModel.Name;
+                JBLocation.text = jbInformationModel.Location;
+                Debug.Log($"JB Name: {_jbName}, JB Location: {jbInformationModel.Location}");
                 if (!string.IsNullOrEmpty(_jbName))
                 {
                     Debug.Log("Run LoadDeviceSprites");
                     await LoadDeviceSprites(
                           list_Additional_Images: device.AdditionalConnectionImages,
-                           jbInformationModel: device.JBInformationModels[0],
+                           jbInformationModel: jbInformationModel,
                            LocationImage: JB_Location_Image_Prefab,
                            ConnectionImage: JB_Connection_Wiring_Image_Prefab,
                            JB_List_Connection_Group: JB_Connection_Group.transform);
@@ -213,16 +215,18 @@ public class Dropdown_On_ValueChange : MonoBehaviour
                     var newJB = Instantiate(JBPrefab, List_JB_Group.transform);
                     var JBName = newJB.transform.Find("JB_Connection_text_group/JB_Connection_value").GetComponent<TMP_Text>();
                     var JBLocation = newJB.transform.Find("JB_Connection_text_group/JB_Connection_location").GetComponent<TMP_Text>();
-                    JBName.text = jb.Name;
-                    JBLocation.text = jb.Location;
                     _jbName = jb.Name;
+                    var jbInformationModel = GlobalVariable_Search_Devices.temp_Dictionary_JBInformationModel.TryGetValue(_jbName, out var jbInfo) ? jbInfo : null;
+                    JBName.text = jbInformationModel.Name;
+                    JBLocation.text = jbInformationModel.Location;
+                    Debug.Log($"JB Name: {_jbName}, JB Location: {jbInformationModel.Location}");
                     if (!string.IsNullOrEmpty(_jbName))
                     {
                         Image JB_Location_Image = newJB.transform.Find("JB_Location_Image").GetComponent<Image>();
                         Image JB_Connection_Wiring_Image = newJB.transform.Find("JB_Connection_Wiring").GetComponent<Image>();
                         await LoadDeviceSprites(
                              list_Additional_Images: device.AdditionalConnectionImages,
-                              jbInformationModel: device.JBInformationModels[jbIndex],
+                              jbInformationModel: jbInformationModel,
                              LocationImage: JB_Location_Image,
                              ConnectionImage: JB_Connection_Wiring_Image,
                              JB_List_Connection_Group: newJB.transform);
@@ -246,15 +250,17 @@ public class Dropdown_On_ValueChange : MonoBehaviour
         if (deviceInfo.gameObject.activeSelf) deviceInfo.gameObject.SetActive(false);
         var JBName = JBPrefab.transform.Find("JB_Connection_text_group/JB_Connection_value").GetComponent<TMP_Text>();
         var JBLocation = JBPrefab.transform.Find("JB_Connection_text_group/JB_Connection_location").GetComponent<TMP_Text>();
-        JBName.text = jB.Name;
-        JBLocation.text = jB.Location;
         _jbName = jB.Name;
         GlobalVariable_Search_Devices.jbName = _jbName;
+        var jbInformationModel = GlobalVariable_Search_Devices.temp_Dictionary_JBInformationModel.TryGetValue(_jbName, out var jbInfo) ? jbInfo : null;
+        JBName.text = jbInformationModel.Name;
+        JBLocation.text = jbInformationModel.Location;
+        Debug.Log($"JB Name: {_jbName}, JB Location: {jbInformationModel.Location}");
         if (!string.IsNullOrEmpty(_jbName))
         {
             await LoadDeviceSprites(
              list_Additional_Images: null,
-             jbInformationModel: jB,
+             jbInformationModel: jbInformationModel,
              LocationImage: JB_Location_Image_Prefab,
              ConnectionImage: JB_Connection_Wiring_Image_Prefab,
              JB_List_Connection_Group: JB_Connection_Group.transform);
@@ -311,11 +317,10 @@ public class Dropdown_On_ValueChange : MonoBehaviour
         }
         else
         {   //! Được ghi chú trên sơ đồ
-            var Noted_Url = "https://firebasestorage.googleapis.com/v0/b/ttc-project-81b04.appspot.com/o/JB_Outdoor_Location%2FJB_TSD_Location_Note.png?alt=media&token=3c18c77a-750d-4d7b-81b5-84f1973f61ba";
             var buttonComponent = JB_Location_Image.gameObject.GetComponent<Button>();
             AddButtonListener(buttonComponent, () => open_Detail_Image.Open_Detail_Canvas(JB_Location_Image));
             //! Nhớ đổi thành tên ảnh thay vì Url
-            tasks.Add(searchableDropDownView._presenter.LoadImageAsync(Noted_Url, JB_Location_Image));
+            tasks.Add(searchableDropDownView._presenter.LoadImageAsync("JB_Location_Noted.png", JB_Location_Image));
 
         }
 
@@ -411,8 +416,8 @@ public class Dropdown_On_ValueChange : MonoBehaviour
     private void ResetResources()
     {
         ClearWiringGroupAndCache();
-
         GlobalVariable_Search_Devices.temp_ListDeviceInformationModel.Clear();
+        GlobalVariable_Search_Devices.temp_Dictionary_JBInformationModel.Clear();
         GlobalVariable_Search_Devices.temp_ListJBInformationModel.Clear();
         GlobalVariable_Search_Devices.temp_List_Device_For_Fitler.Clear();
         GlobalVariable_Search_Devices.temp_List_JB_For_Fitler.Clear();

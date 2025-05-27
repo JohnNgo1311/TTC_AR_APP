@@ -69,10 +69,9 @@ public class UpdateUIListJBPanel : MonoBehaviour
     {
         instantiatedJBObjects.Clear();
         yield return null;
-
+        jbPrefab.SetActive(true);
         if (jbInformationList.Any())
         {
-            jbPrefab.SetActive(true);
             Debug.Log("jbInformationList: " + jbInformationList.Count);
             Debug.Log("jbInformationDictionary: " + jbInformationDictionary.Count);
 
@@ -104,12 +103,11 @@ public class UpdateUIListJBPanel : MonoBehaviour
         }
         else
         {
-            jbPrefab.SetActive(true);
             var newJBItem = Instantiate(jbPrefab, content);
             instantiatedJBObjects.Add(newJBItem);
             newJBItem.SetActive(true);
             newJBItem.GetComponent<JBInfor>().HandleEmptyList();
-            var Horizontal_JB_TSD = jbPrefab.transform.parent.transform.GetComponent<HorizontalLayoutGroup>();
+            var Horizontal_JB_TSD = newJBItem.GetComponent<HorizontalLayoutGroup>();
             Horizontal_JB_TSD.childAlignment = TextAnchor.MiddleCenter;
         }
         jbPrefab.SetActive(false);

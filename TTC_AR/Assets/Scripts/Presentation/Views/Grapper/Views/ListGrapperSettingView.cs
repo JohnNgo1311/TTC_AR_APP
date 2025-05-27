@@ -22,6 +22,7 @@ public class ListGrapperSettingView : MonoBehaviour, IGrapperView
     private GrapperPresenter _presenter;
     private Sprite warningConfirmButtonSprite;
     private int companyId;
+    private GameObject GrapperItem;
 
     void Awake()
     {
@@ -141,9 +142,10 @@ public class ListGrapperSettingView : MonoBehaviour, IGrapperView
 
         confirmButton.onClick.AddListener(() =>
         {
-            listGrapperItems.Remove(GrapperItem);
             Debug.Log(model.Id);
             _presenter.DeleteGrapper(model.Id);
+            this.GrapperItem = GrapperItem;
+
             DialogTwoButton.SetActive(false);
             Destroy(GrapperItem);
         });
@@ -206,6 +208,8 @@ public class ListGrapperSettingView : MonoBehaviour, IGrapperView
         else if (GlobalVariable.APIRequestType.Contains("DELETE_Grapper"))
         {
             Show_Toast.Instance.ShowToast("success", "Xóa Grapper IO thành công");
+            listGrapperItems.Remove(GrapperItem);
+            Destroy(GrapperItem);
         }
 
         StartCoroutine(Show_Toast.Instance.Set_Instance_Status_False());

@@ -10,7 +10,7 @@ public class ChooseGrapperSettingOnClick : MonoBehaviour
 
     public string previousSceneName = "";
     public string menuSettingName = "";
-    private string  grapperName = "";
+    // private string  grapperName = "";
 
     private void Start()
     {

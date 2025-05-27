@@ -51,7 +51,7 @@ public class UpdateUISetupValuePanel : MonoBehaviour
             TMP_Text textElement = setup_Value_Texts[i];
             string value = values[i];
 
-            if (string.IsNullOrEmpty(value))
+            if (string.IsNullOrEmpty(value) || value == "Chưa cập nhật")
             {
                 textElement.text = "Chưa cập nhật";
                 textElement.color = Color.red;

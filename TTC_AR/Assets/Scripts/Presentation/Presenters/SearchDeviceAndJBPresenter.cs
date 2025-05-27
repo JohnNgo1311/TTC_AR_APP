@@ -63,6 +63,8 @@ public class SearchDeviceAndJBPresenter
                     models = jBGeneralDtos.Select(dto => ConvertJBFromGeneralDto(dto)).ToList();
                 }
                 GlobalVariable_Search_Devices.temp_ListJBInformationModel = models;
+                GlobalVariable_Search_Devices.temp_Dictionary_JBInformationModel = models
+                    .ToDictionary(jb => jb.Name, jb => jb);
             }
             else
             {

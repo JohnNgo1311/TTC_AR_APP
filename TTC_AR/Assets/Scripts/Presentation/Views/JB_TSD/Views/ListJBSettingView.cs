@@ -202,8 +202,6 @@ public class ListJBSettingView : MonoBehaviour, IJBView
         else if (GlobalVariable.APIRequestType.Contains("DELETE_JB"))
         {
             OpenErrorDialog();
-            listJBItems.Remove(_JBItem);
-            Destroy(_JBItem);
         }
     }
     public void ShowSuccess()
@@ -215,6 +213,8 @@ public class ListJBSettingView : MonoBehaviour, IJBView
         else if (GlobalVariable.APIRequestType.Contains("DELETE_JB"))
         {
             Show_Toast.Instance.ShowToast("success", "Xóa tủ JB/TSD thành công");
+            listJBItems.Remove(_JBItem);
+            Destroy(_JBItem);
         }
 
         StartCoroutine(Show_Toast.Instance.Set_Instance_Status_False());
