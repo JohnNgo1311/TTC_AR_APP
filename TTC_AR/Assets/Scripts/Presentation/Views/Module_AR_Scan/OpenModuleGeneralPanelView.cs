@@ -55,7 +55,7 @@ public class OpenModuleGeneralPanelView : MonoBehaviour, IModuleView
 
             GlobalVariable.temp_ModuleInformationModel = moduleInformationModel;
 
-         //   GlobalVariable.temp_ListDeviceInformationModel_FromModule = moduleInformationModel.ListDeviceInformationModel;
+            //   GlobalVariable.temp_ListDeviceInformationModel_FromModule = moduleInformationModel.ListDeviceInformationModel;
 
             if (moduleInformationModel.ListJBInformationModel != null)
             {

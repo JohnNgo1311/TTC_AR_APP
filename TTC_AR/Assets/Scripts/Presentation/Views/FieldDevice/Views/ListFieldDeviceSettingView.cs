@@ -223,7 +223,7 @@ public class ListFieldDeviceSettingView : MonoBehaviour, IFieldDeviceView
         {
             Show_Toast.Instance.ShowToast("success", "Tải danh sách thành công");
         }
-        else if (GlobalVariable.APIRequestType.Contains("DELETE_FieldDevice"))
+        if (GlobalVariable.APIRequestType.Contains("DELETE_FieldDevice"))
         {
             listFieldDeviceItems.Remove(_fieldDeviceItem);
             Destroy(_fieldDeviceItem);

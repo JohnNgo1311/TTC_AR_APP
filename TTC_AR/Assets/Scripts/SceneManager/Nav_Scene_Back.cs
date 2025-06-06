@@ -12,7 +12,7 @@ public class Nav_Scene_Back : MonoBehaviour
     private GameObject detail_Image;
     private void Awake()
     {
-        // Scene_Manager.Instance.SetScreenOrientation(isOrientation);
+        Scene_Manager.Instance.SetScreenOrientation();
     }
     private void Update()
     {

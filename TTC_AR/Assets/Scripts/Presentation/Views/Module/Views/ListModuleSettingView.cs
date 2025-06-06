@@ -193,7 +193,7 @@ public class ListModuleSettingView : MonoBehaviour, IModuleView
         {
             OpenErrorDialog(title: "Tải danh sách thất bại", message: " Đã có lỗi xảy ra khi tải danh sách Module IO. Vui lòng thử lại sau");
         }
-        else if (GlobalVariable.APIRequestType.Contains("DELETE_Module"))
+        if (GlobalVariable.APIRequestType.Contains("DELETE_Module"))
         {
             OpenErrorDialog(title: "Xóa Module IO thất bại", message: "Đã có lỗi xảy ra khi xóa Module IO khỏi hệ thống. Vui lòng thử lại sau");
         }
@@ -204,10 +204,10 @@ public class ListModuleSettingView : MonoBehaviour, IModuleView
         {
             Show_Toast.Instance.ShowToast("success", message: "Tải danh sách thành công");
         }
-        else if (GlobalVariable.APIRequestType.Contains("DELETE_Module"))
+        if (GlobalVariable.APIRequestType.Contains("DELETE_Module"))
         {
             listModuleItems.Remove(_moduleItem);
-            Destroy(_moduleItem);
+            Destroy(_moduleItem.gameObject);
             Show_Toast.Instance.ShowToast("success", message: "Xóa Module IO thành công");
 
         }

@@ -339,11 +339,8 @@ public class GlobalVariable : MonoBehaviour
 
     public static List<string> sceneNamesLandScape = new List<string>()
     {
-        "GrapperAScanScene",
-        "GrapperBScanScene",
-        "GrapperCScanScene",
-        "LHScanScene",
-        "FieldDevicesScene",
+       "ControlDeviceARScene",
+       "FieldDeviceARScene",
     };
 
     public static List<string> list_jBName = new List<string>()

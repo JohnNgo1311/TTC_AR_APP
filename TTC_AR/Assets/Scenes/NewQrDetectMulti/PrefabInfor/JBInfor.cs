@@ -28,6 +28,8 @@ public class JBInfor : MonoBehaviour
         else
         {
             Location.text = jb.Location;
+            Location.fontWeight = FontWeight.Bold;
+            Location.color = Color.black;
         }
     }
 

@@ -154,6 +154,8 @@ public class Update_JB_TSD_Detail_UI : MonoBehaviour, IJBView
             }
             emptySpace.transform.SetAsLastSibling();
             scroll_Area.verticalNormalizedPosition = 1f;
+            jb_connection_imagePrefab.gameObject.SetActive(false);
+
         }
         catch (System.Exception ex)
         {

@@ -19,18 +19,12 @@ public class Scene_Manager : MonoBehaviour
         }
     }
 
-    public void SetScreenOrientation(bool isOrientation = false)
+    public void SetScreenOrientation()
     {
-        if (isOrientation)
-        {
-            Screen.orientation = ScreenOrientation.AutoRotation;
-        }
-        else
-        {
-            Screen.orientation = GlobalVariable.sceneNamesLandScape.Contains(GlobalVariable.recentScene)
-                ? ScreenOrientation.LandscapeLeft
-                : ScreenOrientation.Portrait;
-        }
+        Screen.orientation = GlobalVariable.sceneNamesLandScape.Contains(GlobalVariable.recentScene)
+            ? ScreenOrientation.LandscapeLeft
+            : ScreenOrientation.Portrait;
+
     }
 
     public void NavigateToScene(string recentSceneName, string previousSceneName)

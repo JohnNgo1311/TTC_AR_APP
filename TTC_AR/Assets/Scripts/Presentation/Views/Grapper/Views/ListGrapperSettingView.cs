@@ -192,7 +192,7 @@ public class ListGrapperSettingView : MonoBehaviour, IGrapperView
         {
             OpenErrorDialog(title: "Tải danh sách thất bại", message: "Đã có lỗi xảy ra khi tải danh sách. Vui lòng thử lại sau");
         }
-        else if (GlobalVariable.APIRequestType.Contains("DELETE_Grapper"))
+        if (GlobalVariable.APIRequestType.Contains("DELETE_Grapper"))
         {
             OpenErrorDialog();
         }
@@ -203,11 +203,11 @@ public class ListGrapperSettingView : MonoBehaviour, IGrapperView
         {
             Show_Toast.Instance.ShowToast("success", "Tải danh sách thành công");
         }
-        else if (GlobalVariable.APIRequestType.Contains("DELETE_Grapper"))
+        if (GlobalVariable.APIRequestType.Contains("DELETE_Grapper"))
         {
             listGrapperItems.Remove(GrapperItem);
             Destroy(GrapperItem);
-            Show_Toast.Instance.ShowToast("success", "Xóa Grapper IO thành công"); 
+            Show_Toast.Instance.ShowToast("success", "Xóa Grapper IO thành công");
         }
 
         StartCoroutine(Show_Toast.Instance.Set_Instance_Status_False());

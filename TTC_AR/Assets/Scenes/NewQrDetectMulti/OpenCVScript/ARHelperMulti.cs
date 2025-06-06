@@ -648,23 +648,23 @@ namespace OpenCVForUnity.UnityUtils.Helper
             arCameraDefaultLocalScale = arCamera.transform.localScale;
             arCameraDefaultFieldOfView = arCamera.fieldOfView;
 
-            var canvas = GameObject.FindGameObjectWithTag("3D Canvas");
+            // var canvas = GameObject.FindGameObjectWithTag("3D Canvas");
             // Initialize the array of gameObjects;
             arGameObjects = new GameObject[8];
             for (int i = 0; i < arGameObjects.Length; i++)
             {
-                arGameObjects[i] = GameObject.Instantiate(arGameObjectOrigin);
+                arGameObjects[i] = Instantiate(arGameObjectOrigin);
                 arGameObjects[i].SetActive(false);
                 Debug.LogWarning(arGameObjects[i].layer);
                 //arGameObjects[i].layer = 5; //UI
-                if (canvas != null)
-                {
-                    //arGameObjects[i].transform.SetParent(canvas.transform);
-                }
-                else
-                {
-                    Debug.LogWarning("Cannot find 3D Canvas");
-                }
+                // if (canvas != null)
+                // {
+                //     //arGameObjects[i].transform.SetParent(canvas.transform);
+                // }
+                // else
+                // {
+                //     Debug.LogWarning("Cannot find 3D Canvas");
+                // }
             }
 
             //Debug.Log("Screen.width " + Screen.width);

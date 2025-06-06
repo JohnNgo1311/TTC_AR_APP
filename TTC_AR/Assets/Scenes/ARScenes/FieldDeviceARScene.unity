@@ -1202,7 +1202,7 @@ RectTransform:
   m_GameObject: {fileID: 255555885}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 770, y: 580, z: 0}
+  m_LocalScale: {x: 640, y: 480, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -1450,7 +1450,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 465.19122, y: -197}
+  m_AnchoredPosition: {x: 214.98965, y: -197}
   m_SizeDelta: {x: 878.68, y: 294}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &345447326
@@ -2577,7 +2577,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 975 A
+  m_text: 106 A
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d42468020d4f1cf43bb13b7447e2e66a, type: 2}
   m_sharedMaterial: {fileID: -1870415040321534674, guid: d42468020d4f1cf43bb13b7447e2e66a,
@@ -2686,7 +2686,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.081, y: 0.038000003}
   m_AnchorMax: {x: 0.42200002, y: 0.90200007}
-  m_AnchoredPosition: {x: -0.5593262, y: -1.5}
+  m_AnchoredPosition: {x: -0.5595703, y: -1.5}
   m_SizeDelta: {x: -1.1187, y: 0.7400055}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &629851591
@@ -2812,7 +2812,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 465.19122, y: -459.66602}
+  m_AnchoredPosition: {x: 214.98965, y: -459.66602}
   m_SizeDelta: {x: 878.68, y: 161.332}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &646838152
@@ -2948,7 +2948,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 27.368973}
+  m_AnchoredPosition: {x: 0, y: 27.368896}
   m_SizeDelta: {x: 0, y: -55.003998}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &666053612
@@ -3355,8 +3355,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 414.04123, y: -425}
-  m_SizeDelta: {x: 828.08246, y: 250}
+  m_AnchoredPosition: {x: 414.04117, y: -425}
+  m_SizeDelta: {x: 828.08234, y: 250}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &721186734
 GameObject:
@@ -3634,7 +3634,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 65
+  m_fontSize: 57.35
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -4186,8 +4186,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 414.04123, y: -125}
-  m_SizeDelta: {x: 828.08246, y: 250}
+  m_AnchoredPosition: {x: 414.04117, y: -125}
+  m_SizeDelta: {x: 828.08234, y: 250}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &815901212
 MonoBehaviour:
@@ -4654,7 +4654,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "T\u1EE7 bi\u1EBFn t\u1EA7n - Che l\u1EDBn"
+  m_text: "B\u01A1m n\u01B0\u1EDBc \xE9p s\u1ED1 2"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 1526582acaf61a640890decb2b2b149f, type: 2}
   m_sharedMaterial: {fileID: -1870415040321534674, guid: 1526582acaf61a640890decb2b2b149f,
@@ -4682,7 +4682,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 64.4
+  m_fontSize: 65
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -5867,9 +5867,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Ngu\u1ED3n cung c\u1EA5p cho m\xE1y l\u1EA1nh v\xE0 c\u1EA7u tr\u1EE5c
-    b\u1ED1c h\u01A1i, ngu\u1ED3n cung c\u1EA5p cho \u1ED5 c\u1EAFm 380 c\u1ED9t
-    2 nh\xE0 luy\u1EC7n "
+  m_text: "B\u01A1m n\u01B0\u1EDBc \xE9p s\u1ED1 2"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d42468020d4f1cf43bb13b7447e2e66a, type: 2}
   m_sharedMaterial: {fileID: -1870415040321534674, guid: d42468020d4f1cf43bb13b7447e2e66a,
@@ -5897,7 +5895,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 49.55
+  m_fontSize: 50
   m_fontSizeBase: 45
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -6135,7 +6133,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 950 KW
+  m_text: 55 KW
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d42468020d4f1cf43bb13b7447e2e66a, type: 2}
   m_sharedMaterial: {fileID: -1870415040321534674, guid: d42468020d4f1cf43bb13b7447e2e66a,
@@ -6877,7 +6875,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 465.19122, y: -700.33203}
+  m_AnchoredPosition: {x: 214.98965, y: -700.33203}
   m_SizeDelta: {x: 878.68, y: 250}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1371181479
@@ -7139,7 +7137,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Big Mill
+  m_text: FA2
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d42468020d4f1cf43bb13b7447e2e66a, type: 2}
   m_sharedMaterial: {fileID: -1870415040321534674, guid: d42468020d4f1cf43bb13b7447e2e66a,
@@ -8449,7 +8447,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -92.036545}
+  m_AnchoredPosition: {x: 0, y: -92.03654}
   m_SizeDelta: {x: -818.699, y: 184.07263}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1865854907
@@ -8797,7 +8795,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 08980a2bde6d42943ac69c1248552bc0, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 7a6a1055d35a4094fbd6f0c065560f3b, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -8949,8 +8947,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "S\u01A1 \u0111\u1ED3 \u0111\u1EA5u d\xE2y t\u1EE7 bi\u1EBFn t\u1EA7n Che
-    L\u1EDBn"
+  m_text: "B\u01A1m n\u01B0\u1EDBc \xE9p s\u1ED1 2"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 1526582acaf61a640890decb2b2b149f, type: 2}
   m_sharedMaterial: {fileID: -1870415040321534674, guid: 1526582acaf61a640890decb2b2b149f,
@@ -9125,7 +9122,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.05545856, y: 0.038000003}
   m_AnchorMax: {x: 0.38643786, y: 0.88111126}
-  m_AnchoredPosition: {x: 0, y: 5.039978}
+  m_AnchoredPosition: {x: 0, y: 5.040039}
   m_SizeDelta: {x: -5.162094, y: 10.620003}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1997364959

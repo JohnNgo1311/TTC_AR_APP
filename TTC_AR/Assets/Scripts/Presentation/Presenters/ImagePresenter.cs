@@ -163,14 +163,15 @@ public class ImagePresenter
             }
             else
             {
+                Debug.Log("UploadImageFromGallery failed");
                 _view.ShowError("Upload Image failed");
 
             }
         }
         catch (Exception ex)
         {
+            Debug.Log("Error: " + ex.Message);
             _view.ShowError($"Error: {ex.Message}");
-
         }
         finally
         {

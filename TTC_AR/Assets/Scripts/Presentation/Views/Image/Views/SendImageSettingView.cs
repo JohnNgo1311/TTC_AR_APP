@@ -131,7 +131,7 @@ public class SendImageSettingView : MonoBehaviour, IImageView
 
     public void SendImageRequestFromGallery()
     {
-
+        Debug.Log(pickPhotoFromGallery.imagePath);
         _presenter.UploadImageFromGallery(
             grapperId: grapperId,
             image: (Texture2D)finalImage.texture,

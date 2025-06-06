@@ -148,42 +148,43 @@ namespace Infrastructure.Repositories
                 }
                 if (fileName.Contains(".jpg"))
                 {
+                    Debug.Log("fileName.Contain jpg");
                     fileName = fileName.Replace(".jpg", ".png");
                 }
 
                 Debug.Log("Run Repository 1");
 
-                // Resize the texture to height 2560 while maintaining aspect ratio
                 int targetHeight = 2560;
-                float aspectRatio = (float)texture.width / texture.height;
-                int targetWidth = Mathf.RoundToInt(targetHeight * aspectRatio);
+                if (texture.height == 0) throw new Exception("Texture height is zero!");
 
-                Texture2D resizedTexture = new Texture2D(targetWidth, targetHeight, texture.format, false);
+                float aspectRatio = (float)texture.width / texture.height;
+                int targetWidth = Mathf.Max(1, Mathf.RoundToInt(targetHeight * aspectRatio));
+
+                // Tạo texture mới (readable)
+                Texture2D resizedTexture = new Texture2D(targetWidth, targetHeight, TextureFormat.RGBA32, false);
+
+                // Đảm bảo texture gốc readable
                 Color[] pixels = texture.GetPixels();
                 Color[] resizedPixels = new Color[targetWidth * targetHeight];
 
-                // Simple bilinear scaling
+                // Bilinear scaling
                 for (int y = 0; y < targetHeight; y++)
                 {
                     for (int x = 0; x < targetWidth; x++)
                     {
                         float u = x / (float)(targetWidth - 1);
                         float v = y / (float)(targetHeight - 1);
-                        int x0 = (int)(u * (texture.width - 1));
-                        int y0 = (int)(v * (texture.height - 1));
+                        int x0 = Mathf.Clamp((int)(u * (texture.width - 1)), 0, texture.width - 1);
+                        int y0 = Mathf.Clamp((int)(v * (texture.height - 1)), 0, texture.height - 1);
                         resizedPixels[y * targetWidth + x] = pixels[y0 * texture.width + x0];
                     }
                 }
+                Debug.Log("Run Repository 1.5");
 
                 resizedTexture.SetPixels(resizedPixels);
+
+                Debug.Log("Run Repository 1.6");
                 resizedTexture.Apply();
-
-                // Encode the resized texture to PNG and save to file
-                byte[] imageData = resizedTexture.EncodeToPNG();
-                File.WriteAllBytes(filePath, imageData);
-
-                // Clean up
-                UnityEngine.Object.Destroy(resizedTexture);
 
                 Debug.Log("Run Repository 2");
                 byte[] fileData = File.ReadAllBytes(filePath);
@@ -195,32 +196,36 @@ namespace Infrastructure.Repositories
 
                 Debug.Log($"imageSize: {resizedTexture.width} x {resizedTexture.height}");
 
-                using (UnityWebRequest request = UnityWebRequest.Post($"{GlobalVariable.baseUrl}/Images/grapperId?grapperId={grapperId}&fileName={fileName}", form))
                 {
-                    Debug.Log("Run Repository 6");
-                    request.SendWebRequest();
-                    while (!request.isDone)
+                    using (UnityWebRequest request = UnityWebRequest.Post($"{GlobalVariable.baseUrl}/Images/grapperId?grapperId={grapperId}&fileName={fileName}", form))
                     {
-                        await Task.Delay(50);
-                    }
+                        Debug.Log("Run Repository 6");
+                        request.SendWebRequest();
+                        while (!request.isDone)
+                        {
+                            await Task.Delay(50);
+                        }
 
-                    if (request.result != UnityWebRequest.Result.Success)
-                    {
-                        throw new Exception($"Lỗi upload ảnh: {request.error}");
-                    }
-                    else
-                    {
+                        if (request.result != UnityWebRequest.Result.Success)
+                        {
+                            throw new Exception($"Lỗi upload ảnh: {request.error}");
+                        }
+                        else
+                        {
 
-                        return true;
+                            return true;
+                        }
                     }
                 }
             }
             catch (HttpRequestException ex)
             {
+                Debug.LogError($"❌ Lỗi upload ảnh: {ex.Message}");
                 throw new ApplicationException("Failed to upload image", ex);
             }
             catch (Exception ex)
             {
+                Debug.LogError($"❌ Lỗi upload ảnh: {ex.Message}");
                 throw new ApplicationException($"Lỗi upload ảnh: {ex.Message}", ex);
             }
         }

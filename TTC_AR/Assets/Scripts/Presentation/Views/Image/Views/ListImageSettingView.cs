@@ -216,7 +216,7 @@ public class ListImageSettingView : MonoBehaviour, IImageView
         {
             OpenErrorDialog(title: "Tải danh sách thất bại", message: "Đã có lỗi xảy ra khi tải danh sách. Vui lòng thử lại sau");
         }
-        else if (GlobalVariable.APIRequestType.Contains("DELETE_Image"))
+        if (GlobalVariable.APIRequestType.Contains("DELETE_Image"))
         {
             OpenErrorDialog(title: "Xóa hình ảnh thất bại", message: "Đã có lỗi xảy ra khi xóa hình ảnh khỏi hệ thống. Vui lòng thử lại sau");
         }
@@ -227,7 +227,7 @@ public class ListImageSettingView : MonoBehaviour, IImageView
         {
             Show_Toast.Instance.ShowToast("success", "Tải danh sách thành công");
         }
-        else if (GlobalVariable.APIRequestType.Contains("DELETE_Image"))
+        if (GlobalVariable.APIRequestType.Contains("DELETE_Image"))
         {
             listImageItems.Remove(_imageItem);
             Destroy(_imageItem);

@@ -33,6 +33,7 @@ public class UpdateUIListDevicesPanel : MonoBehaviour, IDeviceView
     public List<string> devicesCode = new List<string>();
     private DevicePresenter _presenter;
     private bool loadFirstDevice = true;
+    private int moduleId;
 
     void Awake()
     {
@@ -48,9 +49,10 @@ public class UpdateUIListDevicesPanel : MonoBehaviour, IDeviceView
 
     private void OnEnable()
     {
-        if (GlobalVariable.moduleId != 0)
+        moduleId = GlobalVariable.moduleId;
+        if (moduleId != 0)
         {
-            _presenter.LoadListDeviceInformationFromModule(GlobalVariable.moduleId);
+            _presenter.LoadListDeviceInformationFromModule(moduleId);
 
         }
     }
@@ -78,6 +80,13 @@ public class UpdateUIListDevicesPanel : MonoBehaviour, IDeviceView
     }
     public void DisplayDetail(DeviceInformationModel model)
     {
+        var jbInfor = JB_Item_Prefab.GetComponent<JBInfor>();
+        jbInfor.button.gameObject.SetActive(true);
+        jbInfor.value.text = "JB1";
+        jbInfor.Location.fontWeight = TMPro.FontWeight.Bold;
+        jbInfor.Location.color = Color.black;
+        jbInfor.button.onClick.RemoveAllListeners();
+
         if (!contentPanel.activeSelf)
         {
             contentPanel.SetActive(true);

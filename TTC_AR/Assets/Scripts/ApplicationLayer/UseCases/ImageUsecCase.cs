@@ -144,13 +144,13 @@ namespace ApplicationLayer.UseCases
                 throw new ApplicationException("Failed to create Image", ex); // Bao bọc lỗi từ Repository
             }
         }
-        public async Task<bool> UploadImageFromGallery(int grapperId, Texture2D texture, string fileName,  string filePath)
+        public async Task<bool> UploadImageFromGallery(int grapperId, Texture2D texture, string fileName, string filePath)
         {
             try
             {
                 var mimeType = GetMimeType(filePath);
                 Debug.Log("Run UseCase");
-                Debug.Log($"UploadNewImageFromGallery: {grapperId} {texture} {fileName} {filePath} {mimeType}");
+                Debug.Log($"UploadNewImageFromGallery:  {filePath} {mimeType}");
                 var result = await _IImageRepository.UploadNewImageFromGallery(grapperId, texture, fileName, filePath, mimeType);
                 // TryDeleteFile(filePath); // Xóa file tạm sau khi upload
                 return result;

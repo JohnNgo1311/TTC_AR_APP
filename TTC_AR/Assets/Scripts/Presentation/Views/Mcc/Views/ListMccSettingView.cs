@@ -242,7 +242,7 @@ public class ListMccSettingView : MonoBehaviour, IMccView
         {
             OpenErrorDialog(title: "Tải danh sách tủ Mcc thất bại", message: "Đã có lỗi xảy ra khi tải danh sách tủ Mcc. Vui lòng thử lại sau.");
         }
-        else if (GlobalVariable.APIRequestType.Contains("DELETE_Mcc"))
+        if (GlobalVariable.APIRequestType.Contains("DELETE_Mcc"))
         {
             OpenErrorDialog();
         }
@@ -254,7 +254,7 @@ public class ListMccSettingView : MonoBehaviour, IMccView
         {
             Show_Toast.Instance.ShowToast("success", "Tải danh sách thành công");
         }
-        else if (GlobalVariable.APIRequestType.Contains("DELETE_Mcc"))
+        if (GlobalVariable.APIRequestType.Contains("DELETE_Mcc"))
         {
             listMccItems.Remove(_mccItem);
             Destroy(_mccItem);

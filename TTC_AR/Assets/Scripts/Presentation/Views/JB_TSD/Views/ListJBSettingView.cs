@@ -202,7 +202,7 @@ public class ListJBSettingView : MonoBehaviour, IJBView
         {
             OpenErrorDialog(title: "Tải danh sách thất bại", message: message);
         }
-        else if (GlobalVariable.APIRequestType.Contains("DELETE_JB"))
+        if (GlobalVariable.APIRequestType.Contains("DELETE_JB"))
         {
             OpenErrorDialog();
         }
@@ -213,7 +213,7 @@ public class ListJBSettingView : MonoBehaviour, IJBView
         {
             Show_Toast.Instance.ShowToast("success", "Tải danh sách thành công");
         }
-        else if (GlobalVariable.APIRequestType.Contains("DELETE_JB"))
+        if (GlobalVariable.APIRequestType.Contains("DELETE_JB"))
         {
             listJBItems.Remove(_JBItem);
             Destroy(_JBItem);

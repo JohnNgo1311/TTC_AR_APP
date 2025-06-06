@@ -253,7 +253,7 @@ public class Dropdown_On_ValueChange : MonoBehaviour
         _jbName = jB.Name;
         GlobalVariable_Search_Devices.jbName = _jbName;
         var jbInformationModel = GlobalVariable_Search_Devices.temp_Dictionary_JBInformationModel.TryGetValue(_jbName, out var jbInfo) ? jbInfo : null;
-        JBName.text = jbInformationModel.Name;
+        JBName.text = $"{jbInformationModel.Name}:";
         JBLocation.text = jbInformationModel.Location;
         Debug.Log($"JB Name: {_jbName}, JB Location: {jbInformationModel.Location}");
         if (!string.IsNullOrEmpty(_jbName))

@@ -199,7 +199,7 @@ public class ListDeviceSettingView : MonoBehaviour, IDeviceView
         {
             OpenErrorDialog(title: "Tải danh sách thất bại", message: "Đã có lỗi xảy ra khi tải danh sách. Vui lòng thử lại sau");
         }
-        else if (GlobalVariable.APIRequestType.Contains("DELETE_Device"))
+        if (GlobalVariable.APIRequestType.Contains("DELETE_Device"))
         {
             OpenErrorDialog();
         }
@@ -210,7 +210,7 @@ public class ListDeviceSettingView : MonoBehaviour, IDeviceView
         {
             Show_Toast.Instance.ShowToast("success", "Tải danh sách thành công");
         }
-        else if (GlobalVariable.APIRequestType.Contains("DELETE_Device"))
+        if (GlobalVariable.APIRequestType.Contains("DELETE_Device"))
         {
             listDeviceItems.Remove(_deviceItem);
             Destroy(_deviceItem);

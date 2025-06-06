@@ -121,7 +121,7 @@ public class SearchDeviceAndJBView : MonoBehaviour, ISearchDeviceAndJBView
                 Debug.Log(availableOptions.Count);
 
                 PopulateDropdown(availableOptions);
-                // UpdateUI();
+                UpdateUI();
                 //int onValueChangedListenerCount = inputField.onValueChanged.GetPersistentEventCount();
 
                 inputField.onValueChanged.AddListener(OnInputValueChange);
@@ -164,7 +164,7 @@ public class SearchDeviceAndJBView : MonoBehaviour, ISearchDeviceAndJBView
 
         inputField.onValueChanged.RemoveListener(OnInputValueChange);
         PopulateDropdown(availableOptions);
-        // UpdateUI();
+        UpdateUI();
 
         inputField.onValueChanged.AddListener(OnInputValueChange);
 

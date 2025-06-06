@@ -70,7 +70,7 @@ public class LoadImage : MonoBehaviour
     {
         try
         {
-            request.timeout = 18;
+            request.timeout = 20;
             var operation = request.SendWebRequest();
             while (!operation.isDone)
             {

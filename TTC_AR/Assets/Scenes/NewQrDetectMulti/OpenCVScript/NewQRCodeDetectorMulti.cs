@@ -96,7 +96,7 @@ public class NewQRCodeDetectorMulti : MonoBehaviour
     /// <summary>
     /// The decoded info
     /// </summary>
-    List<string> decodedInfo; //? decodedInfo là một danh sách chứa thông tin đã giải mã từ mã QR.
+    List<string> decodedInfos; //? decodedInfos là một danh sách chứa thông tin đã giải mã từ mã QR.
 
     /// <summary>
     /// The straight qrcode
@@ -180,70 +180,81 @@ public class NewQRCodeDetectorMulti : MonoBehaviour
 
     void Update()
     {
-      
+
         if (!multiSource2MatHelper.IsPlaying() || !multiSource2MatHelper.DidUpdateThisFrame())
         {
             return;
         }
 
-        Mat rgbaMat = multiSource2MatHelper.GetMat();
+        Mat rgbaMat = multiSource2MatHelper.GetMat(); //! Liên tục truy xuất hình ảnh từ camera
 
-        Imgproc.cvtColor(rgbaMat, grayMat, Imgproc.COLOR_RGBA2GRAY);
+        Imgproc.cvtColor(rgbaMat, grayMat, Imgproc.COLOR_RGBA2GRAY); //! Sau đó chuyển sang dạng grayMat
         //Imgproc.medianBlur(grayMat, grayMat, 5);
         //Imgproc.cvtColor(grayMat,rgbaMat, Imgproc.COLOR_GRAY2RGBA);
 
 
         //Time increment for each QrMarker
-        if (lastFrameTime == null)
+        if (lastFrameTime == null) //! Check xem có phải là Frame đầu tiên không
         {
-            deltaTime = Time.unscaledDeltaTime;
+            deltaTime = Time.unscaledDeltaTime; //! Nếu là Frame đầu tiên thì đặt deltaTime bằng deltaTime của hệ thống
             lastFrameTime = DateTime.Now;
         }
-        else
+        else  //! Nếu đã là các Frame sau
         {
-            var delta = DateTime.Now - lastFrameTime;
+            var delta = DateTime.Now - lastFrameTime; //! Đặt deltaTime bằng thời gian trôi qua kể từ khung hình trước đó
             lastFrameTime = DateTime.Now;
             deltaTime = (float)(delta.TotalMilliseconds / 1000);
         }
 
-        if (detectionAck)
+        if (detectionAck) //! Kiểm tra xem cờ phát hiện mã QR có bật không?
         {
             if (manager.enableQRCodeDetection && coroutine == null)
             {
-                coroutine = StartCoroutine(DetectionCoroutine());
-                detectionAck = false;
+                coroutine = StartCoroutine(DetectionCoroutine()); //! Bật việc phát hiện mã QR
+                detectionAck = false; //! Đặt detectionAck thành false để không cho phép phát hiện mã QR trong khi đang xử lý
             }
 
         }
 
+        //! Nếu tính năng nhận diện mã ngưng chạy và trước khi dừng đã có nhận diện được mã QR 
         if (coroutine == null && result)
-        {
-            for (int i = 0; i < Math.Min(pointSetList.Count, decodedInfo.Count); i++)
+        {   //! Do có nhận diện được mã QR nên là pointSetList.Count >0 và decodedInfos.Count>0
+            for (int i = 0; i < Math.Min(pointSetList.Count, decodedInfos.Count); i++)
             {
-                if (string.IsNullOrEmpty(decodedInfo[i]))
-                {
-                    continue;
-                }
-                if (pointSetList[i] == null)
-                {
-                    continue;
-                }
+                //! Bộ lọc bỏ qua các mã không hợp lệ (ko truy xuất đc content và điểm góc)
+                if (string.IsNullOrEmpty(decodedInfos[i])) continue;
+                if (pointSetList[i] == null) continue;
+
                 float[] points_arr = new float[8];
                 // var test = new Mat(2, 2, CvType.CV_32FC2);
+                //! Đọc điểm ảnh (tọa độ pixel trong ảnh 2D)
                 pointSetList[i].get(0, 0, points_arr);
 
+                //!Tạo danh sách các điểm 3D tương ứng (tọa độ thực tế trong thế giới AR) với Z=0
                 using MatOfPoint3f objectPoints = new MatOfPoint3f(
                     new Point3(-markerLength / 2f, markerLength / 2f, 0),
                     new Point3(markerLength / 2f, markerLength / 2f, 0),
                     new Point3(markerLength / 2f, -markerLength / 2f, 0),
                     new Point3(-markerLength / 2f, -markerLength / 2f, 0)
                     );
-                var content = decodedInfo[i];
+
+
+                //! Lấy thông tin giải mã của mã QR để lưu vào arHelper.markers
+                var content = decodedInfos[i];
+
+
+                //! Tạo hoặc cập nhật marker
                 if (!arHelper.markers.ContainsKey(content))
                 {
                     arHelper.markers.Add(content, new QrMarker());
                 }
-                var marker = arHelper.markers[decodedInfo[i]];
+
+
+                //TODO Cập nhật điểm đối tượng và điểm ảnh của điểm đánh dấu 
+                //TODO và Reset thời gian cập nhật lần cuối của điểm đánh dấu về 0 
+
+                var marker = arHelper.markers[decodedInfos[i]];
+                //! các điểm góc trong ảnh (2D).
                 marker.ImagePoints = new Vector2[4]
                 {
                                         new(points_arr[0], points_arr[1]),
@@ -251,7 +262,10 @@ public class NewQRCodeDetectorMulti : MonoBehaviour
                                         new(points_arr[4], points_arr[5]),
                                         new(points_arr[6], points_arr[7])
                 };
+
+                //!các điểm thực trong không gian 3D.
                 marker.ObjectPoints = objectPoints.toVector3Array();
+
                 marker.TimeFromLastUpdate = 0;
             }
         }
@@ -270,7 +284,10 @@ public class NewQRCodeDetectorMulti : MonoBehaviour
         }
 
         var keysToRemove = new List<string>();
-        //remove oudated QrMarkers
+
+        //! Nếu các Marker đã nhận diện trước đó (giải mã thành công, đã lưu vào arHelper.markers), 
+        //! nhưng lâu quá chưa nhận diện lại được, thì sẽ giải phóng dung lượng
+
         foreach (var item in arHelper.markers)
         {
             var key = item.Key;
@@ -295,8 +312,6 @@ public class NewQRCodeDetectorMulti : MonoBehaviour
         }
 
         Finalize(rgbaMat);
-
-
     }
 
 
@@ -348,12 +363,19 @@ public class NewQRCodeDetectorMulti : MonoBehaviour
         wechatDetector = new WeChatQRCode();
     }
 
+
     IEnumerator DetectionCoroutine()
     {
         //Debug.Log("Coroutine started");
         var task = Task.Run(() => { WeChatDetection(); StandardDetection(); });
+
+        //! Đợi run xong hết tất cả các line trong hai hàm WeChatDetection(); StandardDetection() 
+        //! thì task.IsCompleted = true
+        //! đồng nghĩa với việc "Dừng tính năng quét mã"
+
         yield return new WaitUntil(() => task.IsCompleted);
         coroutine = null;
+        //? ==> Cũng là set Result = TRUE
         //Debug.Log("Coroutine completed");
     }
 
@@ -464,7 +486,7 @@ public class NewQRCodeDetectorMulti : MonoBehaviour
         grayMat = new Mat(rgbaMat.rows(), rgbaMat.cols(), CvType.CV_8UC1);
 
         points = new Mat();
-        decodedInfo = new List<string>();
+        decodedInfos = new List<string>();
         straightQrcode = new List<Mat>();
 
 
@@ -505,8 +527,8 @@ public class NewQRCodeDetectorMulti : MonoBehaviour
         if (points != null)
             points.Dispose();
 
-        if (decodedInfo != null)
-            decodedInfo.Clear();
+        if (decodedInfos != null)
+            decodedInfos.Clear();
 
         if (straightQrcode != null)
             foreach (var item in straightQrcode)
@@ -539,18 +561,23 @@ public class NewQRCodeDetectorMulti : MonoBehaviour
         Utils.matToTexture2D(rgbaMat, texture);
     }
 
+
+    //! Nếu tại thời điểm run hàm WeChatDetection() mà màn hình camera có quay tới các mã QR thì result sẽ true nếu giải mã thành công
     [Conditional("WECHAT_DETECTION")]
     private void WeChatDetection()
     {
-
         foreach (var pointSet in pointSetList)
         {
             pointSet.Dispose();
         }
-        decodedInfo = wechatDetector.detectAndDecode(grayMat, pointSetList);
 
-
-
+        decodedInfos = wechatDetector.detectAndDecode(grayMat, pointSetList); //! Vưà detect vừa giải mã
+                                                                              //? Phát hiện mã QR trong ảnh xám grayMat
+                                                                              //? giải mã nội dung QR
+                                                                              //! Trong pointSetList, mỗi phần tử của là một Mat chứa tọa độ 4 góc của 1 mã QR?
+                                                                              //! ==> pointSetList.Count = decodedInfos.Count
+                                                                              //! ==> decodedInfos.Count = số lượng mã QR trong hình ảnh GrayMat
+                                                                              //! Kiểm tra thứ tự điểm góc và sửa lại nếu cần nếu mã QR bị ngược
         foreach (var pointSet in pointSetList)
         {
             float[] points_arr = new float[8];
@@ -573,13 +600,14 @@ public class NewQRCodeDetectorMulti : MonoBehaviour
                 Debug.LogError(e);
             }
         }
-        result = (decodedInfo != null) && (decodedInfo.Count > 0);
+
+        result = (decodedInfos != null) && (decodedInfos.Count > 0); //! Có nhận diện được không (có lấy được content trong mã QR ko)
     }
 
     [Conditional("STANDARD_DETECTION")]
     private void StandardDetection()
     {
-        result = detector.detectAndDecodeMulti(grayMat, decodedInfo, points, straightQrcode);
+        result = detector.detectAndDecodeMulti(grayMat, decodedInfos, points, straightQrcode);
         if (result)
         {
             for (int i = 0; i < points.rows(); i++)
@@ -591,9 +619,9 @@ public class NewQRCodeDetectorMulti : MonoBehaviour
                     pointSetList.Add(new Mat((4, 1), CvType.CV_32FC2));
                 }
                 pointSetList[i].put(0, 0, points_arr);
-                if (decodedInfo.Count <= i)
+                if (decodedInfos.Count <= i)
                 {
-                    decodedInfo.Add("");
+                    decodedInfos.Add("");
                 }
             }
         }

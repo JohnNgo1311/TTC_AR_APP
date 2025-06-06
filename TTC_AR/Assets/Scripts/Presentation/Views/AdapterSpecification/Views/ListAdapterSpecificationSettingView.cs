@@ -202,7 +202,7 @@ public class ListAdapterSpecificationSettingView : MonoBehaviour, IAdapterSpecif
         {
             OpenErrorDialog(title: "Tải danh sách loại Adapter thất bại", content: "Đã có lỗi xảy ra khi tải danh sách loại Adapter. Vui lòng thử lại sau");
         }
-        else if (GlobalVariable.APIRequestType.Contains("DELETE_AdapterSpecification"))
+        if (GlobalVariable.APIRequestType.Contains("DELETE_AdapterSpecification"))
         {
             OpenErrorDialog();
         }

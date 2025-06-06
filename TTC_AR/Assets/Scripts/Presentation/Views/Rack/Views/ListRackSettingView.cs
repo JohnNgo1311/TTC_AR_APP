@@ -194,7 +194,7 @@ public class ListRackSettingView : MonoBehaviour, IRackView
         {
             OpenErrorDialog(title: "Tải danh sách thất bại", message: "Đã có lỗi xảy ra khi tải danh sách. Vui lòng thử lại sau");
         }
-        else if (GlobalVariable.APIRequestType.Contains("DELETE_Rack"))
+        if (GlobalVariable.APIRequestType.Contains("DELETE_Rack"))
         {
             OpenErrorDialog(title: "Xóa Rack IO thất bại", message: "Đã có lỗi xảy ra khi xóa Rack IO khỏi hệ thống. Vui lòng thử lại sau");
         }
@@ -205,7 +205,7 @@ public class ListRackSettingView : MonoBehaviour, IRackView
         {
             Show_Toast.Instance.ShowToast("success", "Tải danh sách thành công");
         }
-        else if (GlobalVariable.APIRequestType.Contains("DELETE_Rack"))
+        if (GlobalVariable.APIRequestType.Contains("DELETE_Rack"))
         {
             listRackItems.Remove(_rackItem);
             Destroy(_rackItem);
