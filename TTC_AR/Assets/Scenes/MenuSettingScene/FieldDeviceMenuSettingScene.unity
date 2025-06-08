@@ -735,7 +735,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   previousSceneName: FieldDeviceMenuSettingScene
   recentSceneName: FieldDeviceSelectGrapperSettingScene
-  isOrientation: 0
   detail_Image: {fileID: 0}
 --- !u!1 &923202467
 GameObject:
@@ -770,10 +769,10 @@ RectTransform:
   m_Father: {fileID: 75737353}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.041249998, y: 0.883}
-  m_AnchorMax: {x: 0.84977615, y: 0.9494546}
-  m_AnchoredPosition: {x: 10.832275, y: -6.8328247}
-  m_SizeDelta: {x: -13.3055, y: -6.0742035}
+  m_AnchorMin: {x: 0.05125, y: 0.8698182}
+  m_AnchorMax: {x: 0.8527996, y: 0.9335455}
+  m_AnchoredPosition: {x: 0.5180054, y: 1}
+  m_SizeDelta: {x: -1.3055, y: -0.07420349}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &923202469
 MonoBehaviour:
@@ -823,7 +822,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 89.9
+  m_fontSize: 104.25
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -988,7 +987,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 285}
+  m_SizeDelta: {x: 0, y: 303.67288}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1018549900
 MonoBehaviour:
@@ -1254,8 +1253,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "Danh s\xE1ch t\u1EE7 MCCs"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: d42468020d4f1cf43bb13b7447e2e66a, type: 2}
-  m_sharedMaterial: {fileID: 5261312278513716158, guid: d42468020d4f1cf43bb13b7447e2e66a,
+  m_fontAsset: {fileID: 11400000, guid: 1526582acaf61a640890decb2b2b149f, type: 2}
+  m_sharedMaterial: {fileID: -1870415040321534674, guid: 1526582acaf61a640890decb2b2b149f,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -1280,10 +1279,10 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 75
+  m_fontSize: 85
   m_fontSizeBase: 85
   m_fontWeight: 400
-  m_enableAutoSizing: 1
+  m_enableAutoSizing: 0
   m_fontSizeMin: 1
   m_fontSizeMax: 75
   m_fontStyle: 0
@@ -1408,7 +1407,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 285}
+  m_SizeDelta: {x: 0, y: 303.67288}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1460901137
 MonoBehaviour:
@@ -1568,8 +1567,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "Danh s\xE1ch h\xECnh \u1EA3nh"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: d42468020d4f1cf43bb13b7447e2e66a, type: 2}
-  m_sharedMaterial: {fileID: 5261312278513716158, guid: d42468020d4f1cf43bb13b7447e2e66a,
+  m_fontAsset: {fileID: 11400000, guid: 1526582acaf61a640890decb2b2b149f, type: 2}
+  m_sharedMaterial: {fileID: -1870415040321534674, guid: 1526582acaf61a640890decb2b2b149f,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -1594,10 +1593,10 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 75
+  m_fontSize: 85
   m_fontSizeBase: 85
   m_fontWeight: 400
-  m_enableAutoSizing: 1
+  m_enableAutoSizing: 0
   m_fontSizeMin: 1
   m_fontSizeMax: 75
   m_fontStyle: 0
@@ -1816,7 +1815,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 285}
+  m_SizeDelta: {x: 0, y: 303.67288}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1795513362
 MonoBehaviour:
@@ -2064,10 +2063,10 @@ RectTransform:
   m_Father: {fileID: 1195629755}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.19000001, y: 0.19049782}
-  m_AnchorMax: {x: 0.8880001, y: 0.82900006}
-  m_AnchoredPosition: {x: 1.5, y: -3.9988098}
-  m_SizeDelta: {x: -5.2248993, y: -5}
+  m_AnchorMin: {x: 0.21459909, y: 0.19049782}
+  m_AnchorMax: {x: 0.82740164, y: 0.8346767}
+  m_AnchoredPosition: {x: -3, y: -0.99998474}
+  m_SizeDelta: {x: -6.224106, y: -7}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1819094873
 MonoBehaviour:
@@ -2117,11 +2116,11 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 123.9
+  m_fontSize: 125.85
   m_fontSizeBase: 1
   m_fontWeight: 400
   m_enableAutoSizing: 1
-  m_fontSizeMin: 1
+  m_fontSizeMin: 80
   m_fontSizeMax: 150
   m_fontStyle: 0
   m_HorizontalAlignment: 2
@@ -2379,8 +2378,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "Danh s\xE1ch thi\u1EBFt b\u1ECB k\u1EBFt n\u1ED1i t\u1EE7 MCC"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: d42468020d4f1cf43bb13b7447e2e66a, type: 2}
-  m_sharedMaterial: {fileID: 5261312278513716158, guid: d42468020d4f1cf43bb13b7447e2e66a,
+  m_fontAsset: {fileID: 11400000, guid: 1526582acaf61a640890decb2b2b149f, type: 2}
+  m_sharedMaterial: {fileID: -1870415040321534674, guid: 1526582acaf61a640890decb2b2b149f,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -2405,10 +2404,10 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 75
+  m_fontSize: 85
   m_fontSizeBase: 85
   m_fontWeight: 400
-  m_enableAutoSizing: 1
+  m_enableAutoSizing: 0
   m_fontSizeMin: 1
   m_fontSizeMax: 75
   m_fontStyle: 0
