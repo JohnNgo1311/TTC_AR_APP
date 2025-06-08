@@ -20,7 +20,7 @@ public class GlobalVariable : MonoBehaviour
 {
     public static string baseUrl = "http://4.216.216.34:81/api";
     public static List<string> APIRequestType = new List<string>()
-    {
+    { 
 
     };
 
