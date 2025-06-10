@@ -161,13 +161,13 @@ public class Dropdown_On_ValueChange : MonoBehaviour
                 Destroy(child.gameObject);
             }
         }
-        foreach (Transform child in List_JB_Group.transform)
-        {
-            if (child.gameObject != JB_Connection_Wiring_Image_Prefab && child.gameObject.name.Contains("(Clone)"))
-            {
-                Destroy(child.gameObject);
-            }
-        }
+        // foreach (Transform child in List_JB_Group.transform)
+        // {
+        //     if (child.gameObject != JB_Connection_Wiring_Image_Prefab && child.gameObject.name.Contains("(Clone)"))
+        //     {
+        //         Destroy(child.gameObject);
+        //     }
+        // }
     }
 
     private async void UpdateDeviceInformation(DeviceInformationModel device)
