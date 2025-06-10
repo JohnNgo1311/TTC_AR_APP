@@ -467,7 +467,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 55.35
+  m_fontSize: 52.8
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1079,7 +1079,7 @@ MonoBehaviour:
   m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 1440, y: 3088}
+  m_ReferenceResolution: {x: 1600, y: 2560}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0.5
   m_PhysicalUnit: 3
@@ -1219,7 +1219,6 @@ GameObject:
   - component: {fileID: 751018074}
   - component: {fileID: 751018073}
   - component: {fileID: 751018072}
-  - component: {fileID: 751018075}
   m_Layer: 0
   m_Name: GrapperB_Btn
   m_TagString: Untagged
@@ -1331,22 +1330,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 751018070}
   m_CullTransparentMesh: 1
---- !u!114 &751018075
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 751018070}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f18b5bc8103491c4da2471fd3e49de8d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  grapperName: GrapperB
-  onClickButton: {fileID: 751018072}
-  getAllDataByGrapperForSearching: {fileID: 0}
-  eventPublisher: {fileID: 1528617988}
 --- !u!1 &778542787
 GameObject:
   m_ObjectHideFlags: 0
@@ -1816,7 +1799,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 145
+  m_fontSize: 139.1
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1878,7 +1861,6 @@ GameObject:
   - component: {fileID: 953062726}
   - component: {fileID: 953062725}
   - component: {fileID: 953062724}
-  - component: {fileID: 953062727}
   m_Layer: 0
   m_Name: GrapperA_Btn
   m_TagString: Untagged
@@ -1990,22 +1972,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 953062722}
   m_CullTransparentMesh: 1
---- !u!114 &953062727
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 953062722}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f18b5bc8103491c4da2471fd3e49de8d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  grapperName: GrapperA
-  onClickButton: {fileID: 953062724}
-  getAllDataByGrapperForSearching: {fileID: 0}
-  eventPublisher: {fileID: 1528617988}
 --- !u!1 &981588575
 GameObject:
   m_ObjectHideFlags: 0
@@ -2495,7 +2461,6 @@ GameObject:
   - component: {fileID: 1329061827}
   - component: {fileID: 1329061826}
   - component: {fileID: 1329061825}
-  - component: {fileID: 1329061828}
   m_Layer: 0
   m_Name: LH_Btn
   m_TagString: Untagged
@@ -2607,22 +2572,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1329061823}
   m_CullTransparentMesh: 1
---- !u!114 &1329061828
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1329061823}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f18b5bc8103491c4da2471fd3e49de8d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  grapperName: "L\xF2 H\u01A1i"
-  onClickButton: {fileID: 1329061825}
-  getAllDataByGrapperForSearching: {fileID: 0}
-  eventPublisher: {fileID: 1528617988}
 --- !u!1 &1394794810
 GameObject:
   m_ObjectHideFlags: 0
@@ -2635,7 +2584,6 @@ GameObject:
   - component: {fileID: 1394794814}
   - component: {fileID: 1394794813}
   - component: {fileID: 1394794812}
-  - component: {fileID: 1394794815}
   m_Layer: 0
   m_Name: GrapperC_Btn
   m_TagString: Untagged
@@ -2747,22 +2695,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1394794810}
   m_CullTransparentMesh: 1
---- !u!114 &1394794815
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1394794810}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f18b5bc8103491c4da2471fd3e49de8d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  grapperName: GrapperC
-  onClickButton: {fileID: 1394794812}
-  getAllDataByGrapperForSearching: {fileID: 0}
-  eventPublisher: {fileID: 1528617988}
 --- !u!1 &1483066040
 GameObject:
   m_ObjectHideFlags: 0
