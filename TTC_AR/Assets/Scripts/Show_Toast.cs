@@ -2,6 +2,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using System.Collections;
+using Unity.VisualScripting;
 
 public class Show_Toast : MonoBehaviour
 {
@@ -26,9 +27,13 @@ public class Show_Toast : MonoBehaviour
 
     private void Awake()
     {
+
+    }
+    void OnEnable()
+    {
         allObjects = FindObjectsOfType<GameObject>();
         toastParent ??= GetComponent<Canvas>().transform;
-        Debug.Log(toastParent.name);
+
         // Singleton setup
         if (Instance != null && Instance != this)
         {
@@ -38,7 +43,7 @@ public class Show_Toast : MonoBehaviour
         else
         {
             Instance = this;
-            Debug.Log("Show_Toast");
+            // Debug.Log("Show_Toast");
             PreloadSprites();
         }
         if (showToastInitial)
@@ -56,6 +61,12 @@ public class Show_Toast : MonoBehaviour
             }
         }
     }
+
+    void OnDisable()
+    {
+        Instance = null;
+    }
+
     void Start()
     {
     }
@@ -73,8 +84,11 @@ public class Show_Toast : MonoBehaviour
         {
             existingToast = Instantiate(toastPrefab, toastParent).transform;
             var layoutToast = existingToast.transform.GetChild(0);
+
             toastText = layoutToast.GetComponentInChildren<TMP_Text>();
+
             toastBackground = layoutToast.GetComponentInChildren<Image>();
+
             existingToast.gameObject.SetActive(true);
         }
         else
@@ -113,10 +127,9 @@ public class Show_Toast : MonoBehaviour
         {
             if (existingToast == null)
             {
-                Debug.LogError("existingToast is null. Make sure it is assigned properly.");
+                // Debug.LogError("existingToast is null. Make sure it is assigned properly.");
                 return;
             }
-
             existingToast.gameObject.SetActive(status);
         }
 
@@ -125,7 +138,7 @@ public class Show_Toast : MonoBehaviour
             if (obj != null && obj.name == "LeanTouch")
             {
                 obj.SetActive(!status);
-                Debug.Log($"{(status ? "Deactivated" : "Activated")}: {obj.name}");
+                // Debug.Log($"{(status ? "Deactivated" : "Activated")}: {obj.name}");
             }
         }
     }
@@ -136,10 +149,10 @@ public class Show_Toast : MonoBehaviour
         SetInstanceStatus(true);
     }
 
-    public IEnumerator Set_Instance_Status_False()
+    public IEnumerator Set_Instance_Status_False(float time = 1f)
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(time);
         SetInstanceStatus(false);
-        Debug.Log("Tắt Toast");
     }
 }
+

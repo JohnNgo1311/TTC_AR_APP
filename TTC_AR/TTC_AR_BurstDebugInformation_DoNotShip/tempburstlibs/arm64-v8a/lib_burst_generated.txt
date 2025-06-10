@@ -1,4 +1,4 @@
-Library: D:\TTC_Project_AR\TTC_AR\Temp\StagingArea\tempburstlibs\arm64-v8a\lib_burst_generated
+Library: D:\PROJECT\TTC_AR_APP\TTC_AR\Temp\StagingArea\tempburstlibs\arm64-v8a\lib_burst_generated
 --platform=Android
 --backend=burst-llvm-16
 --target=ARMV8A_AARCH64
@@ -8,10 +8,10 @@ Library: D:\TTC_Project_AR\TTC_AR\Temp\StagingArea\tempburstlibs\arm64-v8a\lib_b
 --float-precision=Standard
 --target-framework=NetFramework
 --generate-link-xml=Temp\burst.link.xml
---temp-folder=D:\TTC_Project_AR\TTC_AR\Temp\Burst
---key-folder=C:/Program Files/Unity/Hub/Editor/2021.3.44f1/Editor/Data/PlaybackEngines/AndroidPlayer
---decode-folder=D:\TTC_Project_AR\TTC_AR\Library\Burst
---output=D:\TTC_Project_AR\TTC_AR\Temp\StagingArea\tempburstlibs\arm64-v8a\lib_burst_generated
+--temp-folder=D:\PROJECT\TTC_AR_APP\TTC_AR\Temp\Burst
+--key-folder=D:/Deadline/Unity/2021.3.44f1/Editor/Data/PlaybackEngines/AndroidPlayer
+--decode-folder=D:\PROJECT\TTC_AR_APP\TTC_AR\Library\Burst
+--output=D:\PROJECT\TTC_AR_APP\TTC_AR\Temp\StagingArea\tempburstlibs\arm64-v8a\lib_burst_generated
 --pdb-search-paths=Temp/ManagedSymbols/
 
 --method=Unity.Burst.BurstCompiler+BurstCompilerHelper, Unity.Burst, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null::IsBurstEnabled()--8c2be93e18276203cbd918daa2748a10

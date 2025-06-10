@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -51,7 +52,7 @@ public class Add_Item_For_Update_Optional : MonoBehaviour
     {
         selectionList.SetActive(true);
         List<string> list_JBName = GlobalVariable.list_jBName;
-        if (list_JBName != null && list_JBName.Count > 0)
+        if (list_JBName != null && list_JBName.Any())
         {
             item_Text_Value_Dictionary.Clear();
 
@@ -172,7 +173,7 @@ public class Add_Item_For_Update_Optional : MonoBehaviour
 
     public void CloseListSelection()
     {
-        Resize_Gameobject_Function.Resize_Parent_GameObject(parentVerticalObject.GetComponent<RectTransform>());
+        Resize_GameObject_Function.Resize_Parent_GameObject(parentVerticalObject.GetComponent<RectTransform>());
         selectionList.SetActive(false);
     }
 }

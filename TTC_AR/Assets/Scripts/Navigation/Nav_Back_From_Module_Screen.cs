@@ -8,7 +8,6 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 using System.Linq;
 
 //! Script này sử dụng cho JB_TSD_Basic_Panel trong mỗi module
-
 public class Nav_Back_From_Module_Screen : MonoBehaviour
 {
     [SerializeField] private Button close_Module_Screen_Button;
@@ -27,7 +26,7 @@ public class Nav_Back_From_Module_Screen : MonoBehaviour
 
     private void NavigatePop()
     {
-        GlobalVariable.generalPanel.SetActive(true);
+        // StaticVariable.generalPanel.SetActive(true);
         module_Screen.SetActive(false);
     }
     private void OnDisable()

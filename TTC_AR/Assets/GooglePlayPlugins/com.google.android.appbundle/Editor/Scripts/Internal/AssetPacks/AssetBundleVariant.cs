@@ -146,7 +146,7 @@ namespace Google.Android.AppBundle.Editor.Internal.AssetPacks
                     continue;
                 }
 
-                if (dependencyVariant.Errors.Count > 0)
+                if (dependencyVariant.Errors.Any())
                 {
                     Errors.Add(AssetPackError.DependencyError);
                 }
